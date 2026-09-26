@@ -42,6 +42,7 @@ try {
   assert.ok(publicImages(publicById.get(hidden.id)).includes(hidden.src), 'Promoted portrait must appear publicly');
   assert.ok(!publicImages(publicById.get(hidden.id)).includes('/api/compendium/uploads/private.jpg'));
   assert.ok(!publicImages(publicById.get(visible.id)).includes(visible.src), 'Private override must disappear publicly');
+  assert.notEqual(publicById.get(visible.id)?.pnj?.portrait, visible.src, 'PNJ portrait metadata must not leak');
   assert.equal((await app.inject({ method: 'GET', url: `/api/compendium/media/${hidden.src}` })).statusCode, 200);
   assert.equal((await app.inject({ method: 'GET', url: `/api/compendium/media/${visible.src}` })).statusCode, 403);
   assert.equal((await app.inject({ method: 'GET', url: '/api/compendium/uploads/private.jpg' })).statusCode, 403);
