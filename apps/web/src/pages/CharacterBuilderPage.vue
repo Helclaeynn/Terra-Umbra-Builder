@@ -1408,6 +1408,11 @@ function toggleTruthTalent(talent:TruthTalent){
   const next:TruthState={...currentTruthState.value,truthTalents};
   next.truthTalents=truthSanitizeTalents(truthRules.value,next);
   writeTruthState(next);
+  if(!selected){
+    // Keep the rest of the chosen family visible after a search result is picked.
+    truthSearch.value="";
+    truthGroupChoice.value=truthGroupOptions.value.find(group=>group.items.some(item=>item.id===talent.id))?.name??"";
+  }
 }
 
 function toggleDisadvantage(id:string){

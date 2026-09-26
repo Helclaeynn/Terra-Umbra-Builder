@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onBeforeUnmount, ref, watch } from "vue";
+import { computed, onBeforeUnmount, onMounted, ref, watch } from "vue";
 import { api } from "../../lib/api";
 import BuilderWikiLink from "./BuilderWikiLink.vue";
 
@@ -46,6 +46,7 @@ function schedule(){
 }
 
 watch(query,schedule);
+onMounted(()=>void search());
 onBeforeUnmount(()=>{sequence++;if(timer)clearTimeout(timer);});
 </script>
 
