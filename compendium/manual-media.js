@@ -1,4 +1,12 @@
 export const MANUAL_ARTICLE_MEDIA={
+  'equipement-012-seawares-hl-02-poseidon':{src:"images/manual/equipement-012-seawares-hl-02-poseidon.webp",alt:"SeaWares HL-02 Poseidon"},
+  'equipement-013-raven-jl-014-cuchulainn':{src:"images/manual/equipement-013-raven-jl-014-cuchulainn.webp",alt:"Raven JL-014 Cuchulainn"},
+  'equipement-014-tala-th-029-tomahawk':{src:"images/manual/equipement-014-tala-th-029-tomahawk.webp",alt:"Tala TH-029 Tomahawk"},
+  'equipement-016-owl-lt-015-incapaciteur':{src:"images/manual/equipement-016-owl-lt-015-incapaciteur.webp",alt:"Owl LT-015 Incapaciteur"},
+  'equipement-017-raven-ht-014-immobilisateur':{src:"images/manual/equipement-017-raven-ht-014-immobilisateur.webp",alt:"Raven HT-014 Immobilisateur"},
+  'equipement-261-black-arrow':{src:"images/manual/equipement-261-black-arrow.webp",alt:"Black Arrow"},
+  'equipement-262-nextar-championship':{src:"images/manual/equipement-262-nextar-championship.webp",alt:"Nextar Championship"},
+  'equipement-263-byron-tethyssette':{src:"images/manual/equipement-263-byron-tethyssette.webp",alt:"Byron Tethyssette"},
   'equipement-358-owl-k-owlclaws':{src:'images/manual/equipement-358-owl-k-owlclaws.webp',alt:"Owl K OwlClaws"},
   'equipement-359-raven-k-blaclaws':{src:'images/manual/equipement-359-raven-k-blaclaws.webp',alt:"Raven K Blaclaws"},
   'equipement-360-owl-k-resonancer':{src:'images/manual/equipement-360-owl-k-resonancer.webp',alt:"Owl K Resonancer"},
