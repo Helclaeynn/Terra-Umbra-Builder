@@ -762,7 +762,8 @@ function sellCampaignItem(){
 
 <style scoped>
 
-.progression-step{display:grid;gap:1rem}
+.progression-step{display:grid;grid-template-columns:minmax(0,1fr);min-width:0;gap:1rem}
+.progression-step>*{min-width:0}
 .progress-card-title{display:grid;gap:.18rem;min-width:0}
 .progress-card-title :deep(.builder-wiki-ref){font-size:.875rem;color:#b1cbe3}
 .pool-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.65rem}

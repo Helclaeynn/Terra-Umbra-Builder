@@ -476,7 +476,7 @@ await expertise.getByRole('button',{name:/Analyste/}).click();
 
 await page.locator(".builder-nav").getByRole("button",{name:/Vérité/}).click();
 const truthTalents=page.locator('.truth-talents-section');
-await truthTalents.getByLabel('Catégorie de talents',{exact:true}).selectOption('Groupe Smoke');
+await truthTalents.getByLabel('Catégorie de talents').selectOption('Groupe Smoke');
 const truthCards=truthTalents.locator('.truth-available-catalog .truth-talent-card');
 await truthCards.filter({hasText:'Aube occulte'}).click();
 await truthTalents.getByRole('button',{name:'Retirer Aube occulte',exact:true}).waitFor();
@@ -505,13 +505,14 @@ for(const label of ["Voilé","Semi-Révélé","Révélé"]){
 // hunter tradition only sees the common reference layer.
 await page.getByRole("heading",{name:"Objets de Vérité"}).waitFor({state:"visible",timeout:5000});
 const truthCatalog=page.locator("summary.truth-disclosure-summary").filter({hasText:"Catalogue de Vérité"});
+const truthEquipmentLink=label=>page.locator('.truth-equipment-card a.builder-wiki-link').filter({hasText:label});
 await truthCatalog.click();
 await page.getByRole("button",{name:"Règles et références",exact:true}).click();
 await page.locator('.truth-equipment-toolbar').getByLabel('Chapitre').selectOption('22');
-await page.getByText("Propriété Smoke",{exact:true}).waitFor({state:"attached",timeout:5000});
-if(await page.getByText("Arme de Chasse Smoke",{exact:true}).count())throw new Error("Équipement de Chasse visible sans tradition de Chasse.");
-if(await page.getByText("Objet d’Aèr Smoke",{exact:true}).count())throw new Error("Objet d’Aèr visible pour un non-Exilé.");
-if(await page.getByText("Relique corrompue Smoke",{exact:true}).count())throw new Error("Équipement corrompu visible sans autorisation MJ.");
+await truthEquipmentLink("Propriété Smoke").waitFor({state:"attached",timeout:5000});
+if(await truthEquipmentLink("Arme de Chasse Smoke").count())throw new Error("Équipement de Chasse visible sans tradition de Chasse.");
+if(await truthEquipmentLink("Objet d’Aèr Smoke").count())throw new Error("Objet d’Aèr visible pour un non-Exilé.");
+if(await truthEquipmentLink("Relique corrompue Smoke").count())throw new Error("Équipement corrompu visible sans autorisation MJ.");
 
 await page.locator(".catalog-help>summary").click();
 const truthEquipmentMj=page.getByLabel(/Autorisation MJ d’accès exceptionnel aux objets de Vérité/);
@@ -530,13 +531,13 @@ await page.getByRole("button",{name:"Objets à acquérir",exact:true}).click();
 if(await page.locator('.truth-equipment-toolbar select option[value="22"]').count())throw new Error('Propriétés communes proposées dans les achats');
 for(const [chapter,label] of [["23","Arme de Chasse Smoke"],["24","Objet d’Aèr Smoke"],["27","Relique corrompue Smoke"]]){
   await page.locator('.truth-equipment-toolbar').getByLabel('Chapitre').selectOption(chapter);
-  await page.getByText(label,{exact:true}).waitFor({state:"attached",timeout:5000});
+  await truthEquipmentLink(label).waitFor({state:"attached",timeout:5000});
 }
 await page.setViewportSize({width:390,height:1000});
 await assertBuilderReflow("Catalogue de Vérité ouvert avec autorisation, 390px");
 await page.setViewportSize({width:1440,height:1000});
 await truthEquipmentMj.uncheck();
-await page.getByText("Objet d’Aèr Smoke",{exact:true}).waitFor({state:"detached",timeout:5000});
+await truthEquipmentLink("Objet d’Aèr Smoke").waitFor({state:"detached",timeout:5000});
 
 // Corruption is not a normal creation choice: it stays closed until explicit GM approval.
 const corruptionApproval=page.getByRole("checkbox",{name:"Autorisation MJ — Corruption & Fléaux",exact:true});
