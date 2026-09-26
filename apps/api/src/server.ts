@@ -56,7 +56,10 @@ app.addHook("onSend", async (request, reply, payload) => {
     request.url.startsWith("/api/compendium/media/") ||
     request.url.startsWith("/api/compendium/uploads/")
   ) {
-    reply.header("Cache-Control", "public, max-age=86400");
+    // The media route marks MJ portraits private and uploaded immutable files
+    // separately. Keep its explicit policy instead of making them all public.
+    if (!reply.getHeader("Cache-Control")) reply.header("Cache-Control", "public, max-age=86400");
+    if (String(reply.getHeader("Cache-Control") ?? "").startsWith("private")) reply.header("Vary", "Cookie");
     return payload;
   }
 

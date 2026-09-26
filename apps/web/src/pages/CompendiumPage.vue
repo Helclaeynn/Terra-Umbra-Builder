@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import TerraUmbraBrand from "../components/TerraUmbraBrand.vue";
+import PortraitAdmin from "../components/PortraitAdmin.vue";
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from "vue";
 import { isNavigationFailure, NavigationFailureType, RouterLink, useRoute, useRouter } from "vue-router";
 import { api, ApiError } from "../lib/api";
@@ -484,6 +485,12 @@ const canSearchTruthTags = computed(() =>
   currentUser.value?.role === "gm" || currentUser.value?.role === "admin"
 );
 const canReadMjSections = computed(() => ["gm", "editor", "admin"].includes(currentUser.value?.role || ""));
+async function refreshSelectedPortraits() {
+  const id = selected.value?.id;
+  if (!id) return;
+  const result = await api<{ article: Article }>(`/api/compendium/articles/${encodeURIComponent(id)}`);
+  if (selected.value?.id === id) selected.value = result.article;
+}
 const articleSections = computed(() => (selected.value?.sections || []).map((section, index) => ({ section, index })).filter(({ section }) => section.audience !== "mj" || canReadMjSections.value));
 function hasNpcStatProfile(section: ArticleSection): boolean {
   return selected.value?.category === "Personnages" && isNpcStatProfileSection(section)
@@ -2467,6 +2474,10 @@ onBeforeUnmount(() => {
                 </div>
 
                 <aside class="wiki-infobox">
+                  <details v-if="currentUser?.role === 'admin' && selected.category === 'Personnages'" class="portrait-settings">
+                    <summary>Régler les portraits · MJ only / All</summary>
+                    <PortraitAdmin :article-id="selected.id" @change="() => { void refreshSelectedPortraits() }" />
+                  </details>
                   <figure v-if="selectedMedia" class="wiki-media">
                     <img
                       :src="selectedMedia.src"

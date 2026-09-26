@@ -1,8 +1,9 @@
-import { access, readFile } from "node:fs/promises";
+import { access, mkdir, readFile, writeFile } from "node:fs/promises";
+import { randomBytes } from "node:crypto";
 import { resolve } from "node:path";
 import type { FastifyInstance, FastifyReply } from "fastify";
 import { requireAdmin } from "./auth.js";
-import { getCompendiumQualityCorpus, type Article } from "./compendium.js";
+import { getCompendiumQualityCorpus, invalidateCompendiumCorpus, type Article } from "./compendium.js";
 import { pool } from "./db.js";
 
 type JsonObject = Record<string, any>;
@@ -20,6 +21,31 @@ const MEDIA_DIR =
   (process.env.NODE_ENV === "production"
     ? "/app/compendium-media"
     : resolve(process.cwd(), "../../compendium"));
+const UPLOAD_DIR = process.env.COMPENDIUM_UPLOAD_DIR ??
+  (process.env.NODE_ENV === "production" ? "/app/editor-media" : resolve(process.cwd(), "../../.editor-media"));
+type PortraitRow = { articleId: string; src: string; visibility: "mj" | "public"; uploaded: boolean };
+async function portraitRows(): Promise<PortraitRow[]> {
+  const result = await pool.query<PortraitRow>(
+    `SELECT article_id AS "articleId", src, visibility, uploaded FROM compendium_portrait_visibility`
+  );
+  return result.rows;
+}
+async function portraitManifest() {
+  return readFile(resolve(MEDIA_DIR, "images/portraits/manifest.json"), "utf8")
+    .then((content) => JSON.parse(content) as Record<string, { items?: Array<{ id: string; src: string; visibility: string }> }>)
+    .catch(() => ({} as Record<string, { items?: Array<{ id: string; src: string; visibility: string }> }>));
+}
+function portraitsFor(articleId: string, rows: PortraitRow[], manifest: Awaited<ReturnType<typeof portraitManifest>>) {
+  const overrides = rows.filter((row) => row.articleId === articleId);
+  const portraits = Object.entries(manifest).flatMap(([lot, group]) =>
+    (group.items ?? []).filter((item) => item.id === articleId).map((item) => ({
+      lot, media: item.src,
+      visibility: overrides.find((row) => row.src === item.src)?.visibility ?? item.visibility
+    })));
+  for (const row of overrides.filter((entry) => entry.uploaded))
+    portraits.push({ lot: "ajout", media: row.src, visibility: row.visibility });
+  return portraits;
+}
 
 function bad(reply: FastifyReply, error: string) {
   return reply.code(400).send({ error });
@@ -268,19 +294,79 @@ function issueList(
 }
 
 export async function registerQualityRoutes(app: FastifyInstance) {
+  app.get<{ Params: { id: string } }>("/api/admin/compendium-quality/:id/portraits", async (request, reply) => {
+    if (!await requireAdmin(request, reply)) return;
+    const article = (await getCompendiumQualityCorpus()).articles.find((item) => item.id === request.params.id && item.category === "Personnages");
+    if (!article) return reply.code(404).send({ error: "compendium_article_not_found" });
+    return { portraits: portraitsFor(article.id, await portraitRows(), await portraitManifest()) };
+  });
+
+  app.patch<{ Params: { id: string }; Body: { src?: string; visibility?: string } }>(
+    "/api/admin/compendium-quality/:id/portraits", async (request, reply) => {
+      const admin = await requireAdmin(request, reply);
+      if (!admin) return;
+      const article = (await getCompendiumQualityCorpus()).articles.find((item) => item.id === request.params.id && item.category === "Personnages");
+      if (!article) return reply.code(404).send({ error: "compendium_article_not_found" });
+      const src = String(request.body?.src ?? "");
+      const visibility = request.body?.visibility;
+      if (visibility !== "mj" && visibility !== "public") return bad(reply, "invalid_portrait_visibility");
+      const manifest = await portraitManifest();
+      const rows = await portraitRows();
+      if (!portraitsFor(article.id, rows, manifest).some((portrait) => portrait.media === src)) return bad(reply, "unknown_article_portrait");
+      const uploaded = rows.some((row) => row.articleId === article.id && row.src === src && row.uploaded);
+      await pool.query(
+        `INSERT INTO compendium_portrait_visibility (article_id,src,visibility,uploaded,updated_by)
+         VALUES ($1,$2,$3,$4,$5)
+         ON CONFLICT (article_id,src) DO UPDATE SET visibility=EXCLUDED.visibility,updated_by=EXCLUDED.updated_by,updated_at=now()`,
+        [article.id, src, visibility, uploaded, admin.id]
+      );
+      invalidateCompendiumCorpus();
+      return { portraits: portraitsFor(article.id, await portraitRows(), manifest) };
+    }
+  );
+
+  app.post<{ Params: { id: string }; Body: { data?: string; visibility?: string } }>(
+    "/api/admin/compendium-quality/:id/portraits", { bodyLimit: 24 * 1024 * 1024 }, async (request, reply) => {
+      const admin = await requireAdmin(request, reply);
+      if (!admin) return;
+      const article = (await getCompendiumQualityCorpus()).articles.find((item) => item.id === request.params.id && item.category === "Personnages");
+      if (!article) return reply.code(404).send({ error: "compendium_article_not_found" });
+      const visibility = request.body?.visibility;
+      if (visibility !== "mj" && visibility !== "public") return bad(reply, "invalid_portrait_visibility");
+      const encoded = String(request.body?.data ?? "");
+      if (!encoded || encoded.length > 21 * 1024 * 1024) return bad(reply, "invalid_portrait_image");
+      const data = Buffer.from(encoded, "base64");
+      if (!data.length || data.length > 15 * 1024 * 1024) return bad(reply, "invalid_portrait_image");
+      const ext = data.subarray(0, 4).toString("ascii") === "RIFF" && data.subarray(8, 12).toString("ascii") === "WEBP" ? "webp"
+        : data.subarray(0, 3).equals(Buffer.from([255,216,255])) ? "jpg"
+        : data.subarray(0, 8).equals(Buffer.from([137,80,78,71,13,10,26,10])) ? "png" : "";
+      if (!ext) return bad(reply, "unsupported_portrait_image");
+      const filename = `${article.id.replace(/[^a-zA-Z0-9_.-]/g, "-").slice(0, 150)}--portrait-${randomBytes(10).toString("hex")}.${ext}`;
+      const src = `/api/compendium/uploads/${filename}`;
+      await mkdir(UPLOAD_DIR, { recursive: true });
+      await writeFile(resolve(UPLOAD_DIR, filename), data, { flag: "wx" });
+      await pool.query(
+        `INSERT INTO compendium_portrait_visibility (article_id,src,visibility,uploaded,updated_by) VALUES ($1,$2,$3,true,$4)`,
+        [article.id,src,visibility,admin.id]
+      );
+      invalidateCompendiumCorpus();
+      return reply.code(201).send({ portraits: portraitsFor(article.id, await portraitRows(), await portraitManifest()) });
+    }
+  );
+
   app.get("/api/admin/compendium-quality", async (request, reply) => {
     const admin = await requireAdmin(request, reply);
     if (!admin) return;
 
     const corpus = await getCompendiumQualityCorpus();
     const articles = corpus.articles.filter((article) => article.category !== "OLD");
-    const portraitLots = await readFile(resolve(MEDIA_DIR, "images/portraits/manifest.json"), "utf8")
-      .then((content) => JSON.parse(content) as Record<string, { items?: Array<{ id: string; src: string; visibility: string }> }>)
-      .catch(() => ({} as Record<string, { items?: Array<{ id: string; src: string; visibility: string }> }>));
+    const [portraitLots, portraitOverrides] = await Promise.all([portraitManifest(), portraitRows()]);
     const portraits = new Map<string, Array<{ lot: string; media: string; visibility: string }>>();
     for (const [lot, group] of Object.entries(portraitLots)) {
-      for (const portrait of group.items ?? []) portraits.set(portrait.id, [...(portraits.get(portrait.id) ?? []), { lot, media: portrait.src, visibility: portrait.visibility }]);
+      for (const portrait of group.items ?? []) portraits.set(portrait.id, [...(portraits.get(portrait.id) ?? []), { lot, media: portrait.src, visibility: portraitOverrides.find((row) => row.articleId === portrait.id && row.src === portrait.src)?.visibility ?? portrait.visibility }]);
     }
+    for (const row of portraitOverrides.filter((entry) => entry.uploaded))
+      portraits.set(row.articleId, [...(portraits.get(row.articleId) ?? []), { lot: "ajout", media: row.src, visibility: row.visibility }]);
     const ids = articles.map((article) => article.id);
     const idSet = new Set(ids);
     const articleById = new Map(articles.map((article) => [article.id, article]));

@@ -2,6 +2,7 @@
 import { computed, nextTick, onMounted, ref } from "vue";
 import { RouterLink } from "vue-router";
 import TerraUmbraBrand from "../components/TerraUmbraBrand.vue";
+import PortraitAdmin from "../components/PortraitAdmin.vue";
 import { ApiError, api } from "../lib/api";
 
 type ReviewStatus = "pending" | "approved" | "rework";
@@ -66,6 +67,7 @@ const group = ref("");
 const subgroup = ref("");
 const portraitLot = ref("");
 const portraitStatus = ref("");
+const mjPortraitsOnly = ref(false);
 const page = ref(1);
 const pageSize = 50;
 const review = ref("");
@@ -136,6 +138,7 @@ const filteredItems = computed(() => {
     .filter((item) => !subgroup.value || item.subgroup === subgroup.value)
     .filter((item) => !portraitLot.value || (portraitLot.value === "__none" ? !item.portraits.length : item.portraits.some((portrait) => portrait.lot === portraitLot.value)))
     .filter((item) => !portraitStatus.value || portraitState(item) === portraitStatus.value)
+    .filter((item) => !mjPortraitsOnly.value || item.portraits.some((portrait) => portrait.visibility === "mj"))
     .filter((item) => !review.value || item.reviewStatus === review.value)
     .filter((item) => !issue.value || item.issues.some((entry) => issue.value === "__critical" ? entry.severity === "critical" : entry.code === issue.value))
     .filter((item) => {
@@ -185,6 +188,7 @@ function resetFilters() {
   subgroup.value = "";
   portraitLot.value = "";
   portraitStatus.value = "";
+  mjPortraitsOnly.value = false;
   page.value = 1;
   review.value = "";
   issue.value = "";
@@ -204,6 +208,7 @@ function mediaUrl(value: unknown): string {
   if (!src) return "";
   if (/^(?:https?:|data:|blob:)/i.test(src)) return src;
   if (src.startsWith("/api/compendium/media/")) return src;
+  if (src.startsWith("/api/compendium/uploads/")) return src;
   const clean = src.replace(/^\/?compendium\//, "").replace(/^\/+/, "");
   if (!clean.startsWith("images/") && !clean.startsWith("assets/")) return "";
   return "/api/compendium/media/" + clean;
@@ -413,6 +418,7 @@ onMounted(load);
             <label>Sous-groupe<select v-model="subgroup" @change="filtersChanged"><option value="">Tous les sous-groupes</option><option v-for="value in subgroups" :key="value" :value="value">{{ value }}</option></select></label>
             <label>Lot de portraits<select v-model="portraitLot" @change="filtersChanged"><option value="">Tous les lots et sans portrait</option><option v-for="lot in portraitLots" :key="lot" :value="lot">{{ lotLabel(lot) }}</option><option value="__none">Sans lot suivi</option></select></label>
             <label>État de l’image<select v-model="portraitStatus" @change="filtersChanged"><option value="">Tous les états d’image</option><option value="unreplaced">Image non remplacée</option><option value="replaced">Image remplacée</option><option value="new">Nouvelle image · lot 2</option><option value="none">Sans portrait suivi</option></select></label>
+            <label>Portrait MJ only <input v-model="mjPortraitsOnly" type="checkbox" @change="filtersChanged" /></label>
             <label>État de recette<select v-model="review" @change="filtersChanged">
               <option value="">Tous les états</option><option value="pending">À recetter</option><option value="rework">À revoir</option><option value="approved">Validés</option>
             </select></label>
@@ -432,7 +438,7 @@ onMounted(load);
                 <tr v-for="item in visibleItems" :key="item.id">
                   <td class="entry-cell" data-label="Entrée">
                     <img v-if="mediaUrl(recipePortrait(item))" :src="mediaUrl(recipePortrait(item))" :alt="item.title" loading="lazy" />
-                    <div class="entry-copy"><strong>{{ item.title }}</strong><span>{{ item.category }} · {{ item.group || item.dataset || "—" }}<template v-if="item.subgroup"> · {{ item.subgroup }}</template></span><span v-if="item.portraits.length" class="portrait-state" :class="portraitState(item)">{{ portraitStateLabel(item) }}</span><small v-for="portrait in item.portraits" :key="portrait.media">{{ lotLabel(portrait.lot) }} · {{ portrait.visibility === 'mj' ? 'MJ' : 'public' }}</small><small>{{ item.id }}</small></div>
+                    <div class="entry-copy"><strong>{{ item.title }}</strong><span>{{ item.category }} · {{ item.group || item.dataset || "—" }}<template v-if="item.subgroup"> · {{ item.subgroup }}</template></span><span v-if="item.portraits.length" class="portrait-state" :class="portraitState(item)">{{ portraitStateLabel(item) }}</span><small v-for="portrait in item.portraits" :key="portrait.media">{{ lotLabel(portrait.lot) }} · {{ portrait.visibility === 'mj' ? 'MJ only' : 'All' }}</small><small>{{ item.id }}</small></div>
                   </td>
                   <td data-label="Contrôles">
                     <div v-if="item.issues.length" class="issue-list">
@@ -449,6 +455,7 @@ onMounted(load);
                   <td class="action-cell" data-label="Actions">
                     <a :href="'/compendium?article=' + encodeURIComponent(item.id)" target="_blank" rel="noopener" :aria-label="`Voir ${item.title} (nouvel onglet)`">Voir ↗</a>
                     <a :href="'/compendium/edit/' + encodeURIComponent(item.id)" target="_blank" rel="noopener" :aria-label="`Éditer ${item.title} (nouvel onglet)`">Éditer ↗</a>
+                    <details v-if="item.category === 'Personnages'" class="portrait-details"><summary>Portraits · MJ only / All</summary><PortraitAdmin :article-id="item.id" @change="(portraits) => item.portraits = portraits" /></details>
                     <button type="button" :disabled="Boolean(busyId)" @click="setReview(item, 'approved')">Valider</button>
                     <button type="button" class="warn" :disabled="Boolean(busyId)" @click="setReview(item, 'rework')">À revoir</button>
                     <button v-if="item.reviewStatus !== 'pending'" type="button" class="ghost-action" :disabled="Boolean(busyId)" @click="setReview(item, 'pending')">Repasser en recette</button>
