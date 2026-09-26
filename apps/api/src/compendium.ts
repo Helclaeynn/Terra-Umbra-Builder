@@ -327,6 +327,7 @@ import { applyConfirmedPnjRealityAges } from "./compendium-pnj-ages-confirmed.js
 import { consolidateActivePnjSections } from "./compendium-pnj-consolidation.js";
 import { applyCompendiumPnjStatProfiles, COMPENDIUM_PNJ_TALENTS_NAVIGATION } from "./compendium-pnj-stat-profiles.js";
 import { applyCompendiumPnjTruthProfiles } from "./compendium-pnj-truth-profiles.js";
+import { applyCompendiumTenProfiles } from "./compendium-ten-profiles.js";
 import { applyCorporatePnjStats } from "./compendium-pnj-corporate-stats.js";
 import { applyInstitutionPnjStats } from "./compendium-pnj-institutions-stats.js";
 import { applyCrawlerStatBatch01 } from "./compendium-pnj-crawlers-stats-01.js";
@@ -3482,6 +3483,9 @@ async function loadCorpus(): Promise<Corpus> {
   applyPnjStatBatch16(byId);
   applyConfirmedPnjRealityAges(byId);
   applyCompendiumPnjTruthProfiles(byId);
+  // Final Ten calibration deliberately runs after generic profile passes so no
+  // lower-tier batch can downgrade one of the ten canonical figures.
+  applyCompendiumTenProfiles(byId, resolveTenTargetId);
 
   const portraitOnlyLot2 = await readFile(resolve(COMPENDIUM_MEDIA_DIR, "source/portrait-only-lot2-v1.json"), "utf8")
     .then((content) => JSON.parse(content) as { articles: Array<{ id: string; name: string; group: string; visibility: string; realm?: string }> });
