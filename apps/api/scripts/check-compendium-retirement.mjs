@@ -82,7 +82,14 @@ for (const id of portraitPageIds) {
 }
 assert.equal(characters.length, 918 + portraitPageIds.size);
 assert.equal(characters.filter((article) => article.pnj?.completeness !== "portrait_only").length, 918);
-assert.equal(fresh.articles.filter((article) => article.category === "Équipement & Objets").length, 697);
+const restoredWeapons = JSON.parse(await readFile("../../compendium/source/sharp-weapons-restoration-v1.json", "utf8"))
+  .entries.filter((entry) => entry.disposition === "add");
+const equipment = fresh.articles.filter((article) => article.category === "Équipement & Objets");
+assert.equal(equipment.length, 697 + restoredWeapons.length);
+for (const entry of restoredWeapons) {
+  assert.ok(equipment.some((article) => article.id === entry.articleId),
+    `${entry.articleId}: restored weapon remains active`);
+}
 assert.equal(fresh.articles.filter((article) => article.category === "Bestiaire").length, 281);
 
 if (process.env.COMPENDIUM_RETIREMENT_BASELINE) {
