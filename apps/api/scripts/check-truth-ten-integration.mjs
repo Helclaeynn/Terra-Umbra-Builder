@@ -39,9 +39,23 @@ for(const profile of COMPENDIUM_TEN_PROFILE_CALIBRATION){
   assert.equal(realityAttr,42,`${profile.name} doit rester sur le budget Légendaire de 42 Attributs`);
   assert.equal(realitySkills,140,`${profile.name} doit rester sur le budget Légendaire de 140 Compétences`);
   assert.ok(profile.reality.skills.every(row=>Number(row[1])<=14),`${profile.name} dépasse le plafond Légendaire`);
+  const realityRanks=new Map(profile.reality.skills.map(([name,rank])=>[name,Number(rank)]));
+  assert.equal(realityRanks.size,profile.reality.skills.length,`${profile.name} a une compétence de Réalité en doublon`);
+  const truthRanks=new Map(realityRanks);
+  for(const [name,rank] of profile.truth.skills){
+    assert.ok(realityRanks.has(name),`${profile.name} a une compétence de Vérité sans base de Réalité : ${name}`);
+    assert.ok(Number(rank)>=realityRanks.get(name),`${profile.name} perd des rangs en Vérité : ${name}`);
+    truthRanks.set(name,Number(rank));
+  }
+  const truthSkillTotal=[...truthRanks.values()].reduce((sum,rank)=>sum+rank,0);
+  assert.ok(truthSkillTotal>=147&&truthSkillTotal<=151,`${profile.name} sort de l'étalon commun de compétences en Vérité : ${truthSkillTotal}`);
   assert.ok(Number(profile.truth.ptv)>=41,`${profile.name} doit être Exceptionnelle en Vérité`);
   assert.equal(semi,46,`${profile.name} doit conserver la même enveloppe Semi-Révélée`);
   assert.equal(revealed,50,`${profile.name} doit conserver la même enveloppe Révélée`);
+  for(const key of Object.keys(profile.reality.attributes)){
+    assert.ok(Number(profile.truth.semi[key])>=Number(profile.reality.attributes[key]),`${profile.name} perd ${key} en Semi-Révélé`);
+    assert.ok(Number(profile.truth.revealed[key])>=Number(profile.truth.semi[key]),`${profile.name} perd ${key} en Révélé`);
+  }
 }
 const taggedTen=[
   ...COMPENDIUM_TEN_BACKGROUND_ENRICHMENTS.map(entry=>entry.tags??[]),
