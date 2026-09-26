@@ -16,6 +16,11 @@ const skills=(names:string[]):Skill[]=>{
 };
 const attrs=(vigueur:number,agilite:number,esprit:number,volonte:number,charisme:number):Attrs=>({vigueur,agilite,esprit,volonte,charisme});
 const sumAttrs=(value:Attrs)=>Object.values(value).reduce((sum,n)=>sum+n,0);
+const truthSkillTotal=(reality:readonly (readonly [string,number])[],truth:readonly (readonly [string,number])[])=>{
+  const ranks=new Map(reality);
+  for(const [name,rank] of truth)ranks.set(name,rank);
+  return [...ranks.values()].reduce((sum,rank)=>sum+rank,0);
+};
 const table=(rows:string[][]):Block=>({type:"table",rows});
 const p=(text:string):Block=>({type:"p",text});
 const attrRow=(label:string,value:Attrs)=>[label,String(value.vigueur),String(value.agilite),String(value.esprit),String(value.volonte),String(value.charisme),String(sumAttrs(value))];
@@ -112,6 +117,7 @@ export function applyCompendiumTenProfiles(byId:Map<string,Article>,resolveTarge
         ["Compétence de Vérité signature","Rang"],
         ...profile.truth.skills.map(([name,rank])=>[name,String(rank)])
       ]),
+      p(`Les rangs de Vérité ci-dessus remplacent ceux des mêmes compétences de Réalité ; les autres compétences sont conservées. Total effectif : ${truthSkillTotal(profile.reality.skills,profile.truth.skills)} rangs de Compétences en Vérité, contre ${realityTier.skills} en Réalité.`),
       p(`Signature de Vérité · ${profile.truth.signature}`)
     ];
     // The statistical block is always terminal and protected.
