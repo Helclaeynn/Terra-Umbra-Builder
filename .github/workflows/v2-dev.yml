@@ -391,13 +391,13 @@ jobs:
                          AND COALESCE(before_state->>'displayName','') = ''
                        )
                     RETURNING 1
-                  ) SELECT count(*) FROM deleted;")"
+                  ) SELECT count(*) FROM deleted;" </dev/null)"
             DELETED="$(docker compose --env-file .env exec -T db \
               psql -At -U "$POSTGRES_USER" -d "$POSTGRES_DB" \
-              -c "WITH deleted AS (DELETE FROM users WHERE lower(email) LIKE '%@example.invalid' RETURNING 1) SELECT count(*) FROM deleted;")"
+              -c "WITH deleted AS (DELETE FROM users WHERE lower(email) LIKE '%@example.invalid' RETURNING 1) SELECT count(*) FROM deleted;" </dev/null)"
             REMAINING="$(docker compose --env-file .env exec -T db \
               psql -At -U "$POSTGRES_USER" -d "$POSTGRES_DB" \
-              -c "SELECT count(*) FROM users WHERE lower(email) LIKE '%@example.invalid';")"
+              -c "SELECT count(*) FROM users WHERE lower(email) LIKE '%@example.invalid';" </dev/null)"
             if [ "$REMAINING" != "0" ]; then
               echo "CI CLEANUP — échec : $REMAINING compte(s) @example.invalid encore présent(s)" >&2
               exit 1
@@ -1807,13 +1807,13 @@ jobs:
                          AND COALESCE(before_state->>'displayName','') = ''
                        )
                     RETURNING 1
-                  ) SELECT count(*) FROM deleted;")"
+                  ) SELECT count(*) FROM deleted;" </dev/null)"
             DELETED="$(docker compose --env-file .env exec -T db \
               psql -At -U "$POSTGRES_USER" -d "$POSTGRES_DB" \
-              -c "WITH deleted AS (DELETE FROM users WHERE lower(email) LIKE '%@example.invalid' RETURNING 1) SELECT count(*) FROM deleted;")"
+              -c "WITH deleted AS (DELETE FROM users WHERE lower(email) LIKE '%@example.invalid' RETURNING 1) SELECT count(*) FROM deleted;" </dev/null)"
             REMAINING="$(docker compose --env-file .env exec -T db \
               psql -At -U "$POSTGRES_USER" -d "$POSTGRES_DB" \
-              -c "SELECT count(*) FROM users WHERE lower(email) LIKE '%@example.invalid';")"
+              -c "SELECT count(*) FROM users WHERE lower(email) LIKE '%@example.invalid';" </dev/null)"
             if [ "$REMAINING" != "0" ]; then
               echo "CI CLEANUP FINAL — échec : $REMAINING compte(s) @example.invalid encore présent(s)" >&2
               exit 1
