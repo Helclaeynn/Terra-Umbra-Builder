@@ -9,6 +9,9 @@ export type PortraitRefresh = {
 const groups: Record<string, { group: string; groupOrder: number }> = {
   pegre: { group: "Pègre & réseaux criminels", groupOrder: 3 },
   gouvernement: { group: "Gouvernement & institutions", groupOrder: 4 },
+  chasseurs: { group: "Chasseurs", groupOrder: 46 },
+  crawlers: { group: "Crawlers & Underlife", groupOrder: 6 },
+  autres: { group: "Autres personnages", groupOrder: 90 },
   religions: { group: "Religions & communautés", groupOrder: 30 }
 };
 
@@ -54,7 +57,7 @@ export function addPortraitRefreshArticles(byId: Map<string, Article>, refresh: 
 }
 
 export function applyRefreshedPortrait(article: Article, item: PortraitRefresh["items"][number]): void {
-  if (!/^images\/portraits\/lot-3\/(public|mj)\/portrait-[a-z0-9-]+\.webp$/.test(item.src) ||
+  if (!/^images\/portraits\/lot-[34]\/(public|mj)\/portrait-[a-z0-9-]+\.webp$/.test(item.src) ||
       !item.src.includes(`/${item.visibility}/`)) throw new Error(`Portrait invalide : ${item.id}`);
   // A later portrait uploaded through the wiki editor remains an author choice.
   if (article.__wikiPublishedEdit &&
@@ -62,7 +65,7 @@ export function applyRefreshedPortrait(article: Article, item: PortraitRefresh["
         .some((src) => /(?:^|\/)uploads\//.test(String(src ?? "")))) return;
   // Keep superseded files in the archive, but hide them from the article gallery.
   article.gallery = (article.gallery ?? []).filter((media: { src: string }) =>
-    media.src !== item.src && !/^images\/portraits\/lot-[123]\//.test(media.src));
+    media.src !== item.src && !/^images\/portraits\/lot-[1234]\//.test(media.src));
   const media = { src: item.src, alt: `Portrait de ${article.title ?? article.id}`, caption: "" };
   article.image = media;
   if (article.illustration) article.illustration = { ...media };

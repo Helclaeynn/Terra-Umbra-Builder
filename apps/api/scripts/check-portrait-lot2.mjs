@@ -34,7 +34,7 @@ for (const item of items) {
   const article = byId.get(item.id);
   const images = [article.image?.src, article.illustration?.src, article.pnj?.portrait,
     ...(article.gallery ?? []).map(media => media.src)];
-  if (article.image?.src?.startsWith('images/portraits/lot-3/')) {
+  if (/^images\/portraits\/lot-[34]\//.test(article.image?.src ?? '')) {
     assert.ok(!images.includes(item.src), `Superseded lot 2 portrait still visible: ${item.id}`);
   } else {
     assert.ok(images.includes(item.src), `Portrait not attached: ${item.id}`);

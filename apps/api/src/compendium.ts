@@ -3149,6 +3149,11 @@ async function loadCorpus(): Promise<Corpus> {
   const portraitRefresh = JSON.parse(await readFile(
     resolve(COMPENDIUM_MEDIA_DIR, "source/portrait-refresh-20260926.json"), "utf8"
   )) as PortraitRefresh;
+  const hunterPortraitRefresh = JSON.parse(await readFile(
+    resolve(COMPENDIUM_MEDIA_DIR, "source/portrait-refresh-chasseurs-20260926.json"), "utf8"
+  )) as PortraitRefresh;
+  portraitRefresh.items.push(...hunterPortraitRefresh.items);
+  portraitRefresh.articles.push(...hunterPortraitRefresh.articles);
   addPortraitRefreshArticles(byId, portraitRefresh);
   const refreshedPortraitsById = new Map(portraitRefresh.items.map((item) => [item.id, item]));
 
