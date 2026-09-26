@@ -101,7 +101,9 @@ const rules={
       {id:"zulu_smoke",name:"Zèle Smoke",effect:"Effet Zèle",category:"common",compendiumId:"removed-zulu"},
       {id:"aube_smoke",name:"Aube Smoke",effect:"Effet Aube",category:"common",compendiumId:"removed-aube"}],
     expertise:[{id:"expertise_smoke",name:"Athlète",effect:"+1 Athlétisme",category:"expertise",attribute:"vigueur"},
-      {id:"expertise_agile_smoke",name:"Acrobate",effect:"Adresse smoke",category:"expertise",attribute:"agilite"}]
+      {id:"expertise_agile_smoke",name:"Acrobate",effect:"Adresse smoke",category:"expertise",attribute:"agilite"},
+      {id:"expertise_mind_smoke",name:"Analyste",effect:"Analyse smoke",category:"expertise",attribute:"esprit"},
+      {id:"expertise_will_smoke",name:"Discipline",effect:"Volonté smoke",category:"expertise",attribute:"volonte"}]
   }
 };
 
@@ -464,10 +466,13 @@ const expertise=page.locator('.expertise-talent-section');
 await expertise.getByRole('heading',{name:'Talent d’Expertise · 1 seul choix'}).waitFor();
 if(await expertise.locator('.talent-group').count()!==2)throw new Error('Les deux familles d’Expertise doivent partager un seul conteneur de choix.');
 for(const group of await expertise.locator('.talent-group').all())await group.locator('summary').click();
-await expertise.getByRole('button',{name:/Acrobate/}).click();
-await expertise.locator('.talent-detail').filter({hasText:'Acrobate'}).waitFor();
+// The earlier style-switch regression left Smoke Style Alt (Esprit / Volonté) active.
+await expertise.getByRole('button',{name:/Analyste/}).click();
+await expertise.locator('.talent-detail').filter({hasText:'Analyste'}).waitFor();
+await expertise.getByRole('button',{name:/Discipline/}).click();
+await expertise.locator('.talent-detail').filter({hasText:'Discipline'}).waitFor();
 if(await expertise.locator('.talent-choice-card[aria-pressed="true"]').count()!==1)throw new Error('Une seule Expertise doit être sélectionnée parmi les deux familles.');
-await expertise.getByRole('button',{name:/Athlète/}).click();
+await expertise.getByRole('button',{name:/Analyste/}).click();
 
 await page.locator(".builder-nav").getByRole("button",{name:/Vérité/}).click();
 const truthTalents=page.locator('.truth-talents-section');
