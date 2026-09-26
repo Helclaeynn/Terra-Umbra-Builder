@@ -208,10 +208,10 @@ export const COMPENDIUM_GUIDE_NAVIGATION = [
 
 export const COMPENDIUM_PLAYER_START = {
   basics: [
-    { id: "regles-moteur-de-jeu", label: "Moteur de jeu — règles fondamentales", summary: "Le socle commun : faire un test, agir en combat, gérer les PA, les blessures, les soins et le Stress." },
-    { id: "realite-v9-grande-californie-2035", label: "Grande Californie en 2035", summary: "Comprendre le monde visible, ce qu’un personnage ordinaire connaît et comment la Réalité rencontre la Vérité." },
-    { id: "verite-v7-derriere-le-voile", label: "Vérité — derrière le Voile", summary: "Comprendre la superposition Réalité/Vérité, la révélation, le Voile et la manière dont le surnaturel agit sur le monde visible." },
-    { id: "verite-v7-voile-hologramme", label: "Le Voile et l’Hologramme", summary: "Comprendre pourquoi le surnaturel n’apparaît pas de la même manière à tous." },
+    { id: "guide-realite-nouveau-joueur", label: "Réalité — Guide du nouveau joueur", summary: "Entrer dans la Grande Californie de 2035 par ce que ses habitants connaissent du monde visible." },
+    { id: "guide-verite-nouveau-joueur", label: "Vérité — Guide du nouveau joueur", summary: "Comprendre comment le monde caché se superpose à la Réalité et ce que signifie se révéler." },
+    { id: "regles-moteur-de-jeu", label: "Moteur de jeu — règles fondamentales", summary: "Apprendre les tests, le combat, les blessures et le Stress avant de créer un personnage." },
+    { id: "realite-v9-holonet-medias-culture-identite", label: "Holonet, médias, culture & identité", summary: "Découvrir la vie connectée et les repères culturels du quotidien en 2035." },
   ],
   natures: [
     { label: "Humain / Chasseur", summary: "Le point d’entrée humain dans la Vérité, avec les règles et la doctrine propres aux Chasseurs.", rulesId: "regles-verite-v7-chasseurs-doctrine-association-gt-hunt", loreId: "verite-v7-chasseurs-doctrine-association-traditions" },
@@ -229,9 +229,9 @@ export const COMPENDIUM_PLAYER_START = {
     { label: "Ad’rak", summary: "Une origine extrale disposant de sa propre page de lore et d’un accès de création restreint.", rulesId: "regles-verite-v7-extrals-organisations-aidh-homo-superior-adrak", loreId: "verite-v7-homo-superior-adrak-profils-rares", note: "Origine restreinte" }
   ],
   loreHubs: [
-    { id: "verite-v7-garous-khinae-meutes-pelages", label: "Khinae", summary: "Comprendre les superprédateurs originels, les lignées changeformes et la racine ancienne des Vampires." },
+    { id: "verite-lore-khinae-originels", label: "Khinae", summary: "Comprendre les superprédateurs originels, les lignées changeformes et la racine ancienne des Vampires." },
     { id: "verite-v7-six-fleaux-sources-rupture", label: "Corruption", summary: "Souillure, Sources, Fléaux et Rupture : comment une influence extérieure réécrit progressivement un être." },
-    { id: "verite-v7-exiles-peuples-silcenters-traditions", label: "Aèr", summary: "Relier les passages, les Exilés et plusieurs héritages divins, angéliques et magiques sans confondre Aèr avec toute la Vérité." },
+    { id: "verite-lore-aer-monde-et-heritages", label: "Aèr", summary: "Relier les passages, les Exilés et plusieurs héritages divins, angéliques et magiques sans confondre Aèr avec toute la Vérité." },
     { id: "verite-v7-cycle-neant-ombremonde-histoire-cachee", label: "Cycle & Néant", summary: "Un repère cosmologique pour comprendre ce que la mort révèle et pourquoi certaines lignées n’ont pas le même destin." }
   ],
   categories: [

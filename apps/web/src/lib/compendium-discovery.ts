@@ -18,9 +18,9 @@ const california: DiscoveryArticle = {
   id: "realite-v9-grande-californie-2035", title: "Grande Californie en 2035", category: "Réalité",
   summary: "Prendre ses repères dans le territoire, la société et les pouvoirs du monde visible."
 };
-const executive: DiscoveryArticle = {
-  id: "realite-v9-executif-grande-californie", title: "Exécutif de Grande Californie", category: "Réalité",
-  summary: "Poursuivre le panorama avec les institutions qui gouvernent la Grande Californie."
+const holonet: DiscoveryArticle = {
+  id: "realite-v9-holonet-medias-culture-identite", title: "Holonet, médias, culture & identité", category: "Réalité",
+  summary: "Découvrir ce qui relie les habitants, façonne leurs cultures et rythme leur vie connectée."
 };
 const neurodivers: DiscoveryArticle = {
   id: "realite-v9-crawlers-neurodivers", title: "Neurodivers — les Cafards", category: "Réalité",
@@ -47,7 +47,7 @@ const mages: DiscoveryArticle = {
   summary: "Rencontrer les traditions des Mages, leurs communautés et la transmission de leurs savoirs."
 };
 
-export const discoveryFeatured = [california, veil, vampires];
+export const discoveryFeatured = [california, holonet, truth];
 export const discoveryVeilArticle = veil;
 export const discoveryTruthArticle = truth;
 
@@ -64,8 +64,8 @@ export const discoveryThemes: Array<{ id: string; title: string; description: st
 export const discoveryJourneys: DiscoveryJourney[] = [
   {
     id: "reperes-en-2035", title: "Prendre ses repères en 2035",
-    description: "Commencer par la Grande Californie, consulter son exécutif, puis découvrir les Neurodivers.",
-    articles: [california, executive, neurodivers]
+    description: "Découvrir le cadre de 2035, le quotidien connecté de l’Holonet, puis ceux qui parcourent ses réseaux.",
+    articles: [california, holonet, neurodivers]
   },
   {
     id: "decouvrir-la-verite", title: "Découvrir la Vérité",
@@ -81,12 +81,12 @@ export const discoveryJourneys: DiscoveryJourney[] = [
 
 export const discoveryGuide = {
   title: "Entrer dans Terra Umbra",
-  intro: "Tu peux commencer par une simple curiosité : à quoi ressemble la vie en 2035, qui dirige la Grande Californie, ou que cache le Voile ? Ce guide ouvre plusieurs portes sur le Compendium. Suis le chemin qui t’attire, prends quelques repères, puis explore à ton rythme. Tu n’as pas besoin de tout retenir pour trouver ce qui te donne envie de jouer.",
+  intro: "Tu peux commencer par une simple curiosité : à quoi ressemble la vie en 2035, comment fonctionne l’Holonet, ou que cache le Voile ? Ce guide ouvre plusieurs portes sur le Compendium. Suis le chemin qui t’attire, prends quelques repères, puis explore à ton rythme. Tu n’as pas besoin de tout retenir pour trouver ce qui te donne envie de jouer.",
   sections: [
     {
       id: "commencer-par-la-realite", title: "Prendre pied dans la Réalité", layer: "Réalité",
-      body: "Pour découvrir le quotidien, commence par Grande Californie en 2035 : ce panorama présente le territoire, ses transformations et les pouvoirs qui s’y côtoient. Poursuis avec l’Exécutif si tu t’intéresses aux institutions, ou avec les Neurodivers si l’Holonet éveille ta curiosité. La Réalité donne déjà de quoi imaginer des lieux, des relations et des tensions, avant même d’aborder le monde caché.",
-      articles: [california, executive, neurodivers],
+      body: "Pour découvrir le quotidien, commence par Grande Californie en 2035 : ce panorama présente le territoire, ses transformations et les pouvoirs qui s’y côtoient. Poursuis avec l’Holonet pour comprendre la culture connectée, puis rencontre les Neurodivers qui parcourent ses réseaux. La Réalité donne déjà de quoi imaginer des lieux, des relations et des tensions, avant même d’aborder le monde caché.",
+      articles: [california, holonet, neurodivers],
       image: "/brand/orbital/guide-realite-2035.webp",
       alt: "Illustration des beaux quartiers gouvernementaux de Grande Californie : rue animée, cafés éclairés, palmiers et tours au crépuscule.",
       caption: "Les beaux quartiers gouvernementaux, côté Réalité."
