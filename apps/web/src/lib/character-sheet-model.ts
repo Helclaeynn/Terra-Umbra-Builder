@@ -1,3 +1,4 @@
+import {contextualSkillBonuses} from "../../../api/src/rules/reality-conditional-bonuses";
 import {uniqueTalents,permanentSkillBonus,renownScore,projectBenefits,benefitSettings,loanLabel,recoverySummary} from './reality-benefits';
 import {cloneJson} from './json';
 import type { CharacterDataV2 } from "../types/character";
@@ -113,7 +114,7 @@ export function buildCharacterSheet(data:CharacterDataV2, core:SheetCore, truth:
     origin:creation.origins[data.creation.origin]?.name??"",sphere:sphere?.name??"",style:style?.name??"",
     lifestyle:pressure?.effective??lifestyleBase,lifestyleBase:lifestyleBase,renown:renown,
     attributes:creation.attributes.map(item=>({...item,value:attribute(item.id),base:finalAttribute(item.id)})),
-    skills:creation.skills.map(item=>({...item,value:skill(item.id),raw:rawSkill(item.id),bonus:skill(item.id)-rawSkill(item.id)})),
+    skills:creation.skills.map(item=>({...item,value:skill(item.id),raw:rawSkill(item.id),bonus:skill(item.id)-rawSkill(item.id),contexts:contextualSkillBonuses(realityIds,choices,core.talentChoiceSpecs,core.skillTalentMap,item.id,skill(item.id))})),
     derived,talentRules,edge:edgeRemaining,
     xpRemaining:xpRemaining(progress,skillBases,attributeBases),
     ptvRemaining:campaign?ptvRemaining(progress,Math.max(0,ptvReserve),truthCost,id=>Number(corruptionMap.get(id)?.cost||0)):ptvReserve,

@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
+import RealityTalentText from "./RealityTalentText.vue";
+import {shortRealityTalent} from "../../../../api/src/rules/reality-talents-summaries";
 import { sortedNames } from "../../lib/catalog-order";
 
 export type TalentOption={
@@ -77,7 +79,7 @@ function updateChoice(event:Event){
         <button v-for="talent in sortedNames(group.items)" :key="talent.id" type="button" class="talent-choice-card" :class="{chosen:talent.id===modelValue}" :aria-pressed="talent.id===modelValue" @click="emit('update:modelValue',talent.id)">
           <img v-if="['common','expertise','origin','sphere'].includes(talent.category||'')" class="talent-art" :src="`/images/talents/${talent.category}/${encodeURIComponent(talent.id)}.webp`" :alt="`Illustration du talent ${talent.name}`" loading="lazy" />
           <strong>{{ talent.name }}</strong>
-          <small>{{ talent.effect||talent.description||'Consulter la fiche pour les détails.' }}</small>
+          <small>{{ shortRealityTalent(talent.id,talent.effect||talent.description||'Consulter la fiche pour les détails.') }}</small>
           <span>{{ talent.id===modelValue?'✓ Sélectionné':'Choisir ce talent' }}</span>
         </button>
       </div>
@@ -110,8 +112,7 @@ function updateChoice(event:Event){
 
       <div class="talent-detail">
         <strong>{{ selected.name }}</strong>
-        <em v-if="selectedLore">{{ selectedLore }}</em>
-        <p><b>Effet mécanique :</b> {{ selected.effect || selected.description || "—" }}</p>
+        <RealityTalentText :talent-id="selected.id" :effect="selected.effect || selected.description" :lore="selectedLore" />
       </div>
     </template>
   </section>

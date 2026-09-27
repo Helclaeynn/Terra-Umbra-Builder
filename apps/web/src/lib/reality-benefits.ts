@@ -24,7 +24,7 @@ export function referencePrice(p:RealityPurchase,item?:RealityItem|null){return 
 const spheres:Record<string,string>={dotation_standard:'corporatiste',dotation_de_service:'gouvernementale',armurier_du_milieu:'mafieuse',programme_pilote:'corporatiste',avantages_salaries:'corporatiste',assurance_corporative:'corporatiste',hebergement_religieux:'religieuse'};
 export function activeBenefit(id:string,ids:readonly string[],sphere:string){return ids.includes(id)&&(!spheres[id]||spheres[id]===sphere);}
 export function loanBudget(id:string){return loanBudgets[id]??null;}
-export function loanSpent(state:RealityState,pkg:RealityRulesPackage,id:string){const map=new Map(pkg.equipment.map(item=>[item.id,item]));return state.equipment.filter(p=>p.talentGrant===id).reduce((sum,p)=>sum+referencePrice(p,map.get(p.itemId)),0);}
+export function loanSpent(state:RealityState,pkg:RealityRulesPackage,id:string){const map=new Map(pkg.equipment.map(item=>[item.id,item]));return state.equipment.filter(p=>p.talentGrant===id).reduce((sum,p)=>sum+(map.has(p.itemId)?(realityPriceSpec(map.get(p.itemId)!).defaultCost??referencePrice(p,map.get(p.itemId))):referencePrice(p)),0);}
 export function loanItemReason(item:RealityItem,id:string){
   if(item.kind!=='equipment'||item.vehicle||['monthly','annual','per_use'].includes(item.recurring))return 'Ce prêt concerne de l’équipement, hors véhicule et augmentation.';
   if(specialRealityAcquisition(item))return 'Acquisition spéciale : aucun prêt automatique.';
@@ -32,11 +32,21 @@ export function loanItemReason(item:RealityItem,id:string){
   if(id==='armurier_du_milieu'&&(!/arme|pistolet|fusil|carabine|lame|matraque/.test(norm(`${item.category} ${item.sourceCategory} ${item.name}`))||/munition|cartouche|grenade|explosif/.test(norm(`${item.category} ${item.name}`))))return 'Une arme individuelle, hors consommables.';
   return '';
 }
+/** Same eligibility is used by the selector and the actual grant, including imported records. */
+export function loanAvailabilityReason(state:RealityState,pkg:RealityRulesPackage,id:string,item:RealityItem){
+ const reason=loanItemReason(item,id);if(reason)return reason;
+ if(['armurier_du_milieu','programme_pilote'].includes(id)&&state.equipment.some(p=>p.talentGrant===id))return 'Restituer le prêt actuel avant de changer de matériel.';
+ const budget=loanBudget(id),cost=realityPriceSpec(item).defaultCost;
+ if(cost===null)return 'Prix catalogue requis.';
+ if(budget!==null&&loanSpent(state,pkg,id)+cost>budget)return 'Plafond de dotation dépassé.';
+ if(cost>pkg.economy.advancedPurchaseThreshold&&!state.mjAdvancedOverride)return 'Accord MJ requis au-delà du seuil du catalogue.';
+ return '';
+}
 /** Add a distinct loan. A paid possession is never silently converted into a refund. */
 export function grantLoan(state:RealityState,pkg:RealityRulesPackage,id:string,itemId:string,ids:readonly string[],sphere:string,campaign=false,prototypeEffect=''){
   if(!['dotation_standard','dotation_de_service','armurier_du_milieu','programme_pilote'].includes(id)||!activeBenefit(id,ids,sphere))throw new Error('Talent ou Sphère requis.');
   const item=pkg.equipment.find(row=>row.id===itemId);if(!item)throw new Error('Matériel absent du catalogue.');
-  const reason=loanItemReason(item,id);if(reason)throw new Error(reason);
+  const reason=loanAvailabilityReason(state,pkg,id,item);if(reason)throw new Error(reason);
   if(['armurier_du_milieu','programme_pilote'].includes(id)&&state.equipment.some(p=>p.talentGrant===id))throw new Error('Restituer le prêt actuel avant de changer de matériel.');
   const cost=realityPriceSpec(item).defaultCost!,budget=loanBudget(id);
   if(budget!==null&&loanSpent(state,pkg,id)+cost>budget)throw new Error('Plafond de dotation dépassé.');
@@ -88,6 +98,7 @@ export function benefitProblems(state:RealityState,pkg:RealityRulesPackage,ids:r
     if(!activeBenefit(id,ids,sphere))continue;
     const rows=state.equipment.filter(p=>p.talentGrant===id),budget=loanBudget(id);
     if(!rows.length)errors.push(`${loanLabel(id)} : matériel à choisir.`);
+    for(const row of rows){const item=pkg.equipment.find(i=>i.id===row.itemId);if(!item||loanItemReason(item,id))errors.push(`${loanLabel(id)} : modèle incompatible avec le prêt.`);}
     if(['armurier_du_milieu','programme_pilote'].includes(id)&&rows.length>1)errors.push(`${loanLabel(id)} : un seul prêt à la fois.`);
     if(budget!==null&&loanSpent(state,pkg,id)>budget)errors.push(`${loanLabel(id)} : plafond dépassé.`);
   }
