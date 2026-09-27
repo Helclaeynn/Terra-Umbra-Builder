@@ -523,6 +523,39 @@ export function invalidateCompendiumCorpus() {
   });
 }
 
+// A portrait decision changes one PNJ, not the thousands of canonical pages.
+// Rebuilding the whole corpus here stalls the Node event loop and makes every
+// concurrent article request wait several seconds.
+export async function refreshCompendiumPortraits(articleId: string): Promise<void> {
+  const corpus = await getCorpus();
+  const current = corpus.byId.get(articleId);
+  if (!current) return;
+  portraitVisibilityPromise = null;
+  const overrides = await portraitOverrides();
+  const article = deepClone(current);
+  for (const override of overrides.filter((row) => row.articleId === articleId)) {
+    const media = [article.image, article.illustration, ...(article.gallery ?? [])]
+      .find((candidate) => portraitSourceKey(candidate) === override.src);
+    if (media) media.portraitVisibility = override.visibility;
+    else if (override.uploaded) article.gallery = [...(article.gallery ?? []), {
+      src: override.src, alt: article.title ?? article.id, portraitVisibility: override.visibility
+    }];
+  }
+  corpus.byId.set(articleId, article);
+  const sourceIndex = corpus.articles.findIndex((entry) => entry.id === articleId);
+  if (sourceIndex !== -1) corpus.articles[sourceIndex] = article;
+  const publicArticle = isMjOnlyArticle(article) ? null : articleForAudience(article, false);
+  if (publicArticle) publicArticle.__searchText = norm(flattenText(publicArticle));
+  const previousPublic = corpus.publicById.get(PROTECTED_ARTICLE_PUBLIC_IDS[articleId] ?? articleId);
+  if (previousPublic) corpus.publicById.delete(previousPublic.id);
+  if (publicArticle) corpus.publicById.set(publicArticle.id, publicArticle);
+  const publicIndex = corpus.publicArticles.findIndex((entry) => entry.id === (previousPublic?.id ?? publicArticle?.id));
+  if (publicIndex !== -1) {
+    if (publicArticle) corpus.publicArticles[publicIndex] = publicArticle;
+    else corpus.publicArticles.splice(publicIndex, 1);
+  } else if (publicArticle) corpus.publicArticles.push(publicArticle);
+}
+
 type PortraitOverride = { articleId: string; src: string; visibility: "mj" | "public"; uploaded: boolean };
 async function portraitOverrides(): Promise<PortraitOverride[]> {
   if (!portraitVisibilityPromise) portraitVisibilityPromise = pool.query<PortraitOverride>(
