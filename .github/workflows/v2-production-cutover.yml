@@ -33,7 +33,17 @@ jobs:
           ssh -i ~/.ssh/tuc_dev -o IdentitiesOnly=yes "$TUC_DEV_USER@$TUC_DEV_HOST" <<'REMOTE'
             set -euo pipefail
             cd /opt/terra-umbra/infrastructure
-            bash production/promote.sh
+            host_config=$(sha256sum Caddyfile | cut -d ' ' -f1)
+            mounted_config=$(docker compose exec -T caddy sha256sum /etc/caddy/Caddyfile | cut -d ' ' -f1)
+            echo "CADDY host=$host_config mounted=$mounted_config"
+            if [ "$host_config" != "$mounted_config" ]; then
+              echo 'Refreshing stale Caddy file bind mount before promotion'
+              docker compose up -d --no-deps --force-recreate caddy
+            fi
+            if ! bash production/promote.sh; then
+              docker compose logs --tail=100 caddy
+              exit 1
+            fi
             set -a
             . ./.env
             set +a
