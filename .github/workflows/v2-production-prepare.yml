@@ -1,0 +1,40 @@
+name: V2 production backup and preparation
+on:
+  push:
+    branches: [feature/tuc-web-v2]
+    paths: [.github/workflows/v2-production-prepare.yml]
+permissions:
+  contents: read
+concurrency:
+  group: tuc-v2-dev
+  cancel-in-progress: false
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    environment: tuc-dev
+    timeout-minutes: 8
+    env:
+      TUC_DEV_HOST: ${{ secrets.TUC_DEV_HOST }}
+      TUC_DEV_USER: ${{ secrets.TUC_DEV_USER }}
+      TUC_DEV_SSH_KEY: ${{ secrets.TUC_DEV_SSH_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Store preparation and verify private backups without changing routing
+        shell: bash
+        run: |
+          set -euo pipefail
+          install -m 700 -d ~/.ssh
+          trap 'rm -f ~/.ssh/tuc_dev' EXIT
+          printf '%s\n' "$TUC_DEV_SSH_KEY" > ~/.ssh/tuc_dev
+          chmod 600 ~/.ssh/tuc_dev
+          ssh-keyscan -H "$TUC_DEV_HOST" >> ~/.ssh/known_hosts
+          ssh -i ~/.ssh/tuc_dev -o IdentitiesOnly=yes "$TUC_DEV_USER@$TUC_DEV_HOST" 'mkdir -p /opt/terra-umbra/infrastructure/production'
+          scp -i ~/.ssh/tuc_dev -o IdentitiesOnly=yes infrastructure/production/* "$TUC_DEV_USER@$TUC_DEV_HOST:/opt/terra-umbra/infrastructure/production/"
+          ssh -i ~/.ssh/tuc_dev -o IdentitiesOnly=yes "$TUC_DEV_USER@$TUC_DEV_HOST" <<'REMOTE'
+            set -euo pipefail
+            cd /opt/terra-umbra/infrastructure
+            bash production/backup.sh
+            docker compose exec -T caddy caddy validate --config /dev/stdin --adapter caddyfile < production/Caddyfile
+            curl --fail --silent --show-error https://dev.terra-umbra.fr/api/health
+            echo 'PREPARED ONLY — DNS and live routing have not been changed'
+          REMOTE
