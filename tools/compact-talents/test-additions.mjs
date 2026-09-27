@@ -1,0 +1,68 @@
+// Appended inside the established real Vue/API model test harness.
+w.stop();await tick();
+const {realityTalentSummaries,contextualSkillBonuses}=w.qa;
+const everyTalent=[...actualRules.talents.common,...actualRules.talents.expertise,...Object.values(actualRules.talents.origin).flat(),...Object.values(actualRules.talents.sphere).flat()];
+assert.equal(Object.keys(realityTalentSummaries).length,56,'55 revised talents plus the approved school contact wording');
+for(const [id,text] of Object.entries(realityTalentSummaries)){
+ assert.ok(everyTalent.some(t=>t.id===id),id+' has a canonical talent');
+ assert.ok([...new Intl.Segmenter('fr',{granularity:'sentence'}).segment(text)].length<=2,id+' is at most two sentences');
+ const talent=everyTalent.find(t=>t.id===id);
+ w.start('text',{talentId:id,effect:talent.effect,lore:'Ambiance de recette'});await tick();
+ assert.equal(d.querySelector('[data-talent-summary]').textContent,text);
+ assert.equal(d.querySelector('.talent-details').open,false,'Details are initially collapsed');
+ if(talent.effect!==text)assert.equal(d.querySelector('[data-talent-full-rule]').textContent,talent.effect,'No full rule was discarded');
+ d.querySelector('.talent-details').open=true;assert.match(d.querySelector('.talent-details').textContent,/Ambiance de recette/);
+ w.stop();await tick();
+}
+// Check every unconditional mapped skill, not just visible examples, both at creation and after XP.
+for(const [id,skill] of Object.entries(skillMap)){
+ const sample=w.qa.blankCharacterData('Bonus '+id);sample.creation={origin:'corporatiste',sphere:'corporatiste',style:'manucorpo'};sample.skills[skill].free=3;sample.reality=plain(initial());
+ const before=w.qa.buildCharacterSheet(sample,core,truthRules,pkg,false);
+ sample.talents.edge=[id];const created=w.qa.buildCharacterSheet(sample,core,truthRules,pkg,false);
+ assert.equal(created.skills.find(s=>s.id===skill).value,before.skills.find(s=>s.id===skill).value+1,id+' applies its +1 at creation');
+ for(const stat of ['pvMax','passiveDefense','integrity'])assert.equal(created.derived[stat],before.derived[stat],id+' test bonus is not a permanent '+stat);
+ if(skill==='tir')assert.equal(created.derived.shooting,before.derived.shooting+1,'Quick shot includes Tireur de précision');
+ sample.talents.edge=[];sample.progression={xpEarned:20,realityTalents:[id]};
+ const learned=w.qa.buildCharacterSheet(sample,core,truthRules,pkg,true);
+ assert.equal(learned.skills.find(s=>s.id===skill).value,before.skills.find(s=>s.id===skill).value+1,id+' applies after XP');
+ assert.equal(w.qa.buildCharacterSheet(sample,core,truthRules,pkg,false).skills.find(s=>s.id===skill).value,before.skills.find(s=>s.id===skill).value,id+' campaign gain does not rewrite creation');
+ sample.progression.realityTalents=[];assert.equal(w.qa.buildCharacterSheet(sample,core,truthRules,pkg,true).skills.find(s=>s.id===skill).value,before.skills.find(s=>s.id===skill).value,id+' removal removes the bonus');
+}
+for(const [id,skill,bonus] of [['maitre_des_lames','melee',1],['sante_de_fer','constitution',2],['stable','maitrise_spirituelle',1],['debrouille','survie',1],['fonctionnaire_experimente','diplomatie',1],['maitrise_des_codes_de_la_rue','langages_argot',1],['education_theologique','savoirs',1],['conseiller_spirituel','diplomatie',1],['ministere','maitrise_spirituelle',2]]){
+ const sample=w.qa.blankCharacterData('Contexte '+id);sample.creation={origin:'corporatiste',sphere:'corporatiste',style:'manucorpo'};sample.reality=plain(initial());sample.skills[skill].free=3;sample.talents.edge=[id];
+ const result=w.qa.buildCharacterSheet(sample,core,truthRules,pkg,false),row=result.skills.find(s=>s.id===skill),context=row.contexts.find(c=>c.id===id);
+ assert.equal(context.total,row.value+bonus,id+' conditional total is calculated');
+ w.start('sheet',{sheet:plain(result)});await tick();assert.ok(d.querySelector('[data-skill-context="'+id+'"]'));w.stop();await tick();
+}
+assert.equal(contextualSkillBonuses(['mental_dacier','omerta','omerta_familiale'],{},specs,skillMap,'force_mentale',6).find(c=>c.id==='omerta-cumul').total,9,'Omerta +4 replaces, not stacks with Mental d’acier +1');
+assert.equal(contextualSkillBonuses(['homme_femme_du_milieu'],{homme_femme_du_milieu:'autorite'},specs,skillMap,'autorite',3)[0].total,4,'Chosen contextual skill +1 is usable');
+assert.equal(contextualSkillBonuses(['homme_femme_du_milieu'],{homme_femme_du_milieu:'autorite'},specs,skillMap,'diplomatie',3).length,0,'No bonus on the unchosen skill');
+const boundary=item('Arme à 5000',5000),over=item('Arme à 5001',5001),ammo=item('Munitions test',20,{category:'Munitions',sourceCategory:'Munitions'}),armour=item('Armure test',1000,{category:'Armures',sourceCategory:'Armures'});
+const gunPkg={...pkg,equipment:[gun,boundary,over,ammo,armour,car]};
+let armState=initial();const armIds=['armurier_du_milieu'];
+assert.throws(()=>b.grantLoan(armState,gunPkg,'armurier_du_milieu',over.id,armIds,'mafieuse'),/plafond/i);
+for(const i of [ammo,armour,car])assert.throws(()=>b.grantLoan(armState,gunPkg,'armurier_du_milieu',i.id,armIds,'mafieuse'));
+const granted=b.grantLoan(armState,gunPkg,'armurier_du_milieu',boundary.id,armIds,'mafieuse');
+assert.equal(granted.selectedPrice,0);assert.equal(granted.cataloguePrice,5000);assert.equal(b.saleAllowed(granted),false);
+assert.throws(()=>b.grantLoan(armState,gunPkg,'armurier_du_milieu',gun.id,armIds,'mafieuse'),/restituer/i);
+const cashBefore=r.realityEconomic(gunPkg,initial(),style,{}).account;assert.equal(r.realityEconomic(gunPkg,armState,style,{}).account,cashBefore,'Free loan does not consume cash or create a refund');
+granted.cataloguePrice=1;assert.equal(b.loanSpent(armState,gunPkg,'armurier_du_milieu'),5000,'Saved price cannot bypass canonical loan cap');
+b.returnLoan(armState,granted.uid);assert.equal(armState.equipment.length,0);
+const equipmentProps={modelValue:plain(initial()),rules:gunPkg,style,edge:{},talentIds:armIds,disadvantages:[],neurodiveRaw:0,sphereId:'mafieuse',integrity:10,augmentStressMax:10,valid:true};
+w.start('equipment',equipmentProps);await tick();
+let arm=d.querySelector('[data-loan="armurier_du_milieu"]');assert.ok(arm,'Armurier has an actual Equipment control');
+assert.equal(Array.from(arm.querySelectorAll('option')).some(o=>o.value===over.id),false,'Over-budget guns not offered');
+assert.equal(Array.from(arm.querySelectorAll('option')).some(o=>o.value===armour.id||o.value===ammo.id),false,'No armour or ammunition in weapon loan list');
+set(arm.querySelector('select'),boundary.id);await tick();arm.querySelector('input[type=checkbox]').click();await tick();arm.querySelector('button').click();await tick();
+assert.equal(w.current().reality.equipment[0].selectedPrice,0);assert.equal(w.current().reality.equipment.length,1);assert.equal(arm.querySelector('button').disabled,true,'A second loan is blocked in the actual UI');
+const savedArm=plain(w.current().reality);w.stop();await tick();w.start('equipment',{...equipmentProps,modelValue:savedArm});await tick();arm=d.querySelector('[data-loan="armurier_du_milieu"]');assert.match(arm.querySelector('.benefit-owned').textContent,/5000|5\s*000/);arm.querySelector('.benefit-owned button').click();await tick();assert.equal(w.current().reality.equipment.length,0,'Restitution really removes the loan');
+set(arm.querySelector('select'),gun.id);await tick();arm.querySelector('input[type=checkbox]').click();await tick();arm.querySelector('button').click();await tick();assert.equal(w.current().reality.equipment[0].itemId,gun.id,'Another model can be borrowed after return');
+w.stop();await tick();
+// Acquire with XP, then use the same genuine controls in progression.
+w.start('progression',{...progressProps,progression:{xpEarned:20,cashBase:10000},reality:plain(initial()),realityRules:gunPkg,sphereId:'mafieuse',sphereName:'Pègre',creationTalentIds:[]});await tick();
+card('Armurier du milieu').querySelector('button.primary').click();await tick();assert.ok(w.current().progress.realityTalents.includes('armurier_du_milieu'));
+arm=d.querySelector('[data-loan="armurier_du_milieu"]');assert.ok(arm);set(arm.querySelector('select'),boundary.id);await tick();arm.querySelector('input[type=checkbox]').click();await tick();arm.querySelector('button').click();await tick();
+assert.equal(w.current().reality.equipment[0].selectedPrice,0);assert.equal(w.current().reality.equipment[0].acquiredInCampaign,true);assert.equal(p.campaignCash(w.current().progress,10000),10000);assert.equal(w.current().progress.cashTransactions.length,0,'Neither debit nor credit for a loan');
+const campLoan=plain(w.current().reality);b.projectBenefits(campLoan,[],'mafieuse',false);assert.equal(campLoan.equipment.length,0,'Campaign weapon never leaks into creation snapshot');
+const invalid=plain(w.current().reality);invalid.equipment[0].itemId=over.id;invalid.equipment[0].cataloguePrice=0;assert.ok(b.benefitProblems(invalid,gunPkg,armIds,'mafieuse').some(e=>/plafond/i.test(e)),'Imported underpriced loan is detected');
+console.log('COMPACT TALENTS OK — 56 short texts, complete closed details; every mapped +1 creation/campaign/removal; contextual totals and Omerta +4; actual free weapon controls at 5000, blocked 5001, one loan, reload, return, non-resale, XP purchase and snapshot isolation.');
