@@ -118,6 +118,9 @@ export function applyPnjTruthDecisions(byId:Map<string,Article>, decisions:reado
     if(!article?.sections)throw new Error(`Fiche Vérité introuvable : ${id}`);
     const reality=article.sections.find(section=>section.id==='profil-statistique');
     if(!reality||reality.audience!=='mj')throw new Error(`Profil MJ de Réalité introuvable : ${id}`);
+    // Published editor snapshots already contain the generated Truth section.
+    // Keep it when only a portrait or another field changed.
+    if(article.__wikiPublishedEdit&&article.sections.some(section=>section.id===`profil-verite-${id}`))continue;
     const rows=[['Attribut révélé','Vigueur','Agilité','Esprit','Volonté','Charisme'],['Valeur proposée',...values.map(String)]];
     const hasRealityNumbers=Boolean(reality.blocks?.some(block=>block.type==='table'&&block.rows[0]?.[0]==='Attribut'));
     const secondary=hasRealityNumbers?undefined:standaloneTruthSecondary(id);

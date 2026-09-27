@@ -533,14 +533,7 @@ export async function refreshCompendiumPortraits(articleId: string): Promise<voi
   portraitVisibilityPromise = null;
   const overrides = await portraitOverrides();
   const article = deepClone(current);
-  for (const override of overrides.filter((row) => row.articleId === articleId)) {
-    const media = [article.image, article.illustration, ...(article.gallery ?? [])]
-      .find((candidate) => portraitSourceKey(candidate) === override.src);
-    if (media) media.portraitVisibility = override.visibility;
-    else if (override.uploaded) article.gallery = [...(article.gallery ?? []), {
-      src: override.src, alt: article.title ?? article.id, portraitVisibility: override.visibility
-    }];
-  }
+  applyPortraitOverrides(article, overrides.filter((row) => row.articleId === articleId), true);
   corpus.byId.set(articleId, article);
   const sourceIndex = corpus.articles.findIndex((entry) => entry.id === articleId);
   if (sourceIndex !== -1) corpus.articles[sourceIndex] = article;
@@ -556,13 +549,32 @@ export async function refreshCompendiumPortraits(articleId: string): Promise<voi
   } else if (publicArticle) corpus.publicArticles.push(publicArticle);
 }
 
-type PortraitOverride = { articleId: string; src: string; visibility: "mj" | "public"; uploaded: boolean };
+type PortraitOverride = { articleId: string; src: string; visibility: "mj" | "public" | "removed"; uploaded: boolean };
+function applyPortraitOverrides(article: Article, rows: PortraitOverride[], restoreMissing = false): void {
+  for (const row of rows) {
+    if (row.visibility === "removed") {
+      if (portraitSourceKey(article.image) === row.src) delete article.image;
+      if (portraitSourceKey(article.illustration) === row.src) delete article.illustration;
+      if (article.pnj && portraitSourceKey(article.pnj.portrait) === row.src) delete article.pnj.portrait;
+      article.gallery = (article.gallery ?? []).filter((media: JsonObject) => portraitSourceKey(media) !== row.src);
+      continue;
+    }
+    const media = [article.image, article.illustration, ...(article.gallery ?? [])]
+      .find((candidate) => portraitSourceKey(candidate) === row.src);
+    if (media) media.portraitVisibility = row.visibility;
+    else if (row.uploaded || restoreMissing) {
+      const restored = { src: row.src, alt: article.title ?? article.id, portraitVisibility: row.visibility };
+      if (!article.image && !article.illustration) article.image = restored;
+      else article.gallery = [...(article.gallery ?? []), restored];
+    }
+  }
+}
 async function portraitOverrides(): Promise<PortraitOverride[]> {
   if (!portraitVisibilityPromise) portraitVisibilityPromise = pool.query<PortraitOverride>(
     `SELECT article_id AS "articleId", src, visibility, uploaded FROM compendium_portrait_visibility`
   ).then((result) => {
     const decisions = new Map<string, "mj" | "public">();
-    for (const row of result.rows) if (decisions.get(row.src) !== "mj") decisions.set(row.src, row.visibility);
+    for (const row of result.rows) if (row.visibility !== "removed" && decisions.get(row.src) !== "mj") decisions.set(row.src, row.visibility);
     portraitVisibilityBySrc = decisions;
     return result.rows;
   }).catch((cause) => { portraitVisibilityPromise = null; throw cause; });
@@ -3817,14 +3829,7 @@ async function loadCorpus(): Promise<Corpus> {
         caption: portrait.lot === "lot1" ? "Portrait original · lot 1" : "Portrait retravaillé · lot 2" }];
     }
 
-    for (const override of overrideByArticle.get(article.id) ?? []) {
-      const media = [article.image, article.illustration, ...(article.gallery ?? [])]
-        .find((candidate: JsonObject | undefined) => portraitSourceKey(candidate) === override.src);
-      if (media) media.portraitVisibility = override.visibility;
-      else if (override.uploaded) article.gallery = [...(article.gallery ?? []), {
-        src: override.src, alt: article.title ?? article.id, portraitVisibility: override.visibility
-      }];
-    }
+    applyPortraitOverrides(article, overrideByArticle.get(article.id) ?? []);
 
     article.title = ARTICLE_TITLE_FIXES[article.id] ?? article.title;
     article.sourceCategory = article.sourceCategory ?? article.category;
@@ -4032,14 +4037,7 @@ async function loadCorpus(): Promise<Corpus> {
   // Published wiki edits can replace article media after the initial manifest pass.
   // Apply admin decisions again before deriving the public corpus.
   for (const article of byId.values()) {
-    for (const override of overrideByArticle.get(article.id) ?? []) {
-      const media = [article.image, article.illustration, ...(article.gallery ?? [])]
-        .find((candidate: JsonObject | undefined) => portraitSourceKey(candidate) === override.src);
-      if (media) media.portraitVisibility = override.visibility;
-      else if (override.uploaded) article.gallery = [...(article.gallery ?? []), {
-        src: override.src, alt: article.title ?? article.id, portraitVisibility: override.visibility
-      }];
-    }
+    applyPortraitOverrides(article, overrideByArticle.get(article.id) ?? []);
   }
   const articles = [...byId.values()].sort(compareArticles);
   const publicArticles = articles.filter((article) => !isMjOnlyArticle(article)).map((article) => { const publicArticle=articleForAudience(article,false); publicArticle.__searchText=norm(flattenText(publicArticle)); return publicArticle; });
@@ -4893,7 +4891,8 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
     // Check every media path against administrator decisions before serving it.
     const overrides = await portraitOverrides();
     const matches = overrides.filter((row) => row.src === relative);
-    const isPrivate = matches.length ? matches.some((row) => row.visibility === "mj") : isMjPortrait;
+    const isPrivate = matches.some((row) => row.visibility === "mj") ||
+      (isMjPortrait && !matches.some((row) => row.visibility === "public"));
     const user = isPortraitManifest || isPrivate ? await currentUser(request) : null;
 
     if (isPrivate && !canReadMj(user?.role)) {
@@ -4937,7 +4936,11 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
     const filename = safeUploadFilename(String(request.params["*"] ?? ""));
     if (!filename) return bad(reply, "invalid_compendium_upload_path");
 
-    const isPrivate = (await portraitOverrides()).some((row) =>
+    const uploadRows = (await portraitOverrides()).filter((row) => row.src === `/api/compendium/uploads/${filename}`);
+    if (uploadRows.length && uploadRows.every((row) => row.visibility === "removed")) {
+      return reply.code(404).send({ error: "compendium_media_not_found" });
+    }
+    const isPrivate = uploadRows.some((row) =>
       row.src === `/api/compendium/uploads/${filename}` && row.visibility === "mj");
     if (isPrivate && !canReadMj((await currentUser(request))?.role)) return reply.code(403).send({ error: "mj_required" });
 

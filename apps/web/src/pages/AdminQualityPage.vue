@@ -17,7 +17,7 @@ type QualityItem = {
   subgroup: string;
   source: string;
   media: unknown;
-  portraits: Array<{ lot: string; media: string; visibility: "mj" | "public" }>;
+  portraits: Array<{ lot: string; media: string; visibility: "mj" | "public" | "removed" }>;
   issues: Issue[];
   firstSeenAt: string | null;
   reviewStatus: ReviewStatus;
@@ -107,8 +107,8 @@ const categories = computed(() =>
 );
 const portraitLots = computed(() => [...new Set((quality.value?.items ?? []).flatMap((item) => item.portraits.map((portrait) => portrait.lot)))].sort());
 function portraitState(item: QualityItem): string {
-  const original = item.portraits.some((portrait) => portrait.lot === "lot1");
-  const replacement = item.portraits.some((portrait) => portrait.lot === "lot2");
+  const original = item.portraits.some((portrait) => portrait.visibility !== "removed" && portrait.lot === "lot1");
+  const replacement = item.portraits.some((portrait) => portrait.visibility !== "removed" && portrait.lot === "lot2");
   if (original && replacement) return "replaced";
   if (original) return "unreplaced";
   if (replacement) return "new";
