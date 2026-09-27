@@ -7,7 +7,8 @@ permissions:
   contents: read
 concurrency:
   group: tuc-v2-production
-  cancel-in-progress: false
+  # Explicit supersession is used only while the preceding run is still building.
+  cancel-in-progress: ${{ contains(github.event.head_commit.message, '[supersede-predeploy]') }}
 jobs:
   verify-and-build:
     runs-on: ubuntu-latest
@@ -126,7 +127,7 @@ jobs:
           SSH="ssh -i ~/.ssh/tuc_prod -o IdentitiesOnly=yes"
           $SSH "$TUC_DEV_USER@$TUC_DEV_HOST" "test -f /opt/terra-umbra/production-active && mkdir -p /opt/terra-umbra/releases/reality-$GITHUB_SHA"
           rsync -az -e "$SSH" /tmp/tuc-reality-release/ "$TUC_DEV_USER@$TUC_DEV_HOST:/opt/terra-umbra/releases/reality-$GITHUB_SHA/"
-          $SSH "$TUC_DEV_USER@$TUC_DEV_HOST" bash -s -- "$GITHUB_SHA" < infrastructure/production/release-reality-talents.sh
+          { printf '{\n'; cat infrastructure/production/release-reality-talents.sh; printf '\n}\n'; } | $SSH "$TUC_DEV_USER@$TUC_DEV_HOST" bash -s -- "$GITHUB_SHA"
       - name: Check public production assets with isolated browser data
         id: live
         continue-on-error: true
@@ -144,7 +145,7 @@ jobs:
         if: steps.live.outcome == 'failure'
         shell: bash
         run: |
-          ssh -i ~/.ssh/tuc_prod -o IdentitiesOnly=yes "$TUC_DEV_USER@$TUC_DEV_HOST" bash -s -- "$GITHUB_SHA" rollback < infrastructure/production/release-reality-talents.sh
+          { printf '{\n'; cat infrastructure/production/release-reality-talents.sh; printf '\n}\n'; } | ssh -i ~/.ssh/tuc_prod -o IdentitiesOnly=yes "$TUC_DEV_USER@$TUC_DEV_HOST" bash -s -- "$GITHUB_SHA" rollback
           exit 1
       - name: Remove ephemeral SSH key
         if: always()
