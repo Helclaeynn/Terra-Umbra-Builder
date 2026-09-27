@@ -1,0 +1,164 @@
+name: Reality Builder integration - DEV ONLY
+on:
+  push:
+    branches: [feature/tuc-web-v2]
+    paths:
+      - .github/workflows/v2-reality-builder-dev-test.yml
+      - tools/reality-builder-dev/**
+permissions:
+  contents: read
+concurrency:
+  group: tuc-reality-builder-dev-test
+  cancel-in-progress: false
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    outputs:
+      sources: ${{ steps.digest.outputs.sources }}
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: tuc
+          POSTGRES_PASSWORD: ci-only-placeholder
+          POSTGRES_DB: tuc_sheet_test
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U tuc -d tuc_sheet_test"
+          --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      DATABASE_URL: postgres://tuc:ci-only-placeholder@127.0.0.1:5432/tuc_sheet_test
+      TUC_SHEET_SMOKE: ci
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Apply reviewed integration to disposable checkout
+        run: node tools/reality-builder-dev/apply.mjs
+      - name: Build API and check all 55 approved talents
+        working-directory: apps/api
+        run: |
+          npm ci
+          npm run build
+          node scripts/check-api-container-assets.mjs
+          node scripts/check-reviewed-rule-taxonomy.mjs
+      - name: Migrate disposable PostgreSQL and test real persistence
+        working-directory: apps/api
+        run: |
+          node --input-type=module <<'NODE'
+          import {readFile,readdir} from 'node:fs/promises';
+          import {pool} from './dist/db.js';
+          for(const name of (await readdir('../../infrastructure/migrations')).filter(n=>n.endsWith('.sql')).sort())await pool.query(await readFile('../../infrastructure/migrations/'+name,'utf8'));
+          await pool.end();
+          NODE
+          node scripts/check-reality-benefits-persistence.mjs
+          node scripts/check-character-sheet-access.mjs
+      - name: Build web and test new Builder behavior
+        working-directory: apps/web
+        run: |
+          npm ci
+          npm run build
+          npm run test:reality-talents
+      - name: Run existing UI and export regressions
+        working-directory: apps/web
+        run: |
+          npm run test:ui
+          npm run test:pdf
+      - name: Run actual browser against isolated dev build
+        working-directory: apps/web
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm install --no-save --package-lock=false playwright-core@1.55.0
+          npx vite preview --host 127.0.0.1 --port 4173 >/tmp/tuc-talents-preview.log 2>&1 &
+          pid=$!
+          trap 'kill "$pid" 2>/dev/null || true' EXIT
+          for attempt in $(seq 1 30); do curl --fail --silent http://127.0.0.1:4173/ >/dev/null && break; sleep 1; done
+          export CHROME_BIN="$(command -v google-chrome || command -v google-chrome-stable || command -v chromium)"
+          export TUC_V2_SMOKE_BASE_URL=http://127.0.0.1:4173
+          node tests/builder-v2-smoke.mjs
+          node tests/campaigns-smoke.mjs
+      - name: Fingerprint tested source
+        id: digest
+        run: |
+          node --input-type=module <<'NODE'
+          import {readFileSync,appendFileSync} from 'node:fs';
+          import {createHash} from 'node:crypto';
+          const files=JSON.parse(readFileSync('tools/reality-builder-dev/generated-files.json','utf8'));
+          const hash=createHash('sha256');for(const file of files.sort())hash.update(file+'\0').update(readFileSync(file));
+          appendFileSync(process.env.GITHUB_OUTPUT,'sources='+hash.digest('hex')+'\n');
+          appendFileSync(process.env.GITHUB_STEP_SUMMARY,'All Reality Builder tests passed on isolated PostgreSQL and browser. No production deployment.\n');
+          NODE
+  publish-tested-source:
+    needs: verify
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Recreate only the exact tested source
+        env:
+          EXPECTED_DIGEST: ${{ needs.verify.outputs.sources }}
+        run: |
+          node tools/reality-builder-dev/apply.mjs
+          node --input-type=module <<'NODE'
+          import assert from 'node:assert/strict';
+          import {readFileSync} from 'node:fs';
+          import {createHash} from 'node:crypto';
+          import {execFileSync} from 'node:child_process';
+          const files=JSON.parse(readFileSync('tools/reality-builder-dev/generated-files.json','utf8'));
+          const hash=createHash('sha256');for(const file of files.sort())hash.update(file+'\0').update(readFileSync(file));
+          assert.equal(hash.digest('hex'),process.env.EXPECTED_DIGEST,'Publish only code that passed all checks');
+          execFileSync('git',['add','--',...files,'tools/reality-builder-dev/generated-files.json']);
+          NODE
+      - name: Fast-forward the development branch only
+        shell: bash
+        run: |
+          set -euo pipefail
+          head=$(git ls-remote origin refs/heads/feature/tuc-web-v2 | cut -f1)
+          test "$head" = "$GITHUB_SHA" || { echo 'Branch advanced; refusing to overwrite concurrent work.' >&2; exit 1; }
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'feat(v2): connect approved Reality talent benefits after isolated dev tests'
+          git push origin HEAD:refs/heads/feature/tuc-web-v2
+          echo "Tested development source: $(git rev-parse HEAD)" >> "$GITHUB_STEP_SUMMARY"
+          echo 'PRODUCTION UNCHANGED - no VPS upload or deployment in this workflow'
+  inspect-dev-target:
+    runs-on: ubuntu-latest
+    environment: tuc-dev
+    timeout-minutes: 5
+    env:
+      TUC_DEV_HOST: ${{ secrets.TUC_DEV_HOST }}
+      TUC_DEV_USER: ${{ secrets.TUC_DEV_USER }}
+      TUC_DEV_SSH_KEY: ${{ secrets.TUC_DEV_SSH_KEY }}
+    steps:
+      - name: Identify dev and production targets - read only
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "$TUC_DEV_HOST" && test -n "$TUC_DEV_USER" && test -n "$TUC_DEV_SSH_KEY"
+          key=$(mktemp); hosts=$(mktemp)
+          trap 'rm -f "$key" "$hosts"' EXIT
+          printf '%s\n' "$TUC_DEV_SSH_KEY" > "$key"; chmod 600 "$key"
+          ssh-keyscan -H "$TUC_DEV_HOST" > "$hosts"
+          ssh -i "$key" -o IdentitiesOnly=yes -o UserKnownHostsFile="$hosts" "$TUC_DEV_USER@$TUC_DEV_HOST" <<'REMOTE'
+          set -eu
+          if test -f /opt/terra-umbra/production-active; then echo 'PRIMARY_TARGET=PRODUCTION_PROTECTED'; else echo 'PRIMARY_TARGET=DEVELOPMENT'; fi
+          echo 'APP_DIRECTORIES'; find /opt -maxdepth 2 -type d -iname '*umbra*' -print
+          echo 'COMPOSE_PROJECTS'; docker compose ls --format json
+          echo 'RUNNING_CONTAINERS'; docker ps --format '{{.Names}} {{.Ports}}'
+          echo 'DEV_PROXY_ROUTES'
+          for config in /opt/terra-umbra/infrastructure/Caddyfile /opt/terra-umbra/infrastructure/production/Caddyfile; do
+            if test -f "$config"; then grep -nE 'dev\.terra-umbra\.fr|reverse_proxy|redir' "$config" || true; fi
+          done
+          REMOTE
