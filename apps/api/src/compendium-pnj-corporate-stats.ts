@@ -125,9 +125,17 @@ export function applyNamedPnjStatProfile(article:Article,profile:StatProfile):vo
   // A published wiki edit starts from the fully rendered PNJ, including its
   // generated statistics. On reload keep that edited section; regenerating it
   // would reject a valid portrait or text change and take down every article.
-  if(article.__wikiPublishedEdit && statistics.length===1 && statistics[0].blocks?.length){
-    statistics[0].audience="mj";
-    if(sections.at(-1)!==statistics[0])article.sections=[...sections.filter(section=>section!==statistics[0]),statistics[0]];
+  if(article.__wikiPublishedEdit){
+    // A wiki editor can also move or remove the section. Restore the canonical
+    // slot without letting one published article invalidate the whole corpus.
+    const selected=statistics.find(section=>section.blocks?.length)??statistics[0]??{
+      id:"profil-statistique",title:`Profil statistique · ${article.title}`,audience:"mj",level:2,blocks:[]
+    };
+    selected.audience="mj";
+    article.sections=[...sections.filter(section=>!statistics.includes(section)),selected];
+    if(selected.blocks?.length)return;
+    selected.title=`Profil statistique · ${article.title}`;
+    selected.blocks=blocks;
     return;
   }
   if(statistics.length!==1||sections.at(-1)!==statistics[0]||statistics[0].blocks?.length)throw new Error(`PNJ · profil déjà rempli ou ambigu : ${id}`);

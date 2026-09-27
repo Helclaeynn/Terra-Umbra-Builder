@@ -23,7 +23,7 @@ const MEDIA_DIR =
     : resolve(process.cwd(), "../../compendium"));
 const UPLOAD_DIR = process.env.COMPENDIUM_UPLOAD_DIR ??
   (process.env.NODE_ENV === "production" ? "/app/editor-media" : resolve(process.cwd(), "../../.editor-media"));
-type PortraitRow = { articleId: string; src: string; visibility: "mj" | "public"; uploaded: boolean };
+type PortraitRow = { articleId: string; src: string; visibility: "mj" | "public" | "removed"; uploaded: boolean };
 async function portraitRows(): Promise<PortraitRow[]> {
   const result = await pool.query<PortraitRow>(
     `SELECT article_id AS "articleId", src, visibility, uploaded FROM compendium_portrait_visibility`
@@ -35,7 +35,7 @@ async function portraitManifest() {
     .then((content) => JSON.parse(content) as Record<string, { items?: Array<{ id: string; src: string; visibility: string }> }>)
     .catch(() => ({} as Record<string, { items?: Array<{ id: string; src: string; visibility: string }> }>));
 }
-type Portrait = { lot: string; media: string; visibility: "mj" | "public" };
+type Portrait = { lot: string; media: string; visibility: "mj" | "public" | "removed" };
 type PortraitLookup = {
   rowsByArticle: Map<string, PortraitRow[]>;
   manifestByArticle: Map<string, Array<{ lot: string; src: string; visibility: string }>>;
@@ -68,7 +68,7 @@ function portraitsFor(article: Article, lookup: PortraitLookup): Portrait[] {
     add(portraitSource(media), "fiche", typeof media === "object" && media !== null ? (media as JsonObject).portraitVisibility : undefined);
   }
   for (const item of lookup.manifestByArticle.get(article.id) ?? []) add(item.src, item.lot, item.visibility);
-  for (const row of overrides.filter((entry) => entry.uploaded)) add(row.src, "ajout", row.visibility);
+  for (const row of overrides) add(row.src, row.uploaded ? "ajout" : "fiche", row.visibility);
   return [...found.values()];
 }
 
@@ -344,6 +344,30 @@ export async function registerQualityRoutes(app: FastifyInstance) {
          VALUES ($1,$2,$3,$4,$5)
          ON CONFLICT (article_id,src) DO UPDATE SET visibility=EXCLUDED.visibility,updated_by=EXCLUDED.updated_by,updated_at=now()`,
         [article.id, src, visibility, uploaded, admin.id]
+      );
+      await refreshCompendiumPortraits(article.id);
+      return { portraits: portraitsFor(article, portraitLookup(await portraitRows(), manifest)) };
+    }
+  );
+
+  app.delete<{ Params: { id: string }; Body: { src?: string } }>(
+    "/api/admin/compendium-quality/:id/portraits", async (request, reply) => {
+      const admin = await requireAdmin(request, reply);
+      if (!admin) return;
+      const article = (await getCompendiumQualityCorpus()).articles.find((item) => item.id === request.params.id && item.category === "Personnages");
+      if (!article) return reply.code(404).send({ error: "compendium_article_not_found" });
+      const src = portraitSource(request.body?.src);
+      const rows = await portraitRows();
+      const manifest = await portraitManifest();
+      if (!portraitsFor(article, portraitLookup(rows, manifest)).some((portrait) => portrait.media === src && portrait.visibility !== "removed")) {
+        return bad(reply, "unknown_article_portrait");
+      }
+      const uploaded = rows.some((row) => row.articleId === article.id && row.src === src && row.uploaded);
+      await pool.query(
+        `INSERT INTO compendium_portrait_visibility (article_id,src,visibility,uploaded,updated_by)
+         VALUES ($1,$2,'removed',$3,$4)
+         ON CONFLICT (article_id,src) DO UPDATE SET visibility='removed',updated_by=EXCLUDED.updated_by,updated_at=now()`,
+        [article.id, src, uploaded, admin.id]
       );
       await refreshCompendiumPortraits(article.id);
       return { portraits: portraitsFor(article, portraitLookup(await portraitRows(), manifest)) };

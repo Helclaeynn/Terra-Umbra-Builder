@@ -1,0 +1,94 @@
+name: V2 production direct portrait deletion release
+on:
+  push:
+    branches: [feature/tuc-web-v2]
+    paths: [.github/workflows/v2-production-portrait-deletion-release.yml]
+permissions:
+  contents: read
+concurrency:
+  group: tuc-v2-prod-portrait-deletion
+  cancel-in-progress: false
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - name: Verify portrait deletion and Compendium privacy
+        run: |
+          set -euo pipefail
+          cd apps/api
+          npm ci
+          npm run build
+          node scripts/check-portrait-admin-all.mjs
+          node scripts/check-portrait-visibility.mjs
+          node scripts/check-published-pnj-image-edit.mjs
+          cd ../web
+          npm ci
+          npm run build
+          node tests/compendium-page-dom.mjs
+  release:
+    needs: verify
+    runs-on: ubuntu-latest
+    environment: tuc-dev
+    timeout-minutes: 25
+    env:
+      TUC_DEV_HOST: ${{ secrets.TUC_DEV_HOST }}
+      TUC_DEV_USER: ${{ secrets.TUC_DEV_USER }}
+      TUC_DEV_SSH_KEY: ${{ secrets.TUC_DEV_SSH_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Back up, migrate and deploy direct portrait deletion
+        shell: bash
+        run: |
+          set -euo pipefail
+          install -m 700 -d ~/.ssh
+          trap 'rm -f ~/.ssh/tuc_prod' EXIT
+          printf '%s\n' "$TUC_DEV_SSH_KEY" > ~/.ssh/tuc_prod
+          chmod 600 ~/.ssh/tuc_prod
+          ssh-keyscan -H "$TUC_DEV_HOST" >> ~/.ssh/known_hosts
+          SSH="ssh -i ~/.ssh/tuc_prod -o IdentitiesOnly=yes"
+          $SSH "$TUC_DEV_USER@$TUC_DEV_HOST" 'test -f /opt/terra-umbra/production-active && test -f /opt/terra-umbra/infrastructure/.env'
+          rsync -az -e "$SSH" infrastructure/migrations/026_compendium_portrait_removal.sql "$TUC_DEV_USER@$TUC_DEV_HOST:/opt/terra-umbra/infrastructure/migrations/"
+          rsync -az -e "$SSH" apps/api/src/compendium.ts apps/api/src/quality.ts apps/api/src/compendium-pnj-corporate-stats.ts apps/api/src/compendium-pnj-truth-batch-001.ts "$TUC_DEV_USER@$TUC_DEV_HOST:/opt/terra-umbra/apps/api/src/"
+          rsync -az -e "$SSH" apps/web/src/components/PortraitAdmin.vue "$TUC_DEV_USER@$TUC_DEV_HOST:/opt/terra-umbra/apps/web/src/components/"
+          rsync -az -e "$SSH" apps/web/src/pages/AdminQualityPage.vue apps/web/src/pages/CompendiumPage.vue "$TUC_DEV_USER@$TUC_DEV_HOST:/opt/terra-umbra/apps/web/src/pages/"
+          $SSH "$TUC_DEV_USER@$TUC_DEV_HOST" <<'REMOTE'
+          {
+            set -euo pipefail
+            cd /opt/terra-umbra/infrastructure
+            bash production/backup.sh
+            docker tag tuc-v2-api tuc-v2-api:before-portrait-deletion
+            docker tag tuc-v2-web tuc-v2-web:before-portrait-deletion
+            rollback() {
+              status=$?
+              if [ "$status" -ne 0 ]; then
+                docker tag tuc-v2-api:before-portrait-deletion tuc-v2-api
+                docker tag tuc-v2-web:before-portrait-deletion tuc-v2-web
+                docker compose up -d --no-build --no-deps --force-recreate api web
+                echo 'PORTRAIT DELETION RELEASE FAILED — previous containers restored' >&2
+                exit "$status"
+              fi
+            }
+            trap rollback EXIT
+            set -a; . ./.env; set +a
+            docker compose exec -T db psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -v ON_ERROR_STOP=1 < migrations/026_compendium_portrait_removal.sql
+            docker compose build api web
+            docker compose up -d --no-deps api web
+            ready=false
+            for attempt in $(seq 1 30); do
+              if curl --fail --silent --show-error --max-time 10 https://terra-umbra.fr/api/compendium/meta >/dev/null; then ready=true; break; fi
+              sleep 5
+            done
+            [ "$ready" = true ]
+            curl --fail --silent --show-error --max-time 15 'https://terra-umbra.fr/api/compendium/wiki-index?compact=1' >/dev/null
+            curl --fail --silent --show-error --max-time 15 'https://terra-umbra.fr/compendium' >/dev/null
+            code=$(curl --silent --output /dev/null --write-out '%{http_code}' https://terra-umbra.fr/api/admin/compendium-quality/pnj-grands-exiles-alby-vandal-29/portraits)
+            [ "$code" = 401 ]
+            trap - EXIT
+            echo 'DIRECT PORTRAIT DELETION LIVE — Compendium and private admin route verified'
+          }
+          REMOTE

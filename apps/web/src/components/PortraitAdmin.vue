@@ -2,7 +2,7 @@
 import { ref, watch } from "vue";
 import { api } from "../lib/api";
 
-type Portrait = { lot: string; media: string; visibility: "mj" | "public" };
+type Portrait = { lot: string; media: string; visibility: "mj" | "public" | "removed" };
 const props = defineProps<{ articleId: string; initialPortraits?: Portrait[] }>();
 const portraits = ref<Portrait[]>([]);
 const busy = ref(false);
@@ -36,6 +36,18 @@ async function setVisibility(portrait: Portrait, visibility: "mj" | "public") {
   } catch { error.value = "La visibilité n’a pas été enregistrée."; }
   finally { busy.value = false; }
 }
+async function removePortrait(portrait: Portrait) {
+  if (!window.confirm("Retirer ce portrait de la fiche ? Vous pourrez le restaurer ici ensuite.")) return;
+  busy.value = true; error.value = ""; notice.value = "";
+  try {
+    portraits.value = (await api<{ portraits: Portrait[] }>(endpoint(), {
+      method: "DELETE", body: JSON.stringify({ src: portrait.media })
+    })).portraits;
+    notice.value = "Portrait retiré de la fiche.";
+    emit("change", portraits.value);
+  } catch { error.value = "Le portrait n’a pas pu être retiré."; }
+  finally { busy.value = false; }
+}
 async function upload(event: Event) {
   const input = event.target as HTMLInputElement;
   const file = input.files?.[0];
@@ -65,12 +77,13 @@ function src(value: string) { return value.startsWith("/api/") ? value : `/api/c
     <p v-if="loading" role="status">Chargement des portraits…</p>
     <p v-else-if="!portraits.length && !error">Aucun portrait sur cette fiche. Vous pouvez en ajouter un ci-dessous.</p>
     <div v-for="portrait in portraits" :key="portrait.media" class="portrait-row">
-      <img :src="src(portrait.media)" alt="Aperçu du portrait" loading="lazy" />
+      <img v-if="portrait.visibility !== 'removed'" :src="src(portrait.media)" alt="Aperçu du portrait" loading="lazy" />
       <div>
-        <small>{{ portrait.lot === 'fiche' ? 'Portrait de la fiche' : portrait.lot === 'ajout' ? 'Portrait ajouté' : `Archive · ${portrait.lot}` }}</small>
+        <small>{{ portrait.visibility === 'removed' ? 'Portrait retiré · restaurable' : portrait.lot === 'fiche' ? 'Portrait de la fiche' : portrait.lot === 'ajout' ? 'Portrait ajouté' : `Archive · ${portrait.lot}` }}</small>
         <div class="portrait-actions" role="group" aria-label="Visibilité du portrait">
           <button type="button" :aria-pressed="portrait.visibility === 'public'" :disabled="busy || loading" @click="setVisibility(portrait, 'public')">All</button>
           <button type="button" :aria-pressed="portrait.visibility === 'mj'" :disabled="busy || loading" @click="setVisibility(portrait, 'mj')">MJ uniquement</button>
+          <button v-if="portrait.visibility !== 'removed'" type="button" :disabled="busy || loading" @click="removePortrait(portrait)">Supprimer</button>
         </div>
       </div>
     </div>

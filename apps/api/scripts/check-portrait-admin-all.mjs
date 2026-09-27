@@ -19,7 +19,9 @@ pool.query = async (sql, values) => {
   if (statement.includes('FROM sessions s')) return { rows: [{ id: '00000000-0000-4000-8000-000000000001', email: 'fixture@example.invalid', display_name: 'Admin', role: 'admin', is_active: true, created_at: new Date().toISOString(), last_login_at: null }] };
   if (statement.includes('FROM compendium_portrait_visibility')) return { rows };
   if (statement.includes('INSERT INTO compendium_portrait_visibility')) {
-    const [articleId, src, visibility, uploaded] = values;
+    const [articleId, src] = values;
+    const visibility = statement.includes("'removed'") ? 'removed' : values[2];
+    const uploaded = statement.includes("'removed'") ? values[2] : values[3];
     const existing = rows.find(row => row.articleId === articleId && row.src === src);
     if (existing) existing.visibility = visibility;
     else rows.push({ articleId, src, visibility, uploaded });
@@ -81,6 +83,16 @@ try {
     const restored = await app.inject({ method: 'PATCH', url, headers: auth, payload: { src, visibility: 'public' } });
     assert.equal(restored.statusCode, 200, restored.body);
     assert.equal((await app.inject({ url: `/api/compendium/media/${src}` })).statusCode, 200, src);
+    const removed = await app.inject({ method: 'DELETE', url, headers: auth, payload: { src } });
+    assert.equal(removed.statusCode, 200, removed.body);
+    assert.ok(removed.json().portraits.some(portrait => portrait.media === src && portrait.visibility === 'removed'));
+    assert.ok(!JSON.stringify((await getCompendiumQualityCorpus()).articles.find(item => item.id === id)).includes(src),
+      'Removed portrait must disappear even from the private PNJ');
+    assert.ok(!JSON.stringify((await getCompendiumQualityCorpus()).publicArticles.find(item => item.id === id)).includes(src),
+      'Removed portrait must not remain publicly visible');
+    const addedBack = await app.inject({ method: 'PATCH', url, headers: auth, payload: { src, visibility: 'public' } });
+    assert.equal(addedBack.statusCode, 200, addedBack.body);
+    assert.ok(JSON.stringify((await getCompendiumQualityCorpus()).articles.find(item => item.id === id)).includes(src));
   }
   console.log('Legacy portraits: admin listing, both visibility choices, public article and direct media protection verified.');
 } finally {

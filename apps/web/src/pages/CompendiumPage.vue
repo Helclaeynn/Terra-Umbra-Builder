@@ -489,7 +489,8 @@ const portraitSettingsOpen = ref(false);
 async function refreshSelectedPortraits() {
   const id = selected.value?.id;
   if (!id) return;
-  const result = await api<{ article: Article }>(`/api/compendium/articles/${encodeURIComponent(id)}`);
+  const result = await api<{ article: Article }>(`/api/compendium/articles/${encodeURIComponent(id)}?portraitRefresh=${Date.now()}`);
+  articleCache.set(id, Promise.resolve(result.article));
   if (selected.value?.id === id) selected.value = result.article;
 }
 const articleSections = computed(() => (selected.value?.sections || []).map((section, index) => ({ section, index })).filter(({ section }) => section.audience !== "mj" || canReadMjSections.value));
@@ -2476,7 +2477,7 @@ onBeforeUnmount(() => {
 
                 <aside class="wiki-infobox">
                   <details v-if="currentUser?.role === 'admin' && selected.category === 'Personnages'" class="portrait-settings" @toggle="portraitSettingsOpen = ($event.target as HTMLDetailsElement).open">
-                    <summary>Régler les portraits · MJ only / All</summary>
+                    <summary>Gérer les portraits · All / MJ / Supprimer</summary>
                     <PortraitAdmin v-if="portraitSettingsOpen" :key="selected.id" :article-id="selected.id" @change="() => { void refreshSelectedPortraits() }" />
                   </details>
                   <figure v-if="selectedMedia" class="wiki-media">
