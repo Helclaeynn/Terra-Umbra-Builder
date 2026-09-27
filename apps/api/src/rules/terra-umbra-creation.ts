@@ -1254,7 +1254,7 @@ export const terraUmbraCreationRules = {
         {
           "id": "assurance_silver",
           "name": "Assurance Silver",
-          "effect": "Possède réellement une couverture CareForce Silver ; sa traduction économique suit le bloc Services/Train de vie.",
+          "effect": "Attribue automatiquement une couverture CareForce Silver gratuite dans les Services/Train de vie.",
           "category": "sphere",
           "sphere": "crawler"
         },

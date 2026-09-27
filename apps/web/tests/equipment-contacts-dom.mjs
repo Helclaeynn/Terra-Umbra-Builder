@@ -65,6 +65,21 @@ const rules={
   equipment,augmentations,recurring
 };
 const state={augmentations:[],equipment:[],fixedChargeItems:[],mjAdvancedOverride:false,mjAccessOverride:false,sphereSupportType:'',sphereSupportItemId:''};
+const silver=item('CareForce Silver',1200,{recurring:'annual'});
+const benefitRules={...rules,recurring:[...recurring,silver]};
+const benefitState=structuredClone(state);
+w.reality.syncRealityTalentBenefits(benefitRules,benefitState,['assurance_silver']);
+w.reality.syncRealityTalentBenefits(benefitRules,benefitState,['assurance_silver']);
+assert.equal(benefitState.fixedChargeItems.length,1);
+assert.equal(benefitState.fixedChargeItems[0].monthly,0);
+w.reality.syncRealityTalentBenefits(benefitRules,benefitState,[]);
+assert.equal(benefitState.fixedChargeItems.length,0,'Removing the talent removes its automatic grant');
+benefitState.fixedChargeItems.push({uid:'paid-policy',name:silver.name,sourceItemId:silver.id,monthly:100});
+w.reality.syncRealityTalentBenefits(benefitRules,benefitState,['assurance_silver']);
+assert.equal(benefitState.fixedChargeItems.length,1,'An existing policy is reused');
+assert.equal(benefitState.fixedChargeItems[0].monthly,0);
+w.reality.syncRealityTalentBenefits(benefitRules,benefitState,[]);
+assert.equal(benefitState.fixedChargeItems[0].monthly,100,'Previously paid coverage returns when the talent is removed');
 w.start('equipment',{modelValue:state,rules,style:{id:'test',name:'Test',lifestyle:'Standard',account:10000,augmentationEnvelope:10000,gen2SlotsBase:1,vehicleCapital:0},edge:{},talentIds:[],disadvantages:[],neurodiveRaw:0,sphereId:'',integrity:10,augmentStressMax:10,valid:true});
 await tick();
 const names=selector=>Array.from(d.querySelectorAll(selector),node=>node.textContent.replace('↗','').trim());
