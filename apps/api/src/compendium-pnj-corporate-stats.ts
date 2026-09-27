@@ -122,6 +122,14 @@ export function applyNamedPnjStatProfile(article:Article,profile:StatProfile):vo
   ];
   const sections=article.sections??[];
   const statistics=sections.filter(section=>section.id==="profil-statistique");
+  // A published wiki edit starts from the fully rendered PNJ, including its
+  // generated statistics. On reload keep that edited section; regenerating it
+  // would reject a valid portrait or text change and take down every article.
+  if(article.__wikiPublishedEdit && statistics.length===1 && statistics[0].blocks?.length){
+    statistics[0].audience="mj";
+    if(sections.at(-1)!==statistics[0])article.sections=[...sections.filter(section=>section!==statistics[0]),statistics[0]];
+    return;
+  }
   if(statistics.length!==1||sections.at(-1)!==statistics[0]||statistics[0].blocks?.length)throw new Error(`PNJ · profil déjà rempli ou ambigu : ${id}`);
   statistics[0].title=`Profil statistique · ${article.title}`;
   statistics[0].audience="mj";
