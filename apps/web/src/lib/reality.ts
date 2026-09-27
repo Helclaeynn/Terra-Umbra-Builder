@@ -68,6 +68,11 @@ export type RealityPurchase={
   acquiredInCampaign?:boolean;
   campaignCatalogPrice?:number;
   campaignCommerceDegree?:number;
+  cataloguePrice?:number;
+  supplierPurchase?:boolean;
+  talentGrant?:string;
+  grantCreated?:boolean;
+  loanEffect?:string;
   sphereSupport?:boolean;
   supportCreated?:boolean;
   supportOriginalPrice?:number;
@@ -84,6 +89,7 @@ export type FixedCharge={
   talentGrant?:string;
   grantCreated?:boolean;
   grantOriginalMonthly?:number;
+  grantAcquiredInCampaign?:boolean;
 };
 
 export type RealityState={
@@ -97,6 +103,7 @@ export type RealityState={
 };
 
 export type RealityStyle={
+  skills?:readonly string[];
   id:string;
   name:string;
   expertiseFamilies:string[];
@@ -160,13 +167,13 @@ export function realityItemMap(pkg:RealityRulesPackage){
   return new Map([...pkg.equipment,...pkg.augmentations].map(item=>[item.id,item]));
 }
 
-export function syncRealityTalentBenefits(pkg:RealityRulesPackage,state:RealityState,talentIds:string[]){
+export function syncRealityTalentBenefits(pkg:RealityRulesPackage,state:RealityState,talentIds:string[],creationTalentIds:readonly string[]=talentIds){
   const talentId="assurance_silver";
   if(!talentIds.includes(talentId)){
     state.fixedChargeItems=state.fixedChargeItems.flatMap(charge=>{
       if(charge.talentGrant!==talentId)return [charge];
       if(charge.grantCreated)return [];
-      const {talentGrant,grantCreated,grantOriginalMonthly,...original}=charge;
+      const {talentGrant,grantCreated,grantOriginalMonthly,grantAcquiredInCampaign,...original}=charge;
       return [{...original,monthly:grantOriginalMonthly??0}];
     });
     return;
@@ -180,8 +187,9 @@ export function syncRealityTalentBenefits(pkg:RealityRulesPackage,state:RealityS
       existing.talentGrant=talentId;
     }
     existing.monthly=0;
+    existing.grantAcquiredInCampaign=!creationTalentIds.includes(talentId);
   }else{
-    state.fixedChargeItems.push({uid:uniqueUid("talent-service"),name:item.name,monthly:0,sourceItemId:item.id,talentGrant:talentId,grantCreated:true});
+    state.fixedChargeItems.push({uid:uniqueUid("talent-service"),name:item.name,monthly:0,sourceItemId:item.id,talentGrant:talentId,grantCreated:true,grantAcquiredInCampaign:!creationTalentIds.includes(talentId)});
   }
 }
 
@@ -210,7 +218,7 @@ export function automaticAugmentationMaintenance(
   const items=realityItemMap(pkg);
   const value=state.augmentations.reduce((sum,p)=>{
     const item=items.get(p.itemId);
-    return sum+purchasePrice(p,item??null);
+    return sum+Math.max(0,Number(p.cataloguePrice??p.campaignCatalogPrice??purchasePrice(p,item??null))||0);
   },0);
   if(value<=0)return 0;
   const levels=[25,100,250,500,1000,1500];

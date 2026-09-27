@@ -8,6 +8,9 @@ export type CashTransaction={
 
 export type ProgressionState={
   xpEarned:number;
+  renownAdjustment:number;
+  realityTalentChoices:Record<string,unknown>;
+  profilCalibreUsed:boolean;
   ptvEarned:number;
   skillRanks:Record<string,number>;
   attributeRanks:Record<string,number>;
@@ -78,6 +81,9 @@ export function ensureProgression(
 
   const next:ProgressionState={
     xpEarned:Math.max(0,Number(raw.xpEarned)||0),
+    renownAdjustment:Number.isFinite(Number(raw.renownAdjustment))?Math.max(-5,Math.min(5,Math.trunc(Number(raw.renownAdjustment)))):0,
+    realityTalentChoices:{...record(raw.realityTalentChoices)},
+    profilCalibreUsed:Boolean(raw.profilCalibreUsed),
     ptvEarned:Math.max(0,Number(raw.ptvEarned)||0),
     skillRanks:Object.fromEntries(skillIds.map(id=>[id,nonNegativeInt(skillRanks[id])])),
     attributeRanks:Object.fromEntries(attributeIds.map(id=>[id,nonNegativeInt(attributeRanks[id])])),

@@ -12,6 +12,7 @@ export type CharacterSheet = {
   mode:"creation"|"campaign"; name:string; identity:CharacterIdentity;
   origin:string; sphere:string; style:string; lifestyle:string; lifestyleBase:string; renown:number;
   attributes:SheetValue[]; skills:SheetValue[]; derived:DerivedStats;
+  talentRules?:SheetEntry[];
   edge:number; xpRemaining:number; ptvRemaining:number; account:number; cash:number;
   realityTalents:SheetEntry[]; truthTalents:SheetEntry[]; disadvantages:SheetEntry[]; inventory:SheetEntry[];
   truthNature:string; truthConsciousness:string; corruption:number; corruptionSource:string;

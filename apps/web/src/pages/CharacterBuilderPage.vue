@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import {permanentSkillBonus,pruneBenefits,uniqueTalents,renownScore as computeRenown} from "../lib/reality-benefits";
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, shallowRef, watch } from "vue";
 import { onBeforeRouteLeave, useRoute } from "vue-router";
 import { compareLabels, compareTruthTalents } from "../lib/catalog-order";
@@ -498,13 +499,15 @@ function talentChoiceOptions(spec:TalentChoiceSpec|null):TalentChoiceOption[]{
           .map((skill)=>skill.id)
       );
   return rules.value.skills
-    .filter((skill)=>allowed.has(skill.id))
+    .filter((skill)=>allowed.has(skill.id)&&(!spec.styleSkills||selectedStyle.value?.skills.includes(skill.id)))
     .map((skill)=>({id:skill.id,name:skill.name}));
 }
 
 function talentChoiceValid(id:string){
   const spec=talentChoiceSpec(id);
-  return !spec||talentChoiceValue(id).trim().length>0;
+  if(!spec)return true;
+  const value=talentChoiceValue(id);
+  return spec.kind==="text"?value.trim().length>0:talentChoiceOptions(spec).some(option=>option.id===value);
 }
 
 function setTalent(slot:"origin"|"sphere"|"expertise"|"common",id:string){
@@ -657,13 +660,15 @@ function finalAttribute(id:string){
   return Number(draft.value.attributes[id]||0)+Number(draft.value.edgeAttributes[id]||0)+truthBonus;
 }
 
-const derivedStats=computed(()=>characterDerivedStats(finalAttribute,skillFinal,draft.value?.disadvantages??[]));
+function skillPermanent(id:string){return skillRaw(id)+permanentSkillBonus(selectedRealityTalentIds(),draft.value?.talentChoices??{},talentChoiceSpecs.value,id);}
+function ownedRealityTalentIds(){const learned=draft.value?.progression.realityTalents;return uniqueTalents(selectedRealityTalentIds(),Array.isArray(learned)?learned.filter((id):id is string=>typeof id==='string'):[]);}
+const derivedStats=computed(()=>characterDerivedStats(finalAttribute,skillPermanent,draft.value?.disadvantages??[],skillFinal));
 
 const realityState=computed<RealityState|null>(()=>
   draft.value ? draft.value.reality as unknown as RealityState : null
 );
-watch([realityRules,()=>draft.value?.reality,()=>selectedRealityTalentIds().join("|")],()=>{
-  if(realityRules.value&&realityState.value)syncRealityTalentBenefits(realityRules.value,realityState.value,selectedRealityTalentIds());
+watch([realityRules,()=>draft.value?.reality,()=>ownedRealityTalentIds().join("|"),()=>draft.value?.creation.sphere],()=>{
+  if(realityRules.value&&realityState.value){syncRealityTalentBenefits(realityRules.value,realityState.value,ownedRealityTalentIds(),selectedRealityTalentIds());pruneBenefits(realityState.value,ownedRealityTalentIds(),draft.value?.creation.sphere??'');}
 });
 const realityItems=computed(()=>realityRules.value?realityItemMap(realityRules.value):new Map());
 const realityEconomyValue=computed(()=>
@@ -734,9 +739,9 @@ const equipmentValidation=computed(()=>{
     if(!item)return false;
     if(
       realityPriceSpec(item).configurable&&
-      (!purchase.priceConfirmed||!priceSelectionValid(item,Number.isFinite(Number(purchase.selectedPrice))?Number(purchase.selectedPrice):null))
+      (!purchase.priceConfirmed||!priceSelectionValid(item,Number.isFinite(Number(purchase.cataloguePrice??purchase.selectedPrice))?Number(purchase.cataloguePrice??purchase.selectedPrice):null))
     ) return false;
-    if((purchase.selectedPrice??item.price??0)>pkg.economy.advancedPurchaseThreshold&&!state.mjAdvancedOverride)return false;
+    if(!purchase.sphereSupport&&(purchase.cataloguePrice??purchase.selectedPrice??item.price??0)>pkg.economy.advancedPurchaseThreshold&&!state.mjAdvancedOverride)return false;
     if(!augmentationSupportSatisfied(pkg,state,item))return false;
     if(augmentationCopyCount(pkg,state,item)>augmentationMaxCopies(item))return false;
     const access=augmentationAccess(pkg,selectedStyle.value,item,draft.value.edge,state.mjAccessOverride);
@@ -749,9 +754,9 @@ const equipmentValidation=computed(()=>{
     if(!item)return false;
     if(
       realityPriceSpec(item).configurable&&
-      (!purchase.priceConfirmed||!priceSelectionValid(item,Number.isFinite(Number(purchase.selectedPrice))?Number(purchase.selectedPrice):null))
+      (!purchase.priceConfirmed||!priceSelectionValid(item,Number.isFinite(Number(purchase.cataloguePrice??purchase.selectedPrice))?Number(purchase.cataloguePrice??purchase.selectedPrice):null))
     ) return false;
-    if((purchase.selectedPrice??item.price??0)>pkg.economy.advancedPurchaseThreshold&&!state.mjAdvancedOverride)return false;
+    if(!purchase.sphereSupport&&(purchase.cataloguePrice??purchase.selectedPrice??item.price??0)>pkg.economy.advancedPurchaseThreshold&&!state.mjAdvancedOverride)return false;
     if(item.neuro&&draft.value.disadvantages.includes("unsinkable"))return false;
   }
 
@@ -898,12 +903,7 @@ const originNameValue=computed(()=>draft.value&&rules.value
 );
 const sphereNameValue=computed(()=>selectedSphere.value?.name??"");
 const styleNameValue=computed(()=>selectedStyle.value?.name??"");
-const renownScore=computed(()=>{
-  if(!draft.value)return 0;
-  if(hasUnknownDisadvantage.value)return 0;
-  if(hasRenownedTalent.value||Number(draft.value.edge.renownPack||0)>0)return 2;
-  return 1;
-});
+const renownScore=computed(()=>draft.value?computeRenown(selectedRealityTalentIds(),progressionMode?(draft.value.progression.realityTalents as string[]??[]):[],Number(draft.value.edge.renownPack||0),hasUnknownDisadvantage.value,progressionMode?Number(draft.value.progression.renownAdjustment||0):0):0);
 const campaignCashValue=computed(()=>{
   if(!draft.value)return 0;
   const progression=draft.value.progression as unknown as ProgressionState;
@@ -2834,7 +2834,7 @@ onBeforeUnmount(()=>{
           :rules="realityRules"
           :style="selectedStyle"
           :edge="draft.edge"
-          :talent-ids="selectedRealityTalentIds()"
+          :talent-ids="ownedRealityTalentIds()"
           :disadvantages="draft.disadvantages"
           :neurodive-raw="skillRaw('neurodive')"
           :sphere-id="draft.creation.sphere"
@@ -2874,7 +2874,7 @@ onBeforeUnmount(()=>{
             <div><p class="eyebrow">FICHE ACTUELLE</p><h2>{{ characterSheet.name }}</h2><p>PV max. <strong>{{ characterSheet.derived.pvMax }}</strong> · Défense <strong>{{ characterSheet.derived.passiveDefense }}</strong> · Intégrité <strong>{{ characterSheet.derived.integrity }}</strong></p></div>
             <button type="button" class="ghost" @click="toggleCharacterSheet">Consulter la fiche complète</button>
           </section>
-        <ProgressionStep
+        <ProgressionStep :talent-choice-specs="talentChoiceSpecs" :creation-talent-choices="draft.talentChoices"
           class="panel builder-card"
           :talent-lore="{...lore?.originTalent,...lore?.sphereTalent,...lore?.talent}"
           :progression="draft.progression"

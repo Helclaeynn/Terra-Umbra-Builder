@@ -15,7 +15,7 @@ export const terraUmbraCreationLore = {
 export const terraUmbraTalentChoiceSpecs = {
   ...baselineChoices,
   badge_interne: {kind:"text",label:"Programme ou branche confidentielle",placeholder:"Périmètre de sites sécurisés et secrets",help:"L’accès physique est réel dans ce périmètre ; il ne donne aucun droit MJ sur le site."},
-  profil_calibre: {kind:"text",label:"Compétence professionnelle du Style",placeholder:"Ex. Tir — Armacorpo",help:"Choisir une Compétence professionnelle figurant dans votre Style. Une relance par scénario, hors échec narratif ; ce choix ne donne aucun bonus permanent."},
+  profil_calibre: {kind:"skill",styleSkills:true,permanent:false,bonus:0,label:"Compétence professionnelle du Style",help:"Une relance par scénario, hors échec narratif. Aucun bonus permanent. Un ancien choix libre est conservé et doit être vérifié."},
   programme_pilote: {kind:"text",label:"Prototype et fonction expérimentale",placeholder:"Modèle, amélioration unique, limites et programme d’essai",help:"Définir la fiche complète avec le MJ avant l’achat du talent. Un seul prototype prêté à la fois ; aucun pouvoir de Vérité automatique."},
   habilitation_administrative: {kind:"text",label:"Secteur gouvernemental secret",placeholder:"Ex. installations de renseignement ou dépôts sécurisés",help:"Accréditation physique des sites de ce secteur ; les données confidentielles relèvent d’Accès aux registres."},
   acces_aux_registres: {kind:"text",label:"Catégorie de données confidentielles",placeholder:"Police et enquêtes, dossiers médicaux, Logifate…",help:"Choisir une grande catégorie cohérente. L’habilitation ouvre les données, mais ne remplace pas les tests d’interprétation."},

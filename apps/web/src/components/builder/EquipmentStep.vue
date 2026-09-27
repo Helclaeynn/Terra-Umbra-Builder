@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { computed, nextTick, ref } from "vue";
+import RealityBenefitsPanel from './RealityBenefitsPanel.vue';
+import {acquisitionCost,supplierEligible,loanLabel,referencePrice} from '../../lib/reality-benefits';
 import { cloneJson } from "../../lib/json";
 import BuilderWikiLink from "./BuilderWikiLink.vue";
 import BuilderCatalogImage from "./BuilderCatalogImage.vue";
@@ -50,6 +52,7 @@ const emit=defineEmits<{
 }>();
 
 const equipmentQuery=ref("");
+const useSupplier=ref(false);
 const augmentationQuery=ref("");
 const equipmentCategory=ref("");
 const augmentationCategory=ref("");
@@ -163,12 +166,18 @@ function priceValid(item:RealityItem){
 }
 function pricedItem(item:RealityItem){
   const value=priceValue(item);
-  return value===null?item:{...item,price:value,priceMin:value,priceMax:value};
+  const cost=value===null?null:acquisitionCost(value,item,props.talentIds,useSupplier.value&&props.sphereId==='corporatiste');
+  return cost===null?item:{...item,price:cost,priceMin:cost,priceMax:cost};
 }
 function addStatus(item:RealityItem){
   if(!props.style)return {ok:false,reason:"Choisissez d’abord un Style"};
   if(item.neuro&&props.disadvantages.includes("unsinkable"))return {ok:false,reason:"Unsinkable interdit les Neuroprogrammes"};
   if(!priceValid(item))return {ok:false,reason:specialRealityAcquisition(item)?"Prix à convenir avec le MJ":"Prix à confirmer"};
+  if((priceValue(item)??0)>props.rules.economy.advancedPurchaseThreshold&&!state.value.mjAdvancedOverride)return {ok:false,reason:'Prix catalogue supérieur au seuil : accord MJ requis'};
+  if(item.kind==='augmentation'){
+    const access=augmentationAccess(props.rules,props.style,{...item,price:priceValue(item)??item.price},props.edge,state.value.mjAccessOverride);
+    if(!access.ok)return access;
+  }
   return canAffordRealityPurchase(props.rules,state.value,props.style,props.edge,pricedItem(item));
 }
 function addPurchase(item:RealityItem){
@@ -180,7 +189,9 @@ function addPurchase(item:RealityItem){
     uid:uniqueUid(item.kind==="augmentation"?"aug":"eq"),
     itemId:item.id,
     kind:item.kind,
-    selectedPrice:value,
+    selectedPrice:acquisitionCost(value,item,props.talentIds,useSupplier.value&&props.sphereId==='corporatiste'),
+    cataloguePrice:value,
+    supplierPurchase:useSupplier.value&&props.sphereId==='corporatiste'&&props.talentIds.includes('acces_fournisseur')&&supplierEligible(item),
     priceConfirmed:true
   };
   if(item.kind==="augmentation"&&item.generation===2){
@@ -197,7 +208,7 @@ function removePurchase(kind:"equipment"|"augmentation",uid:string){
   if(index<0)return;
   const removed=list[index];
   list.splice(index,1);
-  if(removed.sphereSupport){
+  if(removed.sphereSupport&&!removed.talentGrant){
     state.value.sphereSupportType="";
     state.value.sphereSupportItemId="";
   }
@@ -365,7 +376,7 @@ function removeCharge(uid:string){
 
 function clearCorporateSupportAsset(keepType=false){
   state.value.fixedChargeItems=state.value.fixedChargeItems.flatMap(charge=>{
-    if(!charge.sphereSupport)return [charge];
+    if(!charge.sphereSupport||charge.talentGrant)return [charge];
     if(charge.supportCreated)return [];
     return [{
       ...charge,
@@ -376,7 +387,7 @@ function clearCorporateSupportAsset(keepType=false){
     }];
   });
   state.value.equipment=state.value.equipment.flatMap(purchase=>{
-    if(!purchase.sphereSupport)return [purchase];
+    if(!purchase.sphereSupport||purchase.talentGrant)return [purchase];
     if(purchase.supportCreated)return [];
     return [{
       ...purchase,
@@ -398,6 +409,7 @@ function setCorporateSupportType(value:string){
 
 function setCorporateSupportItem(itemId:string){
   const type=state.value.sphereSupportType;
+  if(itemId&&[...state.value.equipment,...state.value.fixedChargeItems].some(row=>row.talentGrant==='avantages_salaries'&&('itemId' in row?row.itemId:row.sourceItemId)===itemId)){window.alert('Cette prestation est déjà couverte par le deuxième Appui.');return;}
   clearCorporateSupportAsset(true);
   if(!itemId){
     notify();
@@ -457,6 +469,17 @@ function setCorporateSupportItem(itemId:string){
   notify();
 }
 
+function repriceCreation(){
+  if(!window.confirm('Recalculer uniquement les achats de création avec les Talents actuels ? Les transactions de campagne sont conservées.'))return;
+  for(const p of [...state.value.equipment,...state.value.augmentations]){
+    if(p.acquiredInCampaign||p.sphereSupport||p.talentGrant)continue;
+    const item=items.value.get(p.itemId);if(!item)continue;
+    p.cataloguePrice=referencePrice(p,item);
+    p.selectedPrice=acquisitionCost(p.cataloguePrice,item,props.talentIds,!!p.supplierPurchase&&props.sphereId==='corporatiste');
+  }
+  notify();
+}
+function benefitUpdate(value:Record<string,unknown>){emit('update:modelValue',value);}
 </script>
 
 <template>
@@ -477,6 +500,8 @@ function setCorporateSupportItem(itemId:string){
     <div v-if="!style" class="rule-note bad">Choisissez d’abord une Sphère et un Style.</div>
 
     <template v-else>
+      <RealityBenefitsPanel :model-value="modelValue" :rules="rules" :talent-ids="talentIds" :sphere-id="sphereId" :disadvantages="disadvantages" @update:model-value="benefitUpdate" />
+      <section v-if="talentIds.includes('maitre_du_troc')||talentIds.includes('acces_fournisseur')" class="rule-note" data-creation-discounts><strong>Prix après Talents</strong><p>Maître du Troc : −5 % du prix de référence. Accès fournisseur : −10 % seulement auprès de votre corporation ou d’un partenaire autorisé.</p><label v-if="sphereId==='corporatiste'&&talentIds.includes('acces_fournisseur')"><input v-model="useSupplier" type="checkbox" /> Prochains achats auprès du fournisseur autorisé, hors prestations exclues</label><button type="button" class="ghost compact" @click="repriceCreation">Recalculer les achats de création</button><p>Le recalcul est explicite. Il ne modifie pas les transactions de campagne déjà enregistrées.</p></section>
       <section class="economy-grid">
         <div>
           <small>Compte de départ</small>
@@ -817,7 +842,7 @@ function setCorporateSupportItem(itemId:string){
 
                   <div class="pillbar">
                     <span v-if="ownedCount(selectedVariant(group).id)" class="owned-indicator">✓ Installé · {{ ownedCount(selectedVariant(group).id) }}</span>
-                    <span>{{ realityPriceSpec(selectedVariant(group)).label }}</span>
+                    <span>{{ realityPriceSpec(selectedVariant(group)).label }}</span><span v-if="priceValue(selectedVariant(group))!==null&&acquisitionCost(priceValue(selectedVariant(group))??0,selectedVariant(group),talentIds,useSupplier&&sphereId==='corporatiste')!==(priceValue(selectedVariant(group))??0)">À payer après Talents : {{ money(acquisitionCost(priceValue(selectedVariant(group))??0,selectedVariant(group),talentIds,useSupplier&&sphereId==='corporatiste')) }}</span>
                     <span v-if="selectedVariant(group).generation">Gen {{ selectedVariant(group).generation }}</span>
                     <span v-if="selectedVariant(group).charge !== null">Charge {{ selectedVariant(group).charge }}</span>
                     <span v-if="selectedVariant(group).stress !== null">Stress {{ selectedVariant(group).stress }}</span>
@@ -877,7 +902,7 @@ function setCorporateSupportItem(itemId:string){
                 /></strong>
               <span>
                 {{ row.item.category }} · {{ money(row.purchase.selectedPrice ?? row.item.price) }}
-                <template v-if="row.purchase.sphereSupport"> · véhicule de fonction</template>
+                <template v-if="row.purchase.sphereSupport"> · véhicule de fonction</template><template v-if="row.purchase.talentGrant"> · {{ loanLabel(row.purchase.talentGrant) }} · prêt non revendable</template>
               </span>
               <label v-if="row.item.neuro" class="neuro-toggle">
                 <input
@@ -966,7 +991,7 @@ function setCorporateSupportItem(itemId:string){
                   </div>
                   <div class="pillbar">
                     <span v-if="ownedCount(item.id)" class="owned-indicator">✓ Possédé · {{ ownedCount(item.id) }}</span>
-                    <span>{{ realityPriceSpec(item).label }}</span>
+                    <span>{{ realityPriceSpec(item).label }}</span><span v-if="priceValue(item)!==null&&acquisitionCost(priceValue(item)??0,item,talentIds,useSupplier&&sphereId==='corporatiste')!==(priceValue(item)??0)">À payer après Talents : {{ money(acquisitionCost(priceValue(item)??0,item,talentIds,useSupplier&&sphereId==='corporatiste')) }}</span>
                     <span v-if="item.vehicle">Véhicule</span>
                     <span v-if="item.neuro">Neuroprogramme</span>
                   </div>

@@ -1,5 +1,9 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
+import RealityBenefitsPanel from './RealityBenefitsPanel.vue';
+import TalentChoiceFields from './TalentChoiceFields.vue';
+import {uniqueTalents,permanentSkillBonus,renownScore,renownScale,supplierEligible,saleAllowed,pruneBenefits,type ChoiceSpec} from '../../lib/reality-benefits';
+import {purchaseWithTalents,saleWithTalents} from '../../../../api/src/rules/reality-talents-policy';
 import { sortedNames, compareTruthTalents, compareLabels } from "../../lib/catalog-order";
 import { cloneJson } from "../../lib/json";
 import CorruptionPanel from "./CorruptionPanel.vue";
@@ -8,6 +12,7 @@ import { characterDerivedStats } from "../../lib/character-sheet";
 import BuilderWikiLink from "./BuilderWikiLink.vue";
 import BuilderCatalogImage from './BuilderCatalogImage.vue';
 import {
+  freezeCampaignCash,
   currentSkillRaw as campaignSkillRaw,
   currentSkillFinal as campaignSkillFinal,
   currentAttribute as campaignAttribute,
@@ -71,6 +76,8 @@ type ProgressionRules={
 
 const props=defineProps<{
   talentLore?:Record<string,string>;
+  talentChoiceSpecs?:Record<string,ChoiceSpec>;
+  creationTalentChoices?:Record<string,unknown>;
   progression:Record<string,unknown>;
   reality:Record<string,unknown>;
   truthState:TruthState;
@@ -108,6 +115,8 @@ const tradePrice=ref("");
 const tradeDegree=ref(0);
 const saleKey=ref("");
 const saleDegree=ref(0);
+const tradeSupplier=ref(false);
+const choiceDrafts=ref<Record<string,unknown>>({});
 
 const state=computed(()=>ensureProgression(
   cloneJson(props.progression),
@@ -127,7 +136,15 @@ function money(value:number){
   return new Intl.NumberFormat("fr-FR",{maximumFractionDigits:0}).format(value)+" $";
 }
 function currentSkillRaw(id:string){ return campaignSkillRaw(state.value,props.skillBases,id); }
-function currentSkillFinal(id:string){ return campaignSkillFinal(state.value,props.skillBases,props.skillFinalBases,props.skillTalentMap,id); }
+function currentSkillFinal(id:string){return campaignSkillFinal(state.value,props.skillBases,props.skillFinalBases,props.skillTalentMap,id)+permanentSkillBonus(state.value.realityTalents,state.value.realityTalentChoices,props.talentChoiceSpecs??{},id);}
+function permanentSkill(id:string){return currentSkillRaw(id)+permanentSkillBonus(props.creationTalentIds,props.creationTalentChoices??{},props.talentChoiceSpecs??{},id)+permanentSkillBonus(state.value.realityTalents,state.value.realityTalentChoices,props.talentChoiceSpecs??{},id);}
+const combinedRealityIds=computed(()=>uniqueTalents(props.creationTalentIds,state.value.realityTalents));
+const currentRenown=computed(()=>renownScore(props.creationTalentIds,state.value.realityTalents,Number(props.edge.renownPack||0),props.disadvantages.includes('inconnu'),state.value.renownAdjustment));
+function adjustRenown(delta:number){const target=currentRenown.value+delta;if(target<0||target>5)return;const next=structuredClone(state.value);next.renownAdjustment=target-renownScore(props.creationTalentIds,state.value.realityTalents,Number(props.edge.renownPack||0),props.disadvantages.includes('inconnu'));emitProgression(next);}
+function setLearnedChoices(value:Record<string,unknown>){const next=structuredClone(state.value);next.realityTalentChoices=value;emitProgression(next);}
+function markProfile(used:boolean){const next=structuredClone(state.value);next.profilCalibreUsed=used;emitProgression(next);}
+function talentChoicesValid(id:string){const s=props.talentChoiceSpecs?.[id];if(!s)return true;const value=choiceDrafts.value[id]??state.value.realityTalentChoices[id];if(typeof value!=='string'||!value.trim())return false;if(s.kind==='enum')return !!s.options?.some(o=>o.id===value);if(s.kind==='skill')return props.rules.skills.some(k=>k.id===value&&(!s.skills||s.skills.includes(k.id))&&(!s.skillAttribute||s.skillAttribute===k.attribute)&&(!s.styleSkills||props.style?.skills?.includes(k.id)));return true;}
+function updateBenefitReality(value:Record<string,unknown>){const next=structuredClone(state.value);freezeCampaignCash(next,props.creationAccount);emitProgression(next);emit('update:reality',value);}
 function currentAttribute(id:string){ return campaignAttribute(state.value,props.attributeBases,id); }
 const xpSpentValue=computed(()=>xpSpent(state.value,props.skillBases,props.attributeBases));
 const xpRemainingValue=computed(()=>xpRemaining(state.value,props.skillBases,props.attributeBases));
@@ -150,7 +167,7 @@ function truthCost(id:string){
   return Number(truthById.value.get(id)?.cost||0);
 }
 const corruptionCost=(id:string)=>Number(props.truthRules.corruption.talents.find(t=>t.id===id)?.cost||0);
-const campaignIntegrity=computed(()=>characterDerivedStats(currentAttribute,currentSkillFinal,props.disadvantages).integrity);
+const campaignIntegrity=computed(()=>characterDerivedStats(currentAttribute,permanentSkill,props.disadvantages,currentSkillFinal).integrity);
 const ptvSpentValue=computed(()=>ptvSpent(state.value,truthCost,corruptionCost));
 const ptvRemainingValue=computed(()=>ptvRemaining(
   state.value,
@@ -254,6 +271,8 @@ function realityTalentAllowed(talent:RuleTalent){
   if(creationTalentSet.value.has(talent.id)||learnedTalentSet.value.has(talent.id)){
     return {ok:false,reason:"Déjà acquis"};
   }
+  if(talent.id==='renomme'&&currentRenown.value>=5)return {ok:false,reason:'Renommée déjà à 5 : aucun XP ne sera dépensé.'};
+  if(!talentChoicesValid(talent.id))return {ok:false,reason:'Précisez le choix du Talent avant de dépenser les XP.'};
   if(talent.id==="neurodriver"&&(currentSkillRaw("neurodive")<1||props.disadvantages.includes("unsinkable"))){
     return {ok:false,reason:"Neurodive 1+ requis et incompatible avec Unsinkable"};
   }
@@ -293,12 +312,17 @@ function buyRealityTalent(talent:RuleTalent){
   if(!allowed.ok||xpRemainingValue.value<10)return;
   const next=structuredClone(state.value);
   next.realityTalents.push(talent.id);
+  if(choiceDrafts.value[talent.id]!==undefined)next.realityTalentChoices[talent.id]=choiceDrafts.value[talent.id];
   emitProgression(next);
 }
 function removeRealityTalent(id:string){
   const next=structuredClone(state.value);
+  const affected=realityState.value.equipment.some(p=>p.talentGrant===id)||realityState.value.fixedChargeItems.some(c=>c.talentGrant===id);
+  if(affected&&!window.confirm('Retirer ce Talent et restituer ses prêts/prestations ? Vos achats personnels restent conservés.'))return;
+  freezeCampaignCash(next,props.creationAccount);
   next.realityTalents=next.realityTalents.filter(item=>item!==id);
-  emitProgression(next);
+  const real=structuredClone(realityState.value);pruneBenefits(real,uniqueTalents(props.creationTalentIds,next.realityTalents),props.sphereId);
+  emitProgression(next);emitReality(real);
 }
 function ruleTalentById(id:string){
   for(const talent of props.rules.talents.common)if(talent.id===id)return talent;
@@ -428,7 +452,9 @@ function selectTradeItem(){
 const tradePreview=computed(()=>{
   const list=Math.max(0,Number(tradePrice.value)||0);
   const degree=commerceDegree(tradeDegree.value);
-  return {list,degree,total:Math.round(list*degree.buy)};
+  const troc=combinedRealityIds.value.includes('maitre_du_troc');
+  const supplier=tradeSupplier.value&&props.sphereId==='corporatiste'&&combinedRealityIds.value.includes('acces_fournisseur')&&supplierEligible(tradeItem.value);
+  return {list,degree,troc,supplier,total:purchaseWithTalents(list,degree.buy,troc,supplier)};
 });
 function campaignPurchaseBlockReason(item:RealityItem|null){
   if(!item)return "Choisissez un article";
@@ -463,6 +489,8 @@ function buyCampaignItem(){
     selectedPrice:cost,
     priceConfirmed:true,
     acquiredInCampaign:true,
+    cataloguePrice:list,
+    supplierPurchase:tradePreview.value.supplier,
     campaignCatalogPrice:list,
     campaignCommerceDegree:degree.id,
     ...(item.kind==="augmentation"&&item.generation===2?{gen2System:1}:{})
@@ -478,11 +506,11 @@ const ownedForSale=computed(()=>{
   const rows:Array<{kind:"equipment"|"augmentation";purchase:any;item:RealityItem;key:string}>=[];
   for(const purchase of realityState.value.equipment){
     const item=itemMap.value.get(purchase.itemId);
-    if(item)rows.push({kind:"equipment",purchase,item,key:"equipment:"+purchase.uid});
+    if(item&&saleAllowed(purchase))rows.push({kind:"equipment",purchase,item,key:"equipment:"+purchase.uid});
   }
   for(const purchase of realityState.value.augmentations){
     const item=itemMap.value.get(purchase.itemId);
-    if(item)rows.push({kind:"augmentation",purchase,item,key:"augmentation:"+purchase.uid});
+    if(item&&saleAllowed(purchase))rows.push({kind:"augmentation",purchase,item,key:"augmentation:"+purchase.uid});
   }
   return rows;
 });
@@ -492,17 +520,18 @@ function saleReference(row:typeof saleRow.value){
   const purchase=row.purchase;
   return Math.max(
     0,
-    Number(purchase.campaignCatalogPrice??purchase.selectedPrice??purchasePrice(purchase,row.item))||0
+    Number(purchase.cataloguePrice??purchase.campaignCatalogPrice??purchase.selectedPrice??purchasePrice(purchase,row.item))||0
   );
 }
 const salePreview=computed(()=>{
   const degree=commerceDegree(saleDegree.value);
   const reference=saleReference(saleRow.value);
-  return {degree,reference,total:Math.round(reference*degree.sale)};
+  const troc=combinedRealityIds.value.includes('maitre_du_troc');
+  return {degree,reference,troc,total:saleWithTalents(reference,degree.sale,troc)};
 });
 function sellCampaignItem(){
   const row=saleRow.value;
-  if(!row||!salePreview.value.reference)return;
+  if(!row||!saleAllowed(row.purchase)||!salePreview.value.reference)return;
   if(!window.confirm("Revendre "+row.item.name+" pour "+money(salePreview.value.total)+" ?"))return;
   const progress=structuredClone(state.value);
   const reality=structuredClone(realityState.value);
@@ -532,6 +561,8 @@ function sellCampaignItem(){
       ne modifie jamais rétroactivement les budgets de création.
     </p>
 
+    <section class="progress-panel" data-renown-progression><h3>Renommée · {{ currentRenown }}/5 — {{ renownScale[currentRenown].name }}</h3><p>{{ renownScale[currentRenown].benefit }}</p><p>Évolution de campagne : {{ state.renownAdjustment }}. Les gains se notent séparément du +1 de Renommé ; aucun XP n’est dépensé.</p><div class="action-row"><button type="button" class="ghost compact" :disabled="currentRenown<=0" @click="adjustRenown(-1)">−1 Renommée</button><button type="button" class="secondary compact" :disabled="currentRenown>=5" @click="adjustRenown(1)">+1 Renommée accordée par le MJ</button></div><p class="rule-note">Une fois par scène : une Renommée strictement supérieure auprès d’un interlocuteur non hostile qui reconnaît une réputation pertinente donne une concession modeste. Une réputation pertinente peut apporter +3 ou −3 au test, jamais le score de Renommée ajouté au jet.</p></section>
+    <section v-if="combinedRealityIds.includes('profil_calibre')" class="progress-panel" data-profile-use><h3>Profil calibré · une relance par scénario</h3><p>{{ state.profilCalibreUsed?'Relance déjà utilisée ce scénario.':'Relance disponible, hors échec narratif, pour la Compétence du Style choisie.' }}</p><div class="action-row"><button type="button" class="secondary compact" :disabled="state.profilCalibreUsed" @click="markProfile(true)">Marquer la relance utilisée</button><button type="button" class="ghost compact" @click="markProfile(false)">Nouveau scénario · réinitialiser</button></div></section>
     <section class="pool-grid">
       <div><small>XP reçus</small><strong>{{ state.xpEarned }}</strong><span>depuis la création</span></div>
       <div><small>XP dépensés</small><strong>{{ xpSpentValue }}</strong><span>Compétences, Attributs, Talents</span></div>
@@ -629,6 +660,7 @@ function sellCampaignItem(){
           <button class="ghost danger compact" type="button" @click="removeRealityTalent(id)">Retirer</button>
         </div>
       </div>
+      <TalentChoiceFields :talents="state.realityTalents.map(id=>({id,name:ruleTalentById(id)?.name||id}))" :specs="talentChoiceSpecs??{}" :choices="state.realityTalentChoices" :skills="rules.skills" :style-skills="style?.skills" @update:choices="setLearnedChoices" />
       <p class="catalog-sort-hint">Talents illustrés par famille, classés par ordre alphabétique.</p>
       <p v-if="!realityTalentGroups.length" class="rule-note">Tous les Talents accessibles ont déjà été acquis.</p>
       <details v-for="group in realityTalentGroups" :key="group.label" class="talent-group reality-talent-family" :open="group.label==='Talents communs'">
@@ -639,6 +671,7 @@ function sellCampaignItem(){
             <strong>{{ talent.name }}</strong>
             <p>{{ talent.effect || "—" }}</p>
             <details v-if="talentLore?.[talent.id]" class="talent-lore"><summary>Contexte et lore</summary><p>{{ talentLore[talent.id] }}</p></details>
+            <TalentChoiceFields :talents="[talent]" :specs="talentChoiceSpecs??{}" :choices="choiceDrafts" :skills="rules.skills" :style-skills="style?.skills" @update:choices="choiceDrafts=$event" />
             <small v-if="!realityTalentAllowed(talent).ok">{{ realityTalentAllowed(talent).reason }}</small>
             <button class="primary compact" type="button" :disabled="!realityTalentAllowed(talent).ok||xpRemainingValue<10" @click="buyRealityTalent(talent)">Apprendre · 10 XP</button>
           </article>
@@ -691,6 +724,7 @@ function sellCampaignItem(){
       <TruthEquipmentPanel :model-value="combinedTruthState" :rules="truthRules" @update:model-value="updateCampaignEquipment" />
     </section>
 
+    <RealityBenefitsPanel :model-value="reality" :rules="realityRules" :talent-ids="combinedRealityIds" :sphere-id="sphereId" :disadvantages="disadvantages" campaign @update:model-value="updateBenefitReality" />
     <details class="progress-panel campaign-money" open>
       <summary><strong>Argent &amp; possessions de campagne</strong><span>{{ money(cashValue) }}</span></summary>
       <p class="rule-note">Le premier mouvement fige le solde issu de la création. Les achats de campagne ne consomment jamais rétroactivement les enveloppes initiales.</p>
@@ -711,10 +745,12 @@ function sellCampaignItem(){
           <label>Prix catalogue retenu<input v-model="tradePrice" type="number" min="0" step="25" /></label>
           <label>Jet de Commerce<select v-model.number="tradeDegree"><option v-for="degree in commerceDegrees" :key="degree.id" :value="degree.id">{{ degree.label }}</option></select></label>
         </div>
+        <label v-if="sphereId==='corporatiste'&&combinedRealityIds.includes('acces_fournisseur')&&supplierEligible(tradeItem)" class="rule-note"><input v-model="tradeSupplier" type="checkbox" /> Commande à ma corporation ou à un partenaire autorisé · Accès fournisseur −10 %</label>
         <div v-if="tradeItem" class="trade-preview">
           <BuilderCatalogImage :article-id="tradeItem.compendiumId" :name="tradeItem.name" :generation="tradeItem.generation" category="Équipement & Objets" />
           <span>Référence <strong>{{ money(tradePreview.list) }}</strong></span>
           <span>Commerce <strong>{{ tradePreview.degree.id===0 ? "sans jet" : tradePreview.degree.delta+" %" }}</strong></span>
+          <span v-if="tradePreview.troc">Maître du Troc <strong>−5 %</strong></span><span v-if="tradePreview.supplier">Accès fournisseur <strong>−10 %</strong></span>
           <span>À payer <strong>{{ money(tradePreview.total) }}</strong></span>
           <p>{{ tradeItem.effect || tradeItem.lore }}</p>
           <BuilderWikiLink
@@ -741,6 +777,7 @@ function sellCampaignItem(){
         <div v-if="saleRow" class="trade-preview">
           <span>Référence neuf <strong>{{ money(salePreview.reference) }}</strong></span>
           <span>Taux <strong>{{ Math.round(salePreview.degree.sale*100) }} %</strong></span>
+          <span v-if="salePreview.troc">Maître du Troc <strong>+5 % de la base de reprise (50 % du neuf)</strong></span>
           <span>À récupérer <strong>{{ money(salePreview.total) }}</strong></span>
           <button class="ghost danger compact" type="button" :disabled="!salePreview.reference" @click="sellCampaignItem">Revendre</button>
         </div>
