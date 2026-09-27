@@ -420,7 +420,8 @@ export async function registerCharacterRoutes(app: FastifyInstance) {
          revision,
          name,
          reason,
-         created_at::text AS "createdAt"
+         created_at::text AS "createdAt",
+         data->'progression' AS progression
        FROM character_revisions
        WHERE character_id = $1
        ORDER BY revision DESC
@@ -428,7 +429,14 @@ export async function registerCharacterRoutes(app: FastifyInstance) {
       [request.params.id]
     );
 
-    return { revisions: result.rows };
+    return { revisions: result.rows.map(({ progression, ...row }: {
+      progression: { xpEarned?: number; ptvEarned?: number } | null;
+      [key: string]: unknown;
+    }) => ({
+      ...row,
+      xpEarned: Number(progression?.xpEarned) || 0,
+      ptvEarned: Number(progression?.ptvEarned) || 0
+    })) };
   });
 
   app.post<{

@@ -41,9 +41,10 @@ await page.route('**/api/**',async route=>{
  else if(path.endsWith('/accounts'))body={accounts:[{id:pid,displayName:'Camille'}]};
  else if(path.endsWith('/calendar-invitations')){assert.equal(req.postDataJSON().version,session.version);assert.equal(session.title,'Rendez-vous calendrier');assert.ok(session.startsAt.endsWith('Z'));body={sent:1,alreadySent:0,failed:0,uncertain:0,total:1};}
  else if(path.endsWith('/invitations')){assert.equal(req.postDataJSON().userId,pid);invited=true;code=201;body={ok:true};}
- else if(path.endsWith('/membership')){admissionStatus='pending';status='accepted';attached=req.postDataJSON().characterId;body={ok:true};}
+ else if(path.endsWith('/membership')){if(status==='invited'){assert.equal(req.postDataJSON().sourceRevision,1);assert.equal(req.postDataJSON().sourceVersion,1);}admissionStatus='pending';status='accepted';attached=req.postDataJSON().characterId;body={ok:true};}
  else if(path.includes('/members/')&&method==='DELETE'){invited=false;body={ok:true};}
- else if(path==='/api/characters')body={characters:[{id:chid,name:'Alexandra'}]};
+ else if(path==='/api/characters')body={characters:[{id:chid,name:'Alexandra',version:1}]};
+ else if(path===`/api/characters/${chid}/revisions`&&method==='GET')body={revisions:[{revision:1,createdAt:'2026-09-25T00:00:00Z',reason:'created',xpEarned:0,ptvEarned:0}]};
  else{throw new Error('Unexpected API '+method+' '+path);}
  await route.fulfill({status:code,json:body});
 });
@@ -74,6 +75,7 @@ try{
  assert.equal(await page.getByText('Nouvelles notes privées',{exact:true}).count(),0);
  assert.equal(await page.getByRole('button',{name:'Notes et paramètres'}).count(),0);
  await page.getByRole('combobox',{name:/^Personnage/}).selectOption(chid);
+ await page.getByRole('combobox',{name:'Version à proposer'}).selectOption('1');
  await page.getByRole('button',{name:'Accepter l’invitation'}).click();
  await page.getByRole('link',{name:'Ouvrir la fiche →'}).waitFor();
  assert.match(await page.getByRole('link',{name:'Ouvrir la fiche →'}).getAttribute('href'),/campaign=/);
