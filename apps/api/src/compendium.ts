@@ -576,13 +576,12 @@ function articleForAudience(article: Article, includeMj: boolean): Article {
   if (!includeMj) {
     const isPrivatePortrait = (media: unknown) =>
       (media as JsonObject | null)?.portraitVisibility === "mj" ||
-      (portraitVisibilityBySrc.get(String(typeof media === "string" ? media : (media as JsonObject | null)?.src ?? "")) === "mj") ||
+      (portraitVisibilityBySrc.get(portraitSourceKey(media)) === "mj") ||
       ((media as JsonObject | null)?.portraitVisibility !== "public" &&
-       portraitVisibilityBySrc.get(String(typeof media === "string" ? media : (media as JsonObject | null)?.src ?? "")) !== "public" &&
+       portraitVisibilityBySrc.get(portraitSourceKey(media)) !== "public" &&
        /(?:^|\/)images\/portraits\/lot-[^/]+\/mj\//.test(String(typeof media === "string" ? media : (media as JsonObject | null)?.src ?? "")));
     const publicPortrait = result.gallery?.find((media: JsonObject) =>
-      media?.portraitVisibility === "public" ||
-      (media?.portraitVisibility !== "mj" && /(?:^|\/)images\/portraits\/lot-[^/]+\/public\//.test(String(media?.src ?? "")))) as JsonObject | undefined;
+      media?.src && !isPrivatePortrait(media)) as JsonObject | undefined;
     if (isPrivatePortrait(result.image)) {
       if (publicPortrait) result.image = publicPortrait;
       else delete result.image;
@@ -807,6 +806,10 @@ function mediaSource(media: unknown): string {
   if (typeof media === "string") return media.trim();
   if (media && typeof media === "object") return String((media as JsonObject).src ?? "").trim();
   return "";
+}
+
+function portraitSourceKey(media: unknown): string {
+  return mediaSource(media).replace(/^\/?compendium\//, "").replace(/^\/api\/compendium\/media\//, "");
 }
 
 function isPlaceholderMedia(media: unknown): boolean {
@@ -3783,7 +3786,7 @@ async function loadCorpus(): Promise<Corpus> {
 
     for (const override of overrideByArticle.get(article.id) ?? []) {
       const media = [article.image, article.illustration, ...(article.gallery ?? [])]
-        .find((candidate: JsonObject | undefined) => candidate?.src === override.src);
+        .find((candidate: JsonObject | undefined) => portraitSourceKey(candidate) === override.src);
       if (media) media.portraitVisibility = override.visibility;
       else if (override.uploaded) article.gallery = [...(article.gallery ?? []), {
         src: override.src, alt: article.title ?? article.id, portraitVisibility: override.visibility
@@ -3979,12 +3982,26 @@ async function loadCorpus(): Promise<Corpus> {
     navigation.delete(articleId);
     retiredIds.add(articleId);
   }
+  // The original external image host cannot enforce our MJ permissions.
+  // Serve these historical PNJ portraits from our own protected media route.
+  const legacyPortraits = JSON.parse(await readFile(
+    resolve(COMPENDIUM_MEDIA_DIR, "source/portrait-legacy-mirrors-v1.json"), "utf8"
+  )) as { items: Array<{ source: string; src: string }> };
+  const localPortraits = new Map(legacyPortraits.items.map(({ source, src }) => [source, src]));
+  for (const article of byId.values()) {
+    if (article.category !== "Personnages") continue;
+    for (const media of [article.image, article.illustration, ...(article.gallery ?? [])]) {
+      if (media?.src && localPortraits.has(media.src)) media.src = localPortraits.get(media.src)!;
+    }
+    const portrait = article.pnj?.portrait;
+    if (portrait && localPortraits.has(portrait)) article.pnj!.portrait = localPortraits.get(portrait)!;
+  }
   // Published wiki edits can replace article media after the initial manifest pass.
   // Apply admin decisions again before deriving the public corpus.
   for (const article of byId.values()) {
     for (const override of overrideByArticle.get(article.id) ?? []) {
       const media = [article.image, article.illustration, ...(article.gallery ?? [])]
-        .find((candidate: JsonObject | undefined) => candidate?.src === override.src);
+        .find((candidate: JsonObject | undefined) => portraitSourceKey(candidate) === override.src);
       if (media) media.portraitVisibility = override.visibility;
       else if (override.uploaded) article.gallery = [...(article.gallery ?? []), {
         src: override.src, alt: article.title ?? article.id, portraitVisibility: override.visibility
@@ -4839,7 +4856,9 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
     if (!relative) return bad(reply, "invalid_compendium_media_path");
     const isPortraitManifest = relative === "images/portraits/manifest.json";
     const isMjPortrait = /^images\/portraits\/lot-[^/]+\/mj\//.test(relative);
-    const overrides = isPortraitManifest || relative.startsWith("images/portraits/") ? await portraitOverrides() : [];
+    // Editorial and imported portraits can live outside the portrait lots.
+    // Check every media path against administrator decisions before serving it.
+    const overrides = await portraitOverrides();
     const matches = overrides.filter((row) => row.src === relative);
     const isPrivate = matches.length ? matches.some((row) => row.visibility === "mj") : isMjPortrait;
     const user = isPortraitManifest || isPrivate ? await currentUser(request) : null;

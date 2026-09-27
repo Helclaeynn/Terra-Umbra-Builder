@@ -35,16 +35,28 @@ async function portraitManifest() {
     .then((content) => JSON.parse(content) as Record<string, { items?: Array<{ id: string; src: string; visibility: string }> }>)
     .catch(() => ({} as Record<string, { items?: Array<{ id: string; src: string; visibility: string }> }>));
 }
-function portraitsFor(articleId: string, rows: PortraitRow[], manifest: Awaited<ReturnType<typeof portraitManifest>>) {
-  const overrides = rows.filter((row) => row.articleId === articleId);
-  const portraits = Object.entries(manifest).flatMap(([lot, group]) =>
-    (group.items ?? []).filter((item) => item.id === articleId).map((item) => ({
-      lot, media: item.src,
-      visibility: overrides.find((row) => row.src === item.src)?.visibility ?? item.visibility
-    })));
-  for (const row of overrides.filter((entry) => entry.uploaded))
-    portraits.push({ lot: "ajout", media: row.src, visibility: row.visibility });
-  return portraits;
+type Portrait = { lot: string; media: string; visibility: "mj" | "public" };
+function portraitSource(value: unknown): string {
+  return mediaSource(value).replace(/^\/?compendium\//, "").replace(/^\/api\/compendium\/media\//, "");
+}
+function portraitsFor(article: Article, rows: PortraitRow[], manifest: Awaited<ReturnType<typeof portraitManifest>>): Portrait[] {
+  const overrides = rows.filter((row) => row.articleId === article.id);
+  const found = new Map<string, Portrait>();
+  const add = (media: string, lot: string, original?: string) => {
+    const src = portraitSource(media);
+    if (!src || found.has(src) || /^(?:https?:|data:|blob:)/i.test(src)) return;
+    const decision = overrides.find((row) => row.src === src)?.visibility;
+    const visibility = decision ?? (original === "mj" || original === "public" ? original
+      : /(?:^|\/)images\/portraits\/lot-[^/]+\/mj\//.test(src) ? "mj" : "public");
+    found.set(src, { lot, media: src, visibility });
+  };
+  for (const media of [article.illustration, article.image, article.pnj?.portrait, ...(article.gallery ?? [])]) {
+    add(portraitSource(media), "fiche", typeof media === "object" && media !== null ? (media as JsonObject).portraitVisibility : undefined);
+  }
+  for (const [lot, group] of Object.entries(manifest))
+    for (const item of group.items ?? []) if (item.id === article.id) add(item.src, lot, item.visibility);
+  for (const row of overrides.filter((entry) => entry.uploaded)) add(row.src, "ajout", row.visibility);
+  return [...found.values()];
 }
 
 function bad(reply: FastifyReply, error: string) {
@@ -298,7 +310,7 @@ export async function registerQualityRoutes(app: FastifyInstance) {
     if (!await requireAdmin(request, reply)) return;
     const article = (await getCompendiumQualityCorpus()).articles.find((item) => item.id === request.params.id && item.category === "Personnages");
     if (!article) return reply.code(404).send({ error: "compendium_article_not_found" });
-    return { portraits: portraitsFor(article.id, await portraitRows(), await portraitManifest()) };
+    return { portraits: portraitsFor(article, await portraitRows(), await portraitManifest()) };
   });
 
   app.patch<{ Params: { id: string }; Body: { src?: string; visibility?: string } }>(
@@ -307,12 +319,12 @@ export async function registerQualityRoutes(app: FastifyInstance) {
       if (!admin) return;
       const article = (await getCompendiumQualityCorpus()).articles.find((item) => item.id === request.params.id && item.category === "Personnages");
       if (!article) return reply.code(404).send({ error: "compendium_article_not_found" });
-      const src = String(request.body?.src ?? "");
+      const src = portraitSource(request.body?.src);
       const visibility = request.body?.visibility;
       if (visibility !== "mj" && visibility !== "public") return bad(reply, "invalid_portrait_visibility");
       const manifest = await portraitManifest();
       const rows = await portraitRows();
-      if (!portraitsFor(article.id, rows, manifest).some((portrait) => portrait.media === src)) return bad(reply, "unknown_article_portrait");
+      if (!portraitsFor(article, rows, manifest).some((portrait) => portrait.media === src)) return bad(reply, "unknown_article_portrait");
       const uploaded = rows.some((row) => row.articleId === article.id && row.src === src && row.uploaded);
       await pool.query(
         `INSERT INTO compendium_portrait_visibility (article_id,src,visibility,uploaded,updated_by)
@@ -321,7 +333,7 @@ export async function registerQualityRoutes(app: FastifyInstance) {
         [article.id, src, visibility, uploaded, admin.id]
       );
       invalidateCompendiumCorpus();
-      return { portraits: portraitsFor(article.id, await portraitRows(), manifest) };
+      return { portraits: portraitsFor(article, await portraitRows(), manifest) };
     }
   );
 
@@ -350,7 +362,7 @@ export async function registerQualityRoutes(app: FastifyInstance) {
         [article.id,src,visibility,admin.id]
       );
       invalidateCompendiumCorpus();
-      return reply.code(201).send({ portraits: portraitsFor(article.id, await portraitRows(), await portraitManifest()) });
+      return reply.code(201).send({ portraits: portraitsFor(article, await portraitRows(), await portraitManifest()) });
     }
   );
 
@@ -361,12 +373,6 @@ export async function registerQualityRoutes(app: FastifyInstance) {
     const corpus = await getCompendiumQualityCorpus();
     const articles = corpus.articles.filter((article) => article.category !== "OLD");
     const [portraitLots, portraitOverrides] = await Promise.all([portraitManifest(), portraitRows()]);
-    const portraits = new Map<string, Array<{ lot: string; media: string; visibility: string }>>();
-    for (const [lot, group] of Object.entries(portraitLots)) {
-      for (const portrait of group.items ?? []) portraits.set(portrait.id, [...(portraits.get(portrait.id) ?? []), { lot, media: portrait.src, visibility: portraitOverrides.find((row) => row.articleId === portrait.id && row.src === portrait.src)?.visibility ?? portrait.visibility }]);
-    }
-    for (const row of portraitOverrides.filter((entry) => entry.uploaded))
-      portraits.set(row.articleId, [...(portraits.get(row.articleId) ?? []), { lot: "ajout", media: row.src, visibility: row.visibility }]);
     const ids = articles.map((article) => article.id);
     const idSet = new Set(ids);
     const articleById = new Map(articles.map((article) => [article.id, article]));
@@ -416,7 +422,7 @@ export async function registerQualityRoutes(app: FastifyInstance) {
         subgroup: navigation?.subgroup ?? "",
         source: article.source ?? "",
         media: primaryMedia(article),
-        portraits: portraits.get(article.id) ?? [],
+        portraits: isPnj(article) ? portraitsFor(article, portraitOverrides, portraitLots) : [],
         issues,
         firstSeenAt: review.firstSeenAt ?? null,
         reviewStatus: review.reviewStatus ?? "pending",
