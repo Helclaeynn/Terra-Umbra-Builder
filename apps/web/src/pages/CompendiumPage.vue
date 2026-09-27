@@ -2477,7 +2477,7 @@ onBeforeUnmount(() => {
                 <aside class="wiki-infobox">
                   <details v-if="currentUser?.role === 'admin' && selected.category === 'Personnages'" class="portrait-settings" @toggle="portraitSettingsOpen = ($event.target as HTMLDetailsElement).open">
                     <summary>Régler les portraits · MJ only / All</summary>
-                    <PortraitAdmin v-if="portraitSettingsOpen" :article-id="selected.id" @change="() => { void refreshSelectedPortraits() }" />
+                    <PortraitAdmin v-if="portraitSettingsOpen" :key="selected.id" :article-id="selected.id" @change="() => { void refreshSelectedPortraits() }" />
                   </details>
                   <figure v-if="selectedMedia" class="wiki-media">
                     <img
