@@ -6,7 +6,7 @@ on:
 permissions:
   contents: read
 concurrency:
-  group: tuc-v2-dev
+  group: tuc-v2-prod-instant-recipe
   cancel-in-progress: false
 jobs:
   verify:
