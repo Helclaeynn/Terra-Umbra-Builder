@@ -1,0 +1,82 @@
+name: V2 production Reality talents - verified image retry
+on:
+  push:
+    branches: [feature/tuc-web-v2]
+    paths: [.github/workflows/v2-production-reality-talents-retry.yml]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: tuc-v2-production
+  cancel-in-progress: false
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment: tuc-dev
+    env:
+      SOURCE_SHA: e396fab2b60ce4af477b98cd6f1186dc3fc723d3
+      TUC_DEV_HOST: ${{ secrets.TUC_DEV_HOST }}
+      TUC_DEV_USER: ${{ secrets.TUC_DEV_USER }}
+      TUC_DEV_SSH_KEY: ${{ secrets.TUC_DEV_SSH_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Verify successful build provenance and unchanged application source
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          api="https://api.github.com/repos/$GITHUB_REPOSITORY"
+          curl -fsS -H "Authorization: Bearer $GH_TOKEN" "$api/actions/runs/36350511341" > /tmp/tested-run.json
+          curl -fsS -H "Authorization: Bearer $GH_TOKEN" "$api/actions/runs/36350511341/jobs" > /tmp/tested-jobs.json
+          curl -fsS -H "Authorization: Bearer $GH_TOKEN" "$api/compare/$SOURCE_SHA...$GITHUB_SHA" > /tmp/source-diff.json
+          node --input-type=module <<'NODE'
+          import assert from 'node:assert/strict';
+          import {readFileSync} from 'node:fs';
+          const read=p=>JSON.parse(readFileSync(p,'utf8'));
+          assert.equal(read('/tmp/tested-run.json').head_sha,process.env.SOURCE_SHA);
+          assert.ok(read('/tmp/tested-jobs.json').jobs.some(j=>j.name==='verify-and-build'&&j.conclusion==='success'));
+          const files=read('/tmp/source-diff.json').files;
+          assert.ok(Array.isArray(files)&&files.length<300);
+          assert.ok(files.every(f=>f.filename.startsWith('.github/workflows/')||f.filename==='infrastructure/production/release-reality-talents.sh'),'Only deployment checks may differ from tested images');
+          console.log('VERIFIED IMAGE REUSE — full API, SQL, UI, exports, browser and Docker checks already passed for the exact application source');
+          NODE
+          bash -n infrastructure/production/release-reality-talents.sh
+      - name: Retry staged production images with backup and corrected live checks
+        shell: bash
+        run: |
+          set -euo pipefail
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$TUC_DEV_SSH_KEY" > ~/.ssh/tuc_prod
+          chmod 600 ~/.ssh/tuc_prod
+          ssh-keyscan -H "$TUC_DEV_HOST" >> ~/.ssh/known_hosts
+          { printf '{\n'; cat infrastructure/production/release-reality-talents.sh; printf '\n}\n'; } | ssh -i ~/.ssh/tuc_prod -o IdentitiesOnly=yes "$TUC_DEV_USER@$TUC_DEV_HOST" bash -s -- "$SOURCE_SHA"
+      - name: Browser verification on public production assets with isolated API data
+        id: live
+        continue-on-error: true
+        working-directory: apps/web
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm ci
+          npm install --no-save --package-lock=false playwright-core@1.55.0
+          export CHROME_BIN="$(command -v google-chrome || command -v chromium)"
+          export TUC_V2_SMOKE_BASE_URL=https://terra-umbra.fr
+          # Every API request is intercepted by this test; no real account or character is written.
+          node tests/builder-v2-smoke.mjs
+      - name: Restore previous application if live browser verification fails
+        if: steps.live.outcome == 'failure'
+        shell: bash
+        run: |
+          set -euo pipefail
+          { printf '{\n'; cat infrastructure/production/release-reality-talents.sh; printf '\n}\n'; } | ssh -i ~/.ssh/tuc_prod -o IdentitiesOnly=yes "$TUC_DEV_USER@$TUC_DEV_HOST" bash -s -- "$SOURCE_SHA" rollback
+          exit 1
+      - name: Remove ephemeral SSH key
+        if: always()
+        run: rm -f ~/.ssh/tuc_prod
