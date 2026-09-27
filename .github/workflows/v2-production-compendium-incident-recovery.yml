@@ -1,0 +1,66 @@
+name: V2 production Compendium incident recovery
+on:
+  push:
+    branches: [feature/tuc-web-v2]
+    paths: [.github/workflows/v2-production-compendium-incident-recovery.yml]
+permissions:
+  contents: read
+concurrency:
+  group: tuc-v2-prod-compendium-recovery
+  cancel-in-progress: false
+jobs:
+  recover:
+    runs-on: ubuntu-latest
+    environment: tuc-dev
+    timeout-minutes: 20
+    env:
+      TUC_DEV_HOST: ${{ secrets.TUC_DEV_HOST }}
+      TUC_DEV_USER: ${{ secrets.TUC_DEV_USER }}
+      TUC_DEV_SSH_KEY: ${{ secrets.TUC_DEV_SSH_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - name: Confirm PNJ image edit does not duplicate statistics
+        run: |
+          set -euo pipefail
+          cd apps/api
+          npm ci
+          npm run build
+          node scripts/check-published-pnj-image-edit.mjs
+      - name: Back up and recover Compendium API
+        shell: bash
+        run: |
+          set -euo pipefail
+          install -m 700 -d ~/.ssh
+          trap 'rm -f ~/.ssh/tuc_prod' EXIT
+          printf '%s\n' "$TUC_DEV_SSH_KEY" > ~/.ssh/tuc_prod
+          chmod 600 ~/.ssh/tuc_prod
+          ssh-keyscan -H "$TUC_DEV_HOST" >> ~/.ssh/known_hosts
+          SSH="ssh -i ~/.ssh/tuc_prod -o IdentitiesOnly=yes"
+          $SSH "$TUC_DEV_USER@$TUC_DEV_HOST" 'test -f /opt/terra-umbra/production-active && test -f /opt/terra-umbra/infrastructure/.env'
+          rsync -az -e "$SSH" apps/api/src/compendium-pnj-corporate-stats.ts "$TUC_DEV_USER@$TUC_DEV_HOST:/opt/terra-umbra/apps/api/src/"
+          $SSH "$TUC_DEV_USER@$TUC_DEV_HOST" <<'REMOTE'
+          {
+            set -euo pipefail
+            cd /opt/terra-umbra/infrastructure
+            bash production/backup.sh
+            docker tag tuc-v2-api tuc-v2-api:before-compendium-recovery
+            docker compose build api
+            docker compose up -d --no-deps api
+            ready=false
+            for attempt in $(seq 1 30); do
+              if curl --fail --silent --show-error --max-time 10 https://terra-umbra.fr/api/compendium/meta >/dev/null; then
+                ready=true
+                break
+              fi
+              sleep 5
+            done
+            [ "$ready" = true ]
+            for path in /api/compendium/wiki-index?compact=1 /api/compendium/articles/pnj-truth-yun; do
+              curl --fail --silent --show-error --max-time 15 "https://terra-umbra.fr$path" >/dev/null
+            done
+            echo 'COMPENDIUM RECOVERED — meta, wiki index and public PNJ respond'
+          }
+          REMOTE
