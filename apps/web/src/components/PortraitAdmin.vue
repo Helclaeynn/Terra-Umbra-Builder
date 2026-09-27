@@ -3,7 +3,7 @@ import { ref, watch } from "vue";
 import { api } from "../lib/api";
 
 type Portrait = { lot: string; media: string; visibility: "mj" | "public" };
-const props = defineProps<{ articleId: string }>();
+const props = defineProps<{ articleId: string; initialPortraits?: Portrait[] }>();
 const portraits = ref<Portrait[]>([]);
 const busy = ref(false);
 const loading = ref(true);
@@ -15,9 +15,10 @@ const endpoint = () => `/api/admin/compendium-quality/${encodeURIComponent(props
 watch(() => props.articleId, async (_id, _previous, onCleanup) => {
   let active = true;
   onCleanup(() => { active = false; });
-  portraits.value = [];
-  loading.value = true;
+  portraits.value = props.initialPortraits ? [...props.initialPortraits] : [];
+  loading.value = !props.initialPortraits;
   error.value = "";
+  if (props.initialPortraits) return;
   try {
     const result = await api<{ portraits: Portrait[] }>(endpoint());
     if (active) portraits.value = result.portraits;

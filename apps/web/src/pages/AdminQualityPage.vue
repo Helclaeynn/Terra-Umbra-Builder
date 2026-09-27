@@ -17,7 +17,7 @@ type QualityItem = {
   subgroup: string;
   source: string;
   media: unknown;
-  portraits: Array<{ lot: string; media: string; visibility: string }>;
+  portraits: Array<{ lot: string; media: string; visibility: "mj" | "public" }>;
   issues: Issue[];
   firstSeenAt: string | null;
   reviewStatus: ReviewStatus;
@@ -465,7 +465,7 @@ onMounted(load);
                   <td class="action-cell" data-label="Actions">
                     <a :href="'/compendium?article=' + encodeURIComponent(item.id)" target="_blank" rel="noopener" :aria-label="`Voir ${item.title} (nouvel onglet)`">Voir ↗</a>
                     <a :href="'/compendium/edit/' + encodeURIComponent(item.id)" target="_blank" rel="noopener" :aria-label="`Éditer ${item.title} (nouvel onglet)`">Éditer ↗</a>
-                    <details v-if="item.category === 'Personnages'" class="portrait-details" @toggle="togglePortraits(item.id, $event)"><summary>Portraits · MJ only / All</summary><PortraitAdmin v-if="openedPortraits.includes(item.id)" :key="item.id" :article-id="item.id" @change="(portraits) => updatePortraits(item, portraits)" /></details>
+                    <details v-if="item.category === 'Personnages'" class="portrait-details" @toggle="togglePortraits(item.id, $event)"><summary>Portraits · MJ only / All</summary><PortraitAdmin v-if="openedPortraits.includes(item.id)" :key="item.id" :article-id="item.id" :initial-portraits="item.portraits" @change="(portraits) => updatePortraits(item, portraits)" /></details>
                     <button type="button" :disabled="Boolean(busyId)" @click="setReview(item, 'approved')">Valider</button>
                     <button type="button" class="warn" :disabled="Boolean(busyId)" @click="setReview(item, 'rework')">À revoir</button>
                     <button v-if="item.reviewStatus !== 'pending'" type="button" class="ghost-action" :disabled="Boolean(busyId)" @click="setReview(item, 'pending')">Repasser en recette</button>
