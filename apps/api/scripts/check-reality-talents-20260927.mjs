@@ -1,0 +1,55 @@
+import assert from 'node:assert/strict';
+import {terraUmbraCreationRules as before} from '../dist/rules/terra-umbra-creation-base.js';
+import {terraUmbraCreationRules as after} from '../dist/rules/terra-umbra-creation.js';
+import {terraUmbraCreationLore as lore} from '../dist/rules/terra-umbra-creation-lore.js';
+import {realityTalentRevision,REALITY_TALENT_XP_COST} from '../dist/rules/reality-talents-revision.js';
+import {renownScore,protectionRenown,modestRenownConcession,renownScale} from '../dist/rules/renown-rules.js';
+import {purchaseWithTalents,saleWithTalents,dailyRecovery,injuryStress,omertaBonus} from '../dist/rules/reality-talents-policy.js';
+import {COMPENDIUM_MOTEUR_V4_ARTICLES} from '../dist/compendium-moteur-v4.js';
+const rows=rules=>[...Object.values(rules.talents.origin).flat(),...Object.values(rules.talents.sphere).flat(),...rules.talents.common,...rules.talents.expertise];
+const old=new Map(rows(before).map(t=>[t.id,t]));
+const all=rows(after);
+assert.equal(all.length,122);
+assert.equal(new Set(all.map(t=>t.id)).size,122);
+assert.equal(Object.keys(realityTalentRevision).length,55);
+assert.equal(REALITY_TALENT_XP_COST,10);
+let revised=0,unchanged=0;
+for(const talent of all){
+  const previous=old.get(talent.id);
+  assert.ok(previous,`Stable ID missing: ${talent.id}`);
+  assert.deepEqual({...talent,effect:''},{...previous,effect:''},`Acquisition metadata changed: ${talent.id}`);
+  const revision=realityTalentRevision[talent.id];
+  if(revision){
+    revised++;
+    assert.equal(talent.effect,revision.effect);
+    const pool=talent.category==='origin'?lore.originTalent:talent.category==='sphere'?lore.sphereTalent:lore.talent;
+    assert.equal(pool[talent.id],revision.lore);
+  }else{unchanged++;assert.deepEqual(talent,previous);}
+}
+assert.equal(revised,55);assert.equal(unchanged,67);
+assert.match(realityTalentRevision.profil_calibre.effect,/Une fois par scénario/);
+assert.doesNotMatch(realityTalentRevision.profil_calibre.effect,/Une fois par scène/);
+assert.match(realityTalentRevision.dans_le_coup.effect,/sans quota de questions/);
+assert.doesNotMatch(realityTalentRevision.dans_le_coup.effect,/trois questions/);
+assert.match(realityTalentRevision.fier_heritier.effect,/minimum Confortable/);
+assert.match(realityTalentRevision.sante_de_fer.effect,/2 PV supplémentaires/);
+assert.match(realityTalentRevision.reflexes_defensifs.effect,/même en étant surpris/);
+assert.match(realityTalentRevision.ambidextre.effect,/chacun avec −3/);
+assert.match(realityTalentRevision.tireur_de_precision.effect,/Une fois par round/);
+assert.equal(renownScale.length,6);
+assert.equal(renownScore([],['renomme'],0,false,2),4);
+assert.equal(renownScore(['renomme'],['renomme'],0,false),2);
+assert.equal(renownScore([],[],0,false,10),5);
+assert.equal(protectionRenown(1,3),3);
+assert.equal(modestRenownConcession(3,3,true,true,true),false);
+assert.equal(modestRenownConcession(3,2,true,true,true),true);
+assert.equal(purchaseWithTalents(1000,.90,true,true),750);
+assert.equal(purchaseWithTalents(1000,1,true,false),950);
+assert.equal(saleWithTalents(1000,.55,true),575);
+assert.equal(dailyRecovery(3,false,true),5);assert.equal(dailyRecovery(3,true,true),8);
+assert.equal(injuryStress(2,10,true),1);assert.equal(injuryStress(5,10,true),0);
+assert.equal(omertaBonus(true,true,true,true),4);assert.equal(omertaBonus(true,true,false,true),2);
+const article=COMPENDIUM_MOTEUR_V4_ARTICLES.find(a=>a.id==='regles-profil-valeurs-derivees-statut');
+assert.ok(article);
+for(const id of ['renommee','renommee-reputation','faire-valoir-son-nom','protection-et-renommee','progression-renommee'])assert.equal(article.sections.filter(s=>s.id===id).length,1);
+console.log('REALITY TALENTS OK — 55 approved revisions, 67 untouched, 122 stable IDs, acquisition preserved, renown, recovery, Omerta, trading arithmetic');

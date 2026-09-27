@@ -4,6 +4,7 @@ COPY apps/api/package.json apps/api/package-lock.json ./
 RUN npm ci
 COPY apps/api/tsconfig.json ./
 COPY apps/api/src ./src
+COPY apps/api/scripts/check-reality-talents-20260927.mjs ./scripts/check-reality-talents-20260927.mjs
 RUN npm run build
 
 FROM node:24-alpine AS runtime
