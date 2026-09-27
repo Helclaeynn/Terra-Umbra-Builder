@@ -1,0 +1,151 @@
+name: V2 production approved Reality talents release
+on:
+  push:
+    branches: [feature/tuc-web-v2]
+    paths: [.github/workflows/v2-production-reality-talents-release.yml]
+permissions:
+  contents: read
+concurrency:
+  group: tuc-v2-production
+  cancel-in-progress: false
+jobs:
+  verify-and-build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: tuc
+          POSTGRES_PASSWORD: ci-only-placeholder
+          POSTGRES_DB: tuc_sheet_test
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U tuc -d tuc_sheet_test"
+          --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      DATABASE_URL: postgres://tuc:ci-only-placeholder@127.0.0.1:5432/tuc_sheet_test
+      TUC_SHEET_SMOKE: ci
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: API and canonical rule checks
+        working-directory: apps/api
+        run: |
+          npm ci
+          npm run build
+          node scripts/check-api-container-assets.mjs
+          node scripts/check-reviewed-rule-taxonomy.mjs
+          node scripts/check-portrait-admin-all.mjs
+          node scripts/check-portrait-visibility.mjs
+      - name: Real persistence and authorization on disposable PostgreSQL
+        working-directory: apps/api
+        run: |
+          node --input-type=module <<'NODE'
+          import {readFile,readdir} from 'node:fs/promises';
+          import {pool} from './dist/db.js';
+          for(const n of (await readdir('../../infrastructure/migrations')).filter(n=>n.endsWith('.sql')).sort())await pool.query(await readFile('../../infrastructure/migrations/'+n,'utf8'));
+          await pool.end();
+          NODE
+          node scripts/check-reality-benefits-persistence.mjs
+          node scripts/check-character-sheet-access.mjs
+      - name: Build and complete UI regressions
+        working-directory: apps/web
+        run: |
+          npm ci
+          mkdir -p public
+          node --input-type=module -e "import {writeFileSync} from 'node:fs';writeFileSync('public/build-info.json',JSON.stringify({commit:process.env.GITHUB_SHA,release:'reality-talents-20260927'}));"
+          npm run build
+          npm run test:ui
+          npm run test:pdf
+      - name: Browser checks before deployment
+        working-directory: apps/web
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm install --no-save --package-lock=false playwright-core@1.55.0
+          npx vite preview --host 127.0.0.1 --port 4173 >/tmp/tuc-release-preview.log 2>&1 &
+          pid=$!; trap 'kill "$pid" 2>/dev/null || true' EXIT
+          for n in $(seq 1 30); do curl -fsS http://127.0.0.1:4173/ >/dev/null && break; sleep 1; done
+          export CHROME_BIN="$(command -v google-chrome || command -v chromium)"
+          export TUC_V2_SMOKE_BASE_URL=http://127.0.0.1:4173
+          node tests/builder-v2-smoke.mjs
+          node tests/campaigns-smoke.mjs
+      - name: Build immutable production images off the VPS
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker build --label "org.opencontainers.image.revision=$GITHUB_SHA" -t "tuc-v2-api:reality-$GITHUB_SHA" -f apps/api/Dockerfile .
+          docker build --label "org.opencontainers.image.revision=$GITHUB_SHA" -t "tuc-v2-web:reality-$GITHUB_SHA" -f apps/web/Dockerfile .
+          mkdir -p /tmp/tuc-reality-release
+          docker save "tuc-v2-api:reality-$GITHUB_SHA" "tuc-v2-web:reality-$GITHUB_SHA" | gzip -1 > /tmp/tuc-reality-release/images.tar.gz
+          git archive --format=tar HEAD apps > /tmp/tuc-reality-release/apps-source.tar
+          tar -rf /tmp/tuc-reality-release/apps-source.tar apps/web/public/build-info.json
+          gzip -1 /tmp/tuc-reality-release/apps-source.tar
+          printf '%s\n' "$GITHUB_SHA" > /tmp/tuc-reality-release/source-sha.txt
+          cd /tmp/tuc-reality-release
+          sha256sum images.tar.gz apps-source.tar.gz source-sha.txt > SHA256SUMS
+      - uses: actions/upload-artifact@v4
+        with:
+          name: production-reality-images
+          path: /tmp/tuc-reality-release/
+          compression-level: 0
+          retention-days: 3
+  release:
+    needs: verify-and-build
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    environment: tuc-dev
+    env:
+      TUC_DEV_HOST: ${{ secrets.TUC_DEV_HOST }}
+      TUC_DEV_USER: ${{ secrets.TUC_DEV_USER }}
+      TUC_DEV_SSH_KEY: ${{ secrets.TUC_DEV_SSH_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@v4
+        with:
+          name: production-reality-images
+          path: /tmp/tuc-reality-release
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Stage, back up and release only API and web
+        shell: bash
+        run: |
+          set -euo pipefail
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$TUC_DEV_SSH_KEY" > ~/.ssh/tuc_prod
+          chmod 600 ~/.ssh/tuc_prod
+          ssh-keyscan -H "$TUC_DEV_HOST" >> ~/.ssh/known_hosts
+          SSH="ssh -i ~/.ssh/tuc_prod -o IdentitiesOnly=yes"
+          $SSH "$TUC_DEV_USER@$TUC_DEV_HOST" "test -f /opt/terra-umbra/production-active && mkdir -p /opt/terra-umbra/releases/reality-$GITHUB_SHA"
+          rsync -az -e "$SSH" /tmp/tuc-reality-release/ "$TUC_DEV_USER@$TUC_DEV_HOST:/opt/terra-umbra/releases/reality-$GITHUB_SHA/"
+          $SSH "$TUC_DEV_USER@$TUC_DEV_HOST" bash -s -- "$GITHUB_SHA" < infrastructure/production/release-reality-talents.sh
+      - name: Check public production assets with isolated browser data
+        id: live
+        continue-on-error: true
+        working-directory: apps/web
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm ci
+          npm install --no-save --package-lock=false playwright-core@1.55.0
+          export CHROME_BIN="$(command -v google-chrome || command -v chromium)"
+          export TUC_V2_SMOKE_BASE_URL=https://terra-umbra.fr
+          # This test intercepts every /api request: no production account or character is written.
+          node tests/builder-v2-smoke.mjs
+      - name: Roll back this release if the live browser check fails
+        if: steps.live.outcome == 'failure'
+        shell: bash
+        run: |
+          ssh -i ~/.ssh/tuc_prod -o IdentitiesOnly=yes "$TUC_DEV_USER@$TUC_DEV_HOST" bash -s -- "$GITHUB_SHA" rollback < infrastructure/production/release-reality-talents.sh
+          exit 1
+      - name: Remove ephemeral SSH key
+        if: always()
+        run: rm -f ~/.ssh/tuc_prod
