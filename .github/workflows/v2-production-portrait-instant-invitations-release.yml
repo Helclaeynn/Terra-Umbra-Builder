@@ -51,6 +51,7 @@ jobs:
           $SSH "$TUC_DEV_USER@$TUC_DEV_HOST" 'test -f /opt/terra-umbra/production-active && test -f /opt/terra-umbra/infrastructure/.env'
           rsync -az -e "$SSH" apps/web/src/components/PortraitAdmin.vue apps/web/src/components/AccountCampaigns.vue "$TUC_DEV_USER@$TUC_DEV_HOST:/opt/terra-umbra/apps/web/src/components/"
           rsync -az -e "$SSH" apps/web/src/pages/AdminQualityPage.vue "$TUC_DEV_USER@$TUC_DEV_HOST:/opt/terra-umbra/apps/web/src/pages/"
+          rsync -az -e "$SSH" apps/web/src/main.ts "$TUC_DEV_USER@$TUC_DEV_HOST:/opt/terra-umbra/apps/web/src/"
           $SSH "$TUC_DEV_USER@$TUC_DEV_HOST" <<'REMOTE'
           {
             set -euo pipefail
