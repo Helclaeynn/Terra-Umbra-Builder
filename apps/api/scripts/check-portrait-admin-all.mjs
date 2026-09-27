@@ -59,6 +59,7 @@ try {
   if (otherPath) ids.push(otherPath.id);
   console.log(`${mediaSources.length} attached portrait references use locally controlled media.`);
   for (const id of ids) {
+    const untouched = (await getCompendiumQualityCorpus()).articles.find(item => item.id !== id);
     const article = (await getCompendiumQualityCorpus()).articles.find(item => item.id === id);
     const src = id === mirroredArticle.id ? mirrors.items[0].src : article?.image?.src;
     assert.ok(src, id);
@@ -73,6 +74,8 @@ try {
     assert.ok(switched.json().portraits.some(portrait => portrait.media === src && portrait.visibility === 'mj'));
     const publicArticle = (await getCompendiumQualityCorpus()).publicArticles.find(item => item.id === id);
     assert.ok(!JSON.stringify(publicArticle).includes(src), `${id} leaked through the public article`);
+    assert.equal((await getCompendiumQualityCorpus()).articles.find(item => item.id === untouched.id), untouched,
+      'Switching one portrait must keep the rest of the loaded Compendium intact');
     assert.equal((await app.inject({ url: `/api/compendium/media/${src}` })).statusCode, 403, src);
     assert.equal((await app.inject({ url: `/api/compendium/media/${src}`, headers: auth })).statusCode, 200, src);
     const restored = await app.inject({ method: 'PATCH', url, headers: auth, payload: { src, visibility: 'public' } });

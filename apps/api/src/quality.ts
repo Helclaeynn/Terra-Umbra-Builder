@@ -3,7 +3,7 @@ import { randomBytes } from "node:crypto";
 import { resolve } from "node:path";
 import type { FastifyInstance, FastifyReply } from "fastify";
 import { requireAdmin } from "./auth.js";
-import { getCompendiumQualityCorpus, invalidateCompendiumCorpus, type Article } from "./compendium.js";
+import { getCompendiumQualityCorpus, refreshCompendiumPortraits, type Article } from "./compendium.js";
 import { pool } from "./db.js";
 
 type JsonObject = Record<string, any>;
@@ -345,7 +345,7 @@ export async function registerQualityRoutes(app: FastifyInstance) {
          ON CONFLICT (article_id,src) DO UPDATE SET visibility=EXCLUDED.visibility,updated_by=EXCLUDED.updated_by,updated_at=now()`,
         [article.id, src, visibility, uploaded, admin.id]
       );
-      invalidateCompendiumCorpus();
+      await refreshCompendiumPortraits(article.id);
       return { portraits: portraitsFor(article, portraitLookup(await portraitRows(), manifest)) };
     }
   );
@@ -374,7 +374,7 @@ export async function registerQualityRoutes(app: FastifyInstance) {
         `INSERT INTO compendium_portrait_visibility (article_id,src,visibility,uploaded,updated_by) VALUES ($1,$2,$3,true,$4)`,
         [article.id,src,visibility,admin.id]
       );
-      invalidateCompendiumCorpus();
+      await refreshCompendiumPortraits(article.id);
       return reply.code(201).send({ portraits: portraitsFor(article, portraitLookup(await portraitRows(), await portraitManifest())) });
     }
   );
