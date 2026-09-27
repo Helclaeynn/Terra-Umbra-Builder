@@ -282,8 +282,24 @@ jobs:
         id: deployment
         shell: bash
         run: |
+          set -euo pipefail
           if [[ -n "$TUC_DEV_HOST" && -n "$TUC_DEV_USER" && -n "$TUC_DEV_SSH_KEY" ]]; then
-            echo "enabled=true" >> "$GITHUB_OUTPUT"
+            guard_key="$(mktemp)"
+            guard_hosts="$(mktemp)"
+            trap 'rm -f "$guard_key" "$guard_hosts"' EXIT
+            printf '%s\n' "$TUC_DEV_SSH_KEY" > "$guard_key"
+            chmod 600 "$guard_key"
+            ssh-keyscan -H "$TUC_DEV_HOST" > "$guard_hosts"
+            target_mode="$(ssh -i "$guard_key" -o IdentitiesOnly=yes -o UserKnownHostsFile="$guard_hosts" "$TUC_DEV_USER@$TUC_DEV_HOST" 'if test -f /opt/terra-umbra/production-active; then echo production; else echo development; fi')"
+            if [[ "$target_mode" == "production" ]]; then
+              echo "enabled=false" >> "$GITHUB_OUTPUT"
+              echo "Production host protected: dev pushes run checks only; deployment requires an explicit production release."
+            elif [[ "$target_mode" == "development" ]]; then
+              echo "enabled=true" >> "$GITHUB_OUTPUT"
+            else
+              echo "Unrecognized deployment target state" >&2
+              exit 1
+            fi
           else
             echo "enabled=false" >> "$GITHUB_OUTPUT"
             echo "Deployment secrets are not configured yet; skipping VPS deployment."
