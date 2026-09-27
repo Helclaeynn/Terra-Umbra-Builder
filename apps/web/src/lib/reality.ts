@@ -81,6 +81,9 @@ export type FixedCharge={
   sphereSupport?:boolean;
   supportCreated?:boolean;
   supportOriginalMonthly?:number;
+  talentGrant?:string;
+  grantCreated?:boolean;
+  grantOriginalMonthly?:number;
 };
 
 export type RealityState={
@@ -155,6 +158,31 @@ export function ensureRealityState(raw:Record<string,unknown>):RealityState{
 
 export function realityItemMap(pkg:RealityRulesPackage){
   return new Map([...pkg.equipment,...pkg.augmentations].map(item=>[item.id,item]));
+}
+
+export function syncRealityTalentBenefits(pkg:RealityRulesPackage,state:RealityState,talentIds:string[]){
+  const talentId="assurance_silver";
+  if(!talentIds.includes(talentId)){
+    state.fixedChargeItems=state.fixedChargeItems.flatMap(charge=>{
+      if(charge.talentGrant!==talentId)return [charge];
+      if(charge.grantCreated)return [];
+      const {talentGrant,grantCreated,grantOriginalMonthly,...original}=charge;
+      return [{...original,monthly:grantOriginalMonthly??0}];
+    });
+    return;
+  }
+  const item=pkg.recurring.find(item=>realityNorm(item.name)==="careforce silver");
+  if(!item)return;
+  const existing=state.fixedChargeItems.find(charge=>charge.talentGrant===talentId||charge.sourceItemId===item.id);
+  if(existing){
+    if(existing.talentGrant!==talentId){
+      existing.grantOriginalMonthly=existing.monthly;
+      existing.talentGrant=talentId;
+    }
+    existing.monthly=0;
+  }else{
+    state.fixedChargeItems.push({uid:uniqueUid("talent-service"),name:item.name,monthly:0,sourceItemId:item.id,talentGrant:talentId,grantCreated:true});
+  }
 }
 
 

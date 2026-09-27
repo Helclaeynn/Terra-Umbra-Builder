@@ -33,6 +33,7 @@ import {
   realityLifestyleBase,
   realityPriceSpec,
   lifestylePressure,
+  syncRealityTalentBenefits,
   type RealityRulesPackage,
   type RealityState
 } from "../lib/reality";
@@ -661,6 +662,9 @@ const derivedStats=computed(()=>characterDerivedStats(finalAttribute,skillFinal,
 const realityState=computed<RealityState|null>(()=>
   draft.value ? draft.value.reality as unknown as RealityState : null
 );
+watch([realityRules,()=>draft.value?.reality,()=>selectedRealityTalentIds().join("|")],()=>{
+  if(realityRules.value&&realityState.value)syncRealityTalentBenefits(realityRules.value,realityState.value,selectedRealityTalentIds());
+});
 const realityItems=computed(()=>realityRules.value?realityItemMap(realityRules.value):new Map());
 const realityEconomyValue=computed(()=>
   realityRules.value&&realityState.value&&selectedStyle.value
@@ -737,7 +741,7 @@ const equipmentValidation=computed(()=>{
     if(augmentationCopyCount(pkg,state,item)>augmentationMaxCopies(item))return false;
     const access=augmentationAccess(pkg,selectedStyle.value,item,draft.value.edge,state.mjAccessOverride);
     if(!access.ok)return false;
-    if(item.generation===2&&!access.systems.includes(Number(purchase.gen2System)))return false;
+    if(!state.mjAccessOverride&&item.generation===2&&!access.systems.includes(Number(purchase.gen2System)))return false;
   }
 
   for(const purchase of state.equipment){

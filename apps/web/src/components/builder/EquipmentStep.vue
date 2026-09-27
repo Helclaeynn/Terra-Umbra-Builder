@@ -279,7 +279,8 @@ const augmentationGroups=computed(()=>{
       key,
       variants:variants.sort((a,b)=>(a.generation??1)-(b.generation??1)||(a.price??1e15)-(b.price??1e15))
     }))
-    .sort((a,b)=>compareCatalogItems(selectedVariant(a),selectedVariant(b),augmentationSort.value));
+    // Sort each model by its base version so changing generation keeps its card in place.
+    .sort((a,b)=>compareCatalogItems(a.variants[0],b.variants[0],augmentationSort.value));
 });
 
 const equipmentCatalogGroups=computed(()=>{
@@ -321,11 +322,14 @@ const purchasedEquipment=computed(()=>state.value.equipment.map(p=>({purchase:p,
 function ownedCount(id:string){return [...state.value.augmentations,...state.value.equipment].filter(p=>p.itemId===id).length;}
 
 function defaultRecurringCost(item:RealityItem){return Math.round(recurringMonthlyCost(item));}
+function grantedService(item:RealityItem){return state.value.fixedChargeItems.find(charge=>charge.sourceItemId===item.id&&charge.talentGrant);}
 function recurringMonthly(item:RealityItem){
+  if(grantedService(item))return 0;
   const draft=recurringDrafts.value[item.id];
   return draft===undefined||draft===""?defaultRecurringCost(item):Math.max(0,Number(draft)||0);
 }
 function addRecurring(item:RealityItem){
+  if(grantedService(item))return;
   const monthly=recurringMonthly(item);
   state.value.fixedChargeItems.push({
     uid:uniqueUid("fc"),
@@ -350,6 +354,7 @@ function addCustomCharge(){
 }
 function removeCharge(uid:string){
   const removed=state.value.fixedChargeItems.find(item=>item.uid===uid);
+  if(removed?.talentGrant)return;
   state.value.fixedChargeItems=state.value.fixedChargeItems.filter(item=>item.uid!==uid);
   if(removed?.sphereSupport){
     state.value.sphereSupportType="";
@@ -558,9 +563,9 @@ function setCorporateSupportItem(itemId:string){
                 <p v-if="item.lore">{{ item.lore }}</p>
                 <p v-if="item.effect"><b>Service :</b> {{ item.effect }}</p>
                 <label class="recurring-price">Reste payé / mois
-                  <input v-model="recurringDrafts[item.id]" type="number" min="0" step="1" :placeholder="String(defaultRecurringCost(item))" />
+                  <input v-model="recurringDrafts[item.id]" type="number" min="0" step="1" :disabled="Boolean(grantedService(item))" :placeholder="String(grantedService(item)?0:defaultRecurringCost(item))" />
                 </label>
-                <button class="secondary compact" type="button" @click="addRecurring(item)">Ajouter · {{ money(recurringMonthly(item)) }}/mois</button>
+                <button class="secondary compact" type="button" :disabled="Boolean(grantedService(item))" @click="addRecurring(item)">{{ grantedService(item) ? 'Inclus gratuitement · Assurance Silver' : `Ajouter · ${money(recurringMonthly(item))}/mois` }}</button>
               </article>
             </div>
           </details>
@@ -585,9 +590,10 @@ function setCorporateSupportItem(itemId:string){
               <span>
                 {{ money(charge.monthly) }}/mois
                 <template v-if="charge.sphereSupport"> · pris en charge par la corporation</template>
+                <template v-if="charge.talentGrant === 'assurance_silver'"> · offert par Assurance Silver</template>
               </span>
             </div>
-            <button class="ghost danger compact" type="button" @click="removeCharge(charge.uid)">Retirer</button>
+            <button v-if="!charge.talentGrant" class="ghost danger compact" type="button" @click="removeCharge(charge.uid)">Retirer</button>
           </div>
         </div>
       </details>
@@ -698,7 +704,8 @@ function setCorporateSupportItem(itemId:string){
               <small v-if="!augmentationSupportSatisfied(rules,state,row.item)" class="bad-text">
                 Support manquant : {{ augmentationSupportLabel(row.item) }}
               </small>
-              <label v-if="row.item.generation === 2" class="inline-select">
+              <small v-if="row.item.generation === 2 && state.mjAccessOverride">Accès Gen2 autorisé par le MJ</small>
+              <label v-if="row.item.generation === 2 && !state.mjAccessOverride" class="inline-select">
                 Fenêtre Gen2
                 <select :value="row.purchase.gen2System || 1" @change="setGen2System(row.purchase.uid,($event.target as HTMLSelectElement).value)">
                   <option

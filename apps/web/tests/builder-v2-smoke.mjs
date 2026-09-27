@@ -869,6 +869,46 @@ if(await page.locator('.history-entry').count()!==2)throw new Error('Pagination 
 if(await page.locator('input,textarea,select').count())throw new Error('L’historique doit rester en lecture seule');
 console.log('Progression history browser OK — saved values, pagination, read-only and 320/390/1440px');
 
+// Final equipment recipe: free policy, stable variant position and MJ Gen2 access.
+savedPayload=null;
+characterData.talents.sphere='assurance_silver';
+characterData.reality={augmentations:[],equipment:[],fixedChargeItems:[],mjAdvancedOverride:false,mjAccessOverride:false,sphereSupportType:'',sphereSupportItemId:''};
+rules.talents.sphere.crawler.push({id:'assurance_silver',name:'Assurance Silver',category:'sphere',sphere:'crawler',effect:'CareForce Silver offert'});
+rules.styles.find(style=>style.id==='smoke_style').gen2SlotsBase=0;
+realityRules.economy.styleAugAccess.smoke_style.gen2=[];
+realityRules.recurring.push({...housingItem,id:'careforce-silver',name:'CareForce Silver',category:'Assurances',recurring:'annual',price:1200,monthlyCost:100});
+realityRules.augmentations.push({...augmentationItem,id:'aug-smoke-gen2',generation:2,price:2000,priceMin:2000,priceMax:2000,priceLabel:'2 000 $'});
+realityRules.augmentations.push({...augmentationItem,id:'aug-middle',name:'Implant médian',price:1000,priceMin:1000,priceMax:1000,priceLabel:'1 000 $'});
+await page.setViewportSize({width:1440,height:1000});
+await page.goto(`${baseUrl}/characters/${characterId}/builder`);
+await page.locator('.builder-nav').getByRole('button',{name:/Équipement/}).click();
+await page.getByRole('heading',{name:'Réalité, équipement & augmentations'}).waitFor();
+await page.locator('summary.section-summary').filter({hasText:'Train de vie & Charges fixes'}).click();
+const policy=page.locator('.picked-row').filter({hasText:'CareForce Silver'});
+await policy.waitFor({state:'visible'});
+if(!/0 \$\/mois.*offert par Assurance Silver/s.test(await policy.textContent()))throw new Error('Assurance Silver doit attribuer gratuitement CareForce Silver');
+await page.locator('summary.section-summary').filter({hasText:'Augmentations installées'}).click();
+await page.locator('#augmentation-catalog > summary').click();
+await page.getByLabel('Autorisation MJ pour les augmentations hors du Style',{exact:true}).check();
+await page.locator('#augmentation-catalog').getByLabel('Famille').selectOption('Optique');
+const augmentationCards=page.locator('#augmentation-catalog .catalog-card');
+const beforeVariant=await augmentationCards.locator('.catalog-head strong').allTextContents();
+await augmentationCards.filter({hasText:'Cyberœil Smoke'}).getByLabel('Génération / version').selectOption('aug-smoke-gen2');
+const afterVariant=await augmentationCards.locator('.catalog-head strong').allTextContents();
+if(JSON.stringify(beforeVariant)!==JSON.stringify(afterVariant))throw new Error('Changer de génération déplace encore la carte');
+await augmentationCards.filter({hasText:'Cyberœil Smoke'}).getByRole('button',{name:'Ajouter',exact:true}).click();
+const equipmentBadge=page.locator('.equipment-step > .section-heading > .schema-badge');
+await equipmentBadge.filter({hasText:/^cohérent$/}).waitFor({state:'visible'});
+await page.getByLabel('Autorisation MJ pour les augmentations hors du Style',{exact:true}).uncheck();
+await equipmentBadge.filter({hasText:/^à vérifier$/}).waitFor({state:'visible'});
+await page.getByLabel('Autorisation MJ pour les augmentations hors du Style',{exact:true}).check();
+await equipmentBadge.filter({hasText:/^cohérent$/}).waitFor({state:'visible'});
+await page.getByRole('button',{name:/Enregistrer/}).first().click();
+await page.getByText(/Fiche enregistrée · version/).waitFor();
+if(savedPayload.data.reality.fixedChargeItems.filter(charge=>charge.sourceItemId==='careforce-silver'&&charge.monthly===0).length!==1)throw new Error('Couverture gratuite non sauvegardée');
+if(!savedPayload.data.reality.augmentations.some(p=>p.itemId==='aug-smoke-gen2'))throw new Error('Gen2 autorisée non sauvegardée');
+console.log('Final equipment recipe OK — automatic free Silver coverage persists; variant order stable; MJ Gen2 validates and revocation invalidates.');
+
 if(browserErrors.length)throw new Error("Erreurs navigateur :\n"+browserErrors.join("\n"));
 
 console.log("Builder Web V2 smoke OK — 11 étapes de création, progression séparée, tiroir Références, Talents locaux triés, wiki Équipement, V/SR/R, Finalisation et sauvegarde validés.");
