@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import RealityTalentText from "./RealityTalentText.vue";
+import {contextualSkillBonuses} from "../../../../api/src/rules/reality-conditional-bonuses";
 import { computed, ref } from "vue";
 import RealityBenefitsPanel from './RealityBenefitsPanel.vue';
 import TalentChoiceFields from './TalentChoiceFields.vue';
@@ -631,7 +633,7 @@ function sellCampaignItem(){
         <div class="progress-grid">
           <article v-for="skill in rules.skills.filter(item=>item.attribute===attribute.id)" :key="skill.id">
             <div class="card-head"><strong>{{ skill.name }}</strong><span>Brut {{ currentSkillRaw(skill.id) }}/15</span></div>
-            <small>Final {{ currentSkillFinal(skill.id) }} · création {{ skillBases[skill.id] || 0 }}</small>
+            <small>Final {{ currentSkillFinal(skill.id) }} · création {{ skillBases[skill.id] || 0 }}</small><small v-for="context in contextualSkillBonuses(combinedRealityIds,{...creationTalentChoices,...state.realityTalentChoices},talentChoiceSpecs??{},skillTalentMap,skill.id,currentSkillFinal(skill.id))" :key="context.id" :data-skill-context="context.id">{{ context.label }} : {{ context.total }}</small>
             <div class="action-row">
               <button class="ghost compact" type="button" :disabled="!(state.skillRanks[skill.id] || 0)" @click="decreaseSkill(skill.id)">−1</button>
               <button
@@ -656,7 +658,7 @@ function sellCampaignItem(){
       </div>
       <div v-if="state.realityTalents.length" class="owned-list">
         <div v-for="id in learnedRealityIds" :key="id" class="owned-row">
-          <div><strong>{{ ruleTalentById(id)?.name || id }}</strong><span>Talent de Réalité · 10 XP</span><p>{{ ruleTalentById(id)?.effect }}</p><details v-if="talentLore?.[id]" class="talent-lore"><summary>Contexte et lore</summary><p>{{ talentLore[id] }}</p></details></div>
+          <div><strong>{{ ruleTalentById(id)?.name || id }}</strong><span>Talent de Réalité · 10 XP</span><RealityTalentText :talent-id="id" :effect="ruleTalentById(id)?.effect" :lore="talentLore?.[id]" /></div>
           <button class="ghost danger compact" type="button" @click="removeRealityTalent(id)">Retirer</button>
         </div>
       </div>
@@ -669,8 +671,7 @@ function sellCampaignItem(){
           <article v-for="talent in sortedNames(group.items)" :key="talent.id" class="reality-talent-card" :class="{locked:!realityTalentAllowed(talent).ok}">
             <BuilderCatalogImage :article-id="talent.compendiumId" :name="talent.name" category="Règles" :image-src="`/images/talents/${talent.category}/${encodeURIComponent(talent.id)}.webp`" />
             <strong>{{ talent.name }}</strong>
-            <p>{{ talent.effect || "—" }}</p>
-            <details v-if="talentLore?.[talent.id]" class="talent-lore"><summary>Contexte et lore</summary><p>{{ talentLore[talent.id] }}</p></details>
+            <RealityTalentText :talent-id="talent.id" :effect="talent.effect" :lore="talentLore?.[talent.id]" />
             <TalentChoiceFields :talents="[talent]" :specs="talentChoiceSpecs??{}" :choices="choiceDrafts" :skills="rules.skills" :style-skills="style?.skills" @update:choices="choiceDrafts=$event" />
             <small v-if="!realityTalentAllowed(talent).ok">{{ realityTalentAllowed(talent).reason }}</small>
             <button class="primary compact" type="button" :disabled="!realityTalentAllowed(talent).ok||xpRemainingValue<10" @click="buyRealityTalent(talent)">Apprendre · 10 XP</button>

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from "vue";
+import RealityTalentText from "./RealityTalentText.vue";
 import type { CharacterSheet, SheetEntry } from "../../lib/character-sheet";
 import { sortedNames } from "../../lib/catalog-order";
 import BuilderWikiLink from "./BuilderWikiLink.vue";
@@ -100,7 +101,7 @@ const money=(value:number)=>`${value.toLocaleString("fr-FR")} $`;
           <dl>
             <div v-for="skill in group.skills" :key="skill.id" :data-skill="skill.id">
               <dt>{{ skill.name }}<small>Brut {{ skill.raw }}<template v-if="skill.bonus"> · bonus {{ skill.bonus }}</template></small></dt>
-              <dd>{{ skill.value }}</dd>
+              <dd>{{ skill.value }}</dd><div v-for="context in skill.contexts || []" :key="context.id" class="skill-context-total" :data-skill-context="context.id"><span>{{ context.label }} · bonus de Talent +{{ context.bonus }}</span><strong>{{ context.total }}</strong></div>
             </div>
           </dl>
         </section>
@@ -127,7 +128,7 @@ const money=(value:number)=>`${value.toLocaleString("fr-FR")} $`;
       <ul v-else class="sheet-entries">
         <li v-for="item in list.items" :key="item.id">
           <div><strong>{{ item.name }}</strong><small v-if="item.group">{{ item.group }}</small></div>
-          <p v-if="item.lore" class="sheet-entry-lore">{{ item.lore }}</p><p v-if="item.detail">{{ item.detail }}</p>
+          <RealityTalentText v-if="list.id==='reality'" :talent-id="item.id" :effect="item.detail" :lore="item.lore" /><template v-else><p v-if="item.lore" class="sheet-entry-lore">{{ item.lore }}</p><p v-if="item.detail">{{ item.detail }}</p></template>
         </li>
       </ul>
     </details>
@@ -157,6 +158,9 @@ const money=(value:number)=>`${value.toLocaleString("fr-FR")} $`;
 </template>
 
 <style scoped>
+.sheet-skill-groups dl > div{flex-wrap:wrap}
+.skill-context-total{flex-basis:100%;display:flex;justify-content:space-between;gap:12px;grid-column:1/-1;font-size:12px;color:#a5def0;width:100%;margin-top:4px}.skill-context-total span{overflow-wrap:anywhere}.skill-context-total strong{font-weight:600}
+
 .character-sheet{color:#e8f1fc;font:15px/1.6 Inter,"Segoe UI",sans-serif;min-width:0;display:grid;gap:24px}
 .character-sheet *{box-sizing:border-box;min-width:0}
 .character-sheet h2,.character-sheet h3,.character-sheet p{margin:0}
