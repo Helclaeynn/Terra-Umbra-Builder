@@ -1,0 +1,57 @@
+name: V2 production preflight
+on:
+  push:
+    branches: [feature/tuc-web-v2]
+    paths: [.github/workflows/v2-production-preflight.yml]
+permissions:
+  contents: read
+concurrency:
+  group: tuc-v2-dev
+  cancel-in-progress: false
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    environment: tuc-dev
+    timeout-minutes: 5
+    env:
+      TUC_DEV_HOST: ${{ secrets.TUC_DEV_HOST }}
+      TUC_DEV_USER: ${{ secrets.TUC_DEV_USER }}
+      TUC_DEV_SSH_KEY: ${{ secrets.TUC_DEV_SSH_KEY }}
+    steps:
+      - name: Inspect production DNS and existing persistent data
+        shell: bash
+        run: |
+          set -euo pipefail
+          for host in terra-umbra.fr www.terra-umbra.fr dev.terra-umbra.fr; do
+            echo "DNS $host"
+            dig +short A "$host"
+            dig +short AAAA "$host"
+            curl --silent --show-error --max-time 15 --output /dev/null --write-out 'HTTPS %{http_code} %{url_effective}\n' "https://$host/" || true
+          done
+          install -m 700 -d ~/.ssh
+          trap 'rm -f ~/.ssh/tuc_dev' EXIT
+          printf '%s\n' "$TUC_DEV_SSH_KEY" > ~/.ssh/tuc_dev
+          chmod 600 ~/.ssh/tuc_dev
+          ssh-keyscan -H "$TUC_DEV_HOST" >> ~/.ssh/known_hosts
+          ssh -i ~/.ssh/tuc_dev -o IdentitiesOnly=yes "$TUC_DEV_USER@$TUC_DEV_HOST" <<'REMOTE'
+            set -euo pipefail
+            cd /opt/terra-umbra/infrastructure
+            set -a
+            . ./.env
+            set +a
+            printf 'APP_BASE_URL=%s\n' "${APP_BASE_URL:-unset}"
+            df -h /opt/terra-umbra
+            docker compose ps
+            docker inspect --format '{{.Name}} {{range .Mounts}}{{.Type}}:{{.Name}}->{{.Destination}} {{end}}' tuc-v2-db-1 tuc-v2-api-1
+            docker compose exec -T db psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -At <<'SQL'
+          SELECT 'db_bytes='||pg_database_size(current_database());
+          SELECT 'users='||count(*) FROM users;
+          SELECT 'characters='||count(*) FROM characters;
+          SELECT 'campaigns='||count(*) FROM campaigns;
+          SELECT 'edited_articles='||count(*) FROM compendium_article_edits;
+          SELECT 'custom_articles='||count(*) FROM compendium_custom_articles;
+          SELECT 'portrait_visibility='||count(*) FROM compendium_portrait_visibility;
+          SQL
+            docker compose exec -T api sh -c 'du -sh /app/editor-media; find /app/editor-media -type f | wc -l'
+            test ! -f /opt/terra-umbra/production-active || echo 'PRODUCTION_ALREADY_ACTIVE'
+          REMOTE
