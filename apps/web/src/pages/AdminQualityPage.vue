@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, nextTick, onMounted, ref } from "vue";
+import { computed, nextTick, onMounted, ref, shallowRef, triggerRef } from "vue";
 import { RouterLink } from "vue-router";
 import TerraUmbraBrand from "../components/TerraUmbraBrand.vue";
 import PortraitAdmin from "../components/PortraitAdmin.vue";
@@ -55,7 +55,7 @@ type CoveragePayload = {
   summary: { total: number; linked: number; missing: number; ambiguous: number };
 };
 
-const quality = ref<QualityPayload | null>(null);
+const quality = shallowRef<QualityPayload | null>(null);
 const coverage = ref<CoveragePayload | null>(null);
 const loading = ref(true);
 const busyId = ref("");
@@ -69,6 +69,10 @@ const portraitLot = ref("");
 const portraitStatus = ref("");
 const mjPortraitsOnly = ref(false);
 const openedPortraits = ref<string[]>([]);
+function updatePortraits(item: QualityItem, portraits: QualityItem["portraits"]) {
+  item.portraits = portraits;
+  triggerRef(quality);
+}
 function togglePortraits(id: string, event: Event) {
   openedPortraits.value = (event.target as HTMLDetailsElement).open
     ? [...new Set([...openedPortraits.value, id])]
@@ -240,13 +244,13 @@ function reviewLabel(value: ReviewStatus): string {
 async function load() {
   loading.value = true;
   error.value = "";
+  // Builder coverage is secondary; the review controls must be available as
+  // soon as the quality list arrives, even if this request is slow or fails.
+  void api<CoveragePayload>("/api/compendium/editor/builder-coverage")
+    .then((result) => { coverage.value = result; })
+    .catch(() => { coverage.value = null; });
   try {
-    const [qualityResult, coverageResult] = await Promise.all([
-      api<QualityPayload>("/api/admin/compendium-quality"),
-      api<CoveragePayload>("/api/compendium/editor/builder-coverage")
-    ]);
-    quality.value = qualityResult;
-    coverage.value = coverageResult;
+    quality.value = await api<QualityPayload>("/api/admin/compendium-quality");
   } catch (cause) {
     if (cause instanceof ApiError) {
       if (cause.message === "authentication_required") {
@@ -461,7 +465,7 @@ onMounted(load);
                   <td class="action-cell" data-label="Actions">
                     <a :href="'/compendium?article=' + encodeURIComponent(item.id)" target="_blank" rel="noopener" :aria-label="`Voir ${item.title} (nouvel onglet)`">Voir ↗</a>
                     <a :href="'/compendium/edit/' + encodeURIComponent(item.id)" target="_blank" rel="noopener" :aria-label="`Éditer ${item.title} (nouvel onglet)`">Éditer ↗</a>
-                    <details v-if="item.category === 'Personnages'" class="portrait-details" @toggle="togglePortraits(item.id, $event)"><summary>Portraits · MJ only / All</summary><PortraitAdmin v-if="openedPortraits.includes(item.id)" :article-id="item.id" @change="(portraits) => item.portraits = portraits" /></details>
+                    <details v-if="item.category === 'Personnages'" class="portrait-details" @toggle="togglePortraits(item.id, $event)"><summary>Portraits · MJ only / All</summary><PortraitAdmin v-if="openedPortraits.includes(item.id)" :key="item.id" :article-id="item.id" @change="(portraits) => updatePortraits(item, portraits)" /></details>
                     <button type="button" :disabled="Boolean(busyId)" @click="setReview(item, 'approved')">Valider</button>
                     <button type="button" class="warn" :disabled="Boolean(busyId)" @click="setReview(item, 'rework')">À revoir</button>
                     <button v-if="item.reviewStatus !== 'pending'" type="button" class="ghost-action" :disabled="Boolean(busyId)" @click="setReview(item, 'pending')">Repasser en recette</button>
