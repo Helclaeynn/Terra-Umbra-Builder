@@ -39,10 +39,22 @@ jobs:
           node-version: '24'
       - name: Apply reviewed integration to disposable checkout
         run: node tools/reality-builder-dev/apply.mjs
+      - name: Install isolated test dependencies
+        run: |
+          (cd apps/api && npm ci)
+          (cd apps/web && npm ci)
+      - name: Archive public test source and installed dependencies without credentials
+        run: |
+          tar -czf /tmp/reality-builder-test-workspace.tar.gz apps/api/src apps/api/scripts apps/api/node_modules apps/api/package.json apps/api/package-lock.json apps/api/tsconfig.json apps/web/src apps/web/tests apps/web/node_modules apps/web/package.json apps/web/package-lock.json apps/web/tsconfig*.json apps/web/vite.config.ts apps/web/index.html tools/reality-builder-dev
+      - uses: actions/upload-artifact@v4
+        with:
+          name: reality-builder-test-workspace
+          path: /tmp/reality-builder-test-workspace.tar.gz
+          retention-days: 1
+          compression-level: 0
       - name: Build API and check all 55 approved talents
         working-directory: apps/api
         run: |
-          npm ci
           npm run build
           node scripts/check-api-container-assets.mjs
           node scripts/check-reviewed-rule-taxonomy.mjs
@@ -60,7 +72,6 @@ jobs:
       - name: Build web and test new Builder behavior
         working-directory: apps/web
         run: |
-          npm ci
           npm run build
           npm run test:reality-talents
       - name: Run existing UI and export regressions
@@ -154,7 +165,7 @@ jobs:
           ssh -i "$key" -o IdentitiesOnly=yes -o UserKnownHostsFile="$hosts" "$TUC_DEV_USER@$TUC_DEV_HOST" <<'REMOTE'
           set -eu
           if test -f /opt/terra-umbra/production-active; then echo 'PRIMARY_TARGET=PRODUCTION_PROTECTED'; else echo 'PRIMARY_TARGET=DEVELOPMENT'; fi
-          echo 'APP_DIRECTORIES'; find /opt -maxdepth 2 -type d -iname '*umbra*' -print
+          echo 'APP_DIRECTORIES'; for directory in /opt/*umbra*; do if test -d "$directory"; then printf '%s\n' "$directory"; fi; done
           echo 'COMPOSE_PROJECTS'; docker compose ls --format json
           echo 'RUNNING_CONTAINERS'; docker ps --format '{{.Names}} {{.Ports}}'
           echo 'DEV_PROXY_ROUTES'
