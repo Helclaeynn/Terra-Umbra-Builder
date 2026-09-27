@@ -31,10 +31,11 @@ jobs:
           ssh -i ~/.ssh/tuc_dev -o IdentitiesOnly=yes "$TUC_DEV_USER@$TUC_DEV_HOST" 'mkdir -p /opt/terra-umbra/infrastructure/production'
           scp -i ~/.ssh/tuc_dev -o IdentitiesOnly=yes infrastructure/production/* "$TUC_DEV_USER@$TUC_DEV_HOST:/opt/terra-umbra/infrastructure/production/"
           ssh -i ~/.ssh/tuc_dev -o IdentitiesOnly=yes "$TUC_DEV_USER@$TUC_DEV_HOST" <<'REMOTE'
+          {
             set -euo pipefail
             cd /opt/terra-umbra/infrastructure
             host_config=$(sha256sum Caddyfile | cut -d ' ' -f1)
-            mounted_config=$(docker compose exec -T caddy sha256sum /etc/caddy/Caddyfile | cut -d ' ' -f1)
+            mounted_config=$(docker compose exec -T caddy sha256sum /etc/caddy/Caddyfile </dev/null | cut -d ' ' -f1)
             echo "CADDY host=$host_config mounted=$mounted_config"
             # Identical bytes can still refer to different inodes after rsync.
             echo 'Refreshing Caddy file bind mount before promotion'
@@ -54,4 +55,5 @@ jobs:
           SELECT 'LIVE custom_articles='||count(*) FROM compendium_custom_articles;
           SELECT 'LIVE portrait_visibility='||count(*) FROM compendium_portrait_visibility;
           SQL
+          }
           REMOTE
