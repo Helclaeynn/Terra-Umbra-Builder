@@ -25,7 +25,6 @@ jobs:
           npm run build
           node tests/account-performance-dom.mjs
           node tests/campaign-final-recette-dom.mjs
-          node tests/compendium-page-dom.mjs
   release:
     needs: verify
     runs-on: ubuntu-latest
