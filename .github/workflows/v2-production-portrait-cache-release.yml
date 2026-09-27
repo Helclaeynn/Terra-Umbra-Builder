@@ -1,0 +1,84 @@
+name: V2 production portrait cache release
+on:
+  push:
+    branches: [feature/tuc-web-v2]
+    paths: [.github/workflows/v2-production-portrait-cache-release.yml]
+permissions:
+  contents: read
+concurrency:
+  group: tuc-v2-prod-portrait-cache
+  cancel-in-progress: false
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - name: Verify fast portrait updates and public privacy
+        run: |
+          set -euo pipefail
+          cd apps/api
+          npm ci
+          npm run build
+          node scripts/check-portrait-admin-all.mjs
+          node scripts/check-portrait-visibility.mjs
+  release:
+    needs: verify
+    runs-on: ubuntu-latest
+    environment: tuc-dev
+    timeout-minutes: 20
+    env:
+      TUC_DEV_HOST: ${{ secrets.TUC_DEV_HOST }}
+      TUC_DEV_USER: ${{ secrets.TUC_DEV_USER }}
+      TUC_DEV_SSH_KEY: ${{ secrets.TUC_DEV_SSH_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Back up and deploy targeted portrait refresh
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "$TUC_DEV_HOST" && test -n "$TUC_DEV_USER" && test -n "$TUC_DEV_SSH_KEY"
+          install -m 700 -d ~/.ssh
+          trap 'rm -f ~/.ssh/tuc_prod' EXIT
+          printf '%s\n' "$TUC_DEV_SSH_KEY" > ~/.ssh/tuc_prod
+          chmod 600 ~/.ssh/tuc_prod
+          ssh-keyscan -H "$TUC_DEV_HOST" >> ~/.ssh/known_hosts
+          SSH="ssh -i ~/.ssh/tuc_prod -o IdentitiesOnly=yes"
+          $SSH "$TUC_DEV_USER@$TUC_DEV_HOST" 'test -f /opt/terra-umbra/production-active && test -f /opt/terra-umbra/infrastructure/.env'
+          rsync -az -e "$SSH" apps/api/src/compendium.ts apps/api/src/quality.ts "$TUC_DEV_USER@$TUC_DEV_HOST:/opt/terra-umbra/apps/api/src/"
+          $SSH "$TUC_DEV_USER@$TUC_DEV_HOST" <<'REMOTE'
+          {
+            set -euo pipefail
+            cd /opt/terra-umbra/infrastructure
+            bash production/backup.sh
+            docker tag tuc-v2-api tuc-v2-api:before-portrait-cache
+            rollback() {
+              status=$?
+              if [ "$status" -ne 0 ]; then
+                docker tag tuc-v2-api:before-portrait-cache tuc-v2-api
+                docker compose up -d --no-build --no-deps --force-recreate api
+                echo 'PORTRAIT CACHE RELEASE FAILED — previous API restored' >&2
+                exit "$status"
+              fi
+            }
+            trap rollback EXIT
+            docker compose build api
+            docker compose up -d --no-deps api
+            ready=false
+            for attempt in $(seq 1 24); do
+              if curl --fail --silent --show-error --max-time 10 https://terra-umbra.fr/api/health >/dev/null; then
+                ready=true
+                break
+              fi
+              sleep 5
+            done
+            [ "$ready" = true ]
+            code=$(curl --silent --output /dev/null --write-out '%{http_code}' https://terra-umbra.fr/api/admin/compendium-quality/pnj-portraits-chasseurs-autres-la-reine/portraits)
+            [ "$code" = 401 ]
+            trap - EXIT
+            echo 'PORTRAIT CACHE LIVE — HTTPS and private admin route verified'
+          }
+          REMOTE
