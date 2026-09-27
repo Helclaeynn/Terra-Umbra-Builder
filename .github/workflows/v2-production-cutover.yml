@@ -1,0 +1,48 @@
+name: V2 production cutover
+on:
+  push:
+    branches: [feature/tuc-web-v2]
+    paths: [.github/workflows/v2-production-cutover.yml]
+permissions:
+  contents: read
+concurrency:
+  group: tuc-v2-dev
+  cancel-in-progress: false
+jobs:
+  promote:
+    runs-on: ubuntu-latest
+    environment: tuc-dev
+    timeout-minutes: 8
+    env:
+      TUC_DEV_HOST: ${{ secrets.TUC_DEV_HOST }}
+      TUC_DEV_USER: ${{ secrets.TUC_DEV_USER }}
+      TUC_DEV_SSH_KEY: ${{ secrets.TUC_DEV_SSH_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Promote the existing installation after DNS and backup verification
+        shell: bash
+        run: |
+          set -euo pipefail
+          install -m 700 -d ~/.ssh
+          trap 'rm -f ~/.ssh/tuc_dev' EXIT
+          printf '%s\n' "$TUC_DEV_SSH_KEY" > ~/.ssh/tuc_dev
+          chmod 600 ~/.ssh/tuc_dev
+          ssh-keyscan -H "$TUC_DEV_HOST" >> ~/.ssh/known_hosts
+          ssh -i ~/.ssh/tuc_dev -o IdentitiesOnly=yes "$TUC_DEV_USER@$TUC_DEV_HOST" 'mkdir -p /opt/terra-umbra/infrastructure/production'
+          scp -i ~/.ssh/tuc_dev -o IdentitiesOnly=yes infrastructure/production/* "$TUC_DEV_USER@$TUC_DEV_HOST:/opt/terra-umbra/infrastructure/production/"
+          ssh -i ~/.ssh/tuc_dev -o IdentitiesOnly=yes "$TUC_DEV_USER@$TUC_DEV_HOST" <<'REMOTE'
+            set -euo pipefail
+            cd /opt/terra-umbra/infrastructure
+            bash production/promote.sh
+            set -a
+            . ./.env
+            set +a
+            docker compose exec -T db psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -At -v ON_ERROR_STOP=1 <<'SQL'
+          SELECT 'LIVE users='||count(*) FROM users;
+          SELECT 'LIVE characters='||count(*) FROM characters;
+          SELECT 'LIVE campaigns='||count(*) FROM campaigns;
+          SELECT 'LIVE edited_articles='||count(*) FROM compendium_article_edits;
+          SELECT 'LIVE custom_articles='||count(*) FROM compendium_custom_articles;
+          SELECT 'LIVE portrait_visibility='||count(*) FROM compendium_portrait_visibility;
+          SQL
+          REMOTE
