@@ -26,7 +26,7 @@ onUnmounted(()=>{generation++;clearInterval(timer);window.removeEventListener('f
     <p v-if="loading&&!invitations.length" role="status">Vérification des invitations…</p>
     <p v-else-if="failed" role="status">Les invitations n’ont pas pu être chargées. <button class="ghost" type="button" @click="load">Réessayer</button></p>
     <template v-if="invitations.length"><p class="invitation-count" role="status">{{ invitations.length }} invitation{{ invitations.length>1?'s':'' }} à rejoindre une campagne</p>
-      <div v-for="c in invitations" :key="c.id" class="invitation-row"><div><strong>{{ c.name }}</strong><p>{{ c.gmName }} t’invite à sa table.</p></div><RouterLink class="primary" :to="`/campaigns/${c.id}`">Voir l’invitation →</RouterLink></div>
+      <div v-for="c in invitations" :key="c.id" class="invitation-row"><div><strong>{{ c.name }}</strong><p>{{ c.gmName }} t’invite à sa table.</p></div><a class="primary" :href="`/campaigns/${encodeURIComponent(c.id)}`">Voir l’invitation →</a></div>
     </template>
   </section>
 </template>

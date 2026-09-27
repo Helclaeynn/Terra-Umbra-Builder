@@ -1,0 +1,84 @@
+name: V2 production instant portraits and invitations release
+on:
+  push:
+    branches: [feature/tuc-web-v2]
+    paths: [.github/workflows/v2-production-portrait-instant-invitations-release.yml]
+permissions:
+  contents: read
+concurrency:
+  group: tuc-v2-dev
+  cancel-in-progress: false
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - name: Build UI and verify campaign and portrait navigation
+        run: |
+          set -euo pipefail
+          cd apps/web
+          npm ci
+          npm run build
+          node tests/account-performance-dom.mjs
+          node tests/campaign-final-recette-dom.mjs
+          node tests/compendium-page-dom.mjs
+  release:
+    needs: verify
+    runs-on: ubuntu-latest
+    environment: tuc-dev
+    timeout-minutes: 20
+    env:
+      TUC_DEV_HOST: ${{ secrets.TUC_DEV_HOST }}
+      TUC_DEV_USER: ${{ secrets.TUC_DEV_USER }}
+      TUC_DEV_SSH_KEY: ${{ secrets.TUC_DEV_SSH_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Back up and deploy instant recipe controls and invitation navigation
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "$TUC_DEV_HOST" && test -n "$TUC_DEV_USER" && test -n "$TUC_DEV_SSH_KEY"
+          install -m 700 -d ~/.ssh
+          trap 'rm -f ~/.ssh/tuc_prod' EXIT
+          printf '%s\n' "$TUC_DEV_SSH_KEY" > ~/.ssh/tuc_prod
+          chmod 600 ~/.ssh/tuc_prod
+          ssh-keyscan -H "$TUC_DEV_HOST" >> ~/.ssh/known_hosts
+          SSH="ssh -i ~/.ssh/tuc_prod -o IdentitiesOnly=yes"
+          $SSH "$TUC_DEV_USER@$TUC_DEV_HOST" 'test -f /opt/terra-umbra/production-active && test -f /opt/terra-umbra/infrastructure/.env'
+          rsync -az -e "$SSH" apps/web/src/components/PortraitAdmin.vue apps/web/src/components/AccountCampaigns.vue "$TUC_DEV_USER@$TUC_DEV_HOST:/opt/terra-umbra/apps/web/src/components/"
+          rsync -az -e "$SSH" apps/web/src/pages/AdminQualityPage.vue "$TUC_DEV_USER@$TUC_DEV_HOST:/opt/terra-umbra/apps/web/src/pages/"
+          $SSH "$TUC_DEV_USER@$TUC_DEV_HOST" <<'REMOTE'
+          {
+            set -euo pipefail
+            cd /opt/terra-umbra/infrastructure
+            bash production/backup.sh
+            docker tag tuc-v2-web tuc-v2-web:before-instant-recipe-release
+            rollback() {
+              status=$?
+              if [ "$status" -ne 0 ]; then
+                docker tag tuc-v2-web:before-instant-recipe-release tuc-v2-web
+                docker compose up -d --no-build --no-deps --force-recreate web
+                echo 'INSTANT RECIPE RELEASE FAILED — previous web restored' >&2
+                exit "$status"
+              fi
+            }
+            trap rollback EXIT
+            docker compose build web
+            docker compose up -d --no-deps web
+            ready=false
+            for attempt in $(seq 1 24); do
+              if curl --fail --silent --show-error --max-time 10 https://terra-umbra.fr/compendium >/dev/null; then
+                ready=true
+                break
+              fi
+              sleep 5
+            done
+            [ "$ready" = true ]
+            trap - EXIT
+            echo 'INSTANT RECIPE AND INVITATION NAVIGATION LIVE'
+          }
+          REMOTE
