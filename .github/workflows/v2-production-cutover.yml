@@ -36,10 +36,9 @@ jobs:
             host_config=$(sha256sum Caddyfile | cut -d ' ' -f1)
             mounted_config=$(docker compose exec -T caddy sha256sum /etc/caddy/Caddyfile | cut -d ' ' -f1)
             echo "CADDY host=$host_config mounted=$mounted_config"
-            if [ "$host_config" != "$mounted_config" ]; then
-              echo 'Refreshing stale Caddy file bind mount before promotion'
-              docker compose up -d --no-deps --force-recreate caddy
-            fi
+            # Identical bytes can still refer to different inodes after rsync.
+            echo 'Refreshing Caddy file bind mount before promotion'
+            docker compose up -d --no-deps --force-recreate caddy
             if ! bash production/promote.sh; then
               docker compose logs --tail=100 caddy
               exit 1
