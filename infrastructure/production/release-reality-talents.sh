@@ -91,21 +91,26 @@ for component in api web; do test "$(image_revision "$component")" = "$sha"; don
 docker compose exec -T -e EXPECTED_SHA="$sha" api node --input-type=module <<'NODE'
 import assert from 'node:assert/strict';
 import {realityTalentRevision} from './dist/rules/reality-talents-revision.js';
+import {terraUmbraCreationRules as rules} from './dist/rules/terra-umbra-creation.js';
+import {terraUmbraTalentChoiceSpecs as talentChoiceSpecs} from './dist/rules/terra-umbra-creation-lore.js';
 const base='https://terra-umbra.fr';
 async function get(path){const r=await fetch(base+path,{signal:AbortSignal.timeout(15000)});assert.equal(r.status,200,path);return r.json();}
 const info=await get('/build-info.json?release='+process.env.EXPECTED_SHA);
 assert.equal(info.commit,process.env.EXPECTED_SHA,'The public site must serve the newly built web image');
-const core=await get('/api/rulesets/terra-umbra/creation');
-const t=core.rules.talents,all=[...t.common,...t.expertise,...Object.values(t.origin).flat(),...Object.values(t.sphere).flat()];
+// This endpoint requires a real logged-in user. Do not create a production
+// account or impersonate an owner merely to check a release. Inspect the
+// exact rule modules used by the running API and verify its HTTP auth guard.
+assert.equal((await fetch(base+'/api/rulesets/terra-umbra/creation',{signal:AbortSignal.timeout(15000)})).status,401,'Anonymous rule access must remain protected');
+const t=rules.talents,all=[...t.common,...t.expertise,...Object.values(t.origin).flat(),...Object.values(t.sphere).flat()];
 assert.equal(all.length,122);
-for(const [id,revision] of Object.entries(realityTalentRevision))assert.equal(all.find(t=>t.id===id)?.effect,revision.effect,'Live effect '+id);
+for(const [id,revision] of Object.entries(realityTalentRevision))assert.equal(all.find(t=>t.id===id)?.effect,revision.effect,'Runtime effect '+id);
 assert.equal(Object.keys(realityTalentRevision).length,55);
-assert.equal(core.talentChoiceSpecs.profil_calibre.kind,'skill');
-assert.equal(core.talentChoiceSpecs.profil_calibre.styleSkills,true);
+assert.equal(talentChoiceSpecs.profil_calibre.kind,'skill');
+assert.equal(talentChoiceSpecs.profil_calibre.styleSkills,true);
 const {article}=await get('/api/compendium/articles/regles-profil-valeurs-derivees-statut');
 for(const id of ['renommee','renommee-reputation','faire-valoir-son-nom','protection-et-renommee','progression-renommee'])assert.ok(article.sections.some(s=>s.id===id),'Live Renown section '+id);
 assert.equal((await fetch(base+'/api/characters',{signal:AbortSignal.timeout(15000)})).status,401,'Character data remains private');
-console.log('REALITY LIVE OK — exact web release, all 55 approved effects, 122 talents, Style selection, five Renown sections and private character access');
+console.log('REALITY LIVE OK — exact public web release; 55 approved effects and 122 talents in the running API image; Style selection; five public Renown sections; protected rules and character access');
 NODE
 printf '%s\n' "$sha" > "$root/.production-release-sha"
 touch "$stage/deployed.ok"
