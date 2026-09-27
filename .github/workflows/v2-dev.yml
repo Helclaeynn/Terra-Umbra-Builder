@@ -138,6 +138,7 @@ jobs:
           node scripts/check-campaign-calendar-format.mjs
           node scripts/check-campaign-calendar-delivery.mjs
           node scripts/check-campaign-workspace.mjs
+          node scripts/check-campaign-source-revision.mjs
           node scripts/check-npc-generator.mjs
           node scripts/check-campaign-bestiary.mjs
           node scripts/check-campaign-npcs.mjs

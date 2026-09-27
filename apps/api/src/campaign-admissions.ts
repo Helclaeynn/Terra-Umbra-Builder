@@ -4,11 +4,12 @@ import {requireUser} from './auth.js';
 const uuid=/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const gm=(role:string)=>['gm','editor','admin'].includes(role);
 export async function registerCampaignAdmissionRoutes(app:FastifyInstance){
- app.put<{Params:{id:string};Body:{characterId?:unknown;message?:unknown}}>('/api/campaigns/:id/membership',async(req,reply)=>{
+ app.put<{Params:{id:string};Body:{characterId?:unknown;message?:unknown;sourceRevision?:unknown;sourceVersion?:unknown}}>('/api/campaigns/:id/membership',async(req,reply)=>{
   const user=await requireUser(req,reply);if(!user)return;
-  const id=req.params.id,source=req.body?.characterId,message=req.body?.message??'';
+  const id=req.params.id,source=req.body?.characterId,message=req.body?.message??'',revision=req.body?.sourceRevision;
   if(!uuid.test(id))return reply.code(404).send({error:'campaign_not_found'});
-  if((source!==null&&(typeof source!=='string'||!uuid.test(source)))||typeof message!=='string'||message.length>4000)return reply.code(400).send({error:'invalid_character'});
+  if((source!==null&&(typeof source!=='string'||!uuid.test(source)))||typeof message!=='string'||message.length>4000||
+    (revision!==undefined&&(source===null||!Number.isSafeInteger(revision)||Number(revision)<1||Number(revision)>2147483647||!Number.isSafeInteger(req.body?.sourceVersion))))return reply.code(400).send({error:'invalid_character'});
   const client=await pool.connect();
   try{
    await client.query('BEGIN');
@@ -20,10 +21,30 @@ export async function registerCampaignAdmissionRoutes(app:FastifyInstance){
    if(source!==null){
     const ch=await client.query('SELECT * FROM characters WHERE id=$1 AND owner_id=$2 AND archived_at IS NULL FOR SHARE',[source,user.id]);if(!ch.rows.length)return await deny();
     const c=ch.rows[0];
-    if(c.campaign_id===id)character={id:c.id,version:c.version};
+    if(revision!==undefined&&c.version!==req.body?.sourceVersion){await client.query('ROLLBACK');return reply.code(409).send({error:'character_version_conflict'});}
+    let snapshot:{name:string;data:Record<string,unknown>}={name:c.name,data:c.data};
+    if(revision!==undefined){
+     const version=await client.query('SELECT name,data FROM character_revisions WHERE character_id=$1 AND revision=$2',[c.id,revision]);
+     if(!version.rows.length){await client.query('ROLLBACK');return reply.code(404).send({error:'character_revision_not_found'});}
+     snapshot=version.rows[0];
+    }
+    if(c.campaign_id===id&&revision===undefined)character={id:c.id,version:c.version};
     else{
-     const created=await client.query(`INSERT INTO characters(owner_id,name,data,version,campaign_id,source_character_id,source_version,source_snapshot) VALUES($1,$2,$3::jsonb,1,$4,$5,$6,$3::jsonb) RETURNING id,version`,[user.id,c.name,JSON.stringify(c.data),id,c.id,c.version]);character=created.rows[0];
-     await client.query("INSERT INTO character_revisions(character_id,revision,name,data,reason,created_by) VALUES($1,1,$2,$3::jsonb,'campaign-fork',$4)",[character.id,c.name,JSON.stringify(c.data),user.id]);
+     const prior=m.rows[0].character_id&&revision!==undefined?await client.query('SELECT id,version,source_character_id FROM characters WHERE id=$1 AND owner_id=$2 AND campaign_id=$3 AND archived_at IS NULL FOR UPDATE',[m.rows[0].character_id,user.id,id]):{rows:[]};
+     const reused=prior.rows[0]&&(prior.rows[0].id===c.id||prior.rows[0].source_character_id===c.id);
+     if(reused){
+      const granted=await client.query(`SELECT 1 FROM campaign_session_rewards r JOIN campaign_sessions s ON s.id=r.session_id WHERE s.campaign_id=$1 AND r.character_id=$2
+        UNION ALL SELECT 1 FROM campaign_session_effects e JOIN campaign_sessions s ON s.id=e.session_id WHERE s.campaign_id=$1 AND e.character_id=$2 LIMIT 1`,[id,prior.rows[0].id]);
+      if(granted.rows.length){await client.query('ROLLBACK');return reply.code(409).send({error:'campaign_progression_already_awarded'});}
+      const next=prior.rows[0].version+1;
+      await client.query(`UPDATE characters SET name=$2,data=$3::jsonb,version=$4,source_version=CASE WHEN id=$5 THEN source_version ELSE $6 END,
+        source_snapshot=CASE WHEN id=$5 THEN source_snapshot ELSE $3::jsonb END,updated_at=now() WHERE id=$1`,[prior.rows[0].id,snapshot.name,JSON.stringify(snapshot.data),next,c.id,revision]);
+      await client.query('INSERT INTO character_revisions(character_id,revision,name,data,reason,created_by) VALUES($1,$2,$3,$4::jsonb,$5,$6)',[prior.rows[0].id,next,snapshot.name,JSON.stringify(snapshot.data),`campaign-source-revision:${revision}`,user.id]);
+      character={id:prior.rows[0].id,version:next};
+     }else{
+      const created=await client.query(`INSERT INTO characters(owner_id,name,data,version,campaign_id,source_character_id,source_version,source_snapshot) VALUES($1,$2,$3::jsonb,1,$4,$5,$6,$3::jsonb) RETURNING id,version`,[user.id,snapshot.name,JSON.stringify(snapshot.data),id,c.id,revision??c.version]);character=created.rows[0];
+      await client.query("INSERT INTO character_revisions(character_id,revision,name,data,reason,created_by) VALUES($1,1,$2,$3::jsonb,'campaign-fork',$4)",[character.id,snapshot.name,JSON.stringify(snapshot.data),user.id]);
+     }
     }
    }
    await client.query(`UPDATE campaign_members SET status='accepted',character_id=$3,admission_status=CASE WHEN $3::uuid IS NULL THEN 'none' ELSE 'pending' END,admission_version=admission_version+1,approved_basis=NULL,approved_snapshot=NULL,approved_at=NULL WHERE campaign_id=$1 AND user_id=$2`,[id,user.id,character?.id??null]);

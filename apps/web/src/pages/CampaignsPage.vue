@@ -11,11 +11,15 @@ type Campaign={admissionRules?:string;id:string;name:string;description:string;g
 type Member={admissionStatus?:string;userId:string;displayName:string;status:string;characterId:string|null;characterName:string|null;canReadSheet:boolean;updatedAt:string|null};
 type Account={id:string;displayName:string};
 const router=useRouter(),id=String(useRoute().params.id||''),endpoint='/api/campaigns';
-const campaigns=ref<Campaign[]>([]),campaign=ref<Campaign|null>(null),members=ref<Member[]>([]),characters=ref<{id:string;name:string;campaignName?:string}[]>([]);
+type CharacterChoice={id:string;name:string;version:number;campaignName?:string};
+type CharacterRevision={revision:number;createdAt:string;reason:string;xpEarned:number;ptvEarned:number};
+const campaigns=ref<Campaign[]>([]),campaign=ref<Campaign|null>(null),members=ref<Member[]>([]),characters=ref<CharacterChoice[]>([]);
 const userId=ref(''),canCreate=ref(false),loading=ref(true),busy=ref(false),error=ref(''),notice=ref(''),login=ref(false);
 const showCreate=ref(false),createName=ref(''),createDescription=ref(''),query=ref(''),accounts=ref<Account[]>([]),searching=ref(false),searchError=ref('');
 const accountsOpen=ref(false),accountsMore=ref(false),moreSearching=ref(false);
 const chosenCharacter=ref(''),editing=ref(false),draft=ref({name:'',description:'',gmNotes:'',admissionRules:''}),baseline=ref(''),editVersion=ref(0);
+const chosenRevision=ref('current'),revisions=ref<CharacterRevision[]>([]),revisionsLoading=ref(false),revisionsError=ref('');
+let revisionRequest=0;
 const admissionRefresh=ref(0),npcsOpen=ref(false),npcDirty=ref(false),bestiaryOpen=ref(false),bestiaryDirty=ref(false);
 function toggleNpcs(e:Event){const el=e.target as HTMLDetailsElement;if(!el.open&&npcDirty.value&&!window.confirm('Abandonner les PNJ non enregistrés ?')){el.open=true;return;}npcsOpen.value=el.open;}
 function toggleBestiary(e:Event){const el=e.target as HTMLDetailsElement;if(!el.open&&bestiaryDirty.value&&!window.confirm('Abandonner les créatures non enregistrées ?')){el.open=true;return;}bestiaryOpen.value=el.open;}
@@ -29,6 +33,9 @@ let generation=0,searchGeneration=0,timer:ReturnType<typeof setTimeout>|undefine
 function failure(e:unknown){
   const messages:Record<string,string>={campaign_version_conflict:'La campagne a changé ailleurs. Ton texte est conservé : copie-le avant de recharger la dernière version.',invalid_campaign:'Vérifie le nom (120 caractères), la présentation (2 000) et les notes (20 000).',gm_required:'Le rôle MJ est nécessaire pour créer une campagne.',invitation_unavailable:'Ce compte est déjà invité ou la campagne n’est plus disponible.',membership_unavailable:'La campagne ou la fiche choisie n’est plus disponible.',campaign_not_found:'Cette campagne n’est pas accessible avec ton compte.',authentication_required:'Connecte-toi pour retrouver tes campagnes.'};
   messages.campaign_delete_conflict='La campagne a changé depuis son affichage. Actualise-la avant de confirmer sa suppression.';
+  messages.campaign_progression_already_awarded='Des gains de séance sont déjà liés à cette fiche de campagne. Ils ne peuvent pas être effacés en proposant une ancienne sauvegarde.';
+  messages.character_version_conflict='La fiche source a changé depuis le choix de sa version. Recharge la page et choisis à nouveau la sauvegarde.';
+  messages.character_revision_not_found='Cette sauvegarde n’est plus disponible. Choisis une autre version.';
   error.value=messages[e instanceof Error?e.message:'']||'Impossible de terminer cette action. Réessaie.';
   if(e instanceof ApiError&&[401,403,404].includes(e.status)){
     campaign.value=null;campaigns.value=[];members.value=[];characters.value=[];accounts.value=[];canCreate.value=false;editing.value=false;draft.value={name:'',description:'',gmNotes:'',admissionRules:''};login.value=e.status===401;
@@ -41,7 +48,7 @@ async function load(){
       const r=await api<{campaign:Campaign;members:Member[];userId:string}>(`${endpoint}/${id}`);if(seq!==generation)return;
       campaign.value=r.campaign;members.value=r.members;userId.value=r.userId;
       chosenCharacter.value=r.members.find(m=>m.userId===r.userId)?.characterId||'';
-      if(!r.campaign.canManage){const own=await api<{characters:{id:string;name:string}[]}>('/api/characters?summary=1');if(seq!==generation)return;characters.value=own.characters;}
+      if(!r.campaign.canManage){const own=await api<{characters:CharacterChoice[]}>('/api/characters?summary=1');if(seq!==generation)return;characters.value=own.characters;}
     }else{
       const r=await api<{campaigns:Campaign[];canCreate:boolean;userId:string}>(endpoint);if(seq!==generation)return;
       campaigns.value=r.campaigns;canCreate.value=r.canCreate;userId.value=r.userId;
@@ -68,7 +75,30 @@ function browseAccounts(){if(!accountsOpen.value){accountsOpen.value=true;void s
 function accountScroll(e:Event){const el=e.target as HTMLElement;if(el.scrollTop+el.clientHeight>=el.scrollHeight-100)void searchAccounts(true);}
 watch(query,()=>{searchGeneration++;clearTimeout(timer);accounts.value=[];accountsMore.value=false;moreSearching.value=false;searching.value=accountsOpen.value;if(accountsOpen.value)timer=setTimeout(()=>{void searchAccounts();},250);});
 async function invite(a:Account){await action(async()=>{await api(`${endpoint}/${id}/invitations`,{method:'POST',body:JSON.stringify({userId:a.id})});await searchAccounts();},`${a.displayName} a été invité. L’invitation apparaît dans ses campagnes.`);}
-async function join(){await action(async()=>{await api(`${endpoint}/${id}/membership`,{method:'PUT',body:JSON.stringify({characterId:chosenCharacter.value||null})});admissionRefresh.value++;},chosenCharacter.value?'Version de campagne proposée au MJ.':'Participation enregistrée.');}
+async function loadRevisions(){
+  const source=chosenCharacter.value,request=++revisionRequest;
+  chosenRevision.value='current';revisions.value=[];revisionsError.value='';
+  if(!source)return;
+  revisionsLoading.value=true;
+  try{
+    const result=await api<{revisions:CharacterRevision[]}>(`/api/characters/${encodeURIComponent(source)}/revisions`);
+    if(request===revisionRequest&&chosenCharacter.value===source)revisions.value=result.revisions;
+  }catch{if(request===revisionRequest)revisionsError.value='Impossible de charger les versions enregistrées.';}
+  finally{if(request===revisionRequest)revisionsLoading.value=false;}
+}
+watch(chosenCharacter,()=>{void loadRevisions();});
+async function join(){
+  const source=chosenCharacter.value;
+  const choice=characters.value.find(c=>c.id===source);
+  const revision=chosenRevision.value==='current'?undefined:Number(chosenRevision.value);
+  if(revision!==undefined&&(!choice||!revisions.value.some(r=>r.revision===revision)))return;
+  if(revision!==undefined&&members.value.some(m=>m.userId===userId.value&&m.characterId)&&
+    !window.confirm('Remplacer la version proposée pour cette campagne par cette sauvegarde ? Les modifications faites depuis sur cette version seront conservées dans son historique, mais ne figureront plus dans la fiche proposée. La fiche source ne changera pas.'))return;
+  await action(async()=>{
+    await api(`${endpoint}/${id}/membership`,{method:'PUT',body:JSON.stringify({characterId:source||null,...(revision!==undefined?{sourceRevision:revision,sourceVersion:choice?.version}:{})})});
+    admissionRefresh.value++;
+  },source?'Version de campagne proposée au MJ.':'Participation enregistrée.');
+}
 async function remove(m:Member){
   const own=m.userId===userId.value;
   if(!window.confirm(own?'Quitter cette campagne ? Son MJ perdra l’accès à ta fiche accordé par cette campagne.':`Retirer ${m.displayName} de la campagne ?`))return;
@@ -121,7 +151,7 @@ onUnmounted(()=>{clearInterval(refreshTimer);document.removeEventListener('visib
         <header class="page-heading"><div><p class="eyebrow">{{ campaign.canManage?'TABLEAU DE BORD MJ':'MA CAMPAGNE' }} <span v-if="campaign.archivedAt">· ARCHIVÉE</span></p><h1>{{ campaign.name }}</h1><p>MJ · {{ campaign.gmName }}</p></div><button v-if="campaign.canManage&&!editing" @click="edit">Notes et paramètres</button></header>
         <p v-if="campaign.description" class="description">{{ campaign.description }}</p>
         <form v-if="editing&&campaign.canManage" class="panel form" @submit.prevent="save"><h2>Notes et paramètres</h2><label>Nom<input v-model="draft.name" required maxlength="120" /></label><label>Présentation visible par les joueurs<textarea v-model="draft.description" rows="3" maxlength="2000" /></label><label>Conditions d’admission des personnages<textarea v-model="draft.admissionRules" rows="3" maxlength="4000" placeholder="Ex. : uniquement des Crawlers, personnages débutants, pas de Corruption au départ…" /></label><label>Notes privées du MJ<textarea v-model="draft.gmNotes" rows="9" maxlength="20000" /></label><small>Ces notes sont réservées au MJ de cette campagne.</small><div class="actions"><button class="primary" :disabled="busy">Enregistrer</button><button type="button" @click="cancel">Annuler</button></div><p v-if="dirty">Modifications non enregistrées.</p></form>
-        <section v-if="campaign.membershipStatus==='invited'" class="panel form"><h2>Tu es invité à cette campagne</h2><p v-if="campaign.admissionRules" class="description"><strong>Conditions de la table :</strong><br />{{ campaign.admissionRules }}</p><p>Une copie indépendante de la fiche choisie sera proposée à {{ campaign.gmName }}, avec ses acquis actuels et sa Vérité. Le MJ doit la valider. Les gains de cette campagne resteront sur cette version. Ton journal personnel reste privé.</p><label>Personnage<select v-model="chosenCharacter"><option value="">Je choisirai plus tard</option><option v-for="c in characters" :key="c.id" :value="c.id">{{ c.name }} · {{ c.campaignName||'Hors campagne' }}</option></select></label><div class="actions"><button class="primary" :disabled="busy" @click="join">Accepter l’invitation</button><button :disabled="busy" @click="decline">Décliner</button></div></section>
+        <section v-if="campaign.membershipStatus==='invited'" class="panel form"><h2>Tu es invité à cette campagne</h2><p v-if="campaign.admissionRules" class="description"><strong>Conditions de la table :</strong><br />{{ campaign.admissionRules }}</p><p>Une copie indépendante de la fiche et de ses acquis sera proposée à {{ campaign.gmName }}. Choisis une sauvegarde antérieure pour proposer l’état avant des gains d’XP. La fiche source reste intacte.</p><label>Personnage<select v-model="chosenCharacter"><option value="">Je choisirai plus tard</option><option v-for="c in characters" :key="c.id" :value="c.id">{{ c.name }} · {{ c.campaignName||'Hors campagne' }}</option></select></label><label v-if="chosenCharacter">Version à proposer<select v-model="chosenRevision" :disabled="revisionsLoading"><option value="current">Version actuelle</option><option v-for="r in revisions" :key="r.revision" :value="String(r.revision)">Version {{ r.revision }} · {{ new Date(r.createdAt).toLocaleDateString('fr-FR') }} · {{ r.xpEarned }} XP / {{ r.ptvEarned }} PTV reçus</option></select></label><p v-if="revisionsLoading" role="status">Chargement des versions…</p><p v-if="revisionsError" role="alert">{{ revisionsError }}</p><div class="actions"><button class="primary" :disabled="busy||revisionsLoading" @click="join">Accepter l’invitation</button><button :disabled="busy" @click="decline">Décliner</button></div></section>
         <template v-if="campaign.canManage||campaign.membershipStatus==='accepted'">
           <CampaignSessions :user-id="userId" :campaign-id="id" :can-manage="campaign.canManage" :archived="!!campaign.archivedAt" :members="members" />
           <details v-if="campaign.canManage" class="panel" @toggle="toggleNpcs"><summary>Mes PNJ de campagne · générateur et fiches</summary><CampaignNpcs v-if="npcsOpen" :campaign-id="id" :archived="!!campaign.archivedAt" @dirty="npcDirty=$event" /></details>
@@ -129,7 +159,7 @@ onUnmounted(()=>{clearInterval(refreshTimer);document.removeEventListener('visib
           <details class="panel" open><summary>Le groupe · {{ members.filter(m=>m.status==='accepted').length }} joueur(s)</summary><p v-if="!members.length" class="empty">Invite tes joueurs pour réunir leurs fiches ici.</p>
             <div v-for="m in members" :key="m.userId" class="member-row"><div><strong>{{ m.characterName||m.displayName }}</strong><p>{{ m.displayName }} <span v-if="m.status==='invited'">· Invitation en attente</span><span v-else-if="!m.characterId">· Personnage à choisir</span><span v-else>· {{ m.admissionStatus==='approved'?'Fiche acceptée':'Fiche à valider' }}</span></p><small v-if="m.updatedAt">Fiche mise à jour le {{ new Date(m.updatedAt).toLocaleDateString('fr-FR') }}</small></div><div class="actions"><RouterLink v-if="m.canReadSheet" class="primary sheet-link" :to="{path:`/characters/${m.characterId}/sheet`,query:{campaign:id}}">Ouvrir la fiche →</RouterLink><button v-if="campaign.canManage&&!campaign.archivedAt" :disabled="busy" :aria-label="`Retirer ${m.displayName}`" @click="remove(m)">{{ m.status==='invited'?'Annuler l’invitation':'Retirer' }}</button></div></div>
           </details>
-          <details v-if="!campaign.canManage&&me" class="panel form"><summary>Mon personnage</summary><p>Choisir une autre fiche propose une copie indépendante au MJ, avec ses acquis actuels. La fiche source et les autres campagnes ne seront pas modifiées.</p><label>Fiche partagée<select v-model="chosenCharacter"><option value="">Aucune fiche partagée</option><option v-for="c in characters" :key="c.id" :value="c.id">{{ c.name }} · {{ c.campaignName||'Hors campagne' }}</option></select></label><div class="actions"><button class="primary" :disabled="busy||chosenCharacter===(me.characterId||'')" @click="join">Proposer cette fiche</button><button :disabled="busy" @click="remove(me)">Quitter la campagne</button></div><RouterLink v-if="!characters.length" to="/account">Créer un personnage dans Mon espace →</RouterLink></details>
+          <details v-if="!campaign.canManage&&me" class="panel form"><summary>Mon personnage</summary><p>Tu peux proposer une ancienne sauvegarde sans modifier la fiche source. Si des gains de séance ont déjà été attribués à cette version de campagne, ils sont conservés et son remplacement est bloqué.</p><label>Fiche partagée<select v-model="chosenCharacter"><option value="">Aucune fiche partagée</option><option v-for="c in characters" :key="c.id" :value="c.id">{{ c.name }} · {{ c.campaignName||'Hors campagne' }}</option></select></label><label v-if="chosenCharacter">Version à proposer<select v-model="chosenRevision" :disabled="revisionsLoading"><option value="current">Version actuelle</option><option v-for="r in revisions" :key="r.revision" :value="String(r.revision)">Version {{ r.revision }} · {{ new Date(r.createdAt).toLocaleDateString('fr-FR') }} · {{ r.xpEarned }} XP / {{ r.ptvEarned }} PTV reçus</option></select></label><p v-if="revisionsLoading" role="status">Chargement des versions…</p><p v-if="revisionsError" role="alert">{{ revisionsError }}</p><div class="actions"><button class="primary" :disabled="busy||revisionsLoading||(chosenCharacter===(me.characterId||'')&&chosenRevision==='current')" @click="join">Proposer cette fiche</button><button :disabled="busy" @click="remove(me)">Quitter la campagne</button></div><RouterLink v-if="!characters.length" to="/account">Créer un personnage dans Mon espace →</RouterLink></details>
           <details v-if="campaign.canManage&&!campaign.archivedAt" class="panel form"><summary>Inviter un joueur</summary><label>Nom de compte<input v-model="query" type="search" maxlength="80" placeholder="Parcourir les joueurs ou chercher un nom…" autocomplete="off" @focus="browseAccounts" /></label><button v-if="!accountsOpen" type="button" @click="browseAccounts">Parcourir les joueurs</button><div v-if="accountsOpen" class="account-picker" role="region" aria-label="Joueurs disponibles" tabindex="0" @scroll="accountScroll"><p v-if="searching" role="status">Recherche…</p><p v-else-if="searchError" role="alert">{{ searchError }} <button type="button" @click="searchAccounts()">Réessayer la recherche</button></p><p v-else-if="!accounts.length" role="status">Aucun compte disponible. Les joueurs déjà invités ne sont pas proposés.</p><div v-for="a in accounts" :key="a.id" class="member-row"><div><strong>{{ a.displayName }}</strong><small>Compte {{ a.id.slice(0,8) }}</small></div><button :disabled="busy" @click="invite(a)">Inviter {{ a.displayName }}</button></div><button v-if="accountsMore" type="button" :disabled="moreSearching||searching" @click="searchAccounts(true)">{{ moreSearching?'Chargement…':'Voir d’autres joueurs' }}</button></div><small>Le joueur recevra l’invitation dans « Mes campagnes » et choisira lui-même sa fiche.</small></details>
           <CampaignAdmissions v-if="!campaign.archivedAt" :campaign-id="id" :can-manage="campaign.canManage" :refresh-key="admissionRefresh" @updated="load" />
 
