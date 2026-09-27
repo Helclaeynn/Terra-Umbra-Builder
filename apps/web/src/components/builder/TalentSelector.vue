@@ -29,6 +29,7 @@ export type TalentChoiceSpec={
   label:string;
   skills?:readonly string[];
   skillAttribute?:string;
+  styleSkills?:boolean;
   options?:readonly TalentChoiceOption[];
   bonus?:number;
   permanent?:boolean;

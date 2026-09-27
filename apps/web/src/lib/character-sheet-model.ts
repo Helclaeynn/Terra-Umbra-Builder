@@ -1,3 +1,5 @@
+import {uniqueTalents,permanentSkillBonus,renownScore,projectBenefits,benefitSettings,loanLabel,recoverySummary} from './reality-benefits';
+import {cloneJson} from './json';
 import type { CharacterDataV2 } from "../types/character";
 import type { CreationRules, CreationLore, DisadvantageCatalog, EdgeRules } from "./creation-types";
 import type { TalentChoiceSpec } from "../components/builder/TalentSelector.vue";
@@ -25,11 +27,14 @@ export function buildCharacterSheet(data:CharacterDataV2, core:SheetCore, truth:
   };
   const revelation=truth.revelation?truthRevelationProfile(truth,state):null;
   const progress=ensureProgression({...data.progression},creation.skills.map(item=>item.id),creation.attributes.map(item=>item.id));
-  const realityState=ensureRealityState({...data.reality});
+  const realityState=ensureRealityState(cloneJson(data.reality));
   const sphere=creation.spheres[data.creation.sphere];
   const style=creation.styles.find(item=>item.id===data.creation.style);
   const creationIds=[data.talents.origin,data.talents.sphere,data.talents.expertise,data.talents.common,...data.talents.edge].filter(Boolean);
-  const choiceValue=(id:string)=>typeof data.talentChoices[id]==="string"?data.talentChoices[id] as string:"";
+  const realityIds=uniqueTalents(creationIds,campaign?progress.realityTalents:[]);
+  projectBenefits(realityState,realityIds,data.creation.sphere,campaign);
+  const choices={...data.talentChoices,...(campaign?progress.realityTalentChoices:{})};
+  const choiceValue=(id:string)=>typeof choices[id]==="string"?choices[id] as string:"";
   const talentById=(id:string)=>[...Object.values(creation.talents.origin).flat(),...Object.values(creation.talents.sphere).flat(),...creation.talents.expertise,...creation.talents.common].find(item=>item.id===id);
   const talentNarrative=(talent:ReturnType<typeof talentById>)=>talent?(talent.category==="origin"?core.lore.originTalent:talent.category==="sphere"?core.lore.sphereTalent:core.lore.talent)[talent.id]??"":"";
   const finalAttribute=(id:string)=>Number(data.attributes[id]||0)+Number(data.edgeAttributes[id]||0)+truthPermanentAttributeBonus(state,id);
@@ -46,19 +51,19 @@ export function buildCharacterSheet(data:CharacterDataV2, core:SheetCore, truth:
   const attributeBases=Object.fromEntries(creation.attributes.map(item=>[item.id,finalAttribute(item.id)]));
   const attribute=(id:string)=>campaign?currentAttribute(progress,attributeBases,id):finalAttribute(id);
   const rawSkill=(id:string)=>campaign?currentSkillRaw(progress,skillBases,id):skillRaw(id);
-  const skill=(id:string)=>campaign?currentSkillFinal(progress,skillBases,skillFinalBases,core.skillTalentMap,id):skillFinal(id);
-  const derived=characterDerivedStats(attribute,skill,data.disadvantages);
+  const skill=(id:string)=>campaign?currentSkillFinal(progress,skillBases,skillFinalBases,core.skillTalentMap,id)+permanentSkillBonus(progress.realityTalents,progress.realityTalentChoices,core.talentChoiceSpecs,id):skillFinal(id);
+  const permanentSkill=(id:string)=>rawSkill(id)+permanentSkillBonus(realityIds,choices,core.talentChoiceSpecs,id);
+  const derived=characterDerivedStats(attribute,permanentSkill,data.disadvantages,skill);
   const items=realityItemMap(reality);
   const economy=style?realityEconomic(reality,realityState,style,data.edge):null;
-  const lifestyleBase=style?realityLifestyleBase(reality,style,data.edge,creationIds,data.disadvantages):"Standard";
+  const lifestyleBase=style?realityLifestyleBase(reality,style,data.edge,realityIds,data.disadvantages):"Standard";
   const pressure=lifestylePressure(reality,realityState,lifestyleBase);
-  const renown=data.disadvantages.includes("inconnu")?0:creationIds.includes("renomme")||Number(data.edge.renownPack||0)>0?2:1;
+  const renown=renownScore(creationIds,campaign?progress.realityTalents:[],Number(data.edge.renownPack||0),data.disadvantages.includes('inconnu'),campaign?progress.renownAdjustment:0);
   const cash=campaignCash(progress,Math.max(0,economy?.account||0));
   const edgeRemaining=core.edgeRules.base+data.disadvantages.length-["attributePack","skillPacks","talentPacks","cashPacks","lifestylePack","augmentationPacks","renownPack"].reduce((sum,key)=>sum+Number(data.edge[key]||0),0);
   const ptvReserve=truth.structure.ptvInitial-truthPtvSpent(truth,state);
   const allDisadvantages=[...(core.disadvantages.sphere[data.creation.sphere]??[]),...core.disadvantages.common,...core.disadvantages.attribute,...Object.values(core.disadvantages.sphere).flat()];
   const selectedDisadvantages=data.disadvantages.flatMap(id=>{const item=allDisadvantages.find(item=>item.id===id);return item?[item]:[];});
-  const realityIds=[...new Set([...creationIds,...(campaign?progress.realityTalents:[])])];
   const truthState={...state,corruptionTalents:[...new Set([...state.corruptionTalents,...(campaign?progress.corruptionTalents:[])])],truthTalents:[...new Set([...state.truthTalents,...(campaign?progress.truthTalents:[])])]};
   const truthMap=new Map(Object.values(truth.catalogs).flat().map(item=>[item.id,item]));
   for(const item of truthAvailableTalents(truth,truthState))truthMap.set(item.id,item);
@@ -73,13 +78,18 @@ export function buildCharacterSheet(data:CharacterDataV2, core:SheetCore, truth:
   for(const purchase of [...(realityState?.equipment??[]),...(realityState?.augmentations??[])]){
     if(!campaign&&purchase.acquiredInCampaign)continue;
     const item=items.get(purchase.itemId);
-    inventory.push({id:purchase.uid,name:item?.name??purchase.itemId,detail:item?.effect,compendiumId:item?.compendiumId,
-      group:[purchase.kind==="augmentation"?"Augmentation":"Équipement",purchase.sphereSupport?"Appui de Sphère":"",purchase.loaded?"Chargé":""].filter(Boolean).join(" · ")});
+    inventory.push({id:purchase.uid,name:item?.name??purchase.itemId,detail:[item?.effect,purchase.loanEffect].filter(Boolean).join("\n"),compendiumId:item?.compendiumId,
+      group:[purchase.kind==="augmentation"?"Augmentation":"Équipement",purchase.sphereSupport?"Appui de Sphère":"",purchase.talentGrant?loanLabel(purchase.talentGrant)+" · prêt non revendable":"",purchase.loaded?"Chargé":""].filter(Boolean).join(" · ")});
   }
   for(const id of state.truthEquipment){
     const item=truth.equipment.find(item=>item.id===id);
     inventory.push({id:`truth-${id}`,name:item?.name??id,detail:item?.lore,compendiumId:item?.compendiumId,group:"Objet de Vérité"});
   }
+  for(const charge of realityState.fixedChargeItems.filter(c=>c.talentGrant||c.sphereSupport))inventory.push({id:charge.uid,name:charge.name,group:charge.talentGrant?loanLabel(charge.talentGrant):'Appui de Sphère',detail:charge.monthly+' $/mois · prestation prise en charge'});
+  const recovered=recoverySummary(permanentSkill('constitution'),realityIds);
+  const talentRules:SheetEntry[]=[{id:'daily-recovery',name:'Récupération de repos',detail:recovered.normal+' PV / 24 h ; '+recovered.prolonged+' PV avec soins prolongés. Pas de supplément aux soins instantanés.'}];
+  if(realityIds.includes('insensibilite_a_la_douleur'))talentRules.push({id:'injury-stress',name:'Insensibilité à la douleur',detail:'Blessures : à la moitié des PV, Stress minimal Normal ; au quart, Tendu. Un Stress indépendant plus grave reste applicable. Agonie inchangée.'});
+  if(realityIds.includes('assurance_corporative')){const uid=benefitSettings(realityState).insuredAssetUid,p=[...realityState.equipment,...realityState.augmentations].find(p=>p.uid===uid);talentRules.push({id:'insured-asset',name:'Bien assuré',detail:p?(items.get(p.itemId)?.name??p.itemId):'À préciser : aucune sélection automatique.'});}
   const strings=(value:unknown)=>Array.isArray(value)?value.filter((item):item is string=>typeof item==="string"&&Boolean(item.trim())):[];
   const structuredContacts=Object.entries({
     Crawler:data.social.crawlerContact,
@@ -104,7 +114,7 @@ export function buildCharacterSheet(data:CharacterDataV2, core:SheetCore, truth:
     lifestyle:pressure?.effective??lifestyleBase,lifestyleBase:lifestyleBase,renown:renown,
     attributes:creation.attributes.map(item=>({...item,value:attribute(item.id),base:finalAttribute(item.id)})),
     skills:creation.skills.map(item=>({...item,value:skill(item.id),raw:rawSkill(item.id),bonus:skill(item.id)-rawSkill(item.id)})),
-    derived,edge:edgeRemaining,
+    derived,talentRules,edge:edgeRemaining,
     xpRemaining:xpRemaining(progress,skillBases,attributeBases),
     ptvRemaining:campaign?ptvRemaining(progress,Math.max(0,ptvReserve),truthCost,id=>Number(corruptionMap.get(id)?.cost||0)):ptvReserve,
     account:economy?.account??0,cash:cash,

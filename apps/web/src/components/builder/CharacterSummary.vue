@@ -51,7 +51,7 @@ const money=(value:number)=>`${value.toLocaleString("fr-FR")} $`;
         </div>
       </div>
     </header>
-    <p class="sheet-context">{{ sheet.mode==='campaign' ? 'Valeurs actuelles, avec les gains de progression.' : 'Valeurs de création, avant les gains de progression.' }} Bonus permanents inclus ; effets temporaires et de Révélation à appliquer selon leurs conditions.</p>
+    <p class="sheet-context">{{ sheet.mode==='campaign' ? 'Valeurs actuelles, avec les gains de progression.' : 'Valeurs de création, avant les gains de progression.' }} Valeurs dérivées calculées sur les scores permanents ; bonus aux tests et effets de Révélation à appliquer selon leurs conditions.</p>
     <dl v-if="biography.length" class="sheet-biography sheet-biography-top"><div v-for="[label,value] in biography" :key="label"><dt>{{ label }}</dt><dd>{{ value }}</dd></div></dl>
 
     <section aria-label="Valeurs essentielles" class="sheet-metrics">
@@ -64,6 +64,7 @@ const money=(value:number)=>`${value.toLocaleString("fr-FR")} $`;
       <span>Stress augmentique maximum <strong>{{ sheet.derived.augmentStressMax }}</strong></span>
     </div>
 
+    <section v-if="sheet.talentRules?.length" class="sheet-resources" data-talent-rules><h3>Applications des Talents</h3><dl><div v-for="rule in sheet.talentRules" :key="rule.id"><dt>{{ rule.name }}</dt><dd>{{ rule.detail }}</dd></div></dl></section>
     <section aria-label="Attributs" class="sheet-attributes">
       <div v-for="item in sheet.attributes" :key="item.id" :data-attribute="item.id">
         <span>{{ item.name }}</span><strong>{{ item.value }}</strong>
@@ -92,7 +93,7 @@ const money=(value:number)=>`${value.toLocaleString("fr-FR")} $`;
 
     <details id="sheet-skills" class="sheet-details" open>
       <summary>Compétences <span>{{ sheet.skills.length }}</span></summary>
-      <p class="sheet-hint">Le total inclut les bonus permanents de Talents. Le rang brut reste indiqué séparément.</p>
+      <p class="sheet-hint">Le total de test inclut les bonus de Talents applicables. Le rang brut reste séparé ; un bonus aux tests ne gonfle pas une valeur dérivée.</p>
       <div class="sheet-skill-groups">
         <section v-for="group in skillGroups" :key="group.id">
           <h3>{{ group.name }}</h3>
