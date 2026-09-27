@@ -1,0 +1,90 @@
+name: V2 production campaign source revision release
+on:
+  push:
+    branches: [feature/tuc-web-v2]
+    paths: [.github/workflows/v2-production-campaign-source-revision-release.yml]
+permissions:
+  contents: read
+concurrency:
+  group: tuc-v2-prod-campaign-source-revision
+  cancel-in-progress: false
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - name: Build API and web for campaign version choice
+        run: |
+          set -euo pipefail
+          cd apps/api
+          npm ci
+          npm run build
+          cd ../web
+          npm ci
+          npm run build
+          node tests/campaign-final-recette-dom.mjs
+  release:
+    needs: verify
+    runs-on: ubuntu-latest
+    environment: tuc-dev
+    timeout-minutes: 20
+    env:
+      TUC_DEV_HOST: ${{ secrets.TUC_DEV_HOST }}
+      TUC_DEV_USER: ${{ secrets.TUC_DEV_USER }}
+      TUC_DEV_SSH_KEY: ${{ secrets.TUC_DEV_SSH_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Back up and deploy versioned campaign proposals
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "$TUC_DEV_HOST" && test -n "$TUC_DEV_USER" && test -n "$TUC_DEV_SSH_KEY"
+          install -m 700 -d ~/.ssh
+          trap 'rm -f ~/.ssh/tuc_prod' EXIT
+          printf '%s\n' "$TUC_DEV_SSH_KEY" > ~/.ssh/tuc_prod
+          chmod 600 ~/.ssh/tuc_prod
+          ssh-keyscan -H "$TUC_DEV_HOST" >> ~/.ssh/known_hosts
+          SSH="ssh -i ~/.ssh/tuc_prod -o IdentitiesOnly=yes"
+          $SSH "$TUC_DEV_USER@$TUC_DEV_HOST" 'test -f /opt/terra-umbra/production-active && test -f /opt/terra-umbra/infrastructure/.env'
+          rsync -az -e "$SSH" apps/api/src/campaign-admissions.ts apps/api/src/characters.ts "$TUC_DEV_USER@$TUC_DEV_HOST:/opt/terra-umbra/apps/api/src/"
+          rsync -az -e "$SSH" apps/web/src/components/CampaignAdmissions.vue "$TUC_DEV_USER@$TUC_DEV_HOST:/opt/terra-umbra/apps/web/src/components/"
+          rsync -az -e "$SSH" apps/web/src/pages/CampaignsPage.vue "$TUC_DEV_USER@$TUC_DEV_HOST:/opt/terra-umbra/apps/web/src/pages/"
+          $SSH "$TUC_DEV_USER@$TUC_DEV_HOST" <<'REMOTE'
+          {
+            set -euo pipefail
+            cd /opt/terra-umbra/infrastructure
+            bash production/backup.sh
+            docker tag tuc-v2-api tuc-v2-api:before-campaign-source-revision
+            docker tag tuc-v2-web tuc-v2-web:before-campaign-source-revision
+            rollback() {
+              status=$?
+              if [ "$status" -ne 0 ]; then
+                docker tag tuc-v2-api:before-campaign-source-revision tuc-v2-api
+                docker tag tuc-v2-web:before-campaign-source-revision tuc-v2-web
+                docker compose up -d --no-build --no-deps --force-recreate api web
+                echo 'CAMPAIGN SOURCE REVISION RELEASE FAILED — previous containers restored' >&2
+                exit "$status"
+              fi
+            }
+            trap rollback EXIT
+            docker compose build api web
+            docker compose up -d --no-deps api web
+            ready=false
+            for attempt in $(seq 1 24); do
+              if curl --fail --silent --show-error --max-time 10 https://terra-umbra.fr/api/health >/dev/null; then
+                ready=true
+                break
+              fi
+              sleep 5
+            done
+            [ "$ready" = true ]
+            code=$(curl --silent --output /dev/null --write-out '%{http_code}' https://terra-umbra.fr/api/characters/11111111-1111-4111-8111-111111111111/revisions)
+            [ "$code" = 401 ]
+            trap - EXIT
+            echo 'CAMPAIGN SOURCE REVISION LIVE — HTTPS and private history endpoint verified'
+          }
+          REMOTE
