@@ -52,19 +52,19 @@ function src(value: string) { return value.startsWith("/api/") ? value : `/api/c
 
 <template>
   <section class="portrait-admin">
-    <strong>Portraits · visibilité</strong>
-    <p v-if="!portraits.length">Aucun portrait suivi pour cette fiche.</p>
+    <strong>Visibilité des portraits</strong>
+    <p v-if="!portraits.length">Aucun portrait sur cette fiche. Vous pouvez en ajouter un ci-dessous.</p>
     <div v-for="portrait in portraits" :key="portrait.media" class="portrait-row">
       <img :src="src(portrait.media)" alt="Aperçu du portrait" loading="lazy" />
       <div>
-        <small>{{ portrait.lot }} · {{ portrait.visibility === 'mj' ? 'MJ only' : 'All' }}</small>
-        <div class="portrait-actions">
-          <button type="button" :disabled="busy || portrait.visibility === 'public'" @click="setVisibility(portrait, 'public')">All</button>
-          <button type="button" :disabled="busy || portrait.visibility === 'mj'" @click="setVisibility(portrait, 'mj')">MJ only</button>
+        <small>{{ portrait.lot === 'fiche' ? 'Portrait de la fiche' : portrait.lot === 'ajout' ? 'Portrait ajouté' : `Archive · ${portrait.lot}` }}</small>
+        <div class="portrait-actions" role="group" aria-label="Visibilité du portrait">
+          <button type="button" :aria-pressed="portrait.visibility === 'public'" :disabled="busy" @click="setVisibility(portrait, 'public')">All</button>
+          <button type="button" :aria-pressed="portrait.visibility === 'mj'" :disabled="busy" @click="setVisibility(portrait, 'mj')">MJ uniquement</button>
         </div>
       </div>
     </div>
-    <label class="portrait-upload">Ajouter un second portrait
+    <label class="portrait-upload">Ajouter un portrait
       <select v-model="uploadVisibility"><option value="public">All</option><option value="mj">MJ only</option></select>
       <input type="file" accept="image/jpeg,image/png,image/webp" :disabled="busy" @change="upload" />
     </label>
@@ -74,5 +74,5 @@ function src(value: string) { return value.startsWith("/api/") ? value : `/api/c
 </template>
 
 <style scoped>
-.portrait-admin{padding:12px;border:1px solid #38556b;border-radius:8px;background:#0b1c2b;color:#ecf4ff;text-align:left}.portrait-admin>strong{display:block;margin-bottom:8px}.portrait-row{display:flex;align-items:center;gap:12px;margin:10px 0}.portrait-row img{width:78px;height:78px;object-fit:contain;border-radius:5px;background:#132638}.portrait-row small{display:block;margin-bottom:8px}.portrait-actions{display:flex;gap:8px}.portrait-actions button,.portrait-upload select{padding:6px 10px;border:1px solid #6486a1;border-radius:5px;background:#142a3d;color:#fff;cursor:pointer}.portrait-actions button:disabled{opacity:.5;cursor:default}.portrait-upload{display:grid;gap:8px;margin-top:16px;font-size:14px}.portrait-upload input{max-width:100%}
+.portrait-admin{padding:12px;border:1px solid #38556b;border-radius:8px;background:#0b1c2b;color:#ecf4ff;text-align:left}.portrait-admin>strong{display:block;margin-bottom:8px}.portrait-row{display:flex;align-items:center;gap:12px;margin:10px 0}.portrait-row img{width:78px;height:78px;object-fit:contain;border-radius:5px;background:#132638}.portrait-row small{display:block;margin-bottom:8px}.portrait-actions{display:flex;gap:8px}.portrait-actions button,.portrait-upload select{padding:6px 10px;border:1px solid #6486a1;border-radius:5px;background:#142a3d;color:#fff;cursor:pointer}.portrait-actions button[aria-pressed="true"]{background:#276d64;border-color:#72cbb3;font-weight:700}.portrait-actions button:disabled{opacity:.5;cursor:default}.portrait-upload{display:grid;gap:8px;margin-top:16px;font-size:14px}.portrait-upload input{max-width:100%}
 </style>
