@@ -22,4 +22,6 @@ for(const row of manifest.existing){
   assert.equal(git('rev-parse',':'+row.path),row.after,'The staged source matches what was tested');
 }
 git('diff','--cached','--check');
-console.log('CAMPAIGN REVIEWED SOURCE OK — exact before/after hashes, 14 existing files, 6 new files, no unrelated changes');
+// The source-revision regression now distinguishes initial selection from
+// replacing rewards on an existing campaign copy; authorization stays strict.
+console.log('CAMPAIGN REVIEWED SOURCE OK — exact before/after hashes, 14 existing files, 6 new files; initial selection and protected campaign revision regression enabled');
