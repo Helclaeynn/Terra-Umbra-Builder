@@ -77,6 +77,7 @@ type ProgressionRules={
 };
 
 const props=defineProps<{
+  rewardsLocked?:boolean;
   talentLore?:Record<string,string>;
   talentChoiceSpecs?:Record<string,ChoiceSpec>;
   creationTalentChoices?:Record<string,unknown>;
@@ -109,7 +110,7 @@ const emit=defineEmits<{
 const truthSearch=ref("");
 const moneyLabel=ref("");
 const moneyAmount=ref("");
-const moneyKind=ref<"gain"|"expense">("gain");
+const moneyKind=ref<"gain"|"expense">(props.rewardsLocked?"expense":"gain");
 const tradeKind=ref<"equipment"|"augmentation">("equipment");
 const tradeSearch=ref("");
 const tradeItemId=ref("");
@@ -179,17 +180,20 @@ const ptvRemainingValue=computed(()=>ptvRemaining(
 const cashValue=computed(()=>campaignCash(state.value,props.creationAccount));
 
 function setXpEarned(value:string){
+  if(props.rewardsLocked)return;
   const next=structuredClone(state.value);
   next.xpEarned=Math.max(xpSpentValue.value,Number(value)||0);
   emitProgression(next);
 }
 function setPtvEarned(value:string){
+  if(props.rewardsLocked)return;
   const next=structuredClone(state.value);
   const minimum=Math.max(0,ptvSpentValue.value-props.creationPtvReserve);
   next.ptvEarned=Math.max(minimum,Number(value)||0);
   emitProgression(next);
 }
 function addSessionXp(amount:number){
+  if(props.rewardsLocked)return;
   const next=structuredClone(state.value);
   next.xpEarned+=amount;
   emitProgression(next);
@@ -395,13 +399,14 @@ function updateCampaignCorruption(value:TruthState){
   const next=structuredClone(state.value);
   next.corruptionTalents=value.corruptionTalents.filter(id=>!props.truthState.corruptionTalents.includes(id));
   emitProgression(next);
-  emit('update:truth',{...props.truthState,corruption:value.corruption,corruptionSource:value.corruptionSource,corruptionMjAuthorized:value.corruptionMjAuthorized});
+  if(!props.rewardsLocked)emit('update:truth',{...props.truthState,corruption:value.corruption,corruptionSource:value.corruptionSource,corruptionMjAuthorized:value.corruptionMjAuthorized});
 }
 function updateCampaignEquipment(value:TruthState){
   emit('update:truth',{...props.truthState,truthEquipment:value.truthEquipment,truthEquipmentMjOverride:value.truthEquipmentMjOverride});
 }
 
 function addMoneyMovement(){
+  if(props.rewardsLocked&&moneyKind.value!=="expense")return;
   const amount=Math.max(0,Number(moneyAmount.value)||0);
   if(!amount)return;
   const next=structuredClone(state.value);
@@ -499,7 +504,7 @@ function buyCampaignItem(){
   };
   if(item.kind==="augmentation")reality.augmentations.push(purchase);
   else reality.equipment.push(purchase);
-  addCashTransaction(progress,props.creationAccount,-cost,"Achat · "+item.name,"purchase");
+  addCashTransaction(progress,props.creationAccount,-cost,"Achat · "+item.name,"purchase",{uid:purchase.uid,itemId:item.id,reference:list,degree:degree.id,supplier:tradePreview.value.supplier});
   emitProgression(progress);
   emitReality(reality);
 }
@@ -541,7 +546,7 @@ function sellCampaignItem(){
   const index=list.findIndex(item=>item.uid===row.purchase.uid);
   if(index<0)return;
   list.splice(index,1);
-  addCashTransaction(progress,props.creationAccount,salePreview.value.total,"Revente · "+row.item.name,"sale");
+  addCashTransaction(progress,props.creationAccount,salePreview.value.total,"Revente · "+row.item.name,"sale",{uid:row.purchase.uid,degree:salePreview.value.degree.id});
   emitProgression(progress);
   emitReality(reality);
   saleKey.value="";
@@ -550,6 +555,7 @@ function sellCampaignItem(){
 
 <template>
   <article class="progression-step">
+    <p v-if="rewardsLocked" class="rule-note" data-campaign-rewards-lock>Copie de campagne : le MJ attribue les XP, PTV, l’argent et la Corruption. Les dépenses, achats et ventes restent disponibles ; votre fiche d’origine est indépendante.</p>
     <div class="section-heading">
       <div>
         <p class="eyebrow">SUIVI · XP & PTV</p>
@@ -574,7 +580,7 @@ function sellCampaignItem(){
       <div class="good"><small>PTV disponibles</small><strong>{{ ptvRemainingValue }}</strong><span>après achats de Vérité</span></div>
     </section>
 
-    <section class="progress-panel">
+    <section v-if="!rewardsLocked" class="progress-panel" data-reward-editor>
       <div class="ledger-grid">
         <label>
           XP reçus depuis la création
@@ -718,7 +724,7 @@ function sellCampaignItem(){
 
     <details class="progress-panel campaign-corruption">
       <summary><strong>Corruption &amp; Fléaux</strong><span>{{ truthState.corruption || 0 }} point(s) de Corruption · {{ combinedTruthState.corruptionTalents.length }} capacité(s) acquise(s)</span></summary>
-      <CorruptionPanel :model-value="combinedTruthState" :rules="truthRules" :integrity="campaignIntegrity" :ptv-remaining="ptvRemainingValue" :locked-talent-ids="truthState.corruptionTalents" campaign @update:model-value="updateCampaignCorruption" @request-initiation="initiateTruth" />
+      <CorruptionPanel :rewards-locked="rewardsLocked" :model-value="combinedTruthState" :rules="truthRules" :integrity="campaignIntegrity" :ptv-remaining="ptvRemainingValue" :locked-talent-ids="truthState.corruptionTalents" campaign @update:model-value="updateCampaignCorruption" @request-initiation="initiateTruth" />
       <p class="rule-note">Les acquisitions de campagne utilisent la même réserve de PTV que les Talents de Vérité. Les capacités acquises à la création restent conservées. Changer de Source ou revenir à Sain ne rembourse aucun Don.</p>
     </details>
     <section class="progress-panel campaign-truth-equipment">
@@ -732,7 +738,7 @@ function sellCampaignItem(){
 
       <div class="money-grid">
         <label>Libellé<input v-model="moneyLabel" placeholder="Prime de mission, loyer exceptionnel…" /></label>
-        <label>Nature<select v-model="moneyKind"><option value="gain">Gain / entrée</option><option value="expense">Dépense / sortie</option></select></label>
+        <label>Nature<select v-model="moneyKind"><option v-if="!rewardsLocked" value="gain">Gain / entrée</option><option value="expense">Dépense / sortie</option></select></label>
         <label>Montant<input v-model="moneyAmount" type="number" min="0" step="50" /></label>
         <button class="secondary compact" type="button" :disabled="!Number(moneyAmount)" @click="addMoneyMovement">Enregistrer</button>
       </div>

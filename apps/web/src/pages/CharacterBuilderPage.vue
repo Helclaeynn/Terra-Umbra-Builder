@@ -79,6 +79,7 @@ type KnowledgeRef={
 const route=useRoute();
 const progressionMode=route.path.endsWith("/progression");
 const character=ref<Character|null>(null);
+const campaignRewardsLocked=computed(()=>Boolean(character.value?.campaignId));
 const draft=ref<CharacterDataV2|null>(null);
 const rules=shallowRef<CreationRules|null>(null);
 const lore=shallowRef<CreationLore|null>(null);
@@ -432,6 +433,7 @@ const edgeTalentGroups=computed(()=>{
 });
 
 function humanError(code:string){
+  if(code==='campaign_rewards_managed_by_gm')return 'Le MJ gère les récompenses de cette copie de campagne. Les XP, PTV, gains d’argent, la Corruption et l’historique monétaire ne peuvent pas être modifiés ici. Utilisez les achats, ventes et prêts de Progression pour le matériel ; votre brouillon est conservé.';
   const labels:Record<string,string>={
     authentication_required:"Ta session a expiré. Reviens à l’accueil pour te reconnecter.",
     character_not_found:"Ce personnage n’existe plus ou ne t’appartient pas.",
@@ -1317,6 +1319,7 @@ function changeFreeSkillPoint(id:string,delta:number){
 
 function writeTruthState(state:TruthState){
   if(!draft.value)return;
+  if(campaignRewardsLocked.value)state={...state,corruption:Number(draft.value.truth.corruption||0),corruptionSource:String(draft.value.truth.corruptionSource||''),corruptionMjAuthorized:Boolean(draft.value.truth.corruptionMjAuthorized)};
   draft.value.truth={
     nature:state.nature,
     consciousness:state.consciousness,
@@ -2535,7 +2538,7 @@ onBeforeUnmount(()=>{
                 @update:model-value="writeTruthState($event)"
               />
 
-              <CorruptionPanel
+              <CorruptionPanel :rewards-locked="campaignRewardsLocked"
                 :model-value="currentTruthState"
                 :rules="truthRules"
                 :integrity="derivedStats.integrity"
@@ -2874,7 +2877,7 @@ onBeforeUnmount(()=>{
             <div><p class="eyebrow">FICHE ACTUELLE</p><h2>{{ characterSheet.name }}</h2><p>PV max. <strong>{{ characterSheet.derived.pvMax }}</strong> · Défense <strong>{{ characterSheet.derived.passiveDefense }}</strong> · Intégrité <strong>{{ characterSheet.derived.integrity }}</strong></p></div>
             <button type="button" class="ghost" @click="toggleCharacterSheet">Consulter la fiche complète</button>
           </section>
-        <ProgressionStep :talent-choice-specs="talentChoiceSpecs" :creation-talent-choices="draft.talentChoices"
+        <ProgressionStep :rewards-locked="campaignRewardsLocked" :talent-choice-specs="talentChoiceSpecs" :creation-talent-choices="draft.talentChoices"
           class="panel builder-card"
           :talent-lore="{...lore?.originTalent,...lore?.sphereTalent,...lore?.talent}"
           :progression="draft.progression"

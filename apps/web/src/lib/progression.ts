@@ -1,4 +1,6 @@
+export type CashTrade={uid:string;itemId?:string;reference?:number;degree:number;supplier?:boolean};
 export type CashTransaction={
+  trade?:CashTrade;
   uid:string;
   amount:number;
   label:string;
@@ -70,6 +72,7 @@ export function ensureProgression(
     ?raw.cashTransactions.filter(item=>item&&typeof item==="object"&&!Array.isArray(item)).map(item=>{
         const row=item as Record<string,unknown>;
         return {
+          ...(row.trade&&typeof row.trade==='object'&&!Array.isArray(row.trade)?{trade:structuredClone(row.trade) as CashTrade}:{}),
           uid:String(row.uid??progressionUid("tx")),
           amount:Number(row.amount)||0,
           label:String(row.label??"Mouvement d’argent"),
@@ -212,12 +215,14 @@ export function addCashTransaction(
   creationAccount:number,
   amount:number,
   label:string,
-  type="manual"
+  type="manual",
+  trade?:CashTrade
 ){
   freezeCampaignCash(state,creationAccount);
   const rounded=Math.round(Number(amount)||0);
   if(!rounded)return;
   state.cashTransactions.push({
+    ...(trade?{trade}:{}),
     uid:progressionUid("tx"),
     amount:rounded,
     label:String(label||"Mouvement d’argent"),

@@ -14,6 +14,7 @@ import {
 } from "../../lib/truth";
 
 const props=defineProps<{
+  rewardsLocked?:boolean;
   modelValue:TruthState;
   rules:TruthRulesPackage;
   integrity:number;
@@ -107,10 +108,16 @@ function update(mutator:(state:TruthState)=>void){
     next.corruption=0;
     next.corruptionSource="";
   }
+  if(props.rewardsLocked){
+    next.corruption=props.modelValue.corruption;
+    next.corruptionSource=props.modelValue.corruptionSource;
+    next.corruptionMjAuthorized=props.modelValue.corruptionMjAuthorized;
+  }
   emit("update:modelValue",next);
 }
 
 function setAuthorized(value:boolean){
+  if(props.rewardsLocked)return;
   if(!value&&hasCorruptionState.value)return;
   update(next=>{
     next.corruptionMjAuthorized=value;
@@ -124,6 +131,7 @@ function setAuthorized(value:boolean){
 
 
 function setSource(id:string){
+  if(props.rewardsLocked)return;
   if(!props.modelValue.corruptionMjAuthorized)return;
   update(next=>{
     if(!id){
@@ -138,6 +146,7 @@ function setSource(id:string){
 }
 
 function changeCorruption(delta:number){
+  if(props.rewardsLocked)return;
   if(!props.modelValue.corruptionMjAuthorized)return;
   update(next=>{
     if(delta>0&&!next.corruptionSource)return;
@@ -239,6 +248,7 @@ function talentState(talent:CorruptionTalent){
 </script>
 
 <template>
+  <p v-if="rewardsLocked" class="threshold-note" data-corruption-reward-lock>Le niveau de Corruption et sa Source sont gérés par le MJ de cette campagne.</p>
   <label class="corruption-authorization" :class="{ active: modelValue.corruptionMjAuthorized }">
     <span class="authorization-copy">
       <strong>Autorisation MJ — Corruption & Fléaux</strong>
@@ -253,7 +263,7 @@ function talentState(talent:CorruptionTalent){
         aria-label="Autorisation MJ — Corruption & Fléaux"
         :aria-controls="panelId"
         :checked="modelValue.corruptionMjAuthorized"
-        :disabled="modelValue.corruptionMjAuthorized && hasCorruptionState"
+        :disabled="rewardsLocked || (modelValue.corruptionMjAuthorized && hasCorruptionState)"
         @change="setAuthorized(($event.target as HTMLInputElement).checked)"
       />
       <span aria-hidden="true"></span>
@@ -273,9 +283,9 @@ function talentState(talent:CorruptionTalent){
         <div class="gauge-heading">
           <div><p class="eyebrow">ÉTAT ACTUEL</p><h4>{{ depth }}</h4></div>
           <div class="stepper">
-            <button type="button" aria-label="Diminuer la corruption" :disabled="gaugeValue<=0" @click="changeCorruption(-1)">−</button>
+            <button type="button" aria-label="Diminuer la corruption" :disabled="rewardsLocked || gaugeValue<=0" @click="changeCorruption(-1)">−</button>
             <strong><span>{{ gaugeValue }}</span> / {{ gaugeMax }}</strong>
-            <button type="button" aria-label="Augmenter la corruption" :disabled="!currentSource || gaugeValue>=gaugeMax" @click="changeCorruption(1)">+</button>
+            <button type="button" aria-label="Augmenter la corruption" :disabled="rewardsLocked || !currentSource || gaugeValue>=gaugeMax" @click="changeCorruption(1)">+</button>
           </div>
         </div>
         <div
@@ -305,7 +315,7 @@ function talentState(talent:CorruptionTalent){
         <div class="panel-top"><h4>Source dominante</h4><span aria-hidden="true" class="source-mark">◈</span></div>
         <label class="source-choice">
           <span class="sr-only">Choisir la Source dominante</span>
-          <select :value="modelValue.corruptionSource" @change="setSource(($event.target as HTMLSelectElement).value)">
+          <select :disabled="rewardsLocked" :value="modelValue.corruptionSource" @change="setSource(($event.target as HTMLSelectElement).value)">
             <option value="">Aucune — Sain</option>
             <option v-for="source in rules.corruption.sources" :key="source.id" :value="source.id">{{ source.name }}</option>
           </select>
