@@ -10,6 +10,7 @@ const lockedProps={...progressProps,creationTalentIds:[],rewardsLocked:true,trut
 w.start('progression',lockedProps);await tick();
 assert.ok(d.querySelector('[data-campaign-rewards-lock]'),'Campaign copy explains MJ authority');
 assert.equal(d.querySelector('[data-reward-editor]'),null,'No manual XP/PTV controls');
+assert.equal(d.querySelectorAll('[data-renown-progression] button').length,0,'Campaign Renommée is read-only');
 assert.equal(d.querySelectorAll('.session-card').length,0,'No self-awarded session XP');
 assert.equal(d.querySelector('.money-grid option[value="gain"]'),null,'No manual money grant');
 assert.equal(d.querySelector('.money-grid select').value,'expense');
@@ -30,6 +31,7 @@ assert.equal(w.current().progress.cashTransactions.at(-1).trade.uid,stock.uid);a
 card('Renommé').querySelector('button.primary').click();await tick();assert.ok(w.current().progress.realityTalents.includes('renomme'));assert.equal(w.current().progress.xpEarned,100,'Spending XP does not alter earned XP');
 w.stop();await tick();w.start('progression',{...lockedProps,rewardsLocked:false});await tick();
 assert.ok(d.querySelector('[data-reward-editor]'),'Standalone original still has manual XP/PTV');
+assert.equal(d.querySelectorAll('[data-renown-progression] button').length,2,'Original still changes Renommée');
 assert.equal(d.querySelectorAll('.session-card').length,3);assert.ok(d.querySelector('.money-grid option[value="gain"]'));
 assert.equal(d.querySelector('[aria-label="Augmenter la corruption"]').disabled,false,'Standalone original still edits Corruption');
 console.log('CAMPAIGN REWARD UI OK — campaign copy hides XP/PTV and money grants, corruption read-only, real buy/sell receipts and expenses retained; original controls unchanged.');

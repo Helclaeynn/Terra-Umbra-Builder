@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import {permanentSkillBonus,pruneBenefits,uniqueTalents,renownScore as computeRenown} from "../lib/reality-benefits";
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, shallowRef, watch } from "vue";
-import { onBeforeRouteLeave, useRoute } from "vue-router";
+import { onBeforeRouteLeave, onBeforeRouteUpdate, useRoute } from "vue-router";
+import { builderDraftFingerprint, normalizeBuilderDraft, reconcileBuilderSave } from "../lib/builder-draft";
 import { compareLabels, compareTruthTalents } from "../lib/catalog-order";
 import { api, ApiError } from "../lib/api";
 import TalentSelector, {
@@ -179,7 +180,7 @@ const edgeOptionUi=[
 
 const dirty=computed(()=>{
   if(!draft.value)return false;
-  return JSON.stringify(draft.value)!==baseline.value;
+  return builderDraftFingerprint(draft.value)!==baseline.value;
 });
 
 const identityDisplayName=computed(()=>{
@@ -1110,20 +1111,21 @@ async function loadCharacter(){
       !draft.value.creation.sphere
     ) disadvantageCategory.value="common";
 
-    baseline.value=JSON.stringify(draft.value);
+    baseline.value=builderDraftFingerprint(draft.value);
     loading.value=false;
 
     supplementalLoading.value=true;
     void Promise.all([
       api<TruthRulesPackage>("/api/rulesets/terra-umbra/truth"),
       api<RealityRulesPackage>("/api/rulesets/terra-umbra/reality")
-    ]).then(([truthResult,realityResult])=>{
+    ]).then(async([truthResult,realityResult])=>{
+      const wasClean=!dirty.value;
       const normalizedTruthResult=ensureTruthRulesPackage(truthResult);
       truthRules.value=normalizedTruthResult;
       realityRules.value=realityResult;
 
       const loadedTruth=currentTruthState.value;
-      if(loadedTruth&&!dirty.value){
+      if(loadedTruth&&wasClean){
         const nature=normalizedTruthResult.structure.natures[loadedTruth.nature]??normalizedTruthResult.structure.natures.humain;
         const normalized:TruthState={
           nature:nature.id,
@@ -1140,7 +1142,8 @@ async function loadCharacter(){
         normalized.truthTalents=truthSanitizeTalents(normalizedTruthResult,normalized);
         normalized.corruptionTalents=truthSanitizeCorruptionTalents(normalizedTruthResult,normalized);
         writeTruthState(normalized);
-        baseline.value=JSON.stringify(draft.value);
+        await nextTick();
+        if(draft.value)baseline.value=builderDraftFingerprint(draft.value);
       }
     }).catch(cause=>{
       error.value=`Les catalogues avancés n’ont pas pu être chargés : ${humanError((cause as Error).message)}`;
@@ -1159,21 +1162,27 @@ async function saveCharacter(){
   error.value="";
   notice.value="";
   try{
+    await nextTick();
     const surname=draft.value.identity.name.trim()||character.value.name;
     draft.value.identity.name=surname;
     const name=[draft.value.identity.firstName.trim(),surname].filter(Boolean).join(" ");
+    const sent=normalizeBuilderDraft(draft.value);
     const result=await api<{character:Character}>(`/api/characters/${character.value.id}`,{
       method:"PATCH",
       body:JSON.stringify({
         name,
-        data:draft.value,
+        data:sent,
         version:character.value.version
       })
     });
+    const reconciled=reconcileBuilderSave(draft.value,sent,result.character.data);
     character.value=result.character;
-    draft.value=structuredClone(result.character.data);
-    baseline.value=JSON.stringify(draft.value);
-    notice.value=`Fiche enregistrée · version ${result.character.version}.`;
+    draft.value=reconciled.draft;
+    baseline.value=reconciled.baseline;
+    // Flush synchronous benefit/default watchers before recording the clean view.
+    // Browser input events cannot interleave with this Vue microtask flush.
+    if(!reconciled.preserved){await nextTick();baseline.value=builderDraftFingerprint(draft.value);}
+    notice.value=`Fiche enregistrée · version ${result.character.version}.`+(reconciled.preserved?" Vos modifications plus récentes restent à enregistrer.":"");
   }catch(cause){
     const err=cause as Error;
     error.value=humanError(err.message);
@@ -1524,10 +1533,11 @@ function beforeUnload(event:BeforeUnloadEvent){
   event.returnValue="";
 }
 
-onBeforeRouteLeave(()=>{
-  if(!dirty.value)return true;
-  return window.confirm("Des modifications ne sont pas enregistrées. Quitter quand même ?");
-});
+function confirmBuilderLeave(){
+  return !dirty.value||window.confirm("Des modifications ne sont pas enregistrées. Quitter quand même ?");
+}
+onBeforeRouteLeave(confirmBuilderLeave);
+onBeforeRouteUpdate((to,from)=>to.path===from.path||confirmBuilderLeave());
 
 function handleBuilderKeydown(event:KeyboardEvent){
   if(!knowledgeOpen.value)return;

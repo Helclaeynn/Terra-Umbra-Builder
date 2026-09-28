@@ -27,7 +27,7 @@ function stock(data: Row): Map<string, Asset> {
     for (const value of array(reality[list])) {
       const asset = record(value);
       if (typeof asset.uid !== 'string' || !asset.uid || typeof asset.itemId !== 'string' ||
-          !asset.itemId || result.has(asset.uid) || asset.kind !== kind) throw new Error('inventory');
+          !asset.itemId || result.has(asset.uid) || (asset.kind !== undefined && asset.kind !== kind)) throw new Error('inventory');
       result.set(asset.uid, { ...asset, uid: asset.uid, itemId: asset.itemId, kind });
     }
   }
@@ -108,7 +108,7 @@ export function campaignRewardViolation(
   try {
     const oldProgress = record(before.progression), nextProgress = record(after.progression);
     const oldTruth = record(before.truth), nextTruth = record(after.truth);
-    for (const [key, field] of [['xpEarned', 'xp'], ['ptvEarned', 'ptv']] as const) {
+    for (const [key, field] of [['xpEarned', 'xp'], ['ptvEarned', 'ptv'], ['renownAdjustment', 'renown']] as const) {
       if (!Number.isFinite(number(nextProgress[key])) || number(nextProgress[key]) !== number(oldProgress[key])) return field;
     }
     if (!Number.isFinite(number(nextTruth.corruption)) || number(nextTruth.corruption) !== number(oldTruth.corruption) ||
@@ -120,7 +120,14 @@ export function campaignRewardViolation(
     if (next.length < old.length || old.some((row, index) => !isDeepStrictEqual(row, next[index]))) return 'cash_history';
     if (restoring && next.length !== old.length) return 'cash_history';
     const original = stock(before), final = stock(after), working = new Map(original), bought = new Set<string>();
-    const items = context?.items ?? (() => { const rules = getRealityRules(); return [...rules.equipment, ...rules.augmentations]; })();
+    // A biography/build edit needs no equipment catalogue. In particular, an
+    // empty/unchanged inventory remains saveable before catalogue preloading.
+    // Trades and new loans still require the authoritative catalogue (fail closed).
+    const needsCatalog = next.slice(old.length).some(tx => tx.type === 'purchase' || tx.type === 'sale') ||
+      [...final.keys()].some(uid => !original.has(uid));
+    const items = needsCatalog
+      ? context?.items ?? (() => { const rules = getRealityRules(); return [...rules.equipment, ...rules.augmentations]; })()
+      : [];
     const catalog = new Map(items.map(item => [item.id, item]));
     const ids = talentIds(after), troc = ids.has('maitre_du_troc');
     let cash = base + old.reduce((sum, row) => sum + row.amount, 0);

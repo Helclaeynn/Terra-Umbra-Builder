@@ -2,6 +2,7 @@ import {terraUmbraCreationRules as rules} from './rules/terra-umbra-creation.js'
 import {terraUmbraTalentChoiceSpecs as choiceSpecs} from './rules/terra-umbra-creation-lore.js';
 import {getRealityRules} from './rules/reality.js';
 import {realityEconomic} from './rules/economy-model.js';
+import {renownScore} from './rules/renown-rules.js';
 
 /** Use permanent scores, not bonuses to tests, for the campaign Integrity ceiling. */
 export function campaignCharacterState(data:any){
@@ -32,5 +33,10 @@ export function campaignCharacterState(data:any){
   const integrity=Math.max(1,permanentSkill('force_mentale')+permanentSkill('humanite')-((data.disadvantages||[]).includes('integrite_defaillante')?2:0));
   const corruption=Number(data.truth?.corruption||0),source=String(data.truth?.corruptionSource||'');
   if(![base,money,integrity,corruption].every(Number.isFinite)||!Number.isInteger(corruption)||corruption<0||integrity<1)throw new Error('invalid_character_progression');
-  return {base,money,integrity,corruption,source};
+  const xpEarned=Number(progress.xpEarned??0),ptvEarned=Number(progress.ptvEarned??0);
+  const renownAdjustment=Number(progress.renownAdjustment??0);
+  if(![xpEarned,ptvEarned,renownAdjustment].every(Number.isSafeInteger)||xpEarned<0||ptvEarned<0)throw new Error('invalid_character_progression');
+  const creationIds=ids([data.talents?.origin,data.talents?.sphere,data.talents?.expertise,data.talents?.common,...ids(data.talents?.edge)]);
+  const renown=renownScore(creationIds,ids(progress.realityTalents),Number(data.edge?.renownPack||0),(data.disadvantages||[]).includes('inconnu'),renownAdjustment);
+  return {base,money,integrity,corruption,source,xpEarned,ptvEarned,renown,renownAdjustment};
 }

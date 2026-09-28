@@ -36,7 +36,8 @@ export async function registerCampaignAdmissionRoutes(app:FastifyInstance){
      const reused=prior.rows[0]&&(prior.rows[0].id===c.id||prior.rows[0].source_character_id===c.id);
      if(reused){
       const granted=await client.query(`SELECT 1 FROM campaign_session_rewards r JOIN campaign_sessions s ON s.id=r.session_id WHERE s.campaign_id=$1 AND r.character_id=$2
-        UNION ALL SELECT 1 FROM campaign_session_effects e JOIN campaign_sessions s ON s.id=e.session_id WHERE s.campaign_id=$1 AND e.character_id=$2 LIMIT 1`,[id,prior.rows[0].id]);
+        UNION ALL SELECT 1 FROM campaign_session_effects e JOIN campaign_sessions s ON s.id=e.session_id WHERE s.campaign_id=$1 AND e.character_id=$2
+        UNION ALL SELECT 1 FROM campaign_reward_grants g JOIN campaign_reward_batches b ON b.id=g.batch_id WHERE b.campaign_id=$1 AND g.character_id=$2 LIMIT 1`,[id,prior.rows[0].id]);
       if(granted.rows.length){await client.query('ROLLBACK');return reply.code(409).send({error:'campaign_progression_already_awarded'});}
       const field=campaignRewardViolation(prior.rows[0].data,snapshot.data,true);
       if(field){await client.query('ROLLBACK');return reply.code(403).send({error:'campaign_rewards_managed_by_gm',field});}
