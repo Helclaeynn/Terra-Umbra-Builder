@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import {builderPurchaseAllowed} from "../../../../api/src/rules/builder-equipment-policy";
 import {computed,ref} from 'vue';
 import {cloneJson} from '../../lib/json';
 import {ensureRealityState,realityItemMap,realityPriceSpec,type RealityRulesPackage} from '../../lib/reality';
@@ -20,7 +21,7 @@ const show=computed(()=>loanIds.value.length||canExtra.value||canInsure.value||c
 const assets=computed(()=>[...state.value.equipment,...state.value.augmentations].filter(p=>!isLoan(p)));
 const housingOptions=computed(()=>props.rules.recurring.filter(isHousing).sort((a,b)=>a.name.localeCompare(b.name,'fr')));
 const supportOptions=computed(()=>(supportType.value==='housing'?housingOptions.value:props.rules.equipment.filter(i=>i.vehicle)).filter(i=>i.id!==state.value.sphereSupportItemId).sort((a,b)=>a.name.localeCompare(b.name,'fr')));
-function options(id:string){const q=(searches.value[id]??'').toLocaleLowerCase('fr');return props.rules.equipment.filter(i=>!loanItemReason(i,id)&&(loanBudget(id)===null||(realityPriceSpec(i).defaultCost??Infinity)<=Number(loanBudget(id))-loanSpent(state.value,props.rules,id))&&!(i.neuro&&props.disadvantages?.includes('unsinkable'))&&(!q||`${i.name} ${i.category}`.toLocaleLowerCase('fr').includes(q))).sort((a,b)=>a.name.localeCompare(b.name,'fr'));}
+function options(id:string){const q=(searches.value[id]??'').toLocaleLowerCase('fr');return props.rules.equipment.filter(i=>builderPurchaseAllowed(i)&&!loanItemReason(i,id)&&(loanBudget(id)===null||(realityPriceSpec(i).defaultCost??Infinity)<=Number(loanBudget(id))-loanSpent(state.value,props.rules,id))&&!(i.neuro&&props.disadvantages?.includes('unsinkable'))&&(!q||`${i.name} ${i.category}`.toLocaleLowerCase('fr').includes(q))).sort((a,b)=>a.name.localeCompare(b.name,'fr'));}
 function commit(fn:(value:ReturnType<typeof ensureRealityState>)=>void){try{const next=ensureRealityState(cloneJson(props.modelValue));fn(next);error.value='';emit('update:modelValue',next as unknown as Record<string,unknown>);}catch(e){error.value=e instanceof Error?e.message:'Modification impossible.';}}
 function blocked(id:string){const item=props.rules.equipment.find(i=>i.id===picks.value[id]);return item?loanAvailabilityReason(state.value,props.rules,id,item):'Choisir un modèle.';}
 function add(id:string){if(!authorized.value[id]||blocked(id))return;commit(s=>{const selected=options(id).find(i=>i.id===picks.value[id]);if(!selected)throw new Error('Matériel incompatible.');grantLoan(s,props.rules,id,selected.id,props.talentIds,props.sphereId,!!props.campaign,prototype.value||settings.value.prototypeEffect);if(id==='programme_pilote')setBenefitSettings(s,{prototypeEffect:prototype.value||settings.value.prototypeEffect});});}

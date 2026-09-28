@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import CharacterGallery from "../CharacterGallery.vue";
 import { computed } from "vue";
 import RealityTalentText from "./RealityTalentText.vue";
 import type { CharacterSheet, SheetEntry } from "../../lib/character-sheet";
@@ -52,6 +53,7 @@ const money=(value:number)=>`${value.toLocaleString("fr-FR")} $`;
         </div>
       </div>
     </header>
+    <CharacterGallery :model-value="sheet.appearances" layer="reality" :legacy="sheet.legacyPortrait" />
     <p class="sheet-context">{{ sheet.mode==='campaign' ? 'Valeurs actuelles, avec les gains de progression.' : 'Valeurs de création, avant les gains de progression.' }} Valeurs dérivées calculées sur les scores permanents ; bonus aux tests et effets de Révélation à appliquer selon leurs conditions.</p>
     <dl v-if="biography.length" class="sheet-biography sheet-biography-top"><div v-for="[label,value] in biography" :key="label"><dt>{{ label }}</dt><dd>{{ value }}</dd></div></dl>
 
@@ -110,6 +112,9 @@ const money=(value:number)=>`${value.toLocaleString("fr-FR")} $`;
 
     <details class="sheet-truth sheet-details" aria-label="Vérité du personnage" open>
       <summary>Vérité · {{ sheet.truthNature || 'Nature à choisir' }} <span>{{ sheet.truthConsciousness || 'Conscience à préciser' }}</span></summary>
+      <dl v-if="sheet.truthDetails?.length" class="truth-identity-details"><div v-for="item in sheet.truthDetails" :key="item.id" :data-truth-choice="item.id"><dt>{{item.name}}</dt><dd>{{item.value}}</dd></div></dl>
+      <CharacterGallery :model-value="sheet.appearances" layer="truth" />
+      <details v-if="sheet.truthFreeTraits?.length" class="truth-free-traits"><summary>Traits et dons innés · {{sheet.truthFreeTraits.length}}</summary><ul class="sheet-entries"><li v-for="trait in sheet.truthFreeTraits" :key="trait.id"><strong>{{trait.name}}</strong><small>{{trait.group}}</small><p>{{trait.detail}}</p></li></ul></details>
       <div v-if="sheet.corruption"><strong>Corruption {{ sheet.corruption }} / {{ sheet.derived.integrity }}</strong><p>{{ sheet.corruptionSource }}</p></div>
       <div class="sheet-truth-stages">
         <article v-for="stage in sheet.truthStages" :key="stage.id" class="sheet-truth-stage" :data-truth-stage="stage.id">
@@ -158,6 +163,7 @@ const money=(value:number)=>`${value.toLocaleString("fr-FR")} $`;
 </template>
 
 <style scoped>
+.truth-identity-details{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:0 24px;margin-bottom:18px!important}.truth-identity-details>div{align-items:flex-start!important}.truth-identity-details dt,.truth-identity-details dd{flex:1;overflow-wrap:anywhere}.truth-free-traits{margin-block:18px}.truth-free-traits>summary{min-height:44px;cursor:pointer;}
 .sheet-skill-groups dl > div{flex-wrap:wrap}
 .skill-context-total{flex-basis:100%;display:flex;justify-content:space-between;gap:12px;grid-column:1/-1;font-size:12px;color:#a5def0;width:100%;margin-top:4px}.skill-context-total span{overflow-wrap:anywhere}.skill-context-total strong{font-weight:600}
 
@@ -166,7 +172,7 @@ const money=(value:number)=>`${value.toLocaleString("fr-FR")} $`;
 .character-sheet h2,.character-sheet h3,.character-sheet p{margin:0}
 .character-sheet h3{font-size:17px;line-height:1.4;letter-spacing:-.015em}
 .sheet-header{display:flex;align-items:center;gap:24px;padding-bottom:24px;border-bottom:1px solid #30485d}
-.sheet-portrait{width:104px;height:128px;object-fit:cover;border:1px solid #3b586e;border-radius:8px}
+.sheet-portrait{width:104px;height:128px;object-fit:contain;background:#08131f;border:1px solid #3b586e;border-radius:8px}
 .sheet-identity{overflow-wrap:anywhere}
 .sheet-identity h2{font-size:clamp(25px,3vw,36px);line-height:1.2;margin:8px 0;font-weight:650;letter-spacing:-.025em}
 .sheet-eyebrow{color:#93dfef;font-size:11px;letter-spacing:.14em;font-weight:600}

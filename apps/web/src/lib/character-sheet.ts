@@ -9,6 +9,10 @@ export type DerivedStats = ReturnType<typeof characterDerivedStats>;
 
 
 export type CharacterSheet = {
+  appearances?:import("../../../api/src/character-appearances").CharacterAppearances;
+  legacyPortrait?:{portraitDataUrl:string;portraitName:string};
+  truthDetails?:import("./truth-sheet-details").TruthSheetDetail[];
+  truthFreeTraits?:SheetEntry[];
   mode:"creation"|"campaign"; name:string; identity:CharacterIdentity;
   origin:string; sphere:string; style:string; lifestyle:string; lifestyleBase:string; renown:number;
   attributes:SheetValue[]; skills:SheetValue[]; derived:DerivedStats;

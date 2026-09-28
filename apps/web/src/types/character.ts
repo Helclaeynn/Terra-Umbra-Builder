@@ -1,3 +1,4 @@
+import type {CharacterAppearances} from "../../../api/src/character-appearances";
 export type CharacterIdentity = {
   name: string;
   firstName: string;
@@ -15,6 +16,7 @@ export type CharacterIdentity = {
 };
 
 export type CharacterDataV2 = {
+  appearances?: CharacterAppearances;
   schemaVersion: 2;
   rulesetId: "terra-umbra";
   identity: CharacterIdentity;

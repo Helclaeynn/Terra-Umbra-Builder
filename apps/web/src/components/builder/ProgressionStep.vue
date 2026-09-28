@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import EverydayEquipment from "./EverydayEquipment.vue";
+import {builderPurchaseAllowed} from "../../../../api/src/rules/builder-equipment-policy";
 import RealityTalentText from "./RealityTalentText.vue";
 import {contextualSkillBonuses} from "../../../../api/src/rules/reality-conditional-bonuses";
 import { computed, ref } from "vue";
@@ -77,6 +79,7 @@ type ProgressionRules={
 };
 
 const props=defineProps<{
+  social?:Record<string,unknown>;
   rewardsLocked?:boolean;
   talentLore?:Record<string,string>;
   talentChoiceSpecs?:Record<string,ChoiceSpec>;
@@ -424,7 +427,7 @@ function addMoneyMovement(){
 }
 
 const tradeCatalog=computed(()=>
-  tradeKind.value==="augmentation"?props.realityRules.augmentations:props.realityRules.equipment
+  tradeKind.value==="augmentation"?props.realityRules.augmentations:props.realityRules.equipment.filter(builderPurchaseAllowed)
 );
 const tradeRows=computed(()=>{
   const q=tradeSearch.value.trim().toLocaleLowerCase("fr");
@@ -732,6 +735,7 @@ function sellCampaignItem(){
       <TruthEquipmentPanel :model-value="combinedTruthState" :rules="truthRules" @update:model-value="updateCampaignEquipment" />
     </section>
 
+    <EverydayEquipment :rules="realityRules" :data="{reality,disadvantages,social}" />
     <RealityBenefitsPanel :model-value="reality" :rules="realityRules" :talent-ids="combinedRealityIds" :sphere-id="sphereId" :disadvantages="disadvantages" campaign @update:model-value="updateBenefitReality" />
     <details class="progress-panel campaign-money" open>
       <summary><strong>Argent &amp; possessions de campagne</strong><span>{{ money(cashValue) }}</span></summary>

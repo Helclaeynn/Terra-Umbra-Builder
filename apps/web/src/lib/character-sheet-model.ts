@@ -1,3 +1,6 @@
+import {appearanceGallery,normalizeAppearances} from "../../../api/src/character-appearances";
+import {everydayEquipmentIds} from "../../../api/src/rules/builder-equipment-policy";
+import {truthSheetDetails,truthFreeTraitDetails} from "./truth-sheet-details";
 import {contextualSkillBonuses} from "../../../api/src/rules/reality-conditional-bonuses";
 import {uniqueTalents,permanentSkillBonus,renownScore,projectBenefits,benefitSettings,loanLabel,recoverySummary} from './reality-benefits';
 import {cloneJson} from './json';
@@ -82,6 +85,9 @@ export function buildCharacterSheet(data:CharacterDataV2, core:SheetCore, truth:
     inventory.push({id:purchase.uid,name:item?.name??purchase.itemId,detail:[item?.effect,purchase.loanEffect].filter(Boolean).join("\n"),compendiumId:item?.compendiumId,
       group:[purchase.kind==="augmentation"?"Augmentation":"Équipement",purchase.sphereSupport?"Appui de Sphère":"",purchase.talentGrant?loanLabel(purchase.talentGrant)+" · prêt non revendable":"",purchase.loaded?"Chargé":""].filter(Boolean).join(" · ")});
   }
+  for(const id of everydayEquipmentIds(data,campaign)){
+    const item=items.get(id);if(item)inventory.push({id:`everyday-${id}`,name:item.name,compendiumId:item.compendiumId,detail:item.effect,group:"Équipement courant — inclus dans le Train de vie · non revendable"});
+  }
   for(const id of state.truthEquipment){
     const item=truth.equipment.find(item=>item.id===id);
     inventory.push({id:`truth-${id}`,name:item?.name??id,detail:item?.lore,compendiumId:item?.compendiumId,group:"Objet de Vérité"});
@@ -110,7 +116,9 @@ export function buildCharacterSheet(data:CharacterDataV2, core:SheetCore, truth:
       };
     });
   return {
-    mode:campaign?"campaign":"creation",name:[data.identity.firstName.trim(),data.identity.name.trim()].filter(Boolean).join(" ")||fallbackName,identity:data.identity,
+    mode:campaign?"campaign":"creation",name:[data.identity.firstName.trim(),data.identity.name.trim()].filter(Boolean).join(" ")||fallbackName,identity:{...data.identity,portraitDataUrl:appearanceGallery(data.appearances,"reality",data.identity).primary?.src??data.identity.portraitDataUrl},
+    appearances:normalizeAppearances(data.appearances),legacyPortrait:{portraitDataUrl:data.identity.portraitDataUrl,portraitName:data.identity.portraitName},
+    truthDetails:truthSheetDetails(truth,truthState,permanentSkill("force_mentale")),truthFreeTraits:truthFreeTraitDetails(truth,truthState),
     origin:creation.origins[data.creation.origin]?.name??"",sphere:sphere?.name??"",style:style?.name??"",
     lifestyle:pressure?.effective??lifestyleBase,lifestyleBase:lifestyleBase,renown:renown,
     attributes:creation.attributes.map(item=>({...item,value:attribute(item.id),base:finalAttribute(item.id)})),
