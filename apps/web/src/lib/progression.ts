@@ -72,7 +72,7 @@ export function ensureProgression(
     ?raw.cashTransactions.filter(item=>item&&typeof item==="object"&&!Array.isArray(item)).map(item=>{
         const row=item as Record<string,unknown>;
         return {
-          ...(row.trade&&typeof row.trade==='object'&&!Array.isArray(row.trade)?{trade:structuredClone(row.trade) as CashTrade}:{}),
+          ...(row.trade&&typeof row.trade==='object'&&!Array.isArray(row.trade)?{trade:JSON.parse(JSON.stringify(row.trade)) as CashTrade}:{}),
           uid:String(row.uid??progressionUid("tx")),
           amount:Number(row.amount)||0,
           label:String(row.label??"Mouvement d’argent"),

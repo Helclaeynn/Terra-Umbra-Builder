@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {campaignRewardViolation, pinCampaignCash} from '../dist/campaign-reward-guard.js';
+import {blankCharacterData, normalizeCharacterData} from '../dist/character-data.js';
 import {purchaseWithTalents, saleWithTalents} from '../dist/rules/reality-talents-policy.js';
 
 const item = (id, price, extra={}) => ({id,name:id,kind:'equipment',category:'Armes de poing',sourceCategory:'Armes',price,priceMin:price,priceMax:price,priceLabel:price+' $',generation:null,charge:0,stress:0,slots:0,effect:'',lore:'',data:{},vehicle:false,neuro:false,recurring:'durable_purchase',monthlyCost:0,families:[],...extra});
@@ -67,6 +68,20 @@ accept(d=>{d.identity={notes:'Restaurer des notes sans altérer de récompense'}
 deny(d=>d.progression.xpEarned=0,'xp',{restore:true});
 deny(d=>d.progression.cashTransactions.push(tx('added',-1)),'cash_history',{restore:true});
 const source=seed(),copy=structuredClone(source);pinCampaignCash(copy);copy.progression.xpEarned=99;assert.equal(source.progression.xpEarned,30);checks++;
+// Reproduce the previous CI failure: a build-only edit on an empty campaign
+// copy must not attempt to load the equipment catalogue.
+const empty=pinCampaignCash(blankCharacterData('Empty copy'));
+const edited=normalizeCharacterData(structuredClone(empty),'Empty copy');edited.creation.origin='crawler';
+const priorRoot=process.env.TUC_REALITY_RULES_ROOT;process.env.TUC_REALITY_RULES_ROOT='/nonexistent-campaign-reward-test';
+assert.equal(campaignRewardViolation(empty,edited),null);checks++;
+if(priorRoot===undefined)delete process.env.TUC_REALITY_RULES_ROOT;else process.env.TUC_REALITY_RULES_ROOT=priorRoot;
+const renowned=seed();renowned.progression.renownAdjustment=2;
+for(const value of [0,1,3,5,-5,NaN,Infinity])deny(d=>d.progression.renownAdjustment=value,'renown',{before:renowned});
+deny(d=>delete d.progression.renownAdjustment,'renown',{before:renowned});
+deny(d=>d.progression.renownAdjustment=0,'renown',{before:renowned,restore:true});
+accept(()=>{}, {before:renowned});
+const legacy=seed();delete legacy.reality.equipment[0].kind;
+accept(d=>d.reality.equipment[0].kind='equipment',{before:legacy});
 const routes=readFileSync(new URL('../src/characters.ts',import.meta.url),'utf8');
 assert.equal((routes.match(/if\(current.campaignId\)\{/g)||[]).length,2,'Both saving and restoration guard the server-owned campaign ID');
 assert.match(routes,/current\.version !== version[\s\S]*campaignRewardViolation\(current.data,nextData\)/,'Version conflict is checked before reward policy');

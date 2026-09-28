@@ -31,14 +31,9 @@ const router=createRouter({
   ]
 });
 
-router.beforeEach((to, from)=>{
-  // Account controls can remain inert after a client-side transition from
-  // another large page. A fresh account document reliably initializes them.
-  // The first navigation on page load has no matched origin and must proceed.
-  if (to.path === '/account' && from.matched.length && from.path !== '/account') {
-    window.location.assign(to.fullPath);
-    return false;
-  }
+router.beforeEach(()=>{
+  // Stay in the router: a forced document reload also fires beforeunload and
+  // asks a second time after an already-approved leave guard.
   document.documentElement.classList.add("route-changing");
 });
 

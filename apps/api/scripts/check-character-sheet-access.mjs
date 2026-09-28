@@ -33,9 +33,10 @@ async function call(who, method, endpoint, payload, expected = 200) {
   const r = await fetch(base + endpoint, { method,
     headers: { ...(who ? { Cookie: who.cookie } : {}), ...(payload !== undefined ? { 'Content-Type': 'application/json' } : {}) },
     ...(payload === undefined ? {} : { body: JSON.stringify(payload) }), signal: AbortSignal.timeout(15000) });
-  assert.equal(r.status, expected, `${method} ${endpoint}: unexpected HTTP status`);
+  const body=await r.json();
+  assert.equal(r.status, expected, `${method} ${endpoint}: ${JSON.stringify(body)}`);
   if (endpoint.startsWith('/api/characters')||endpoint.startsWith('/api/campaigns')) assert.match(r.headers.get('cache-control') || '', /no-store/);
-  checks++; return r.json();
+  checks++; return body;
 }
 try {
   const player=await account('player'), other=await account('player'), gm=await account('gm'), stranger=await account('gm'), admin=await account('admin');
@@ -308,6 +309,56 @@ try {
   assert.equal((await call(other,'GET',`/api/characters/${ocCopy.id}`)).character.data.progression.xpEarned,4);
   assert.equal((await call(other,'GET',`/api/characters/${ocCopy.id}`)).character.data.progression.ptvEarned,2);
   await call(gm,'POST',differentiatedUrl,{rewards:[{characterId:pc.id,xp:3,ptv:1}]},409);
+  // Ad hoc rewards: a dedicated campaign has NO planned or played sessions.
+  const giftCampaign=(await call(gm,'POST','/api/campaigns',{name:'CI cadeaux hors séance'},201)).campaign;
+  const giftUrl='/api/campaigns/'+giftCampaign.id;
+  await call(gm,'POST',giftUrl+'/invitations',{userId:player.id},201);
+  const giftCopy=(await call(player,'PUT',giftUrl+'/membership',{characterId:originalPc})).character;
+  await admission(giftUrl,gm);
+  const giftTarget=(await call(gm,'GET',giftUrl+'/effect-targets')).characters[0];
+  assert.equal(giftTarget.renown,1);assert.equal(giftTarget.xpEarned,0);
+  const sourceBefore=(await call(player,'GET',`/api/characters/${originalPc}`)).character;
+  const copyBefore=(await call(player,'GET',`/api/characters/${giftCopy.id}`)).character;
+  for(const [field,kind] of [['xpEarned','xp'],['ptvEarned','ptv'],['renownAdjustment','renown']]){
+    const forged=structuredClone(copyBefore.data);forged.progression[field]=10;
+    const blocked=await call(player,'PATCH',`/api/characters/${giftCopy.id}`,{version:copyBefore.version,data:forged,campaignId:null},403);
+    assert.equal(blocked.field,kind);
+  }
+  const cashForgery=structuredClone(copyBefore.data);cashForgery.progression.cashTransactions=[{uid:'fake',amount:10,type:'campaign-gm'}];
+  await call(player,'PATCH',`/api/characters/${giftCopy.id}`,{version:copyBefore.version,data:cashForgery},403);
+  const gift={requestId:randomUUID(),reason:'Bonne initiative entre deux séances',rewards:[{characterId:giftCopy.id,version:giftTarget.version,xp:4,ptv:2,money:125,renownDelta:1,corruptionDelta:1,corruptionSource:'vhodhal'}]};
+  for(const who of [null,player,other,stranger,admin])await call(who,'POST',giftUrl+'/rewards',gift,who?404:401);
+  await call(gm,'POST',giftUrl+'/rewards',{...gift,rewards:[gift.rewards[0],{...gift.rewards[0],characterId:originalPc}]},409);
+  assert.equal((await call(gm,'GET',giftUrl+'/rewards')).rewards.length,0,'Mixed valid and invalid recipients award nobody');
+  await call(gm,'POST',giftUrl+'/rewards',{...gift,rewards:[{...gift.rewards[0],version:999}]},409);
+  await call(gm,'POST',giftUrl+'/rewards',gift);
+  assert.equal((await call(gm,'POST',giftUrl+'/rewards',gift)).alreadyApplied,true,'Lost-response retry is idempotent');
+  await call(gm,'POST',giftUrl+'/rewards',{...gift,reason:'A different award'},409);
+  const gifted=(await call(player,'GET',`/api/characters/${giftCopy.id}`)).character;
+  assert.equal(gifted.version,giftTarget.version+1);assert.equal(gifted.data.progression.xpEarned,4);assert.equal(gifted.data.progression.ptvEarned,2);assert.equal(gifted.data.progression.renownAdjustment,1);
+  assert.equal(gifted.data.progression.cashTransactions.at(-1).amount,125);assert.equal(gifted.data.truth.corruption,1);
+  assert.deepEqual((await call(player,'GET',`/api/characters/${originalPc}`)).character,sourceBefore,'Reward never changes the original sheet');
+  assert.equal((await call(gm,'GET',giftUrl+'/sessions')).sessions.length,0,'No hidden or artificial calendar session');
+  const refreshedGift=(await call(gm,'GET',giftUrl+'/effect-targets')).characters[0];assert.equal(refreshedGift.renown,2);
+  const justXp={...gift,requestId:randomUUID(),reason:'Petit bonus',rewards:[{...gift.rewards[0],version:gifted.version,xp:1,ptv:0,money:0,renownDelta:0,corruptionDelta:0,corruptionSource:''}]};
+  await call(gm,'POST',giftUrl+'/rewards',{...justXp,rewards:[{...justXp.rewards[0],renownDelta:4}]},400);
+  const duplicateGifts=await Promise.all([1,2].map(()=>call(gm,'POST',giftUrl+'/rewards',justXp)));
+  assert.equal(duplicateGifts.filter(r=>r.alreadyApplied).length,1);
+  assert.equal((await call(player,'GET',`/api/characters/${giftCopy.id}`)).character.data.progression.xpEarned,5,'Concurrent bonus applied once');
+  const giftsHistory=(await call(player,'GET',giftUrl+'/rewards')).rewards;assert.equal(giftsHistory.length,2);assert.ok(giftsHistory.every(g=>g.characterId===giftCopy.id));
+  for(const who of [other,stranger,admin])await call(who,'GET',giftUrl+'/rewards',undefined,404);
+  const revisionHistory=(await call(player,'GET',`/api/characters/${giftCopy.id}/history`)).revisions[0];
+  assert.equal(revisionHistory.snapshot.progression.renownAdjustment,1);assert.equal(revisionHistory.reason,'campaign-bonus:Petit bonus');
+  await call(player,'POST',`/api/characters/${giftCopy.id}/revisions/1/restore`,{},403);
+  const latestSource=(await call(player,'GET',`/api/characters/${originalPc}`)).character;
+  await call(player,'PUT',giftUrl+'/membership',{characterId:originalPc,sourceRevision:1,sourceVersion:latestSource.version},409);
+  // The original remains a freely editable sandbox after its campaign copy exists.
+  const sourceEdited=structuredClone(latestSource.data);sourceEdited.progression.xpEarned=99;sourceEdited.progression.ptvEarned=12;sourceEdited.progression.renownAdjustment=3;
+  await call(player,'PATCH',`/api/characters/${originalPc}`,{version:latestSource.version,data:sourceEdited});
+  assert.equal((await call(player,'GET',`/api/characters/${giftCopy.id}`)).character.data.progression.xpEarned,5);
+  await call(gm,'PATCH',giftUrl,{name:'CI cadeaux hors séance',description:'',gmNotes:'',archived:true,version:1});
+  await call(gm,'POST',giftUrl+'/rewards',{...justXp,requestId:randomUUID()},404);
+  console.log('CAMPAIGN REWARDS DB OK — no-session gifts, XP/PTV/money/Corruption/Renommée, GM ownership, caps, version conflicts, atomic and concurrent idempotence, private history, immutable original and protected copy');
   await call(gm,'PATCH',url,{name:'CI campagne',description:'',gmNotes:'SECRET MJ',archived:true,version:2});
   await call(gm,'GET',url+'/effect-targets',undefined,404);
   await call(gm,'POST',su+'/effects',{...effect,requestId:randomUUID()},404);

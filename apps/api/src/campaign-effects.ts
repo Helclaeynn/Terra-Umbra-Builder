@@ -1,4 +1,5 @@
 import type {FastifyInstance} from 'fastify';
+import {registerCampaignRewardRoutes} from './campaign-rewards.js';
 import {pool} from './db.js';
 import {requireUser} from './auth.js';
 import {campaignCharacterState} from './campaign-character.js';
@@ -6,6 +7,7 @@ import {corruptionSources} from './rules/truth/corruption.js';
 const uuid=/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const gm=(role:string)=>['gm','editor','admin'].includes(role);
 export async function registerCampaignEffectRoutes(app:FastifyInstance){
+ await registerCampaignRewardRoutes(app);
  app.get<{Params:{id:string}}>('/api/campaigns/:id/effect-targets',async(req,reply)=>{
   const user=await requireUser(req,reply);if(!user)return;
   if(!gm(user.role)||!uuid.test(req.params.id))return reply.code(404).send({error:'campaign_not_found'});
