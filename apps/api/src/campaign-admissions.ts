@@ -1,3 +1,4 @@
+import {campaignRewardViolation,pinCampaignCash} from './campaign-reward-guard.js';
 import type {FastifyInstance} from 'fastify';
 import {pool} from './db.js';
 import {requireUser} from './auth.js';
@@ -28,14 +29,17 @@ export async function registerCampaignAdmissionRoutes(app:FastifyInstance){
      if(!version.rows.length){await client.query('ROLLBACK');return reply.code(404).send({error:'character_revision_not_found'});}
      snapshot=version.rows[0];
     }
+    snapshot={...snapshot,data:pinCampaignCash(structuredClone(snapshot.data))};
     if(c.campaign_id===id&&revision===undefined)character={id:c.id,version:c.version};
     else{
-     const prior=m.rows[0].character_id&&revision!==undefined?await client.query('SELECT id,version,source_character_id FROM characters WHERE id=$1 AND owner_id=$2 AND campaign_id=$3 AND archived_at IS NULL FOR UPDATE',[m.rows[0].character_id,user.id,id]):{rows:[]};
+     const prior=m.rows[0].character_id&&revision!==undefined?await client.query('SELECT id,version,data,source_character_id FROM characters WHERE id=$1 AND owner_id=$2 AND campaign_id=$3 AND archived_at IS NULL FOR UPDATE',[m.rows[0].character_id,user.id,id]):{rows:[]};
      const reused=prior.rows[0]&&(prior.rows[0].id===c.id||prior.rows[0].source_character_id===c.id);
      if(reused){
       const granted=await client.query(`SELECT 1 FROM campaign_session_rewards r JOIN campaign_sessions s ON s.id=r.session_id WHERE s.campaign_id=$1 AND r.character_id=$2
         UNION ALL SELECT 1 FROM campaign_session_effects e JOIN campaign_sessions s ON s.id=e.session_id WHERE s.campaign_id=$1 AND e.character_id=$2 LIMIT 1`,[id,prior.rows[0].id]);
       if(granted.rows.length){await client.query('ROLLBACK');return reply.code(409).send({error:'campaign_progression_already_awarded'});}
+      const field=campaignRewardViolation(prior.rows[0].data,snapshot.data,true);
+      if(field){await client.query('ROLLBACK');return reply.code(403).send({error:'campaign_rewards_managed_by_gm',field});}
       const next=prior.rows[0].version+1;
       await client.query(`UPDATE characters SET name=$2,data=$3::jsonb,version=$4,source_version=CASE WHEN id=$5 THEN source_version ELSE $6 END,
         source_snapshot=CASE WHEN id=$5 THEN source_snapshot ELSE $3::jsonb END,updated_at=now() WHERE id=$1`,[prior.rows[0].id,snapshot.name,JSON.stringify(snapshot.data),next,c.id,revision]);

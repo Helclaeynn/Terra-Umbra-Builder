@@ -1,3 +1,4 @@
+import {campaignRewardViolation,pinCampaignCash} from './campaign-reward-guard.js';
 import { registerCampaignRoutes } from "./campaigns.js";
 import type { FastifyInstance, FastifyReply } from "fastify";
 import { registerCharacterHistoryRoutes } from "./character-history.js";
@@ -12,6 +13,7 @@ import {
 } from "./character-data.js";
 
 type CharacterRow = {
+  campaignId?:string|null;
   id: string;
   name: string;
   data: Record<string, unknown>;
@@ -204,6 +206,7 @@ export async function registerCharacterRoutes(app: FastifyInstance) {
     const character = result.rows[0];
     if (!character) return reply.code(404).send({ error: "character_not_found" });
     character.data = normalizeCharacterData(character.data, character.name);
+    if(character.campaignId)pinCampaignCash(character.data);
     return { character };
   });
 
@@ -279,6 +282,13 @@ export async function registerCharacterRoutes(app: FastifyInstance) {
         requestedData !== undefined
           ? normalizeCharacterData(requestedData, nextName)
           : normalizeCharacterData(current.data, nextName);
+      if(current.campaignId){
+        const field=campaignRewardViolation(current.data,nextData);
+        if(field){
+          await client.query('ROLLBACK');
+          return reply.code(403).send({error:'campaign_rewards_managed_by_gm',field});
+        }
+      }
       const nextVersion = current.version + 1;
 
       const updated = await client.query<CharacterRow>(
@@ -497,6 +507,13 @@ export async function registerCharacterRoutes(app: FastifyInstance) {
 
       const nextVersion = current.version + 1;
       const restoredData = normalizeCharacterData(snapshot.data, snapshot.name);
+      if(current.campaignId){
+        const field=campaignRewardViolation(current.data,restoredData,true);
+        if(field){
+          await client.query('ROLLBACK');
+          return reply.code(403).send({error:'campaign_rewards_managed_by_gm',field});
+        }
+      }
       const updated = await client.query<CharacterRow>(
         `UPDATE characters
          SET
@@ -524,7 +541,7 @@ export async function registerCharacterRoutes(app: FastifyInstance) {
           current.id,
           nextVersion,
           snapshot.name,
-          JSON.stringify(snapshot.data),
+          JSON.stringify(restoredData),
           `restored:${revision}`,
           user.id
         ]
