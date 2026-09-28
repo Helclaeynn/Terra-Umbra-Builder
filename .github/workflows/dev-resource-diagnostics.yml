@@ -1,4 +1,4 @@
-name: Dev resource diagnostics
+name: Production resource diagnostics
 on:
   workflow_dispatch:
   push:
@@ -10,13 +10,13 @@ jobs:
   resources:
     runs-on: ubuntu-latest
     environment: tuc-dev
-    timeout-minutes: 3
+    timeout-minutes: 5
     env:
       TUC_DEV_HOST: ${{ secrets.TUC_DEV_HOST }}
       TUC_DEV_USER: ${{ secrets.TUC_DEV_USER }}
       TUC_DEV_SSH_KEY: ${{ secrets.TUC_DEV_SSH_KEY }}
     steps:
-      - name: Read server memory and process termination evidence
+      - name: Read-only storage diagnostic; no account data or cleanup
         shell: bash
         run: |
           set -euo pipefail
@@ -25,13 +25,24 @@ jobs:
           printf '%s\n' "$TUC_DEV_SSH_KEY" > ~/.ssh/tuc_dev
           chmod 600 ~/.ssh/tuc_dev
           ssh-keyscan -H "$TUC_DEV_HOST" >> ~/.ssh/known_hosts
-          ssh -i ~/.ssh/tuc_dev -o IdentitiesOnly=yes "$TUC_DEV_USER@$TUC_DEV_HOST" <<'REMOTE'
+          ssh -i ~/.ssh/tuc_dev -o IdentitiesOnly=yes "$TUC_DEV_USER@$TUC_DEV_HOST" 'bash -s' <<'REMOTE'
+          {
             set -euo pipefail
-            free -m
-            docker stats --no-stream --format "{{.Name}} {{.MemUsage}} {{.MemPerc}} {{.CPUPerc}}"
-            docker inspect --format "{{.Name}} OOMKilled={{.State.OOMKilled}} ExitCode={{.State.ExitCode}} Restarts={{.RestartCount}} MemoryLimit={{.HostConfig.Memory}} PidsLimit={{.HostConfig.PidsLimit}}" tuc-v2-api-1 tuc-v2-db-1
-            docker logs --tail=120 tuc-v2-api-1 2>&1
-            ps -eo comm,rss --sort=-rss | head -15
-            journalctl -k --since "-30 minutes" --no-pager 2>/dev/null | grep -Ei "out of memory|oom-kill|killed process" | tail -20 || true
-            curl --fail --silent --show-error --max-time 15 https://dev.terra-umbra.fr/api/health
+            test -f /opt/terra-umbra/production-active
+            echo 'FILESYSTEM SPACE AND INODES'
+            df -h / /opt/terra-umbra
+            df -i / /opt/terra-umbra
+            echo 'DOCKER RECLAIMABLE STORAGE'
+            docker system df
+            echo 'RELEASE DIRECTORIES (SIZES ONLY)'
+            du -x -h --max-depth=1 /opt/terra-umbra/releases 2>/dev/null | sort -h
+            echo 'APPLICATION DIRECTORIES (SIZES ONLY)'
+            du -x -h --max-depth=1 /opt/terra-umbra 2>/dev/null | sort -h
+            echo 'RUNNING CONTAINERS'
+            docker ps --format '{{.Names}} {{.Image}} {{.Status}}'
+            echo 'CURRENT RELEASE MARKER'
+            if test -f /opt/terra-umbra/.production-release-sha; then cat /opt/terra-umbra/.production-release-sha; fi
+            echo 'PUBLIC HEALTH'
+            curl --fail --silent --show-error --max-time 15 https://terra-umbra.fr/api/health
+          }
           REMOTE
