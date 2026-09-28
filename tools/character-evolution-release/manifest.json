@@ -1,0 +1,38 @@
+{
+  "base": "7a168ce756c15c2b362092b5fca5d1663466fc8f",
+  "existing": [
+    {"path":"apps/api/src/campaign-reward-guard.ts","before":"b596f039ab79776c92ff80fe2d0d228aca7f68a9","after":"9002e17a82239bfd119c642c1f801424f7bca3e2"},
+    {"path":"apps/api/src/character-data.ts","before":"8d88fbb47e48a7c6bc907b1804e0ed6d4e5e2555","after":"b3b5b3cc40ab66e55bf0a5bc38aa30cf90b6cb7d"},
+    {"path":"apps/api/src/characters.ts","before":"4f2a4c34cf50fe2be8d9689a048d33c290c38873","after":"6dd1c46cc715b6c2e1d87893f346ce8ccff0d734"},
+    {"path":"apps/web/Dockerfile","before":"348c3fbece01567ab5a27795a65e8dcd864e0a79","after":"e270e74c81bfda0fab77c9498497dbdc9134b924"},
+    {"path":"apps/web/package.json","before":"e06cef8579bead12554bea4c054e650fdb82753c","after":"c76acf821e5d98382d086440f6148a200619e679"},
+    {"path":"apps/web/src/components/builder/CharacterSummary.vue","before":"735f3ec2dddfdd12a5d867ba42d7fdd0223fcb9e","after":"03950a11867d30952b780afd9c15b31f65d41b31"},
+    {"path":"apps/web/src/components/builder/EquipmentStep.vue","before":"1e8e36e081f78f95fd9ef0b90262400aab15be8f","after":"3a71f46c75f1d4108782171b69f656329058dc25"},
+    {"path":"apps/web/src/components/builder/ProgressionStep.vue","before":"939c5a431e4062e042b30ee792923367035e70fd","after":"201ee2971e5414ecc2d5cb73565e4b9cc8e8bf10"},
+    {"path":"apps/web/src/components/builder/RealityBenefitsPanel.vue","before":"f51b70d712fd3e2a3f9473bb1576fb1fb70e7f24","after":"257a2a6aa325510c74a06648288235180ad1cf2e"},
+    {"path":"apps/web/src/lib/character-pdf-model.ts","before":"aec5c586b11448cf0265c1b55c1850302f743a6a","after":"43263d15e92db3d9144d71613c3158633c5afaa8"},
+    {"path":"apps/web/src/lib/character-pdf.ts","before":"47c4e1305c450dc3306fda823bcec6241f44434d","after":"4baf4035951be1a2c84a8fda56d68c7db7a7a4ae"},
+    {"path":"apps/web/src/lib/character-sheet-model.ts","before":"dba605f34ab9f9963038ca1a9f8b31509a5aa103","after":"7d168fdf90d3354b433080bf24e2955a986b16fa"},
+    {"path":"apps/web/src/lib/character-sheet.ts","before":"f10275c34fc5a23bb03c32df02a1f5d7e95dc357","after":"db97b8ddca254efbb27915ea923103533e282227"},
+    {"path":"apps/web/src/pages/CharacterBuilderPage.vue","before":"0e892d679672e6938a1767ad873f2d2d28ce5be0","after":"28fa77dd4d58533734c591f4e24605182efde4ea"},
+    {"path":"apps/web/src/types/character.ts","before":"607afe9e194870ede1e13396248ebd3f5f47ae1e","after":"399b977d8525a71c897e16a6224c1c5c1871764b"}
+  ],
+  "newFiles": [
+    {"path":"apps/api/src/rules/builder-equipment-policy.ts","sha":"7c52efe8724bafe8b910e9c9eee4a3d620a348eb"},
+    {"path":"apps/api/src/character-appearances.ts","sha":"f71a586eb2b98da5b762f883841318c74ce12012"},
+    {"path":"apps/api/src/character-media.ts","sha":"73d31c8277d5c3e05fb75946dca562933dc022d4"},
+    {"path":"apps/api/scripts/check-character-media.mjs","sha":"c6ef4731d740092f5ddc63065f8a5c8397c98445"},
+    {"path":"apps/web/src/components/builder/EverydayEquipment.vue","sha":"1e63ca8e21c369ba8eed21cf1095b87d7815d24a"},
+    {"path":"apps/web/src/components/CharacterGallery.vue","sha":"5bfe1a7dc52cfc76a48378a7e5178b8223a86483"},
+    {"path":"apps/web/src/lib/character-image-upload.ts","sha":"ca5499ed94e7799397c320ff656f9eec469de30b"},
+    {"path":"apps/web/src/lib/truth-sheet-details.ts","sha":"e96a3e1abbc9d9020afb0d7ba16d175d76f3a2f8"},
+    {"path":"apps/web/tests/character-evolution.mjs","sha":"d1530b67a61953db538abba1bf6cc75e65bf9169"},
+    {"path":"apps/web/tests/character-evolution-browser.mjs","sha":"482675813b0787d677b28f4f7f9857ad91a6e4f7"},
+    {"path":"infrastructure/migrations/20260929_character_media.sql","sha":"ea7cd2cd3180a7d30b101df6ae5ff58fe8ef82e9"},
+    {"path":"infrastructure/production/release-character-evolution.sh","sha":"d555b884400cacf861c94920be5079d0b8cef2eb"}
+  ],
+  "preserved": [
+    {"path":"compendium/source/current-equipment-catalog-v1.json","sha":"05e8887de5fd372980b8b213fc00f8946f38149c"},
+    {"path":"compendium/data/manifest-v3.json","sha":"d84b5b7d3e50bfbe1206ccfa3139e6ea05801ba7"}
+  ]
+}
