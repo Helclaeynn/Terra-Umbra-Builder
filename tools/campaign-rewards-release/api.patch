@@ -1,0 +1,133 @@
+diff --git a/apps/api/scripts/check-campaign-reward-guard.mjs b/apps/api/scripts/check-campaign-reward-guard.mjs
+--- a/apps/api/scripts/check-campaign-reward-guard.mjs
++++ b/apps/api/scripts/check-campaign-reward-guard.mjs
+@@ -3,0 +4 @@
++import {blankCharacterData, normalizeCharacterData} from '../dist/character-data.js';
+@@ -69,0 +71,14 @@
++// Reproduce the previous CI failure: a build-only edit on an empty campaign
++// copy must not attempt to load the equipment catalogue.
++const empty=pinCampaignCash(blankCharacterData('Empty copy'));
++const edited=normalizeCharacterData(structuredClone(empty),'Empty copy');edited.creation.origin='crawler';
++const priorRoot=process.env.TUC_REALITY_RULES_ROOT;process.env.TUC_REALITY_RULES_ROOT='/nonexistent-campaign-reward-test';
++assert.equal(campaignRewardViolation(empty,edited),null);checks++;
++if(priorRoot===undefined)delete process.env.TUC_REALITY_RULES_ROOT;else process.env.TUC_REALITY_RULES_ROOT=priorRoot;
++const renowned=seed();renowned.progression.renownAdjustment=2;
++for(const value of [0,1,3,5,-5,NaN,Infinity])deny(d=>d.progression.renownAdjustment=value,'renown',{before:renowned});
++deny(d=>delete d.progression.renownAdjustment,'renown',{before:renowned});
++deny(d=>d.progression.renownAdjustment=0,'renown',{before:renowned,restore:true});
++accept(()=>{}, {before:renowned});
++const legacy=seed();delete legacy.reality.equipment[0].kind;
++accept(d=>d.reality.equipment[0].kind='equipment',{before:legacy});
+diff --git a/apps/api/scripts/check-character-sheet-access.mjs b/apps/api/scripts/check-character-sheet-access.mjs
+--- a/apps/api/scripts/check-character-sheet-access.mjs
++++ b/apps/api/scripts/check-character-sheet-access.mjs
+@@ -36 +36,2 @@
+-  assert.equal(r.status, expected, `${method} ${endpoint}: unexpected HTTP status`);
++  const body=await r.json();
++  assert.equal(r.status, expected, `${method} ${endpoint}: ${JSON.stringify(body)}`);
+@@ -38 +39 @@
+-  checks++; return r.json();
++  checks++; return body;
+@@ -310,0 +312,50 @@
++  // Ad hoc rewards: a dedicated campaign has NO planned or played sessions.
++  const giftCampaign=(await call(gm,'POST','/api/campaigns',{name:'CI cadeaux hors séance'},201)).campaign;
++  const giftUrl='/api/campaigns/'+giftCampaign.id;
++  await call(gm,'POST',giftUrl+'/invitations',{userId:player.id},201);
++  const giftCopy=(await call(player,'PUT',giftUrl+'/membership',{characterId:originalPc})).character;
++  await admission(giftUrl,gm);
++  const giftTarget=(await call(gm,'GET',giftUrl+'/effect-targets')).characters[0];
++  assert.equal(giftTarget.renown,1);assert.equal(giftTarget.xpEarned,0);
++  const sourceBefore=(await call(player,'GET',`/api/characters/${originalPc}`)).character;
++  const copyBefore=(await call(player,'GET',`/api/characters/${giftCopy.id}`)).character;
++  for(const [field,kind] of [['xpEarned','xp'],['ptvEarned','ptv'],['renownAdjustment','renown']]){
++    const forged=structuredClone(copyBefore.data);forged.progression[field]=10;
++    const blocked=await call(player,'PATCH',`/api/characters/${giftCopy.id}`,{version:copyBefore.version,data:forged,campaignId:null},403);
++    assert.equal(blocked.field,kind);
++  }
++  const cashForgery=structuredClone(copyBefore.data);cashForgery.progression.cashTransactions=[{uid:'fake',amount:10,type:'campaign-gm'}];
++  await call(player,'PATCH',`/api/characters/${giftCopy.id}`,{version:copyBefore.version,data:cashForgery},403);
++  const gift={requestId:randomUUID(),reason:'Bonne initiative entre deux séances',rewards:[{characterId:giftCopy.id,version:giftTarget.version,xp:4,ptv:2,money:125,renownDelta:1,corruptionDelta:1,corruptionSource:'vhodhal'}]};
++  for(const who of [null,player,other,stranger,admin])await call(who,'POST',giftUrl+'/rewards',gift,who?404:401);
++  await call(gm,'POST',giftUrl+'/rewards',{...gift,rewards:[gift.rewards[0],{...gift.rewards[0],characterId:originalPc}]},409);
++  assert.equal((await call(gm,'GET',giftUrl+'/rewards')).rewards.length,0,'Mixed valid and invalid recipients award nobody');
++  await call(gm,'POST',giftUrl+'/rewards',{...gift,rewards:[{...gift.rewards[0],version:999}]},409);
++  await call(gm,'POST',giftUrl+'/rewards',gift);
++  assert.equal((await call(gm,'POST',giftUrl+'/rewards',gift)).alreadyApplied,true,'Lost-response retry is idempotent');
++  await call(gm,'POST',giftUrl+'/rewards',{...gift,reason:'A different award'},409);
++  const gifted=(await call(player,'GET',`/api/characters/${giftCopy.id}`)).character;
++  assert.equal(gifted.version,giftTarget.version+1);assert.equal(gifted.data.progression.xpEarned,4);assert.equal(gifted.data.progression.ptvEarned,2);assert.equal(gifted.data.progression.renownAdjustment,1);
++  assert.equal(gifted.data.progression.cashTransactions.at(-1).amount,125);assert.equal(gifted.data.truth.corruption,1);
++  assert.deepEqual((await call(player,'GET',`/api/characters/${originalPc}`)).character,sourceBefore,'Reward never changes the original sheet');
++  assert.equal((await call(gm,'GET',giftUrl+'/sessions')).sessions.length,0,'No hidden or artificial calendar session');
++  const refreshedGift=(await call(gm,'GET',giftUrl+'/effect-targets')).characters[0];assert.equal(refreshedGift.renown,2);
++  const justXp={...gift,requestId:randomUUID(),reason:'Petit bonus',rewards:[{...gift.rewards[0],version:gifted.version,xp:1,ptv:0,money:0,renownDelta:0,corruptionDelta:0,corruptionSource:''}]};
++  await call(gm,'POST',giftUrl+'/rewards',{...justXp,rewards:[{...justXp.rewards[0],renownDelta:4}]},400);
++  const duplicateGifts=await Promise.all([1,2].map(()=>call(gm,'POST',giftUrl+'/rewards',justXp)));
++  assert.equal(duplicateGifts.filter(r=>r.alreadyApplied).length,1);
++  assert.equal((await call(player,'GET',`/api/characters/${giftCopy.id}`)).character.data.progression.xpEarned,5,'Concurrent bonus applied once');
++  const giftsHistory=(await call(player,'GET',giftUrl+'/rewards')).rewards;assert.equal(giftsHistory.length,2);assert.ok(giftsHistory.every(g=>g.characterId===giftCopy.id));
++  for(const who of [other,stranger,admin])await call(who,'GET',giftUrl+'/rewards',undefined,404);
++  const revisionHistory=(await call(player,'GET',`/api/characters/${giftCopy.id}/history`)).revisions[0];
++  assert.equal(revisionHistory.snapshot.progression.renownAdjustment,1);assert.equal(revisionHistory.reason,'campaign-bonus:Petit bonus');
++  await call(player,'POST',`/api/characters/${giftCopy.id}/revisions/1/restore`,{},403);
++  const latestSource=(await call(player,'GET',`/api/characters/${originalPc}`)).character;
++  await call(player,'PUT',giftUrl+'/membership',{characterId:originalPc,sourceRevision:1,sourceVersion:latestSource.version},409);
++  // The original remains a freely editable sandbox after its campaign copy exists.
++  const sourceEdited=structuredClone(latestSource.data);sourceEdited.progression.xpEarned=99;sourceEdited.progression.ptvEarned=12;sourceEdited.progression.renownAdjustment=3;
++  await call(player,'PATCH',`/api/characters/${originalPc}`,{version:latestSource.version,data:sourceEdited});
++  assert.equal((await call(player,'GET',`/api/characters/${giftCopy.id}`)).character.data.progression.xpEarned,5);
++  await call(gm,'PATCH',giftUrl,{name:'CI cadeaux hors séance',description:'',gmNotes:'',archived:true,version:1});
++  await call(gm,'POST',giftUrl+'/rewards',{...justXp,requestId:randomUUID()},404);
++  console.log('CAMPAIGN REWARDS DB OK — no-session gifts, XP/PTV/money/Corruption/Renommée, GM ownership, caps, version conflicts, atomic and concurrent idempotence, private history, immutable original and protected copy');
+diff --git a/apps/api/src/campaign-admissions.ts b/apps/api/src/campaign-admissions.ts
+--- a/apps/api/src/campaign-admissions.ts
++++ b/apps/api/src/campaign-admissions.ts
+@@ -39 +39,2 @@
+-        UNION ALL SELECT 1 FROM campaign_session_effects e JOIN campaign_sessions s ON s.id=e.session_id WHERE s.campaign_id=$1 AND e.character_id=$2 LIMIT 1`,[id,prior.rows[0].id]);
++        UNION ALL SELECT 1 FROM campaign_session_effects e JOIN campaign_sessions s ON s.id=e.session_id WHERE s.campaign_id=$1 AND e.character_id=$2
++        UNION ALL SELECT 1 FROM campaign_reward_grants g JOIN campaign_reward_batches b ON b.id=g.batch_id WHERE b.campaign_id=$1 AND g.character_id=$2 LIMIT 1`,[id,prior.rows[0].id]);
+diff --git a/apps/api/src/campaign-character.ts b/apps/api/src/campaign-character.ts
+--- a/apps/api/src/campaign-character.ts
++++ b/apps/api/src/campaign-character.ts
+@@ -4,0 +5 @@
++import {renownScore} from './rules/renown-rules.js';
+@@ -35 +36,6 @@
+-  return {base,money,integrity,corruption,source};
++  const xpEarned=Number(progress.xpEarned??0),ptvEarned=Number(progress.ptvEarned??0);
++  const renownAdjustment=Number(progress.renownAdjustment??0);
++  if(![xpEarned,ptvEarned,renownAdjustment].every(Number.isSafeInteger)||xpEarned<0||ptvEarned<0)throw new Error('invalid_character_progression');
++  const creationIds=ids([data.talents?.origin,data.talents?.sphere,data.talents?.expertise,data.talents?.common,...ids(data.talents?.edge)]);
++  const renown=renownScore(creationIds,ids(progress.realityTalents),Number(data.edge?.renownPack||0),(data.disadvantages||[]).includes('inconnu'),renownAdjustment);
++  return {base,money,integrity,corruption,source,xpEarned,ptvEarned,renown,renownAdjustment};
+diff --git a/apps/api/src/campaign-effects.ts b/apps/api/src/campaign-effects.ts
+--- a/apps/api/src/campaign-effects.ts
++++ b/apps/api/src/campaign-effects.ts
+@@ -1,0 +2 @@
++import {registerCampaignRewardRoutes} from './campaign-rewards.js';
+@@ -8,0 +10 @@
++ await registerCampaignRewardRoutes(app);
+diff --git a/apps/api/src/campaign-reward-guard.ts b/apps/api/src/campaign-reward-guard.ts
+--- a/apps/api/src/campaign-reward-guard.ts
++++ b/apps/api/src/campaign-reward-guard.ts
+@@ -30 +30 @@
+-          !asset.itemId || result.has(asset.uid) || asset.kind !== kind) throw new Error('inventory');
++          !asset.itemId || result.has(asset.uid) || (asset.kind !== undefined && asset.kind !== kind)) throw new Error('inventory');
+@@ -111 +111 @@
+-    for (const [key, field] of [['xpEarned', 'xp'], ['ptvEarned', 'ptv']] as const) {
++    for (const [key, field] of [['xpEarned', 'xp'], ['ptvEarned', 'ptv'], ['renownAdjustment', 'renown']] as const) {
+@@ -123 +123,8 @@
+-    const items = context?.items ?? (() => { const rules = getRealityRules(); return [...rules.equipment, ...rules.augmentations]; })();
++    // A biography/build edit needs no equipment catalogue. In particular, an
++    // empty/unchanged inventory remains saveable before catalogue preloading.
++    // Trades and new loans still require the authoritative catalogue (fail closed).
++    const needsCatalog = next.slice(old.length).some(tx => tx.type === 'purchase' || tx.type === 'sale') ||
++      [...final.keys()].some(uid => !original.has(uid));
++    const items = needsCatalog
++      ? context?.items ?? (() => { const rules = getRealityRules(); return [...rules.equipment, ...rules.augmentations]; })()
++      : [];
+diff --git a/apps/api/src/character-history.ts b/apps/api/src/character-history.ts
+--- a/apps/api/src/character-history.ts
++++ b/apps/api/src/character-history.ts
+@@ -13 +13 @@
+-    progression:pick(data.progression,['xpEarned','ptvEarned','skillRanks','attributeRanks','realityTalents','truthTalents','corruptionTalents','truthTalentsMjAuthorized','truthEquipmentMjAuthorized','flashUses','cashBase','cashTransactions'])
++    progression:pick(data.progression,['xpEarned','ptvEarned','renownAdjustment','skillRanks','attributeRanks','realityTalents','truthTalents','corruptionTalents','truthTalentsMjAuthorized','truthEquipmentMjAuthorized','flashUses','cashBase','cashTransactions'])
