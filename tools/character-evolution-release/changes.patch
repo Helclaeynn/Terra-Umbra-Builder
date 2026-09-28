@@ -1,0 +1,197 @@
+diff --git a/apps/api/src/campaign-reward-guard.ts b/apps/api/src/campaign-reward-guard.ts
+index b596f03..9002e17 100644
+--- a/apps/api/src/campaign-reward-guard.ts
++++ b/apps/api/src/campaign-reward-guard.ts
+@@ -0,0 +1 @@
++import {builderPurchaseAllowed} from './rules/builder-equipment-policy.js';
+@@ -73 +74 @@ function permittedGrant(asset: Asset, data: Row, all: Map<string, Asset>, catalo
+-  if (!item || asset.kind !== 'equipment' || number(asset.selectedPrice) !== 0) return false;
++  if (!item || !builderPurchaseAllowed(item) || asset.kind !== 'equipment' || number(asset.selectedPrice) !== 0) return false;
+@@ -154 +155 @@ export function campaignRewardViolation(
+-          if (!item || usedAssetIds.has(uid) || !validReference(item, price)) return 'purchase_asset';
++          if (!item || !builderPurchaseAllowed(item) || usedAssetIds.has(uid) || !validReference(item, price)) return 'purchase_asset';
+diff --git a/apps/api/src/character-data.ts b/apps/api/src/character-data.ts
+index 8d88fbb..b3b5b3c 100644
+--- a/apps/api/src/character-data.ts
++++ b/apps/api/src/character-data.ts
+@@ -0,0 +1 @@
++import {normalizeAppearances,type CharacterAppearances} from "./character-appearances.js";
+@@ -22,0 +24 @@ export type CharacterDataV2 = {
++  appearances?: CharacterAppearances;
+@@ -226,0 +229,2 @@ export function normalizeCharacterData(input:unknown, fallbackName:string): Char
++  if(source.appearances!==undefined)out.appearances=normalizeAppearances(source.appearances);
++
+diff --git a/apps/api/src/characters.ts b/apps/api/src/characters.ts
+index 4f2a4c3..6dd1c46 100644
+--- a/apps/api/src/characters.ts
++++ b/apps/api/src/characters.ts
+@@ -0,0 +1 @@
++import {registerCharacterMediaRoutes} from './character-media.js';
+@@ -90,0 +92 @@ export async function registerCharacterRoutes(app: FastifyInstance) {
++  await registerCharacterMediaRoutes(app);
+diff --git a/apps/web/Dockerfile b/apps/web/Dockerfile
+index 348c3fb..e270e74 100644
+--- a/apps/web/Dockerfile
++++ b/apps/web/Dockerfile
+@@ -12,0 +13,2 @@ COPY apps/api/src/campaign-bestiary-model.ts apps/api/src/campaign-bestiary-weap
++COPY apps/api/src/character-appearances.ts /app/apps/api/src/character-appearances.ts
++COPY apps/api/src/rules/builder-equipment-policy.ts /app/apps/api/src/rules/builder-equipment-policy.ts
+diff --git a/apps/web/package.json b/apps/web/package.json
+index e06cef8..c76acf8 100644
+--- a/apps/web/package.json
++++ b/apps/web/package.json
+@@ -9 +9 @@
+-    "test:ui": "node tests/compendium-navigation-check.mjs && node tests/compendium-reading-check.mjs && node tests/wiki-active-aliases.mjs && node tests/npc-stat-profile-dom.mjs && node tests/compendium-page-dom.mjs && node tests/corruption-panel-dom.mjs && node tests/gm-access-dom.mjs && node tests/account-performance-dom.mjs && node tests/private-character-ui-dom.mjs && node tests/character-summary-dom.mjs && node tests/character-sheet-model-check.mjs && node tests/catalog-performance-check.mjs && node tests/character-history-check.mjs && node tests/campaign-character-check.mjs && node tests/campaign-preparation-dom.mjs && node tests/campaign-notebook-dom.mjs && node tests/canonical-npcs-dom.mjs && node tests/campaign-npc-creation-dom.mjs && node tests/campaign-bestiary-dom.mjs && node tests/talent-selector-dom.mjs && node tests/equipment-contacts-dom.mjs && node tests/campaign-final-recette-dom.mjs && npm run test:reality-talents && npm run test:campaign-rewards",
++    "test:ui": "node tests/compendium-navigation-check.mjs && node tests/compendium-reading-check.mjs && node tests/wiki-active-aliases.mjs && node tests/npc-stat-profile-dom.mjs && node tests/compendium-page-dom.mjs && node tests/corruption-panel-dom.mjs && node tests/gm-access-dom.mjs && node tests/account-performance-dom.mjs && node tests/private-character-ui-dom.mjs && node tests/character-summary-dom.mjs && node tests/character-sheet-model-check.mjs && node tests/catalog-performance-check.mjs && node tests/character-history-check.mjs && node tests/campaign-character-check.mjs && node tests/campaign-preparation-dom.mjs && node tests/campaign-notebook-dom.mjs && node tests/canonical-npcs-dom.mjs && node tests/campaign-npc-creation-dom.mjs && node tests/campaign-bestiary-dom.mjs && node tests/talent-selector-dom.mjs && node tests/equipment-contacts-dom.mjs && node tests/campaign-final-recette-dom.mjs && npm run test:reality-talents && npm run test:campaign-rewards && npm run test:character-evolution",
+@@ -12 +12,2 @@
+-    "test:campaign-rewards": "node tests/campaign-reward-lock.mjs && node tests/campaign-rewards-dom.mjs && node tests/builder-save-navigation.mjs"
++    "test:campaign-rewards": "node tests/campaign-reward-lock.mjs && node tests/campaign-rewards-dom.mjs && node tests/builder-save-navigation.mjs",
++    "test:character-evolution": "node tests/character-evolution.mjs"
+diff --git a/apps/web/src/components/builder/CharacterSummary.vue b/apps/web/src/components/builder/CharacterSummary.vue
+index 735f3ec..03950a1 100644
+--- a/apps/web/src/components/builder/CharacterSummary.vue
++++ b/apps/web/src/components/builder/CharacterSummary.vue
+@@ -1,0 +2 @@
++import CharacterGallery from "../CharacterGallery.vue";
+@@ -54,0 +56 @@ const money=(value:number)=>`${value.toLocaleString("fr-FR")} $`;
++    <CharacterGallery :model-value="sheet.appearances" layer="reality" :legacy="sheet.legacyPortrait" />
+@@ -112,0 +115,3 @@ const money=(value:number)=>`${value.toLocaleString("fr-FR")} $`;
++      <dl v-if="sheet.truthDetails?.length" class="truth-identity-details"><div v-for="item in sheet.truthDetails" :key="item.id" :data-truth-choice="item.id"><dt>{{item.name}}</dt><dd>{{item.value}}</dd></div></dl>
++      <CharacterGallery :model-value="sheet.appearances" layer="truth" />
++      <details v-if="sheet.truthFreeTraits?.length" class="truth-free-traits"><summary>Traits et dons innés · {{sheet.truthFreeTraits.length}}</summary><ul class="sheet-entries"><li v-for="trait in sheet.truthFreeTraits" :key="trait.id"><strong>{{trait.name}}</strong><small>{{trait.group}}</small><p>{{trait.detail}}</p></li></ul></details>
+@@ -160,0 +166 @@ const money=(value:number)=>`${value.toLocaleString("fr-FR")} $`;
++.truth-identity-details{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:0 24px;margin-bottom:18px!important}.truth-identity-details>div{align-items:flex-start!important}.truth-identity-details dt,.truth-identity-details dd{flex:1;overflow-wrap:anywhere}.truth-free-traits{margin-block:18px}.truth-free-traits>summary{min-height:44px;cursor:pointer;}
+@@ -169 +175 @@ const money=(value:number)=>`${value.toLocaleString("fr-FR")} $`;
+-.sheet-portrait{width:104px;height:128px;object-fit:cover;border:1px solid #3b586e;border-radius:8px}
++.sheet-portrait{width:104px;height:128px;object-fit:contain;background:#08131f;border:1px solid #3b586e;border-radius:8px}
+diff --git a/apps/web/src/components/builder/EquipmentStep.vue b/apps/web/src/components/builder/EquipmentStep.vue
+index 1e8e36e..3a71f46 100644
+--- a/apps/web/src/components/builder/EquipmentStep.vue
++++ b/apps/web/src/components/builder/EquipmentStep.vue
+@@ -1,0 +2,2 @@
++import EverydayEquipment from "./EverydayEquipment.vue";
++import {builderPurchaseAllowed} from "../../../../api/src/rules/builder-equipment-policy";
+@@ -36,0 +39 @@ const props=defineProps<{
++  social?:Record<string,unknown>;
+@@ -172,0 +176 @@ function addStatus(item:RealityItem){
++  if(!builderPurchaseAllowed(item))return {ok:false,reason:"Équipement courant : inclus dans le Train de vie"};
+@@ -241 +245 @@ const equipmentCategories=computed(()=>[...new Set(
+-    .filter(item=>item.recurring!=="monthly"&&item.recurring!=="annual")
++    .filter(item=>builderPurchaseAllowed(item)&&item.recurring!=="monthly"&&item.recurring!=="annual")
+@@ -269,0 +274 @@ const filteredEquipment=computed(()=>{
++    if(!builderPurchaseAllowed(item))return false;
+@@ -502,0 +508 @@ function benefitUpdate(value:Record<string,unknown>){emit('update:modelValue',va
++      <EverydayEquipment :rules="rules" :data="{reality:modelValue,disadvantages,social}" />
+diff --git a/apps/web/src/components/builder/ProgressionStep.vue b/apps/web/src/components/builder/ProgressionStep.vue
+index 939c5a4..201ee29 100644
+--- a/apps/web/src/components/builder/ProgressionStep.vue
++++ b/apps/web/src/components/builder/ProgressionStep.vue
+@@ -1,0 +2,2 @@
++import EverydayEquipment from "./EverydayEquipment.vue";
++import {builderPurchaseAllowed} from "../../../../api/src/rules/builder-equipment-policy";
+@@ -79,0 +82 @@ const props=defineProps<{
++  social?:Record<string,unknown>;
+@@ -427 +430 @@ const tradeCatalog=computed(()=>
+-  tradeKind.value==="augmentation"?props.realityRules.augmentations:props.realityRules.equipment
++  tradeKind.value==="augmentation"?props.realityRules.augmentations:props.realityRules.equipment.filter(builderPurchaseAllowed)
+@@ -734,0 +738 @@ function sellCampaignItem(){
++    <EverydayEquipment :rules="realityRules" :data="{reality,disadvantages,social}" />
+diff --git a/apps/web/src/components/builder/RealityBenefitsPanel.vue b/apps/web/src/components/builder/RealityBenefitsPanel.vue
+index f51b70d..257a2a6 100644
+--- a/apps/web/src/components/builder/RealityBenefitsPanel.vue
++++ b/apps/web/src/components/builder/RealityBenefitsPanel.vue
+@@ -1,0 +2 @@
++import {builderPurchaseAllowed} from "../../../../api/src/rules/builder-equipment-policy";
+@@ -23 +24 @@ const supportOptions=computed(()=>(supportType.value==='housing'?housingOptions.
+-function options(id:string){const q=(searches.value[id]??'').toLocaleLowerCase('fr');return props.rules.equipment.filter(i=>!loanItemReason(i,id)&&(loanBudget(id)===null||(realityPriceSpec(i).defaultCost??Infinity)<=Number(loanBudget(id))-loanSpent(state.value,props.rules,id))&&!(i.neuro&&props.disadvantages?.includes('unsinkable'))&&(!q||`${i.name} ${i.category}`.toLocaleLowerCase('fr').includes(q))).sort((a,b)=>a.name.localeCompare(b.name,'fr'));}
++function options(id:string){const q=(searches.value[id]??'').toLocaleLowerCase('fr');return props.rules.equipment.filter(i=>builderPurchaseAllowed(i)&&!loanItemReason(i,id)&&(loanBudget(id)===null||(realityPriceSpec(i).defaultCost??Infinity)<=Number(loanBudget(id))-loanSpent(state.value,props.rules,id))&&!(i.neuro&&props.disadvantages?.includes('unsinkable'))&&(!q||`${i.name} ${i.category}`.toLocaleLowerCase('fr').includes(q))).sort((a,b)=>a.name.localeCompare(b.name,'fr'));}
+diff --git a/apps/web/src/lib/character-pdf-model.ts b/apps/web/src/lib/character-pdf-model.ts
+index aec5c58..43263d1 100644
+--- a/apps/web/src/lib/character-pdf-model.ts
++++ b/apps/web/src/lib/character-pdf-model.ts
+@@ -256 +256 @@ export function projectCharacterPdf(input:PdfInput, available:ReadonlySet<string
+-  return {slug,name:sheet.name||'Personnage',portrait:data.identity.portraitDataUrl,values,labels,annex};
++  return {slug,name:sheet.name||'Personnage',portrait:sheet.identity.portraitDataUrl,values,labels,annex};
+diff --git a/apps/web/src/lib/character-pdf.ts b/apps/web/src/lib/character-pdf.ts
+index 47c4e13..4baf403 100644
+--- a/apps/web/src/lib/character-pdf.ts
++++ b/apps/web/src/lib/character-pdf.ts
+@@ -104 +104 @@ export async function fillDossierPdf(pdfBytes:Uint8Array,fontBytes:Uint8Array,pr
+-      const scale=Math.max(rect.width/image.width,rect.height/image.height);
++      const scale=Math.min(rect.width/image.width,rect.height/image.height);
+diff --git a/apps/web/src/lib/character-sheet-model.ts b/apps/web/src/lib/character-sheet-model.ts
+index dba605f..7d168fd 100644
+--- a/apps/web/src/lib/character-sheet-model.ts
++++ b/apps/web/src/lib/character-sheet-model.ts
+@@ -0,0 +1,3 @@
++import {appearanceGallery,normalizeAppearances} from "../../../api/src/character-appearances";
++import {everydayEquipmentIds} from "../../../api/src/rules/builder-equipment-policy";
++import {truthSheetDetails,truthFreeTraitDetails} from "./truth-sheet-details";
+@@ -84,0 +88,3 @@ export function buildCharacterSheet(data:CharacterDataV2, core:SheetCore, truth:
++  for(const id of everydayEquipmentIds(data,campaign)){
++    const item=items.get(id);if(item)inventory.push({id:`everyday-${id}`,name:item.name,compendiumId:item.compendiumId,detail:item.effect,group:"Équipement courant — inclus dans le Train de vie · non revendable"});
++  }
+@@ -113 +119,3 @@ export function buildCharacterSheet(data:CharacterDataV2, core:SheetCore, truth:
+-    mode:campaign?"campaign":"creation",name:[data.identity.firstName.trim(),data.identity.name.trim()].filter(Boolean).join(" ")||fallbackName,identity:data.identity,
++    mode:campaign?"campaign":"creation",name:[data.identity.firstName.trim(),data.identity.name.trim()].filter(Boolean).join(" ")||fallbackName,identity:{...data.identity,portraitDataUrl:appearanceGallery(data.appearances,"reality",data.identity).primary?.src??data.identity.portraitDataUrl},
++    appearances:normalizeAppearances(data.appearances),legacyPortrait:{portraitDataUrl:data.identity.portraitDataUrl,portraitName:data.identity.portraitName},
++    truthDetails:truthSheetDetails(truth,truthState,permanentSkill("force_mentale")),truthFreeTraits:truthFreeTraitDetails(truth,truthState),
+diff --git a/apps/web/src/lib/character-sheet.ts b/apps/web/src/lib/character-sheet.ts
+index f10275c..db97b8d 100644
+--- a/apps/web/src/lib/character-sheet.ts
++++ b/apps/web/src/lib/character-sheet.ts
+@@ -11,0 +12,4 @@ export type CharacterSheet = {
++  appearances?:import("../../../api/src/character-appearances").CharacterAppearances;
++  legacyPortrait?:{portraitDataUrl:string;portraitName:string};
++  truthDetails?:import("./truth-sheet-details").TruthSheetDetail[];
++  truthFreeTraits?:SheetEntry[];
+diff --git a/apps/web/src/pages/CharacterBuilderPage.vue b/apps/web/src/pages/CharacterBuilderPage.vue
+index 0e892d6..28fa77d 100644
+--- a/apps/web/src/pages/CharacterBuilderPage.vue
++++ b/apps/web/src/pages/CharacterBuilderPage.vue
+@@ -1,0 +2,2 @@
++import CharacterGallery from "../components/CharacterGallery.vue";
++import {appearanceGallery} from "../../../api/src/character-appearances";
+@@ -117,0 +120 @@ const portraitInput=ref<HTMLInputElement|null>(null);
++const displayPortrait=computed(()=>draft.value?appearanceGallery(draft.value.appearances,"reality",draft.value.identity).primary?.src??"":"");
+@@ -1246,0 +1250 @@ async function setPortrait(event:Event){
++    if(draft.value.appearances)draft.value.appearances.primaryReality="legacy";
+@@ -1672 +1676 @@ onBeforeUnmount(()=>{
+-          <div class="builder-mini-portrait" :class="{ empty: !draft.identity.portraitDataUrl }">
++          <div class="builder-mini-portrait" :class="{ empty: !displayPortrait }">
+@@ -1674,2 +1678,2 @@ onBeforeUnmount(()=>{
+-              v-if="draft.identity.portraitDataUrl"
+-              :src="draft.identity.portraitDataUrl"
++              v-if="displayPortrait"
++              :src="displayPortrait"
+@@ -1765 +1769 @@ onBeforeUnmount(()=>{
+-              <div class="portrait-frame" :class="{ empty: !draft.identity.portraitDataUrl }">
++              <div class="portrait-frame" :class="{ empty: !displayPortrait }">
+@@ -1767,2 +1771,2 @@ onBeforeUnmount(()=>{
+-                  v-if="draft.identity.portraitDataUrl"
+-                  :src="draft.identity.portraitDataUrl"
++                  v-if="displayPortrait"
++                  :src="displayPortrait"
+@@ -1858,0 +1863,2 @@ onBeforeUnmount(()=>{
++          <CharacterGallery v-if="character" v-model="draft.appearances" layer="reality" :character-id="character.id" :legacy="draft.identity" editable @remove-legacy="removePortrait" />
++          <label class="field-help"><input type="checkbox" :checked="draft.social.civicIdentity !== false" @change="draft.social.civicIdentity=($event.target as HTMLInputElement).checked" /> Le personnage possède une identité civique (IDpass et puce citoyenne inclus).</label>
+@@ -2329,0 +2336 @@ onBeforeUnmount(()=>{
++              <CharacterGallery v-if="character" v-model="draft.appearances" layer="truth" :character-id="character.id" editable />
+@@ -2846,0 +2854 @@ onBeforeUnmount(()=>{
++          :social="draft.social"
+@@ -2894,0 +2903 @@ onBeforeUnmount(()=>{
++          :social="draft.social"
+@@ -3001 +3010 @@ onBeforeUnmount(()=>{
+-.builder-mini-portrait img{width:100%;height:100%;object-fit:cover}
++.builder-mini-portrait img{width:100%;height:100%;object-fit:contain}
+@@ -3025 +3034 @@ to{opacity:1;transform:none}
+-.portrait-frame img{width:100%;height:100%;object-fit:cover}
++.portrait-frame img{width:100%;height:100%;object-fit:contain}
+diff --git a/apps/web/src/types/character.ts b/apps/web/src/types/character.ts
+index 607afe9..399b977 100644
+--- a/apps/web/src/types/character.ts
++++ b/apps/web/src/types/character.ts
+@@ -0,0 +1 @@
++import type {CharacterAppearances} from "../../../api/src/character-appearances";
+@@ -17,0 +19 @@ export type CharacterDataV2 = {
++  appearances?: CharacterAppearances;
