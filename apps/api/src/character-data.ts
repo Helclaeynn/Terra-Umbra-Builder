@@ -1,3 +1,4 @@
+import {normalizeAppearances,type CharacterAppearances} from "./character-appearances.js";
 import { terraUmbraCreationRules } from "./rules/terra-umbra-creation.js";
 
 type JsonRecord = Record<string, unknown>;
@@ -20,6 +21,7 @@ const cloneRecord=(value:unknown): JsonRecord =>
   isRecord(value) ? structuredClone(value) : {};
 
 export type CharacterDataV2 = {
+  appearances?: CharacterAppearances;
   schemaVersion: 2;
   rulesetId: "terra-umbra";
   identity: {
@@ -223,6 +225,8 @@ export function normalizeCharacterData(input:unknown, fallbackName:string): Char
     corruptionSource,
     corruptionTalents
   };
+
+  if(source.appearances!==undefined)out.appearances=normalizeAppearances(source.appearances);
 
   out.equipment=Array.isArray(source.equipment)?structuredClone(source.equipment):[];
 

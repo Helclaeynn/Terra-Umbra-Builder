@@ -101,7 +101,7 @@ export async function fillDossierPdf(pdfBytes:Uint8Array,fontBytes:Uint8Array,pr
       const image=/png/i.test(kind)?await doc.embedPng(bytes):await doc.embedJpg(bytes);
       const page=doc.getPage(0),sx=page.getWidth()/1055,sy=page.getHeight()/1491;
       const rect={x:60*sx,y:page.getHeight()-(187+175)*sy,width:153*sx,height:175*sy};
-      const scale=Math.max(rect.width/image.width,rect.height/image.height);
+      const scale=Math.min(rect.width/image.width,rect.height/image.height);
       page.pushOperators(pushGraphicsState(),rectangle(rect.x,rect.y,rect.width,rect.height),clip(),endPath());
       page.drawImage(image,{x:rect.x+(rect.width-image.width*scale)/2,y:rect.y+(rect.height-image.height*scale)/2,width:image.width*scale,height:image.height*scale,opacity:printing?.85:1});
       page.pushOperators(popGraphicsState());

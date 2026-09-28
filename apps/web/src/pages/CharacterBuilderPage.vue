@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import CharacterGallery from "../components/CharacterGallery.vue";
+import {appearanceGallery} from "../../../api/src/character-appearances";
 import {permanentSkillBonus,pruneBenefits,uniqueTalents,renownScore as computeRenown} from "../lib/reality-benefits";
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, shallowRef, watch } from "vue";
 import { onBeforeRouteLeave, onBeforeRouteUpdate, useRoute } from "vue-router";
@@ -115,6 +117,7 @@ watch(knowledgeOpen,async(open)=>{
   else knowledgeTrigger.value?.focus();
 });
 const portraitInput=ref<HTMLInputElement|null>(null);
+const displayPortrait=computed(()=>draft.value?appearanceGallery(draft.value.appearances,"reality",draft.value.identity).primary?.src??"":"");
 const truthConsciousnessInput=ref<HTMLSelectElement|null>(null);
 
 const sections:Array<[StepId,string,boolean]>=progressionMode
@@ -1244,6 +1247,7 @@ async function setPortrait(event:Event){
   try{
     draft.value.identity.portraitDataUrl=await resizePortrait(file);
     draft.value.identity.portraitName=file.name;
+    if(draft.value.appearances)draft.value.appearances.primaryReality="legacy";
   }catch(cause){
     error.value=(cause as Error).message;
   }finally{
@@ -1669,10 +1673,10 @@ onBeforeUnmount(()=>{
     <main v-else-if="draft && character && rules && lore" class="builder-workspace">
       <aside class="builder-sidebar panel">
         <div class="builder-character">
-          <div class="builder-mini-portrait" :class="{ empty: !draft.identity.portraitDataUrl }">
+          <div class="builder-mini-portrait" :class="{ empty: !displayPortrait }">
             <img
-              v-if="draft.identity.portraitDataUrl"
-              :src="draft.identity.portraitDataUrl"
+              v-if="displayPortrait"
+              :src="displayPortrait"
               :alt="`Portrait de ${identityDisplayName || character.name}`"
             />
             <span v-else>TU</span>
@@ -1762,10 +1766,10 @@ onBeforeUnmount(()=>{
 
           <div class="identity-layout">
             <aside class="portrait-card">
-              <div class="portrait-frame" :class="{ empty: !draft.identity.portraitDataUrl }">
+              <div class="portrait-frame" :class="{ empty: !displayPortrait }">
                 <img
-                  v-if="draft.identity.portraitDataUrl"
-                  :src="draft.identity.portraitDataUrl"
+                  v-if="displayPortrait"
+                  :src="displayPortrait"
                   :alt="`Portrait de ${identityDisplayName || 'personnage'}`"
                 />
                 <div v-else class="portrait-empty">
@@ -1856,6 +1860,8 @@ onBeforeUnmount(()=>{
               </div>
             </div>
           </div>
+          <CharacterGallery v-if="character" v-model="draft.appearances" layer="reality" :character-id="character.id" :legacy="draft.identity" editable @remove-legacy="removePortrait" />
+          <label class="field-help"><input type="checkbox" :checked="draft.social.civicIdentity !== false" @change="draft.social.civicIdentity=($event.target as HTMLInputElement).checked" /> Le personnage possède une identité civique (IDpass et puce citoyenne inclus).</label>
         </article>
 
         <article v-else-if="activeStep === 'origin'" class="panel builder-card">
@@ -2327,6 +2333,7 @@ onBeforeUnmount(()=>{
             </section>
 
             <template v-if="selectedTruthNature">
+              <CharacterGallery v-if="character" v-model="draft.appearances" layer="truth" :character-id="character.id" editable />
               <section v-if="selectedTruthNature.choices.length" class="truth-choice-section">
                 <div class="subsection-title">
                   <div>
@@ -2844,6 +2851,7 @@ onBeforeUnmount(()=>{
           v-else-if="activeStep === 'equipment' && realityRules"
           class="panel builder-card"
           :model-value="draft.reality"
+          :social="draft.social"
           :rules="realityRules"
           :style="selectedStyle"
           :edge="draft.edge"
@@ -2892,6 +2900,7 @@ onBeforeUnmount(()=>{
           :talent-lore="{...lore?.originTalent,...lore?.sphereTalent,...lore?.talent}"
           :progression="draft.progression"
           :reality="draft.reality"
+          :social="draft.social"
           :truth-state="currentTruthState"
           :rules="rules"
           :truth-rules="truthRules"
@@ -2998,7 +3007,7 @@ onBeforeUnmount(()=>{
 .builder-character h1{margin:.15rem 0 .35rem;font-family:Inter,"Segoe UI",sans-serif;font-size:1.35rem;font-weight:500}
 .builder-character small{color:#a1b5cc}
 .builder-mini-portrait{width:54px;height:68px;overflow:hidden;border:1px solid rgba(255,255,255,.12);background:#0b1524;display:grid;place-items:center}
-.builder-mini-portrait img{width:100%;height:100%;object-fit:cover}
+.builder-mini-portrait img{width:100%;height:100%;object-fit:contain}
 .builder-mini-portrait.empty span{color:#5b93ad;font-family:Inter,"Segoe UI",sans-serif}
 .builder-nav{display:grid;padding:.55rem}
 .builder-nav button{position:relative;display:grid;grid-template-columns:1.6rem 1fr auto;align-items:center;gap:.45rem;width:100%;padding:.72rem .65rem;border:0;border-left:2px solid transparent;text-align:left;color:#a1b5cc;background:transparent;transition:background .16s ease,color .16s ease,border-color .16s ease}
@@ -3022,7 +3031,7 @@ to{opacity:1;transform:none}
 .portrait-card{display:grid;gap:.65rem}
 .portrait-card>small{color:#a1b5cc;line-height:1.45}
 .portrait-frame{aspect-ratio:4/5;overflow:hidden;border:1px solid rgba(255,255,255,.14);background:#080f1b;display:grid;place-items:center}
-.portrait-frame img{width:100%;height:100%;object-fit:cover}
+.portrait-frame img{width:100%;height:100%;object-fit:contain}
 .portrait-frame.empty{border-style:dashed}
 .portrait-empty{padding:1rem;display:grid;gap:.5rem;text-align:center;color:#a1b5cc}
 .portrait-empty strong{color:#edf4ff;font-family:Inter,"Segoe UI",sans-serif;font-size:1.2rem}

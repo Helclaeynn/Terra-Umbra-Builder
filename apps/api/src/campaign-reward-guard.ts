@@ -1,3 +1,4 @@
+import {builderPurchaseAllowed} from './rules/builder-equipment-policy.js';
 import { isDeepStrictEqual } from 'node:util';
 import { campaignCharacterState } from './campaign-character.js';
 import { getRealityRules, type RealityItem } from './rules/reality.js';
@@ -70,7 +71,7 @@ function savedReference(asset: Asset, item: RealityItem): number {
 function permittedGrant(asset: Asset, data: Row, all: Map<string, Asset>, catalog: Map<string, RealityItem>): boolean {
   const item = catalog.get(asset.itemId), ids = talentIds(data);
   const sphere = String(record(data.creation).sphere ?? ''), grant = String(asset.talentGrant ?? '');
-  if (!item || asset.kind !== 'equipment' || number(asset.selectedPrice) !== 0) return false;
+  if (!item || !builderPurchaseAllowed(item) || asset.kind !== 'equipment' || number(asset.selectedPrice) !== 0) return false;
   if (!grant) return Boolean(asset.sphereSupport) && sphere === 'corporatiste' && item.vehicle &&
     record(data.reality).sphereSupportItemId === asset.itemId;
   const spheres: Record<string, string> = {
@@ -151,7 +152,7 @@ export function campaignRewardViolation(
           working.delete(uid);
         } else {
           const item = catalog.get(String(trade.itemId ?? '')), price = number(trade.reference), supplier = trade.supplier === true;
-          if (!item || usedAssetIds.has(uid) || !validReference(item, price)) return 'purchase_asset';
+          if (!item || !builderPurchaseAllowed(item) || usedAssetIds.has(uid) || !validReference(item, price)) return 'purchase_asset';
           if (supplier && (!ids.has('acces_fournisseur') || record(after.creation).sphere !== 'corporatiste' ||
               ['monthly', 'annual', 'per_use'].includes(item.recurring) ||
               /prototype|unique|prestation medicale|operation chirurgicale/.test(norm(`${item.category} ${item.name}`)))) return 'supplier';

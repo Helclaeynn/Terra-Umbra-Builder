@@ -253,5 +253,5 @@ export function projectCharacterPdf(input:PdfInput, available:ReadonlySet<string
     if(sheet.corruption||sheet.corruptionSource)add('Corruption',[`Corruption : ${sheet.corruption}`,`Intégrité : ${sheet.derived.integrity}`,sheet.corruptionSource].filter(Boolean).join(' — '));
     for(const id of state.truthEquipment){const item=truth.equipment.find(t=>t.id===id);add('Équipement de Vérité',[item?.name??id,item?.lore].filter(Boolean).join(' — '));}
   }
-  return {slug,name:sheet.name||'Personnage',portrait:data.identity.portraitDataUrl,values,labels,annex};
+  return {slug,name:sheet.name||'Personnage',portrait:sheet.identity.portraitDataUrl,values,labels,annex};
 }

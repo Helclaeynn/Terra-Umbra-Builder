@@ -1,3 +1,4 @@
+import {registerCharacterMediaRoutes} from './character-media.js';
 import {campaignRewardViolation,pinCampaignCash} from './campaign-reward-guard.js';
 import { registerCampaignRoutes } from "./campaigns.js";
 import type { FastifyInstance, FastifyReply } from "fastify";
@@ -88,6 +89,7 @@ export async function registerCharacterRoutes(app: FastifyInstance) {
   await registerCampaignRoutes(app);
   await registerCharacterHistoryRoutes(app);
   await registerCharacterSheetRoutes(app);
+  await registerCharacterMediaRoutes(app);
   await registerCharacterJournalRoutes(app);
   app.get<{Querystring:{summary?:string}}>("/api/characters", async (request, reply) => {
     const user = await requireUser(request, reply);

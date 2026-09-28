@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import EverydayEquipment from "./EverydayEquipment.vue";
+import {builderPurchaseAllowed} from "../../../../api/src/rules/builder-equipment-policy";
 import { computed, nextTick, ref } from "vue";
 import RealityBenefitsPanel from './RealityBenefitsPanel.vue';
 import {acquisitionCost,supplierEligible,loanLabel,referencePrice} from '../../lib/reality-benefits';
@@ -34,6 +36,7 @@ import {
 } from "../../lib/reality";
 
 const props=defineProps<{
+  social?:Record<string,unknown>;
   modelValue:Record<string,unknown>;
   rules:RealityRulesPackage;
   style:RealityStyle|null;
@@ -170,6 +173,7 @@ function pricedItem(item:RealityItem){
   return cost===null?item:{...item,price:cost,priceMin:cost,priceMax:cost};
 }
 function addStatus(item:RealityItem){
+  if(!builderPurchaseAllowed(item))return {ok:false,reason:"Équipement courant : inclus dans le Train de vie"};
   if(!props.style)return {ok:false,reason:"Choisissez d’abord un Style"};
   if(item.neuro&&props.disadvantages.includes("unsinkable"))return {ok:false,reason:"Unsinkable interdit les Neuroprogrammes"};
   if(!priceValid(item))return {ok:false,reason:specialRealityAcquisition(item)?"Prix à convenir avec le MJ":"Prix à confirmer"};
@@ -238,7 +242,7 @@ function gen2Systems(item:RealityItem){
 
 const equipmentCategories=computed(()=>[...new Set(
   props.rules.equipment
-    .filter(item=>item.recurring!=="monthly"&&item.recurring!=="annual")
+    .filter(item=>builderPurchaseAllowed(item)&&item.recurring!=="monthly"&&item.recurring!=="annual")
     .map(item=>item.category)
 )].sort((a,b)=>catalogRank(a)-catalogRank(b)||a.localeCompare(b,"fr")));
 const augmentationCategories=computed(()=>[...new Set(
@@ -267,6 +271,7 @@ function visibleAugmentation(item:RealityItem){
 const filteredEquipment=computed(()=>{
   const q=norm(equipmentQuery.value.trim());
   return props.rules.equipment.filter(item=>{
+    if(!builderPurchaseAllowed(item))return false;
     if(!equipmentCategory.value&&!q)return false;
     if(item.recurring==="monthly"||item.recurring==="annual")return false;
     if(equipmentCategory.value&&item.category!==equipmentCategory.value)return false;
@@ -500,6 +505,7 @@ function benefitUpdate(value:Record<string,unknown>){emit('update:modelValue',va
     <div v-if="!style" class="rule-note bad">Choisissez d’abord une Sphère et un Style.</div>
 
     <template v-else>
+      <EverydayEquipment :rules="rules" :data="{reality:modelValue,disadvantages,social}" />
       <RealityBenefitsPanel :model-value="modelValue" :rules="rules" :talent-ids="talentIds" :sphere-id="sphereId" :disadvantages="disadvantages" @update:model-value="benefitUpdate" />
       <section v-if="talentIds.includes('maitre_du_troc')||talentIds.includes('acces_fournisseur')" class="rule-note" data-creation-discounts><strong>Prix après Talents</strong><p>Maître du Troc : −5 % du prix de référence. Accès fournisseur : −10 % seulement auprès de votre corporation ou d’un partenaire autorisé.</p><label v-if="sphereId==='corporatiste'&&talentIds.includes('acces_fournisseur')"><input v-model="useSupplier" type="checkbox" /> Prochains achats auprès du fournisseur autorisé, hors prestations exclues</label><button type="button" class="ghost compact" @click="repriceCreation">Recalculer les achats de création</button><p>Le recalcul est explicite. Il ne modifie pas les transactions de campagne déjà enregistrées.</p></section>
       <section class="economy-grid">
