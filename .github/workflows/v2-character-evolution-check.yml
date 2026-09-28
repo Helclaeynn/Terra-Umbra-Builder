@@ -1,0 +1,35 @@
+name: V2 character evolution checks
+on:
+  push:
+    branches: [feature/tuc-web-v2]
+    paths:
+      - .github/workflows/v2-character-evolution-check.yml
+      - tools/character-evolution/**
+permissions:
+  contents: read
+concurrency:
+  group: tuc-character-evolution-check
+  cancel-in-progress: false
+jobs:
+  source-workspace:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Export tracked source only, without production data or image libraries
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/character-evolution-source
+          git rev-parse HEAD > /tmp/character-evolution-source/source-sha.txt
+          git ls-files -z -- apps/api apps/web/src apps/web/tests apps/web/package.json apps/web/package-lock.json apps/web/tsconfig.json apps/web/tsconfig.app.json apps/web/tsconfig.node.json apps/web/vite.config.ts apps/web/index.html apps/web/Dockerfile infrastructure .github/workflows tools compendium/source compendium/data character-builder/rulesets/terra-umbra | tar --null -T - -czf /tmp/character-evolution-source/source.tar.gz
+          cd /tmp/character-evolution-source
+          sha256sum source.tar.gz source-sha.txt > SHA256SUMS
+      - uses: actions/upload-artifact@v4
+        with:
+          name: character-evolution-source
+          path: /tmp/character-evolution-source/
+          retention-days: 1
+          compression-level: 0
