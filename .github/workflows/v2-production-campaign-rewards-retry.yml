@@ -1,0 +1,117 @@
+name: V2 production campaign rewards retry
+on:
+  push:
+    branches: [feature/tuc-web-v2]
+    paths: [.github/workflows/v2-production-campaign-rewards-retry.yml]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: tuc-v2-production
+  cancel-in-progress: false
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    environment: tuc-dev
+    timeout-minutes: 20
+    env:
+      SOURCE_SHA: ffeb73a328436420ac96d244b44b54ca05d4f226
+      TUC_DEV_HOST: ${{ secrets.TUC_DEV_HOST }}
+      TUC_DEV_USER: ${{ secrets.TUC_DEV_USER }}
+      TUC_DEV_SSH_KEY: ${{ secrets.TUC_DEV_SSH_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ffeb73a328436420ac96d244b44b54ca05d4f226
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Verify exact tested source and completed build job
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$SOURCE_SHA"
+          test "$(gh api repos/Helclaeynn/Terra-Umbra-Builder/actions/jobs/109130813419 --jq .conclusion)" = success
+          test "$(gh api repos/Helclaeynn/Terra-Umbra-Builder/actions/artifacts/10998370053 --jq .expired)" = false
+          git fetch --depth=1 origin "$GITHUB_SHA"
+          git diff --exit-code "$SOURCE_SHA" "$GITHUB_SHA" -- apps infrastructure/migrations compendium character-builder
+      - name: Reconfirm API compilation and campaign reward contract
+        working-directory: apps/api
+        run: |
+          npm ci
+          npm run build
+          node scripts/check-campaign-reward-guard.mjs
+      - uses: actions/download-artifact@v4
+        with:
+          name: campaign-rewards-production-images
+          run-id: 36482351540
+          github-token: ${{ github.token }}
+          path: /tmp/tuc-campaign-release
+      - name: Verify immutable package and reclaim only unused compilation cache
+        shell: bash
+        run: |
+          set -euo pipefail
+          (cd /tmp/tuc-campaign-release && sha256sum --check SHA256SUMS)
+          test "$(cat /tmp/tuc-campaign-release/source-sha.txt)" = "$SOURCE_SHA"
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$TUC_DEV_SSH_KEY" > ~/.ssh/tuc_prod
+          chmod 600 ~/.ssh/tuc_prod
+          ssh-keyscan -H "$TUC_DEV_HOST" >> ~/.ssh/known_hosts
+          ssh -i ~/.ssh/tuc_prod -o IdentitiesOnly=yes "$TUC_DEV_USER@$TUC_DEV_HOST" 'bash -s' <<'REMOTE'
+          {
+            set -euo pipefail
+            root=/opt/terra-umbra
+            test -f "$root/production-active"
+            exec 9>"$root/.production-release.lock"
+            flock -n 9 || { echo 'Another production release is running.' >&2; exit 1; }
+            containers=$(docker ps -a --no-trunc --format '{{.ID}} {{.Image}}' | sort)
+            volumes=$(docker volume ls --format '{{.Driver}} {{.Name}}' | sort)
+            images=$(docker image ls --no-trunc --format '{{.Repository}}:{{.Tag}} {{.ID}}' | sed '/<none>/d' | sort)
+            available=$(df -B1 --output=avail "$root" | tail -1 | tr -d ' ')
+            if [ "$available" -lt 6442450944 ]; then
+              # Build cache only: no image/container/network/volume prune,
+              # no deletion in app, uploads, releases or backup directories.
+              docker builder prune --all --force --keep-storage 2GB
+            fi
+            test "$(docker ps -a --no-trunc --format '{{.ID}} {{.Image}}' | sort)" = "$containers"
+            test "$(docker volume ls --format '{{.Driver}} {{.Name}}' | sort)" = "$volumes"
+            test "$(docker image ls --no-trunc --format '{{.Repository}}:{{.Tag}} {{.ID}}' | sed '/<none>/d' | sort)" = "$images"
+            df -h "$root"
+            available=$(df -B1 --output=avail "$root" | tail -1 | tr -d ' ')
+            test "$available" -ge 6442450944 || { echo 'Insufficient free space; no deployment and no broader deletion.' >&2; exit 1; }
+            echo 'DISK PREFLIGHT OK — at least 6 GiB free; containers, volumes and tagged rollback images preserved'
+          }
+          REMOTE
+      - name: Resume transfer, back up and deploy exact previously tested images
+        shell: bash
+        run: |
+          set -euo pipefail
+          SSH="ssh -i ~/.ssh/tuc_prod -o IdentitiesOnly=yes"
+          $SSH "$TUC_DEV_USER@$TUC_DEV_HOST" "test -f /opt/terra-umbra/production-active && mkdir -p /opt/terra-umbra/releases/campaign-$SOURCE_SHA"
+          rsync -az -e "$SSH" /tmp/tuc-campaign-release/ "$TUC_DEV_USER@$TUC_DEV_HOST:/opt/terra-umbra/releases/campaign-$SOURCE_SHA/"
+          { printf '{\n'; cat infrastructure/production/release-campaign-rewards.sh; printf '\n}\n'; } | $SSH "$TUC_DEV_USER@$TUC_DEV_HOST" bash -s -- "$SOURCE_SHA"
+      - name: Live browser without writes to real accounts
+        id: live
+        continue-on-error: true
+        working-directory: apps/web
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm ci
+          npm install --no-save --package-lock=false playwright-core@1.55.0
+          export CHROME_BIN="$(command -v google-chrome || command -v chromium)"
+          export TUC_V2_SMOKE_BASE_URL=https://terra-umbra.fr
+          node tests/builder-v2-smoke.mjs
+          node tests/campaigns-smoke.mjs
+      - name: Roll back only this application when live checks fail
+        if: steps.live.outcome == 'failure'
+        shell: bash
+        run: |
+          { printf '{\n'; cat infrastructure/production/release-campaign-rewards.sh; printf '\n}\n'; } | ssh -i ~/.ssh/tuc_prod -o IdentitiesOnly=yes "$TUC_DEV_USER@$TUC_DEV_HOST" bash -s -- "$SOURCE_SHA" rollback
+          exit 1
+      - name: Remove ephemeral SSH key
+        if: always()
+        run: rm -f ~/.ssh/tuc_prod
