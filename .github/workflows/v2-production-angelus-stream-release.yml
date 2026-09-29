@@ -1,4 +1,4 @@
-name: V2 production Angelus streamed release
+name: V2 production Angelus release retry
 on:
   push:
     branches: [feature/tuc-web-v2]
@@ -128,7 +128,7 @@ jobs:
           print(json.dumps({k:v for k,v in meta.items() if k not in ('layers','source_files')},indent=2))
           print('Layer count:',len(layers))
           PY
-      - name: Stream exact tested images and source without storing transfer archives
+      - name: Resume tested archive deployment with measured space and verified backup
         env:
           TUC_DEV_HOST: ${{ secrets.TUC_DEV_HOST }}
           TUC_DEV_USER: ${{ secrets.TUC_DEV_USER }}
@@ -144,13 +144,18 @@ jobs:
           SSH="ssh -i ~/.ssh/tuc_prod -o IdentitiesOnly=yes"
           stage="/opt/terra-umbra/releases/angelus-$SOURCE_SHA"
           $SSH "$TUC_DEV_USER@$TUC_DEV_HOST" "test -f /opt/terra-umbra/production-active && mkdir -p '$stage' && chmod 700 '$stage'"
-          rsync -az -e "$SSH" /tmp/tuc-angelus-release/space-budget.json tools/angelus-release/stream-release.py "$TUC_DEV_USER@$TUC_DEV_HOST:$stage/"
-          rsync -az -e "$SSH" infrastructure/production/release-angelus-talents.sh "$TUC_DEV_USER@$TUC_DEV_HOST:$stage/tested-release.sh"
-          $SSH "$TUC_DEV_USER@$TUC_DEV_HOST" "python3 '$stage/stream-release.py' check '$stage'"
-          cat /tmp/tuc-angelus-release/images.tar.gz | $SSH "$TUC_DEV_USER@$TUC_DEV_HOST" "python3 '$stage/stream-release.py' images '$stage'"
-          cat /tmp/tuc-angelus-release/apps-source.tar.gz | $SSH "$TUC_DEV_USER@$TUC_DEV_HOST" "python3 '$stage/stream-release.py' source '$stage'"
-          test "$(git ls-remote origin refs/heads/feature/tuc-web-v2 | cut -f1)" = "$GITHUB_SHA"
-          $SSH "$TUC_DEV_USER@$TUC_DEV_HOST" "python3 '$stage/stream-release.py' deploy '$stage'"
+          current=$($SSH "$TUC_DEV_USER@$TUC_DEV_HOST" 'cat /opt/terra-umbra/.production-release-sha')
+          test "$current" = 3a578145ceb20c892bc433886b1e8b051a1ababe || test "$current" = "$SOURCE_SHA"
+          if test "$current" != "$SOURCE_SHA"; then
+            rsync -az -e "$SSH" /tmp/tuc-angelus-release/space-budget.json tools/daemon-release/space-budget.py "$TUC_DEV_USER@$TUC_DEV_HOST:$stage/"
+            $SSH "$TUC_DEV_USER@$TUC_DEV_HOST" "flock -n /opt/terra-umbra/.production-release.lock python3 '$stage/space-budget.py' '$stage/space-budget.json'"
+            rsync -az -e "$SSH" /tmp/tuc-angelus-release/ "$TUC_DEV_USER@$TUC_DEV_HOST:$stage/"
+            rsync -az -e "$SSH" infrastructure/production/release-angelus-talents.sh "$TUC_DEV_USER@$TUC_DEV_HOST:$stage/tested-release.sh"
+            test "$(git ls-remote origin refs/heads/feature/tuc-web-v2 | cut -f1)" = "$GITHUB_SHA"
+            $SSH "$TUC_DEV_USER@$TUC_DEV_HOST" "bash '$stage/tested-release.sh' '$SOURCE_SHA'"
+          else
+            echo 'Expected Angelus version already active; no restart.'
+          fi
       - name: Live browser without writes to real accounts
         id: live
         continue-on-error: true
@@ -172,6 +177,12 @@ jobs:
         run: |
           { printf '{\n'; cat infrastructure/production/release-angelus-talents.sh; printf '\n}\n'; } | ssh -i ~/.ssh/tuc_prod -o IdentitiesOnly=yes "$TUC_DEV_USER@$TUC_DEV_HOST" bash -s -- "$SOURCE_SHA" rollback
           exit 1
+      - name: Verify final public version
+        if: steps.live.outcome == 'success'
+        run: |
+          set -euo pipefail
+          curl --fail --silent --show-error --max-time 20 "https://terra-umbra.fr/build-info.json?verified=$GITHUB_RUN_ID" > /tmp/angelus-live.json
+          node -e "const b=require('/tmp/angelus-live.json');if(b.commit!==process.env.SOURCE_SHA)process.exit(1);console.log('ANGELUS LIVE VERIFIED',b)"
       - name: Remove ephemeral SSH key
         if: always()
         run: rm -f ~/.ssh/tuc_prod
