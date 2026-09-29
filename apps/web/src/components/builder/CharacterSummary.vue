@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import MageTechniqueCards from "./MageTechniqueCards.vue";
 import TruthTalentText from "./TruthTalentText.vue";
 import CharacterGallery from "../CharacterGallery.vue";
 import { computed } from "vue";
@@ -111,6 +112,7 @@ const money=(value:number)=>`${value.toLocaleString("fr-FR")} $`;
       </div>
     </details>
 
+    <MageTechniqueCards :entries="sheet.mageTechniques??[]" />
     <details class="sheet-truth sheet-details" aria-label="Vérité du personnage" open>
       <summary>Vérité · {{ sheet.truthNature || 'Nature à choisir' }} <span>{{ sheet.truthConsciousness || 'Conscience à préciser' }}</span></summary>
       <dl v-if="sheet.truthDetails?.length" class="truth-identity-details"><div v-for="item in sheet.truthDetails" :key="item.id" :data-truth-choice="item.id"><dt>{{item.name}}</dt><dd>{{item.value}}</dd></div></dl>

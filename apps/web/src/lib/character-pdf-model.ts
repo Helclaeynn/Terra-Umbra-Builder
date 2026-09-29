@@ -1,3 +1,4 @@
+import {mageOwnedAffinities} from "./mage";
 import type { CharacterDataV2 } from '../types/character';
 import { buildCharacterSheet, type SheetCore } from './character-sheet-model';
 import { ensureProgression } from './progression';
@@ -39,6 +40,15 @@ export function projectCharacterPdf(input:PdfInput, available:ReadonlySet<string
   const sheet=buildCharacterSheet(data,core,truth,reality,campaign,input.fallbackName);
   const values:Record<string,PdfValue>={}, labels:Record<string,string>={}, annex:PdfSection[]=[];
   const add=(title:string,value:unknown)=>{const content=text(value).trim();if(content)annex.push({title,text:content});};
+  for(const entry of sheet.mageTechniques??[]){
+    const t=entry.technique;
+    add(`${entry.label} — ${t?.name||'À compléter'}`,t?[
+      t.effect,entry.requirementsText,`${t.pa??'À définir'} PA · ${t.range||'Portée à définir'} · ${t.tension??'À définir'} Tension`,
+      `Transmission / conception : ${t.source}`,`Règle particulière : ${t.exception}`,
+      entry.kind==='echo'?'Écho exact : −1 niveau de Difficulté intrinsèque, minimum 12 ; sans Affinité éveillée, Initiale / Mineure seulement.':'',
+      entry.issues.length?entry.issues.join(' '):'Paramètres renseignés ; accord à convenir avec le MJ.'
+    ].filter(Boolean).join('\n'):'Acquisition conservée — définition à compléter.');
+  }
   const put=(keys:string|string[],value:unknown,label:string,overflow=true)=>{
     const list=Array.isArray(keys)?keys:[keys];
     if(value===undefined||value===null||value==='')return false;
@@ -219,7 +229,7 @@ export function projectCharacterPdf(input:PdfInput, available:ReadonlySet<string
     if(slug==='mage'){
       const choice=truth.structure.natures.mage?.choices.find(c=>c.key==='dominantAffinity');
       const native=choice?truthChoiceOptions(choice,choices):[];
-      const owned=new Set([text(choices.dominantAffinity),...currentState.truthTalents.filter(id=>id.startsWith('mage_awaken_')).map(id=>id.slice(12))]);
+      const owned=mageOwnedAffinities(currentState);
       const allOptions=new Map([...(choice?.options??[]),...Object.values(choice?.optionsBy??{}).flat()].map(option=>[option.id,option]));
       const affinities=[...native,...[...owned].filter(id=>id&&!native.some(n=>n.id===id)).map(id=>allOptions.get(id)??{id,name:id})];
       for(const [index,affinity] of affinities.entries()){

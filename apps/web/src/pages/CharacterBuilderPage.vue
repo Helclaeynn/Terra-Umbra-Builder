@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import MageTechniques from "../components/builder/MageTechniques.vue";
+import {normalizeMageTechniques,type MageTechniques as MageTechniqueDefinitions} from "../lib/mage";
 import TruthTalentText from "../components/builder/TruthTalentText.vue";
 import AserynTalentChoices from "../components/builder/AserynTalentChoices.vue";
 import CharacterGallery from "../components/CharacterGallery.vue";
@@ -1399,6 +1401,11 @@ function setTruthChoice(key:string,value:string){
   writeTruthState(next);
 }
 
+function setMageTechniques(value:MageTechniqueDefinitions){
+ if(!currentTruthState.value)return;
+ writeTruthState({...currentTruthState.value,choices:{...currentTruthState.value.choices,mageTechniques:normalizeMageTechniques(value)}});
+}
+
 function truthChoiceValue(choice:TruthChoice){
   const value=currentTruthState.value?.choices[choice.key];
   return typeof value==="string"?value:"";
@@ -2370,7 +2377,7 @@ onBeforeUnmount(()=>{
                     <em v-if="selectedTruthChoice(choice)?.description">
                       {{ selectedTruthChoice(choice)?.description }}
                     </em>
-                    <em v-if="choice.key === 'dominantAffinity'">Parmi les trois Affinités de votre Mageius, choisissez celle qui s’éveille en premier. Elle commence sans dépense en Maîtrise Initiale et Amplitude Mineure. Une fois par scène, sa Résonance dominante permet de relancer le d10e d’un test qui emploie directement cette Affinité ; le second résultat s’applique. Les deux autres Affinités ne sont pas acquises par ce choix.</em>
+                    <em v-if="choice.key === 'dominantAffinity'">Cette Affinité native commence gratuitement en Maîtrise Initiale / Amplitude Mineure et permet une relance de son d10e de magie par scène, en conservant le second résultat. Les autres Affinités restent seulement improvisables en Initiale / Mineure avec +1 niveau de Difficulté tant qu’elles ne sont pas éveillées.</em>
                     <em v-else-if="choice.dependsOn && !String(currentTruthState.choices[choice.dependsOn] || '')">
                       Choisissez d’abord {{ selectedTruthNature.choices.find(item=>item.key===choice.dependsOn)?.label || choice.dependsOn }}.
                     </em>
@@ -2446,13 +2453,14 @@ onBeforeUnmount(()=>{
                 </div>
               </details>
 
+              <MageTechniques :state="currentTruthState" :rules="truthRules" @change="setMageTechniques" />
               <section class="truth-talents-section">
                 <div class="subsection-title">
                   <div>
                     <h3>Talents de Vérité</h3>
                     <p>
                       Seuls les Talents compatibles avec la Nature et les choix ci-dessus sont proposés.
-                      Retirer un prérequis retire aussi automatiquement les Talents qui en dépendent.
+                      Retirer un prérequis retire les Talents qui en dépendent ; les techniques Mage personnalisées restent conservées et sont signalées si elles deviennent incompatibles.
                     </p>
                   </div>
                   <span class="schema-badge">

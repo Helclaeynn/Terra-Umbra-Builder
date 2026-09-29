@@ -1,3 +1,4 @@
+import {normalizeMageTechniques,mageTechniqueKind,mageTechniqueIssues,mageAffinities,mageOwnedAffinities,mageWheelDistance,mageAffinityLevels} from "./mage";
 import {sanitizeAserynChoices,aserynLearnableOrigins,aserynSignatureTraits,aserynTalentEffect} from "./aseryn";
 export type TruthChoiceOption={
   id:string;
@@ -98,6 +99,8 @@ export type TruthTalent={
   mageAffinity?:string;
   mageProgress?:boolean;
   mageAwaken?:string;
+  mageOpening?:"native"|"additional"|"adjacent"|"traverse";
+  mageTargetType?:string;
 };
 
 export type TruthRulesPackage={
@@ -255,7 +258,7 @@ export function truthChoiceOptions(choice:TruthChoice,choices:Record<string,unkn
   return choice.options??[];
 }
 
-export function truthSanitizeChoices(nature:TruthNature,source:Record<string,unknown>){
+export function truthSanitizeChoices(nature:TruthNature,source:Record<string,unknown>):Record<string,unknown>{
   const next:{[key:string]:string}={};
   for(const choice of nature.choices){
     const options=truthChoiceOptions(choice,{...source,...next});
@@ -265,6 +268,7 @@ export function truthSanitizeChoices(nature:TruthNature,source:Record<string,unk
     else if(choice.optional&&options.some(option=>option.id==="aucune"))next[choice.key]="aucune";
     else next[choice.key]="";
   }
+  if(nature.id==="mage"&&Object.hasOwn(source,"mageTechniques"))return {...next,mageTechniques:normalizeMageTechniques(source.mageTechniques)};
   return nature.id==="aseryn"?{...next,...sanitizeAserynChoices(source)}:next;
 }
 
@@ -385,6 +389,7 @@ function mageProgression(pkg:TruthRulesPackage,affinity:TruthChoiceOption){
       group:`Affinité — ${affinity.name}`,
       effect:template?.effect??`Progression de ${affinity.name}.`,
       runtimeLore:template?.runtimeLore??"",
+      effectDetails:template?.effectDetails, activation:template?.activation, compendiumId:template?.compendiumId,
       mageAffinity:affinity.id,
       mageProgress:true
     } satisfies TruthTalent;
@@ -392,46 +397,55 @@ function mageProgression(pkg:TruthRulesPackage,affinity:TruthChoiceOption){
 }
 
 function mageAllTalents(pkg:TruthRulesPackage,state:TruthState){
-  const dominant=stringChoice(state.choices,"dominantAffinity");
-  const common=mageTemplates(pkg).filter(talent=>{
-    const group=truthNorm(talent.group||"");
-    return !group.includes("maitrise")&&!group.includes("amplitude");
-  });
-  const entries:TruthTalent[]=[...common];
-  for(const affinity of mageNativeAffinities(pkg,state)){
-    if(affinity.id!==dominant){
-      entries.push({
-        id:`mage_awaken_${affinity.id}`,
-        name:`Éveiller ${affinity.name}`,
-        cost:1,
-        access:"Progression",
-        prerequisiteName:"Progression préalable dans une Affinité native",
-        group:"Affinités natives supplémentaires",
-        effect:`Ouvre ${affinity.name} au niveau Maîtrise Initiale / Amplitude Mineure.`,
-        runtimeLore:`Le Mageius possède déjà cette Affinité dans sa structure native. Le Mage apprend à l’ouvrir consciemment comme une seconde voie réelle, distincte de son Affinité dominante.`,
-        mageAwaken:affinity.id
-      });
-    }
+  const dominant=stringChoice(state.choices,"dominantAffinity"), natal=stringChoice(state.choices,"mageiusType");
+  const entries:TruthTalent[]=mageTemplates(pkg).filter(t=>!truthNorm(t.group).includes("maitrise")&&!truthNorm(t.group).includes("amplitude"));
+  const reference="regles-verite-v7-mage-maitrise-amplitude-lancement";
+  for(const affinity of mageAffinities(pkg)){
+    if(affinity.id!==dominant)entries.push({
+      id:`mage_awaken_${affinity.id}`,name:`Éveiller ${affinity.name}`,cost:1,access:"Progression",
+      prerequisiteName:"Domaine déjà accessible et progression préalable dans une Affinité de ce Type",
+      group:affinity.mageius===natal?"Affinités natives supplémentaires":"Affinités supplémentaires de la Roue",
+      effect:`Éveille ${affinity.name} en Maîtrise Initiale / Amplitude Mineure, sans le surcoût de difficulté de l’improvisation. Vous pouvez ensuite acheter ses propres paliers de Maîtrise et d’Amplitude.`,
+      effectDetails:"Une deuxième Affinité native exige une progression dans la première ; la troisième exige une nouvelle progression native. Une fois un Type étranger ouvert par Accord ou Traversée, ses deux autres domaines coûtent 1 PTV chacun, selon la même logique de progression ; cela ne modifie pas le Type natal du Mageius.",
+      mageAwaken:affinity.id,mageOpening:affinity.mageius===natal?"native":"additional",mageTargetType:affinity.mageius,compendiumId:reference
+    });
+    const distance=mageWheelDistance(natal,affinity.mageius);
+    if(distance===1||distance===2){const adjacent=distance===1;entries.push({
+      id:`mage_${adjacent?"accord":"traversee"}_${affinity.id}`,
+      name:`${adjacent?"Accord adjacent":"Traversée de la Roue"} — ${affinity.name}`,cost:adjacent?3:2,access:"Progression",
+      prerequisiteName:adjacent?"Une Affinité native à Maîtrise Supérieure":"Accord établi avec le Mageius intermédiaire",
+      group:"Roue des Mageius",mageAwaken:affinity.id,mageOpening:adjacent?"adjacent":"traverse",mageTargetType:affinity.mageius,compendiumId:reference,
+      effect:adjacent?`Ouvre ${affinity.name}, issue d’un Mageius voisin, en Initiale / Mineure pour 3 PTV. Vous pourrez développer cette Affinité et éveiller les deux autres domaines de ce Type pour 1 PTV chacun.`:`Après un Accord avec le Type intermédiaire, ouvre ${affinity.name} à deux segments en Initiale / Mineure pour 2 PTV supplémentaires. Atteindre ce domaine représente donc 5 PTV d’ouverture, hors progression préalable.`,
+      effectDetails:"Roue : Kaharal ↔ Meldir ↔ Elinaeth ↔ Mestherak ↔ Discella ↔ Kaharal. Chaque première Affinité d’un Type adjacent coûte 3 PTV et exige une Affinité native à Maîtrise Supérieure ; le Type situé deux segments plus loin coûte 2 PTV supplémentaires, après Accord avec le Type intermédiaire. Chaque domaine conserve ses paliers propres et le Mageius natal ne change pas."
+    });}
     entries.push(...mageProgression(pkg,affinity));
   }
   return entries;
 }
 
-function mageOwnedAffinities(state:TruthState){
-  const owned=new Set<string>();
-  const dominant=stringChoice(state.choices,"dominantAffinity");
-  if(dominant)owned.add(dominant);
-  for(const id of state.truthTalents){
-    const match=id.match(/^mage_awaken_(.+)$/);
-    if(match)owned.add(match[1]);
-  }
-  return owned;
-}
-
 function availableMageTalents(pkg:TruthRulesPackage,state:TruthState){
   if(!stringChoice(state.choices,"mageiusType")||!stringChoice(state.choices,"dominantAffinity"))return [];
-  const owned=mageOwnedAffinities(state);
-  return mageAllTalents(pkg,state).filter(talent=>!talent.mageProgress||owned.has(talent.mageAffinity||""));
+  const owned=mageOwnedAffinities(state), all=mageAffinities(pkg), natal=stringChoice(state.choices,"mageiusType");
+  const types=new Set([natal,...all.filter(a=>owned.has(a.id)).map(a=>a.mageius)]);
+  return mageAllTalents(pkg,state).filter(t=>{
+    if(state.truthTalents.includes(t.id))return true;
+    if(t.mageProgress)return owned.has(t.mageAffinity||"");
+    if(t.mageAwaken&&owned.has(t.mageAwaken))return false;
+    if(t.mageOpening==="additional")return types.has(t.mageTargetType||"");
+    if(t.mageOpening==="adjacent"||t.mageOpening==="traverse")return !types.has(t.mageTargetType||"");
+    return true;
+  });
+}
+
+/** Full price index: unavailable saved purchases must not turn into free PTV. */
+export function truthKnownTalents(pkg:TruthRulesPackage,state:TruthState):TruthTalent[]{
+  if(state.nature!=="mage")return Object.values(pkg.catalogs).flat();
+  const rows=new Map(mageAllTalents(pkg,state).map(t=>[t.id,t]));
+  for(const a of mageAffinities(pkg))for(const [prefix,cost,label] of [["awaken",1,"Éveiller"],["accord",3,"Accord adjacent"],["traversee",2,"Traversée de la Roue"]] as const){
+    const id=`mage_${prefix}_${a.id}`;
+    if(!rows.has(id))rows.set(id,{id,cost,name:`${label} — ${a.name}`,group:"Roue des Mageius",effect:"Acquisition enregistrée ; vérifier les prérequis de l’Affinité."});
+  }
+  return [...rows.values()];
 }
 
 export function truthAvailableTalents(pkg:TruthRulesPackage,state:TruthState){
@@ -676,27 +690,20 @@ export function truthPrerequisiteSatisfied(
   talent:TruthTalent,
   available=truthAvailableTalents(pkg,state)
 ){
+  const technique=state.nature==="mage"?mageTechniqueKind(talent.id):undefined;
+  if(technique)return mageTechniqueIssues(pkg,state,technique).length===0;
   if(talent.prerequisite&&state.truthTalents.includes(talent.prerequisite))return true;
   if(talent.prerequisite&&!talent.prerequisiteName)return false;
   if(!talent.prerequisiteName)return true;
 
   if(state.nature==="mage"&&talent.mageAwaken){
-    const owned=mageOwnedAffinities(state);
-    const progressed=[...owned].filter(affinity=>
-      state.truthTalents.some(id=>id.startsWith(`mage_${affinity}_`)&&!id.startsWith("mage_awaken_"))
-    );
-    return owned.size<=1?progressed.length>=1:progressed.length>=2;
-  }
-
-  if(state.nature==="mage"&&truthNorm(talent.name)==="oeuvre personnelle"){
-    const affinity=stringChoice(state.choices,"dominantAffinity");
-    return !!affinity&&
-      state.truthTalents.includes(`mage_${affinity}_mastery_magistrale`)&&
-      state.truthTalents.includes(`mage_${affinity}_amplitude_majeure`);
-  }
-
-  if(state.nature==="mage"&&truthNorm(talent.name)==="heritage familial"){
-    return state.truthTalents.some(id=>/_mastery_(affinee|superieure|magistrale)$/.test(id));
+    const all=mageAffinities(pkg),natal=stringChoice(state.choices,"mageiusType");
+    const native=all.filter(a=>a.mageius===natal),target=talent.mageTargetType||natal;
+    if(talent.mageOpening==="adjacent")return native.some(a=>mageAffinityLevels(state,a.id).mastery>=2);
+    if(talent.mageOpening==="traverse")return all.some(a=>mageWheelDistance(natal,a.mageius)===1&&mageWheelDistance(a.mageius,target)===1&&state.truthTalents.includes(`mage_accord_${a.id}`));
+    const owned=mageOwnedAffinities(state),inType=all.filter(a=>a.mageius===target&&owned.has(a.id)&&a.id!==talent.mageAwaken);
+    const advances=inType.reduce((sum,a)=>{const levels=mageAffinityLevels(state,a.id);return sum+Math.max(0,levels.mastery)+Math.max(0,levels.amplitude);},0);
+    return inType.length>0&&advances>=(inType.length<=1?1:2);
   }
 
   const matches=matchingPrerequisites(talent,available);
@@ -721,7 +728,7 @@ export function truthPtvSpent(pkg:TruthRulesPackage,state:TruthState){
   // A saved inherited talent retains its price even while its choice is incomplete.
   if(state.nature==="aseryn")for(const talent of pkg.catalogs.aseryn??[])all.set(talent.id,talent);
   if(state.nature==="mage"){
-    for(const talent of mageAllTalents(pkg,state))all.set(talent.id,talent);
+    for(const talent of truthKnownTalents(pkg,state))all.set(talent.id,talent);
   }
   const native=state.truthTalents.reduce((sum,id)=>sum+Number(all.get(id)?.cost||0),0);
   const corruptionById=new Map((pkg.corruption?.talents??[]).map(talent=>[talent.id,talent]));
@@ -753,7 +760,7 @@ export function truthSanitizeTalents(pkg:TruthRulesPackage,state:TruthState){
     const byId=new Map(available.map(talent=>[talent.id,talent]));
     const pruned=selected.filter(id=>{
       const talent=byId.get(id);
-      return !!talent&&truthPrerequisiteSatisfied(pkg,current,talent,available);
+      return !!talent&&(state.nature==="mage"&&!!mageTechniqueKind(id)||truthPrerequisiteSatisfied(pkg,current,talent,available));
     });
     if(pruned.length!==selected.length){
       selected=pruned;

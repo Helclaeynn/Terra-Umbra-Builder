@@ -3,6 +3,7 @@ import { truthCatalogHumain } from "./catalog-humain.js";
 import { truthCatalogVampire } from "./catalog-vampire.js";
 import { truthCatalogGarou } from "./catalog-garou.js";
 import { truthCatalogKhinae } from "./catalog-khinae.js";
+import {applyMageRevisions} from "./mage-revision.js";
 import { truthCatalogMage } from "./catalog-mage.js";
 import { truthCatalogDaemon } from "./catalog-daemon.js";
 import { truthCatalogAngelus } from "./catalog-angelus.js";
@@ -52,7 +53,7 @@ const khinaeCatalog = bindCompendium(
   () => "regles-verite-v7-khinae-moteur-lignees"
 );
 
-const mageCatalog = bindCompendium(truthCatalogMage, (group) => {
+const mageCatalog = bindCompendium(applyMageRevisions(truthCatalogMage), (group) => {
   if (group.includes("Maîtrise") || group.includes("Amplitude")) {
     return "regles-verite-v7-mage-maitrise-amplitude-lancement";
   }

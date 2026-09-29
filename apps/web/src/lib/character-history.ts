@@ -1,6 +1,6 @@
 import type { CreationRules } from './creation-types';
 import { ensureProgression, xpSpent, ptvSpent } from './progression';
-import { truthAvailableTalents, truthPermanentAttributeBonus, type TruthRulesPackage, type TruthState } from './truth';
+import { truthKnownTalents, truthAvailableTalents, truthPermanentAttributeBonus, type TruthRulesPackage, type TruthState } from './truth';
 
 export type HistorySnapshot={
   creation:{sphere:string};attributes:Record<string,number>;edgeAttributes:Record<string,number>;
@@ -20,6 +20,7 @@ function project(data:HistorySnapshot,rules:CreationRules,truth:TruthRulesPackag
   const skillBases=Object.fromEntries(rules.skills.map(s=>[s.id,(rules.spheres[data.creation.sphere]?.fixedSkills.includes(s.id)?1:0)+number(data.skills[s.id]?.style)+number(data.skills[s.id]?.free)+number(data.skills[s.id]?.edge)]));
   const attributeBases=Object.fromEntries(rules.attributes.map(a=>[a.id,number(data.attributes[a.id])+number(data.edgeAttributes[a.id])+truthPermanentAttributeBonus(state,a.id)]));
   const truthMap=new Map(Object.values(truth.catalogs).flat().map(t=>[t.id,t]));
+  for(const t of truthKnownTalents(truth,state))truthMap.set(t.id,t);
   for(const t of truthAvailableTalents(truth,{...state,truthTalents:[...new Set([...state.truthTalents,...progress.truthTalents])]}))truthMap.set(t.id,t);
   const corruptionMap=new Map(truth.corruption.talents.map(t=>[t.id,t]));
   const realityMap=new Map([...Object.values(rules.talents.origin).flat(),...Object.values(rules.talents.sphere).flat(),...rules.talents.expertise,...rules.talents.common].map(t=>[t.id,t]));

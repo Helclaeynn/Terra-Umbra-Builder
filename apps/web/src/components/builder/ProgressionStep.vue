@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import MageTechniques from "./MageTechniques.vue";
+import {normalizeMageTechniques,mageTechniqueKind,type MageTechniques as MageTechniqueDefinitions} from "../../lib/mage";
+import {truthKnownTalents} from "../../lib/truth";
 import TruthTalentText from "./TruthTalentText.vue";
 import AserynTalentChoices from "./AserynTalentChoices.vue";
 import {sanitizeAserynChoices} from "../../lib/aseryn";
@@ -118,6 +121,9 @@ function setAserynChoice(key:string,value:string){
   if(value&&!sanitizeAserynChoices({[key]:value})[key])return;
   emit("update:truth",{...props.truthState,choices:{...props.truthState.choices,[key]:value}});
 }
+function setMageTechniques(value:MageTechniqueDefinitions){
+ emit("update:truth",{...props.truthState,choices:{...props.truthState.choices,mageTechniques:normalizeMageTechniques(value)}});
+}
 const truthSearch=ref("");
 const moneyLabel=ref("");
 const moneyAmount=ref("");
@@ -175,6 +181,7 @@ const truthById=computed(()=>{
   for(const catalog of Object.values(props.truthRules.catalogs)){
     for(const talent of catalog)map.set(talent.id,talent);
   }
+  for(const talent of truthKnownTalents(props.truthRules,combinedTruthState.value))map.set(talent.id,talent);
   for(const talent of truthAvailable.value)map.set(talent.id,talent);
   return map;
 });
@@ -374,7 +381,7 @@ function truthCanBuy(talent:TruthTalent){
   )&&ptvRemainingValue.value>=Number(talent.cost||0);
 }
 function buyTruthTalent(talent:TruthTalent){
-  if(!truthCanBuy(talent))return;
+  if(combinedTruthState.value.truthTalents.includes(talent.id)||!truthCanBuy(talent))return;
   const next=structuredClone(state.value);
   next.truthTalents.push(talent.id);
   emitProgression(next);
@@ -393,7 +400,7 @@ function removeTruthTalent(id:string){
     const byId=new Map(available.map(talent=>[talent.id,talent]));
     for(const ownedId of [...next.truthTalents]){
       const talent=byId.get(ownedId)??truthById.value.get(ownedId);
-      if(!talent||!truthPrerequisiteSatisfied(props.truthRules,combined,talent,available)){
+      if(!talent||!(combined.nature==="mage"&&mageTechniqueKind(ownedId))&&!truthPrerequisiteSatisfied(props.truthRules,combined,talent,available)){
         next.truthTalents=next.truthTalents.filter(item=>item!==ownedId);
         changed=true;
       }
@@ -734,6 +741,7 @@ function sellCampaignItem(){
       </div>
     </details>
 
+    <MageTechniques :state="combinedTruthState" :rules="truthRules" @change="setMageTechniques" />
     <AserynTalentChoices :state="combinedTruthState" @change="setAserynChoice" />
     <details class="progress-panel campaign-corruption">
       <summary><strong>Corruption &amp; Fléaux</strong><span>{{ truthState.corruption || 0 }} point(s) de Corruption · {{ combinedTruthState.corruptionTalents.length }} capacité(s) acquise(s)</span></summary>
