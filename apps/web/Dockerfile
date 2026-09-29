@@ -16,6 +16,7 @@ COPY apps/api/src/rules/builder-equipment-policy.ts /app/apps/api/src/rules/buil
 COPY apps/api/src/rules/truth/mage-techniques.ts /app/apps/api/src/rules/truth/mage-techniques.ts
 COPY apps/api/src/rules/truth/daemon-build.ts /app/apps/api/src/rules/truth/daemon-build.ts
 COPY apps/api/src/rules/truth/angelus-build.ts /app/apps/api/src/rules/truth/angelus-build.ts
+COPY apps/api/src/rules/truth/extral-build.ts /app/apps/api/src/rules/truth/extral-build.ts
 RUN npm run build
 
 FROM nginx:1.29-alpine

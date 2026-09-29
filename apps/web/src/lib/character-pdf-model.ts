@@ -1,3 +1,4 @@
+import {extralOwnedItems} from './extral';
 import {mageOwnedAffinities} from "./mage";
 import type { CharacterDataV2 } from '../types/character';
 import { buildCharacterSheet, type SheetCore } from './character-sheet-model';
@@ -40,6 +41,9 @@ export function projectCharacterPdf(input:PdfInput, available:ReadonlySet<string
   const sheet=buildCharacterSheet(data,core,truth,reality,campaign,input.fallbackName);
   const values:Record<string,PdfValue>={}, labels:Record<string,string>={}, annex:PdfSection[]=[];
   const add=(title:string,value:unknown)=>{const content=text(value).trim();if(content)annex.push({title,text:content});};
+  for(const entry of (sheet.truthDetails??[]).filter(entry=>entry.id.startsWith('extral-'))){
+    add(entry.name,[entry.value,entry.description].filter(Boolean).join('\n'));
+  }
   for(const entry of sheet.angelusDetails??[]){
     add(entry.title,[entry.body,...entry.parameters.map(p=>`${p.label} : ${p.value}`),...entry.issues,"Description à convenir avec le MJ ; aucune activation automatique."].filter(Boolean).join("\n"));
   }
@@ -70,6 +74,7 @@ export function projectCharacterPdf(input:PdfInput, available:ReadonlySet<string
     truthEquipmentMjOverride:Boolean(data.truth.truthEquipmentMjOverride),corruptionMjAuthorized:Boolean(data.truth.corruptionMjAuthorized),
     corruption:Math.max(0,Number(data.truth.corruption)||0),corruptionSource:text(data.truth.corruptionSource)};
   const progress=ensureProgression(structuredClone(data.progression),core.rules.skills.map(s=>s.id),core.rules.attributes.map(a=>a.id));
+  if(state.nature==='extral')state.extralInventory=extralOwnedItems(data.reality,campaign,[...reality.equipment,...reality.augmentations]);
   const currentState={...state,truthTalents:unique([...state.truthTalents,...(campaign?progress.truthTalents:[])]),corruptionTalents:unique([...state.corruptionTalents,...(campaign?progress.corruptionTalents:[])])};
   const talentMap=new Map(Object.values(truth.catalogs).flat().map(t=>[t.id,t]));
   for(const t of truthAvailableTalents(truth,currentState))talentMap.set(t.id,t);
@@ -175,7 +180,7 @@ export function projectCharacterPdf(input:PdfInput, available:ReadonlySet<string
       function:['function','fonction'],divinity:['divinity','divinite'],patron:['patron'],origin:['origin','origine'],tradition:['thirteenTradition','tradition'],
       seratheenTradition:['council','seratheenTradition','seratheen'],network:['organization','doctrine','network','reseau'],people:['people','peuple'],species:['species','espece']};
     for(const [key,value] of Object.entries(choices)){
-      if(value===null||value===undefined||value===''||value==='aucune')continue;
+      if(key==='extralBuild'||value===null||value===undefined||value===''||value==='aucune')continue;
       const spec=truth.structure.natures[state.nature]?.choices.find(c=>c.key===key);
       const rendered=truthChoiceLabel(truth,state,key)||text(value)||(Array.isArray(value)?value.map(text).join(', '):JSON.stringify(value));
       if((key==='people'||key==='species')&&rendered)continue; // The selected template already identifies the people.

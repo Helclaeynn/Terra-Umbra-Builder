@@ -1,3 +1,5 @@
+import {applyExtralRevisions} from "./extral-revision.js";
+import {applyExtralStructure} from "./extral-build.js";
 import { truthRuntimeStructure } from "./runtime-structure.js";
 import { truthCatalogHumain } from "./catalog-humain.js";
 import { truthCatalogVampire } from "./catalog-vampire.js";
@@ -92,7 +94,7 @@ const exileCatalog = bindCompendium(truthCatalogExile, (group) =>
     : "regles-verite-v7-exiles-silcenters-hds-croix-runes-reseaux-hordes-technomagie"
 );
 
-const extralCatalog = bindCompendium(truthCatalogExtral, (group) => {
+const extralCatalog = bindCompendium(applyExtralRevisions(truthCatalogExtral), (group) => {
   if (
     group.startsWith("Talass") ||
     group.startsWith("Mo’sen") ||
@@ -113,7 +115,7 @@ const humainCatalog = bindCompendium(truthCatalogHumain, (group) =>
 );
 
 export const terraUmbraTruthRules = {
-  structure: applyDaemonStructure(truthRuntimeStructure),
+  structure: applyExtralStructure(applyDaemonStructure(truthRuntimeStructure)),
   equipment: truthEquipmentCatalog,
   corruption: {
     sources: corruptionSources,

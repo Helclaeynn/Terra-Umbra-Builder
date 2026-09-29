@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import ExtralOptions from "./ExtralOptions.vue";
+import {normalizeExtralBuild,extralOwnedItems,type ExtralBuild} from "../../lib/extral";
 import AngelusOptions from "./AngelusOptions.vue";
 import {normalizeAngelusBuild,type AngelusBuild} from "../../lib/angelus";
 import DaemonOptions from "./DaemonOptions.vue";
@@ -125,6 +127,9 @@ function setAserynChoice(key:string,value:string){
   if(value&&!sanitizeAserynChoices({[key]:value})[key])return;
   emit("update:truth",{...props.truthState,choices:{...props.truthState.choices,[key]:value}});
 }
+function setExtralBuild(value:ExtralBuild){
+ emit("update:truth",{...props.truthState,choices:{...props.truthState.choices,extralBuild:normalizeExtralBuild(value)}});
+}
 function setAngelusBuild(value:AngelusBuild){
  emit("update:truth",{...props.truthState,choices:{...props.truthState.choices,angelusBuild:normalizeAngelusBuild(value)}});
 }
@@ -182,6 +187,7 @@ const xpRemainingValue=computed(()=>xpRemaining(state.value,props.skillBases,pro
 
 const combinedTruthState=computed<TruthState>(()=>({
   ...props.truthState,
+  extralInventory:extralOwnedItems(props.reality,true,[...props.realityRules.equipment,...props.realityRules.augmentations]),
   corruptionTalents:[...new Set([...props.truthState.corruptionTalents,...state.value.corruptionTalents])],
   truthTalents:[...new Set([...props.truthState.truthTalents,...state.value.truthTalents])]
 }));
@@ -410,7 +416,7 @@ function removeTruthTalent(id:string){
     const byId=new Map(available.map(talent=>[talent.id,talent]));
     for(const ownedId of [...next.truthTalents]){
       const talent=byId.get(ownedId)??truthById.value.get(ownedId);
-      if(!talent||!(combined.nature==="angelus"||combined.nature==="daemon"||combined.nature==="mage"&&mageTechniqueKind(ownedId))&&!truthPrerequisiteSatisfied(props.truthRules,combined,talent,available)){
+      if(!talent||!(combined.nature==="extral"||combined.nature==="angelus"||combined.nature==="daemon"||combined.nature==="mage"&&mageTechniqueKind(ownedId))&&!truthPrerequisiteSatisfied(props.truthRules,combined,talent,available)){
         next.truthTalents=next.truthTalents.filter(item=>item!==ownedId);
         changed=true;
       }
@@ -715,6 +721,7 @@ function sellCampaignItem(){
       </details>
     </details>
 
+    <ExtralOptions v-if="combinedTruthState.nature==='extral'" :state="combinedTruthState" :rules="truthRules" :rewards-locked="rewardsLocked" @change="setExtralBuild" />
     <details class="progress-panel" :open="state.truthTalents.length>0">
       <summary><strong>Dépenser des PTV</strong><span>La Vérité progresse par les PTV, jamais par l’XP</span></summary>
       <div v-if="truthState.consciousness==='profane'" class="initiation-row">

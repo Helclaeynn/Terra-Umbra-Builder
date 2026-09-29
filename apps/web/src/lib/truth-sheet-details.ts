@@ -1,3 +1,4 @@
+import {extralSheetDetails} from "./extral";
 import {mageOwnedAffinities} from "./mage";
 import {truthChoiceOptions,truthSelectedFreeTraits,truthAngelusCapacity,type TruthState,type TruthRulesPackage} from './truth';
 import {aserynChoiceFields} from './aseryn';
@@ -36,6 +37,7 @@ export function truthSheetDetails(rules:TruthRulesPackage,state:TruthState,forti
       result.push({id:'affinity-'+id,name:all.get(id)?.name??id,value:`Maîtrise ${mastery} · Amplitude ${amplitude}${state.choices.dominantAffinity===id?' · Dominante':''}`});
     }
   }
+  result.push(...extralSheetDetails(rules,state));
   return result;
 }
 export function truthFreeTraitDetails(rules:TruthRulesPackage,state:TruthState){

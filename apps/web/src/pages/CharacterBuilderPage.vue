@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import ExtralOptions from "../components/builder/ExtralOptions.vue";
+import {normalizeExtralBuild,extralOwnedItems,type ExtralBuild} from "../lib/extral";
+import {truthKnownTalents} from "../lib/truth";
 import AngelusOptions from "../components/builder/AngelusOptions.vue";
 import {normalizeAngelusBuild,type AngelusBuild} from "../lib/angelus";
 import DaemonOptions from "../components/builder/DaemonOptions.vue";
@@ -359,6 +362,7 @@ const currentTruthState=computed<TruthState|null>(()=>{
     ? raw.choices as Record<string,unknown>
     : {};
   return {
+    extralInventory:extralOwnedItems(draft.value.reality,progressionMode||campaignRewardsLocked.value,[...(realityRules.value?.equipment??[]),...(realityRules.value?.augmentations??[])]),
     nature:typeof raw.nature==="string"?raw.nature:"humain",
     consciousness:typeof raw.consciousness==="string"?raw.consciousness:"profane",
     choices,
@@ -408,7 +412,7 @@ const truthPtvRemaining=computed(()=>
 );
 
 const truthGroupOptions=computed(()=>truthGroups(availableTruthTalents.value).map(group=>({...group,items:[...group.items].sort(compareTruthTalents)})).sort((a,b)=>compareLabels(a.name,b.name)));
-const selectedTruthTalents=computed(()=>truthGroupOptions.value.flatMap(group=>group.items).filter(talent=>currentTruthState.value?.truthTalents.includes(talent.id)));
+const selectedTruthTalents=computed(()=>{const state=currentTruthState.value;const candidates=state?.nature==="extral"&&truthRules.value?truthKnownTalents(truthRules.value,state):truthGroupOptions.value.flatMap(group=>group.items);return candidates.filter(talent=>state?.truthTalents.includes(talent.id));});
 const visibleTruthGroups=computed(()=>{
   const groups=truthGroupOptions.value
     .filter(group=>group.name===truthGroupChoice.value||!truthGroupChoice.value&&Boolean(truthSearch.value.trim()))
@@ -1403,6 +1407,11 @@ function setTruthChoice(key:string,value:string){
   const next:TruthState={...currentTruthState.value,choices};
   next.truthTalents=truthSanitizeTalents(truthRules.value,next);
   writeTruthState(next);
+}
+
+function setExtralBuild(value:ExtralBuild){
+ if(!currentTruthState.value)return;
+ writeTruthState({...currentTruthState.value,choices:{...currentTruthState.value.choices,extralBuild:normalizeExtralBuild(value)}});
 }
 
 function setAngelusBuild(value:AngelusBuild){
@@ -2576,6 +2585,7 @@ onBeforeUnmount(()=>{
                 </section>
               </section>
 
+              <ExtralOptions v-if="currentTruthState.nature==='extral'" :state="currentTruthState" :rules="truthRules" :rewards-locked="campaignRewardsLocked" @change="setExtralBuild" />
               <AserynTalentChoices :state="currentTruthState" @change="setTruthChoice" />
               <TruthEquipmentPanel
                 :model-value="currentTruthState"
