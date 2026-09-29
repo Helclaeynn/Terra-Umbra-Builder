@@ -1,0 +1,39 @@
+name: Daemon isolated integration workspace
+on:
+  push:
+    branches: [feature/tuc-web-v2]
+    paths: [.github/workflows/v2-daemon-source.yml]
+permissions:
+  contents: read
+jobs:
+  source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: 1423e3d75e482275915bcc680a97b49066ff0659
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Isolated dependencies and tracked source only
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm ci --prefix apps/api
+          npm ci --prefix apps/web
+          npm install --prefix apps/web --no-save --package-lock=false playwright-core@1.55.0
+          mkdir -p /tmp/daemon-workspace
+          git archive HEAD apps infrastructure compendium/source character-builder/rulesets .github > /tmp/daemon-workspace/source.tar
+          tar -rf /tmp/daemon-workspace/source.tar apps/api/node_modules apps/web/node_modules
+          gzip -1 /tmp/daemon-workspace/source.tar
+          git rev-parse HEAD > /tmp/daemon-workspace/source-sha.txt
+          cd /tmp/daemon-workspace
+          sha256sum source.tar.gz source-sha.txt > SHA256SUMS
+      - uses: actions/upload-artifact@v4
+        with:
+          name: daemon-isolated-source
+          path: /tmp/daemon-workspace/
+          compression-level: 0
+          retention-days: 3
