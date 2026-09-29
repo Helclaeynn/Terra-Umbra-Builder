@@ -29,7 +29,6 @@ export function buildCharacterSheet(data:CharacterDataV2, core:SheetCore, truth:
     truthEquipmentMjOverride:Boolean(raw.truthEquipmentMjOverride), corruptionMjAuthorized:Boolean(raw.corruptionMjAuthorized),
     corruption:Math.max(0,Math.trunc(Number(raw.corruption)||0)), corruptionSource:typeof raw.corruptionSource==="string"?raw.corruptionSource:""
   };
-  const revelation=truth.revelation?truthRevelationProfile(truth,state):null;
   const progress=ensureProgression({...data.progression},creation.skills.map(item=>item.id),creation.attributes.map(item=>item.id));
   const realityState=ensureRealityState(cloneJson(data.reality));
   const sphere=creation.spheres[data.creation.sphere];
@@ -69,6 +68,7 @@ export function buildCharacterSheet(data:CharacterDataV2, core:SheetCore, truth:
   const allDisadvantages=[...(core.disadvantages.sphere[data.creation.sphere]??[]),...core.disadvantages.common,...core.disadvantages.attribute,...Object.values(core.disadvantages.sphere).flat()];
   const selectedDisadvantages=data.disadvantages.flatMap(id=>{const item=allDisadvantages.find(item=>item.id===id);return item?[item]:[];});
   const truthState={...state,corruptionTalents:[...new Set([...state.corruptionTalents,...(campaign?progress.corruptionTalents:[])])],truthTalents:[...new Set([...state.truthTalents,...(campaign?progress.truthTalents:[])])]};
+  const revelation=truth.revelation?truthRevelationProfile(truth,truthState):null;
   const truthMap=new Map(Object.values(truth.catalogs).flat().map(item=>[item.id,item]));
   for(const item of truthAvailableTalents(truth,truthState))truthMap.set(item.id,item);
   const corruptionMap=new Map(truth.corruption.talents.map(item=>[item.id,item]));
@@ -128,7 +128,7 @@ export function buildCharacterSheet(data:CharacterDataV2, core:SheetCore, truth:
     ptvRemaining:campaign?ptvRemaining(progress,Math.max(0,ptvReserve),truthCost,id=>Number(corruptionMap.get(id)?.cost||0)):ptvReserve,
     account:economy?.account??0,cash:cash,
     realityTalents:realityIds.map(toRealityTalent),
-    truthTalents:[...truthState.truthTalents.map(id=>({id,name:truthMap.get(id)?.name??id,detail:truthMap.get(id)?.effect,lore:truthMap.get(id)?.runtimeLore,compendiumId:truthMap.get(id)?.compendiumId})),
+    truthTalents:[...truthState.truthTalents.map(id=>({id,name:truthMap.get(id)?.name??id,detail:truthMap.get(id)?.effect,effectDetails:truthMap.get(id)?.effectDetails,activation:truthMap.get(id)?.activation,lore:truthMap.get(id)?.runtimeLore,compendiumId:truthMap.get(id)?.compendiumId})),
       ...truthState.corruptionTalents.map(id=>{
         const item=corruptionMap.get(id);
         const dormant=item?.kind==="DON"&&!truthCorruptionTalentActive(item,state,derived.integrity);

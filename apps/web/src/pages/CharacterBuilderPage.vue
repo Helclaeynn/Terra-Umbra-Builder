@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import TruthTalentText from "../components/builder/TruthTalentText.vue";
+import AserynTalentChoices from "../components/builder/AserynTalentChoices.vue";
 import CharacterGallery from "../components/CharacterGallery.vue";
 import {appearanceGallery} from "../../../api/src/character-appearances";
 import {permanentSkillBonus,pruneBenefits,uniqueTalents,renownScore as computeRenown} from "../lib/reality-benefits";
@@ -411,7 +413,7 @@ const visibleTruthGroups=computed(()=>{
     .map(group=>({
       ...group,
       items:group.items.filter(talent=>
-        [talent.name,talent.group,talent.effect,talent.runtimeLore,talent.prerequisiteName]
+        [talent.name,talent.group,talent.effect,talent.effectDetails,talent.runtimeLore,talent.prerequisiteName]
           .some(value=>String(value||"").toLocaleLowerCase("fr").includes(query))
       )
     }))
@@ -2538,17 +2540,19 @@ onBeforeUnmount(()=>{
                               <template v-if="!truthTalentPrereqOk(talent)"> · non rempli</template>
                             </span>
                           </div>
-                          <em v-if="talent.runtimeLore">{{ talent.runtimeLore }}</em>
-                          <p><b>Effet :</b> {{ talent.effect }}</p>
+                          <em v-if="talent.runtimeLore&&!talent.effectDetails">{{ talent.runtimeLore }}</em>
+                          <small v-if="talent.activation">{{talent.activation}}</small><p><b>Effet :</b> {{ talent.effect }}</p>
                           <small v-if="!truthTalentCanAdd(talent)">{{ !truthTalentPrereqOk(talent) ? 'Prérequis à remplir' : 'PTV disponibles insuffisants' }}</small>
                           <span v-else>Ajouter ce Talent</span>
                         </button>
+                        <TruthTalentText v-if="talent.effectDetails" :effect="talent.effect" :details="talent.effectDetails" :lore="talent.runtimeLore" :activation="talent.activation" :show-summary="false" />
                       </div>
                     </div>
                   </details>
                 </section>
               </section>
 
+              <AserynTalentChoices :state="currentTruthState" @change="setTruthChoice" />
               <TruthEquipmentPanel
                 :model-value="currentTruthState"
                 :rules="truthRules"

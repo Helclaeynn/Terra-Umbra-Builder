@@ -6,6 +6,7 @@ import { truthCatalogKhinae } from "./catalog-khinae.js";
 import { truthCatalogMage } from "./catalog-mage.js";
 import { truthCatalogDaemon } from "./catalog-daemon.js";
 import { truthCatalogAngelus } from "./catalog-angelus.js";
+import {applyAserynRevisions} from "./aseryn-revision.js";
 import { truthCatalogAseryn } from "./catalog-aseryn.js";
 import { truthCatalogExile } from "./catalog-exile.js";
 import { truthCatalogExtral } from "./catalog-extral.js";
@@ -70,7 +71,7 @@ const angelusCatalog = bindCompendium(truthCatalogAngelus, (group) => {
   return "regles-verite-v7-angelus-nature-revelation-transcendance";
 });
 
-const aserynCatalog = bindCompendium(truthCatalogAseryn, (group) => {
+const aserynCatalog = bindCompendium(applyAserynRevisions(truthCatalogAseryn), (group) => {
   if (
     group.startsWith("Traditions des Treize") ||
     group.startsWith("Dratyn ") ||

@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import TruthTalentText from "./TruthTalentText.vue";
+import AserynTalentChoices from "./AserynTalentChoices.vue";
+import {sanitizeAserynChoices} from "../../lib/aseryn";
 import EverydayEquipment from "./EverydayEquipment.vue";
 import {builderPurchaseAllowed} from "../../../../api/src/rules/builder-equipment-policy";
 import RealityTalentText from "./RealityTalentText.vue";
@@ -110,6 +113,11 @@ const emit=defineEmits<{
   "update:truth":[value:TruthState];
 }>();
 
+function setAserynChoice(key:string,value:string){
+  if(!/^aseryn(?:Trace[123]|Atavism|Mosaic|Element)$/.test(key))return;
+  if(value&&!sanitizeAserynChoices({[key]:value})[key])return;
+  emit("update:truth",{...props.truthState,choices:{...props.truthState.choices,[key]:value}});
+}
 const truthSearch=ref("");
 const moneyLabel=ref("");
 const moneyAmount=ref("");
@@ -352,7 +360,7 @@ const truthCandidates=computed(()=>{
     .filter(talent=>!combinedTruthState.value.truthTalents.includes(talent.id))
     .filter(talent=>(talent.group||'Vérité')===truthFamily.value||!truthFamily.value&&Boolean(q))
     .filter(talent=>!q||[
-      talent.name,talent.group,talent.effect,talent.runtimeLore,talent.prerequisiteName
+      talent.name,talent.group,talent.effect,talent.effectDetails,talent.runtimeLore,talent.prerequisiteName
     ].some(value=>truthNorm(String(value||"")).includes(q)))
     .sort(compareTruthTalents);
 });
@@ -698,7 +706,7 @@ function sellCampaignItem(){
       </div>
       <div v-if="state.truthTalents.length" class="owned-list">
         <div v-for="id in learnedTruthIds" :key="id" class="owned-row">
-          <div><strong>{{ truthById.get(id)?.name || id }}</strong><span>{{ truthCost(id) }} PTV · {{ truthById.get(id)?.group || "Vérité" }}</span><p>{{ truthById.get(id)?.effect }}</p><details v-if="truthById.get(id)?.runtimeLore" class="talent-lore"><summary>Contexte et lore</summary><p>{{ truthById.get(id)?.runtimeLore }}</p></details></div>
+          <div><strong>{{ truthById.get(id)?.name || id }}</strong><span>{{ truthCost(id) }} PTV · {{ truthById.get(id)?.group || "Vérité" }}</span><TruthTalentText :effect="truthById.get(id)?.effect" :details="truthById.get(id)?.effectDetails" :lore="truthById.get(id)?.runtimeLore" :activation="truthById.get(id)?.activation" /></div>
           <button class="ghost danger compact" type="button" @click="removeTruthTalent(id)">Retirer</button>
         </div>
       </div>
@@ -717,15 +725,16 @@ function sellCampaignItem(){
             </div>
             <span>{{ talent.cost }} PTV</span>
           </summary>
-          <details v-if="talent.runtimeLore" class="talent-lore"><summary>Contexte et lore</summary><p>{{ talent.runtimeLore }}</p></details>
+
           <p v-if="talent.prerequisiteName"><b>Prérequis :</b> {{ talent.prerequisiteName }}</p>
-          <p>{{ talent.effect }}</p>
+          <TruthTalentText :effect="talent.effect" :details="talent.effectDetails" :lore="talent.runtimeLore" :activation="talent.activation" />
           <button class="primary compact" type="button" :disabled="!truthCanBuy(talent)" @click="buyTruthTalent(talent)">Apprendre · {{ talent.cost }} PTV</button>
         </details>
           </article>
       </div>
     </details>
 
+    <AserynTalentChoices :state="combinedTruthState" @change="setAserynChoice" />
     <details class="progress-panel campaign-corruption">
       <summary><strong>Corruption &amp; Fléaux</strong><span>{{ truthState.corruption || 0 }} point(s) de Corruption · {{ combinedTruthState.corruptionTalents.length }} capacité(s) acquise(s)</span></summary>
       <CorruptionPanel :rewards-locked="rewardsLocked" :model-value="combinedTruthState" :rules="truthRules" :integrity="campaignIntegrity" :ptv-remaining="ptvRemainingValue" :locked-talent-ids="truthState.corruptionTalents" campaign @update:model-value="updateCampaignCorruption" @request-initiation="initiateTruth" />

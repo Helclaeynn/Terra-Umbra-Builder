@@ -3,7 +3,7 @@ export {characterDerivedStats};
 import type { CharacterIdentity } from "../types/character";
 
 export type SheetValue = { id:string; name:string; value:number; raw?:number; bonus?:number; attribute?:string; base?:number; contexts?:Array<{id:string;label:string;bonus:number;total:number}> };
-export type SheetEntry = { id:string; name:string; detail?:string; lore?:string; compendiumId?:string; group?:string };
+export type SheetEntry = { effectDetails?:string; activation?:string; id:string; name:string; detail?:string; lore?:string; compendiumId?:string; group?:string };
 export type SheetContact = { id:string; name:string; articleId?:string; group?:string; detail?:string };
 export type DerivedStats = ReturnType<typeof characterDerivedStats>;
 
