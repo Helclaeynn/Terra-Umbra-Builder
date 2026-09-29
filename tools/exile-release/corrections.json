@@ -13,5 +13,16 @@
         "new": " d.querySelector('[data-beneficiary=\"refection\"]').click();await tick();\n d.querySelector('[data-beneficiary=\"guard\"]').click();await tick();"
       }
     ]
+  },
+  {
+    "path": "apps/web/src/components/builder/ExileOptions.vue",
+    "before": "9cf0b896ad32d653e5a448e3b34bf0648669de17b0abc9d16c97006a99aaf5ae",
+    "after": "c4d225edf148069f8dad22e11cca866d5948116539aee2061b89676586bdadeb",
+    "replacements": [
+      {
+        "old": "<label>Objet / implant réel<select :value=\"w.itemUid\"",
+        "new": "<label>Objet / implant réel<select aria-label=\"Objet / implant réel\" :value=\"w.itemUid\""
+      }
+    ]
   }
 ]

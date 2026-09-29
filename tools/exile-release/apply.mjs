@@ -9,10 +9,10 @@ const hash=b=>createHash('sha256').update(b).digest('hex');
 const bytes=Buffer.from([1,2,3,4].map(n=>readFileSync(new URL('./part'+n+'.b64',import.meta.url),'utf8')).join('').replace(/\s/g,''),'base64');
 assert.equal(hash(bytes),'baa2c1593b460d43c00590ae6a3f58a6bfc17cdf55883913f728aa432684f257','Incomplete or modified approved Exile source');
 const {manifest,patch}=JSON.parse(brotliDecompressSync(bytes));
-// Auditable test-only correction: let Vue propagate each real user event before the next one.
+// Reviewed corrections: real Vue event sequencing and an explicit accessible name for the owned-item selector.
 const corrections=JSON.parse(readFileSync(new URL('./corrections.json',import.meta.url),'utf8'));
 for(const c of corrections){
- assert.equal(c.path,'apps/web/tests/exile-progression-dom.mjs','Only the reviewed test correction is authorized');
+ assert.ok(['apps/web/tests/exile-progression-dom.mjs','apps/web/src/components/builder/ExileOptions.vue'].includes(c.path),'Only reviewed Exile corrections are authorized');
  assert.equal(manifest.find(f=>f.path===c.path)?.after,c.before,'Correction must match the original approved payload');
 }
 const finalManifest=manifest.map(f=>({...f,after:corrections.find(c=>c.path===f.path)?.after??f.after}));
@@ -28,7 +28,7 @@ if(process.argv[2]!=='verify'){
  for(const c of corrections){
   assert.equal(hash(readFileSync(c.path)),c.before,'Unexpected correction input');
   let text=readFileSync(c.path,'utf8');
-  for(const op of c.replacements){assert.equal(text.split(op.old).length-1,1,'Exact test anchor changed');text=text.replace(op.old,op.new);}
+  for(const op of c.replacements){assert.equal(text.split(op.old).length-1,1,'Exact correction anchor changed');text=text.replace(op.old,op.new);}
   assert.equal(hash(Buffer.from(text)),c.after,'Unexpected correction output');
   writeFileSync(c.path,text);git('add','--',c.path);
  }

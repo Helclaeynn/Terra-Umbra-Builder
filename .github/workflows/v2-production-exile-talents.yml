@@ -1,5 +1,5 @@
 name: V2 production approved Exile talents
-# Complete approved Exile revision; all prior checks retained; DOM events now wait for Vue updates.
+# Complete approved Exile revision; all prior regression checks are retained.
 on:
   push:
     branches: [feature/tuc-web-v2]
