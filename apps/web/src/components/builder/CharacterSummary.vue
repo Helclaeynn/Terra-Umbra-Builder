@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import TruthTalentText from "./TruthTalentText.vue";
 import CharacterGallery from "../CharacterGallery.vue";
 import { computed } from "vue";
 import RealityTalentText from "./RealityTalentText.vue";
@@ -133,7 +134,7 @@ const money=(value:number)=>`${value.toLocaleString("fr-FR")} $`;
       <ul v-else class="sheet-entries">
         <li v-for="item in list.items" :key="item.id">
           <div><strong>{{ item.name }}</strong><small v-if="item.group">{{ item.group }}</small></div>
-          <RealityTalentText v-if="list.id==='reality'" :talent-id="item.id" :effect="item.detail" :lore="item.lore" /><template v-else><p v-if="item.lore" class="sheet-entry-lore">{{ item.lore }}</p><p v-if="item.detail">{{ item.detail }}</p></template>
+          <RealityTalentText v-if="list.id==='reality'" :talent-id="item.id" :effect="item.detail" :lore="item.lore" /><TruthTalentText v-else-if="list.id==='truth'&&item.effectDetails" :effect="item.detail" :details="item.effectDetails" :lore="item.lore" :activation="item.activation" /><template v-else><p v-if="item.lore" class="sheet-entry-lore">{{ item.lore }}</p><p v-if="item.detail">{{ item.detail }}</p></template>
         </li>
       </ul>
     </details>

@@ -1,11 +1,12 @@
 import {truthChoiceOptions,truthSelectedFreeTraits,truthAngelusCapacity,type TruthState,type TruthRulesPackage} from './truth';
+import {aserynChoiceFields} from './aseryn';
 export type TruthSheetDetail = {id:string;name:string;value:string;description?:string};
 /** Common projection for all ten Natures; do not hard-code Vampire-only fields. */
 export function truthSheetDetails(rules:TruthRulesPackage,state:TruthState,fortitude:number): TruthSheetDetail[] {
   const nature=rules.structure.natures[state.nature], result:TruthSheetDetail[]=[];
   const format=(v:unknown):string => typeof v==='string'?v:typeof v==='number'?String(v):typeof v==='boolean'?(v?'Oui':'Non'):Array.isArray(v)?v.map(format).filter(Boolean).join(', '):'';
   const known=new Set<string>();
-  for(const choice of nature?.choices??[]){
+  for(const choice of [...(nature?.choices??[]),...aserynChoiceFields(state).map(c=>({...c,optional:true}))]){
     known.add(choice.key);
     const selected=state.choices[choice.key];
     if(selected===undefined||selected===null||selected===''||selected==='aucune')continue;

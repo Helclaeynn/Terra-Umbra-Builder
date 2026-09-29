@@ -1,0 +1,5 @@
+<script setup lang="ts">
+withDefaults(defineProps<{effect?:string;details?:string;lore?:string;activation?:string;showSummary?:boolean}>(),{showSummary:true});
+</script>
+<template><div class="truth-talent-text"><small v-if="activation&&showSummary" class="truth-activation">{{activation}}</small><p v-if="showSummary&&effect" data-truth-summary>{{effect}}</p><details v-if="details||lore" class="truth-talent-details"><summary>Détails</summary><p v-if="activation&&!showSummary">{{activation}}</p><p v-if="lore" class="truth-ambience">{{lore}}</p><p v-if="details" data-truth-full-rule>{{details}}</p></details></div></template>
+<style scoped>.truth-talent-text{min-width:0;overflow-wrap:anywhere;line-height:1.6}.truth-talent-text p{margin:0}.truth-activation{display:block;color:#a5def0}.truth-talent-details summary{min-height:44px;display:flex;align-items:center;cursor:pointer;color:#a5def0}.truth-talent-details summary:focus-visible{outline:2px solid currentColor;outline-offset:2px}.truth-talent-details p{white-space:pre-line;margin-bottom:8px}.truth-ambience{font-style:italic;color:#b3c5d9}</style>

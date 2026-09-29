@@ -1,3 +1,4 @@
+import {sanitizeAserynChoices,aserynLearnableOrigins,aserynSignatureTraits,aserynTalentEffect} from "./aseryn";
 export type TruthChoiceOption={
   id:string;
   name:string;
@@ -80,6 +81,9 @@ export type CorruptionTalent={
 };
 
 export type TruthTalent={
+  effectDetails?:string;
+  activation?:string;
+  elementEffects?:Record<string,string>;
   id:string;
   compendiumId?:string;
   name:string;
@@ -261,7 +265,7 @@ export function truthSanitizeChoices(nature:TruthNature,source:Record<string,unk
     else if(choice.optional&&options.some(option=>option.id==="aucune"))next[choice.key]="aucune";
     else next[choice.key]="";
   }
-  return next;
+  return nature.id==="aseryn"?{...next,...sanitizeAserynChoices(source)}:next;
 }
 
 function whenMatches(when:Record<string,string|string[]>|undefined,choices:Record<string,unknown>){
@@ -328,7 +332,8 @@ function visibleNativeTalent(pkg:TruthRulesPackage,state:TruthState,talent:Truth
   }
   if(nature==="aseryn"){
     if(group.includes("routes communes aserynes"))return true;
-    return groupHas(group,needles.aseryn?.[stringChoice(state.choices,"origin")])||
+    return aserynLearnableOrigins(state).some(origin=>groupHas(group,needles.aseryn?.[origin]))||
+      groupHas(group,needles.aseryn?.[stringChoice(state.choices,"origin")])||
       groupHas(group,needles.aseryn?.[stringChoice(state.choices,"tradition")])||
       groupHas(group,needles.aseryn?.[stringChoice(state.choices,"seratheenTradition")]);
   }
@@ -445,14 +450,14 @@ export function truthAvailableTalents(pkg:TruthRulesPackage,state:TruthState){
   }
 
   const unique=new Map<string,TruthTalent>();
-  for(const talent of rows)unique.set(talent.id,talent);
+  for(const talent of rows)unique.set(talent.id,state.nature==="aseryn"&&talent.elementEffects?{...talent,effect:aserynTalentEffect(talent,state)}:talent);
   return [...unique.values()];
 }
 
 export function truthSelectedFreeTraits(pkg:TruthRulesPackage,state:TruthState){
   const nature=pkg.structure.natures[state.nature];
   if(!nature)return [];
-  const rows:TruthTrait[]=[...(nature.baseFreeTraits??[])];
+  const rows:TruthTrait[]=[...(nature.baseFreeTraits??[]),...aserynSignatureTraits(state)];
   for(const rule of nature.freeTraitRules??[]){
     if(whenMatches(rule.when,state.choices))rows.push(...rule.traits);
   }
@@ -713,6 +718,8 @@ export function truthPrerequisiteSatisfied(
 export function truthPtvSpent(pkg:TruthRulesPackage,state:TruthState){
   const available=truthAvailableTalents(pkg,state);
   const all=new Map(available.map(talent=>[talent.id,talent]));
+  // A saved inherited talent retains its price even while its choice is incomplete.
+  if(state.nature==="aseryn")for(const talent of pkg.catalogs.aseryn??[])all.set(talent.id,talent);
   if(state.nature==="mage"){
     for(const talent of mageAllTalents(pkg,state))all.set(talent.id,talent);
   }
