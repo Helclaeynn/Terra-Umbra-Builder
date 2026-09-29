@@ -1,3 +1,5 @@
+import {angelusSheetEntries} from "./angelus";
+import {truthAngelusCapacity} from "./truth";
 import {daemonSheetEntries} from "./daemon";
 import {mageTechniqueViews} from "./mage";
 import {truthKnownTalents} from "./truth";
@@ -132,6 +134,8 @@ export function buildCharacterSheet(data:CharacterDataV2, core:SheetCore, truth:
     ptvRemaining:campaign?ptvRemaining(progress,Math.max(0,ptvReserve),truthCost,id=>Number(corruptionMap.get(id)?.cost||0)):ptvReserve,
     account:economy?.account??0,cash:cash,
     realityTalents:realityIds.map(toRealityTalent),
+    angelusDetails:angelusSheetEntries(truth,truthState),
+    angelusAura:truthAngelusCapacity(truthState,permanentSkill("force_mentale")),
     daemonDetails:daemonSheetEntries(truth,truthState),
     mageTechniques:mageTechniqueViews(truth,truthState),
     truthTalents:[...truthState.truthTalents.map(id=>({id,name:truthMap.get(id)?.name??id,detail:truthMap.get(id)?.effect,effectDetails:truthMap.get(id)?.effectDetails,activation:truthMap.get(id)?.activation,lore:truthMap.get(id)?.runtimeLore,compendiumId:truthMap.get(id)?.compendiumId})),

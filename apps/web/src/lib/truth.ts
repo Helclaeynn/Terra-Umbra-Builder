@@ -1,3 +1,4 @@
+import {normalizeAngelusBuild,angelusLearnedNatures,angelusSecondaryTraits,angelusAcquisitionIssues,angelusUnavailableAcquisitions,angelusAuraCapacity} from "./angelus";
 import {normalizeDaemonBuild,daemonLearnedFunctions,daemonAdditionalTalents,daemonAcquisitionIssues,daemonSecondaryTraits,daemonTalentIds,daemonUnavailableAcquisitions} from "./daemon";
 import {normalizeMageTechniques,mageTechniqueKind,mageTechniqueIssues,mageAffinities,mageOwnedAffinities,mageWheelDistance,mageAffinityLevels} from "./mage";
 import {sanitizeAserynChoices,aserynLearnableOrigins,aserynSignatureTraits,aserynTalentEffect} from "./aseryn";
@@ -269,6 +270,7 @@ export function truthSanitizeChoices(nature:TruthNature,source:Record<string,unk
     else if(choice.optional&&options.some(option=>option.id==="aucune"))next[choice.key]="aucune";
     else next[choice.key]="";
   }
+  if(nature.id==="angelus"&&Object.hasOwn(source,"angelusBuild"))return {...next,angelusBuild:normalizeAngelusBuild(source.angelusBuild)};
   if(nature.id==="daemon"&&Object.hasOwn(source,"daemonBuild"))return {...next,daemonBuild:normalizeDaemonBuild(source.daemonBuild)};
   if(nature.id==="mage"&&Object.hasOwn(source,"mageTechniques"))return {...next,mageTechniques:normalizeMageTechniques(source.mageTechniques)};
   return nature.id==="aseryn"?{...next,...sanitizeAserynChoices(source)}:next;
@@ -334,7 +336,7 @@ function visibleNativeTalent(pkg:TruthRulesPackage,state:TruthState,talent:Truth
   }
   if(nature==="angelus"){
     if(group.includes("talents communs")||group.includes("progression de transcendance"))return true;
-    return groupHas(group,needles.angelus?.[stringChoice(state.choices,"angelNature")])||
+    return angelusLearnedNatures(pkg,state).some(n=>groupHas(group,needles.angelus?.[n]))||
       groupHas(group,needles.angelus?.[stringChoice(state.choices,"sephirah")]);
   }
   if(nature==="aseryn"){
@@ -477,7 +479,7 @@ export function truthAvailableTalents(pkg:TruthRulesPackage,state:TruthState){
 export function truthSelectedFreeTraits(pkg:TruthRulesPackage,state:TruthState){
   const nature=pkg.structure.natures[state.nature];
   if(!nature)return [];
-  const rows:TruthTrait[]=[...(nature.baseFreeTraits??[]),...aserynSignatureTraits(state),...daemonSecondaryTraits(pkg,state)];
+  const rows:TruthTrait[]=[...(nature.baseFreeTraits??[]),...aserynSignatureTraits(state),...daemonSecondaryTraits(pkg,state),...angelusSecondaryTraits(pkg,state)];
   for(const rule of nature.freeTraitRules??[]){
     if(whenMatches(rule.when,state.choices))rows.push(...rule.traits);
   }
@@ -521,10 +523,7 @@ export function truthChoiceLabel(pkg:TruthRulesPackage,state:TruthState,key:stri
  */
 export function truthAngelusCapacity(state:TruthState,permanentFortitude:number){
   if(state.nature!=='angelus')return null;
-  const cherub=state.truthTalents.includes('progression_de_transcendance_transcendance_cherubique');
-  const reserve=state.truthTalents.includes('nature_commune_pouvoirs_angeliques_talents_communs_reserve_transcendee');
-  const bonus=cherub?2:0;
-  return {rank:cherub?'cherub':'angelus',maximum:Math.min(8+bonus,3+Math.max(0,permanentFortitude)+bonus+(reserve?2:0))};
+  return angelusAuraCapacity(state.truthTalents,permanentFortitude);
 }
 
 export function truthPermanentAttributeBonus(
@@ -696,6 +695,8 @@ export function truthPrerequisiteSatisfied(
   talent:TruthTalent,
   available=truthAvailableTalents(pkg,state)
 ){
+  const angelusIssues=angelusAcquisitionIssues(pkg,state,talent);
+  if(angelusIssues!==null)return angelusIssues.length===0;
   const daemonIssues=daemonAcquisitionIssues(pkg,state,talent);
   if(daemonIssues!==null)return daemonIssues.length===0;
   const technique=state.nature==="mage"?mageTechniqueKind(talent.id):undefined;
@@ -735,7 +736,7 @@ export function truthPtvSpent(pkg:TruthRulesPackage,state:TruthState){
   const all=new Map(available.map(talent=>[talent.id,talent]));
   // A saved inherited talent retains its price even while its choice is incomplete.
   if(state.nature==="aseryn")for(const talent of pkg.catalogs.aseryn??[])all.set(talent.id,talent);
-  if(state.nature==="mage"||state.nature==="daemon"){
+  if(state.nature==="mage"||state.nature==="daemon"||state.nature==="angelus"){
     for(const talent of truthKnownTalents(pkg,state))all.set(talent.id,talent);
   }
   const native=state.truthTalents.reduce((sum,id)=>sum+Number(all.get(id)?.cost||0),0);
@@ -751,6 +752,7 @@ export function truthChoicesValid(pkg:TruthRulesPackage,state:TruthState){
   const nature=pkg.structure.natures[state.nature];
   if(!nature)return false;
   const clean=truthSanitizeChoices(nature,state.choices);
+  if(state.nature==="angelus"&&angelusUnavailableAcquisitions(pkg,state).length)return false;
   if(state.nature==="daemon"&&daemonUnavailableAcquisitions(pkg,state).length)return false;
   return nature.choices.every(choice=>{
     if(choice.optional)return true;
@@ -761,7 +763,7 @@ export function truthChoicesValid(pkg:TruthRulesPackage,state:TruthState){
 export function truthSanitizeTalents(pkg:TruthRulesPackage,state:TruthState){
   if(state.consciousness==="profane")return [];
   // A descriptive edit must not erase previously paid Daemon acquisitions. Invalid access is reported separately.
-  if(state.nature==="daemon"){const known=new Set(truthKnownTalents(pkg,state).map(t=>t.id));return [...new Set(state.truthTalents)].filter(id=>known.has(id));}
+  if(state.nature==="daemon"||state.nature==="angelus"){const known=new Set(truthKnownTalents(pkg,state).map(t=>t.id));return [...new Set(state.truthTalents)].filter(id=>known.has(id));}
   let selected=[...state.truthTalents];
   let changed=true;
   while(changed){

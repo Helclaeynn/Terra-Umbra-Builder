@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import AngelusDetailCards from "./AngelusDetailCards.vue";
 import DaemonDetailCards from "./DaemonDetailCards.vue";
 import MageTechniqueCards from "./MageTechniqueCards.vue";
 import TruthTalentText from "./TruthTalentText.vue";
@@ -113,6 +114,7 @@ const money=(value:number)=>`${value.toLocaleString("fr-FR")} $`;
       </div>
     </details>
 
+    <AngelusDetailCards :entries="sheet.angelusDetails??[]" :aura="sheet.angelusAura" />
     <DaemonDetailCards :entries="sheet.daemonDetails??[]" />
     <MageTechniqueCards :entries="sheet.mageTechniques??[]" />
     <details class="sheet-truth sheet-details" aria-label="Vérité du personnage" open>

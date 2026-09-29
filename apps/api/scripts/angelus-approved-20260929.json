@@ -1,0 +1,686 @@
+[
+  {
+    "id": "nature_commune_pouvoirs_angeliques_talents_communs_sensibilite_mortelle",
+    "name": "Sensibilité mortelle",
+    "number": null,
+    "cost": 1
+  },
+  {
+    "id": "nature_commune_pouvoirs_angeliques_talents_communs_reserve_transcendee",
+    "name": "Réserve transcendée",
+    "number": 1,
+    "cost": 1
+  },
+  {
+    "id": "nature_commune_pouvoirs_angeliques_talents_communs_recharge_fulgurante",
+    "name": "Recharge fulgurante",
+    "number": null,
+    "cost": 1
+  },
+  {
+    "id": "nature_commune_pouvoirs_angeliques_talents_communs_regard_celeste_affine",
+    "name": "Regard céleste affiné",
+    "number": null,
+    "cost": 1
+  },
+  {
+    "id": "nature_commune_pouvoirs_angeliques_talents_communs_egide_renforcee",
+    "name": "Égide renforcée",
+    "number": null,
+    "cost": 2
+  },
+  {
+    "id": "nature_commune_pouvoirs_angeliques_talents_communs_porte_du_paradis",
+    "name": "Liaison céleste",
+    "number": 2,
+    "cost": 2
+  },
+  {
+    "id": "progression_de_transcendance_transcendance_cherubique",
+    "name": "Transcendance chérubique",
+    "number": 3,
+    "cost": 3
+  },
+  {
+    "id": "nature_trone_lecture_superficielle",
+    "name": "Lecture superficielle",
+    "number": null,
+    "cost": 1
+  },
+  {
+    "id": "nature_trone_lecture_profonde",
+    "name": "Lecture profonde",
+    "number": null,
+    "cost": 2
+  },
+  {
+    "id": "nature_trone_marque_du_trone",
+    "name": "Marque du Trône",
+    "number": 4,
+    "cost": 1
+  },
+  {
+    "id": "nature_trone_anatheme",
+    "name": "Anathème",
+    "number": null,
+    "cost": 2
+  },
+  {
+    "id": "nature_trone_justice_veritable",
+    "name": "Justice véritable",
+    "number": null,
+    "cost": 2
+  },
+  {
+    "id": "nature_trone_heresie_condamnee",
+    "name": "Hérésie condamnée",
+    "number": null,
+    "cost": 3
+  },
+  {
+    "id": "nature_vertu_apaisement_profond",
+    "name": "Apaisement profond",
+    "number": null,
+    "cost": 1
+  },
+  {
+    "id": "nature_vertu_fardeau_partage",
+    "name": "Fardeau partagé",
+    "number": 5,
+    "cost": 1
+  },
+  {
+    "id": "nature_vertu_soin_de_l_ame",
+    "name": "Soin de l'âme",
+    "number": null,
+    "cost": 2
+  },
+  {
+    "id": "nature_vertu_purification_de_l_ame",
+    "name": "Purification de l'âme",
+    "number": 6,
+    "cost": 2
+  },
+  {
+    "id": "nature_vertu_chatiment_capital",
+    "name": "Châtiment capital",
+    "number": 7,
+    "cost": 3
+  },
+  {
+    "id": "nature_domination_arme_de_l_executeur",
+    "name": "Arme de l'Exécuteur",
+    "number": null,
+    "cost": 1
+  },
+  {
+    "id": "nature_domination_vision_du_mal",
+    "name": "Vision du Mal",
+    "number": null,
+    "cost": 1
+  },
+  {
+    "id": "nature_domination_marque_de_l_assassin",
+    "name": "Marque de l'Assassin",
+    "number": 8,
+    "cost": 1
+  },
+  {
+    "id": "nature_domination_misericorde",
+    "name": "Miséricorde",
+    "number": null,
+    "cost": 2
+  },
+  {
+    "id": "nature_domination_poursuite_celeste",
+    "name": "Poursuite céleste",
+    "number": 9,
+    "cost": 2
+  },
+  {
+    "id": "nature_domination_mise_a_mort",
+    "name": "Mise à mort",
+    "number": 10,
+    "cost": 3
+  },
+  {
+    "id": "les_dix_sephiroth_kether_la_couronne_facette_domination_injonction_celeste",
+    "name": "Injonction céleste",
+    "number": null,
+    "cost": 1
+  },
+  {
+    "id": "les_dix_sephiroth_kether_la_couronne_facette_domination_decret_de_la_couronne",
+    "name": "Décret de la Couronne",
+    "number": null,
+    "cost": 2
+  },
+  {
+    "id": "les_dix_sephiroth_kether_la_couronne_facette_domination_une_seule_voix",
+    "name": "Une seule voix",
+    "number": null,
+    "cost": 3
+  },
+  {
+    "id": "les_dix_sephiroth_kether_la_couronne_facette_conscience_regard_partage",
+    "name": "Regard partagé",
+    "number": 11,
+    "cost": 1
+  },
+  {
+    "id": "les_dix_sephiroth_kether_la_couronne_facette_conscience_aucun_angle_mort",
+    "name": "Aucun angle mort",
+    "number": null,
+    "cost": 2
+  },
+  {
+    "id": "les_dix_sephiroth_kether_la_couronne_facette_conscience_conscience_distribuee",
+    "name": "Conscience distribuée",
+    "number": 12,
+    "cost": 3
+  },
+  {
+    "id": "les_dix_sephiroth_kether_la_couronne_facette_unite_assistance_parfaite",
+    "name": "Assistance parfaite",
+    "number": null,
+    "cost": 1
+  },
+  {
+    "id": "les_dix_sephiroth_kether_la_couronne_facette_unite_synchronisation",
+    "name": "Synchronisation",
+    "number": 13,
+    "cost": 2
+  },
+  {
+    "id": "les_dix_sephiroth_kether_la_couronne_facette_unite_un_pour_tous",
+    "name": "Un pour tous",
+    "number": null,
+    "cost": 3
+  },
+  {
+    "id": "les_dix_sephiroth_hokhma_la_sagesse_facette_sagesse_clarte",
+    "name": "Clarté",
+    "number": null,
+    "cost": 1
+  },
+  {
+    "id": "les_dix_sephiroth_hokhma_la_sagesse_facette_sagesse_consequence_probable",
+    "name": "Conséquence probable",
+    "number": null,
+    "cost": 2
+  },
+  {
+    "id": "les_dix_sephiroth_hokhma_la_sagesse_facette_sagesse_vision_sereine",
+    "name": "Vision sereine",
+    "number": 14,
+    "cost": 3
+  },
+  {
+    "id": "les_dix_sephiroth_hokhma_la_sagesse_facette_purete_dissipation",
+    "name": "Dissipation",
+    "number": 15,
+    "cost": 1
+  },
+  {
+    "id": "les_dix_sephiroth_hokhma_la_sagesse_facette_purete_cercle_de_purete",
+    "name": "Cercle de pureté",
+    "number": null,
+    "cost": 2
+  },
+  {
+    "id": "les_dix_sephiroth_hokhma_la_sagesse_facette_purete_exorcisme_lumineux",
+    "name": "Exorcisme lumineux",
+    "number": 16,
+    "cost": 3
+  },
+  {
+    "id": "les_dix_sephiroth_hokhma_la_sagesse_facette_magie_lecture_occulte",
+    "name": "Lecture occulte",
+    "number": null,
+    "cost": 1
+  },
+  {
+    "id": "les_dix_sephiroth_hokhma_la_sagesse_facette_magie_contre_forme",
+    "name": "Contre-forme",
+    "number": null,
+    "cost": 2
+  },
+  {
+    "id": "les_dix_sephiroth_hokhma_la_sagesse_facette_magie_silence_magique",
+    "name": "Silence magique",
+    "number": null,
+    "cost": 3
+  },
+  {
+    "id": "les_dix_sephiroth_bina_la_comprehension_facette_intellect_modele_mental",
+    "name": "Modèle mental",
+    "number": null,
+    "cost": 1
+  },
+  {
+    "id": "les_dix_sephiroth_bina_la_comprehension_facette_intellect_simulation",
+    "name": "Simulation",
+    "number": 17,
+    "cost": 2
+  },
+  {
+    "id": "les_dix_sephiroth_bina_la_comprehension_facette_intellect_planification_superieure",
+    "name": "Planification supérieure",
+    "number": 18,
+    "cost": 3
+  },
+  {
+    "id": "les_dix_sephiroth_bina_la_comprehension_facette_destin_pressentiment",
+    "name": "Pressentiment",
+    "number": null,
+    "cost": 1
+  },
+  {
+    "id": "les_dix_sephiroth_bina_la_comprehension_facette_destin_bifurcation",
+    "name": "Bifurcation",
+    "number": null,
+    "cost": 2
+  },
+  {
+    "id": "les_dix_sephiroth_bina_la_comprehension_facette_destin_fenetre_du_destin",
+    "name": "Fenêtre du destin",
+    "number": 19,
+    "cost": 3
+  },
+  {
+    "id": "les_dix_sephiroth_bina_la_comprehension_facette_limitations_entrave_conceptuelle",
+    "name": "Entrave conceptuelle",
+    "number": null,
+    "cost": 1
+  },
+  {
+    "id": "les_dix_sephiroth_bina_la_comprehension_facette_limitations_limite_imposee",
+    "name": "Limite imposée",
+    "number": null,
+    "cost": 2
+  },
+  {
+    "id": "les_dix_sephiroth_bina_la_comprehension_facette_limitations_frontiere_de_bina",
+    "name": "Frontière de Bina",
+    "number": 20,
+    "cost": 3
+  },
+  {
+    "id": "les_dix_sephiroth_hesed_la_misericorde_facette_misericorde_epargner",
+    "name": "Épargner",
+    "number": null,
+    "cost": 1
+  },
+  {
+    "id": "les_dix_sephiroth_hesed_la_misericorde_facette_misericorde_grace_accordee",
+    "name": "Grâce accordee",
+    "number": 21,
+    "cost": 2
+  },
+  {
+    "id": "les_dix_sephiroth_hesed_la_misericorde_facette_misericorde_refuge_de_hesed",
+    "name": "Refuge de Hesed",
+    "number": null,
+    "cost": 3
+  },
+  {
+    "id": "les_dix_sephiroth_hesed_la_misericorde_facette_guerison_portee_bienfaisante",
+    "name": "Portée bienfaisante",
+    "number": null,
+    "cost": 1
+  },
+  {
+    "id": "les_dix_sephiroth_hesed_la_misericorde_facette_guerison_reconstruction",
+    "name": "Reconstruction",
+    "number": null,
+    "cost": 2
+  },
+  {
+    "id": "les_dix_sephiroth_hesed_la_misericorde_facette_guerison_miracle_de_chair",
+    "name": "Miracle de chair",
+    "number": null,
+    "cost": 3
+  },
+  {
+    "id": "les_dix_sephiroth_hesed_la_misericorde_facette_creativite_inspiration",
+    "name": "Inspiration",
+    "number": null,
+    "cost": 1
+  },
+  {
+    "id": "les_dix_sephiroth_hesed_la_misericorde_facette_creativite_idee_feconde",
+    "name": "Idée féconde",
+    "number": 22,
+    "cost": 2
+  },
+  {
+    "id": "les_dix_sephiroth_hesed_la_misericorde_facette_creativite_etincelle_nouvelle",
+    "name": "Étincelle nouvelle",
+    "number": 23,
+    "cost": 3
+  },
+  {
+    "id": "les_dix_sephiroth_gueburah_la_force_facette_force_puissance_celeste",
+    "name": "Puissance céleste",
+    "number": null,
+    "cost": 1
+  },
+  {
+    "id": "les_dix_sephiroth_gueburah_la_force_facette_force_briseur",
+    "name": "Briseur",
+    "number": null,
+    "cost": 2
+  },
+  {
+    "id": "les_dix_sephiroth_gueburah_la_force_facette_force_force_irresistible",
+    "name": "Force irrésistible",
+    "number": 24,
+    "cost": 3
+  },
+  {
+    "id": "les_dix_sephiroth_gueburah_la_force_facette_justice_retribution",
+    "name": "Rétribution",
+    "number": null,
+    "cost": 1
+  },
+  {
+    "id": "les_dix_sephiroth_gueburah_la_force_facette_justice_proportion",
+    "name": "Proportion",
+    "number": 25,
+    "cost": 1
+  },
+  {
+    "id": "les_dix_sephiroth_gueburah_la_force_facette_justice_sentence_de_force",
+    "name": "Sentence de force",
+    "number": null,
+    "cost": 3
+  },
+  {
+    "id": "les_dix_sephiroth_gueburah_la_force_facette_guerre_ordre_tactique",
+    "name": "Ordre tactique",
+    "number": null,
+    "cost": 1
+  },
+  {
+    "id": "les_dix_sephiroth_gueburah_la_force_facette_guerre_formation_celeste",
+    "name": "Formation céleste",
+    "number": 26,
+    "cost": 2
+  },
+  {
+    "id": "les_dix_sephiroth_gueburah_la_force_facette_guerre_redeploiement",
+    "name": "Redéploiement",
+    "number": 27,
+    "cost": 3
+  },
+  {
+    "id": "les_dix_sephiroth_tiph_ereth_la_beaute_facette_foi_certitude",
+    "name": "Certitude",
+    "number": null,
+    "cost": 1
+  },
+  {
+    "id": "les_dix_sephiroth_tiph_ereth_la_beaute_facette_foi_foi_partagee",
+    "name": "Foi partagée",
+    "number": 28,
+    "cost": 2
+  },
+  {
+    "id": "les_dix_sephiroth_tiph_ereth_la_beaute_facette_foi_miracle_de_conviction",
+    "name": "Miracle de conviction",
+    "number": null,
+    "cost": 3
+  },
+  {
+    "id": "les_dix_sephiroth_tiph_ereth_la_beaute_facette_devotion_lien_devoue",
+    "name": "Lien dévoué",
+    "number": null,
+    "cost": 1
+  },
+  {
+    "id": "les_dix_sephiroth_tiph_ereth_la_beaute_facette_devotion_intercession",
+    "name": "Intercession",
+    "number": null,
+    "cost": 2
+  },
+  {
+    "id": "les_dix_sephiroth_tiph_ereth_la_beaute_facette_devotion_communion",
+    "name": "Communion",
+    "number": 29,
+    "cost": 3
+  },
+  {
+    "id": "les_dix_sephiroth_tiph_ereth_la_beaute_facette_sacrifice_offrande",
+    "name": "Offrande",
+    "number": 30,
+    "cost": 1
+  },
+  {
+    "id": "les_dix_sephiroth_tiph_ereth_la_beaute_facette_sacrifice_don_de_soi",
+    "name": "Don de soi",
+    "number": 31,
+    "cost": 2
+  },
+  {
+    "id": "les_dix_sephiroth_tiph_ereth_la_beaute_facette_sacrifice_sacrifice_lumineux",
+    "name": "Sacrifice lumineux",
+    "number": null,
+    "cost": 3
+  },
+  {
+    "id": "les_dix_sephiroth_nesah_la_victoire_facette_succes_transformer_l_essai",
+    "name": "Transformer l'essai",
+    "number": null,
+    "cost": 1
+  },
+  {
+    "id": "les_dix_sephiroth_nesah_la_victoire_facette_succes_dynamique_victorieuse",
+    "name": "Dynamique victorieuse",
+    "number": null,
+    "cost": 2
+  },
+  {
+    "id": "les_dix_sephiroth_nesah_la_victoire_facette_succes_inarretable",
+    "name": "Inarrêtable",
+    "number": 32,
+    "cost": 2
+  },
+  {
+    "id": "les_dix_sephiroth_nesah_la_victoire_facette_amour_lien_du_cur",
+    "name": "Lien du cœur",
+    "number": 33,
+    "cost": 1
+  },
+  {
+    "id": "les_dix_sephiroth_nesah_la_victoire_facette_amour_harmonie",
+    "name": "Harmonie",
+    "number": 34,
+    "cost": 2
+  },
+  {
+    "id": "les_dix_sephiroth_nesah_la_victoire_facette_amour_amour_protecteur",
+    "name": "Amour protecteur",
+    "number": null,
+    "cost": 3
+  },
+  {
+    "id": "les_dix_sephiroth_nesah_la_victoire_facette_sexualite_comprehension_du_desir",
+    "name": "Compréhension du désir",
+    "number": 35,
+    "cost": 1
+  },
+  {
+    "id": "les_dix_sephiroth_nesah_la_victoire_facette_sexualite_extase_apaisante",
+    "name": "Extase apaisante",
+    "number": 36,
+    "cost": 1
+  },
+  {
+    "id": "les_dix_sephiroth_nesah_la_victoire_facette_sexualite_union_de_nesah",
+    "name": "Union de Nesah",
+    "number": 37,
+    "cost": 3
+  },
+  {
+    "id": "les_dix_sephiroth_hod_la_gloire_facette_gloire_rayonnement",
+    "name": "Rayonnement",
+    "number": null,
+    "cost": 1
+  },
+  {
+    "id": "les_dix_sephiroth_hod_la_gloire_facette_gloire_heraut",
+    "name": "Héraut",
+    "number": 38,
+    "cost": 2
+  },
+  {
+    "id": "les_dix_sephiroth_hod_la_gloire_facette_gloire_presence_glorieuse",
+    "name": "Présence glorieuse",
+    "number": 39,
+    "cost": 3
+  },
+  {
+    "id": "les_dix_sephiroth_hod_la_gloire_facette_science_analyse_fonctionnelle",
+    "name": "Analyse fonctionnelle",
+    "number": 40,
+    "cost": 1
+  },
+  {
+    "id": "les_dix_sephiroth_hod_la_gloire_facette_science_optimisation",
+    "name": "Optimisation",
+    "number": 41,
+    "cost": 2
+  },
+  {
+    "id": "les_dix_sephiroth_hod_la_gloire_facette_science_solution_de_terrain",
+    "name": "Solution de terrain",
+    "number": 42,
+    "cost": 3
+  },
+  {
+    "id": "les_dix_sephiroth_hod_la_gloire_facette_savoir_memoire_lumineuse",
+    "name": "Mémoire lumineuse",
+    "number": null,
+    "cost": 1
+  },
+  {
+    "id": "les_dix_sephiroth_hod_la_gloire_facette_savoir_transmission",
+    "name": "Transmission",
+    "number": null,
+    "cost": 2
+  },
+  {
+    "id": "les_dix_sephiroth_hod_la_gloire_facette_savoir_evidence_revelee",
+    "name": "Évidence révélée",
+    "number": 43,
+    "cost": 3
+  },
+  {
+    "id": "les_dix_sephiroth_yessod_la_fondation_facette_reves_visiteur_de_songes",
+    "name": "Visiteur de songes",
+    "number": 44,
+    "cost": 1
+  },
+  {
+    "id": "les_dix_sephiroth_yessod_la_fondation_facette_reves_songe_dirige",
+    "name": "Songe dirigé",
+    "number": null,
+    "cost": 2
+  },
+  {
+    "id": "les_dix_sephiroth_yessod_la_fondation_facette_reves_prison_onirique",
+    "name": "Prison onirique",
+    "number": 45,
+    "cost": 2
+  },
+  {
+    "id": "les_dix_sephiroth_yessod_la_fondation_facette_illusion_fantasmagorie_celeste",
+    "name": "Fantasmagorie céleste",
+    "number": 46,
+    "cost": 1
+  },
+  {
+    "id": "les_dix_sephiroth_yessod_la_fondation_facette_illusion_miroirs",
+    "name": "Miroirs",
+    "number": null,
+    "cost": 2
+  },
+  {
+    "id": "les_dix_sephiroth_yessod_la_fondation_facette_illusion_monde_trompeur",
+    "name": "Monde trompeur",
+    "number": 47,
+    "cost": 3
+  },
+  {
+    "id": "les_dix_sephiroth_yessod_la_fondation_facette_imagination_esquisse_lumineuse",
+    "name": "Esquisse lumineuse",
+    "number": 48,
+    "cost": 1
+  },
+  {
+    "id": "les_dix_sephiroth_yessod_la_fondation_facette_imagination_idee_incarnee",
+    "name": "Idée incarnée",
+    "number": 49,
+    "cost": 2
+  },
+  {
+    "id": "les_dix_sephiroth_yessod_la_fondation_facette_imagination_reve_rendu_reel",
+    "name": "Rêve rendu réel",
+    "number": 50,
+    "cost": 3
+  },
+  {
+    "id": "les_dix_sephiroth_malkhouth_le_royaume_facette_mort_sens_du_passage",
+    "name": "Sens du passage",
+    "number": null,
+    "cost": 1
+  },
+  {
+    "id": "les_dix_sephiroth_malkhouth_le_royaume_facette_mort_main_psychopompe",
+    "name": "Main psychopompe",
+    "number": 51,
+    "cost": 2
+  },
+  {
+    "id": "les_dix_sephiroth_malkhouth_le_royaume_facette_mort_fauche_du_royaume",
+    "name": "Fauche du Royaume",
+    "number": null,
+    "cost": 3
+  },
+  {
+    "id": "les_dix_sephiroth_malkhouth_le_royaume_facette_monde_physique_masse_choisie",
+    "name": "Masse choisie",
+    "number": null,
+    "cost": 1
+  },
+  {
+    "id": "les_dix_sephiroth_malkhouth_le_royaume_facette_monde_physique_densite",
+    "name": "Densité",
+    "number": 52,
+    "cost": 2
+  },
+  {
+    "id": "les_dix_sephiroth_malkhouth_le_royaume_facette_monde_physique_realite_verrouillee",
+    "name": "Réalité verrouillée",
+    "number": 53,
+    "cost": 3
+  },
+  {
+    "id": "les_dix_sephiroth_malkhouth_le_royaume_facette_poids_fardeau",
+    "name": "Fardeau",
+    "number": 54,
+    "cost": 1
+  },
+  {
+    "id": "les_dix_sephiroth_malkhouth_le_royaume_facette_poids_ecrasement",
+    "name": "Écrasement",
+    "number": null,
+    "cost": 2
+  },
+  {
+    "id": "les_dix_sephiroth_malkhouth_le_royaume_facette_poids_poids_du_royaume",
+    "name": "Poids du Royaume",
+    "number": 55,
+    "cost": 3
+  }
+]
