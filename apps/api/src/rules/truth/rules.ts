@@ -8,6 +8,7 @@ import { truthCatalogMage } from "./catalog-mage.js";
 import {applyDaemonRevisions} from "./daemon-revision.js";
 import {applyDaemonStructure} from "./daemon-build.js";
 import { truthCatalogDaemon } from "./catalog-daemon.js";
+import {applyAngelusRevisions} from "./angelus-revision.js";
 import { truthCatalogAngelus } from "./catalog-angelus.js";
 import {applyAserynRevisions} from "./aseryn-revision.js";
 import { truthCatalogAseryn } from "./catalog-aseryn.js";
@@ -67,7 +68,7 @@ const daemonCatalog = bindCompendium(
   () => "regles-verite-v7-daemon-nature-fonctions-divinites-facettes"
 );
 
-const angelusCatalog = bindCompendium(truthCatalogAngelus, (group) => {
+const angelusCatalog = bindCompendium(applyAngelusRevisions(truthCatalogAngelus), (group) => {
   if (group.startsWith("Les dix Sephiroth")) {
     return "regles-verite-v7-angelus-sephiroth-archanges-seraphins";
   }

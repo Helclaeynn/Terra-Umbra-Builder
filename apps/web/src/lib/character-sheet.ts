@@ -9,6 +9,8 @@ export type DerivedStats = ReturnType<typeof characterDerivedStats>;
 
 
 export type CharacterSheet = {
+  angelusDetails?:import("./angelus").AngelusSheetEntry[];
+  angelusAura?:{rank:string;maximum:number}|null;
   daemonDetails?:import("./daemon").DaemonSheetEntry[];
   mageTechniques?:import("./mage").MageTechniqueView[];
   appearances?:import("../../../api/src/character-appearances").CharacterAppearances;

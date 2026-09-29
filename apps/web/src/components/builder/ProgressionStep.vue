@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import AngelusOptions from "./AngelusOptions.vue";
+import {normalizeAngelusBuild,type AngelusBuild} from "../../lib/angelus";
 import DaemonOptions from "./DaemonOptions.vue";
 import {normalizeDaemonBuild,type DaemonBuild} from "../../lib/daemon";
 import MageTechniques from "./MageTechniques.vue";
@@ -122,6 +124,9 @@ function setAserynChoice(key:string,value:string){
   if(!/^aseryn(?:Trace[123]|Atavism|Mosaic|Element)$/.test(key))return;
   if(value&&!sanitizeAserynChoices({[key]:value})[key])return;
   emit("update:truth",{...props.truthState,choices:{...props.truthState.choices,[key]:value}});
+}
+function setAngelusBuild(value:AngelusBuild){
+ emit("update:truth",{...props.truthState,choices:{...props.truthState.choices,angelusBuild:normalizeAngelusBuild(value)}});
 }
 function setDaemonBuild(value:DaemonBuild){
  emit("update:truth",{...props.truthState,choices:{...props.truthState.choices,daemonBuild:normalizeDaemonBuild(value)}});
@@ -405,7 +410,7 @@ function removeTruthTalent(id:string){
     const byId=new Map(available.map(talent=>[talent.id,talent]));
     for(const ownedId of [...next.truthTalents]){
       const talent=byId.get(ownedId)??truthById.value.get(ownedId);
-      if(!talent||!(combined.nature==="daemon"||combined.nature==="mage"&&mageTechniqueKind(ownedId))&&!truthPrerequisiteSatisfied(props.truthRules,combined,talent,available)){
+      if(!talent||!(combined.nature==="angelus"||combined.nature==="daemon"||combined.nature==="mage"&&mageTechniqueKind(ownedId))&&!truthPrerequisiteSatisfied(props.truthRules,combined,talent,available)){
         next.truthTalents=next.truthTalents.filter(item=>item!==ownedId);
         changed=true;
       }
@@ -746,6 +751,7 @@ function sellCampaignItem(){
       </div>
     </details>
 
+    <AngelusOptions :state="combinedTruthState" :rules="truthRules" @change="setAngelusBuild" />
     <DaemonOptions :state="combinedTruthState" :rules="truthRules" @change="setDaemonBuild" />
     <MageTechniques :state="combinedTruthState" :rules="truthRules" @change="setMageTechniques" />
     <AserynTalentChoices :state="combinedTruthState" @change="setAserynChoice" />

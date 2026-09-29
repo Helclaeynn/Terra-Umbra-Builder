@@ -39,8 +39,8 @@ const tests=[['humain',{},'profane','realite'],['humain',{},'initie','realite'],
 ...['talass','mosen','baseanh','rocreen','thalsios','homo_superior','adrak'].map(n=>['extral',{species:n},'initie',n.replace('_','-')])];
 assert.equal(pdfTalentEffect('Bouches sans fondProfil: DON · PassifLe porteur est affamé.','Bouches sans fond'),'Profil: DON · Passif\nLe porteur est affamé.');
 assert.deepEqual(truthAngelusCapacity({nature:'angelus',truthTalents:[]},2),{rank:'angelus',maximum:5});
-assert.deepEqual(truthAngelusCapacity({nature:'angelus',truthTalents:['nature_commune_pouvoirs_angeliques_talents_communs_reserve_transcendee']},5),{rank:'angelus',maximum:8});
-assert.deepEqual(truthAngelusCapacity({nature:'angelus',truthTalents:['progression_de_transcendance_transcendance_cherubique','nature_commune_pouvoirs_angeliques_talents_communs_reserve_transcendee']},9),{rank:'cherub',maximum:10});
+assert.deepEqual(truthAngelusCapacity({nature:'angelus',truthTalents:['nature_commune_pouvoirs_angeliques_talents_communs_reserve_transcendee']},5),{rank:'angelus',maximum:10});
+assert.deepEqual(truthAngelusCapacity({nature:'angelus',truthTalents:['progression_de_transcendance_transcendance_cherubique','nature_commune_pouvoirs_angeliques_talents_communs_reserve_transcendee']},9),{rank:'cherub',maximum:12});
 for(const [nature,choices,consciousness,slug] of tests)assert.equal(dossierSlug({nature,choices,consciousness}),slug);
 assert.throws(()=>dossierSlug({nature:'exile',choices:{}}),/peuple/);
 assert.throws(()=>dossierSlug({nature:'extral',choices:{species:'missing'}}),/profil/);

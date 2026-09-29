@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import AngelusOptions from "../components/builder/AngelusOptions.vue";
+import {normalizeAngelusBuild,type AngelusBuild} from "../lib/angelus";
 import DaemonOptions from "../components/builder/DaemonOptions.vue";
 import {normalizeDaemonBuild,type DaemonBuild} from "../lib/daemon";
 import MageTechniques from "../components/builder/MageTechniques.vue";
@@ -1403,6 +1405,11 @@ function setTruthChoice(key:string,value:string){
   writeTruthState(next);
 }
 
+function setAngelusBuild(value:AngelusBuild){
+ if(!currentTruthState.value)return;
+ writeTruthState({...currentTruthState.value,choices:{...currentTruthState.value.choices,angelusBuild:normalizeAngelusBuild(value)}});
+}
+
 function setDaemonBuild(value:DaemonBuild){
  if(!currentTruthState.value)return;
  writeTruthState({...currentTruthState.value,choices:{...currentTruthState.value.choices,daemonBuild:normalizeDaemonBuild(value)}});
@@ -2460,6 +2467,7 @@ onBeforeUnmount(()=>{
                 </div>
               </details>
 
+              <AngelusOptions :state="currentTruthState" :rules="truthRules" @change="setAngelusBuild" />
               <DaemonOptions :state="currentTruthState" :rules="truthRules" @change="setDaemonBuild" />
               <MageTechniques :state="currentTruthState" :rules="truthRules" @change="setMageTechniques" />
               <section class="truth-talents-section">
@@ -2468,7 +2476,7 @@ onBeforeUnmount(()=>{
                     <h3>Talents de Vérité</h3>
                     <p>
                       Seuls les Talents compatibles avec la Nature et les choix ci-dessus sont proposés.
-                      Retirer un prérequis retire les Talents qui en dépendent ; les techniques Mage personnalisées restent conservées et sont signalées si elles deviennent incompatibles.
+                      Les choix et prérequis conditionnent l’usage des talents ; les acquisitions personnalisées Mage, Daemon et Angelus restent enregistrées et signalées si elles deviennent incompatibles.
                     </p>
                   </div>
                   <span class="schema-badge">
