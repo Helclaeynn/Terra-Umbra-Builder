@@ -30,16 +30,16 @@ assert.ok(corruption.talents.every((talent) => talent.compendiumId), "Every Flé
 
 const registry = getTalentRegistry();
 const meta = talentRegistryMeta();
-assert.equal(registry.length, 1413, "Truth Talent registry must contain 1186 native + 227 Fléau abilities, including Homo Superior equipment phasing");
-assert.equal(meta.total, 1413, "Talent registry metadata total must be 1413");
+assert.equal(registry.length, 1414, "Truth Talent registry must contain 1187 native + 227 Fléau abilities, including Homo Superior equipment phasing and the approved prophetic Remanence");
+assert.equal(meta.total, 1414, "Talent registry metadata total must be 1414");
 assert.equal(
   new Set(registry.map((row) => `${row.natureId}:${row.talentId}`)).size,
-  1413,
+  1414,
   "Talent registry nature/id pairs must be unique"
 );
 assert.equal(
   new Set(registry.map((row) => row.talentId)).size,
-  1406,
+  1407,
   "Global ids keep the seven canonical Vampire/Garou shared Blood Talent ids"
 );
 
@@ -60,5 +60,5 @@ for (const row of fleauRows) {
 }
 
 console.log(
-  `TRUTH BUILDER INTEGRATION OK — ${equipment.length}/229 objets · ${corruption.talents.length}/227 capacités Fléaux · 493/493 PTV · 20/20 familles · ${registry.length}/1413 capacités au registre`
+  `TRUTH BUILDER INTEGRATION OK — ${equipment.length}/229 objets · ${corruption.talents.length}/227 capacités Fléaux · 493/493 PTV · 20/20 familles · ${registry.length}/1414 capacités au registre`
 );

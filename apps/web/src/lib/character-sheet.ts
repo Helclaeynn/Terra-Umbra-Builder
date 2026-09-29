@@ -9,6 +9,7 @@ export type DerivedStats = ReturnType<typeof characterDerivedStats>;
 
 
 export type CharacterSheet = {
+  daemonDetails?:import("./daemon").DaemonSheetEntry[];
   mageTechniques?:import("./mage").MageTechniqueView[];
   appearances?:import("../../../api/src/character-appearances").CharacterAppearances;
   legacyPortrait?:{portraitDataUrl:string;portraitName:string};

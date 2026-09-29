@@ -40,6 +40,9 @@ export function projectCharacterPdf(input:PdfInput, available:ReadonlySet<string
   const sheet=buildCharacterSheet(data,core,truth,reality,campaign,input.fallbackName);
   const values:Record<string,PdfValue>={}, labels:Record<string,string>={}, annex:PdfSection[]=[];
   const add=(title:string,value:unknown)=>{const content=text(value).trim();if(content)annex.push({title,text:content});};
+  for(const entry of sheet.daemonDetails??[]){
+    add(entry.title,[entry.body,...entry.parameters.map(p=>`${p.label} : ${p.value}`),...entry.issues,"Description à convenir avec le MJ ; aucune validation automatique."].filter(Boolean).join("\n"));
+  }
   for(const entry of sheet.mageTechniques??[]){
     const t=entry.technique;
     add(`${entry.label} — ${t?.name||'À compléter'}`,t?[

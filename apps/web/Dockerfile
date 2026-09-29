@@ -14,6 +14,7 @@ COPY apps/api/src/character-appearances.ts /app/apps/api/src/character-appearanc
 COPY apps/api/src/rules/builder-equipment-policy.ts /app/apps/api/src/rules/builder-equipment-policy.ts
 # Shared pure definitions are consumed by the Vue forms and their type checks.
 COPY apps/api/src/rules/truth/mage-techniques.ts /app/apps/api/src/rules/truth/mage-techniques.ts
+COPY apps/api/src/rules/truth/daemon-build.ts /app/apps/api/src/rules/truth/daemon-build.ts
 RUN npm run build
 
 FROM nginx:1.29-alpine
