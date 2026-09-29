@@ -1,0 +1,72 @@
+name: V2 production storage cleanup
+on:
+  push:
+    branches: [feature/tuc-web-v2]
+    paths: [.github/workflows/v2-production-storage-cleanup.yml]
+permissions:
+  contents: read
+concurrency:
+  group: tuc-v2-production
+  cancel-in-progress: false
+jobs:
+  inventory:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    environment: tuc-dev
+    steps:
+      - name: Measure actual VPS storage without deleting anything
+        env:
+          TUC_DEV_HOST: ${{ secrets.TUC_DEV_HOST }}
+          TUC_DEV_USER: ${{ secrets.TUC_DEV_USER }}
+          TUC_DEV_SSH_KEY: ${{ secrets.TUC_DEV_SSH_KEY }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$TUC_DEV_SSH_KEY" > ~/.ssh/tuc_prod
+          chmod 600 ~/.ssh/tuc_prod
+          ssh-keyscan -H "$TUC_DEV_HOST" >> ~/.ssh/known_hosts
+          cat > /tmp/storage-inventory.py <<'PY'
+          import fcntl, json, pathlib, re, shutil, subprocess
+          root=pathlib.Path('/opt/terra-umbra')
+          assert (root/'production-active').is_file()
+          lock=open(root/'.production-release.lock','a')
+          fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
+          def run(args,check=True):
+              p=subprocess.run(args,stdin=subprocess.DEVNULL,capture_output=True,text=True,timeout=120)
+              if check and p.returncode: raise RuntimeError('Command failed: '+repr(args)+': '+p.stderr[-500:])
+              return p.stdout.strip()
+          def emit(kind,data): print(json.dumps({'kind':kind,'data':data},ensure_ascii=False),flush=True)
+          def usage(path,depth):
+              text=run(['sudo','-n','du','-x','-B1','--max-depth='+str(depth),path],False)
+              rows=[]
+              for line in text.splitlines():
+                  size,_,name=line.partition('\t')
+                  if size.isdigit(): rows.append({'bytes':int(size),'path':name})
+              return sorted(rows,key=lambda x:x['bytes'],reverse=True)[:40]
+          emit('disk',run(['df','-B1','--output=source,size,used,avail,pcent,target','/']))
+          emit('root',usage('/',1))
+          for path,depth in [('/opt/terra-umbra',2),('/var/lib',1),('/var/log',1),('/home',2),('/tmp',1),('/opt/terra-umbra/releases',2),('/opt/terra-umbra/private-backups',1)]: emit(path,usage(path,depth))
+          emit('docker_usage',run(['docker','system','df']))
+          emit('docker_builder_usage',run(['docker','buildx','du'],False)[-12000:])
+          cids=run(['docker','ps','-aq']).split()
+          containers=json.loads(run(['docker','inspect',*cids])) if cids else []
+          emit('containers',[{'id':c['Id'],'name':c['Name'],'image':c['Image'],'state':c['State']['Status'],'started':c['State']['StartedAt'],'mounts':[{'type':m['Type'],'source':m['Source'],'destination':m['Destination']} for m in c['Mounts']]} for c in containers])
+          iids=list(dict.fromkeys(run(['docker','image','ls','-aq','--no-trunc']).split()))
+          images=json.loads(run(['docker','image','inspect',*iids])) if iids else []
+          emit('images',[{'id':i['Id'],'tags':i['RepoTags'],'bytes':i['Size'],'created':i['Created'],'revision':(i.get('Config',{}).get('Labels') or {}).get('org.opencontainers.image.revision')} for i in images])
+          markers={}
+          for p in [root/'.production-release-sha',root/'private-backups/latest-verified',*root.glob('releases/*/previous-*-image'),*root.glob('releases/*/previous-release-sha')]:
+              if p.is_file() and p.stat().st_size<300: markers[str(p)]=p.read_text().strip()
+          emit('protected_markers',markers)
+          emit('release_files',run(['find',str(root/'releases'),'-maxdepth','2','-type','f','-printf','%s %p\n'])[-20000:])
+          sql="SELECT 'database_bytes='||pg_database_size(current_database()); SELECT 'users='||count(*) FROM users; SELECT 'characters='||count(*) FROM characters; SELECT 'campaigns='||count(*) FROM campaigns;"
+          emit('database_counts',run(['docker','compose','--project-directory',str(root/'infrastructure'),'exec','-T','db','sh','-c','exec psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -At -v ON_ERROR_STOP=1 -c "$1"','sh',sql]))
+          emit('health',run(['curl','-fsS','--max-time','15','https://terra-umbra.fr/api/ready']))
+          emit('result','INVENTORY ONLY; no cleanup, no production writes, no restart')
+          PY
+          scp -i ~/.ssh/tuc_prod -o IdentitiesOnly=yes /tmp/storage-inventory.py "$TUC_DEV_USER@$TUC_DEV_HOST:/tmp/tuc-storage-inventory-$GITHUB_RUN_ID.py"
+          ssh -i ~/.ssh/tuc_prod -o IdentitiesOnly=yes "$TUC_DEV_USER@$TUC_DEV_HOST" "python3 /tmp/tuc-storage-inventory-$GITHUB_RUN_ID.py"
+      - name: Remove runner SSH key
+        if: always()
+        run: rm -f ~/.ssh/tuc_prod
