@@ -5,6 +5,10 @@ RUN npm ci
 COPY apps/api/tsconfig.json ./
 COPY apps/api/src ./src
 COPY apps/api/scripts/check-reality-talents-20260927.mjs apps/api/scripts/check-aseryn-revision.mjs ./scripts/
+# The build-time Aseryn registry check loads the canonical Truth equipment and corruption data.
+COPY compendium/source/verite-catalog-v6.json.gz.b64 ./rules-data/truth-equipment/verite-catalog-v6.json.gz.b64
+COPY compendium/source/truth-mechanics-v6-fixed.manifest.json ./rules-data/truth-mechanics/truth-mechanics-v6-fixed.manifest.json
+COPY compendium/source/truth-mechanics-v6-fixed.part*.b64 ./rules-data/truth-mechanics/
 RUN npm run build
 
 FROM node:24-alpine AS runtime
