@@ -1,4 +1,4 @@
-name: V2 Extral source recovery
+name: V2 source snapshot for approved Exile integration
 on:
   push:
     branches: [feature/tuc-web-v2]
@@ -21,7 +21,7 @@ jobs:
           import pathlib, subprocess, zipfile
           allowed={'.ts','.js','.mjs','.cjs','.vue','.json','.html','.css','.scss','.md','.txt','.yml','.yaml','.sh','.py','.b64','.sql','.toml','.conf','.lock'}
           paths=subprocess.check_output(['git','ls-files','-z']).decode().split('\0')
-          with zipfile.ZipFile('/tmp/tuc-extral-current-source.zip','w',zipfile.ZIP_DEFLATED) as archive:
+          with zipfile.ZipFile('/tmp/tuc-exile-current-source.zip','w',zipfile.ZIP_DEFLATED) as archive:
               for name in paths:
                   p=pathlib.Path(name)
                   if not name or not p.is_file() or p.is_symlink(): continue
@@ -33,6 +33,6 @@ jobs:
           PY
       - uses: actions/upload-artifact@v4
         with:
-          name: tuc-extral-current-source
-          path: /tmp/tuc-extral-current-source.zip
+          name: tuc-exile-current-source
+          path: /tmp/tuc-exile-current-source.zip
           retention-days: 3
