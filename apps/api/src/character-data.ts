@@ -1,3 +1,4 @@
+import {normalizeExileBuild,normalizeBeneficiaryBenefits} from "./rules/truth/exile-build.js";
 import {normalizeExtralBuild} from "./rules/truth/extral-build.js";
 import {normalizeAngelusBuild} from "./rules/truth/angelus-build.js";
 import {normalizeDaemonBuild} from "./rules/truth/daemon-build.js";
@@ -293,6 +294,8 @@ export function importV1CharacterData(input:unknown): CharacterDataV2 | null {
 
 function normalizeTruthChoices(value:unknown):JsonRecord{
  const choices=cloneRecord(value);
+ if(Object.hasOwn(choices,"exileBuild"))choices.exileBuild=normalizeExileBuild(choices.exileBuild);
+ if(Object.hasOwn(choices,"beneficiaryBenefits"))choices.beneficiaryBenefits=normalizeBeneficiaryBenefits(choices.beneficiaryBenefits);
  if(Object.hasOwn(choices,"extralBuild"))choices.extralBuild=normalizeExtralBuild(choices.extralBuild);
  if(Object.hasOwn(choices,"angelusBuild"))choices.angelusBuild=normalizeAngelusBuild(choices.angelusBuild);
  if(Object.hasOwn(choices,"daemonBuild"))choices.daemonBuild=normalizeDaemonBuild(choices.daemonBuild);

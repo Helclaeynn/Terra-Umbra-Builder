@@ -1,3 +1,4 @@
+import {exileCatalogueSections} from "./rules/truth/exile-compendium.js";
 import {extralCatalogueSections} from "./rules/truth/extral-compendium.js";
 import { editorializeTruthSections } from "./compendium-verite-v7-editorial.js";
 
@@ -667,13 +668,13 @@ export const COMPENDIUM_VERITE_V7_PASS_B_RULE_ARTICLES: Article[] = [
     "regles-verite-v7-exiles-profils-cinq-peuples",
     "Profils raciaux des cinq peuples",
     ["Vérité", "Règles", "Exilés", "Elyë", "Whurten", "Ashyll", "Thulkar", "Azménorien"],
-    EXILE_PROFILES
+    [...EXILE_PROFILES,...exileCatalogueSections(true)]
   ),
   article(
     "regles-verite-v7-exiles-silcenters-hds-croix-runes-reseaux-hordes-technomagie",
     "Silcenters, HDS, Croix d’Emphyrra, Runes, réseaux, Hordes & technomagie",
     ["Vérité", "Règles", "Exilés", "Silcenters", "HDS", "Croix d’Emphyrra", "Runes", "Hordes", "Technomagie"],
-    EXILE_NETWORKS
+    [...EXILE_NETWORKS,...exileCatalogueSections(false)]
   ),
   article(
     "regles-verite-v7-extrals-profils-physiologies",

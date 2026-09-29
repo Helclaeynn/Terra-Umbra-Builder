@@ -1,3 +1,4 @@
+import {normalizeExileBuild,normalizeBeneficiaryBenefits,exileVisibleTalent,exileAcquisitionIssues,exileCombatProfile} from "./exile";
 import {normalizeExtralBuild,extralVisibleTalent,extralAcquisitionIssues,extralCombatProfile} from "./extral";
 import {normalizeAngelusBuild,angelusLearnedNatures,angelusSecondaryTraits,angelusAcquisitionIssues,angelusUnavailableAcquisitions,angelusAuraCapacity} from "./angelus";
 import {normalizeDaemonBuild,daemonLearnedFunctions,daemonAdditionalTalents,daemonAcquisitionIssues,daemonSecondaryTraits,daemonTalentIds,daemonUnavailableAcquisitions} from "./daemon";
@@ -85,6 +86,7 @@ export type CorruptionTalent={
 };
 
 export type TruthTalent={
+  requiredTalentIds?:readonly string[];
   effectDetails?:string;
   activation?:string;
   elementEffects?:Record<string,string>;
@@ -142,6 +144,7 @@ export type TruthRulesPackage={
 };
 
 export type TruthState={
+  exileInventory?:import("../../../api/src/rules/truth/exile-build").ExileOwnedItem[];
   /** Transient inventory projection, never accepted as a source of purchases. */
   extralInventory?:import("../../../api/src/rules/truth/extral-build").ExtralOwnedItem[];
   nature:string;
@@ -264,7 +267,8 @@ export function truthChoiceOptions(choice:TruthChoice,choices:Record<string,unkn
 }
 
 export function truthSanitizeChoices(nature:TruthNature,source:Record<string,unknown>):Record<string,unknown>{
-  const next:{[key:string]:string}={};
+  const next:Record<string,unknown>={};
+  if(Object.hasOwn(source,"beneficiaryBenefits"))next.beneficiaryBenefits=normalizeBeneficiaryBenefits(source.beneficiaryBenefits);
   for(const choice of nature.choices){
     const options=truthChoiceOptions(choice,{...source,...next});
     const value=stringChoice(source,choice.key);
@@ -273,6 +277,7 @@ export function truthSanitizeChoices(nature:TruthNature,source:Record<string,unk
     else if(choice.optional&&options.some(option=>option.id==="aucune"))next[choice.key]="aucune";
     else next[choice.key]="";
   }
+  if(nature.id==="exile"&&Object.hasOwn(source,"exileBuild"))return {...next,exileBuild:normalizeExileBuild(source.exileBuild)};
   if(nature.id==="extral"&&Object.hasOwn(source,"extralBuild"))return {...next,extralBuild:normalizeExtralBuild(source.extralBuild)};
   if(nature.id==="angelus"&&Object.hasOwn(source,"angelusBuild"))return {...next,angelusBuild:normalizeAngelusBuild(source.angelusBuild)};
   if(nature.id==="daemon"&&Object.hasOwn(source,"daemonBuild"))return {...next,daemonBuild:normalizeDaemonBuild(source.daemonBuild)};
@@ -308,6 +313,7 @@ function visibleNativeTalent(pkg:TruthRulesPackage,state:TruthState,talent:Truth
   const cost=Number(talent.cost||0);
   if(!(cost>0&&cost<=3))return false;
 
+  if(nature==="exile")return exileVisibleTalent(pkg,state,talent);
   if(nature==="extral")return extralVisibleTalent(pkg,state,talent);
   const exact=whenMatches(talent.when,state.choices);
   if(exact!==null)return exact;
@@ -672,6 +678,7 @@ export function truthRevelationProfile(pkg:TruthRulesPackage,state:TruthState){
     };
   }
 
+  if(nature==="exile"&&choices.people==="thulkar")for(const stage of ["v","sr","r"] as const){const physical=exileCombatProfile(pkg,state,stage);stats[stage]+=` · Armure corporelle ${physical.armor} · Pugilat DGT ${physical.unarmed} (hors pouvoirs temporaires)`;}
   if(nature==="extral")for(const stage of ["v","sr","r"] as const){const physical=extralCombatProfile(pkg,state,stage);stats[stage]+=` · Armure corporelle ${physical.armor} · Pugilat DGT ${physical.unarmed} (hors pouvoirs temporaires)`;}
   return {
     label,
@@ -701,6 +708,8 @@ export function truthPrerequisiteSatisfied(
   talent:TruthTalent,
   available=truthAvailableTalents(pkg,state)
 ){
+  const exileIssues=exileAcquisitionIssues(pkg,state,talent);
+  if(exileIssues!==null)return exileIssues.length===0;
   const extralIssues=extralAcquisitionIssues(pkg,state,talent);
   if(extralIssues!==null)return extralIssues.length===0;
   const angelusIssues=angelusAcquisitionIssues(pkg,state,talent);
@@ -744,7 +753,7 @@ export function truthPtvSpent(pkg:TruthRulesPackage,state:TruthState){
   const all=new Map(available.map(talent=>[talent.id,talent]));
   // A saved inherited talent retains its price even while its choice is incomplete.
   if(state.nature==="aseryn")for(const talent of pkg.catalogs.aseryn??[])all.set(talent.id,talent);
-  if(state.nature==="mage"||state.nature==="daemon"||state.nature==="angelus"||state.nature==="extral"){
+  if(state.nature==="mage"||state.nature==="daemon"||state.nature==="angelus"||state.nature==="extral"||state.nature==="exile"){
     for(const talent of truthKnownTalents(pkg,state))all.set(talent.id,talent);
   }
   const native=state.truthTalents.reduce((sum,id)=>sum+Number(all.get(id)?.cost||0),0);
@@ -770,7 +779,7 @@ export function truthChoicesValid(pkg:TruthRulesPackage,state:TruthState){
 
 export function truthSanitizeTalents(pkg:TruthRulesPackage,state:TruthState){
   // Changing an Extral network or consciousness never erases already-paid acquisitions.
-  if(state.nature==="extral"){const known=new Set(truthKnownTalents(pkg,state).map(t=>t.id));return [...new Set(state.truthTalents)].filter(id=>known.has(id));}
+  if(state.nature==="extral"||state.nature==="exile"){const known=new Set(truthKnownTalents(pkg,state).map(t=>t.id));return [...new Set(state.truthTalents)].filter(id=>known.has(id));}
   if(state.consciousness==="profane")return [];
   // A descriptive edit must not erase previously paid Daemon acquisitions. Invalid access is reported separately.
   if(state.nature==="daemon"||state.nature==="angelus"){const known=new Set(truthKnownTalents(pkg,state).map(t=>t.id));return [...new Set(state.truthTalents)].filter(id=>known.has(id));}

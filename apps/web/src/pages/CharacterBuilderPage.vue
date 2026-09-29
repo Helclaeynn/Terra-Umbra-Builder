@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import ExileOptions from "../components/builder/ExileOptions.vue";
+import BeneficiaryBenefits from "../components/builder/BeneficiaryBenefits.vue";
+import {exileOwnedItems,exileUsableTalents,normalizeExileBuild,normalizeBeneficiaryBenefits,type ExileBuild,type BeneficiaryBenefits as BeneficiaryState} from "../lib/exile";
 import ExtralOptions from "../components/builder/ExtralOptions.vue";
 import {normalizeExtralBuild,extralOwnedItems,type ExtralBuild} from "../lib/extral";
 import {truthKnownTalents} from "../lib/truth";
@@ -362,6 +365,7 @@ const currentTruthState=computed<TruthState|null>(()=>{
     ? raw.choices as Record<string,unknown>
     : {};
   return {
+    exileInventory:exileOwnedItems(draft.value.reality,progressionMode||campaignRewardsLocked.value,[...(realityRules.value?.equipment??[]),...(realityRules.value?.augmentations??[])]),
     extralInventory:extralOwnedItems(draft.value.reality,progressionMode||campaignRewardsLocked.value,[...(realityRules.value?.equipment??[]),...(realityRules.value?.augmentations??[])]),
     nature:typeof raw.nature==="string"?raw.nature:"humain",
     consciousness:typeof raw.consciousness==="string"?raw.consciousness:"profane",
@@ -381,6 +385,8 @@ const currentTruthState=computed<TruthState|null>(()=>{
       : []
   };
 });
+
+const exileActiveIds=computed(()=>truthRules.value&&currentTruthState.value?[...exileUsableTalents(truthRules.value,currentTruthState.value)]:[]);
 
 const selectedTruthNature=computed(()=>{
   if(!truthRules.value||!currentTruthState.value)return null;
@@ -412,7 +418,7 @@ const truthPtvRemaining=computed(()=>
 );
 
 const truthGroupOptions=computed(()=>truthGroups(availableTruthTalents.value).map(group=>({...group,items:[...group.items].sort(compareTruthTalents)})).sort((a,b)=>compareLabels(a.name,b.name)));
-const selectedTruthTalents=computed(()=>{const state=currentTruthState.value;const candidates=state?.nature==="extral"&&truthRules.value?truthKnownTalents(truthRules.value,state):truthGroupOptions.value.flatMap(group=>group.items);return candidates.filter(talent=>state?.truthTalents.includes(talent.id));});
+const selectedTruthTalents=computed(()=>{const state=currentTruthState.value;const candidates=(state?.nature==="extral"||state?.nature==="exile")&&truthRules.value?truthKnownTalents(truthRules.value,state):truthGroupOptions.value.flatMap(group=>group.items);return candidates.filter(talent=>state?.truthTalents.includes(talent.id));});
 const visibleTruthGroups=computed(()=>{
   const groups=truthGroupOptions.value
     .filter(group=>group.name===truthGroupChoice.value||!truthGroupChoice.value&&Boolean(truthSearch.value.trim()))
@@ -712,7 +718,7 @@ const lifestylePressureValue=computed(()=>
 );
 const augmentationLoadValue=computed(()=>
   realityRules.value&&realityState.value
-    ? augmentationLoad(realityRules.value,realityState.value,selectedRealityTalentIds())
+    ? augmentationLoad(realityRules.value,realityState.value,selectedRealityTalentIds(),exileActiveIds.value)
     : {charge:0,stress:0,rawStress:0}
 );
 const requiredLanguageCount=computed(()=>Math.max(1,1+skillRaw("langages_argot")));
@@ -1409,6 +1415,14 @@ function setTruthChoice(key:string,value:string){
   writeTruthState(next);
 }
 
+function setExileBuild(value:ExileBuild){
+ if(!currentTruthState.value)return;
+ writeTruthState({...currentTruthState.value,choices:{...currentTruthState.value.choices,exileBuild:normalizeExileBuild(value)}});
+}
+function setBeneficiaryBenefits(value:BeneficiaryState){
+ if(!currentTruthState.value)return;
+ writeTruthState({...currentTruthState.value,choices:{...currentTruthState.value.choices,beneficiaryBenefits:normalizeBeneficiaryBenefits(value)}});
+}
 function setExtralBuild(value:ExtralBuild){
  if(!currentTruthState.value)return;
  writeTruthState({...currentTruthState.value,choices:{...currentTruthState.value.choices,extralBuild:normalizeExtralBuild(value)}});
@@ -2585,6 +2599,8 @@ onBeforeUnmount(()=>{
                 </section>
               </section>
 
+              <ExileOptions v-if="currentTruthState.nature==='exile'" :state="currentTruthState" :rules="truthRules" @change="setExileBuild" />
+              <BeneficiaryBenefits :value="currentTruthState.choices.beneficiaryBenefits" @change="setBeneficiaryBenefits" />
               <ExtralOptions v-if="currentTruthState.nature==='extral'" :state="currentTruthState" :rules="truthRules" :rewards-locked="campaignRewardsLocked" @change="setExtralBuild" />
               <AserynTalentChoices :state="currentTruthState" @change="setTruthChoice" />
               <TruthEquipmentPanel
@@ -2885,7 +2901,7 @@ onBeforeUnmount(()=>{
           <p class="builder-intro">La fiche est déjà disponible ; le catalogue Réalité termine son chargement en arrière-plan.</p>
         </article>
 
-        <EquipmentStep
+        <EquipmentStep :truth-talent-ids="exileActiveIds"
           v-else-if="activeStep === 'equipment' && realityRules"
           class="panel builder-card"
           :model-value="draft.reality"

@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import ExileOptions from "./ExileOptions.vue";
+import BeneficiaryBenefits from "./BeneficiaryBenefits.vue";
+import {exileOwnedItems,normalizeExileBuild,normalizeBeneficiaryBenefits,type ExileBuild,type BeneficiaryBenefits as BeneficiaryState} from "../../lib/exile";
 import ExtralOptions from "./ExtralOptions.vue";
 import {normalizeExtralBuild,extralOwnedItems,type ExtralBuild} from "../../lib/extral";
 import AngelusOptions from "./AngelusOptions.vue";
@@ -127,6 +130,8 @@ function setAserynChoice(key:string,value:string){
   if(value&&!sanitizeAserynChoices({[key]:value})[key])return;
   emit("update:truth",{...props.truthState,choices:{...props.truthState.choices,[key]:value}});
 }
+function setExileBuild(value:ExileBuild){emit("update:truth",{...props.truthState,choices:{...props.truthState.choices,exileBuild:normalizeExileBuild(value)}});}
+function setBeneficiaryBenefits(value:BeneficiaryState){emit("update:truth",{...props.truthState,choices:{...props.truthState.choices,beneficiaryBenefits:normalizeBeneficiaryBenefits(value)}});}
 function setExtralBuild(value:ExtralBuild){
  emit("update:truth",{...props.truthState,choices:{...props.truthState.choices,extralBuild:normalizeExtralBuild(value)}});
 }
@@ -187,6 +192,7 @@ const xpRemainingValue=computed(()=>xpRemaining(state.value,props.skillBases,pro
 
 const combinedTruthState=computed<TruthState>(()=>({
   ...props.truthState,
+  exileInventory:exileOwnedItems(props.reality,true,[...props.realityRules.equipment,...props.realityRules.augmentations]),
   extralInventory:extralOwnedItems(props.reality,true,[...props.realityRules.equipment,...props.realityRules.augmentations]),
   corruptionTalents:[...new Set([...props.truthState.corruptionTalents,...state.value.corruptionTalents])],
   truthTalents:[...new Set([...props.truthState.truthTalents,...state.value.truthTalents])]
@@ -721,6 +727,8 @@ function sellCampaignItem(){
       </details>
     </details>
 
+    <ExileOptions v-if="combinedTruthState.nature==='exile'" :state="combinedTruthState" :rules="truthRules" @change="setExileBuild" />
+    <BeneficiaryBenefits :value="combinedTruthState.choices.beneficiaryBenefits" @change="setBeneficiaryBenefits" />
     <ExtralOptions v-if="combinedTruthState.nature==='extral'" :state="combinedTruthState" :rules="truthRules" :rewards-locked="rewardsLocked" @change="setExtralBuild" />
     <details class="progress-panel" :open="state.truthTalents.length>0">
       <summary><strong>Dépenser des PTV</strong><span>La Vérité progresse par les PTV, jamais par l’XP</span></summary>

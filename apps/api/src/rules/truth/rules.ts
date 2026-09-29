@@ -1,3 +1,4 @@
+import {applyExileRevisions} from "./exile-revision.js";
 import {applyExtralRevisions} from "./extral-revision.js";
 import {applyExtralStructure} from "./extral-build.js";
 import { truthRuntimeStructure } from "./runtime-structure.js";
@@ -88,7 +89,7 @@ const aserynCatalog = bindCompendium(applyAserynRevisions(truthCatalogAseryn), (
   return "regles-verite-v7-aseryn-nature-accelyr-origines";
 });
 
-const exileCatalog = bindCompendium(truthCatalogExile, (group) =>
+const exileCatalog = bindCompendium(applyExileRevisions(truthCatalogExile), (group) =>
   group.startsWith("Les cinq profils raciaux")
     ? "regles-verite-v7-exiles-profils-cinq-peuples"
     : "regles-verite-v7-exiles-silcenters-hds-croix-runes-reseaux-hordes-technomagie"
