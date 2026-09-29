@@ -1,0 +1,38 @@
+name: V2 Extral source recovery
+on:
+  push:
+    branches: [feature/tuc-web-v2]
+    paths: [.github/workflows/v2-extral-source-recovery.yml]
+permissions:
+  contents: read
+jobs:
+  source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Archive tracked text source only
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import pathlib, subprocess, zipfile
+          allowed={'.ts','.js','.mjs','.cjs','.vue','.json','.html','.css','.scss','.md','.txt','.yml','.yaml','.sh','.py','.b64','.sql','.toml','.conf','.lock'}
+          paths=subprocess.check_output(['git','ls-files','-z']).decode().split('\0')
+          with zipfile.ZipFile('/tmp/tuc-extral-current-source.zip','w',zipfile.ZIP_DEFLATED) as archive:
+              for name in paths:
+                  p=pathlib.Path(name)
+                  if not name or not p.is_file() or p.is_symlink(): continue
+                  if any(part in {'node_modules','.git','editor-media','uploads'} for part in p.parts): continue
+                  if p.name.startswith('.env'): continue
+                  if p.suffix not in allowed and p.name not in {'Dockerfile','.dockerignore','Caddyfile','Makefile','AGENTS.md'}: continue
+                  archive.write(p,name)
+              archive.writestr('SOURCE_COMMIT.txt',subprocess.check_output(['git','rev-parse','HEAD']))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: tuc-extral-current-source
+          path: /tmp/tuc-extral-current-source.zip
+          retention-days: 3
