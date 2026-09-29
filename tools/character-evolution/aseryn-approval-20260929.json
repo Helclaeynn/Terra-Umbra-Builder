@@ -1,0 +1,15 @@
+{
+  "approved": "2026-09-29",
+  "sourceCommit": "4a99bd587584b19eed9d6aa24aee3cb2f7cd281a",
+  "scope": "40 approved Aseryn revisions; one or two sentence effects, full details retained; Mages and Fleaux unchanged",
+  "preserve": ["canonical IDs", "existing acquisition prerequisites", "60 unchanged Aseryn talents", "all other Natures", "Compendium articles", "campaign reward permissions"],
+  "revisions": [
+    [1,"Réflexe impossible",2],[2,"Surcadence nerveuse",3],[3,"Pensée parallèle",1],[4,"Signature électrique",1],[5,"Perception neuromotrice",3],
+    [6,"Réseau mûlien",3],[7,"Détente hyperboréenne",1],[8,"Réflexe de duel",2],[9,"Déchaînement nymphal",3],[10,"Mosaïque ancestrale",3],
+    [11,"Prendre la tête",2],[12,"Improvisation d’aventurier",2],[13,"S’adapter ou mourir",3],[14,"Œil de structure",1],[15,"Fortification",2],[16,"Position maîtresse",3],
+    [17,"Reprendre le raisonnement",2],[18,"Détruire la fausse certitude",2],[19,"Lire la terre",1],[20,"La famille ne manque de rien",2],[21,"Alerte fulgurante",2],
+    [22,"Index vivant",2],[23,"Chambre scellée",2],[24,"Contradiction",1],[25,"Arbitrage",1],[26,"Autorité du jugement",3],[27,"Je te connais",2],[28,"La famille tient",3],
+    [29,"Paratonnerre",2],[30,"Atteindre l’immatériel",2],[31,"Éclipse noire",3],[32,"Foudre vaporeuse",1],[33,"Éroder l’affliction",2],[34,"Réduire en poussière",3],[35,"Trait du Silence",2],
+    [36,"Mémoire empruntée",2],[37,"Conseil des morts",3],[38,"Main de l’Ancêtre",2],[39,"Laisser la place",3],[40,"Fermer la porte",2]
+  ]
+}
