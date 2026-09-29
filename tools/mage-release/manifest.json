@@ -1,0 +1,30 @@
+{
+  "base": "c09c9e47bfbff5f8d4459ea94505a1fe5b1f8f7c",
+  "patchSha256": "c51605522e6d545c91c4545ea3be5e456f9e37d7df4a43160242c7dcd1fde7d8",
+  "files": {
+    "apps/api/Dockerfile": "a5c03e59c0fec16a837de296a6be230d44c450bda9037e5553b4d32978aa80c0",
+    "apps/api/package.json": "17b36420484d3697363fa8e7d8b1599ab5dc3fd4741bd494fdb4a6ba8a9468f7",
+    "apps/api/scripts/check-mage-persistence.mjs": "fbbf93f62be79dbe3382f8c6e274b78cb963fef5d56cfd86a4e725ca34be5c85",
+    "apps/api/scripts/check-mage-revision.mjs": "42d1d105847d2c2bcb1f850e77066aa833b100a347ac2fbf74f6286c1196e52c",
+    "apps/api/src/character-data.ts": "f201c5fd55eb2d7adf888e5965c2326447e50355981c2a435f76c6d93d6c8cc9",
+    "apps/api/src/rules/truth/mage-revision.ts": "c1aad0ac6bd53a554f782a3ca400144228fa924c579eb871dfb84279ddcdd09e",
+    "apps/api/src/rules/truth/mage-techniques.ts": "2c3e276b86baa7f63c2b002c03071ed1a4c986dc1b2ca4193bfc7a95df4e9433",
+    "apps/api/src/rules/truth/rules.ts": "dec8b0efbc92ceb2dc5af3235839a49e625fc16e9296db5786e385b5e2379954",
+    "apps/web/package.json": "31b70970162126907f6437bc0554098838f68058d1569cc7255935cdb730a232",
+    "apps/web/src/components/builder/CharacterSummary.vue": "b15f10c2fb53663aaa3c2c4297e4729ba765c19642bb9bc77be878cafa469765",
+    "apps/web/src/components/builder/MageTechniqueCards.vue": "b69adce98beeb6436a0264d1d3358cf413be0051124196d32ebf65dea5aeafec",
+    "apps/web/src/components/builder/MageTechniques.vue": "42c2d39af04582918bc7822b480211a1fbc3d122dd23414a728b359123ccf6cd",
+    "apps/web/src/components/builder/ProgressionStep.vue": "34bb7971b4bd13805bc8e9e321c0587c0a06808da43ae489c5a1468530b64d69",
+    "apps/web/src/lib/character-history.ts": "2857e21271d44a695c3380139440eaf43b6326bb080cf87c2c5baa397120a5ce",
+    "apps/web/src/lib/character-pdf-model.ts": "1c8864a15bfec7097e6e49b592a56521d398c3044d4599e8b428eab29e1d1ea5",
+    "apps/web/src/lib/character-sheet-model.ts": "cfea30496b4b5d682351d984fccc38ac1fe869dace89a102b350a9bc6aa1dad4",
+    "apps/web/src/lib/character-sheet.ts": "39fa8e9306e861d203979c982de2b54f22c6fb92f5983a75a6acaffb699f8d7a",
+    "apps/web/src/lib/mage.ts": "395a92973048231a0fc73b0fde0d3fdbcb0f07a2c87228cd89ae0d6d7c083202",
+    "apps/web/src/lib/truth-sheet-details.ts": "a148debe2f5c41a5f236f62dbfe10abb29bb66885925f78d5f47ac4a84711090",
+    "apps/web/src/lib/truth.ts": "eb89e140e8027bb5869aef282af311d66bceb52fb18b67e0ee4fccb09e948ce1",
+    "apps/web/src/pages/CharacterBuilderPage.vue": "1785be5d958d7936e69315186e408bba610036984d1dbcfd776dbc7675886515",
+    "apps/web/tests/mage-browser.mjs": "2635c313bd857943f6e5845ece9a4a74b18313369a7a0a941cec6c976af81e97",
+    "apps/web/tests/mage-revision.mjs": "460014771edccb6f8be2314e76b6d509682d82728bafa08314c288537dde5c2c",
+    "infrastructure/production/release-mage-talents.sh": "cbf064332769c5c891676d4d083b4de39a7fd405d927380feb059fe128d2fd4e"
+  }
+}
