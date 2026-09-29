@@ -9,14 +9,12 @@ permissions:
 concurrency:
   group: tuc-v2-production
   cancel-in-progress: false
+env:
+  SOURCE_SHA: eb41675c66c8b756060086e07ee0126984e46f0c
 jobs:
   verify-and-build:
     runs-on: ubuntu-latest
     timeout-minutes: 35
-    permissions:
-      contents: write
-    outputs:
-      source: ${{ steps.publish.outputs.source }}
     services:
       postgres:
         image: postgres:16-alpine
@@ -34,12 +32,20 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
+          ref: ${{ env.SOURCE_SHA }}
           persist-credentials: false
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
-      - name: Apply exact approved Mage diff and preserve all other Natures
-        run: node tools/mage-release/apply.mjs
+      - name: Verify exact already-published Mage source and Docker-only correction
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$SOURCE_SHA"
+          git fetch --depth=1 origin 974a26cc9a145006af55df9297a0874c3b0e2fb8
+          test "$(git diff --name-only 974a26cc9a145006af55df9297a0874c3b0e2fb8 HEAD)" = apps/web/Dockerfile
+          test -f apps/api/src/rules/truth/mage-techniques.ts
+          grep -F 'COPY apps/api/src/rules/truth/mage-techniques.ts /app/apps/api/src/rules/truth/mage-techniques.ts' apps/web/Dockerfile
       - name: Prepare complete rule data without modifying source catalogues
         run: |
           mkdir -p .v2-rules-data/lore
@@ -94,26 +100,11 @@ jobs:
           export TUC_V2_SMOKE_BASE_URL=http://127.0.0.1:4173
           node tests/builder-v2-smoke.mjs
           node tests/campaigns-smoke.mjs
-      - name: Publish tested source without overwriting concurrent changes
-        id: publish
-        env:
-          GH_TOKEN: ${{ github.token }}
-        shell: bash
-        run: |
-          set -euo pipefail
-          node tools/mage-release/apply.mjs verify
-          test "$(git ls-remote origin refs/heads/feature/tuc-web-v2 | cut -f1)" = "$GITHUB_SHA"
-          git -c user.name='github-actions[bot]' -c user.email='41898282+github-actions[bot]@users.noreply.github.com' commit -m 'feat(mage): apply approved talents, clear progression and persisted technique sheets'
-          auth=$(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)
-          echo "::add-mask::$auth"
-          git -c "http.https://github.com/.extraheader=AUTHORIZATION: basic $auth" push origin HEAD:refs/heads/feature/tuc-web-v2
-          printf 'source=%s\n' "$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
       - name: Build exact tested application images without database migration
-        env:
-          SOURCE_SHA: ${{ steps.publish.outputs.source }}
         run: |
           set -euo pipefail
           test "$(git rev-parse HEAD)" = "$SOURCE_SHA"
+          git diff --exit-code
           mkdir -p apps/web/public /tmp/tuc-mage-release
           node --input-type=module -e "import {writeFileSync} from 'node:fs';writeFileSync('apps/web/public/build-info.json',JSON.stringify({commit:process.env.SOURCE_SHA,release:'mage-talents-20260929'}));"
           docker build --label "org.opencontainers.image.revision=$SOURCE_SHA" -t "tuc-v2-api:mage-$SOURCE_SHA" -f apps/api/Dockerfile .
@@ -137,14 +128,13 @@ jobs:
     timeout-minutes: 20
     environment: tuc-dev
     env:
-      SOURCE_SHA: ${{ needs.verify-and-build.outputs.source }}
       TUC_DEV_HOST: ${{ secrets.TUC_DEV_HOST }}
       TUC_DEV_USER: ${{ secrets.TUC_DEV_USER }}
       TUC_DEV_SSH_KEY: ${{ secrets.TUC_DEV_SSH_KEY }}
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ needs.verify-and-build.outputs.source }}
+          ref: ${{ env.SOURCE_SHA }}
           persist-credentials: false
       - uses: actions/download-artifact@v4
         with:
@@ -158,6 +148,7 @@ jobs:
         run: |
           set -euo pipefail
           test "$(git rev-parse HEAD)" = "$SOURCE_SHA"
+          test "$(git ls-remote origin refs/heads/feature/tuc-web-v2 | cut -f1)" = "$GITHUB_SHA"
           install -m 700 -d ~/.ssh
           printf '%s\n' "$TUC_DEV_SSH_KEY" > ~/.ssh/tuc_prod
           chmod 600 ~/.ssh/tuc_prod
