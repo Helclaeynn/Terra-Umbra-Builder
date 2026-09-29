@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import DaemonOptions from "./DaemonOptions.vue";
+import {normalizeDaemonBuild,type DaemonBuild} from "../../lib/daemon";
 import MageTechniques from "./MageTechniques.vue";
 import {normalizeMageTechniques,mageTechniqueKind,type MageTechniques as MageTechniqueDefinitions} from "../../lib/mage";
 import {truthKnownTalents} from "../../lib/truth";
@@ -120,6 +122,9 @@ function setAserynChoice(key:string,value:string){
   if(!/^aseryn(?:Trace[123]|Atavism|Mosaic|Element)$/.test(key))return;
   if(value&&!sanitizeAserynChoices({[key]:value})[key])return;
   emit("update:truth",{...props.truthState,choices:{...props.truthState.choices,[key]:value}});
+}
+function setDaemonBuild(value:DaemonBuild){
+ emit("update:truth",{...props.truthState,choices:{...props.truthState.choices,daemonBuild:normalizeDaemonBuild(value)}});
 }
 function setMageTechniques(value:MageTechniqueDefinitions){
  emit("update:truth",{...props.truthState,choices:{...props.truthState.choices,mageTechniques:normalizeMageTechniques(value)}});
@@ -400,7 +405,7 @@ function removeTruthTalent(id:string){
     const byId=new Map(available.map(talent=>[talent.id,talent]));
     for(const ownedId of [...next.truthTalents]){
       const talent=byId.get(ownedId)??truthById.value.get(ownedId);
-      if(!talent||!(combined.nature==="mage"&&mageTechniqueKind(ownedId))&&!truthPrerequisiteSatisfied(props.truthRules,combined,talent,available)){
+      if(!talent||!(combined.nature==="daemon"||combined.nature==="mage"&&mageTechniqueKind(ownedId))&&!truthPrerequisiteSatisfied(props.truthRules,combined,talent,available)){
         next.truthTalents=next.truthTalents.filter(item=>item!==ownedId);
         changed=true;
       }
@@ -741,6 +746,7 @@ function sellCampaignItem(){
       </div>
     </details>
 
+    <DaemonOptions :state="combinedTruthState" :rules="truthRules" @change="setDaemonBuild" />
     <MageTechniques :state="combinedTruthState" :rules="truthRules" @change="setMageTechniques" />
     <AserynTalentChoices :state="combinedTruthState" @change="setAserynChoice" />
     <details class="progress-panel campaign-corruption">

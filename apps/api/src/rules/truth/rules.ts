@@ -5,6 +5,8 @@ import { truthCatalogGarou } from "./catalog-garou.js";
 import { truthCatalogKhinae } from "./catalog-khinae.js";
 import {applyMageRevisions} from "./mage-revision.js";
 import { truthCatalogMage } from "./catalog-mage.js";
+import {applyDaemonRevisions} from "./daemon-revision.js";
+import {applyDaemonStructure} from "./daemon-build.js";
 import { truthCatalogDaemon } from "./catalog-daemon.js";
 import { truthCatalogAngelus } from "./catalog-angelus.js";
 import {applyAserynRevisions} from "./aseryn-revision.js";
@@ -61,7 +63,7 @@ const mageCatalog = bindCompendium(applyMageRevisions(truthCatalogMage), (group)
 });
 
 const daemonCatalog = bindCompendium(
-  truthCatalogDaemon,
+  applyDaemonRevisions(truthCatalogDaemon),
   () => "regles-verite-v7-daemon-nature-fonctions-divinites-facettes"
 );
 
@@ -110,7 +112,7 @@ const humainCatalog = bindCompendium(truthCatalogHumain, (group) =>
 );
 
 export const terraUmbraTruthRules = {
-  structure: truthRuntimeStructure,
+  structure: applyDaemonStructure(truthRuntimeStructure),
   equipment: truthEquipmentCatalog,
   corruption: {
     sources: corruptionSources,

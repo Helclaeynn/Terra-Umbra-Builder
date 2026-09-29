@@ -1,3 +1,4 @@
+import {normalizeDaemonBuild} from "./rules/truth/daemon-build.js";
 import {normalizeMageTechniques} from "./rules/truth/mage-techniques.js";
 import {normalizeAppearances,type CharacterAppearances} from "./character-appearances.js";
 import { terraUmbraCreationRules } from "./rules/terra-umbra-creation.js";
@@ -290,6 +291,7 @@ export function importV1CharacterData(input:unknown): CharacterDataV2 | null {
 
 function normalizeTruthChoices(value:unknown):JsonRecord{
  const choices=cloneRecord(value);
+ if(Object.hasOwn(choices,"daemonBuild"))choices.daemonBuild=normalizeDaemonBuild(choices.daemonBuild);
  if(Object.hasOwn(choices,"mageTechniques"))choices.mageTechniques=normalizeMageTechniques(choices.mageTechniques);
  return choices;
 }

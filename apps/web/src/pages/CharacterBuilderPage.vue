@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import DaemonOptions from "../components/builder/DaemonOptions.vue";
+import {normalizeDaemonBuild,type DaemonBuild} from "../lib/daemon";
 import MageTechniques from "../components/builder/MageTechniques.vue";
 import {normalizeMageTechniques,type MageTechniques as MageTechniqueDefinitions} from "../lib/mage";
 import TruthTalentText from "../components/builder/TruthTalentText.vue";
@@ -1401,6 +1403,11 @@ function setTruthChoice(key:string,value:string){
   writeTruthState(next);
 }
 
+function setDaemonBuild(value:DaemonBuild){
+ if(!currentTruthState.value)return;
+ writeTruthState({...currentTruthState.value,choices:{...currentTruthState.value.choices,daemonBuild:normalizeDaemonBuild(value)}});
+}
+
 function setMageTechniques(value:MageTechniqueDefinitions){
  if(!currentTruthState.value)return;
  writeTruthState({...currentTruthState.value,choices:{...currentTruthState.value.choices,mageTechniques:normalizeMageTechniques(value)}});
@@ -2453,6 +2460,7 @@ onBeforeUnmount(()=>{
                 </div>
               </details>
 
+              <DaemonOptions :state="currentTruthState" :rules="truthRules" @change="setDaemonBuild" />
               <MageTechniques :state="currentTruthState" :rules="truthRules" @change="setMageTechniques" />
               <section class="truth-talents-section">
                 <div class="subsection-title">

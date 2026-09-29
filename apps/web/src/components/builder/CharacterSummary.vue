@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import DaemonDetailCards from "./DaemonDetailCards.vue";
 import MageTechniqueCards from "./MageTechniqueCards.vue";
 import TruthTalentText from "./TruthTalentText.vue";
 import CharacterGallery from "../CharacterGallery.vue";
@@ -112,6 +113,7 @@ const money=(value:number)=>`${value.toLocaleString("fr-FR")} $`;
       </div>
     </details>
 
+    <DaemonDetailCards :entries="sheet.daemonDetails??[]" />
     <MageTechniqueCards :entries="sheet.mageTechniques??[]" />
     <details class="sheet-truth sheet-details" aria-label="Vérité du personnage" open>
       <summary>Vérité · {{ sheet.truthNature || 'Nature à choisir' }} <span>{{ sheet.truthConsciousness || 'Conscience à préciser' }}</span></summary>

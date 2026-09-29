@@ -4,7 +4,7 @@ COPY apps/api/package.json apps/api/package-lock.json ./
 RUN npm ci
 COPY apps/api/tsconfig.json ./
 COPY apps/api/src ./src
-COPY apps/api/scripts/check-reality-talents-20260927.mjs apps/api/scripts/check-aseryn-revision.mjs apps/api/scripts/check-mage-revision.mjs ./scripts/
+COPY apps/api/scripts/check-reality-talents-20260927.mjs apps/api/scripts/check-aseryn-revision.mjs apps/api/scripts/check-mage-revision.mjs apps/api/scripts/check-daemon-revision.mjs apps/api/scripts/daemon-approved-20260929.json ./scripts/
 # The build-time Aseryn registry check loads the canonical Truth equipment and corruption data.
 COPY compendium/source/verite-catalog-v6.json.gz.b64 ./rules-data/truth-equipment/verite-catalog-v6.json.gz.b64
 COPY compendium/source/truth-mechanics-v6-fixed.manifest.json ./rules-data/truth-mechanics/truth-mechanics-v6-fixed.manifest.json

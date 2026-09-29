@@ -1,0 +1,1271 @@
+[
+  {
+    "id": "alabor_les_eaux_primordiales_facette_flots_main_des_eaux",
+    "number": 1,
+    "name": "Main des Eaux",
+    "cost": 1,
+    "beforeCost": 1,
+    "verdict": "Conserver",
+    "proposal": ""
+  },
+  {
+    "id": "alabor_les_eaux_primordiales_facette_flots_etreinte_liquide",
+    "number": 2,
+    "name": "Étreinte liquide",
+    "cost": 2,
+    "beforeCost": 2,
+    "verdict": "Préciser",
+    "proposal": "Pour 1 PA, emprisonnez pour la scène une cible dans une masse d’eau suffisante à 20 m maximum, après un Jet divin contre sa Défense physique. Se libérer coûte 1 PA et demande Vigueur + Athlétisme contre le résultat initial ; aucune noyade automatique."
+  },
+  {
+    "id": "alabor_les_eaux_primordiales_facette_flots_deferlante",
+    "number": 3,
+    "name": "Déferlante",
+    "cost": 3,
+    "beforeCost": 3,
+    "verdict": "Préciser",
+    "proposal": "Pour 3 PA, une fois par scène, projetez l’eau disponible sur une zone de 5 m de rayon à 20 m maximum : un Jet divin contre chaque Défense physique, DGT 12 et recul jusqu’à 3 m si le terrain le permet. Les dégâts ne surviennent qu’une fois ; les débris et l’eau déplacés restent réels."
+  },
+  {
+    "id": "alabor_les_eaux_primordiales_facette_pression_poids_des_abysses",
+    "number": 4,
+    "name": "Poids des Abysses",
+    "cost": 1,
+    "beforeCost": 1,
+    "verdict": "Conserver",
+    "proposal": ""
+  },
+  {
+    "id": "alabor_les_eaux_primordiales_facette_pression_ecrasement_hydrostatique",
+    "number": 5,
+    "name": "Écrasement hydrostatique",
+    "cost": 2,
+    "beforeCost": 2,
+    "verdict": "Conserver",
+    "proposal": ""
+  },
+  {
+    "id": "alabor_les_eaux_primordiales_facette_pression_fond_des_oceans",
+    "number": 6,
+    "name": "Fond des Océans",
+    "cost": 3,
+    "beforeCost": 3,
+    "verdict": "Préciser",
+    "proposal": "Pour 3 PA, une fois par scène, imposez DGT 12 par pression directe dans une zone de 5 m de rayon à 20 m, avec un Jet divin contre chaque Défense occulte. Jusqu’à la fin de la scène, traverser cette zone consomme deux fois la distance normale, sans nouveaux dégâts automatiques."
+  },
+  {
+    "id": "alabor_les_eaux_primordiales_facette_pluie_fecondite_appel_de_la_pluie",
+    "number": 7,
+    "name": "Appel de la pluie",
+    "cost": 1,
+    "beforeCost": 1,
+    "verdict": "Conserver",
+    "proposal": ""
+  },
+  {
+    "id": "alabor_les_eaux_primordiales_facette_pluie_fecondite_eaux_nourricieres",
+    "number": 8,
+    "name": "Eaux nourricières",
+    "cost": 2,
+    "beforeCost": 2,
+    "verdict": "Fond",
+    "proposal": "Après dix minutes de préparation d’une zone irriguée de 10 m de rayon, une heure de croissance végétale naturelle y équivaut à une journée et le prochain repos récupérateur de ses bénéficiaires rend 2 PV supplémentaires. Une même zone ou personne n’en bénéficie qu’une fois par jour ; ni nourriture instantanée ni guérison en combat."
+  },
+  {
+    "id": "alabor_les_eaux_primordiales_facette_pluie_fecondite_deluge",
+    "number": 9,
+    "name": "Déluge",
+    "cost": 3,
+    "beforeCost": 3,
+    "verdict": "Fond",
+    "proposal": "Pour 2 PA, une fois par scène, installez une pluie torrentielle dans un rayon de 15 m à 30 m maximum jusqu’à la fin de la scène. Les tirs et perceptions visuelles qui la traversent subissent −3, les déplacements y consomment deux fois la distance normale et les flammes ordinaires s’éteignent."
+  },
+  {
+    "id": "astaroth_la_civilisation_facette_savoir_rappel_absolu",
+    "number": 10,
+    "name": "Rappel absolu",
+    "cost": 1,
+    "beforeCost": 1,
+    "verdict": "Conserver",
+    "proposal": ""
+  },
+  {
+    "id": "astaroth_la_civilisation_facette_savoir_comprehension_universelle",
+    "number": 11,
+    "name": "Compréhension universelle",
+    "cost": 2,
+    "beforeCost": 2,
+    "verdict": "Fond",
+    "proposal": "Après étude d’une documentation pertinente, choisissez un domaine de connaissance : vos tests de connaissance dans ce domaine gagnent +3 pour la scène, même si vous y étiez déjà compétent. Cela ne fournit ni expérience pratique ni faculté physique et ne cumule pas un autre +3 équivalent."
+  },
+  {
+    "id": "astaroth_la_civilisation_facette_savoir_convergence_des_savoirs",
+    "number": 12,
+    "name": "Convergence des savoirs",
+    "cost": 3,
+    "beforeCost": 3,
+    "verdict": "Fond",
+    "proposal": "Une fois par scène, après 1 PA de réflexion, le MJ indique un lien nouveau réellement déductible des sources que vous avez étudiées. Le test intellectuel qui exploite cette conclusion gagne 2 DR en cas de réussite, maximum DR 5, sans créer de preuve absente."
+  },
+  {
+    "id": "astaroth_la_civilisation_facette_ecriture_parole_fixee",
+    "number": 13,
+    "name": "Parole fixée",
+    "cost": 1,
+    "beforeCost": 1,
+    "verdict": "Conserver",
+    "proposal": ""
+  },
+  {
+    "id": "astaroth_la_civilisation_facette_ecriture_serment_ecrit",
+    "number": 14,
+    "name": "Serment écrit",
+    "cost": 2,
+    "beforeCost": 2,
+    "verdict": "Conserver",
+    "proposal": ""
+  },
+  {
+    "id": "astaroth_la_civilisation_facette_ecriture_uvre_de_civilisation",
+    "number": 15,
+    "name": "Œuvre de civilisation",
+    "cost": 3,
+    "beforeCost": 3,
+    "verdict": "Fond",
+    "proposal": "Un traité, plan ou enseignement que vous avez réellement préparé permet à ses lecteurs sérieux de bénéficier de +3 aux tests directement fondés sur son contenu pendant une scène d’application. Ce bénéfice ne fournit aucune compétence absente et ne se cumule pas avec un ouvrage équivalent."
+  },
+  {
+    "id": "astaroth_la_civilisation_facette_arts_creation_inspiration",
+    "number": 16,
+    "name": "Inspiration",
+    "cost": 1,
+    "beforeCost": 1,
+    "verdict": "Conserver",
+    "proposal": ""
+  },
+  {
+    "id": "astaroth_la_civilisation_facette_arts_creation_muse_divine",
+    "number": 17,
+    "name": "Muse divine",
+    "cost": 2,
+    "beforeCost": 2,
+    "verdict": "Fond",
+    "proposal": "Votre œuvre communique réellement l’émotion ou l’idée choisie, même au-delà d’une barrière de langue, et donne +3 au premier test social qui exploite ce message auprès de son public dans la scène. Une influence hostile exige un Jet divin contre la Défense occulte ; elle ne crée ni obéissance ni faux souvenir."
+  },
+  {
+    "id": "astaroth_la_civilisation_facette_arts_creation_etincelle_de_genie",
+    "number": 18,
+    "name": "Étincelle de génie",
+    "cost": 3,
+    "beforeCost": 3,
+    "verdict": "Conserver",
+    "proposal": ""
+  },
+  {
+    "id": "belial_la_reine_des_dieux_facette_feu_royal_flamme_souveraine",
+    "number": 19,
+    "name": "Flamme souveraine",
+    "cost": 1,
+    "beforeCost": 1,
+    "verdict": "Conserver",
+    "proposal": ""
+  },
+  {
+    "id": "belial_la_reine_des_dieux_facette_feu_royal_feu_inexorable",
+    "number": 20,
+    "name": "Feu inexorable",
+    "cost": 2,
+    "beforeCost": 2,
+    "verdict": "Conserver",
+    "proposal": ""
+  },
+  {
+    "id": "belial_la_reine_des_dieux_facette_feu_royal_colere_de_la_reine",
+    "number": 21,
+    "name": "Colère de la Reine",
+    "cost": 3,
+    "beforeCost": 3,
+    "verdict": "Conserver",
+    "proposal": ""
+  },
+  {
+    "id": "belial_la_reine_des_dieux_facette_domination_injonction_souveraine",
+    "number": 22,
+    "name": "Injonction souveraine",
+    "cost": 1,
+    "beforeCost": 1,
+    "verdict": "Conserver",
+    "proposal": ""
+  },
+  {
+    "id": "belial_la_reine_des_dieux_facette_domination_decret_royal",
+    "number": 23,
+    "name": "Décret royal",
+    "cost": 2,
+    "beforeCost": 2,
+    "verdict": "Conserver",
+    "proposal": ""
+  },
+  {
+    "id": "belial_la_reine_des_dieux_facette_domination_souverainete_de_belial",
+    "number": 24,
+    "name": "Souveraineté de Belial",
+    "cost": 3,
+    "beforeCost": 3,
+    "verdict": "Conserver",
+    "proposal": ""
+  },
+  {
+    "id": "belial_la_reine_des_dieux_facette_destruction_fracture_souveraine",
+    "number": 25,
+    "name": "Fracture souveraine",
+    "cost": 1,
+    "beforeCost": 1,
+    "verdict": "Conserver",
+    "proposal": ""
+  },
+  {
+    "id": "belial_la_reine_des_dieux_facette_destruction_briseur_de_defenses",
+    "number": 26,
+    "name": "Briseur de défenses",
+    "cost": 2,
+    "beforeCost": 2,
+    "verdict": "Conserver",
+    "proposal": ""
+  },
+  {
+    "id": "belial_la_reine_des_dieux_facette_destruction_aneantissement",
+    "number": 27,
+    "name": "Anéantissement",
+    "cost": 3,
+    "beforeCost": 3,
+    "verdict": "Fond",
+    "proposal": "Anéantissement coûte 2 PA au lieu de 3, toujours une fois par scène : DGT 15 et pénétration 6 contre objet ou barrière, DGT 12 et pénétration 3 contre une créature. La Défense et la Protection adaptées restent applicables ; aucun artefact majeur n’est supprimé automatiquement."
+  },
+  {
+    "id": "diablo_la_nuit_qui_regarde_facette_nuit_enfant_de_l_inconnu",
+    "number": 28,
+    "name": "Enfant de l’Inconnu",
+    "cost": 1,
+    "beforeCost": 1,
+    "verdict": "Conserver",
+    "proposal": ""
+  },
+  {
+    "id": "diablo_la_nuit_qui_regarde_facette_nuit_pas_dans_la_nuit",
+    "number": 29,
+    "name": "Pas dans la Nuit",
+    "cost": 2,
+    "beforeCost": 2,
+    "verdict": "Conserver",
+    "proposal": ""
+  },
+  {
+    "id": "diablo_la_nuit_qui_regarde_facette_nuit_nuit_absolue",
+    "number": 30,
+    "name": "Nuit absolue",
+    "cost": 3,
+    "beforeCost": 3,
+    "verdict": "Préciser",
+    "proposal": "Pour 2 PA, une fois par scène, créez jusqu’à la fin de la scène une obscurité divine de 15 m de rayon centrée sur vous à l’activation. Vous y voyez ; les autres doivent posséder une perception surnaturelle adaptée, et les lumières ordinaires n’y fonctionnent pas."
+  },
+  {
+    "id": "diablo_la_nuit_qui_regarde_facette_cauchemar_peur_sans_visage",
+    "number": 31,
+    "name": "Peur sans visage",
+    "cost": 1,
+    "beforeCost": 1,
+    "verdict": "Conserver",
+    "proposal": ""
+  },
+  {
+    "id": "diablo_la_nuit_qui_regarde_facette_cauchemar_cauchemar_eveille",
+    "number": 32,
+    "name": "Cauchemar éveillé",
+    "cost": 2,
+    "beforeCost": 2,
+    "verdict": "Préciser",
+    "proposal": "Pour 1 PA, imposez à une cible à 20 m un cauchemar personnel après un Jet divin contre sa Défense occulte : −3 aux actions exigeant calme ou concentration pour la scène. Elle peut consacrer 1 PA, une fois par round, à Volonté + Force Mentale contre le résultat initial pour y mettre fin."
+  },
+  {
+    "id": "diablo_la_nuit_qui_regarde_facette_cauchemar_terreur_primordiale",
+    "number": 33,
+    "name": "Terreur primordiale",
+    "cost": 3,
+    "beforeCost": 3,
+    "verdict": "Préciser",
+    "proposal": "Pour 2 PA, une fois par scène, les cibles choisies et perçues à 10 m affrontent le même Jet divin avec leur Défense occulte : en échec, elles sont Paniquées pendant un round puis Tendues pour la scène. Elles peuvent ensuite briser l’effet par 1 PA et Volonté + Force Mentale contre le résultat initial, une fois par round."
+  },
+  {
+    "id": "diablo_la_nuit_qui_regarde_facette_devoration_mange_lumiere",
+    "number": 34,
+    "name": "Mange-lumière",
+    "cost": 1,
+    "beforeCost": 1,
+    "verdict": "Conserver",
+    "proposal": ""
+  },
+  {
+    "id": "diablo_la_nuit_qui_regarde_facette_devoration_la_nuit_apprend",
+    "number": 35,
+    "name": "La Nuit apprend",
+    "cost": 2,
+    "beforeCost": 2,
+    "verdict": "Préciser",
+    "proposal": "Un Écho obtenu par Rémanence nocturne peut être reproduit deux fois avant la fin de la scène, au coût normal de sa version élémentaire. Cela ne copie ni un Sang complet ni les ressources, prérequis biologiques ou pouvoirs uniques du porteur d’origine."
+  },
+  {
+    "id": "diablo_la_nuit_qui_regarde_facette_devoration_predateur_des_tenebres",
+    "number": 36,
+    "name": "Prédateur des Ténèbres",
+    "cost": 3,
+    "beforeCost": 3,
+    "verdict": "Conserver",
+    "proposal": ""
+  },
+  {
+    "id": "lilith_desir_sexe_plaisir_et_attachement_facette_desir_plaisir_voir_le_desir",
+    "number": 37,
+    "name": "Voir le désir",
+    "cost": 1,
+    "beforeCost": 1,
+    "verdict": "Conserver",
+    "proposal": ""
+  },
+  {
+    "id": "lilith_desir_sexe_plaisir_et_attachement_facette_desir_plaisir_eveiller_le_desir",
+    "number": 38,
+    "name": "Éveiller le désir",
+    "cost": 2,
+    "beforeCost": 2,
+    "verdict": "Fond",
+    "proposal": "Pour 1 PA, après opposition à la Défense occulte, intensifiez un désir réellement possible chez la cible et gagnez +3 aux tests sociaux qui l’exploitent pendant la scène. Elle conserve ses limites et peut refuser ; ni orientation, ni consentement, ni personnalité ne sont réécrits."
+  },
+  {
+    "id": "lilith_desir_sexe_plaisir_et_attachement_facette_desir_plaisir_grace_retiree",
+    "number": 39,
+    "name": "Grâce retirée",
+    "cost": 3,
+    "beforeCost": 3,
+    "verdict": "Conserver",
+    "proposal": ""
+  },
+  {
+    "id": "lilith_desir_sexe_plaisir_et_attachement_facette_fertilite_chair_corps_souverain",
+    "number": 40,
+    "name": "Corps souverain",
+    "cost": 1,
+    "beforeCost": 1,
+    "verdict": "Conserver",
+    "proposal": ""
+  },
+  {
+    "id": "lilith_desir_sexe_plaisir_et_attachement_facette_fertilite_chair_chair_feconde",
+    "number": 41,
+    "name": "Chair féconde",
+    "cost": 2,
+    "beforeCost": 2,
+    "verdict": "Préciser",
+    "proposal": "Pour 1 PA au contact, modulez pour la scène une fonction hormonale ou reproductive d’une cible consentante, ou après opposition à sa Défense occulte. Vous pouvez suspendre une perturbation ordinaire de ce registre, pas guérir n’importe quelle maladie ou infliger un handicap arbitraire."
+  },
+  {
+    "id": "lilith_desir_sexe_plaisir_et_attachement_facette_fertilite_chair_fecondite_divine",
+    "number": 42,
+    "name": "Fécondité divine",
+    "cost": 3,
+    "beforeCost": 3,
+    "verdict": "Préciser",
+    "proposal": "Un rituel d’une heure permet une restauration ou modification reproductive durable et biologiquement cohérente, définie avec le MJ à partir d’un examen réel. Il ne crée ni vie à partir de rien ni grossesse automatique et ne reproduit pas une signature unique de Duc."
+  },
+  {
+    "id": "lilith_desir_sexe_plaisir_et_attachement_facette_attachement_sentiments_fil_du_c_ur",
+    "number": 43,
+    "name": "Fil du cœur",
+    "cost": 1,
+    "beforeCost": 1,
+    "verdict": "Conserver",
+    "proposal": ""
+  },
+  {
+    "id": "lilith_desir_sexe_plaisir_et_attachement_facette_attachement_sentiments_attiser_apaiser",
+    "number": 44,
+    "name": "Attiser / Apaiser",
+    "cost": 2,
+    "beforeCost": 2,
+    "verdict": "Fond",
+    "proposal": "Pour 1 PA, modifiez un sentiment existant pour la scène : apaiser une peur réduit d’un cran le Stress psychologique qui en découle, tandis qu’attiser une émotion impose −3 aux actions qui la contrarient directement. Une cible hostile oppose sa Défense occulte ; les minima de blessures et les autres causes de Stress demeurent."
+  },
+  {
+    "id": "lilith_desir_sexe_plaisir_et_attachement_facette_attachement_sentiments_c_ur_silencieux",
+    "number": 45,
+    "name": "Cœur silencieux",
+    "cost": 3,
+    "beforeCost": 3,
+    "verdict": "Conserver",
+    "proposal": ""
+  },
+  {
+    "id": "mammon_l_ineluctable_facette_mort_sens_du_dernier_souffle",
+    "number": 46,
+    "name": "Sens du dernier souffle",
+    "cost": 1,
+    "beforeCost": 1,
+    "verdict": "Conserver",
+    "proposal": ""
+  },
+  {
+    "id": "mammon_l_ineluctable_facette_mort_main_du_trepas",
+    "number": 47,
+    "name": "Main du trépas",
+    "cost": 2,
+    "beforeCost": 2,
+    "verdict": "Conserver",
+    "proposal": ""
+  },
+  {
+    "id": "mammon_l_ineluctable_facette_mort_la_fin_vient",
+    "number": 48,
+    "name": "La Fin vient",
+    "cost": 3,
+    "beforeCost": 3,
+    "verdict": "Fond",
+    "proposal": "Une fois par scène, pour 1 PA, frappez à DGT 12 une cible à 25 % de ses PV maximum ou moins ; les PV perdus par cette frappe ne peuvent être régénérés avant la fin de la scène. Si elle tombe à 0 PV ou moins, la stabilisation garde son surcoût d’un niveau jusqu’à la fin du round suivant, sans empêcher les soins adaptés."
+  },
+  {
+    "id": "mammon_l_ineluctable_facette_vieillesse_poids_des_annees",
+    "number": 49,
+    "name": "Poids des années",
+    "cost": 1,
+    "beforeCost": 1,
+    "verdict": "Conserver",
+    "proposal": ""
+  },
+  {
+    "id": "mammon_l_ineluctable_facette_vieillesse_annees_volees",
+    "number": 50,
+    "name": "Années volées",
+    "cost": 2,
+    "beforeCost": 2,
+    "verdict": "Conserver",
+    "proposal": ""
+  },
+  {
+    "id": "mammon_l_ineluctable_facette_vieillesse_siecles_en_un_souffle",
+    "number": 51,
+    "name": "Siècles en un souffle",
+    "cost": 3,
+    "beforeCost": 3,
+    "verdict": "Conserver",
+    "proposal": ""
+  },
+  {
+    "id": "mammon_l_ineluctable_facette_destin_delivrance_accepter_l_ineluctable",
+    "number": 52,
+    "name": "Accepter l’inéluctable",
+    "cost": 1,
+    "beforeCost": 1,
+    "verdict": "Conserver",
+    "proposal": ""
+  },
+  {
+    "id": "mammon_l_ineluctable_facette_destin_delivrance_fin_des_souffrances",
+    "number": 53,
+    "name": "Fin des souffrances",
+    "cost": 2,
+    "beforeCost": 2,
+    "verdict": "Conserver",
+    "proposal": ""
+  },
+  {
+    "id": "mammon_l_ineluctable_facette_destin_delivrance_derniere_destination",
+    "number": 54,
+    "name": "Dernière destination",
+    "cost": 2,
+    "beforeCost": 3,
+    "verdict": "Fond",
+    "proposal": "Une fois par scène, lorsqu’une issue précise est déjà engagée, percevez le dernier obstacle réel qui l’empêche encore et une action immédiatement praticable pour le lever. Votre premier test pour accomplir cette action gagne +3 ; le talent ne choisit pas l’issue à votre place et ne prédit pas tout l’avenir."
+  },
+  {
+    "id": "mephisto_l_occulte_la_parole_et_le_hasard_facette_magie_spectre_affine",
+    "number": 55,
+    "name": "Spectre affiné",
+    "cost": 1,
+    "beforeCost": 1,
+    "verdict": "Préciser",
+    "proposal": "Choisissez une Affinité spectrale possédée : elle passe à Maîtrise Affinée, autorisant précision, formes complexes et division simple d’un effet. Ce développement se paie par Affinité, sans ouvrir la progression d’un véritable Mage."
+  },
+  {
+    "id": "mephisto_l_occulte_la_parole_et_le_hasard_facette_magie_spectre_amplifie",
+    "number": 56,
+    "name": "Spectre amplifié",
+    "cost": 2,
+    "beforeCost": 2,
+    "verdict": "Préciser",
+    "proposal": "Choisissez une Affinité spectrale possédée : elle atteint l’Amplitude Significative et ses effets Mineurs gagnent un niveau de réduction de Difficulté intrinsèque. Les PA, portées et Défenses normales restent applicables ; le Spectre ne produit toujours ni Tension ni Revers."
+  },
+  {
+    "id": "mephisto_l_occulte_la_parole_et_le_hasard_facette_magie_polyphonie_occulte",
+    "number": 57,
+    "name": "Polyphonie occulte",
+    "cost": 3,
+    "beforeCost": 3,
+    "verdict": "Préciser",
+    "proposal": "Choisissez une seconde Affinité spectrale différente, qui commence en Initiale / Mineure. Ses paliers se développent séparément par Spectre affiné et Spectre amplifié, sans jamais dépasser Affinée / Significative."
+  },
+  {
+    "id": "mephisto_l_occulte_la_parole_et_le_hasard_facette_parole_chant_voix_qui_porte",
+    "number": 58,
+    "name": "Voix qui porte",
+    "cost": 1,
+    "beforeCost": 1,
+    "verdict": "Conserver",
+    "proposal": ""
+  },
+  {
+    "id": "mephisto_l_occulte_la_parole_et_le_hasard_facette_parole_chant_mot_irresistible",
+    "number": 59,
+    "name": "Mot irrésistible",
+    "cost": 2,
+    "beforeCost": 2,
+    "verdict": "Fond",
+    "proposal": "Une fois par scène, pour 1 PA en Réaction avant sa résolution, adressez une phrase compréhensible à un interlocuteur et opposez Charisme + Diplomatie à sa Défense occulte pour interrompre son action. Il conserve son PA et peut choisir une autre action ; aucun ordre suicidaire ni domination durable n’est imposé."
+  },
+  {
+    "id": "mephisto_l_occulte_la_parole_et_le_hasard_facette_parole_chant_verbe_historique",
+    "number": 60,
+    "name": "Verbe historique",
+    "cost": 3,
+    "beforeCost": 3,
+    "verdict": "Préciser",
+    "proposal": "Pour 3 PA de discours, une fois par scène, vos alliés qui l’entendent gagnent +3 sur une catégorie d’action précise et annoncée jusqu’à la fin de la scène. Le discours peut être préparé sur des rounds consécutifs ; il ne fournit aucune compétence et ne cumule pas un soutien équivalent."
+  },
+  {
+    "id": "mephisto_l_occulte_la_parole_et_le_hasard_facette_fortune_illusion_bonne_etoile",
+    "number": 61,
+    "name": "Bonne étoile",
+    "cost": 1,
+    "beforeCost": 1,
+    "verdict": "Conserver",
+    "proposal": ""
+  },
+  {
+    "id": "mephisto_l_occulte_la_parole_et_le_hasard_facette_fortune_illusion_mensonge_du_monde",
+    "number": 62,
+    "name": "Mensonge du monde",
+    "cost": 2,
+    "beforeCost": 2,
+    "verdict": "Préciser",
+    "proposal": "Pour 1 PA, créez pour la scène une illusion multisensorielle dans une zone de 3 m de rayon à 20 m, en déclarant si elle est extérieure ou directement mentale. Une illusion extérieure est perceptible par les capteurs adaptés et se démasque par Perception ; une illusion mentale affronte la Défense occulte et ne produit aucune matière réelle."
+  },
+  {
+    "id": "mephisto_l_occulte_la_parole_et_le_hasard_facette_fortune_illusion_fortune_volee",
+    "number": 63,
+    "name": "Fortune volée",
+    "cost": 3,
+    "beforeCost": 3,
+    "verdict": "Préciser",
+    "proposal": "Une fois par scène, pour 1 PA en Réaction après le résultat mais avant ses conséquences, imposez à un adversaire visible de relancer son d10e et de conserver le second résultat. Vous gagnez +3 à votre prochain test avant la fin du round suivant, sans deuxième relance de talent sur le même test."
+  },
+  {
+    "id": "satan_le_juge_facette_sentence_poids_de_la_faute",
+    "number": 64,
+    "name": "Poids de la faute",
+    "cost": 1,
+    "beforeCost": 1,
+    "verdict": "Conserver",
+    "proposal": ""
+  },
+  {
+    "id": "satan_le_juge_facette_sentence_chaines_du_coupable",
+    "number": 65,
+    "name": "Chaînes du coupable",
+    "cost": 2,
+    "beforeCost": 2,
+    "verdict": "Préciser",
+    "proposal": "Pour 1 PA, après avoir établi la culpabilité pour un acte précis, opposez votre Jet divin à la Défense occulte pour immobiliser la cible jusqu’à la fin de la scène. Se libérer coûte 1 PA et Volonté + Force Mentale contre le résultat initial ; une accusation inventée ne donne aucun effet."
+  },
+  {
+    "id": "satan_le_juge_facette_sentence_sentence",
+    "number": 66,
+    "name": "Sentence",
+    "cost": 3,
+    "beforeCost": 3,
+    "verdict": "Conserver",
+    "proposal": ""
+  },
+  {
+    "id": "satan_le_juge_facette_ordre_paix_cessez",
+    "number": 67,
+    "name": "Cessez",
+    "cost": 1,
+    "beforeCost": 1,
+    "verdict": "Conserver",
+    "proposal": ""
+  },
+  {
+    "id": "satan_le_juge_facette_ordre_paix_treve",
+    "number": 68,
+    "name": "Trêve",
+    "cost": 2,
+    "beforeCost": 2,
+    "verdict": "Préciser",
+    "proposal": "Pour 2 PA, établissez une Trêve de 10 m de rayon pour la scène : quiconque veut engager une attaque doit réussir Volonté + Force Mentale 15, une fois par tentative payée. En échec l’attaque ne part pas et le PA est consommé ; les Défenses restent toujours possibles, pour tous les camps."
+  },
+  {
+    "id": "satan_le_juge_facette_ordre_paix_loi_du_juge",
+    "number": 69,
+    "name": "Loi du Juge",
+    "cost": 3,
+    "beforeCost": 3,
+    "verdict": "Préciser",
+    "proposal": "Pour 2 PA, annoncez pour la scène une règle de paix claire, réalisable et applicable à tous dans un rayon de 10 m. Une violation volontaire entraîne 3 PV irréductibles après échec d’une résistance occulte contre le Jet divin initial, au maximum une sanction par personne et par round, sans créer de culpabilité morale."
+  },
+  {
+    "id": "satan_le_juge_facette_vengeance_dette",
+    "number": 70,
+    "name": "Dette",
+    "cost": 1,
+    "beforeCost": 1,
+    "verdict": "Fond",
+    "proposal": "Une fois par round, lorsqu’un ennemi blesse volontairement le Daemon ou un protégé, marquez-le gratuitement pour gagner +3 à votre prochain jet contre lui dans la scène. Une seule dette est active et le bonus ne se cumule pas avec une représaille équivalente."
+  },
+  {
+    "id": "satan_le_juge_facette_vengeance_retour_des_actes",
+    "number": 71,
+    "name": "Retour des actes",
+    "cost": 2,
+    "beforeCost": 2,
+    "verdict": "Préciser",
+    "proposal": "Pour 1 PA en Réaction après avoir subi un effet hostile, opposez votre Jet divin à la Défense occulte de son auteur. En réussite, le contrecoup lui impose −3 à une famille d’actions cohérente avec ce que vous avez subi jusqu’à la fin de son prochain round, sans copier son pouvoir ni annuler votre propre dommage."
+  },
+  {
+    "id": "satan_le_juge_facette_vengeance_il_pour_il",
+    "number": 72,
+    "name": "Œil pour œil",
+    "cost": 3,
+    "beforeCost": 3,
+    "verdict": "Préciser",
+    "proposal": "Une fois par scène, pour 1 PA, opposez votre Jet divin à la Défense occulte de l’auteur d’une attaque dont vous avez constaté les dommages dans cette scène. En réussite, il perd autant de PV que sa victime en avait réellement perdu, maximum 12 et sans ajout de marge ; aucun cumul de plusieurs attaques n’est permis."
+  },
+  {
+    "id": "lucifer_le_soleil_dechu_facette_soleil_trait_solaire",
+    "number": 73,
+    "name": "Trait solaire",
+    "cost": 1,
+    "beforeCost": 1,
+    "verdict": "Conserver",
+    "proposal": ""
+  },
+  {
+    "id": "lucifer_le_soleil_dechu_facette_soleil_halo_du_jour",
+    "number": 74,
+    "name": "Halo du jour",
+    "cost": 2,
+    "beforeCost": 2,
+    "verdict": "Préciser",
+    "proposal": "Pour 1 PA, rayonnez sur 10 m pour la scène : les créatures réellement vulnérables au solaire y subissent −3 à leurs actions. Les ténèbres surnaturelles mineures sont repoussées après opposition à leur Puissance ; aucun dégât périodique gratuit n’est ajouté."
+  },
+  {
+    "id": "lucifer_le_soleil_dechu_facette_soleil_aube_implacable",
+    "number": 75,
+    "name": "Aube implacable",
+    "cost": 3,
+    "beforeCost": 3,
+    "verdict": "Préciser",
+    "proposal": "Pour 3 PA, une fois par scène, déployez une aube de 15 m de rayon : un Jet divin contre chaque Défense, DGT 12 de base aux cibles hostiles vulnérables au solaire, plus le seul +3 de Radiance originelle. Le même résultat dissipe les ténèbres temporaires dont il surpasse la Puissance, sans seconde vague de dégâts."
+  },
+  {
+    "id": "lucifer_le_soleil_dechu_facette_cycle_vie_premier_matin",
+    "number": 76,
+    "name": "Premier matin",
+    "cost": 1,
+    "beforeCost": 1,
+    "verdict": "Conserver",
+    "proposal": ""
+  },
+  {
+    "id": "lucifer_le_soleil_dechu_facette_cycle_vie_renaissance",
+    "number": 77,
+    "name": "Renaissance",
+    "cost": 2,
+    "beforeCost": 2,
+    "verdict": "Conserver",
+    "proposal": ""
+  },
+  {
+    "id": "lucifer_le_soleil_dechu_facette_cycle_vie_refus_du_crepuscule",
+    "number": 78,
+    "name": "Refus du crépuscule",
+    "cost": 3,
+    "beforeCost": 3,
+    "verdict": "Conserver",
+    "proposal": ""
+  },
+  {
+    "id": "lucifer_le_soleil_dechu_facette_courage_c_ur_solaire",
+    "number": 79,
+    "name": "Cœur solaire",
+    "cost": 1,
+    "beforeCost": 1,
+    "verdict": "Conserver",
+    "proposal": ""
+  },
+  {
+    "id": "lucifer_le_soleil_dechu_facette_courage_rayonner",
+    "number": 80,
+    "name": "Rayonner",
+    "cost": 2,
+    "beforeCost": 2,
+    "verdict": "Conserver",
+    "proposal": ""
+  },
+  {
+    "id": "lucifer_le_soleil_dechu_facette_courage_gloire_du_jour",
+    "number": 81,
+    "name": "Gloire du Jour",
+    "cost": 3,
+    "beforeCost": 3,
+    "verdict": "Fond",
+    "proposal": "Une fois par scène, pour 1 PA, jusqu’à cinq alliés à 10 m ignorent pour la scène les conséquences de Tendu et Paniqué provenant de la seule peur. Les blessures, les autres contraintes et leur liberté de battre en retraite restent inchangées."
+  },
+  {
+    "id": "belzebuth_la_vie_sans_jugement_moral_facette_regeneration_seve_vitale",
+    "number": 82,
+    "name": "Sève vitale",
+    "cost": 1,
+    "beforeCost": 1,
+    "verdict": "Conserver",
+    "proposal": ""
+  },
+  {
+    "id": "belzebuth_la_vie_sans_jugement_moral_facette_regeneration_reconstruction",
+    "number": 83,
+    "name": "Reconstruction",
+    "cost": 2,
+    "beforeCost": 2,
+    "verdict": "Conserver",
+    "proposal": ""
+  },
+  {
+    "id": "belzebuth_la_vie_sans_jugement_moral_facette_regeneration_printemps",
+    "number": 84,
+    "name": "Printemps",
+    "cost": 3,
+    "beforeCost": 3,
+    "verdict": "Préciser",
+    "proposal": "Une fois par scène, pour 1 PA, jusqu’à trois alliés à 10 m récupèrent chacun 3 + DR PV à partir du même Jet divin. La saturation commune aux soins de cette source demeure applicable à chacun."
+  },
+  {
+    "id": "belzebuth_la_vie_sans_jugement_moral_facette_nature_evolution_adaptation",
+    "number": 85,
+    "name": "Adaptation",
+    "cost": 1,
+    "beforeCost": 1,
+    "verdict": "Conserver",
+    "proposal": ""
+  },
+  {
+    "id": "belzebuth_la_vie_sans_jugement_moral_facette_nature_evolution_evolution_dirigee",
+    "number": 86,
+    "name": "Évolution dirigée",
+    "cost": 2,
+    "beforeCost": 2,
+    "verdict": "Préciser",
+    "proposal": "Pour 1 PA, donnez à vous-même ou à une cible consentante jusqu’à deux adaptations simples du registre d’Adaptation pour la scène. Elles n’accordent ni PA ni hausse arbitraire d’Attribut et remplacent les adaptations équivalentes précédentes."
+  },
+  {
+    "id": "belzebuth_la_vie_sans_jugement_moral_facette_nature_evolution_forme_superieure",
+    "number": 87,
+    "name": "Forme supérieure",
+    "cost": 3,
+    "beforeCost": 3,
+    "verdict": "Préciser",
+    "proposal": "Pour 2 PA, adoptez pour la scène jusqu’à deux propriétés d’un répertoire fixé avec le MJ avant l’achat. Proposition initiale : vol soutenu au Déplacement normal, Armure corporelle 3, arme naturelle DGT 7 ou corps amphibie des profondeurs, sans nouveaux PA ni cumul d’Armures corporelles."
+  },
+  {
+    "id": "belzebuth_la_vie_sans_jugement_moral_facette_maladie_miasme",
+    "number": 88,
+    "name": "Miasme",
+    "cost": 1,
+    "beforeCost": 1,
+    "verdict": "Préciser",
+    "proposal": "Pour 1 PA, imposez à une cible perçue à 20 m un Miasme après un Jet divin contre sa Défense occulte : −3 à une famille d’actions jusqu’à la fin de son prochain round. Contrairement à l’Affliction du Châtiment, le pouvoir ne demande pas le contact et reste utilisable en SR."
+  },
+  {
+    "id": "belzebuth_la_vie_sans_jugement_moral_facette_maladie_contagion",
+    "number": 89,
+    "name": "Contagion",
+    "cost": 2,
+    "beforeCost": 2,
+    "verdict": "Fond",
+    "proposal": "Vous pouvez transformer un Miasme réussi — ou votre Affliction de Châtiment — en maladie transmissible dont le profil est fixé avec le MJ avant usage. Transmission, incubation, résistance et fin de l’affection doivent être définies ; ce n’est ni une contamination automatique de foule ni un malus qui s’empile."
+  },
+  {
+    "id": "belzebuth_la_vie_sans_jugement_moral_facette_maladie_pestilence",
+    "number": 90,
+    "name": "Pestilence",
+    "cost": 3,
+    "beforeCost": 3,
+    "verdict": "Préciser",
+    "proposal": "Pour 3 PA, une fois par scène, frappez une zone de 10 m de rayon à 30 m : chaque cible qui échoue à sa Défense occulte subit une pathologie surnaturelle définie, avec −3 aux actions physiques pour la scène. Sa durée ultérieure, sa transmission et ses soins sont fixés avant usage, sans décès automatique ni aggravation par empilement."
+  },
+  {
+    "id": "abigor_le_ciel_qui_frappe_d_en_haut_facette_vent_ciel_main_du_vent",
+    "number": 91,
+    "name": "Main du Vent",
+    "cost": 1,
+    "beforeCost": 1,
+    "verdict": "Conserver",
+    "proposal": ""
+  },
+  {
+    "id": "abigor_le_ciel_qui_frappe_d_en_haut_facette_vent_ciel_pas_du_ciel",
+    "number": 92,
+    "name": "Pas du Ciel",
+    "cost": 2,
+    "beforeCost": 2,
+    "verdict": "Conserver",
+    "proposal": ""
+  },
+  {
+    "id": "abigor_le_ciel_qui_frappe_d_en_haut_facette_vent_ciel_seigneur_des_courants",
+    "number": 93,
+    "name": "Seigneur des Courants",
+    "cost": 3,
+    "beforeCost": 3,
+    "verdict": "Fond",
+    "proposal": "Vos déplacements aériens permettent désormais un vol soutenu ou stationnaire, jusqu’à deux fois votre Déplacement normal, en portant éventuellement une personne si votre charge le permet. Vous dépensez normalement vos PA pour vous déplacer, sans en gagner pour attaquer ou agir ; cette exception autorise à rester en l’air entre deux rounds."
+  },
+  {
+    "id": "abigor_le_ciel_qui_frappe_d_en_haut_facette_orage_foudre",
+    "number": 94,
+    "name": "Foudre",
+    "cost": 1,
+    "beforeCost": 1,
+    "verdict": "Conserver",
+    "proposal": ""
+  },
+  {
+    "id": "abigor_le_ciel_qui_frappe_d_en_haut_facette_orage_arc_celeste",
+    "number": 95,
+    "name": "Arc céleste",
+    "cost": 2,
+    "beforeCost": 2,
+    "verdict": "Fond",
+    "proposal": "Une fois par round, après un éclair réussi, frappez jusqu’à deux autres cibles distinctes à 3 m maximum de la première, avec DGT 5. Chacune oppose sa Défense au même jet ; ces rebonds ne produisent aucun rebond supplémentaire."
+  },
+  {
+    "id": "abigor_le_ciel_qui_frappe_d_en_haut_facette_orage_foudre_de_chatiment",
+    "number": 96,
+    "name": "Foudre de châtiment",
+    "cost": 3,
+    "beforeCost": 3,
+    "verdict": "Préciser",
+    "proposal": "Pour 2 PA, une fois par scène, lancez une Foudre de châtiment à DGT 12 qui ignore jusqu’à 3 points de Protection réellement applicable à l’électricité. Le tonnerre reste massif et l’attaque ne peut pas être discrète."
+  },
+  {
+    "id": "abigor_le_ciel_qui_frappe_d_en_haut_facette_tempete_vent_mauvais",
+    "number": 97,
+    "name": "Vent mauvais",
+    "cost": 1,
+    "beforeCost": 1,
+    "verdict": "Conserver",
+    "proposal": ""
+  },
+  {
+    "id": "abigor_le_ciel_qui_frappe_d_en_haut_facette_tempete_il_de_la_tempete",
+    "number": 98,
+    "name": "Œil de la tempête",
+    "cost": 2,
+    "beforeCost": 2,
+    "verdict": "Préciser",
+    "proposal": "Vous ménagez dans une tempête un espace calme de 3 m de rayon autour de vous, protégeant ceux qui s’y trouvent de ses vents et projections ordinaires pour la scène. Une tempête surnaturelle étrangère exige d’abord un Jet divin contre sa Puissance ; l’abri n’arrête pas les attaques qui n’en proviennent pas."
+  },
+  {
+    "id": "abigor_le_ciel_qui_frappe_d_en_haut_facette_tempete_typhon",
+    "number": 99,
+    "name": "Typhon",
+    "cost": 3,
+    "beforeCost": 3,
+    "verdict": "Fond",
+    "proposal": "Typhon coûte 3 PA au lieu de 4, une fois par scène, et frappe une zone de 10 m de rayon à 30 m : DGT 12, recul jusqu’à 3 m et terrain bouleversé selon les obstacles réels. Chaque cible se défend contre le même jet ; aucun dégât répété ni typhon régional n’est créé."
+  },
+  {
+    "id": "baal_la_guerre_elle_meme_facette_armes_arme_consacree",
+    "number": 100,
+    "name": "Arme consacrée",
+    "cost": 1,
+    "beforeCost": 1,
+    "verdict": "Conserver",
+    "proposal": ""
+  },
+  {
+    "id": "baal_la_guerre_elle_meme_facette_armes_arme_de_guerre",
+    "number": 101,
+    "name": "Arme de guerre",
+    "cost": 2,
+    "beforeCost": 2,
+    "verdict": "Conserver",
+    "proposal": ""
+  },
+  {
+    "id": "baal_la_guerre_elle_meme_facette_armes_instrument_de_victoire",
+    "number": 102,
+    "name": "Instrument de victoire",
+    "cost": 3,
+    "beforeCost": 3,
+    "verdict": "Conserver",
+    "proposal": ""
+  },
+  {
+    "id": "baal_la_guerre_elle_meme_facette_force_violence_puissance_guerriere",
+    "number": 103,
+    "name": "Puissance guerrière",
+    "cost": 1,
+    "beforeCost": 1,
+    "verdict": "Conserver",
+    "proposal": ""
+  },
+  {
+    "id": "baal_la_guerre_elle_meme_facette_force_violence_impact_de_guerre",
+    "number": 104,
+    "name": "Impact de guerre",
+    "cost": 2,
+    "beforeCost": 2,
+    "verdict": "Conserver",
+    "proposal": ""
+  },
+  {
+    "id": "baal_la_guerre_elle_meme_facette_force_violence_carnage",
+    "number": 105,
+    "name": "Carnage",
+    "cost": 3,
+    "beforeCost": 3,
+    "verdict": "Conserver",
+    "proposal": ""
+  },
+  {
+    "id": "baal_la_guerre_elle_meme_facette_strategie_victoire_lecture_du_champ_de_bataille",
+    "number": 106,
+    "name": "Lecture du champ de bataille",
+    "cost": 1,
+    "beforeCost": 1,
+    "verdict": "Fond",
+    "proposal": "Après 1 PA d’observation, identifiez la faiblesse tactique actuellement exploitable ou l’appui dont dépend le rapport de force. Une fois par scène, la première action de vous-même ou d’un allié qui exploite ce diagnostic gagne +3, sans révéler un ennemi entièrement imperceptible."
+  },
+  {
+    "id": "baal_la_guerre_elle_meme_facette_strategie_victoire_ordre_de_guerre",
+    "number": 107,
+    "name": "Ordre de guerre",
+    "cost": 2,
+    "beforeCost": 2,
+    "verdict": "Conserver",
+    "proposal": ""
+  },
+  {
+    "id": "baal_la_guerre_elle_meme_facette_strategie_victoire_maitre_de_bataille",
+    "number": 108,
+    "name": "Maître de bataille",
+    "cost": 3,
+    "beforeCost": 3,
+    "verdict": "Conserver",
+    "proposal": ""
+  },
+  {
+    "id": "morrighan_la_corneille_etrangere_facette_guerre_frenesie_fureur_de_la_corneille",
+    "number": 109,
+    "name": "Fureur de la Corneille",
+    "cost": 1,
+    "beforeCost": 1,
+    "verdict": "Fond",
+    "proposal": "En Frénésie volontaire, votre bonus aux tests physiques passe de +1 à +3. Les règles d’Impulsion et la perte de contrôle restent applicables, sans PA supplémentaire ni cumul avec un autre bonus équivalent de Frénésie."
+  },
+  {
+    "id": "morrighan_la_corneille_etrangere_facette_guerre_frenesie_sang_du_champ_de_bataille",
+    "number": 110,
+    "name": "Sang du champ de bataille",
+    "cost": 2,
+    "beforeCost": 2,
+    "verdict": "Fond",
+    "proposal": "Une fois par round, lorsqu’un véritable adversaire tombe hors combat à 10 m, votre prochaine attaque physique réussie avant la fin du round suivant gagne +2 DGT. Ce bénéfice est distinct du bonus de test de Frénésie et ne s’empile pas avec lui-même."
+  },
+  {
+    "id": "morrighan_la_corneille_etrangere_facette_guerre_frenesie_morrigu",
+    "number": 111,
+    "name": "Morrígu",
+    "cost": 3,
+    "beforeCost": 3,
+    "verdict": "Fond",
+    "proposal": "Pour 2 PA, une fois par scène, jusqu’à trois alliés à 10 m gagnent +2 DGT au corps à corps et ignorent les conséquences de Tendu et Paniqué causées uniquement par la peur pour la scène. Les minima dus aux blessures restent applicables et aucune Frénésie n’est imposée."
+  },
+  {
+    "id": "morrighan_la_corneille_etrangere_facette_mort_presages_corneille_du_trepas",
+    "number": 112,
+    "name": "Corneille du trépas",
+    "cost": 1,
+    "beforeCost": 1,
+    "verdict": "Conserver",
+    "proposal": ""
+  },
+  {
+    "id": "morrighan_la_corneille_etrangere_facette_mort_presages_mauvais_presage",
+    "number": 113,
+    "name": "Mauvais présage",
+    "cost": 2,
+    "beforeCost": 2,
+    "verdict": "Conserver",
+    "proposal": ""
+  },
+  {
+    "id": "morrighan_la_corneille_etrangere_facette_mort_presages_annonce_de_la_chute",
+    "number": 114,
+    "name": "Annonce de la chute",
+    "cost": 3,
+    "beforeCost": 3,
+    "verdict": "Fond",
+    "proposal": "Une fois par scène, après avoir observé une cible pendant un round, le MJ indique une faiblesse réelle et actuellement exploitable. Jusqu’à la fin de la scène, vos attaques qui l’exploitent ignorent 3 points de Protection pertinente, sans créer une vulnérabilité ou contourner une invulnérabilité fondamentale."
+  },
+  {
+    "id": "morrighan_la_corneille_etrangere_facette_royaute_magie_autorite_ancienne",
+    "number": 115,
+    "name": "Autorité ancienne",
+    "cost": 1,
+    "beforeCost": 1,
+    "verdict": "Conserver",
+    "proposal": ""
+  },
+  {
+    "id": "morrighan_la_corneille_etrangere_facette_royaute_magie_sorcellerie_des_corneilles",
+    "number": 116,
+    "name": "Sorcellerie des Corneilles",
+    "cost": 2,
+    "beforeCost": 2,
+    "verdict": "Préciser",
+    "proposal": "Choisissez un domaine rituel étroit lié à Morrighan et définissez ses usages Initials / Mineurs avec le MJ avant l’achat. Chaque rituel demande dix minutes et suit une Difficulté de base 15, les portées et oppositions du moteur magique, sans ouvrir d’autre Affinité ni les Techniques Mage."
+  },
+  {
+    "id": "morrighan_la_corneille_etrangere_facette_royaute_magie_couronne_noire",
+    "number": 117,
+    "name": "Couronne noire",
+    "cost": 3,
+    "beforeCost": 3,
+    "verdict": "Fond",
+    "proposal": "Une fois par scène, pour 1 PA, opposez votre autorité divine à la Défense occulte de jusqu’à trois esprits mineurs de Mort ou de Guerre qui reconnaissent Morrighan. En réussite, vous obtenez pour la scène un passage, une trêve ou un témoignage qu’ils peuvent réellement fournir, sans serviteur combattant ni connaissance créée."
+  },
+  {
+    "id": "daemon_clean_talents_communs_de_nature_memoire_des_ages",
+    "number": 118,
+    "name": "Mémoire des âges",
+    "cost": 1,
+    "beforeCost": 1,
+    "verdict": "Conserver",
+    "proposal": ""
+  },
+  {
+    "id": "daemon_clean_talents_communs_de_nature_ancrage_de_l_elu",
+    "number": 119,
+    "name": "Ancrage de l’Élu",
+    "cost": 1,
+    "beforeCost": 1,
+    "verdict": "Conserver",
+    "proposal": ""
+  },
+  {
+    "id": "daemon_clean_talents_communs_de_nature_regard_du_heraut",
+    "number": 120,
+    "name": "Regard du Héraut",
+    "cost": 1,
+    "beforeCost": 1,
+    "verdict": "Conserver",
+    "proposal": ""
+  },
+  {
+    "id": "daemon_clean_talents_communs_de_nature_resonance_profonde",
+    "number": 121,
+    "name": "Résonance profonde",
+    "cost": 1,
+    "beforeCost": 1,
+    "verdict": "Conserver",
+    "proposal": ""
+  },
+  {
+    "id": "daemon_clean_oracle_tentateur_lecture_mentale_lecture_superficielle",
+    "number": 122,
+    "name": "Lecture superficielle",
+    "cost": 1,
+    "beforeCost": 1,
+    "verdict": "Préciser",
+    "proposal": "Pour 1 PA en SR ou R, opposez Volonté + Maîtrise spirituelle à la Défense occulte pour saisir l’émotion dominante, l’intention immédiate ou le sujet de pensée actif. Aucun souvenir profond n’est révélé."
+  },
+  {
+    "id": "daemon_clean_oracle_tentateur_lecture_mentale_lecture_profonde",
+    "number": 123,
+    "name": "Lecture profonde",
+    "cost": 2,
+    "beforeCost": 2,
+    "verdict": "Conserver",
+    "proposal": ""
+  },
+  {
+    "id": "daemon_clean_oracle_tentateur_fantasmagorie_fantasmagorie",
+    "number": 124,
+    "name": "Fantasmagorie",
+    "cost": 1,
+    "beforeCost": 1,
+    "verdict": "Conserver",
+    "proposal": ""
+  },
+  {
+    "id": "daemon_clean_oracle_tentateur_fantasmagorie_songe_obsedant",
+    "number": 125,
+    "name": "Songe obsédant",
+    "cost": 2,
+    "beforeCost": 2,
+    "verdict": "Fond",
+    "proposal": "Une fois par scénario, au prochain sommeil réel d’une cible affectée par votre Fantasmagorie, vous pouvez établir quelques minutes de dialogue onirique et recevoir ses réponses volontaires. Une cible hostile peut refuser par une résistance occulte ; ce lien ne lit ni souvenirs cachés ni pensées non exprimées."
+  },
+  {
+    "id": "daemon_clean_oracle_tentateur_influence_prophetie_charme_daemoniaque",
+    "number": 126,
+    "name": "Charme daemoniaque",
+    "cost": 1,
+    "beforeCost": 1,
+    "verdict": "Conserver",
+    "proposal": ""
+  },
+  {
+    "id": "daemon_clean_oracle_tentateur_influence_prophetie_appel_du_prophete",
+    "number": 127,
+    "name": "Appel du Prophète",
+    "cost": 1,
+    "beforeCost": 2,
+    "verdict": "Fond",
+    "proposal": "Après une Vision des âmes réussie, identifiez plus précisément la Divinité d’une marque connue ou la nature d’un lien divin actif, ainsi que les résonances prophétiques accessibles. Une dissimulation spirituelle reste opposable et aucun nom véritable ni Attribut complet n’est révélé."
+  },
+  {
+    "id": "daemon_clean_chatiment_tourmenteur_affliction_affliction_persistante",
+    "number": 128,
+    "name": "Affliction persistante",
+    "cost": 1,
+    "beforeCost": 1,
+    "verdict": "Conserver",
+    "proposal": ""
+  },
+  {
+    "id": "daemon_clean_chatiment_tourmenteur_affliction_maladie_sacree",
+    "number": 129,
+    "name": "Maladie sacrée",
+    "cost": 2,
+    "beforeCost": 2,
+    "verdict": "Préciser",
+    "proposal": "Pour 2 PA au contact, imposez après opposition occulte une pathologie surnaturelle définie avant usage : symptômes, malus, durée et moyens de résistance ou de fin. Le talent reste distinct d’une propagation collective et n’accorde pas gratuitement les connaissances anatomiques nécessaires à une intervention précise."
+  },
+  {
+    "id": "daemon_clean_chatiment_tourmenteur_terreur_terreur",
+    "number": 130,
+    "name": "Terreur",
+    "cost": 1,
+    "beforeCost": 1,
+    "verdict": "Fond",
+    "proposal": "Une fois par scène, pour 1 PA après une Affliction ou une blessure que vous avez réellement infligée, imposez votre Terreur à jusqu’à trois témoins à 10 m. Ceux qui échouent à leur Défense occulte deviennent Tendues jusqu’à la fin de leur prochain round, sans panique automatique."
+  },
+  {
+    "id": "daemon_clean_chatiment_tourmenteur_terreur_hantise_du_condamne",
+    "number": 131,
+    "name": "Hantise du condamné",
+    "cost": 2,
+    "beforeCost": 2,
+    "verdict": "Préciser",
+    "proposal": "Jusqu’à la fin du scénario, vous reconnaissez l’âme d’une victime marquée par votre Terreur et ressentez sa direction approximative à 100 m maximum. Une protection spirituelle adaptée peut masquer le lien ; aucun emplacement exact ni parcours à travers les obstacles n’est fourni."
+  },
+  {
+    "id": "daemon_clean_chatiment_tourmenteur_destruction_destruction_daemoniaque",
+    "number": 132,
+    "name": "Destruction daemoniaque",
+    "cost": 2,
+    "beforeCost": 2,
+    "verdict": "Préciser",
+    "proposal": "Pour 1 PA au contact, après un Jet divin contre la Défense occulte, neutralisez pour la scène un Talent actif angélique ou daemoniaque identifiable et l’un de vos propres Talents actifs encore utilisables. Ni Empreinte, ni passif, ni Nature entière ne peut être choisi ; les effets maintenus qui dépendent du Talent ciblé cessent."
+  },
+  {
+    "id": "daemon_clean_chatiment_tourmenteur_destruction_briseur_de_heraut",
+    "number": 133,
+    "name": "Briseur de Héraut",
+    "cost": 3,
+    "beforeCost": 3,
+    "verdict": "Conserver",
+    "proposal": ""
+  },
+  {
+    "id": "daemon_clean_chevalier_legionnaire_lame_infernale_arme_changeante",
+    "number": 134,
+    "name": "Arme changeante",
+    "cost": 1,
+    "beforeCost": 1,
+    "verdict": "Conserver",
+    "proposal": ""
+  },
+  {
+    "id": "daemon_clean_chevalier_legionnaire_lame_infernale_arme_exaltee",
+    "number": 135,
+    "name": "Arme exaltée",
+    "cost": 2,
+    "beforeCost": 2,
+    "verdict": "Conserver",
+    "proposal": ""
+  },
+  {
+    "id": "daemon_clean_chevalier_legionnaire_armure_infernale_armure_infernale",
+    "number": 136,
+    "name": "Armure infernale",
+    "cost": 1,
+    "beforeCost": 1,
+    "verdict": "Conserver",
+    "proposal": ""
+  },
+  {
+    "id": "daemon_clean_chevalier_legionnaire_armure_infernale_bastion_daemoniaque",
+    "number": 137,
+    "name": "Bastion daemoniaque",
+    "cost": 2,
+    "beforeCost": 2,
+    "verdict": "Conserver",
+    "proposal": ""
+  },
+  {
+    "id": "daemon_clean_chevalier_legionnaire_garde_devotion_garde_du_heraut",
+    "number": 138,
+    "name": "Garde du Héraut",
+    "cost": 1,
+    "beforeCost": 1,
+    "verdict": "Conserver",
+    "proposal": ""
+  },
+  {
+    "id": "daemon_clean_chevalier_legionnaire_garde_devotion_devotion_infernale",
+    "number": 139,
+    "name": "Dévotion infernale",
+    "cost": 2,
+    "beforeCost": 2,
+    "verdict": "Conserver",
+    "proposal": ""
+  },
+  {
+    "id": "daemon_clean_chevalier_legionnaire_garde_devotion_dernier_rempart",
+    "number": 140,
+    "name": "Dernier Rempart",
+    "cost": 3,
+    "beforeCost": 3,
+    "verdict": "Conserver",
+    "proposal": ""
+  },
+  {
+    "id": "daemon_clean_fonctions_daemoniaques_formation_secondaire_formation_secondaire",
+    "number": 141,
+    "name": "Formation secondaire",
+    "cost": 3,
+    "beforeCost": 3,
+    "verdict": "Intégrer",
+    "proposal": "Après mentor et accord narratif, choisissez une deuxième Fonction différente : vous recevez son Empreinte et pouvez acheter ses talents, sans obtenir une seconde Divinité ni Faveur. Le Builder doit mémoriser ce choix et appliquer ses véritables accès ; une case cochée par le joueur n’est pas une autorisation MJ."
+  }
+]
