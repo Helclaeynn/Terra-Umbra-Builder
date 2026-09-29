@@ -12,6 +12,8 @@ COPY apps/api/src/campaign-npc-model.ts apps/api/src/npc-tiers.ts apps/api/src/n
 COPY apps/api/src/campaign-bestiary-model.ts apps/api/src/campaign-bestiary-weapons.ts /app/apps/api/src/
 COPY apps/api/src/character-appearances.ts /app/apps/api/src/character-appearances.ts
 COPY apps/api/src/rules/builder-equipment-policy.ts /app/apps/api/src/rules/builder-equipment-policy.ts
+# Shared pure definitions are consumed by the Vue forms and their type checks.
+COPY apps/api/src/rules/truth/mage-techniques.ts /app/apps/api/src/rules/truth/mage-techniques.ts
 RUN npm run build
 
 FROM nginx:1.29-alpine
