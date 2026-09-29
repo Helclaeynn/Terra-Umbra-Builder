@@ -10,6 +10,7 @@ COPY apps/api/scripts/check-extral-revision.mjs ./scripts/
 COPY compendium/source/verite-catalog-v6.json.gz.b64 ./rules-data/truth-equipment/verite-catalog-v6.json.gz.b64
 COPY compendium/source/truth-mechanics-v6-fixed.manifest.json ./rules-data/truth-mechanics/truth-mechanics-v6-fixed.manifest.json
 COPY compendium/source/truth-mechanics-v6-fixed.part*.b64 ./rules-data/truth-mechanics/
+COPY apps/api/scripts/check-exile-revision.mjs apps/api/scripts/exile-approved-20260930.json ./scripts/
 RUN npm run build
 
 FROM node:24-alpine AS runtime

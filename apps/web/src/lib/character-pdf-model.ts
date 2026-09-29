@@ -1,3 +1,4 @@
+import {exileOwnedItems,exileUsableTalents} from "./exile";
 import {extralOwnedItems} from './extral';
 import {mageOwnedAffinities} from "./mage";
 import type { CharacterDataV2 } from '../types/character';
@@ -41,7 +42,7 @@ export function projectCharacterPdf(input:PdfInput, available:ReadonlySet<string
   const sheet=buildCharacterSheet(data,core,truth,reality,campaign,input.fallbackName);
   const values:Record<string,PdfValue>={}, labels:Record<string,string>={}, annex:PdfSection[]=[];
   const add=(title:string,value:unknown)=>{const content=text(value).trim();if(content)annex.push({title,text:content});};
-  for(const entry of (sheet.truthDetails??[]).filter(entry=>entry.id.startsWith('extral-'))){
+  for(const entry of (sheet.truthDetails??[]).filter(entry=>entry.id.startsWith('extral-')||entry.id.startsWith('exile-')||entry.id.startsWith('beneficiary-'))){
     add(entry.name,[entry.value,entry.description].filter(Boolean).join('\n'));
   }
   for(const entry of sheet.angelusDetails??[]){
@@ -74,6 +75,7 @@ export function projectCharacterPdf(input:PdfInput, available:ReadonlySet<string
     truthEquipmentMjOverride:Boolean(data.truth.truthEquipmentMjOverride),corruptionMjAuthorized:Boolean(data.truth.corruptionMjAuthorized),
     corruption:Math.max(0,Number(data.truth.corruption)||0),corruptionSource:text(data.truth.corruptionSource)};
   const progress=ensureProgression(structuredClone(data.progression),core.rules.skills.map(s=>s.id),core.rules.attributes.map(a=>a.id));
+  if(state.nature==='exile')state.exileInventory=exileOwnedItems(data.reality,campaign,[...reality.equipment,...reality.augmentations]);
   if(state.nature==='extral')state.extralInventory=extralOwnedItems(data.reality,campaign,[...reality.equipment,...reality.augmentations]);
   const currentState={...state,truthTalents:unique([...state.truthTalents,...(campaign?progress.truthTalents:[])]),corruptionTalents:unique([...state.corruptionTalents,...(campaign?progress.corruptionTalents:[])])};
   const talentMap=new Map(Object.values(truth.catalogs).flat().map(t=>[t.id,t]));
@@ -83,7 +85,7 @@ export function projectCharacterPdf(input:PdfInput, available:ReadonlySet<string
   const purchases=ensureRealityState(structuredClone(data.reality));
   purchases.equipment=purchases.equipment.filter(p=>campaign||!p.acquiredInCampaign);
   purchases.augmentations=purchases.augmentations.filter(p=>campaign||!p.acquiredInCampaign);
-  const items=realityItemMap(reality), load=augmentationLoad(reality,purchases,selectedReality);
+  const items=realityItemMap(reality), load=augmentationLoad(reality,purchases,selectedReality,[...exileUsableTalents(truth,currentState)]);
   const description=(entry:{name:string;detail?:string;group?:string})=>[entry.name,entry.group,entry.detail].filter(Boolean).join(' — ');
   const realityTalent=(id:string)=>sheet.realityTalents.find(t=>t.id===id);
   const talentText=(ids:string[])=>unique(ids).map(id=>{const t=realityTalent(id);return t?description(t):id;}).join('\n');
@@ -180,7 +182,7 @@ export function projectCharacterPdf(input:PdfInput, available:ReadonlySet<string
       function:['function','fonction'],divinity:['divinity','divinite'],patron:['patron'],origin:['origin','origine'],tradition:['thirteenTradition','tradition'],
       seratheenTradition:['council','seratheenTradition','seratheen'],network:['organization','doctrine','network','reseau'],people:['people','peuple'],species:['species','espece']};
     for(const [key,value] of Object.entries(choices)){
-      if(key==='extralBuild'||value===null||value===undefined||value===''||value==='aucune')continue;
+      if(['extralBuild','exileBuild','beneficiaryBenefits'].includes(key)||value===null||value===undefined||value===''||value==='aucune')continue;
       const spec=truth.structure.natures[state.nature]?.choices.find(c=>c.key===key);
       const rendered=truthChoiceLabel(truth,state,key)||text(value)||(Array.isArray(value)?value.map(text).join(', '):JSON.stringify(value));
       if((key==='people'||key==='species')&&rendered)continue; // The selected template already identifies the people.
@@ -198,7 +200,7 @@ export function projectCharacterPdf(input:PdfInput, available:ReadonlySet<string
       if(key==='hunterTradition'&&slug!=='chasseur'){add('Tradition de Chasse',rendered);continue;}
       put(unique([key,...aliases[key]??[]]).flatMap(id=>[`truth.${slug}.${id}`,`truth.identity.${id}`]),rendered,spec?.label??key.replaceAll('_',' '));
     }
-    const revelation=truth.revelation?truthRevelationProfile(truth,state):null;
+    const revelation=truth.revelation?truthRevelationProfile(truth,state.nature==='exile'?currentState:state):null;
     if(revelation){
       if(slug==='angelus'){
         put('truth.angelus.bonus.semiRevealed',revelation.stats.sr,'Bonus semi-révélé');put('truth.angelus.bonus.revealed',revelation.stats.r,'Bonus révélé');

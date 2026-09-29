@@ -42,6 +42,7 @@ const props=defineProps<{
   style:RealityStyle|null;
   edge:Record<string,number>;
   talentIds:string[];
+  truthTalentIds?:string[];
   disadvantages:string[];
   neurodiveRaw:number;
   sphereId:string;
@@ -94,7 +95,7 @@ const lifestyleBase=computed(()=>props.style
   :"Standard"
 );
 const pressure=computed(()=>lifestylePressure(props.rules,state.value,lifestyleBase.value));
-const load=computed(()=>augmentationLoad(props.rules,state.value,props.talentIds));
+const load=computed(()=>augmentationLoad(props.rules,state.value,props.talentIds,props.truthTalentIds??[]));
 const neuroCap=computed(()=>neuroCapacity(props.neurodiveRaw,props.talentIds,props.disadvantages));
 const loadedNeuroCount=computed(()=>state.value.equipment.filter(p=>items.value.get(p.itemId)?.neuro&&p.loaded).length);
 const lifestyleTiers=computed(()=>[...props.rules.economy.lifestyle.order]

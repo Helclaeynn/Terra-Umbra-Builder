@@ -1,3 +1,4 @@
+import {isCybermechanicalItem} from "../../../api/src/rules/truth/exile-build";
 export {purchasePrice,realityEconomic} from '../../../api/src/rules/economy-model';
 import {purchasePrice,realityEconomic} from '../../../api/src/rules/economy-model';
 export type RealityItem={
@@ -464,18 +465,21 @@ export function augmentationSupportSatisfied(
 export function augmentationLoad(
   pkg:RealityRulesPackage,
   state:RealityState,
-  talentIds:string[]
+  talentIds:string[],
+  truthTalentIds:readonly string[]=[]
 ){
   const items=realityItemMap(pkg);
-  let charge=0,stress=0;
+  let charge=0,stress=0,cyberReduction=0;
   for(const purchase of state.augmentations){
     const item=items.get(purchase.itemId);
     if(!item)continue;
     charge+=Number(item.charge||0);
-    stress+=Number(item.stress||0);
+    const value=Math.max(0,Number(item.stress)||0);stress+=value;
+    if(purchase.loaded!==false&&isCybermechanicalItem(item))cyberReduction+=Math.min(1,value);
   }
   const rawStress=stress;
-  if(talentIds.includes("stabilite_augmentique"))stress=Math.max(0,stress-1);
+  const reduction=Math.max(talentIds.includes("stabilite_augmentique")?1:0,truthTalentIds.includes('exile-stabilite-augmentique')?cyberReduction:0);
+  stress=Math.max(0,stress-reduction);
   return {charge,stress,rawStress};
 }
 

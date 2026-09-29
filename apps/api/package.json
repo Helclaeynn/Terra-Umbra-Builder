@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "tsx watch src/server.ts",
-    "build": "tsc -p tsconfig.json && node scripts/check-reality-talents-20260927.mjs && node scripts/check-aseryn-revision.mjs && node scripts/check-mage-revision.mjs && node scripts/check-daemon-revision.mjs && node scripts/check-angelus-revision.mjs && node scripts/check-extral-revision.mjs",
+    "build": "tsc -p tsconfig.json && node scripts/check-reality-talents-20260927.mjs && node scripts/check-aseryn-revision.mjs && node scripts/check-mage-revision.mjs && node scripts/check-daemon-revision.mjs && node scripts/check-angelus-revision.mjs && node scripts/check-extral-revision.mjs && node scripts/check-exile-revision.mjs",
     "check:reality-talents": "npm run build",
     "check:editorial-closure": "npm run build && node scripts/check-editorial-closure.mjs",
     "check:lore-quality": "npm run build && node scripts/check-lore-quality-cleanup.mjs",
