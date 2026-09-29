@@ -1,0 +1,177 @@
+name: V2 production Angelus streamed release
+on:
+  push:
+    branches: [feature/tuc-web-v2]
+    paths: [.github/workflows/v2-production-angelus-stream-release.yml]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: tuc-v2-production
+  cancel-in-progress: false
+env:
+  SOURCE_SHA: bd315db0c383214c3a23de0aa2198f05225acb0c
+  SOURCE_RUN: '36594042038'
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    environment: tuc-dev
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Verify exact previously tested application and green build job
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch --no-tags --depth=1 origin "$SOURCE_SHA"
+          git diff --exit-code "$SOURCE_SHA" HEAD -- apps infrastructure
+          test "$(git ls-remote origin refs/heads/feature/tuc-web-v2 | cut -f1)" = "$GITHUB_SHA"
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$SOURCE_RUN/jobs" > /tmp/angelus-tested-jobs.json
+          node --input-type=module <<'NODE'
+          import assert from 'node:assert/strict';
+          import {readFileSync} from 'node:fs';
+          const job=JSON.parse(readFileSync('/tmp/angelus-tested-jobs.json','utf8')).jobs.find(j=>j.name==='verify-and-build');
+          assert.equal(job?.conclusion,'success');
+          for(const name of ['Compile API and verify canonical talents and reward guard','PostgreSQL private media, sharing, saved sheets and campaign isolation','Full web regression and approved Cherubin, Aura and saved choices','Real browser Angelus choices, mobile and complete application','Publish exact tested application source without overwriting concurrent changes','Build exact tested application images without database migration'])assert.equal(job.steps.find(s=>s.name===name)?.conclusion,'success',name);
+          console.log('EXACT TESTED SOURCE OK — database, browser and Docker validation retained; no application changes in this retry');
+          NODE
+      - uses: actions/download-artifact@v4
+        with:
+          name: angelus-talents-production-images
+          path: /tmp/tuc-angelus-release
+          run-id: 36594042038
+          github-token: ${{ github.token }}
+      - name: Verify archive integrity and measure temporary and expanded sizes
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd /tmp/tuc-angelus-release
+          sha256sum --check SHA256SUMS
+          test "$(cat source-sha.txt)" = "$SOURCE_SHA"
+          python3 - <<'PY'
+          import hashlib, json, os, pathlib, tarfile, zlib
+          p=pathlib.Path('.')
+          transfer=sum(f.stat().st_size for f in p.iterdir() if f.is_file())
+          documents={}; stored={}; expanded={}; config_hashes={}; image_temporary=10240
+          with tarfile.open('images.tar.gz','r|gz') as archive:
+              for member in archive:
+                  image_temporary += 512 + ((member.size+511)//512)*512
+                  if not member.isfile():
+                      continue
+                  stored[member.name]=member.size
+                  expanded[member.name]=member.size
+                  f=archive.extractfile(member)
+                  if member.size <= 4*1024*1024:
+                      raw=f.read()
+                      try:
+                          documents[member.name]=json.loads(raw)
+                          config_hashes[member.name]=hashlib.sha256(raw).hexdigest()
+                      except (ValueError, UnicodeDecodeError):
+                          pass
+                  else:
+                      prefix=f.read(2)
+                      if prefix==b'\x1f\x8b':
+                          decoder=zlib.decompressobj(16+zlib.MAX_WBITS)
+                          count=len(decoder.decompress(prefix))
+                          while True:
+                              block=f.read(1024*1024)
+                              if not block:
+                                  break
+                              count += len(decoder.decompress(block))
+                          count += len(decoder.flush())
+                          assert decoder.eof, 'Truncated compressed image layer'
+                          expanded[member.name]=count
+          manifest=documents['manifest.json']
+          assert len(manifest)==2, 'Exactly API and web images required'
+          layers={}; images=[]
+          for image in manifest:
+              config=documents[image['Config']]
+              assert config['config']['Labels']['org.opencontainers.image.revision']==os.environ['SOURCE_SHA']
+              images.append({'tag':image['RepoTags'][0],'id':'sha256:'+config_hashes[image['Config']]})
+              digests=config['rootfs']['diff_ids']
+              assert len(digests)==len(image['Layers'])
+              for digest,name in zip(digests,image['Layers']):
+                  layers[digest]=max(layers.get(digest,0),expanded[name])
+          source_allocated=0; source_files={}
+          with tarfile.open('apps-source.tar.gz','r|gz') as archive:
+              for member in archive:
+                  path=pathlib.PurePosixPath(member.name)
+                  assert path.parts and path.parts[0]=='apps' and not path.is_absolute() and '..' not in path.parts
+                  assert member.isdir() or member.isfile(), 'No source symlinks or special files permitted'
+                  source_allocated += ((member.size+4095)//4096)*4096+4096
+                  if member.isfile():
+                      h=hashlib.sha256()
+                      f=archive.extractfile(member)
+                      for block in iter(lambda:f.read(1024*1024),b''):
+                          h.update(block)
+                      source_files[member.name]=h.hexdigest()
+          meta={'source':os.environ['SOURCE_SHA'],'transfer':transfer,'image_temporary':image_temporary+1024*1024,'source_allocated':source_allocated,'layers':layers}
+          meta['source_files']=source_files
+          meta['images']=images
+          meta['archives']={}
+          for kind,name in [('images','images.tar.gz'),('source','apps-source.tar.gz')]:
+              h=hashlib.sha256()
+              with open(name,'rb') as f:
+                  for block in iter(lambda:f.read(1024*1024),b''):
+                      h.update(block)
+              meta['archives'][kind]={'size':pathlib.Path(name).stat().st_size,'sha256':h.hexdigest()}
+          root=pathlib.Path(os.environ['GITHUB_WORKSPACE'])
+          meta['release_script_sha256']=hashlib.sha256((root/'infrastructure/production/release-angelus-talents.sh').read_bytes()).hexdigest()
+          pathlib.Path('space-budget.json').write_text(json.dumps(meta))
+          print(json.dumps({k:v for k,v in meta.items() if k not in ('layers','source_files')},indent=2))
+          print('Layer count:',len(layers))
+          PY
+      - name: Stream exact tested images and source without storing transfer archives
+        env:
+          TUC_DEV_HOST: ${{ secrets.TUC_DEV_HOST }}
+          TUC_DEV_USER: ${{ secrets.TUC_DEV_USER }}
+          TUC_DEV_SSH_KEY: ${{ secrets.TUC_DEV_SSH_KEY }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git ls-remote origin refs/heads/feature/tuc-web-v2 | cut -f1)" = "$GITHUB_SHA"
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$TUC_DEV_SSH_KEY" > ~/.ssh/tuc_prod
+          chmod 600 ~/.ssh/tuc_prod
+          ssh-keyscan -H "$TUC_DEV_HOST" >> ~/.ssh/known_hosts
+          SSH="ssh -i ~/.ssh/tuc_prod -o IdentitiesOnly=yes"
+          stage="/opt/terra-umbra/releases/angelus-$SOURCE_SHA"
+          $SSH "$TUC_DEV_USER@$TUC_DEV_HOST" "test -f /opt/terra-umbra/production-active && mkdir -p '$stage' && chmod 700 '$stage'"
+          rsync -az -e "$SSH" /tmp/tuc-angelus-release/space-budget.json tools/angelus-release/stream-release.py "$TUC_DEV_USER@$TUC_DEV_HOST:$stage/"
+          rsync -az -e "$SSH" infrastructure/production/release-angelus-talents.sh "$TUC_DEV_USER@$TUC_DEV_HOST:$stage/tested-release.sh"
+          $SSH "$TUC_DEV_USER@$TUC_DEV_HOST" "python3 '$stage/stream-release.py' check '$stage'"
+          cat /tmp/tuc-angelus-release/images.tar.gz | $SSH "$TUC_DEV_USER@$TUC_DEV_HOST" "python3 '$stage/stream-release.py' images '$stage'"
+          cat /tmp/tuc-angelus-release/apps-source.tar.gz | $SSH "$TUC_DEV_USER@$TUC_DEV_HOST" "python3 '$stage/stream-release.py' source '$stage'"
+          test "$(git ls-remote origin refs/heads/feature/tuc-web-v2 | cut -f1)" = "$GITHUB_SHA"
+          $SSH "$TUC_DEV_USER@$TUC_DEV_HOST" "python3 '$stage/stream-release.py' deploy '$stage'"
+      - name: Live browser without writes to real accounts
+        id: live
+        continue-on-error: true
+        working-directory: apps/web
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm ci
+          npm install --no-save --package-lock=false playwright-core@1.55.0
+          export CHROME_BIN="$(command -v google-chrome || command -v chromium)"
+          export TUC_V2_SMOKE_BASE_URL=https://terra-umbra.fr
+          node tests/builder-v2-smoke.mjs
+          node tests/campaigns-smoke.mjs
+      - name: Roll back only this application if live checks fail
+        if: steps.live.outcome == 'failure'
+        env:
+          TUC_DEV_HOST: ${{ secrets.TUC_DEV_HOST }}
+          TUC_DEV_USER: ${{ secrets.TUC_DEV_USER }}
+        run: |
+          { printf '{\n'; cat infrastructure/production/release-angelus-talents.sh; printf '\n}\n'; } | ssh -i ~/.ssh/tuc_prod -o IdentitiesOnly=yes "$TUC_DEV_USER@$TUC_DEV_HOST" bash -s -- "$SOURCE_SHA" rollback
+          exit 1
+      - name: Remove ephemeral SSH key
+        if: always()
+        run: rm -f ~/.ssh/tuc_prod
