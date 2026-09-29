@@ -1,3 +1,5 @@
+import {mageTechniqueViews} from "./mage";
+import {truthKnownTalents} from "./truth";
 import {appearanceGallery,normalizeAppearances} from "../../../api/src/character-appearances";
 import {everydayEquipmentIds} from "../../../api/src/rules/builder-equipment-policy";
 import {truthSheetDetails,truthFreeTraitDetails} from "./truth-sheet-details";
@@ -70,6 +72,7 @@ export function buildCharacterSheet(data:CharacterDataV2, core:SheetCore, truth:
   const truthState={...state,corruptionTalents:[...new Set([...state.corruptionTalents,...(campaign?progress.corruptionTalents:[])])],truthTalents:[...new Set([...state.truthTalents,...(campaign?progress.truthTalents:[])])]};
   const revelation=truth.revelation?truthRevelationProfile(truth,truthState):null;
   const truthMap=new Map(Object.values(truth.catalogs).flat().map(item=>[item.id,item]));
+  for(const item of truthKnownTalents(truth,truthState))truthMap.set(item.id,item);
   for(const item of truthAvailableTalents(truth,truthState))truthMap.set(item.id,item);
   const corruptionMap=new Map(truth.corruption.talents.map(item=>[item.id,item]));
   const truthCost=(id:string)=>Number(truthMap.get(id)?.cost??0);
@@ -128,6 +131,7 @@ export function buildCharacterSheet(data:CharacterDataV2, core:SheetCore, truth:
     ptvRemaining:campaign?ptvRemaining(progress,Math.max(0,ptvReserve),truthCost,id=>Number(corruptionMap.get(id)?.cost||0)):ptvReserve,
     account:economy?.account??0,cash:cash,
     realityTalents:realityIds.map(toRealityTalent),
+    mageTechniques:mageTechniqueViews(truth,truthState),
     truthTalents:[...truthState.truthTalents.map(id=>({id,name:truthMap.get(id)?.name??id,detail:truthMap.get(id)?.effect,effectDetails:truthMap.get(id)?.effectDetails,activation:truthMap.get(id)?.activation,lore:truthMap.get(id)?.runtimeLore,compendiumId:truthMap.get(id)?.compendiumId})),
       ...truthState.corruptionTalents.map(id=>{
         const item=corruptionMap.get(id);

@@ -1,3 +1,4 @@
+import {mageOwnedAffinities} from "./mage";
 import {truthChoiceOptions,truthSelectedFreeTraits,truthAngelusCapacity,type TruthState,type TruthRulesPackage} from './truth';
 import {aserynChoiceFields} from './aseryn';
 export type TruthSheetDetail = {id:string;name:string;value:string;description?:string};
@@ -27,7 +28,7 @@ export function truthSheetDetails(rules:TruthRulesPackage,state:TruthState,forti
     const c=nature?.choices.find(c=>c.key==='dominantAffinity');
     const native=c?truthChoiceOptions(c,state.choices):[];
     const all=new Map([...(c?.options??[]),...Object.values(c?.optionsBy??{}).flat()].map(o=>[o.id,o]));
-    const owned=new Set([String(state.choices.dominantAffinity??''),...state.truthTalents.filter(id=>id.startsWith('mage_awaken_')).map(id=>id.slice(12))].filter(Boolean));
+    const owned=mageOwnedAffinities(state);
     for(const id of new Set([...native.map(o=>o.id),...owned])){
       const has=(suffix:string)=>state.truthTalents.includes(`mage_${id}_${suffix}`);
       const mastery=has('mastery_magistrale')?'Magistrale':has('mastery_superieure')?'Supérieure':has('mastery_affinee')?'Affinée':owned.has(id)?'Initiale':'Dormante';
