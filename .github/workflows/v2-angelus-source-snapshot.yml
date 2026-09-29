@@ -1,0 +1,29 @@
+name: V2 Angelus isolated source snapshot
+on:
+  push:
+    branches: [feature/tuc-web-v2]
+    paths: [.github/workflows/v2-angelus-source-snapshot.yml]
+permissions:
+  contents: read
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: e8f4a9101934fb9ecad2c634a48afae38392de06
+          persist-credentials: false
+      - name: Archive tracked source and rules only
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/angelus-source
+          git ls-files -z apps infrastructure compendium/source character-builder/rulesets tools .github | python3 -c 'import sys; paths=sys.stdin.buffer.read().split(b"\0"); sys.stdout.buffer.write(b"\0".join(p for p in paths if p and not p.startswith(b"apps/web/public/"))+b"\0")' > /tmp/angelus-source-files
+          tar --null -T /tmp/angelus-source-files -czf /tmp/angelus-source/source.tar.gz
+          git rev-parse HEAD > /tmp/angelus-source/source-sha.txt
+          cd /tmp/angelus-source && sha256sum source.tar.gz source-sha.txt > SHA256SUMS
+      - uses: actions/upload-artifact@v4
+        with:
+          name: angelus-current-source
+          path: /tmp/angelus-source/
+          retention-days: 3
