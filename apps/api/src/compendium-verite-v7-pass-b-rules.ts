@@ -1,3 +1,4 @@
+import {extralCatalogueSections} from "./rules/truth/extral-compendium.js";
 import { editorializeTruthSections } from "./compendium-verite-v7-editorial.js";
 
 type Block =
@@ -234,9 +235,9 @@ const EXTRAL_PROFILES: Section[] = [
         type: "table",
         rows: [
           ["Périmètre", "Talents", "PTV"],
-          ["Cinq profils extrals", 61, "116 PTV"],
+          ["Cinq profils extrals", 61, "111 PTV"],
           ["Protocoles de Continuité", 4, "7 PTV"],
-          ["Total de cette page", 65, "123 PTV"]
+          ["Total de cette page", 65, "118 PTV"]
         ]
       }
     ]
@@ -328,16 +329,16 @@ const EXTRAL_ORGS: Section[] = [
         type: "table",
         rows: [
           ["Famille", "Talents"],
-          ["Homo Superior", 12],
+          ["Homo Superior", 13],
           ["Ad’rak", 20],
           ["Organisations Extrals", 56],
           ["Doctrines AIDH", 8],
-          ["Total de cette page", 96]
+          ["Total de cette page", 97]
         ]
       },
       {
         type: "p",
-        text: "Le Builder porte les 96 Talents détaillés. Cette page fixe la différence entre espèce, origine rare, institution et doctrine, afin qu’aucune appartenance ne soit transformée par erreur en capacité automatique."
+        text: "Le Builder porte les 97 Talents détaillés (dont le Phasage de l’équipement). Cette page fixe la différence entre espèce, origine rare, institution et doctrine, afin qu’aucune appartenance ne soit transformée par erreur en capacité automatique."
       }
     ]
   }
@@ -678,13 +679,13 @@ export const COMPENDIUM_VERITE_V7_PASS_B_RULE_ARTICLES: Article[] = [
     "regles-verite-v7-extrals-profils-physiologies",
     "Cinq profils extrals & physiologies",
     ["Vérité", "Règles", "Extrals", "Talass", "Mo’sen", "Baséanh", "Rocréen", "Thalsios"],
-    EXTRAL_PROFILES
+    [...EXTRAL_PROFILES,...extralCatalogueSections(true)]
   ),
   article(
     "regles-verite-v7-extrals-organisations-aidh-homo-superior-adrak",
     "Organisations, fonctions & doctrines AIDH",
     ["Vérité", "Règles", "Extrals", "GAAC", "AIDH", "Homo Superior", "Ad’rak"],
-    EXTRAL_ORGS
+    [...EXTRAL_ORGS,...extralCatalogueSections(false)]
   ),
   article(
     "regles-verite-v7-chasseurs-doctrine-association-gt-hunt",
