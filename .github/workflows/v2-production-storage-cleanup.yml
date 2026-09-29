@@ -14,304 +14,41 @@ jobs:
     timeout-minutes: 15
     environment: tuc-dev
     steps:
-      - name: Remove only obsolete application binaries and verified transfer archives
+      # Reuse the immutable reviewed one-time cleanup, not any new application code.
+      - uses: actions/checkout@v4
+        with:
+          ref: 108abe30922eccec0942aa48f589b8bfd8686428
+          persist-credentials: false
+          sparse-checkout: .github/workflows/v2-production-storage-cleanup.yml
+          sparse-checkout-cone-mode: false
+      - name: Verify immutable cleanup and correct only the read-only volume precheck
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PYTHON'
+          import hashlib,pathlib,textwrap
+          source=pathlib.Path('.github/workflows/v2-production-storage-cleanup.yml').read_text()
+          body=textwrap.dedent(source.split('        run: |\n',1)[1].split('      - name: Remove runner SSH key\n',1)[0])
+          script=body.split("cat > /tmp/tuc-storage-cleanup.py <<'PYTHON'\n",1)[1].split('\nPYTHON\n',1)[0]+'\n'
+          assert hashlib.sha256(script.encode()).hexdigest()=='b8a32d3c85d4b1b3da07b009202b4508d6bfdc9b42724ca72b690b0a92029273'
+          replacements=[
+            ("if any(p.is_symlink() for p in protected_paths): raise RuntimeError('Unexpected protected root symlink')", "if any(p.is_symlink() for p in protected_paths if p.is_relative_to(ROOT)): raise RuntimeError('Unexpected protected root symlink')"),
+            ('root=Path(raw); assert root.is_dir(),raw','root=Path(raw); assert root.is_dir() and not root.is_symlink(),raw'),
+          ]
+          for old,new in replacements:
+              assert body.count(old)==1
+              body=body.replace(old,new)
+          pathlib.Path('/tmp/reviewed-storage-cleanup.sh').write_text(body)
+          print('Reviewed cleanup hash verified; volume root validation remains enforced inside sudo read-only fingerprint. No deletion scope changes.')
+          PYTHON
+          bash -n /tmp/reviewed-storage-cleanup.sh
+      - name: Clean obsolete application binaries and transfer archives, preserving all site content
         env:
           TUC_DEV_HOST: ${{ secrets.TUC_DEV_HOST }}
           TUC_DEV_USER: ${{ secrets.TUC_DEV_USER }}
           TUC_DEV_SSH_KEY: ${{ secrets.TUC_DEV_SSH_KEY }}
         shell: bash
-        run: |
-          set -euo pipefail
-          umask 077
-          cat > /tmp/tuc-storage-cleanup.py <<'PYTHON'
-          #!/usr/bin/env python3
-          """One-time, allowlisted technical cleanup. Never delete volumes or site files."""
-          import datetime
-          import fcntl
-          import hashlib
-          import json
-          import os
-          from pathlib import Path
-          import re
-          import subprocess
-          import sys
-          import time
-
-          ROOT = Path('/opt/terra-umbra')
-          LIVE = '3a578145ceb20c892bc433886b1e8b051a1ababe'
-          ROLLBACK = 'eb41675c66c8b756060086e07ee0126984e46f0c'
-          OBSOLETE = {
-              '4347764293d6264a237b0fd48afb61062cbbf2d9',
-              '4a99bd587584b19eed9d6aa24aee3cb2f7cd281a',
-              'ffeb73a328436420ac96d244b44b54ca05d4f226',
-              '765459a41b812cb4b3ec050da98ba6fff60559dc',
-              'e396fab2b60ce4af477b98cd6f1186dc3fc723d3',
-          }
-          ARCHIVE_RELEASES = (
-              'reality-e396fab2b60ce4af477b98cd6f1186dc3fc723d3',
-              'reality-765459a41b812cb4b3ec050da98ba6fff60559dc',
-              'campaign-ffeb73a328436420ac96d244b44b54ca05d4f226',
-          )
-          LEGACY_TAG = re.compile(r'^tuc-v2-(api|web):before-(portrait-deletion|compendium-recovery|portrait-cache|campaign-source-revision|instant-recipe-release|responsiveness-release|portrait-release|reality-e396fab2b60ce4af477b98cd6f1186dc3fc723d3)$')
-
-          def run(args, *, cwd=None, input_file=None, timeout=180):
-              # Keep command output in memory; never log environment/configuration or row data.
-              with open(input_file, 'rb') if input_file else open(os.devnull, 'rb') as source:
-                  result = subprocess.run(args, cwd=cwd, stdin=source, stdout=subprocess.PIPE,
-                                          stderr=subprocess.PIPE, text=True, timeout=timeout)
-              if result.returncode:
-                  raise RuntimeError('Command failed: '+repr(args[:3])+' '+result.stderr[-500:])
-              return result.stdout.strip()
-
-          def emit(kind, data):
-              print(json.dumps({'kind':kind, 'data':data}, ensure_ascii=False), flush=True)
-
-          def containers():
-              ids = run(['docker','ps','-aq']).split()
-              return json.loads(run(['docker','inspect',*ids])) if ids else []
-
-          def images():
-              ids = sorted(set(run(['docker','image','ls','-aq','--no-trunc']).split()))
-              return json.loads(run(['docker','image','inspect',*ids])) if ids else []
-
-          def revision(image):
-              return (image.get('Config',{}).get('Labels') or {}).get('org.opencontainers.image.revision')
-
-          def cleanup_candidates(all_images, protected):
-              rollback_images = [image for image in all_images if image['Id'] in protected and revision(image)==ROLLBACK]
-              if len(rollback_images)!=2:
-                  raise RuntimeError('Both immediate rollback images must exist before cleanup')
-              cutoff = min(datetime.datetime.fromisoformat(image['Created']) for image in rollback_images)
-              result = []
-              for image in all_images:
-                  tags = image.get('RepoTags') or []
-                  if image['Id'] in protected or not tags:
-                      continue
-                  if not all(re.fullmatch(r'tuc-v2-(api|web):[A-Za-z0-9_.-]+',tag) and not tag.endswith(':latest') for tag in tags):
-                      continue
-                  if datetime.datetime.fromisoformat(image['Created']) >= cutoff:
-                      continue
-                  rev = revision(image)
-                  if rev not in OBSOLETE and not (not rev and all(LEGACY_TAG.fullmatch(tag) for tag in tags)):
-                      continue
-                  result.append(image)
-              return result
-
-          FINGERPRINT = r'''
-          import hashlib,json,os,stat,sys
-          from pathlib import Path
-          out={}
-          for raw in sys.argv[1:]:
-              root=Path(raw); assert root.is_dir(),raw
-              digest=hashlib.sha256(); files=0; size=0
-              for parent,dirs,names in os.walk(root,followlinks=False):
-                  dirs.sort(); names.sort()
-                  for name in sorted(dirs+names):
-                      path=Path(parent)/name; st=path.lstat(); rel=str(path.relative_to(root))
-                      digest.update(rel.encode()+b'\0')
-                      if stat.S_ISLNK(st.st_mode):
-                          digest.update(b'L'+os.readlink(path).encode())
-                      elif stat.S_ISREG(st.st_mode):
-                          h=hashlib.sha256()
-                          with path.open('rb') as f:
-                              for block in iter(lambda:f.read(1024*1024),b''): h.update(block)
-                          digest.update(b'F'+h.digest()); files+=1; size+=st.st_size
-                      elif stat.S_ISDIR(st.st_mode): digest.update(b'D')
-                      else: raise RuntimeError('Unexpected special file in protected site directory')
-              out[raw]={'files':files,'bytes':size,'sha256':digest.hexdigest()}
-          print(json.dumps(out))
-          '''
-
-          def fingerprints(paths):
-              return json.loads(run(['sudo','-n','python3','-c',FINGERPRINT,*map(str,paths)],timeout=300))
-
-          def container_state(rows):
-              return {c['Id']:{'image':c['Image'],'state':c['State']['Status'],
-                               'started':c['State']['StartedAt'],'mounts':c['Mounts']} for c in rows}
-
-          def database_counts():
-              # Read-only transaction, including site content and campaign tables, no row contents.
-              sql = r"""BEGIN TRANSACTION READ ONLY;
-          SELECT 'database_bytes='||pg_database_size(current_database());
-          SELECT format('SELECT %L || count(*)::text FROM %I.%I;',table_name||'=',table_schema,table_name)
-          FROM information_schema.tables WHERE table_schema='public' AND table_type='BASE TABLE' ORDER BY table_name
-          \gexec
-          COMMIT;"""
-              p = subprocess.run(['docker','compose','exec','-T','db','sh','-c',
-                                  'exec psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -At -v ON_ERROR_STOP=1'],
-                                 cwd=ROOT/'infrastructure',input=sql,text=True,capture_output=True,timeout=60)
-              if p.returncode: raise RuntimeError('Read-only database inventory failed')
-              return {k:int(v) for line in p.stdout.splitlines() if '=' in line for k,v in [line.split('=',1)]}
-
-          def disk():
-              st=os.statvfs(ROOT)
-              used=(st.f_blocks-st.f_bfree)*st.f_frsize
-              free=st.f_bavail*st.f_frsize
-              return {'total_bytes':st.f_blocks*st.f_frsize,'used_bytes':used,'available_bytes':free,
-                      'used_percent':round(100*used/(used+free),1)}
-
-          def main():
-              if not (len(sys.argv)==2 and sys.argv[1].isdigit()): raise RuntimeError('Numeric audit run ID required')
-              if ROOT.resolve()!=ROOT or not (ROOT/'production-active').is_file(): raise RuntimeError('Wrong production root')
-              lock=open(ROOT/'.production-release.lock','a')
-              fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
-              if (ROOT/'.production-release-sha').read_text().strip()!=LIVE: raise RuntimeError('Production changed: re-inventory required')
-              infra=ROOT/'infrastructure'; stage=ROOT/'releases'/('daemon-'+LIVE)
-              if not (stage/'deployed.ok').is_file(): raise RuntimeError('Current deployed release marker missing')
-              previous=(stage/'previous-release-sha').read_text().strip()
-              if previous!=ROLLBACK: raise RuntimeError('Immediate rollback changed')
-              before_containers=containers(); all_images=images(); by_id={i['Id']:i for i in all_images}
-              protected={c['Image'] for c in before_containers}
-              live_services={c['Config'].get('Labels',{}).get('com.docker.compose.service'):c for c in before_containers if c['State']['Status']=='running'}
-              for name in ('api','web','db','caddy'):
-                  if name not in live_services: raise RuntimeError('Missing live service: '+name)
-              for component in ('api','web'):
-                  if revision(by_id[live_services[component]['Image']])!=LIVE: raise RuntimeError('Live image mismatch')
-                  old=(stage/('previous-'+component+'-image')).read_text().strip()
-                  if old not in by_id or revision(by_id[old])!=ROLLBACK: raise RuntimeError('Rollback image mismatch')
-                  source=stage/('previous-'+component)
-                  if not source.is_dir() or source.is_symlink(): raise RuntimeError('Rollback source missing')
-                  protected.add(old)
-              volumes_before=run(['docker','volume','ls','-q'])
-              media_mounts=[m for m in live_services['api']['Mounts'] if m['Destination']=='/app/editor-media']
-              if len(media_mounts)!=1 or media_mounts[0]['Type']!='volume': raise RuntimeError('Unexpected media storage')
-              protected_paths=[ROOT/p for p in ('apps','compendium','character-builder','infrastructure','secrets','private-backups')]
-              protected_paths += [Path(media_mounts[0]['Source']),stage/'previous-api',stage/'previous-web']
-              if any(p.is_symlink() for p in protected_paths): raise RuntimeError('Unexpected protected root symlink')
-              latest=Path((ROOT/'private-backups/latest-verified').read_text().strip())
-              if latest.parent!=ROOT/'private-backups' or latest.resolve()!=latest: raise RuntimeError('Unexpected backup path')
-              run(['sha256sum','--check','SHA256SUMS'],cwd=latest)
-              run(['tar','-tzf',str(latest/'editor-media.tar.gz')])
-              run(['docker','compose','exec','-T','db','pg_restore','--list'],cwd=infra,input_file=latest/'database.dump')
-              before_disk=disk(); before_counts=database_counts(); before_files=fingerprints(protected_paths)
-              plan=cleanup_candidates(all_images,protected)
-              archives=[]
-              for slug in ARCHIVE_RELEASES:
-                  directory=ROOT/'releases'/slug
-                  if directory.resolve()!=directory or not (directory/'deployed.ok').is_file(): raise RuntimeError('Unsafe archive directory')
-                  if (directory/'source-sha.txt').read_text().strip()!=slug.split('-',1)[1]: raise RuntimeError('Wrong archived release')
-                  for name in ('images.tar.gz','apps-source.tar.gz'):
-                      path=directory/name
-                      if not path.exists(): continue
-                      st=path.lstat()
-                      if path.is_symlink() or not path.is_file() or st.st_nlink!=1: raise RuntimeError('Unsafe archive file')
-                      # Check each exact artifact against the existing trusted checksum manifest.
-                      entries={line.split()[-1].lstrip('*'):line.split()[0] for line in (directory/'SHA256SUMS').read_text().splitlines()}
-                      with path.open('rb') as f: got=hashlib.file_digest(f,'sha256').hexdigest()
-                      if entries.get(name)!=got: raise RuntimeError('Archive integrity mismatch; retained')
-                      archives.append((path,st.st_size,st.st_ino))
-              emit('before',{'disk':before_disk,'tables':before_counts,'container_images':len(all_images)})
-              emit('plan',{'obsolete_container_images':len(plan),'tags':[i['RepoTags'] for i in plan],
-                           'archives':[{'path':str(p),'bytes':n} for p,n,_ in archives],
-                           'preserved_live':LIVE,'preserved_rollback':ROLLBACK,
-                           'preserved_backup_directories':len(list((ROOT/'private-backups').glob('pre-production-*'))),
-                           'protected_files':sum(v['files'] for v in before_files.values())})
-              # No recursive filesystem deletion. Only these six verified transfer archives.
-              for path,size,inode in archives:
-                  st=path.lstat()
-                  if st.st_ino!=inode or st.st_size!=size: raise RuntimeError('Archive changed during cleanup')
-                  path.unlink()
-                  emit('deleted_transfer_archive',str(path))
-              # No force, image prune, volume prune, container prune, system prune or restart.
-              for image in plan:
-                  if image['Id'] in {c['Image'] for c in containers()}|protected: raise RuntimeError('Image became protected')
-                  current=json.loads(run(['docker','image','inspect',image['Id']]))[0]
-                  if sorted(current.get('RepoTags') or [])!=sorted(image['RepoTags']): raise RuntimeError('Image tags changed')
-                  for tag in image['RepoTags']:
-                      if json.loads(run(['docker','image','inspect',tag]))[0]['Id']!=image['Id']: raise RuntimeError('Image tag moved')
-                      run(['docker','image','rm','--no-prune',tag])
-                  emit('removed_obsolete_container_image',{'id':image['Id'],'tags':image['RepoTags']})
-              emit('build_cache_cleanup',run(['docker','builder','prune','--all','--force','--filter','until=24h'],timeout=300))
-              time.sleep(5)
-              after_files=fingerprints(protected_paths); after_counts=database_counts(); after_images=images()
-              if before_files!=after_files: raise RuntimeError('Protected file fingerprint changed; investigate user activity before asserting preservation')
-              if container_state(before_containers)!=container_state(containers()): raise RuntimeError('Container state changed unexpectedly')
-              if volumes_before!=run(['docker','volume','ls','-q']): raise RuntimeError('Volume list changed')
-              if not protected <= {i['Id'] for i in after_images}: raise RuntimeError('Protected image missing')
-              if {i['Id'] for i in plan} & {i['Id'] for i in after_images}: raise RuntimeError('Some obsolete images remain')
-              if (ROOT/'.production-release-sha').read_text().strip()!=LIVE: raise RuntimeError('Release marker changed')
-              health=json.loads(run(['curl','-fsS','--max-time','15','https://terra-umbra.fr/api/ready']))
-              if health.get('status')!='ready': raise RuntimeError('Production not ready')
-              after_disk=disk()
-              report={'status':'success','before':before_disk,'after':after_disk,
-                      'freed_bytes':after_disk['available_bytes']-before_disk['available_bytes'],
-                      'removed_obsolete_container_images':len(plan),'container_images_remaining':len(after_images),
-                      'removed_transfer_archives':len(archives),'removed_transfer_archive_bytes':sum(n for _,n,_ in archives),
-                      'protected_files_unchanged':sum(v['files'] for v in before_files.values()),
-                      'protected_file_trees':[{'path':k,'files':v['files'],'bytes':v['bytes']} for k,v in before_files.items()],
-                      'all_containers_unchanged':True,'all_volumes_preserved':True,'all_backups_unchanged':True,
-                      'live_release':LIVE,'rollback_release':ROLLBACK,'tables_before':before_counts,'tables_after':after_counts,
-                      'health':'ready','database_writes':False,'site_file_deletions':False}
-              audit=ROOT/('storage-cleanup-'+sys.argv[1]+'.json')
-              with audit.open('x') as f:
-                  os.chmod(audit,0o600);json.dump(report,f,ensure_ascii=False,indent=2)
-              emit('CLEANUP_VERIFIED',report)
-
-          if __name__=='__main__':
-              main()
-          PYTHON
-          cat > /tmp/test-tuc-storage-cleanup.py <<'PYTHON'
-          import copy
-          import importlib.util
-          import unittest
-          spec=importlib.util.spec_from_file_location('cleanup','/tmp/tuc-storage-cleanup.py')
-          m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)
-          def image(id,rev,tag,date='2026-09-27T12:00:00+02:00'):
-              return {'Id':id,'Created':date,'RepoTags':[tag],'Config':{'Labels':{'org.opencontainers.image.revision':rev}}}
-          class Selection(unittest.TestCase):
-              def setUp(self):
-                  self.keep={'live-api','live-web','db','rollback-api','rollback-web'}
-                  self.base=[image('rollback-api',m.ROLLBACK,'tuc-v2-api:rollback','2026-09-29T12:12:49.295652152Z'),image('rollback-web',m.ROLLBACK,'tuc-v2-web:rollback','2026-09-29T12:13:25.871743988Z')]
-                  self.old=image('obsolete',sorted(m.OBSOLETE)[0],'tuc-v2-api:before-aseryn')
-              def selected(self,x):return m.cleanup_candidates(self.base+x,self.keep)
-              def test_old_app(self):self.assertEqual(self.selected([self.old]),[self.old])
-              def test_running(self):self.keep.add('obsolete');self.assertEqual(self.selected([self.old]),[])
-              def test_latest(self):self.old['RepoTags']=['tuc-v2-api:latest'];self.assertEqual(self.selected([self.old]),[])
-              def test_foreign_tag(self):self.old['RepoTags'].append('postgres:17-alpine');self.assertEqual(self.selected([self.old]),[])
-              def test_newer(self):self.old['Created']='2026-09-29T16:00:00Z';self.assertEqual(self.selected([self.old]),[])
-              def test_other_revision(self):self.old['Config']['Labels']['org.opencontainers.image.revision']='unknown';self.assertEqual(self.selected([self.old]),[])
-              def test_unlabelled_known(self):self.old['Config']['Labels']={};self.old['RepoTags']=['tuc-v2-api:before-portrait-release'];self.assertEqual(self.selected([self.old]),[self.old])
-              def test_unlabelled_unknown(self):self.old['Config']['Labels']={};self.assertEqual(self.selected([self.old]),[])
-              def test_dangling(self):self.old['RepoTags']=[];self.assertEqual(self.selected([self.old]),[])
-              def test_missing_rollback(self):
-                  with self.assertRaises(RuntimeError):m.cleanup_candidates([self.old],self.keep)
-              def test_input_preserved(self):before=copy.deepcopy(self.base+[self.old]);self.selected([self.old]);self.assertEqual(self.base+[self.old],before)
-          if __name__=='__main__':unittest.main()
-          PYTHON
-          python3 -m py_compile /tmp/tuc-storage-cleanup.py
-          python3 /tmp/test-tuc-storage-cleanup.py
-          install -m 700 -d ~/.ssh
-          printf '%s\n' "$TUC_DEV_SSH_KEY" > ~/.ssh/tuc_prod
-          chmod 600 ~/.ssh/tuc_prod
-          ssh-keyscan -H "$TUC_DEV_HOST" >> ~/.ssh/known_hosts
-          SSH="ssh -i ~/.ssh/tuc_prod -o IdentitiesOnly=yes -o BatchMode=yes"
-          remote="/tmp/tuc-storage-cleanup-$GITHUB_RUN_ID.py"
-          script_sha=$(sha256sum /tmp/tuc-storage-cleanup.py | cut -d' ' -f1)
-          scp -i ~/.ssh/tuc_prod -o IdentitiesOnly=yes /tmp/tuc-storage-cleanup.py "$TUC_DEV_USER@$TUC_DEV_HOST:$remote"
-          $SSH "$TUC_DEV_USER@$TUC_DEV_HOST" "printf '%s  %s\n' '$script_sha' '$remote' | sha256sum --check && python3 '$remote' '$GITHUB_RUN_ID'" | tee /tmp/tuc-cleanup-result.log
-          $SSH "$TUC_DEV_USER@$TUC_DEV_HOST" "rm -f -- '$remote'"
-          python3 - <<'PYTHON'
-          import json,os,pathlib
-          lines=pathlib.Path('/tmp/tuc-cleanup-result.log').read_text().splitlines()
-          result=[json.loads(line)['data'] for line in lines if line.startswith('{') and json.loads(line).get('kind')=='CLEANUP_VERIFIED']
-          assert len(result)==1 and result[0]['status']=='success'
-          r=result[0]
-          text=f'''## Production storage cleanup verified
-
-          | Measure | Before | After |
-          |---|---:|---:|
-          | Used disk (GB) | {r['before']['used_bytes']/1e9:.2f} | {r['after']['used_bytes']/1e9:.2f} |
-          | Available disk (GB) | {r['before']['available_bytes']/1e9:.2f} | {r['after']['available_bytes']/1e9:.2f} |
-          | Used percentage | {r['before']['used_percent']}% | {r['after']['used_percent']}% |
-
-          Freed: **{r['freed_bytes']/1e9:.2f} GB**. Removed {r['removed_obsolete_container_images']} obsolete application container images and {r['removed_transfer_archives']} transfer archives.
-
-          Protected files checked byte-for-byte: **{r['protected_files_unchanged']}**. All source content, media, accounts, volumes and backups retained. No production database writes and no container restart.
-
-          Live release: `{r['live_release']}`. Immediate rollback: `{r['rollback_release']}`. Public readiness: `{r['health']}`.
-          '''
-          with open(os.environ['GITHUB_STEP_SUMMARY'],'a') as f:f.write(text)
-          PYTHON
+        run: bash /tmp/reviewed-storage-cleanup.sh
       - name: Remove runner SSH key
         if: always()
         run: rm -f ~/.ssh/tuc_prod
