@@ -1,4 +1,5 @@
 name: V2 production approved Angelus talents
+# Retry retains all checks and updates the two old PDF Aura-cap expectations.
 on:
   push:
     branches: [feature/tuc-web-v2]
