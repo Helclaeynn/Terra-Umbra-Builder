@@ -18,7 +18,11 @@ const manifest=JSON.parse(await readFile(root+'/compendium/source/rules-diagrams
 assert.equal(manifest.diagrams.length,25);
 const corpus=await getCompendiumQualityCorpus();
 const byId=new Map(corpus.articles.map(article=>[article.id,article]));
-assert.equal(corpus.articles.filter(article=>article.category==='Règles').length,65);
+const rules=corpus.articles.filter(article=>article.category==='Règles');
+assert.equal(rules.length,66);
+const encounterGuide=rules.find(article=>article.id==='bestiaire-guide-rencontres');
+assert.equal(encounterGuide?.audience,'mj','The added encounter guide is private');
+assert.equal(corpus.publicArticles.some(article=>article.id===encounterGuide.id),false);
 const app=Fastify();await registerCompendiumRoutes(app);
 for(const diagram of manifest.diagrams){
   const article=byId.get(diagram.articleId);assert.ok(article,diagram.articleId);
