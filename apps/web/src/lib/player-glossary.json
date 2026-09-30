@@ -442,7 +442,7 @@
   {
     "id": "adrak",
     "label": "Ad’rak",
-    "definition": "Espèce extrale de géants à la peau bleue. Sur Terre, les profils jouables sont surtout des réfugiés, dissidents ou descendants de communautés libres.",
+    "definition": "extraterrestre humanoïde puissant ; les personnages terrestres sont généralement issus de communautés libres ou de la dissidence.",
     "article": "verite-v7-homo-superior-adrak-profils-rares",
     "aliases": [
       "Adrak",
@@ -579,35 +579,35 @@
   {
     "id": "talass",
     "label": "Talass",
-    "definition": "Ton corps possède des segments et peut produire une soie conductrice. Les Talass ne sont pas des humains miniatures : leur physiologie et leurs rapports au corps leur sont propres.",
+    "definition": "petit extraterrestre vert au corps segmentaire, capable de produire une soie conductrice.",
     "article": "verite-extrals-talass-detail",
     "aliases": []
   },
   {
     "id": "mosen",
     "label": "Mo’sen",
-    "definition": "Ton corps porte des écailles et des protections naturelles. Les Mo’sens possèdent leurs propres communautés et une histoire distincte de celle des humains.",
+    "definition": "extraterrestre reptiloïde écailleux, doté de protections naturelles et de sens prédateurs.",
     "article": "verite-extrals-mosens-detail",
     "aliases": []
   },
   {
     "id": "baseanh",
     "label": "Baséanh",
-    "definition": "Les Baséanhs ont six yeux et des poches corporelles nommées Tardollas. Ils peuvent y cultiver des organismes ou des substances, notamment utiles en médecine.",
+    "definition": "extraterrestre reptiloïde massif, à quatre bras et six yeux, dont les poches corporelles servent aux cultures biologiques.",
     "article": "verite-extrals-baseanhs-detail",
     "aliases": []
   },
   {
     "id": "rocreen",
     "label": "Rocréen",
-    "definition": "Les Rocréens ont un corps très éloigné de l’anatomie humaine et des réseaux communautaires étendus. Leur histoire impériale pèse encore sur leur réputation.",
+    "definition": "extraterrestre amphibie à l’anatomie molluscoïde, dont la régénération dépend notamment d’un Noyau.",
     "article": "verite-extrals-rocreens-detail",
     "aliases": []
   },
   {
     "id": "thalsios",
     "label": "Thalsios",
-    "definition": "Les Thalsios ont une peau qui doit rester humide et une anatomie adaptée à d’autres milieux que l’air sec des villes terrestres.",
+    "definition": "extraterrestre amphibioïde massif, à la peau sensible à l’humidité et aux mains très précises.",
     "article": "verite-extrals-thalsios-detail",
     "aliases": []
   },

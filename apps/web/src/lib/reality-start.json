@@ -1,0 +1,287 @@
+{
+  "profiles": [
+    {
+      "id": "corpo",
+      "title": "Corpo",
+      "hook": "Une carrière, des moyens et un contrat qui peut engager toute une vie.",
+      "definition": "Un personnage corporatiste travaille au sein d’une corporation, une grande entreprise qui peut gérer des usines, des cliniques, des logements, des transports et sa propre sécurité. Tu peux être technicien, juriste, chercheur, commercial ou agent de terrain. « Corpo » décrit ton milieu, pas ton rang : tous ne sont pas dirigeants ou milliardaires.",
+      "appeal": "Si tu aimes les rivalités professionnelles, les opérations avec des moyens organisés et les choix entre réussite personnelle et loyauté. Un bon contrat peut offrir une stabilité que beaucoup n’ont plus : logement, soins, formation et soutien juridique.",
+      "tradeoff": "Les ressources appartiennent souvent à l’employeur. Perdre ton poste peut aussi signifier perdre une assurance, un véhicule ou un logement. Confidentialité, objectifs et exclusivité peuvent entrer en conflit avec tes amitiés. La protection corporative reste encadrée par le droit californien : ton badge n’efface pas la loi.",
+      "daily": "Ta journée se joue entre habilitations, échéances et relations de service. La personne qui valide un accès peut compter autant que celle qui signe ton salaire. Tu peux croire sincèrement à ton entreprise, négocier durement ta place, préparer un départ ou protéger ton équipe contre une décision venue d’en haut.",
+      "knowledge": "Tu connais surtout ton secteur, ton service et les concurrents qui touchent ton travail. Une entreprise ne remet pas tous ses secrets à chaque salarié ; travailler pour une corporation servant de couverture à autre chose ne donne pas automatiquement accès à cette vérité.",
+      "scene": "Piste de scène : un fournisseur disparaît juste avant une livraison essentielle. Tu peux obtenir un véhicule de service, mais l’autorisation prend du temps. Un Crawler propose une piste immédiate ; l’accepter t’aidera peut-être à remplir ta mission, tout en créant une relation que ton supérieur voudra contrôler.",
+      "choices": [
+        "Quel service t’emploie et qu’attend-il de toi ?",
+        "Quel confort ou quelle personne dépend de ton contrat ?",
+        "Quel ordre te ferait discuter, désobéir ou partir ?"
+      ],
+      "stereotypes": [
+        {
+          "subject": "Crawlers",
+          "voice": "Ils n’ont pas nos procédures. C’est parfois exactement pour cela qu’on les appelle.",
+          "limit": "Un indépendant peut être compétent et fiable ; l’absence de badge ne mesure pas son professionnalisme."
+        },
+        {
+          "subject": "Gouvernement",
+          "voice": "Ils contrôlent nos sites, mais ils comptent aussi sur nos livraisons.",
+          "limit": "L’État californien possède de réels moyens de contrôle ; ce n’est pas un simple décor au service des entreprises."
+        },
+        {
+          "subject": "Religieux",
+          "voice": "Ils nous reprochent de vendre ce qu’ils promettent d’offrir. Qui paie leurs infrastructures ?",
+          "limit": "Des communautés assurent effectivement accueil et soins. La rivalité n’empêche ni partenariats ni convictions sincères."
+        },
+        {
+          "subject": "Pègre",
+          "voice": "Un intermédiaire discret coûte parfois moins cher qu’un problème public.",
+          "limit": "Ce calcul peut entraîner crimes, chantage et dépendance ; toute entreprise ou tout salarié ne l’accepte pas."
+        }
+      ],
+      "links": [
+        {
+          "article": "realite-v9-corporations-territoires",
+          "label": "Corporations : contrats, territoires et secteurs"
+        },
+        {
+          "article": "realite-v9-vivre-en-2035",
+          "label": "La vie quotidienne, les services et la dette"
+        }
+      ],
+      "illustration": {
+        "src": "/api/compendium/media/images/lore/realite-corporations-vivre-contrat.webp",
+        "alt": "Une famille accède aux services d’un quartier résidentiel corporatif sous contrat.",
+        "caption": "Le confort sous contrat relie parfois travail, logement et santé.",
+        "article": "realite-v9-corporations-territoires",
+        "portrait": false
+      }
+    },
+    {
+      "id": "crawler",
+      "title": "Crawler",
+      "hook": "Vivre de tes compétences et de tes réseaux entre les grandes puissances.",
+      "definition": "Les Crawlers sont des indépendants actifs de l’Underlife, l’ensemble des personnes rejetées ou sorties des circuits dominants. Tous les exclus ne sont donc pas des Crawlers. Tu peux enquêter, soigner, réparer, transporter, combattre, pirater ou créer ; ces activités se combinent selon tes compétences.",
+      "appeal": "Si tu aimes l’autonomie, les équipes bricolées, les contrats risqués et les solidarités de quartier. Tu peux choisir tes méthodes, bâtir ton nom et aider des gens qu’aucune grande institution ne prend en charge.",
+      "tradeoff": "L’indépendance ne fournit pas automatiquement assurance, avocat, atelier ou renforts. Ta réputation et tes contacts doivent compenser. Tu peux gagner beaucoup sur un contrat et traverser ensuite une période difficile ; refuser un commanditaire puissant a parfois un prix.",
+      "daily": "Un fixer est un intermédiaire qui relie clients et équipes ; une clinique, un garage et un lieu de rendez-vous forment aussi ton infrastructure. Le Logifate, système d’évaluation sociale et de recrutement, a pu te fermer des portes. Ta réponse peut être le travail indépendant, l’entraide, l’insurrection ou un mélange qui évolue.",
+      "knowledge": "Tu connais des personnes et des circuits concrets, pas tous les secrets de la ville. Un contrat corporatif ou mafieux ne fait pas automatiquement de toi un membre de cette organisation. Ton savoir sur le surnaturel dépend de ton histoire, pas du seul fait de vivre en marge.",
+      "scene": "Piste de scène : une clinique de quartier attend une pièce retenue dans un entrepôt. Le groupe peut négocier, trouver un autre fournisseur ou organiser une récupération. Le paiement est modeste, mais le médecin vous a déjà aidés : le contrat engage autant vos attaches que vos comptes.",
+      "choices": [
+        "Quelle compétence te fait appeler plutôt qu’un autre ?",
+        "Qui te fournit du travail, du matériel ou des soins ?",
+        "Quel contrat refuserais-tu même en ayant besoin d’argent ?"
+      ],
+      "stereotypes": [
+        {
+          "subject": "Corpos",
+          "voice": "Leur badge ouvre une porte. Le jour où il s’éteint, qu’est-ce qu’il leur reste ?",
+          "limit": "Certains salariés ont des loyautés, une expertise et des marges de négociation réelles."
+        },
+        {
+          "subject": "Gouvernement",
+          "voice": "Ils veulent nos témoignages ; pour nos quartiers, il manque toujours un formulaire.",
+          "limit": "Une mauvaise expérience ne décrit pas tous les services ni tous les agents."
+        },
+        {
+          "subject": "Religieux",
+          "voice": "Si leur porte reste ouverte après le repas, je veux bien les écouter.",
+          "limit": "L’aide peut être sincère ; ses conditions et ses limites varient selon la communauté."
+        },
+        {
+          "subject": "Pègre",
+          "voice": "Ils paient aujourd’hui et parlent de famille demain. Je préfère lire les petites lignes.",
+          "limit": "Un contrat n’équivaut pas à une adhésion, mais une faveur peut créer une dette durable."
+        }
+      ],
+      "links": [
+        {
+          "article": "realite-v9-crawlers-underlife",
+          "label": "Crawlers : réseaux, contrats et Underlife"
+        },
+        {
+          "article": "realite-v9-crawlers-fixers",
+          "label": "Fixers : trouver les bonnes personnes"
+        },
+        {
+          "article": "realite-v9-crawlers-enders",
+          "label": "Enders : communautés sorties du système"
+        }
+      ],
+      "illustration": {
+        "src": "/api/compendium/media/images/lore/realite-crawlers-underlife.webp",
+        "alt": "Ateliers, cultures et commerces occupent un ancien réseau souterrain habité par les Crawlers.",
+        "caption": "L’Underlife possède ses ateliers, ses lieux de vie et ses réseaux d’entraide.",
+        "article": "realite-v9-crawlers-underlife",
+        "portrait": false
+      }
+    },
+    {
+      "id": "gouvernemental",
+      "title": "Gouvernemental",
+      "hook": "Servir une institution publique dans un État qui défend encore son autorité.",
+      "definition": "Ton personnage travaille pour une institution publique : administration, enquête, justice, sécurité, recherche ou service de proximité. En Grande Californie, l’État conserve une puissance réelle face aux corporations et à la Pègre. Être gouvernemental ne signifie pas être forcément policier, militaire ou espion.",
+      "appeal": "Si tu aimes enquêter avec un mandat, protéger un service public ou décider comment appliquer une règle à une situation humaine. Tu peux t’appuyer sur des collègues, des procédures et des moyens institutionnels, à la mesure de ton poste.",
+      "tradeoff": "Tes prérogatives ont des limites : ressort, habilitation, chaîne de décision et comptes à rendre. Défendre l’intérêt public peut te mettre en conflit avec un supérieur, un élu ou un autre service. L’accès à un fichier ou à une équipe doit être autorisé ; le statut ne donne pas tous les moyens à volonté.",
+      "daily": "Le travail peut mêler tâches ordinaires et dossiers politiquement sensibles. Le LAUS est la police de Los Angeles ; le CBII est une agence californienne d’enquête et de renseignement. Choisir ton service précise ce que tu fais réellement, avec qui tu coopères et à qui tu dois expliquer tes décisions.",
+      "knowledge": "Tu connais les informations de ton poste et de tes dossiers. Le secret institutionnel est compartimenté : un agent ordinaire n’est pas au courant de toutes les affaires sensibles, encore moins de toute la Vérité. Une anomalie peut d’abord être traitée comme une fraude, une arme inconnue ou un témoignage à vérifier.",
+      "scene": "Piste de scène : tu dois sécuriser une évacuation dans une zone où une corporation et un réseau criminel revendiquent chacun des accès. Tes papiers te donnent un cadre, mais un habitant connaît le seul passage praticable. Respecter la mission demande de comprendre les gens autant que le règlement.",
+      "choices": [
+        "Quelle institution t’emploie et quelle est ta fonction précise ?",
+        "De quelle autorisation as-tu besoin pour agir ?",
+        "À qui fais-tu confiance lorsqu’un ordre te paraît contestable ?"
+      ],
+      "stereotypes": [
+        {
+          "subject": "Corpos",
+          "voice": "Leur portail est privé ; ce qui s’y passe n’échappe pas pour autant à la loi.",
+          "limit": "Les moyens de contrôle sont réels, mais chaque intervention exige un cadre et des ressources."
+        },
+        {
+          "subject": "Crawlers",
+          "voice": "Ils connaissent les rues où nos plans s’arrêtent. Reste à savoir qui les paie.",
+          "limit": "Un Crawler peut être témoin, partenaire, victime ou adversaire ; sa situation n’établit pas sa culpabilité."
+        },
+        {
+          "subject": "Religieux",
+          "voice": "Leur centre d’accueil nous aide. Leur autorité morale ne remplace pas un mandat.",
+          "limit": "Coopération et indépendance institutionnelle peuvent aller ensemble."
+        },
+        {
+          "subject": "Pègre",
+          "voice": "Quand une faveur remplace un droit, quelqu’un tient le carnet des dettes.",
+          "limit": "Ce regard critique ne dispense pas de comprendre pourquoi des habitants se tournent vers ces réseaux."
+        }
+      ],
+      "links": [
+        {
+          "article": "realite-v9-executif-grande-californie",
+          "label": "Les institutions de Grande Californie"
+        },
+        {
+          "article": "realite-v9-agences-securite-enquete",
+          "label": "Agences : missions et organisation"
+        },
+        {
+          "article": "realite-v9-justice-californienne",
+          "label": "La justice californienne"
+        }
+      ],
+      "illustration": {
+        "src": "/api/compendium/media/images/lore/realite-cnad-coordination.webp",
+        "alt": "Des responsables civils examinent les missions et les budgets des agences californiennes dans une salle de coordination.",
+        "caption": "Les institutions publiques coordonnent des missions, des moyens et des responsabilités.",
+        "article": "realite-v9-agences-securite-enquete",
+        "portrait": false
+      }
+    },
+    {
+      "id": "religieux",
+      "title": "Religieux",
+      "hook": "Une foi, une communauté et des engagements qui prennent une place publique.",
+      "definition": "Ton personnage appartient à un milieu religieux : fidèle engagé, soignant, enseignant, organisateur, membre du clergé ou de sa sécurité. Les crises ont redonné aux communautés de foi un rôle majeur pour nourrir, héberger, instruire et protéger. Croire, servir une institution et détenir une autorité religieuse sont trois choses différentes.",
+      "appeal": "Si tu aimes incarner des convictions, accueillir des gens, négocier entre communautés ou éprouver une vocation face au réel. Une tradition peut offrir une continuité, des proches et une raison d’agir qui dépasse le salaire.",
+      "tradeoff": "Ta communauté peut attendre présence, discrétion, discipline ou services. La solidarité n’efface pas les débats internes, les rivalités d’autorité ou le manque de moyens. Une conviction peut aussi entrer en conflit avec ta hiérarchie : choisis ce à quoi tu crois personnellement.",
+      "daily": "Tu peux organiser un accueil, entretenir un lieu de culte ou assurer une mission de terrain. L’Holonet, le réseau numérique de 2035, sert aussi à enseigner, collecter des fonds et rassembler. Les religions ne rejettent donc pas toutes la technologie, et leurs rapports aux augmentations dépendent des traditions.",
+      "knowledge": "Une croyance ou une fonction religieuse ne donne ni pouvoirs surnaturels automatiques ni connaissance certaine des Angelus, Daemons ou extraterrestres. Tu connais ce que ta communauté enseigne et ce que ton parcours t’a montré. Une interprétation spirituelle d’un phénomène reste une interprétation.",
+      "scene": "Piste de scène : un centre d’accueil a besoin d’un transport sécurisé. Une corporation propose de financer le convoi contre une opération de communication. Une équipe de Crawlers peut intervenir discrètement, mais sans assurance. Le groupe doit décider quelle dépendance accepter et quelles personnes protéger d’abord.",
+      "choices": [
+        "Quelle tradition ou communauté te donne tes repères ?",
+        "Quel service y rends-tu concrètement ?",
+        "Quelle conviction personnelle pourrait te séparer de sa direction ?"
+      ],
+      "stereotypes": [
+        {
+          "subject": "Corpos",
+          "voice": "Ils savent compter les lits ; j’aimerais qu’ils regardent aussi ceux qui dorment dehors.",
+          "limit": "Les entreprises peuvent fournir des ressources vitales ; leurs salariés ne se confondent pas avec une politique commerciale."
+        },
+        {
+          "subject": "Gouvernement",
+          "voice": "Nous accueillons ceux qui arrivent avant que leurs dossiers soient complets.",
+          "limit": "L’urgence de l’accueil n’abolit pas les responsabilités publiques ni les règles communes."
+        },
+        {
+          "subject": "Crawlers",
+          "voice": "Ils refusent nos sermons, mais certains reviennent réparer la chaudière sans demander leur dû.",
+          "limit": "L’entraide n’exige pas une conversion ; les convictions d’un indépendant peuvent rester différentes."
+        },
+        {
+          "subject": "Pègre",
+          "voice": "Un don ne fait pas disparaître ce qu’il a coûté à quelqu’un d’autre.",
+          "limit": "L’origine des ressources peut devenir un dilemme concret ; les communautés n’y répondent pas toutes de la même façon."
+        }
+      ],
+      "links": [
+        {
+          "article": "realite-v9-religions-communautes",
+          "label": "Religions : vie publique, entraide et traditions"
+        },
+        {
+          "article": "realite-v9-sectes-cultes-marginaux",
+          "label": "Cultes marginaux : engagements et dépendances"
+        }
+      ],
+      "illustration": {
+        "src": "/api/compendium/media/images/lore/realite-religions-entraide.webp",
+        "alt": "Une communauté chrétienne distribue des repas, des couvertures et des soins dans un centre d’accueil.",
+        "caption": "La foi s’inscrit aussi dans des repas, des soins et des lieux d’accueil.",
+        "article": "realite-v9-religions-communautes",
+        "portrait": false
+      }
+    },
+    {
+      "id": "pegre",
+      "title": "Pègre",
+      "hook": "Des loyautés, des affaires et une protection qui se paie en obligations.",
+      "definition": "Ton personnage est lié au crime organisé : mafia, cartel, gang ou réseau d’affaires sous leur protection. La Pègre ne vit pas seulement de produits interdits ; elle possède aussi commerces, transports et immobilier déclarés. Il faut préciser si tu es membre, associé ou simplement dépendant d’un de ses réseaux.",
+      "appeal": "Si tu aimes les négociations à double fond, les dettes, les loyautés personnelles et les dilemmes entre proches et organisation. Tu peux connaître des intermédiaires capables de trouver une marchandise, un passage ou une aide quand les voies ordinaires échouent.",
+      "tradeoff": "La protection n’est pas un droit garanti. Les faveurs s’accumulent, les rivaux existent et l’organisation peut réclamer quelque chose que tu ne veux pas donner. Les activités criminelles ont des victimes et des conséquences ; jouer une loyauté forte n’oblige pas à les présenter comme honorables.",
+      "daily": "Une journée peut se passer dans une entreprise légale, un garage, un restaurant ou sur une tournée de livraison. Ton interlocuteur ne porte pas forcément une arme : il peut surtout tenir les comptes. Une promesse non tenue ou une personne mal présentée peut peser longtemps dans ce milieu.",
+      "knowledge": "Tu connais ton réseau, tes contacts et ce que ta place t’autorise à savoir. Une rumeur de quartier n’est pas une vue d’ensemble des mafias. Ni les secrets de leurs dirigeants ni leur éventuelle implication dans la Vérité ne sont distribués à tous les membres.",
+      "scene": "Piste de scène : le réseau qui a payé les soins d’un proche te demande de transporter une caisse sans l’ouvrir. Ton équipe découvre qu’une autre famille cherche le même chargement. La question n’est plus seulement de réussir la livraison : il faut savoir quelle dette accepter et qui mettra ton nom en jeu.",
+      "choices": [
+        "Es-tu membre, associé ou bénéficiaire d’une protection ?",
+        "À qui dois-tu une faveur que l’argent ne suffit pas à régler ?",
+        "Quelle personne ou quelle limite refuses-tu de sacrifier aux affaires ?"
+      ],
+      "stereotypes": [
+        {
+          "subject": "Corpos",
+          "voice": "Ils appellent cela une clause ; chez nous, on dit une dette.",
+          "limit": "La comparaison est une justification de personnage, pas une équivalence entre tout contrat et un racket."
+        },
+        {
+          "subject": "Gouvernement",
+          "voice": "Un dossier bien monté coûte plus cher à contourner qu’une patrouille.",
+          "limit": "Les institutions californiennes ne sont pas toutes corruptibles et peuvent réellement démanteler un réseau."
+        },
+        {
+          "subject": "Crawlers",
+          "voice": "Je les paie pour un travail, pas pour leur acheter une famille.",
+          "limit": "Un contrat crée une obligation professionnelle ; l’appartenance et la fidélité doivent se construire autrement."
+        },
+        {
+          "subject": "Religieux",
+          "voice": "Ils connaissent ceux qui ont besoin d’aide. Cela en fait des voisins qu’il faut écouter.",
+          "limit": "Écouter une communauté peut servir l’entraide autant que l’influence ; ses responsables peuvent refuser tout arrangement."
+        }
+      ],
+      "links": [
+        {
+          "article": "realite-v9-pegre-mafias-gangs",
+          "label": "Pègre : organisations, faveurs et territoires"
+        },
+        {
+          "article": "realite-v9-crawlers-underlife",
+          "label": "Travailler avec des Crawlers sans les confondre avec la Pègre"
+        }
+      ],
+      "illustration": {
+        "src": "/api/compendium/media/images/lore/realite-pegre-faveurs.webp",
+        "alt": "Une famille reçoit une aide médicale obtenue par une faveur dont la dette est consignée.",
+        "caption": "Une aide obtenue aujourd’hui peut devenir une dette qui dure.",
+        "article": "realite-v9-pegre-mafias-gangs",
+        "portrait": false
+      }
+    }
+  ]
+}
