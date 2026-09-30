@@ -206,7 +206,7 @@ export function truthEquipmentAccess(item:TruthEquipmentItem,state:TruthState):T
     return {ok:true,natural:false,reason:"Autorisation MJ exceptionnelle"};
   }
   if(item.requiresMj){
-    return {ok:false,natural:false,reason:"Autorisation MJ requise"};
+    return {ok:false,natural:false,reason:state.mode==="creation"?"Objet hors catalogue de création":"Autorisation MJ requise"};
   }
 
     const species=stringChoice(state.choices,"species");
@@ -225,7 +225,7 @@ export function truthEquipmentAccess(item:TruthEquipmentItem,state:TruthState):T
     return {
       ok,
       natural:ok,
-      reason:ok?"Accès Exilé / Aèr":"Réservé aux Exilés ou à une autorisation MJ"
+      reason:ok?"Accès Exilé / Aèr":"Réservé aux Exilés"
     };
   }
   if(item.chapter==="25"){
@@ -233,7 +233,7 @@ export function truthEquipmentAccess(item:TruthEquipmentItem,state:TruthState):T
     return {
       ok,
       natural:ok,
-      reason:ok?"Accès Extral / marché xéno":"Réservé aux Extrals ou à une autorisation MJ"
+      reason:ok?"Accès Extral / marché xéno":"Réservé aux Extrals"
     };
   }
   if(item.chapter==="26"){

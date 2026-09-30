@@ -22,7 +22,7 @@ export const hunterRevisions = [
     "id": "doctrine_commune_de_chasse_rompu_aux_horreurs_frapper_la_faiblesse",
     "cost": 2,
     "effect": "V/SR/R — 1/Scène. Après avoir correctement identifié une vulnérabilité réelle et l’avoir effectivement exploitée par le moyen approprié, une action offensive réussie peut appliquer une Altération cohérente avec cette faiblesse même si sa marge n’en aurait normalement pas fourni.",
-    "effectDetails": "V/SR/R — 1/Scène. Après avoir correctement identifié une vulnérabilité réelle et l’avoir effectivement exploitée par le moyen approprié, une action offensive réussie peut appliquer une Altération cohérente avec cette faiblesse même si sa marge n’en aurait normalement pas fourni. Si l’action accorde déjà une Altération, le Talent n’en crée pas automatiquement une seconde. Il ne crée jamais une vulnérabilité et n’augmente pas génériquement les dégâts.\nConditions de résolution : Garder 2 PTV et 1/scène, sans PA ajouté à l’action offensive ; une seule Altération, sans DGT générique.",
+    "effectDetails": "V/SR/R — 1/Scène. Après avoir correctement identifié une vulnérabilité réelle et l’avoir effectivement exploitée par le moyen approprié, une action offensive réussie peut appliquer une Altération cohérente avec cette faiblesse même si sa marge n’en aurait normalement pas fourni. Si l’action accorde déjà une Altération, le Talent n’en crée pas automatiquement une seconde. Il ne crée jamais une vulnérabilité et n’augmente pas génériquement les dégâts.\nConditions de résolution : 1/scène, sans PA ajouté à l’action offensive ; une seule Altération, sans DGT générique.",
     "activation": "2 PTV et 1/scène, sans PA ajouté à l’action offensive ; une seule Altération, sans DGT générique.",
     "requiredTalentIds": [],
     "anyRequiredTalentIds": []
@@ -31,7 +31,7 @@ export const hunterRevisions = [
     "id": "doctrine_commune_de_chasse_rompu_aux_horreurs_mise_a_mort_preparee",
     "cost": 3,
     "effect": "V/SR/R — 2 PA. Sur une cible à 0 PV ou moins, inconsciente, totalement immobilisée ou autrement incapable de se défendre efficacement, le Chasseur peut appliquer une méthode de neutralisation durable qu’il connaît réellement et dont il possède les moyens.",
-    "effectDetails": "V/SR/R — 2 PA. Sur une cible à 0 PV ou moins, inconsciente, totalement immobilisée ou autrement incapable de se défendre efficacement, le Chasseur peut appliquer une méthode de neutralisation durable qu’il connaît réellement et dont il possède les moyens. Une méthode létale valide tue ; une méthode de neutralisation maintient la cible neutralisée. La régénération, la transformation corporelle ou le retour immédiat ordinaire ne la ramènent pas pendant la scène. Ne contourne pas résurrection divine, phylactère distant, clone externe, incarnation de remplacement ou mécanisme explicitement supérieur.\nConditions de résolution : Garder 3 PTV et 2 PA ; exiger une incapacité totale de défense face à la méthode, pas une simple pénalité, Surprise ou mauvaise Défense.",
+    "effectDetails": "V/SR/R — 2 PA. Sur une cible à 0 PV ou moins, inconsciente, totalement immobilisée ou autrement incapable de se défendre efficacement, le Chasseur peut appliquer une méthode de neutralisation durable qu’il connaît réellement et dont il possède les moyens. Une méthode létale valide tue ; une méthode de neutralisation maintient la cible neutralisée. La régénération, la transformation corporelle ou le retour immédiat ordinaire ne la ramènent pas pendant la scène. Ne contourne pas résurrection divine, phylactère distant, clone externe, incarnation de remplacement ou mécanisme explicitement supérieur.\nConditions de résolution : 2 PA ; exiger une incapacité totale de défense face à la méthode, pas une simple pénalité, Surprise ou mauvaise Défense.",
     "activation": "3 PTV et 2 PA ; exiger une incapacité totale de défense face à la méthode, pas une simple pénalité, Surprise ou mauvaise Défense.",
     "requiredTalentIds": [],
     "anyRequiredTalentIds": []
@@ -40,7 +40,7 @@ export const hunterRevisions = [
     "id": "lavandieres_tradition_vampirique_de_chasse_lire_la_souillure",
     "cost": 1,
     "effect": "SR/R — 1 PA. En examinant un échantillon de sang, déterminer s’il provient d’un Vampire, d’un Moroï ou d’un Strygoï ; déterminer si deux échantillons proviennent du même individu ; identifier l’individu seulement s’il est personnellement connu.",
-    "effectDetails": "SR/R — 1 PA. En examinant un échantillon de sang, déterminer s’il provient d’un Vampire, d’un Moroï ou d’un Strygoï ; déterminer si deux échantillons proviennent du même individu ; identifier l’individu seulement s’il est personnellement connu. Ne révèle jamais Cour, Sang, Talents, nom, âge ou position.\nConditions de résolution : Garder 1 PTV et 1 PA sur un échantillon réellement accessible ; aucun changement de Cour/Sang/Nature détectable au-delà du texte.",
+    "effectDetails": "SR/R — 1 PA. En examinant un échantillon de sang, déterminer s’il provient d’un Vampire, d’un Moroï ou d’un Strygoï ; déterminer si deux échantillons proviennent du même individu ; identifier l’individu seulement s’il est personnellement connu. Ne révèle jamais Cour, Sang, Talents, nom, âge ou position.\nConditions de résolution : 1 PA sur un échantillon réellement accessible ; aucun changement de Cour/Sang/Nature détectable au-delà du texte.",
     "activation": "1 PTV et 1 PA sur un échantillon réellement accessible ; aucun changement de Cour/Sang/Nature détectable au-delà du texte.",
     "requiredTalentIds": [],
     "anyRequiredTalentIds": []
@@ -452,7 +452,7 @@ export const hunterRevisions = [
     "id": "khalsa_serment_protection_et_liberte_arme_du_serment_plaie_fidele",
     "cost": 2,
     "effect": "R — Passif — Prérequis : Arme du Serment. Une attaque avec l’Arme du Serment infligeant au moins 1 dégât réel empêche la récupération de ces dégâts par régénération surnaturelle jusqu’à la fin de la prochaine activation de la cible.",
-    "effectDetails": "R — Passif — Prérequis : Arme du Serment. Une attaque avec l’Arme du Serment infligeant au moins 1 dégât réel empêche la récupération de ces dégâts par régénération surnaturelle jusqu’à la fin de la prochaine activation de la cible. Soins externes et médecine restent possibles.\nConditions de résolution : Garder 2 PTV et Arme du Serment ; bloquer seulement les PV infligés jusqu’à fin de prochaine activation, médecine et soins externes maintenus.",
+    "effectDetails": "R — Passif — Prérequis : Arme du Serment. Une attaque avec l’Arme du Serment infligeant au moins 1 dégât réel empêche la récupération de ces dégâts par régénération surnaturelle jusqu’à la fin de la prochaine activation de la cible. Soins externes et médecine restent possibles.\nConditions de résolution : Arme du Serment ; bloquer seulement les PV infligés jusqu’à fin de prochaine activation, médecine et soins externes maintenus.",
     "activation": "2 PTV et Arme du Serment ; bloquer seulement les PV infligés jusqu’à fin de prochaine activation, médecine et soins externes maintenus.",
     "requiredTalentIds": [
       "khalsa_serment_protection_et_liberte_arme_du_serment_arme_du_serment"
@@ -561,7 +561,7 @@ export const hunterRevisions = [
     "id": "khalsa_serment_protection_et_liberte_volonte_libre_refuser_la_souillure",
     "cost": 2,
     "effect": "SR/R — 1/Scène. Lorsqu’une source surnaturelle extérieure devrait infliger de la Corruption, réduire le gain de 1, minimum 0.",
-    "effectDetails": "SR/R — 1/Scène. Lorsqu’une source surnaturelle extérieure devrait infliger de la Corruption, réduire le gain de 1, minimum 0. Ne fonctionne ni sur une Corruption volontairement recherchée ni sur une transformation devenue intrinsèque.\nConditions de résolution : Garder 2 PTV et 1/scène ; ne cumuler aucune réduction équivalente, ne pas modifier l’Intégrité ni la Corruption déjà acquise.",
+    "effectDetails": "SR/R — 1/Scène. Lorsqu’une source surnaturelle extérieure devrait infliger de la Corruption, réduire le gain de 1, minimum 0. Ne fonctionne ni sur une Corruption volontairement recherchée ni sur une transformation devenue intrinsèque.\nConditions de résolution : 1/scène ; ne cumuler aucune réduction équivalente, ne pas modifier l’Intégrité ni la Corruption déjà acquise.",
     "activation": "2 PTV et 1/scène ; ne cumuler aucune réduction équivalente, ne pas modifier l’Intégrité ni la Corruption déjà acquise.",
     "requiredTalentIds": [],
     "anyRequiredTalentIds": []
@@ -675,7 +675,7 @@ export const hunterRevisions = [
     "id": "taoistes_gu_shimazu_et_secrets_shi_fondamentaux_du_qi_transe_de_lequilibre",
     "cost": 3,
     "effect": "R — 2 PA — 1/Scène. Uniquement à Équilibre.",
-    "effectDetails": "R — 2 PA — 1/Scène. Uniquement à Équilibre. Pour la scène, la première utilisation d’un Talent Yin et la première utilisation d’un Talent Yang de chaque round ne déplacent pas la piste de Qi. Une même polarité répétée la déplace ensuite normalement. La Transe cesse immédiatement si le personnage atteint Yin profond ou Yang profond.\nConditions de résolution : 2 PA, 1/scène ; publier la piste et l’ordre des déplacements, première technique de chaque polarité exonérée par round, arrêt aux extrêmes.",
+    "effectDetails": "R — 2 PA — 1/Scène. Uniquement à Équilibre. Pour la scène, la première utilisation d’un Talent Yin et la première utilisation d’un Talent Yang de chaque round ne déplacent pas la piste de Qi. Une même polarité répétée la déplace ensuite normalement. La Transe cesse immédiatement si le personnage atteint Yin profond ou Yang profond.\nConditions de résolution : 2 PA, 1/scène ; première technique de chaque polarité exonérée par round, arrêt aux extrêmes.\nPiste de Qi : Yin profond ← Yin ← Équilibre → Yang → Yang profond. Commencez à Équilibre. Un déplacement indiqué par une technique avance d’un cran vers sa polarité, sans dépasser l’extrémité ; un déplacement direct vers un état rejoint cet état. Résolvez les techniques dans leur ordre d’utilisation. Transe exonère la première technique Yin et la première Yang de chaque round ; Cycle contraire remplace le déplacement normal par un cran vers Équilibre ; Deux souffles diffère le calcul jusqu’après les deux techniques, sans supprimer leurs déplacements. La Transe cesse dès qu’un extrême est atteint.",
     "activation": "2 PA, 1/scène ; publier la piste et l’ordre des déplacements, première technique de chaque polarité exonérée par round, arrêt aux extrêmes.",
     "requiredTalentIds": [],
     "anyRequiredTalentIds": []
@@ -858,7 +858,7 @@ export const hunterRevisions = [
     "id": "kabbale_les_dix_sephiroth_kether_unite_concordance_de_kether",
     "cost": 2,
     "effect": "SR/R — 1 PA — 1/Scène — Prérequis : Nœud de Kether. Lorsque plusieurs membres du Nœud perçoivent ou se souviennent d’une situation de manière surnaturellement contradictoire, obtenir un fait invariant réellement commun à toutes les versions : personne présente, objet absent, même son, direction ou événement.",
-    "effectDetails": "SR/R — 1 PA — 1/Scène — Prérequis : Nœud de Kether. Lorsque plusieurs membres du Nœud perçoivent ou se souviennent d’une situation de manière surnaturellement contradictoire, obtenir un fait invariant réellement commun à toutes les versions : personne présente, objet absent, même son, direction ou événement. Ne dit pas quelle version complète est vraie.\nConditions de résolution : Garder 2 PTV et 1/scène ; 1 PA, seulement contradictions réellement perçues par les membres encore liés.",
+    "effectDetails": "SR/R — 1 PA — 1/Scène — Prérequis : Nœud de Kether. Lorsque plusieurs membres du Nœud perçoivent ou se souviennent d’une situation de manière surnaturellement contradictoire, obtenir un fait invariant réellement commun à toutes les versions : personne présente, objet absent, même son, direction ou événement. Ne dit pas quelle version complète est vraie.\nConditions de résolution : 1/scène ; 1 PA, seulement contradictions réellement perçues par les membres encore liés.",
     "activation": "2 PTV et 1/scène ; 1 PA, seulement contradictions réellement perçues par les membres encore liés.",
     "requiredTalentIds": [
       "kabbale_les_dix_sephiroth_kether_unite_nud_de_kether"
@@ -896,7 +896,7 @@ export const hunterRevisions = [
     "id": "kabbale_les_dix_sephiroth_bina_limite_interdit_de_bina",
     "cost": 3,
     "effect": "R — 1 PA — 1/Scène. Après avoir vu ou correctement identifié une capacité surnaturelle Active précise, Volonté + Maîtrise spirituelle contre la Défense occulte de la cible, à 10 m.",
-    "effectDetails": "R — 1 PA — 1/Scène. Après avoir vu ou correctement identifié une capacité surnaturelle Active précise, Volonté + Maîtrise spirituelle contre la Défense occulte de la cible, à 10 m. En réussite, cette capacité ne peut être activée jusqu’à la fin de la prochaine activation de la cible. Ne vise pas Nature, passif fondamental ou ressource.\nConditions de résolution : Aligner à 1 PA, 3 PTV, 1/scène, 10 m ; capacité Active déjà observée, opposition occulte, interdiction jusqu’à fin de prochaine activation.",
+    "effectDetails": "R — 1 PA — 1/Scène. Après avoir vu ou correctement identifié une capacité surnaturelle Active précise, Volonté + Maîtrise spirituelle contre la Défense occulte de la cible, à 10 m. En réussite, cette capacité ne peut être activée jusqu’à la fin de la prochaine activation de la cible. Ne vise pas Nature, passif fondamental ou ressource.\nConditions de résolution : 1 PA, 1/scène, 10 m ; capacité Active déjà observée, opposition occulte, interdiction jusqu’à fin de prochaine activation.",
     "activation": "Aligner à 1 PA, 3 PTV, 1/scène, 10 m ; capacité Active déjà observée, opposition occulte, interdiction jusqu’à fin de prochaine activation.",
     "requiredTalentIds": [],
     "anyRequiredTalentIds": []
@@ -1614,7 +1614,7 @@ export const hunterRevisions = [
     "id": "neopaiens_pratiques_communes_et_mysteres_mystere_des_serments_et_du_sacrifice_prix_consenti",
     "cost": 2,
     "effect": "SR/R — 1/Scène. Lorsqu’un rite manque une condition ou un coût symbolique impossible à satisfaire immédiatement, offrir un sacrifice personnel réellement significatif et durable comme substitution si le MJ juge l’équivalence métaphysique suffisante.",
-    "effectDetails": "SR/R — 1/Scène. Lorsqu’un rite manque une condition ou un coût symbolique impossible à satisfaire immédiatement, offrir un sacrifice personnel réellement significatif et durable comme substitution si le MJ juge l’équivalence métaphysique suffisante. Ne remplace jamais une condition cosmologique par de l’argent trivial.\nConditions de résolution : Garder 2 PTV et 1/scène ; sacrifice concret et durable défini avant rite, aucune substitution cosmologique automatique.",
+    "effectDetails": "SR/R — 1/Scène. Lorsqu’un rite manque une condition ou un coût symbolique impossible à satisfaire immédiatement, offrir un sacrifice personnel réellement significatif et durable comme substitution si le MJ juge l’équivalence métaphysique suffisante. Ne remplace jamais une condition cosmologique par de l’argent trivial.\nConditions de résolution : 1/scène ; sacrifice concret et durable défini avant rite, aucune substitution cosmologique automatique.",
     "activation": "2 PTV et 1/scène ; sacrifice concret et durable défini avant rite, aucune substitution cosmologique automatique.",
     "requiredTalentIds": [],
     "anyRequiredTalentIds": []
@@ -1703,7 +1703,7 @@ export const hunterRevisions = [
     "id": "chasse_fantastique_la_venerie_surnaturelle_chevauchee_prendre_le_vent",
     "cost": 2,
     "effect": "SR/R — Passif — Prérequis : Fenêtre de chasse. Lorsque Fenêtre de chasse se déclenche alors que le Chasseur est monté, l’action simple autorisée peut employer le déplacement réel de sa Monture plutôt que le déplacement personnel.",
-    "effectDetails": "SR/R — Passif — Prérequis : Fenêtre de chasse. Lorsque Fenêtre de chasse se déclenche alors que le Chasseur est monté, l’action simple autorisée peut employer le déplacement réel de sa Monture plutôt que le déplacement personnel. Toujours 1 PA ; aucun mouvement supplémentaire.\nConditions de résolution : Garder 2 PTV et Fenêtre de chasse ; un PA, déplacement normal de la monture, pas cavalier plus monture successivement.",
+    "effectDetails": "SR/R — Passif — Prérequis : Fenêtre de chasse. Lorsque Fenêtre de chasse se déclenche alors que le Chasseur est monté, l’action simple autorisée peut employer le déplacement réel de sa Monture plutôt que le déplacement personnel. Toujours 1 PA ; aucun mouvement supplémentaire.\nConditions de résolution : Fenêtre de chasse ; un PA, déplacement normal de la monture, pas cavalier plus monture successivement.",
     "activation": "2 PTV et Fenêtre de chasse ; un PA, déplacement normal de la monture, pas cavalier plus monture successivement.",
     "requiredTalentIds": [
       "doctrine_commune_de_chasse_rompu_aux_horreurs_fenetre_de_chasse"

@@ -151,7 +151,7 @@ const TALENT_HUB_SPECS: TalentHubSpec[] = [
         id: "piste-de-qi",
         title: "La piste de Qi",
         paragraphs: [
-          "Le pratiquant commence à l’Équilibre et peut progresser vers Yin profond ou Yang profond. Les deux extrêmes décrivent un état de circulation, non un alignement moral ; l’Harmonie organise leur tension autour d’un centre volontaire.",
+          "La piste comporte cinq positions : Yin profond, Yin, Équilibre, Yang, Yang profond. Le pratiquant commence à Équilibre ; chaque déplacement d’un cran suit la polarité indiquée, sans dépasser un extrême. Les techniques se résolvent dans leur ordre ; Transe de l’équilibre, Cycle contraire et Deux souffles précisent leurs exceptions. Les deux extrêmes décrivent un état de circulation, non un alignement moral ; l’Harmonie organise leur tension autour d’un centre volontaire.",
           "Sentir un Qi perturbé ne révèle ni espèce, ni identité, ni fiche. Le Grand Scellement des Shi exige pour sa part une cible déjà vaincue, contenue ou consentante et un ancrage adapté."
         ]
       }
