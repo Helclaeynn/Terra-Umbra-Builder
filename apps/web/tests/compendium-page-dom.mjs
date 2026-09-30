@@ -61,6 +61,7 @@ const bundle = await build({
         { path: '/', component: CompendiumPage },
         { path: '/compendium', component: CompendiumPage },
         { path: '/account', component: Placeholder },
+        { path: '/atlas', component: Placeholder },
         { path: '/compendium/new', component: Placeholder },
         { path: '/compendium/edit/:id', component: Placeholder },
         { path: '/characters/:id/builder', component: Placeholder }

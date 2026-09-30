@@ -28,7 +28,7 @@ jobs:
           mkdir -p /tmp/atlas-source /tmp/atlas-release
           git archive "$BASE_SHA" | tar -x -C /tmp/atlas-source
           # No unpublished builder/API changes are included in this web-only release.
-          for path in apps/web/src/main.ts apps/web/src/pages/CompendiumPage.vue apps/web/src/pages/AtlasPage.vue apps/web/src/components/AtlasArticleLinks.vue apps/web/src/lib/atlas-data.json apps/web/src/lib/atlas-article-maps.json apps/web/tests/atlas-data-check.mjs apps/web/public/map-assets; do
+          for path in apps/web/src/main.ts apps/web/src/pages/CompendiumPage.vue apps/web/src/pages/AtlasPage.vue apps/web/src/components/AtlasArticleLinks.vue apps/web/src/lib/atlas-data.json apps/web/src/lib/atlas-article-maps.json apps/web/tests/atlas-data-check.mjs apps/web/tests/compendium-page-dom.mjs apps/web/public/map-assets; do
             mkdir -p "/tmp/atlas-source/$(dirname "$path")"
             cp -a "$path" "/tmp/atlas-source/$path"
           done
