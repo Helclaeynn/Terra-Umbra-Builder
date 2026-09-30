@@ -33,6 +33,11 @@ jobs:
             cp -a "$path" "/tmp/atlas-source/$path"
           done
           node --input-type=module -e "import {writeFileSync} from 'node:fs';writeFileSync('/tmp/atlas-source/apps/web/public/build-info.json',JSON.stringify({commit:process.env.GITHUB_SHA,base:process.env.BASE_SHA,release:'atlas-20260930',scope:'web-atlas-only'}));"
+      - name: Compile existing API definitions for the Compendium fixture test
+        working-directory: /tmp/atlas-source/apps/api
+        run: |
+          npm ci
+          npx tsc -p tsconfig.json
       - name: Verify atlas and Compendium against the production base
         working-directory: /tmp/atlas-source/apps/web
         run: |
