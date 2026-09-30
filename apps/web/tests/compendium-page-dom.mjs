@@ -46,6 +46,12 @@ const publicArticle = {
   ]
 };
 const fixtures = new Map([cole, ...additionalNpcs, publicArticle].map(article => [article.id, article]));
+const mapArticles = [
+  ['realite-v9-grande-californie-2035', 'Grande Californie en 2035', 1],
+  ['realite-v9-grande-reserve-detail', 'Grande Réserve', 1],
+  ['realite-v9-los-angeles-laus-securites', 'Los Angeles, LAUS & sécurités', 5]
+];
+for (const [id, title] of mapArticles) fixtures.set(id, { id, title, category: 'Réalité', tags: [], sections: [] });
 const retiredArticleId = "guide-realite-nouveau-joueur";
 const articleUrl = (id, section = "") => `/compendium?article=${id}${section ? `&section=${section}` : ""}`;
 
@@ -402,6 +408,21 @@ for (const npc of additionalNpcs) {
     await waitFor(() => reader.d.querySelector('.article-header h1')?.textContent === publicArticle.title, 'Revisited article renders');
     check('une fiche déjà consultée se rouvre sans second appel API', () => {
       assert.equal(reader.requests.filter(request => request.path === `/api/compendium/articles/${publicArticle.id}`).length, 1);
+      assert.deepEqual(reader.errors, []);
+    });
+  } finally { reader.close(); }
+}
+for (const [id, title, count] of mapArticles) {
+  const reader = await mount({role:null, initialRoute:articleUrl(id)});
+  try {
+    await waitFor(() => reader.d.querySelector('.article-maps'), `${title}: static maps mounted`);
+    check(`${title} : cartes classiques intégrées et accès Atlas dans les actions`, () => {
+      assert.equal(reader.d.querySelectorAll('.article-maps figure').length, count);
+      assert.equal(reader.d.querySelector('.compendium-top-actions .atlas-access')?.getAttribute('href'), '/atlas');
+      for (const image of reader.d.querySelectorAll('.article-maps img')) {
+        assert.equal(image.getAttribute('loading'), 'lazy');
+        assert(image.closest('a').href.includes('/map-assets/v1/'));
+      }
       assert.deepEqual(reader.errors, []);
     });
   } finally { reader.close(); }

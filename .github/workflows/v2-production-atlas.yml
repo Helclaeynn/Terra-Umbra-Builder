@@ -9,7 +9,7 @@ concurrency:
   group: tuc-v2-production
   cancel-in-progress: false
 env:
-  BASE_SHA: ad34dcf99b027510041b7e9bacbcbd079390e5be
+  BASE_SHA: 8728bc24f71fb04af74265429f51ac6ba2a0f6b0
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -28,9 +28,9 @@ jobs:
           mkdir -p /tmp/atlas-source /tmp/atlas-release
           git archive "$BASE_SHA" | tar -x -C /tmp/atlas-source
           # No unpublished builder/API changes are included in this web-only release.
-          for path in apps/web/src/main.ts apps/web/src/pages/CompendiumPage.vue apps/web/src/pages/AtlasPage.vue apps/web/src/components/AtlasArticleLinks.vue apps/web/src/lib/atlas-data.json apps/web/src/lib/atlas-article-maps.json apps/web/tests/atlas-data-check.mjs apps/web/tests/compendium-page-dom.mjs apps/web/public/map-assets; do
+          for path in apps/web/src/main.ts apps/web/src/pages/CompendiumPage.vue apps/web/src/pages/AtlasPage.vue apps/web/src/components/AtlasArticleLinks.vue apps/web/src/components/AtlasArticleMaps.vue apps/web/src/lib/atlas-data.json apps/web/src/lib/atlas-article-maps.json apps/web/src/lib/atlas-static-articles.json apps/web/tests/atlas-data-check.mjs apps/web/tests/compendium-page-dom.mjs apps/web/public/map-assets; do
             mkdir -p "/tmp/atlas-source/$(dirname "$path")"
-            cp -a "$path" "/tmp/atlas-source/$path"
+            cp -a "$path" "/tmp/atlas-source/$(dirname "$path")/"
           done
           node --input-type=module -e "import {writeFileSync} from 'node:fs';writeFileSync('/tmp/atlas-source/apps/web/public/build-info.json',JSON.stringify({commit:process.env.GITHUB_SHA,base:process.env.BASE_SHA,release:'atlas-20260930',scope:'web-atlas-only'}));"
       - name: Compile existing API definitions for the Compendium fixture test
