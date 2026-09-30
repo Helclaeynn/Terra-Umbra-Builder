@@ -1,6 +1,7 @@
 name: V2 production Bestiary encounters and AIDH access
 # AIDH creation is restricted; an explicitly chosen progression hunter doctrine keeps its equipment.
 # The encounter guide is a private rules page, separate from the 281 illustrated creatures.
+# Retain the guide through the legacy corpus cut-over on fresh installations.
 on:
   push:
     branches: [feature/tuc-web-v2]
