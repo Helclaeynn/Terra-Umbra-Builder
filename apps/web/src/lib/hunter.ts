@@ -1,10 +1,10 @@
 import {hunterDoctrines,normalizeHunterBuild} from '../../../api/src/rules/truth/hunter-build';
 import type {TruthRulesPackage,TruthState,TruthTalent} from './truth';
 export {hunterDoctrines,normalizeHunterBuild};
-export function selectedHunterDoctrines(state:TruthState){
+export function selectedHunterDoctrines(state:Pick<TruthState,"nature"|"choices"|"mode">){
  const native=typeof state.choices.hunterTradition==='string'?state.choices.hunterTradition:'';
  if(state.mode==='creation')return state.nature==='humain'&&native&&native!=='aucune'?[native]:[];
- return [...new Set([...(native&&native!=='aucune'?[native]:[]),...normalizeHunterBuild(state.choices.hunterBuild).doctrines])].filter(id=>hunterDoctrines.some(d=>d.id===id)&&(id!=='lavandiere'||state.nature==='vampire'));
+ return [...new Set([...(native&&native!=='aucune'?[native]:[]),...normalizeHunterBuild(state.choices.hunterBuild).doctrines])].filter(id=>(id===native||hunterDoctrines.some(d=>d.id===id))&&(id!=='lavandiere'||state.nature==='vampire'));
 }
 export function hunterTalentReady(pkg:TruthRulesPackage,state:TruthState,talent:TruthTalent,available:TruthTalent[],seen=new Set<string>()):boolean{
  if(seen.has(talent.id)||!available.some(t=>t.id===talent.id))return false;

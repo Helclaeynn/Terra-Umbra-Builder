@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import {build} from 'esbuild';
 import {fileURLToPath} from 'node:url';
 const root=fileURLToPath(new URL('../',import.meta.url));
-const bundle=await build({stdin:{resolveDir:root,loader:'ts',contents:"export * from './src/lib/truth';export * from './src/lib/hunter';export * from './src/lib/truth-sheet-details';export * from '../api/src/character-data';"},bundle:true,write:false,format:'esm',platform:'node'});
+const bundle=await build({stdin:{resolveDir:root,loader:'ts',contents:"export * from './src/lib/character-pdf-model';export * from './src/lib/truth';export * from './src/lib/hunter';export * from './src/lib/truth-sheet-details';export * from '../api/src/character-data';"},bundle:true,write:false,format:'esm',platform:'node'});
 const m=await import('data:text/javascript;base64,'+Buffer.from(bundle.outputFiles[0].text).toString('base64'));
 const {terraUmbraTruthRules:pkg}=await import('../../api/dist/rules/truth/rules.js');
 for(const name of ['Forme du Chevalier','Appel de l’arme','Signature impossible','Odeur du semblable'])assert.ok(m.hunterBuildChoiceLabel(pkg.catalogs.humain.find(t=>t.name===name).id),name+' permanent choice');
@@ -26,6 +26,7 @@ for(const d of m.hunterDoctrines){
 }
 const s=blank('humain','progression');s.choices.hunterBuild={doctrines:['onmyoji']};const vase=pkg.catalogs.humain.find(t=>t.name==='Vase de Souillure');assert.equal(m.truthPrerequisiteSatisfied(pkg,s,vase),false);s.truthTalents=[vase.anyRequiredTalentIds[0]];assert.equal(m.truthPrerequisiteSatisfied(pkg,s,vase),true);s.truthTalents=[vase.anyRequiredTalentIds[1]];assert.equal(m.truthPrerequisiteSatisfied(pkg,s,vase),false,'Missing ancestor of alternate prerequisite');
 for(const chapter of ['23','24','25','26','27']){const item=pkg.equipment.find(t=>t.chapter===chapter&&!t.referenceOnly);if(item)assert.equal(m.truthEquipmentAccess(item,blank()).ok,false,'Creation ignores old GM override '+chapter);}
+const initiated=blank('humain','progression');initiated.choices.hunterBuild={doctrines:['xenoshield','catholique']};assert.equal(m.truthPermanentAttributeBonus(initiated,'volonte'),1);assert.match(m.truthRevelationProfile(pkg,initiated).stats.r,/\+1 Volonté/);assert.equal(m.dossierSlug(initiated),'chasseur');assert.equal(m.truthPermanentAttributeBonus({...initiated,nature:'vampire'},'volonte'),0);
 const x=blank();x.choices.hunterTradition='xenoshield';assert.ok(getHunter(x).length>4);assert.ok(pkg.equipment.filter(t=>t.chapter==='23'&&!t.requiresMj&&!t.referenceOnly).every(t=>m.truthEquipmentAccess(t,x).ok));
 const data=m.blankCharacterData('Hunter');data.truth={...x,choices:{...x.choices,hunterBuild:{doctrines:['onmyoji'],records:{[vase.id]:{reference:'Vase réel',profile:'Un effet',ptvEarned:99}},approved:true}}};data.truth.truthTalents=[vase.id];const saved=m.normalizeCharacterData(JSON.parse(JSON.stringify(data)));assert.equal(saved.truth.choices.hunterBuild.records[vase.id].reference,'Vase réel');assert.equal(saved.truth.choices.hunterBuild.approved,undefined);assert.ok(m.truthSheetDetails(pkg,saved.truth,3).some(t=>t.id==='hunter-'+vase.id));
 console.log('HUNTERS WEB OK — all natures, opt-in doctrine matrix, entire prerequisite graph, retained prices, creation equipment, bounded persistence and PDF projection');

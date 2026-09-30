@@ -557,7 +557,7 @@ export function truthPermanentAttributeBonus(
   const hunterMemory=
     state.nature==="humain"&&
     state.consciousness==="initie"&&
-    (stringChoice(state.choices,"hunterTradition")||"aucune")!=="aucune";
+    selectedHunterDoctrines(state).length>0;
   return hunterMemory&&attributeId==="volonte"?1:0;
 }
 
@@ -577,7 +577,7 @@ export function truthRevelationProfile(pkg:TruthRulesPackage,state:TruthState){
   const hunterMemory=
     nature==="humain"&&
     state.consciousness==="initie"&&
-    (stringChoice(choices,"hunterTradition")||"aucune")!=="aucune";
+    selectedHunterDoctrines(state).length>0;
 
   if(nature==="humain"){
     label=hunterMemory?"Humain Chasseur · mémoire du Voile":"Humain";

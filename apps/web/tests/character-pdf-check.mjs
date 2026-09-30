@@ -45,6 +45,16 @@ for(const [nature,choices,consciousness,slug] of tests)assert.equal(dossierSlug(
 assert.throws(()=>dossierSlug({nature:'exile',choices:{}}),/peuple/);
 assert.throws(()=>dossierSlug({nature:'extral',choices:{species:'missing'}}),/profil/);
 assert.throws(()=>dossierSlug({nature:'invented'}),/Nature/);
+{
+ const data=structuredClone(characterData),id=canon.catalogs.humain.find(t=>t.name==='Pacte du Djinn').id;
+ data.truth={...data.truth,nature:'humain',consciousness:'initie',choices:{hunterTradition:'aucune',hunterBuild:{doctrines:['nizarite'],records:{[id]:{reference:'Djinn existant',agreement:'Accord réel',profile:'Souffle',limits:'PA du maître'}}}},truthTalents:[]};
+ data.progression={...data.progression,truthTalents:[id]};
+ const fields=new Set([...manifest.fields.realite,...manifest.fields.chasseur].map(f=>f.name));
+ const model=projectCharacterPdf({data,core,truth:canon,reality:realityRules,campaign:true},fields);
+ assert.equal(model.slug,'chasseur');assert.ok(model.annex.some(a=>a.title==='Pacte du Djinn'&&a.text.includes('Djinn existant')),'Readable permanent hunter reference in actual PDF projection');
+ assert.ok(model.annex.some(a=>a.title==='Doctrines de Chasse choisies'&&a.text.includes('Nizarites')));
+ assert.ok(!model.annex.some(a=>a.title==='hunterBuild'),'No raw hunter JSON in PDF');
+}
 for(const slug of Object.keys(manifest.templates)){
   const data=structuredClone(characterData),row=tests.find(t=>t[3]===slug);
   data.truth={...data.truth,nature:row[0],choices:{...row[1]},consciousness:row[2],truthTalents:[],corruptionTalents:[]};
