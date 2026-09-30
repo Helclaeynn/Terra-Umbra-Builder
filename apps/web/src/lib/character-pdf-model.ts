@@ -1,3 +1,4 @@
+import {selectedHunterDoctrines,hunterDoctrines} from "./hunter";
 import {exileOwnedItems,exileUsableTalents} from "./exile";
 import {extralOwnedItems} from './extral';
 import {mageOwnedAffinities} from "./mage";
@@ -28,7 +29,7 @@ export function pdfTalentEffect(value:string,name:string){
 
 export function dossierSlug(raw:Record<string,unknown>):string {
   const nature=text(raw.nature)||'humain', choices=record(raw.choices);
-  if(nature==='humain')return raw.consciousness==='initie'&&text(choices.hunterTradition)&&choices.hunterTradition!=='aucune'?'chasseur':'realite';
+  if(nature==='humain')return raw.consciousness==='initie'&&selectedHunterDoctrines({nature,choices}).length>0?'chasseur':'realite';
   if(DIRECT.includes(nature))return nature;
   if(nature==='exile'&&EXILES.includes(text(choices.people)))return text(choices.people);
   if(nature==='extral'&&EXTRALS.includes(text(choices.species)))return text(choices.species).replace('_','-');
@@ -42,7 +43,7 @@ export function projectCharacterPdf(input:PdfInput, available:ReadonlySet<string
   const sheet=buildCharacterSheet(data,core,truth,reality,campaign,input.fallbackName);
   const values:Record<string,PdfValue>={}, labels:Record<string,string>={}, annex:PdfSection[]=[];
   const add=(title:string,value:unknown)=>{const content=text(value).trim();if(content)annex.push({title,text:content});};
-  for(const entry of (sheet.truthDetails??[]).filter(entry=>entry.id.startsWith('extral-')||entry.id.startsWith('exile-')||entry.id.startsWith('beneficiary-'))){
+  for(const entry of (sheet.truthDetails??[]).filter(entry=>entry.id.startsWith('hunter-')||entry.id.startsWith('extral-')||entry.id.startsWith('exile-')||entry.id.startsWith('beneficiary-'))){
     add(entry.name,[entry.value,entry.description].filter(Boolean).join('\n'));
   }
   for(const entry of sheet.angelusDetails??[]){
@@ -175,14 +176,18 @@ export function projectCharacterPdf(input:PdfInput, available:ReadonlySet<string
       for(const rank of ['angelus','cherub','seraph'])put(`truth.angelus.rank.${rank}`,rank===celestial.rank,'Rang céleste',false);
       put('truth.angelus.aura.max',celestial.maximum,'Aura maximale');
     }
-    if(slug==='chasseur')put('truth.chasseur.real_nature','Humain','Nature réelle');
+    if(slug==='chasseur'){
+      put('truth.chasseur.real_nature','Humain','Nature réelle');
+      const doctrines=selectedHunterDoctrines(state).map(id=>hunterDoctrines.find(d=>d.id===id)?.name??id).join(' · ');
+      put('truth.chasseur.tradition',doctrines,'Doctrines de Chasse');
+    }
     const aliases:Record<string,string[]>={angelNature:['nature','angelNature'],sephirah:['sephirah','sephira'],archangel:['archangel','archange'],seraph:['seraphPatron','seraph','seraphin'],
       mageiusType:['type','mageius','mageiusType'],dominantAffinity:['affinity','dominantAffinity'],hunterTradition:['tradition','hunterTradition'],
       lineage:['lineage','lignee'],variant:['variant','variante'],blood:['nativeBlood','blood','sang'],pelage:['pelage'],court:['court','cour'],
       function:['function','fonction'],divinity:['divinity','divinite'],patron:['patron'],origin:['origin','origine'],tradition:['thirteenTradition','tradition'],
       seratheenTradition:['council','seratheenTradition','seratheen'],network:['organization','doctrine','network','reseau'],people:['people','peuple'],species:['species','espece']};
     for(const [key,value] of Object.entries(choices)){
-      if(['extralBuild','exileBuild','beneficiaryBenefits'].includes(key)||value===null||value===undefined||value===''||value==='aucune')continue;
+      if(['hunterBuild','extralBuild','exileBuild','beneficiaryBenefits'].includes(key)||value===null||value===undefined||value===''||value==='aucune')continue;
       const spec=truth.structure.natures[state.nature]?.choices.find(c=>c.key===key);
       const rendered=truthChoiceLabel(truth,state,key)||text(value)||(Array.isArray(value)?value.map(text).join(', '):JSON.stringify(value));
       if((key==='people'||key==='species')&&rendered)continue; // The selected template already identifies the people.
@@ -197,6 +202,7 @@ export function projectCharacterPdf(input:PdfInput, available:ReadonlySet<string
         continue;
       }
       // A second hunting tradition must not overwrite a Nature's own tradition.
+      if(key==='hunterTradition'&&slug==='chasseur')continue;
       if(key==='hunterTradition'&&slug!=='chasseur'){add('Tradition de Chasse',rendered);continue;}
       put(unique([key,...aliases[key]??[]]).flatMap(id=>[`truth.${slug}.${id}`,`truth.identity.${id}`]),rendered,spec?.label??key.replaceAll('_',' '));
     }
