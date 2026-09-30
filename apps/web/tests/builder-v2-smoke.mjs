@@ -134,7 +134,7 @@ const truthRules={
         id:"humain",name:"Humain",description:"Humain de California",
         choices:[{
           key:"hunterTradition",label:"Tradition de Chasse",optional:true,
-          options:[{id:"aucune",name:"Aucune"}]
+          options:[{id:"aucune",name:"Aucune"},{id:"xenoshield",name:"XenoShield"}]
         }],
         baseFreeTraits:[{name:"Mémoire humaine",access:"V/SR/R",effect:"Trait gratuit smoke"}],
         freeTraitRules:[]
@@ -503,8 +503,11 @@ for(const label of ["Voilé","Semi-Révélé","Révélé"]){
 }
 
 await page.locator(".builder-nav").getByRole("button",{name:/Vérité/}).click();
-// Truth equipment is scoped by the character's actual access. A Human with no
-// hunter tradition only sees the common reference layer.
+// No empty equipment panel without access; selecting a doctrine opens its catalogue.
+if(await page.locator('.truth-equipment-panel').count())throw new Error('Empty equipment panel must be hidden');
+await page.locator('.builder-nav').getByRole('button',{name:/Nature & origines/}).click();
+await page.locator('.truth-choice-field select').first().selectOption('xenoshield');
+await page.locator('.builder-nav').getByRole('button',{name:/Vérité/}).click();
 await page.getByRole("heading",{name:"Objets de Vérité"}).waitFor({state:"visible",timeout:5000});
 const truthCatalog=page.locator("summary.truth-disclosure-summary").filter({hasText:"Catalogue de Vérité"});
 const truthEquipmentLink=label=>page.locator('.truth-equipment-card a.builder-wiki-link').filter({hasText:label});
@@ -512,7 +515,7 @@ await truthCatalog.click();
 await page.getByRole("button",{name:"Règles et références",exact:true}).click();
 await page.locator('.truth-equipment-toolbar').getByLabel('Chapitre').selectOption('22');
 await truthEquipmentLink("Propriété Smoke").waitFor({state:"attached",timeout:5000});
-if(await truthEquipmentLink("Arme de Chasse Smoke").count())throw new Error("Équipement de Chasse visible sans tradition de Chasse.");
+if(await truthEquipmentLink("Arme de Chasse Smoke").count())throw new Error("Équipement de Chasse visible dans les références communes.");
 if(await truthEquipmentLink("Objet d’Aèr Smoke").count())throw new Error("Objet d’Aèr visible pour un non-Exilé.");
 if(await truthEquipmentLink("Relique corrompue Smoke").count())throw new Error("Équipement corrompu visible sans autorisation MJ.");
 
@@ -520,6 +523,10 @@ if(await page.getByLabel(/Autorisation MJ d’accès exceptionnel aux objets de 
 await page.setViewportSize({width:390,height:1000});
 await assertBuilderReflow('Catalogue de Vérité naturel, 390px');
 await page.setViewportSize({width:1440,height:1000});
+await page.locator('.builder-nav').getByRole('button',{name:/Nature & origines/}).click();
+await page.locator('.truth-choice-field select').first().selectOption('aucune');
+await page.locator('.builder-nav').getByRole('button',{name:/Vérité/}).click();
+if(await page.locator('.truth-equipment-panel').count())throw new Error('Equipment panel remains after closing access');
 
 // Corruption is not a normal creation choice: it stays closed until explicit GM approval.
 const corruptionApproval=page.getByRole("checkbox",{name:"Autorisation MJ — Corruption & Fléaux",exact:true});
