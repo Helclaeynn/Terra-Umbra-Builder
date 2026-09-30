@@ -27,6 +27,19 @@ export function extralNetworkAccess(species:string,network:string):ExtralLearnin
   default:return '';
  }
 }
+export const extralNetworkDescriptions:Record<string,string>={
+ continuite:'Apprendre à passer du Voile à la Vérité sous pression et à coordonner ces transitions avec ses alliés.',
+ ctu:'Ingénierie de terrain : réparer, adapter et rendre une technologie extraterrestre utilisable avec les moyens terrestres.',
+ croix_verte:'Médecine entre espèces : soigner une physiologie étrangère, adapter un traitement et préparer un milieu de survie.',
+ reptile:'Infiltration d’institutions : protéger une couverture, compartimenter une organisation et agir par des relais.',
+ shaediri:'Réseau clandestin de transport et de contrebande : trouver une route, dissimuler une cargaison ou obtenir une extraction.',
+ hydroguard:'Combat et sauvetage sous l’eau : intercepter une menace, remorquer un allié et survivre aux profondeurs.',
+ smrc:'Spécialisation dans les greffes biologiques : limiter les rejets et faire coopérer des organes réellement implantés. Elle ne fournit aucune greffe.',
+ emeraude:'Combat en armure contre des adversaires lourds : maîtriser l’assistance de l’armure et exploiter une brèche dans leur protection.',
+ aidh_intervention:'Formation AIDH au combat en équipe : coordonner l’ordre des actions, relever un allié et s’interposer pour le protéger.',
+ aidh_coherence:'Formation AIDH à l’observation du Voile : repérer ses perturbations et préserver les observations avec des appareils adaptés.',
+ nelakna:'Arts martiaux ad’rak : contrôler l’adversaire au contact, enchaîner les prises et employer les techniques de cette tradition.'
+};
 export const extralAccessLabels={N:'Naturel — formation nécessaire',O:'Organisé — recrutement et formation réels',R:'Restreint — admission exceptionnelle à valider avec le MJ'} as const;
 export type ExtralPreparation={uid:string;name:string;kind:string;effect:string;resistance:string;duration:string;remaining:number};
 export type ExtralPatch={uid:string;state:'materialized'|'phased'};
@@ -54,7 +67,7 @@ const innate:Record<string,string>={
 };
 export function applyExtralStructure<T extends {natures:{extral:{choices:readonly any[];freeTraitRules:readonly any[]}}}>(structure:T){
  const current=structure.natures.extral;
- const optionsBy=Object.fromEntries(extralSpecies.map(species=>[species,[{id:'aucune',name:'Aucun réseau / doctrine',description:'Profil biologique seulement.'},...extralNetworks.filter(n=>extralNetworkAccess(species,n.id)).map(n=>({id:n.id,name:n.name,description:extralAccessLabels[extralNetworkAccess(species,n.id) as 'N'|'O'|'R']+' ; les PTV et équipements restent à acquérir séparément.'}))]]));
+ const optionsBy=Object.fromEntries(extralSpecies.map(species=>[species,[{id:'aucune',name:'Aucun réseau / doctrine',description:'Profil biologique seulement.'},...extralNetworks.filter(n=>extralNetworkAccess(species,n.id)).map(n=>({id:n.id,name:n.name,description:extralNetworkDescriptions[n.id]+' '+extralAccessLabels[extralNetworkAccess(species,n.id) as 'N'|'O'|'R']+'.'}))]]));
  return {...structure,natures:{...structure.natures,extral:{...current,
   choices:current.choices.map(c=>c.key==='network'?{...c,optionsBy}:c),
   freeTraitRules:current.freeTraitRules.map(r=>({...r,traits:[...r.traits.map((t:any)=>({...t,effect:innate[t.name]??t.effect})),...(r.when.species==='talass'?[{id:'free-extral-talass-fractures',name:'Perception des fractures',access:'SR/R',effect:'Détecte naturellement une fracture dimensionnelle active ou un résidu récent du Néant ; Vision des fractures développe son interprétation.'}]:[])]}))

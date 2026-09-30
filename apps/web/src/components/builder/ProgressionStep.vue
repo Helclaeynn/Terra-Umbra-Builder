@@ -1,14 +1,11 @@
 <script setup lang="ts">
-import ExileOptions from "./ExileOptions.vue";
-import BeneficiaryBenefits from "./BeneficiaryBenefits.vue";
+import TruthBuildChoices from "./TruthBuildChoices.vue";
+import TruthTrainingChoices from "./TruthTrainingChoices.vue";
+import {truthBuildChoiceLabel,truthHasInnateBuildChoice} from "../../lib/truth-build-guidance";
 import {exileOwnedItems,normalizeExileBuild,normalizeBeneficiaryBenefits,type ExileBuild,type BeneficiaryBenefits as BeneficiaryState} from "../../lib/exile";
-import ExtralOptions from "./ExtralOptions.vue";
 import {normalizeExtralBuild,extralOwnedItems,type ExtralBuild} from "../../lib/extral";
-import AngelusOptions from "./AngelusOptions.vue";
 import {normalizeAngelusBuild,type AngelusBuild} from "../../lib/angelus";
-import DaemonOptions from "./DaemonOptions.vue";
 import {normalizeDaemonBuild,type DaemonBuild} from "../../lib/daemon";
-import MageTechniques from "./MageTechniques.vue";
 import {normalizeMageTechniques,mageTechniqueKind,type MageTechniques as MageTechniqueDefinitions} from "../../lib/mage";
 import {truthKnownTalents} from "../../lib/truth";
 import TruthTalentText from "./TruthTalentText.vue";
@@ -130,6 +127,13 @@ function setAserynChoice(key:string,value:string){
   if(value&&!sanitizeAserynChoices({[key]:value})[key])return;
   emit("update:truth",{...props.truthState,choices:{...props.truthState.choices,[key]:value}});
 }
+
+const configuredTruthTalent=ref("");
+function setGuidedTruthChoices(patch:Record<string,unknown>){
+ const allowed=Object.fromEntries(Object.entries(patch).filter(([key])=>['daemonBuild','angelusBuild','extralBuild','exileBuild','mageTechniques'].includes(key)));
+ emit("update:truth",{...props.truthState,choices:{...props.truthState.choices,...allowed}});
+}
+
 function setExileBuild(value:ExileBuild){emit("update:truth",{...props.truthState,choices:{...props.truthState.choices,exileBuild:normalizeExileBuild(value)}});}
 function setBeneficiaryBenefits(value:BeneficiaryState){emit("update:truth",{...props.truthState,choices:{...props.truthState.choices,beneficiaryBenefits:normalizeBeneficiaryBenefits(value)}});}
 function setExtralBuild(value:ExtralBuild){
@@ -727,9 +731,6 @@ function sellCampaignItem(){
       </details>
     </details>
 
-    <ExileOptions v-if="combinedTruthState.nature==='exile'" :state="combinedTruthState" :rules="truthRules" @change="setExileBuild" />
-    <BeneficiaryBenefits :value="combinedTruthState.choices.beneficiaryBenefits" @change="setBeneficiaryBenefits" />
-    <ExtralOptions v-if="combinedTruthState.nature==='extral'" :state="combinedTruthState" :rules="truthRules" :rewards-locked="rewardsLocked" @change="setExtralBuild" />
     <details class="progress-panel" :open="state.truthTalents.length>0">
       <summary><strong>Dépenser des PTV</strong><span>La Vérité progresse par les PTV, jamais par l’XP</span></summary>
       <div v-if="truthState.consciousness==='profane'" class="initiation-row">
@@ -761,14 +762,22 @@ function sellCampaignItem(){
           <p v-if="talent.prerequisiteName"><b>Prérequis :</b> {{ talent.prerequisiteName }}</p>
           <TruthTalentText :effect="talent.effect" :details="talent.effectDetails" :lore="talent.runtimeLore" :activation="talent.activation" />
           <button class="primary compact" type="button" :disabled="!truthCanBuy(talent)" @click="buyTruthTalent(talent)">Apprendre · {{ talent.cost }} PTV</button>
+          <button v-if="truthBuildChoiceLabel(combinedTruthState,talent.id)" type="button" :data-configure-talent="talent.id" @click="configuredTruthTalent=configuredTruthTalent===talent.id?'':talent.id">{{truthBuildChoiceLabel(combinedTruthState,talent.id)}}</button>
+          <TruthBuildChoices v-if="configuredTruthTalent===talent.id" :state="combinedTruthState" :rules="truthRules" :talent-id="talent.id" @change="setGuidedTruthChoices" />
         </details>
           </article>
       </div>
     </details>
 
-    <AngelusOptions :state="combinedTruthState" :rules="truthRules" @change="setAngelusBuild" />
-    <DaemonOptions :state="combinedTruthState" :rules="truthRules" @change="setDaemonBuild" />
-    <MageTechniques :state="combinedTruthState" :rules="truthRules" @change="setMageTechniques" />
+    <TruthBuildChoices v-if="truthHasInnateBuildChoice(combinedTruthState)" :state="combinedTruthState" :rules="truthRules" talent-id="innate-spectre" @change="setGuidedTruthChoices" />
+    <TruthTrainingChoices :state="combinedTruthState" :rules="truthRules" @change="setGuidedTruthChoices" />
+    <details v-if="combinedTruthState.truthTalents.some(id=>truthBuildChoiceLabel(combinedTruthState,id))" class="progress-panel" data-owned-talent-choices>
+      <summary>Modifier les choix d’un talent acquis</summary>
+      <template v-for="id in combinedTruthState.truthTalents" :key="id">
+        <button v-if="truthBuildChoiceLabel(combinedTruthState,id)" type="button" :data-configure-talent="id" @click="configuredTruthTalent=configuredTruthTalent===id?'':id">{{truthBuildChoiceLabel(combinedTruthState,id)}}</button>
+        <TruthBuildChoices v-if="configuredTruthTalent===id" :state="combinedTruthState" :rules="truthRules" :talent-id="id" @change="setGuidedTruthChoices" />
+      </template>
+    </details>
     <AserynTalentChoices :state="combinedTruthState" @change="setAserynChoice" />
     <details class="progress-panel campaign-corruption">
       <summary><strong>Corruption &amp; Fléaux</strong><span>{{ truthState.corruption || 0 }} point(s) de Corruption · {{ combinedTruthState.corruptionTalents.length }} capacité(s) acquise(s)</span></summary>
