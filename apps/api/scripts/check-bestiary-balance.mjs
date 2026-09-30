@@ -11,6 +11,7 @@ const byId=new Map(corpus.articles.map(a=>[a.id,a]));
 const entryIds=new Set(bestiaryBalanceData.map(a=>a.id));
 const entries=corpus.articles.filter(a=>entryIds.has(a.id));
 assert.equal(entries.length,281,'Entire existing bestiary retained');
+assert.equal(corpus.articles.filter(a=>a.category==='Bestiaire').length,281,'Guide is not an additional creature');
 for(const a of entries){
  const s=a.sections.find(s=>s.id==='rencontres-recommandees');
  assert.ok(s,a.id+' has encounter advice');assert.equal(s.audience,'mj');
@@ -40,6 +41,7 @@ assert.equal(entries.filter(a=>a.sections.some(s=>s.id==='variante-balance-endur
 assert.equal(entries.filter(a=>a.sections.some(s=>s.id==='variante-balance-superieure')).length,4);
 assert.equal(bestiaryProgressionTiers.length,7);
 assert.equal(byId.get(BESTIARY_ENCOUNTER_GUIDE_ID).audience,'mj');
+assert.equal(byId.get(BESTIARY_ENCOUNTER_GUIDE_ID).category,'Règles');
 assert.equal(corpus.publicArticles.some(a=>a.id===BESTIARY_ENCOUNTER_GUIDE_ID),false);
 const guide=JSON.stringify(byId.get(BESTIARY_ENCOUNTER_GUIDE_ID));
 assert.match(guide,/Les colonnes XP et PTV sont indépendantes/);

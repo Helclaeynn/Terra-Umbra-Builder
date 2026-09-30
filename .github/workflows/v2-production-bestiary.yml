@@ -1,5 +1,6 @@
 name: V2 production Bestiary encounters and AIDH access
 # AIDH creation is restricted; an explicitly chosen progression hunter doctrine keeps its equipment.
+# The encounter guide is a private rules page, separate from the 281 illustrated creatures.
 on:
   push:
     branches: [feature/tuc-web-v2]
@@ -54,6 +55,8 @@ jobs:
           node scripts/check-truth-v7-builder-integration.mjs
           node scripts/check-truth-aseryn-terres-temples.mjs
           node scripts/check-bestiary-balance.mjs
+          node scripts/check-bestiary-illustrations.mjs
+          node scripts/check-bestiary-art-direction.mjs
       - name: PostgreSQL private media, sharing, saved sheets and campaign isolation
         working-directory: apps/api
         run: |

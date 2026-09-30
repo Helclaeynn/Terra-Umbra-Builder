@@ -110,7 +110,7 @@ export function applyBestiaryBalance(byId: Map<string, Article>): void {
     ]));
   }
   byId.set(BESTIARY_ENCOUNTER_GUIDE_ID, {
-    id: BESTIARY_ENCOUNTER_GUIDE_ID, title: "Bestiaire · préparer une rencontre", category: "Bestiaire",
+    id: BESTIARY_ENCOUNTER_GUIDE_ID, title: "Bestiaire · préparer une rencontre", category: "Règles",
     dataset: "bestiaire", audience: "mj", status: "canon_recent", source: "Calibrage du bestiaire · 30 septembre 2026",
     tags: ["Rencontres", "Paliers", "Difficulté", "MJ"],
     navigation: { group: "Guide des rencontres", groupOrder: 1, subgroup: "", subgroupOrder: 0, pageOrder: 0 },
