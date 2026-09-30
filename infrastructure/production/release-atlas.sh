@@ -15,7 +15,11 @@ current=$(curl -fsS --max-time 20 https://terra-umbra.fr/build-info.json | pytho
 test "$current" = "$base" || { echo 'Published version changed; atlas must be rebuilt on the new base.' >&2; exit 1; }
 (cd "$stage" && sha256sum --check SHA256SUMS)
 available=$(df -B1 --output=avail "$root" | tail -1)
-test "$available" -gt "$(cat "$stage/required-bytes.txt")"
+# The archives have already been transferred. Do not reserve their space twice.
+remaining_required=$(( $(cat "$stage/required-bytes.txt") - $(du -sb "$stage" | cut -f1) ))
+test "$remaining_required" -gt 0
+echo "Release disk check: $available bytes available, $remaining_required still required."
+test "$available" -gt "$remaining_required" || { echo 'Not enough space to unpack safely.' >&2; exit 1; }
 previous=$(docker inspect --format '{{.Image}}' "$(docker compose ps -q web)")
 api_before=$(docker inspect --format '{{.Image}}' "$(docker compose ps -q api)")
 printf '%s\n' "$previous" > "$stage/previous-web-image"

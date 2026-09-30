@@ -10,6 +10,7 @@ const root=fileURLToPath(new URL('../',import.meta.url));
 const start=JSON.parse(await readFile(path.join(root,'src/lib/player-start.json'),'utf8'));
 const terms=JSON.parse(await readFile(path.join(root,'src/lib/player-glossary.json'),'utf8'));
 const readings=JSON.parse(await readFile(path.join(root,'src/lib/article-reading-guides.json'),'utf8'));
+const reality=JSON.parse(await readFile(path.join(root,'src/lib/reality-start.json'),'utf8'));
 const termIds=new Set(terms.map(t=>t.id));
 const guideIds=new Set(start.guides.map(g=>g.id));
 assert.equal(guideIds.size,21);assert.equal(guideIds.size,start.guides.length);assert.equal(termIds.size,terms.length);
@@ -23,6 +24,8 @@ for(const g of start.guides){
   for(const s of g.stereotypes) assert(s.voice && s.subject && s.status && s.limit);
   assert(g.heritage.length>100 && g.inScene.length>100);
   assert(termIds.has(g.interpretation.term));
+  assert(g.illustration.src.startsWith('/api/compendium/media/images/lore/'));assert(g.illustration.alt && g.illustration.caption);
+  assert.equal(g.quickTerms.length,3);
 }
 for(const s of start.intro) for(const t of s.terms) assert(termIds.has(t));
 for(const t of terms){assert(t.definition.split(/\s+/).length<=85,`${t.id}: definition too long`);assert(t.article);}
@@ -32,13 +35,14 @@ const compiled=await build({
     import {createApp,h,nextTick,ref} from 'vue';
     import {createRouter,createMemoryHistory,RouterView} from 'vue-router';
     import Start from './src/pages/PlayerStartPage.vue';
+    import Reality from './src/pages/RealityStartPage.vue';
     import Glossary from './src/pages/GlossaryPage.vue';
     import Reading from './src/components/ArticleReadingGuide.vue';
     import NatureGuide from './src/components/builder/NatureStartGuide.vue';
     import {filterTerms,playerGuideForTruth} from './src/lib/player-start';
     const truth=ref({nature:'vampire',choices:{}});
     const router=createRouter({history:createMemoryHistory(),routes:[
-      {path:'/decouvrir',component:Start},{path:'/decouvrir/:guide',component:Start},
+      {path:'/decouvrir',component:Start},{path:'/decouvrir/realite',component:Reality},{path:'/decouvrir/:guide',component:Start},
       {path:'/glossaire',component:Glossary},{path:'/article/:id',component:{setup:()=>()=>h(Reading,{articleId:router.currentRoute.value.params.id})}},
       {path:'/builder-guide-test',component:{setup:()=>()=>h(NatureGuide,{state:truth.value})}},
       {path:'/compendium',component:{render:()=>h('p','Compendium destination')}},
@@ -69,6 +73,22 @@ const nano=[...d.querySelectorAll('.start-terms a')].find(a=>a.textContent.inclu
 assert.equal(api.filterTerms('essaim')[0].id,'nanites');assert.equal(api.filterTerms('AIDH')[0].id,'aidh');assert.equal(api.filterTerms('semi revele')[0].id,'semi-revele');assert.equal(api.filterTerms("Ad'rak")[0].id,'adrak');assert.equal(api.filterTerms('PA')[0].id,'pa');
 const search=d.querySelector('input');search.value='zzzinconnu';search.dispatchEvent(new dom.window.Event('input',{bubbles:true}));await wait();assert.equal(d.querySelectorAll('.glossary-term').length,0);assert.match(d.body.textContent,/Aucun mot trouvé/);assert(!api.route().includes('terme='));
 await api.go('/glossaire?terme=non-existant');assert.match(d.body.textContent,/Cette entrée n’existe pas/);assert.equal(d.querySelectorAll('.glossary-term').length,terms.length);
+await api.go('/decouvrir/realite');
+assert.match(d.querySelector('h1').textContent,/De quoi vis-tu/);
+assert.equal(d.querySelectorAll('.reality-profile').length,5);
+assert.equal(d.querySelectorAll('.guide-illustration img').length,5);
+assert.equal(d.querySelectorAll('.reality-profile .start-stereotypes').length,5);
+assert.match(d.querySelector('#regles').textContent,/1d10 explosif/);
+for(const profile of reality.profiles){
+ assert(d.querySelector('#'+profile.id));assert.equal(profile.choices.length,3);assert.equal(profile.stereotypes.length,4);
+ assert(profile.links.length>=2);assert(profile.illustration.alt.length>20);
+}
+await api.go('/decouvrir/homo-superior');
+assert.match(d.querySelector('.start-guide-body').textContent,/L’AIDH est une institution galactique/);
+assert.equal(d.querySelectorAll('.guide-illustration').length,1);
+assert.match(d.querySelector('#approfondir h2').textContent,/Pour aller plus loin/);
+assert.match(d.querySelector('#regles').textContent,/Un 1 naturel au premier dé/);
+await api.go('/decouvrir/baseanh');assert.match(d.querySelector('.start-guide-body').textContent,/quatre bras, six yeux bleu ciel/);
 await api.go('/decouvrir/inconnu');assert.match(d.querySelector('h1').textContent,/Ce guide n’existe pas/);
 await api.go('/decouvrir/talass');assert.match(d.body.textContent,/tu ignores l’existence des Exilés/);assert.match(d.querySelector('.start-stereotypes').textContent,/Serys/);
 await api.go('/decouvrir/mage');assert.match(d.body.textContent,/Les extraterrestres sont généralement ignorés/);

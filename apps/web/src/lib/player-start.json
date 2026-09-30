@@ -65,11 +65,15 @@
       "links": [
         {
           "article": "regles-moteur-de-jeu",
-          "label": "Pour choisir tes capacités"
+          "label": "Les règles : capacités, coûts et limites"
         },
         {
           "article": "realite-v9-vivre-en-2035",
-          "label": "Si tu veux connaître ton peuple ou ton milieu"
+          "label": "Le peuple et son milieu : histoire, culture et organisations"
+        },
+        {
+          "article": "realite-v9-grande-californie-2035",
+          "label": "Le quotidien : trouver une place en Grande Californie"
         }
       ],
       "appeal": "Tu aimes les enquêtes, les compétences concrètes et le plaisir de découvrir un monde plus vaste à hauteur humaine.",
@@ -86,25 +90,29 @@
           "subject": "Les corporations",
           "voice": "Ils appellent ça une famille, tant que ton contrat est à jour.",
           "status": "Opinion du quotidien",
-          "limit": "Ce jugement porte sur une institution publique, sans révéler ses éventuels secrets."
+          "limit": "Ce jugement porte sur une institution publique, sans révéler ses éventuels secrets.",
+          "context": ""
         },
         {
           "subject": "Les personnes très augmentées",
           "voice": "Avec tous ces implants, il ne doit plus jamais tomber malade.",
           "status": "Supposition",
-          "limit": "Le personnage surestime ici les effets d’augmentations qu’il ne connaît pas."
+          "limit": "Le personnage surestime ici les effets d’augmentations qu’il ne connaît pas.",
+          "context": ""
         },
         {
           "subject": "Les récits de Vampires",
           "voice": "Un prédateur avec du réseau, je veux bien. Un Vampire ? Tu regardes trop de films.",
           "status": "Récit tenu pour fictif",
-          "limit": "Entendre le mot ne signifie pas connaître une Nature réelle."
+          "limit": "Entendre le mot ne signifie pas connaître une Nature réelle.",
+          "context": "Vampires : prédateurs vivants organisés en lignées, Maisons et Cours ; les conventions d’autres univers ne s’appliquent pas automatiquement."
         },
         {
           "subject": "Une manifestation impossible",
           "voice": "Un trucage, une drogue, un implant… Il y a forcément une explication.",
           "status": "Phénomène inconnu",
-          "limit": "Cette explication peut être fausse ; le Voile contribue à préserver une lecture ordinaire."
+          "limit": "Cette explication peut être fausse ; le Voile contribue à préserver une lecture ordinaire.",
+          "context": ""
         }
       ],
       "heritage": "Ton point de départ est une vie que les autres reconnaissent : des papiers, un métier, un logement, des habitudes. Dans cette société, être soignant, chauffeur ou employé d’une corporation te donne déjà accès à des lieux, à des gens et à des problèmes intéressants. Tu n’as pas besoin d’un passé extraordinaire pour avoir quelque chose à perdre.",
@@ -114,7 +122,31 @@
         "text": "Sans connaissance particulière de la Vérité, tu rattaches l’impossible à ce que tu connais : un trucage, un implant, une drogue, une histoire inventée. Le Voile favorise une lecture cohérente du monde ordinaire, sans te fournir pour autant une explication juste de chaque événement.",
         "example": "« Il n’a pas disparu : j’ai dû le perdre de vue. Ou la caméra a sauté. »",
         "term": "voile"
-      }
+      },
+      "illustration": {
+        "src": "/api/compendium/media/images/lore/realite-rue-2035.webp",
+        "alt": "Sur une rue municipale, une équipe entretient le réseau sous les caméras et les drones de la ville.",
+        "caption": "La rue, les services et les voisins : le point de départ d’une vie en 2035.",
+        "article": "realite-v9-grande-californie-2035",
+        "portrait": false
+      },
+      "quickTerms": [
+        {
+          "id": "realite",
+          "label": "Réalité",
+          "text": "Le monde tel qu’il est publiquement connu en 2035 : ses habitants, ses institutions et ses technologies. Le surnaturel y demeure masqué."
+        },
+        {
+          "id": "verite",
+          "label": "Vérité",
+          "text": "La part cachée du même monde : peuples surnaturels, extraterrestres, pouvoirs et sociétés que la plupart des humains ne reconnaissent pas."
+        },
+        {
+          "id": "augmentations",
+          "label": "Augmentations",
+          "text": "Modifications technologiques ou biologiques du corps. Certaines appartiennent déjà à la vie publique de 2035 ; elles ne signalent donc pas automatiquement une Nature surnaturelle."
+        }
+      ]
     },
     {
       "id": "chasseur",
@@ -140,11 +172,15 @@
       "links": [
         {
           "article": "regles-verite-v7-chasseurs-doctrine-association-gt-hunt",
-          "label": "Pour choisir tes capacités"
+          "label": "Les règles : capacités, coûts et limites"
         },
         {
           "article": "verite-v7-chasseurs-doctrine-association-traditions",
-          "label": "Si tu veux connaître ton peuple ou ton milieu"
+          "label": "Le peuple et son milieu : histoire, culture et organisations"
+        },
+        {
+          "article": "verite-v7-habiter-la-verite",
+          "label": "Le quotidien : trouver une place en Grande Californie"
         }
       ],
       "appeal": "Tu aimes préparer une opération, comprendre une menace et tenir tête au surnaturel avec méthode.",
@@ -161,31 +197,36 @@
           "subject": "Les gens qui n’ont rien vu",
           "voice": "Ils veulent une explication rassurante. Je ne vais pas leur reprocher de dormir encore.",
           "status": "Expérience possible",
-          "limit": "Reconnaître cette réaction ne donne pas la connaissance de tous les effets du Voile."
+          "limit": "Reconnaître cette réaction ne donne pas la connaissance de tous les effets du Voile.",
+          "context": ""
         },
         {
           "subject": "Les Vampires, si sa formation en parle",
           "voice": "Avant de croire sa promesse, je voudrais savoir de qui il dépend pour manger.",
           "status": "Enseignement à préciser",
-          "limit": "Valable seulement si ce sujet appartient à sa formation ou à ses rencontres."
+          "limit": "Valable seulement si ce sujet appartient à sa formation ou à ses rencontres.",
+          "context": "Vampires : prédateurs vivants organisés en lignées, Maisons et Cours ; les conventions d’autres univers ne s’appliquent pas automatiquement."
         },
         {
           "subject": "Les changeformes, s’il en a rencontré",
           "voice": "Ce n’est pas sa carrure qui m’inquiète ; c’est le moment où il cesse de nous écouter.",
           "status": "Réputation de milieu",
-          "limit": "Ne permet ni d’identifier une lignée ni de prévoir automatiquement une Frénésie."
+          "limit": "Ne permet ni d’identifier une lignée ni de prévoir automatiquement une Frénésie.",
+          "context": ""
         },
         {
           "subject": "Les praticiens de magie",
           "voice": "Une démonstration réussie ne remplace pas un plan de sortie.",
           "status": "Réputation de milieu",
-          "limit": "Exprime une prudence de terrain, pas une connaissance de toutes les magies."
+          "limit": "Exprime une prudence de terrain, pas une connaissance de toutes les magies.",
+          "context": ""
         },
         {
           "subject": "Une arme extraterrestre inconnue",
           "voice": "On dirait un artefact. Ne touche pas aux marques avant qu’on sache ce qu’elles font.",
           "status": "Origine ignorée",
-          "limit": "Par défaut, il ne sait pas identifier les Extrals ni reconnaître leur technologie."
+          "limit": "Par défaut, il ne sait pas identifier les Extrals ni reconnaître leur technologie.",
+          "context": ""
         }
       ],
       "heritage": "La Chasse est une transmission : quelqu’un t’a appris à prendre au sérieux des phénomènes que la plupart des gens écartent. Les traditions proposent des doctrines, des pratiques et parfois des engagements très différents. Ta reconnaissance stabilise tes souvenirs ; elle ne transforme pas chaque soupçon en certitude. Tu peux savoir qu’une menace existe sans savoir la reconnaître dans une foule.",
@@ -195,7 +236,31 @@
         "text": "Tu vis dans une société où la technologie publique est déjà avancée : tu ne prends pas chaque appareil pour de la magie. Face à une technologie extraterrestre inconnue, en revanche, tu peux chercher un enchantement, un esprit ou une pratique de Vérité. Ce rapprochement suit tes repères ; il peut être faux.",
         "example": "« Cette arme lance un rayon… Ils ont peut-être fixé un sort dans l’objet. »",
         "term": "mystification"
-      }
+      },
+      "illustration": {
+        "src": "/api/compendium/media/images/lore/verite-chasseurs-preparer.webp",
+        "alt": "Une équipe confronte ses notes avant de partir.",
+        "caption": "Préparer une intervention commence par comprendre ce que l’on affronte.",
+        "article": "verite-v7-chasseurs-doctrine-association-traditions",
+        "portrait": false
+      },
+      "quickTerms": [
+        {
+          "id": "chasseur",
+          "label": "Chasseur",
+          "text": "Humain reconnu et formé pour agir face aux menaces surnaturelles. Cette reconnaissance stabilise ses souvenirs, sans lui donner une détection automatique de toutes les créatures."
+        },
+        {
+          "id": "voile",
+          "label": "Voile",
+          "text": "Nom courant de l’Hologramme et de ses effets : il rend le surnaturel compatible avec la vie ordinaire, en agissant sur les corps, les perceptions et les traces. Ce n’est pas seulement un déguisement visuel."
+        },
+        {
+          "id": "talent",
+          "label": "Talent",
+          "text": "Capacité particulière acquise par un personnage. Son texte précise ce qu’elle permet, ses conditions et ses éventuels coûts ; connaître son nom ne donne pas son effet."
+        }
+      ]
     },
     {
       "id": "vampire",
@@ -222,11 +287,15 @@
       "links": [
         {
           "article": "regles-verite-v7-vampire-nature-predation-cours",
-          "label": "Pour choisir tes capacités"
+          "label": "Les règles : capacités, coûts et limites"
         },
         {
           "article": "verite-v7-vampires-civilisation-cours-sangs",
-          "label": "Si tu veux connaître ton peuple ou ton milieu"
+          "label": "Le peuple et son milieu : histoire, culture et organisations"
+        },
+        {
+          "article": "verite-v7-habiter-la-verite",
+          "label": "Le quotidien : trouver une place en Grande Californie"
         }
       ],
       "appeal": "Tu aimes les secrets, les relations de pouvoir et les dilemmes d’un prédateur qui tient encore à ses proches.",
@@ -243,31 +312,36 @@
           "subject": "Les humains ordinaires",
           "voice": "Ils pensent en semaines. C’est charmant, jusqu’au jour où leur urgence devient la tienne.",
           "status": "Réputation de milieu",
-          "limit": "Un jugement possible, à ajuster aux rencontres du personnage."
+          "limit": "Un jugement possible, à ajuster aux rencontres du personnage.",
+          "context": ""
         },
         {
           "subject": "Les autres Maisons",
           "voice": "La politesse coûte peu ; la faveur qu’on te réclamera ensuite, beaucoup plus.",
           "status": "Milieu familier",
-          "limit": "Le personnage connaît surtout sa propre Maison et les relations qu’on lui a présentées."
+          "limit": "Le personnage connaît surtout sa propre Maison et les relations qu’on lui a présentées.",
+          "context": ""
         },
         {
           "subject": "Les Garous, s’il connaît cette réputation",
           "voice": "Il promet de nous protéger. Demande-lui d’abord qui fait partie du « nous ».",
           "status": "Réputation de milieu",
-          "limit": "Ne suppose ni inimitié universelle ni connaissance de toutes les meutes."
+          "limit": "Ne suppose ni inimitié universelle ni connaissance de toutes les meutes.",
+          "context": "Garous : descendants lupins de Khinae, une famille ancienne de changeformes ; cet héritage ne se transmet pas par morsure."
         },
         {
           "subject": "Les Mages, s’il en a entendu parler",
           "voice": "Ils veulent toujours comprendre comment les choses fonctionnent. Y compris toi.",
           "status": "Réputation de milieu",
-          "limit": "Un soupçon culturel, pas une capacité à détecter un Mage."
+          "limit": "Un soupçon culturel, pas une capacité à détecter un Mage.",
+          "context": "Mages : praticiens dont le Mageius donne accès à la magie, apprise au travers d’affinités et de traditions."
         },
         {
           "subject": "Un visiteur galactique étrange",
           "voice": "Un esprit dans une enveloppe ? Ou une très mauvaise expérience de quelqu’un ?",
           "status": "Origine ignorée",
-          "limit": "L’existence et l’espèce extraterrestres ne sont généralement pas connues."
+          "limit": "L’existence et l’espèce extraterrestres ne sont généralement pas connues.",
+          "context": ""
         }
       ],
       "heritage": "Trois choses différentes structurent ton personnage : ton Sang noir, qui relève de la lignée ; ta Maison, qui organise des liens proches ; et ta Cour, qui donne un cadre politique et culturel plus vaste. Elles peuvent se renforcer ou te tirer dans des directions différentes. Ton besoin de te nourrir te relie aussi à des lieux, à des intermédiaires et à des personnes bien actuelles.",
@@ -277,7 +351,31 @@
         "text": "Tu vis dans une société où la technologie publique est déjà avancée : tu ne prends pas chaque appareil pour de la magie. Face à une technologie extraterrestre inconnue, en revanche, tu peux chercher un enchantement, un esprit ou une pratique de Vérité. Ce rapprochement suit tes repères ; il peut être faux.",
         "example": "« Cette arme lance un rayon… Ils ont peut-être fixé un sort dans l’objet. »",
         "term": "mystification"
-      }
+      },
+      "illustration": {
+        "src": "/api/compendium/media/images/lore/verite-vampires-maison.webp",
+        "alt": "Une Maison vampirique réunit plusieurs générations dans un bureau nocturne.",
+        "caption": "Une Maison vampirique : des liens proches et des obligations bien actuelles.",
+        "article": "verite-v7-vampires-civilisation-cours-sangs",
+        "portrait": false
+      },
+      "quickTerms": [
+        {
+          "id": "sang-noir",
+          "label": "Sang noir",
+          "text": "Héritage de lignée vampirique, associé à des particularités et à des capacités. À distinguer de la Cour et de la Maison, qui sont des appartenances sociales."
+        },
+        {
+          "id": "cour",
+          "label": "Cour vampirique",
+          "text": "Grand ensemble politique et culturel de la société vampirique. Elle n’est pas la même chose que la lignée biologique ou le cercle local du personnage."
+        },
+        {
+          "id": "maison",
+          "label": "Maison vampirique",
+          "text": "Groupe d’appartenance plus proche dans la société vampirique, avec ses relations et ses obligations. À distinguer de la Cour et du Sang noir."
+        }
+      ]
     },
     {
       "id": "garou",
@@ -304,11 +402,15 @@
       "links": [
         {
           "article": "regles-verite-v7-garou-nature-formes-frenesie-pelages",
-          "label": "Pour choisir tes capacités"
+          "label": "Les règles : capacités, coûts et limites"
         },
         {
           "article": "verite-v7-garous-khinae-meutes-pelages",
-          "label": "Si tu veux connaître ton peuple ou ton milieu"
+          "label": "Le peuple et son milieu : histoire, culture et organisations"
+        },
+        {
+          "article": "verite-v7-habiter-la-verite",
+          "label": "Le quotidien : trouver une place en Grande Californie"
         }
       ],
       "appeal": "Tu aimes changer de forme, ressentir des instincts puissants et jouer la solidarité d’un groupe proche.",
@@ -325,31 +427,36 @@
           "subject": "Les humains du quartier",
           "voice": "Ils pensent ne rien devoir à personne. Puis l’immeuble brûle et ils cherchent une meute.",
           "status": "Réputation de milieu",
-          "limit": "Un jugement possible, à ajuster aux rencontres du personnage."
+          "limit": "Un jugement possible, à ajuster aux rencontres du personnage.",
+          "context": ""
         },
         {
           "subject": "Les autres meutes",
           "voice": "Tout le monde parle de loyauté. Regarde surtout qui vient quand ça tourne mal.",
           "status": "Milieu familier",
-          "limit": "Une meute connue ne permet pas de déduire les usages de toutes les autres."
+          "limit": "Une meute connue ne permet pas de déduire les usages de toutes les autres.",
+          "context": ""
         },
         {
           "subject": "Les Vampires, s’il en connaît",
           "voice": "Un arrangement ne suffit pas. Je veux savoir qui en paiera le prix.",
           "status": "Réputation de milieu",
-          "limit": "Un jugement possible, à ajuster aux rencontres du personnage."
+          "limit": "Un jugement possible, à ajuster aux rencontres du personnage.",
+          "context": "Vampires : prédateurs vivants organisés en lignées, Maisons et Cours ; les conventions d’autres univers ne s’appliquent pas automatiquement."
         },
         {
           "subject": "Les autres changeformes",
           "voice": "La Mue nous rapproche ; ça ne veut pas dire qu’il pense comme un loup.",
           "status": "Rencontre ou transmission",
-          "limit": "Il faut avoir rencontré cette lignée ou en avoir reçu un enseignement."
+          "limit": "Il faut avoir rencontré cette lignée ou en avoir reçu un enseignement.",
+          "context": ""
         },
         {
           "subject": "Un appareil galactique incompréhensible",
           "voice": "Quelque chose est enfermé là-dedans. Ce bruit n’est pas naturel.",
           "status": "Origine ignorée",
-          "limit": "Une lecture surnaturelle d’une technologie ne permet pas d’en comprendre le fonctionnement."
+          "limit": "Une lecture surnaturelle d’une technologie ne permet pas d’en comprendre le fonctionnement.",
+          "context": ""
         }
       ],
       "heritage": "Ton héritage peut apparaître dans une famille qui en avait perdu le souvenir. La meute peut alors fournir un langage, des pratiques et une solidarité pour comprendre ce qui t’arrive. Ton Pelage situe une part de cet héritage ; il ne remplace ni ton histoire familiale ni ton caractère. Le loup est une dimension du personnage, pas l’effacement automatique de sa vie humaine.",
@@ -359,7 +466,31 @@
         "text": "Tu vis dans une société où la technologie publique est déjà avancée : tu ne prends pas chaque appareil pour de la magie. Face à une technologie extraterrestre inconnue, en revanche, tu peux chercher un enchantement, un esprit ou une pratique de Vérité. Ce rapprochement suit tes repères ; il peut être faux.",
         "example": "« Cette arme lance un rayon… Ils ont peut-être fixé un sort dans l’objet. »",
         "term": "mystification"
-      }
+      },
+      "illustration": {
+        "src": "/api/compendium/media/images/lore/verite-garous-mue.webp",
+        "alt": "Un Garou sous forme hybride reprend souffle après une Mue.",
+        "caption": "Le même personnage peut passer de sa vie humaine à une forme hybride.",
+        "article": "verite-v7-garous-khinae-meutes-pelages",
+        "portrait": false
+      },
+      "quickTerms": [
+        {
+          "id": "mue",
+          "label": "Mue",
+          "text": "Changement de forme d’un Garou ou d’un autre descendant de Khinae. Ses coûts et effets dépendent des règles du profil."
+        },
+        {
+          "id": "frenesie",
+          "label": "Frénésie",
+          "text": "État de débordement instinctif encadré par les règles des changeformes. Ce n’est pas un choix libre de puissance sans conséquences."
+        },
+        {
+          "id": "pelage",
+          "label": "Pelage",
+          "text": "Héritage garou qui donne des repères de lignée et de tradition. Le terme ne désigne pas seulement la couleur du poil."
+        }
+      ]
     },
     {
       "id": "khinae",
@@ -385,11 +516,15 @@
       "links": [
         {
           "article": "regles-verite-v7-khinae-moteur-lignees",
-          "label": "Pour choisir tes capacités"
+          "label": "Les règles : capacités, coûts et limites"
         },
         {
           "article": "verite-v7-descendants-khinae",
-          "label": "Si tu veux connaître ton peuple ou ton milieu"
+          "label": "Le peuple et son milieu : histoire, culture et organisations"
+        },
+        {
+          "article": "verite-v7-habiter-la-verite",
+          "label": "Le quotidien : trouver une place en Grande Californie"
         }
       ],
       "appeal": "Tu aimes une identité animale précise, des sens inhabituels et une autre manière d’habiter la ville.",
@@ -406,31 +541,36 @@
           "subject": "Les humains",
           "voice": "Ils ont construit une ville entière, et ils ne regardent presque jamais au-dessus de leur tête.",
           "status": "Réputation de milieu",
-          "limit": "Un jugement possible, à ajuster aux rencontres du personnage."
+          "limit": "Un jugement possible, à ajuster aux rencontres du personnage.",
+          "context": ""
         },
         {
           "subject": "Les Garous, s’il en fréquente",
           "voice": "Ils prennent leurs habitudes de loups pour les règles de toute la famille.",
           "status": "Réputation de milieu",
-          "limit": "Un jugement possible, à ajuster aux rencontres du personnage."
+          "limit": "Un jugement possible, à ajuster aux rencontres du personnage.",
+          "context": "Garous : descendants lupins de Khinae, une famille ancienne de changeformes ; cet héritage ne se transmet pas par morsure."
         },
         {
           "subject": "Les autres lignées",
           "voice": "Nous changeons tous de forme. Le reste mérite qu’on pose des questions.",
           "status": "Transmission à préciser",
-          "limit": "Les lignées rares ne forment pas un catalogue que chacun connaît."
+          "limit": "Les lignées rares ne forment pas un catalogue que chacun connaît.",
+          "context": ""
         },
         {
           "subject": "Les gens qui promettent de maîtriser les instincts",
           "voice": "Il paraît que tout s’apprend dans les livres. J’aimerais les voir à ma première Mue.",
           "status": "Réputation de milieu",
-          "limit": "Un jugement possible, à ajuster aux rencontres du personnage."
+          "limit": "Un jugement possible, à ajuster aux rencontres du personnage.",
+          "context": ""
         },
         {
           "subject": "Un corps extraterrestre mal compris",
           "voice": "Un changeforme que je ne connais pas, peut-être. Mais d’où vient cette forme ?",
           "status": "Origine ignorée",
-          "limit": "Une ressemblance avec la Mue n’établit pas l’existence d’une lignée Khinae."
+          "limit": "Une ressemblance avec la Mue n’établit pas l’existence d’une lignée Khinae.",
+          "context": ""
         }
       ],
       "heritage": "Le mot Khinae rassemble des héritages de changeformes ; il ne désigne pas une société où tout le monde aurait les mêmes usages. Une lignée discrète ou rare peut manquer de maîtres et de lieux d’accueil. Un personnage peut avoir appris auprès de sa famille, cherché ses semblables ou reçu une aide partielle d’une communauté qui connaît surtout ses propres formes.",
@@ -440,14 +580,38 @@
         "text": "Tu vis dans une société où la technologie publique est déjà avancée : tu ne prends pas chaque appareil pour de la magie. Face à une technologie extraterrestre inconnue, en revanche, tu peux chercher un enchantement, un esprit ou une pratique de Vérité. Ce rapprochement suit tes repères ; il peut être faux.",
         "example": "« Cette arme lance un rayon… Ils ont peut-être fixé un sort dans l’objet. »",
         "term": "mystification"
-      }
+      },
+      "illustration": {
+        "src": "/api/compendium/media/images/lore/verite-khinae-felins.webp",
+        "alt": "Des descendants félins maintiennent le contact dans un refuge urbain discret.",
+        "caption": "Les lignées félines ne sont qu’une branche des descendants de Khinae.",
+        "article": "verite-v7-descendants-khinae",
+        "portrait": false
+      },
+      "quickTerms": [
+        {
+          "id": "khinae",
+          "label": "Khinae",
+          "text": "Ancienne famille de changeformes dont les Garous sont une branche. Les autres lignées n’ont pas forcément leurs formes, leurs Pelages ni leurs habitudes de meute."
+        },
+        {
+          "id": "mue",
+          "label": "Mue",
+          "text": "Changement de forme d’un Garou ou d’un autre descendant de Khinae. Ses coûts et effets dépendent des règles du profil."
+        },
+        {
+          "id": "sang-vif",
+          "label": "Sang vif",
+          "text": "Héritage particulier que peut porter et éveiller un Garou. Les règles distinguent ce qui est natif de ce qui a été éveillé."
+        }
+      ]
     },
     {
       "id": "mage",
       "title": "Mage",
       "group": "Traditions de Vérité",
       "hook": "Une magie personnelle, apprise et expérimentée, avec des limites concrètes.",
-      "identity": "Ton Mageius est ce qui te permet de pratiquer la magie. Son type te donne un point de départ sur la Roue magique, qui organise les domaines de magie et leurs relations.",
+      "identity": "Tu ressembles à un humain, mais ton Mageius te relie à la magie : c’est le support de tes affinités magiques, pas une réserve de mana. La Roue magique organise les différents domaines de magie et leurs relations. Une Loge est un milieu d’enseignement et de pratique où tu peux apprendre à t’en servir.",
       "daily": "Ta famille, ta lignée, un apprentissage ou une Loge peuvent t’aider à comprendre tes capacités. Une Loge est une communauté de Mages, avec ses ressources et ses attentes.",
       "abilities": "Choisis d’abord une Affinité dominante : un domaine que tu pratiques particulièrement. Tu peux improviser dans une Affinité non éveillée, mais seulement en Maîtrise Initiale et Amplitude Mineure, avec une difficulté accrue.",
       "limits": "Une idée de sort n’est pas une réussite automatique. Décris l’effet recherché ; les règles déterminent sa difficulté, sa portée et ses conséquences. Apprendre une tradition demande davantage que la connaître de nom.",
@@ -467,11 +631,15 @@
       "links": [
         {
           "article": "regles-verite-v7-mage-maitrise-amplitude-lancement",
-          "label": "Pour choisir tes capacités"
+          "label": "Les règles : capacités, coûts et limites"
         },
         {
           "article": "verite-v7-mages-mageius-roue-loges",
-          "label": "Si tu veux connaître ton peuple ou ton milieu"
+          "label": "Le peuple et son milieu : histoire, culture et organisations"
+        },
+        {
+          "article": "verite-v7-habiter-la-verite",
+          "label": "Le quotidien : trouver une place en Grande Californie"
         }
       ],
       "appeal": "Tu aimes inventer des solutions, apprendre et explorer une magie qui prolonge tes connaissances.",
@@ -488,31 +656,36 @@
           "subject": "Les humains très sûrs de leur science",
           "voice": "Leurs mesures sont bonnes. C’est leur liste des choses possibles qui est trop courte.",
           "status": "Réputation de milieu",
-          "limit": "Un jugement possible, à ajuster aux rencontres du personnage."
+          "limit": "Un jugement possible, à ajuster aux rencontres du personnage.",
+          "context": ""
         },
         {
           "subject": "Les autres Loges",
           "voice": "Ils appellent cela une tradition. C’est parfois juste une habitude qu’on n’ose plus discuter.",
           "status": "Milieu familier",
-          "limit": "Connaître sa Loge ne donne pas accès aux secrets des autres."
+          "limit": "Connaître sa Loge ne donne pas accès aux secrets des autres.",
+          "context": ""
         },
         {
           "subject": "Les Vampires, si le sujet lui est connu",
           "voice": "Trois siècles d’expérience, et il refuse toujours qu’on vérifie son explication.",
           "status": "Réputation de milieu",
-          "limit": "Un jugement possible, à ajuster aux rencontres du personnage."
+          "limit": "Un jugement possible, à ajuster aux rencontres du personnage.",
+          "context": "Vampires : prédateurs vivants organisés en lignées, Maisons et Cours ; les conventions d’autres univers ne s’appliquent pas automatiquement."
         },
         {
           "subject": "Les êtres liés aux divinités, s’il en connaît",
           "voice": "Une révélation n’est pas une démonstration. Même quand elle a des ailes.",
           "status": "Réputation de milieu",
-          "limit": "Un jugement possible, à ajuster aux rencontres du personnage."
+          "limit": "Un jugement possible, à ajuster aux rencontres du personnage.",
+          "context": ""
         },
         {
           "subject": "Une arme laser d’origine inconnue",
           "voice": "Un sort fixé dans l’objet. Il faudrait comprendre comment ils l’alimentent.",
           "status": "Origine ignorée",
-          "limit": "Un Mage connaît la technologie publique de 2035, mais peut mystifier une technologie galactique inconnue."
+          "limit": "Un Mage connaît la technologie publique de 2035, mais peut mystifier une technologie galactique inconnue.",
+          "context": ""
         }
       ],
       "heritage": "Le Mageius relie ta volonté à la magie. Il porte des affinités et parfois des traces d’anciens porteurs, sans être une réserve de mana ou une personne qui commande ton corps. Une famille de Mages peut transmettre des méthodes et des œuvres autant qu’un héritage de sang ; la filiation peut donc aussi être celle d’un enseignement. La Loge donne un milieu, pas tous les savoirs de la magie.",
@@ -522,14 +695,38 @@
         "text": "Tu vis dans une société où la technologie publique est déjà avancée : tu ne prends pas chaque appareil pour de la magie. Face à une technologie extraterrestre inconnue, en revanche, tu peux chercher un enchantement, un esprit ou une pratique de Vérité. Ce rapprochement suit tes repères ; il peut être faux.",
         "example": "« Cette arme lance un rayon… Ils ont peut-être fixé un sort dans l’objet. »",
         "term": "mystification"
-      }
+      },
+      "illustration": {
+        "src": "/api/compendium/media/images/lore/verite-mages-loge.webp",
+        "alt": "Une Loge locale réunit ses membres autour d’une question commune.",
+        "caption": "Une Loge transmet des méthodes, des pratiques et des habitudes de travail.",
+        "article": "verite-v7-mages-mageius-roue-loges",
+        "portrait": false
+      },
+      "quickTerms": [
+        {
+          "id": "mageius",
+          "label": "Mageius",
+          "text": "Structure magique liée au Mage, qui relie sa volonté à la magie. Ce n’est ni une réserve de mana, ni une personne enfermée dans son corps."
+        },
+        {
+          "id": "affinite",
+          "label": "Affinité",
+          "text": "Domaine de magie avec lequel un Mage a un lien particulier. Une Affinité non éveillée reste utilisable, mais avec des limites de puissance et une difficulté accrue."
+        },
+        {
+          "id": "roue",
+          "label": "Roue magique",
+          "text": "Organisation des domaines de magie et de leurs relations. Elle aide à situer le Mageius, les Affinités et l’apprentissage d’un Mage."
+        }
+      ]
     },
     {
       "id": "daemon",
       "title": "Daemon",
       "group": "Traditions de Vérité",
       "hook": "Une vie actuelle confrontée à une âme ancienne choisie par une divinité.",
-      "identity": "Ton âme a déjà vécu puis a été choisie et transformée par une divinité. Revenu dans une nouvelle incarnation, tu as réellement grandi avec une famille et une histoire actuelle.",
+      "identity": "Un Daemon est une âme qui a déjà vécu, puis a été choisie et transformée par une divinité avant une nouvelle incarnation. Ce mot ne signifie pas automatiquement « démon malveillant ». Tu as réellement grandi dans ta vie actuelle, avec un corps, une famille et une histoire ; les souvenirs anciens et les manifestations de ton héritage viennent s’y ajouter.",
       "daily": "L’éveil de souvenirs anciens peut te placer face à des fidélités que ta personne actuelle n’a pas choisies. Tu dois décider ce que tu conserves de tes deux histoires.",
       "abilities": "Tes capacités et tes faveurs dépendent de ta divinité et de ta progression. La Maisonnée est ton entourage politique ou spirituel ; un Temple est un lieu et une organisation qui servent ce milieu.",
       "limits": "Daemon ne veut pas dire automatiquement malveillant, ni humain possédé par un étranger. Une appartenance divine ne t’accorde pas tous les pouvoirs ou toutes les ressources de son culte.",
@@ -549,11 +746,15 @@
       "links": [
         {
           "article": "regles-verite-v7-daemon-nature-fonctions-divinites-facettes",
-          "label": "Pour choisir tes capacités"
+          "label": "Les règles : capacités, coûts et limites"
         },
         {
           "article": "verite-v7-daemons-divinites-maisonnees-temples",
-          "label": "Si tu veux connaître ton peuple ou ton milieu"
+          "label": "Le peuple et son milieu : histoire, culture et organisations"
+        },
+        {
+          "article": "verite-v7-habiter-la-verite",
+          "label": "Le quotidien : trouver une place en Grande Californie"
         }
       ],
       "appeal": "Tu aimes les identités multiples, les souvenirs anciens et les conflits entre attachements actuels et fidélités divines.",
@@ -570,31 +771,36 @@
           "subject": "Les humains proches",
           "voice": "Ils n’ont pas besoin de plusieurs vies pour donner un poids énorme à celle-ci.",
           "status": "Réputation de milieu",
-          "limit": "Un jugement possible, à ajuster aux rencontres du personnage."
+          "limit": "Un jugement possible, à ajuster aux rencontres du personnage.",
+          "context": ""
         },
         {
           "subject": "Les autres Maisonnées",
           "voice": "Nous parlons de famille. Il faut encore savoir quelles dettes sont héréditaires.",
           "status": "Milieu familier",
-          "limit": "Le personnage connaît d’abord sa Maisonnée et ce qui lui a été transmis."
+          "limit": "Le personnage connaît d’abord sa Maisonnée et ce qui lui a été transmis.",
+          "context": ""
         },
         {
           "subject": "Les Angelus, si une rencontre ou un souvenir en parle",
           "voice": "Le devoir est plus facile à invoquer quand on croit déjà connaître le bon ordre des choses.",
           "status": "Souvenir ou réputation",
-          "limit": "Une mémoire ancienne peut être partielle et ne décrit pas toutes les personnes actuelles."
+          "limit": "Une mémoire ancienne peut être partielle et ne décrit pas toutes les personnes actuelles.",
+          "context": "Angelus : êtres liés au céleste, incarnés dans une vie terrestre réelle."
         },
         {
           "subject": "Les Mages, s’il connaît leurs pratiques",
           "voice": "Ils donnent des noms savants à leurs intuitions. Nous aussi, parfois.",
           "status": "Réputation de milieu",
-          "limit": "Un jugement possible, à ajuster aux rencontres du personnage."
+          "limit": "Un jugement possible, à ajuster aux rencontres du personnage.",
+          "context": "Mages : praticiens dont le Mageius donne accès à la magie, apprise au travers d’affinités et de traditions."
         },
         {
           "subject": "Un Extral aux capacités incomprises",
           "voice": "Une incarnation inhabituelle ? Il ne porte pas les signes auxquels je m’attendais.",
           "status": "Origine ignorée",
-          "limit": "Ce rapprochement ne signifie pas qu’il connaît les espèces extraterrestres."
+          "limit": "Ce rapprochement ne signifie pas qu’il connaît les espèces extraterrestres.",
+          "context": ""
         }
       ],
       "heritage": "Tu n’es pas simplement une ancienne âme qui aurait pris la place d’un inconnu. Ton incarnation actuelle a grandi, appris et créé ses propres liens. L’éveil peut faire revenir une histoire plus ancienne et les conséquences du choix d’une divinité. La tension intéressante se trouve souvent entre ces deux continuités : ce que ton âme a été et la personne que tu es devenue dans cette vie.",
@@ -604,14 +810,38 @@
         "text": "Tu vis dans une société où la technologie publique est déjà avancée : tu ne prends pas chaque appareil pour de la magie. Face à une technologie extraterrestre inconnue, en revanche, tu peux chercher un enchantement, un esprit ou une pratique de Vérité. Ce rapprochement suit tes repères ; il peut être faux.",
         "example": "« Cette arme lance un rayon… Ils ont peut-être fixé un sort dans l’objet. »",
         "term": "mystification"
-      }
+      },
+      "illustration": {
+        "src": "/api/compendium/media/images/lore/verite-daemons-memoires.webp",
+        "alt": "Une incarnation daemoniaque confronte sa vie actuelle aux traces d’une existence ancienne.",
+        "caption": "Une vie actuelle confrontée aux traces d’une existence plus ancienne.",
+        "article": "verite-v7-daemons-divinites-maisonnees-temples",
+        "portrait": false
+      },
+      "quickTerms": [
+        {
+          "id": "daemon",
+          "label": "Daemon",
+          "text": "Être dont l’âme a vécu, été choisie et transformée par une divinité, puis s’est incarnée dans une nouvelle vie. Il n’est pas automatiquement maléfique ou possédé."
+        },
+        {
+          "id": "eveil",
+          "label": "Éveil",
+          "text": "Découverte ou activation d’un héritage jusque-là latent. Ses circonstances varient selon la Nature ; il ne faut pas le confondre avec le passage temporaire à l’état Révélé."
+        },
+        {
+          "id": "maisonnee",
+          "label": "Maisonnée",
+          "text": "Cercle de vie et d’appartenance daemon. Les liens personnels y comptent ; ce n’est pas simplement un autre nom pour un Temple."
+        }
+      ]
     },
     {
       "id": "angelus",
       "title": "Angelus",
       "group": "Traditions de Vérité",
       "hook": "Un être céleste incarné, partagé entre sa vie terrestre et ses devoirs.",
-      "identity": "Tu peux avoir grandi sur Terre avant de découvrir une mémoire et une appartenance célestes. La personne élevée par ta famille ne s’efface pas au moment de l’Éveil.",
+      "identity": "Un Angelus est un être lié au monde céleste, incarné dans une véritable vie humaine. Tu peux avoir grandi sur Terre avant de retrouver une mémoire et une appartenance célestes ; ta famille et ton histoire actuelle ne s’effacent pas. Une manifestation révélée peut déployer des ailes, mais ton quotidien ne se réduit pas à cette apparence.",
       "daily": "Ton travail, tes proches et tes convictions coexistent avec des liens envers des puissances célestes. L’Arbre de Vie désigne leur organisation spirituelle et politique ; tu n’as pas besoin d’en mémoriser toute la structure.",
       "abilities": "Ton lien à un Archange, tes choix de progression et tes faveurs précisent ce que tu peux manifester. La Transcendance concerne le développement de ton état céleste.",
       "limits": "Être céleste ne rend pas omniscient et ne décide pas de tous tes choix moraux. Se Révéler et employer tes capacités restent des actes encadrés par les règles.",
@@ -631,11 +861,15 @@
       "links": [
         {
           "article": "regles-verite-v7-angelus-nature-revelation-transcendance",
-          "label": "Pour choisir tes capacités"
+          "label": "Les règles : capacités, coûts et limites"
         },
         {
           "article": "verite-v7-angelus-elynea-arbre-vie",
-          "label": "Si tu veux connaître ton peuple ou ton milieu"
+          "label": "Le peuple et son milieu : histoire, culture et organisations"
+        },
+        {
+          "article": "verite-v7-habiter-la-verite",
+          "label": "Le quotidien : trouver une place en Grande Californie"
         }
       ],
       "appeal": "Tu aimes les idéaux difficiles à tenir, les pouvoirs célestes et une vocation confrontée à la vie humaine.",
@@ -652,31 +886,36 @@
           "subject": "Les humains proches",
           "voice": "Ils hésitent, se trompent et recommencent. Leur fragilité n’explique pas leur courage.",
           "status": "Réputation de milieu",
-          "limit": "Un jugement possible, à ajuster aux rencontres du personnage."
+          "limit": "Un jugement possible, à ajuster aux rencontres du personnage.",
+          "context": ""
         },
         {
           "subject": "Les autres Angelus",
           "voice": "Nous invoquons tous le devoir ; nous n’en tirons pas toujours la même décision.",
           "status": "Milieu familier",
-          "limit": "L’éveil ne restitue pas automatiquement un savoir complet sur la hiérarchie."
+          "limit": "L’éveil ne restitue pas automatiquement un savoir complet sur la hiérarchie.",
+          "context": "Angelus : êtres liés au céleste, incarnés dans une vie terrestre réelle."
         },
         {
           "subject": "Les Daemons, s’il en connaît",
           "voice": "Il parle au nom d’une fidélité ancienne. Je veux aussi entendre ce qu’il choisit aujourd’hui.",
           "status": "Rencontre ou réputation",
-          "limit": "Ce jugement n’impose pas une hostilité générale entre les deux groupes."
+          "limit": "Ce jugement n’impose pas une hostilité générale entre les deux groupes.",
+          "context": "Daemons : âmes choisies et transformées par une divinité, puis incarnées dans une nouvelle vie."
         },
         {
           "subject": "Les puissants de la ville",
           "voice": "Ils protègent leur ordre avec ferveur. Il reste à savoir qui cet ordre protège.",
           "status": "Réputation de milieu",
-          "limit": "Un jugement possible, à ajuster aux rencontres du personnage."
+          "limit": "Un jugement possible, à ajuster aux rencontres du personnage.",
+          "context": ""
         },
         {
           "subject": "Une technologie galactique spectaculaire",
           "voice": "Une puissance canalisée dans la matière… Qui a consacré cet objet ?",
           "status": "Origine ignorée",
-          "limit": "C’est une lecture possible d’un dispositif inconnu, pas la reconnaissance de sa vraie nature."
+          "limit": "C’est une lecture possible d’un dispositif inconnu, pas la reconnaissance de sa vraie nature.",
+          "context": ""
         }
       ],
       "heritage": "L’incarnation donne une véritable vie terrestre à ton personnage. Les souvenirs célestes, la vocation et les liens à la hiérarchie viennent s’y ajouter ; ils ne rendent pas irréels tes proches ni ton éducation. Les dons liés à l’Archange et les faveurs constituent des possibilités à préciser par les règles. Être associé au céleste ne signifie ni tout comprendre ni disposer de toutes les réponses.",
@@ -686,14 +925,38 @@
         "text": "Tu vis dans une société où la technologie publique est déjà avancée : tu ne prends pas chaque appareil pour de la magie. Face à une technologie extraterrestre inconnue, en revanche, tu peux chercher un enchantement, un esprit ou une pratique de Vérité. Ce rapprochement suit tes repères ; il peut être faux.",
         "example": "« Cette arme lance un rayon… Ils ont peut-être fixé un sort dans l’objet. »",
         "term": "mystification"
-      }
+      },
+      "illustration": {
+        "src": "/api/compendium/media/images/lore/verite-angelus-revele.webp",
+        "alt": "Un Angelus déploie une paire d’ailes transcendées.",
+        "caption": "Une manifestation céleste ; elle ne remplace pas la vie terrestre du personnage.",
+        "article": "verite-v7-angelus-elynea-arbre-vie",
+        "portrait": false
+      },
+      "quickTerms": [
+        {
+          "id": "angelus",
+          "label": "Angelus",
+          "text": "Être d’origine céleste incarné dans une vie terrestre. Son éveil peut faire revenir des souvenirs et une vocation qui coexistent avec ses attaches actuelles."
+        },
+        {
+          "id": "eveil",
+          "label": "Éveil",
+          "text": "Découverte ou activation d’un héritage jusque-là latent. Ses circonstances varient selon la Nature ; il ne faut pas le confondre avec le passage temporaire à l’état Révélé."
+        },
+        {
+          "id": "archange",
+          "label": "Archange",
+          "text": "Figure céleste à laquelle se rattachent des orientations et des dons des Angelus. Le lien à un Archange ne donne pas gratuitement tous ses talents."
+        }
+      ]
     },
     {
       "id": "aseryn",
       "title": "Aseryn",
       "group": "Traditions de Vérité",
       "hook": "Un peuple proche des humains en apparence, avec une perception électrique du monde.",
-      "identity": "Tu appartiens à un peuple terrestre ancien, dont le corps et le système nerveux diffèrent profondément de ceux des humains. Les diasporas aserynes ont développé plusieurs cultures.",
+      "identity": "Un Aseryn appartient à un peuple terrestre ancien. Son apparence est humaine, mais son corps et son système nerveux possèdent des propriétés particulières, notamment liées à l’électricité. Ses communautés dispersées, appelées diasporas, ont développé plusieurs cultures et traditions : tu n’incarnes pas une unique civilisation figée.",
       "daily": "La ville moderne, ses réseaux et ses appareils ont pour toi une présence sensorielle particulière. Tu peux être pleinement californien et connaître ton héritage surtout par ta famille.",
       "abilities": "L’Accelyr repose sur une accélération des échanges et de l’activité nerveuse. Tu portes aussi un potentiel lié à la Foudre, dont la maîtrise demande un apprentissage.",
       "limits": "L’origine et la Tradition sont deux choix différents. Les Traditions des Treize s’enseignent ; elles ne donnent pas automatiquement les mêmes capacités à tous les membres d’une diaspora.",
@@ -713,11 +976,15 @@
       "links": [
         {
           "article": "regles-verite-v7-aseryn-nature-accelyr-origines",
-          "label": "Pour choisir tes capacités"
+          "label": "Les règles : capacités, coûts et limites"
         },
         {
           "article": "verite-v7-aseryns-serathe-atlantide-treize",
-          "label": "Si tu veux connaître ton peuple ou ton milieu"
+          "label": "Le peuple et son milieu : histoire, culture et organisations"
+        },
+        {
+          "article": "verite-v7-habiter-la-verite",
+          "label": "Le quotidien : trouver une place en Grande Californie"
         }
       ],
       "appeal": "Tu aimes une puissance électrique discrète, les savoirs transmis et un peuple ancien intégré aux sociétés terrestres.",
@@ -734,31 +1001,36 @@
           "subject": "Les humains pressés",
           "voice": "Ils changent de certitudes plus vite que de gouvernement. Il faut pourtant vivre avec eux.",
           "status": "Réputation de milieu",
-          "limit": "Un jugement possible, à ajuster aux rencontres du personnage."
+          "limit": "Un jugement possible, à ajuster aux rencontres du personnage.",
+          "context": ""
         },
         {
           "subject": "Les autres Traditions",
           "voice": "Ils ont une bonne méthode. Ils oublient seulement qu’elle n’est pas la seule.",
           "status": "Milieu familier",
-          "limit": "Une Tradition apprise ne donne pas la maîtrise des douze autres."
+          "limit": "Une Tradition apprise ne donne pas la maîtrise des douze autres.",
+          "context": ""
         },
         {
           "subject": "Les Mages, si ses maîtres en parlent",
           "voice": "Une intuition brillante, puis dix explications différentes. Je préfère une technique qu’on peut transmettre.",
           "status": "Réputation de milieu",
-          "limit": "Un jugement possible, à ajuster aux rencontres du personnage."
+          "limit": "Un jugement possible, à ajuster aux rencontres du personnage.",
+          "context": "Mages : praticiens dont le Mageius donne accès à la magie, apprise au travers d’affinités et de traditions."
         },
         {
           "subject": "Les communautés anciennes, si elles lui sont connues",
           "voice": "La mémoire est utile. Elle devient encombrante quand elle décide de tout à votre place.",
           "status": "Réputation de milieu",
-          "limit": "Un jugement possible, à ajuster aux rencontres du personnage."
+          "limit": "Un jugement possible, à ajuster aux rencontres du personnage.",
+          "context": ""
         },
         {
           "subject": "Un appareil galactique",
           "voice": "Une technique de Vérité étrangère à notre enseignement. Il manque une étape dans ce que j’observe.",
           "status": "Origine ignorée",
-          "limit": "Une perception particulière ne fournit pas l’histoire ni le mode d’emploi d’une technologie extrale."
+          "limit": "Une perception particulière ne fournit pas l’histoire ni le mode d’emploi d’une technologie extrale.",
+          "context": ""
         }
       ],
       "heritage": "L’histoire des Aseryns est terrestre, même si leur physiologie n’est pas celle des humains. Leur longévité et leurs diasporas donnent une grande place à la transmission. Les Treize Traditions représentent des fonctions et des enseignements : une origine lémuriane ou serathéenne n’est pas une seconde Tradition. Tu peux avoir une histoire familiale précise sans maîtriser tous les savoirs anciens de ton peuple.",
@@ -768,14 +1040,38 @@
         "text": "Tu vis dans une société où la technologie publique est déjà avancée : tu ne prends pas chaque appareil pour de la magie. Face à une technologie extraterrestre inconnue, en revanche, tu peux chercher un enchantement, un esprit ou une pratique de Vérité. Ce rapprochement suit tes repères ; il peut être faux.",
         "example": "« Cette arme lance un rayon… Ils ont peut-être fixé un sort dans l’objet. »",
         "term": "mystification"
-      }
+      },
+      "illustration": {
+        "src": "/api/compendium/media/images/lore/verite-aseryns-ville.webp",
+        "alt": "Deux Aseryns échangent dans une ville moderne.",
+        "caption": "D’apparence humaine, les Aseryns vivent aussi au cœur des villes modernes.",
+        "article": "verite-v7-aseryns-serathe-atlantide-treize",
+        "portrait": false
+      },
+      "quickTerms": [
+        {
+          "id": "aseryn",
+          "label": "Aseryn",
+          "text": "Membre d’un peuple terrestre ancien, d’apparence humaine mais doté d’une physiologie et de capacités particulières liées notamment à l’électricité."
+        },
+        {
+          "id": "accelyr",
+          "label": "Accelyr",
+          "text": "Fonctionnement interne aseryn qui permet notamment une communication nerveuse accélérée et une perception électromagnétique."
+        },
+        {
+          "id": "dratyn",
+          "label": "Dratyn",
+          "text": "Fondatrice aseryne associée à la transmission de la Foudre, dont le nom désigne aussi la Tradition correspondante. Porter le potentiel de Foudre ne suffit pas à le maîtriser : la discipline doit être apprise."
+        }
+      ]
     },
     {
       "id": "elfe",
       "title": "Elfe · Elyë",
       "group": "Peuples exilés",
       "hook": "Une longue mémoire et une affinité avec la magie, au milieu d’une ville contemporaine.",
-      "identity": "Les Elyë sont les Elfes des peuples exilés. Leur histoire vient d’Aèr, mais un personnage peut être né sur Terre et y avoir toutes ses attaches.",
+      "identity": "Les Elyë sont les Elfes des peuples exilés : des êtres humanoïdes aux oreilles pointues et à la longue vie. Ils viennent d’Aèr, un autre monde dont leurs communautés gardent la mémoire. Tu peux pourtant être né sur Terre et y avoir toutes tes attaches : connaître ton origine ne signifie pas avoir vécu cet exil.",
       "daily": "Ta longévité peut donner une autre profondeur à tes relations et à tes choix. Elle ne te donne pas automatiquement la connaissance de tout le passé.",
       "abilities": "Ton agilité, ton ambidextrie naturelle et ton accès à des traditions magiques font partie de tes repères.",
       "limits": "L’affinité elfique ne donne aucun sort gratuit ; être ambidextre ne donne pas une attaque supplémentaire.",
@@ -795,11 +1091,15 @@
       "links": [
         {
           "article": "regles-verite-v7-exiles-profils-cinq-peuples",
-          "label": "Pour choisir tes capacités"
+          "label": "Les règles : capacités, coûts et limites"
         },
         {
           "article": "verite-v7-exiles-peuples-silcenters-traditions",
-          "label": "Si tu veux connaître ton peuple ou ton milieu"
+          "label": "Le peuple et son milieu : histoire, culture et organisations"
+        },
+        {
+          "article": "verite-v7-habiter-la-verite",
+          "label": "Le quotidien : trouver une place en Grande Californie"
         }
       ],
       "appeal": "Tu aimes un héritage ancien, l’agilité et le contraste entre une longue mémoire collective et la ville de 2035.",
@@ -816,31 +1116,36 @@
           "subject": "Les humains",
           "voice": "Ils démolissent ce qu’ils n’ont pas eu le temps d’apprendre à connaître.",
           "status": "Réputation de milieu",
-          "limit": "Un jugement possible, à ajuster aux rencontres du personnage."
+          "limit": "Un jugement possible, à ajuster aux rencontres du personnage.",
+          "context": ""
         },
         {
           "subject": "Les Nains, si sa communauté les fréquente",
           "voice": "Ils prennent le temps de faire tenir les choses. Même leurs rancunes.",
           "status": "Réputation de milieu",
-          "limit": "Un jugement possible, à ajuster aux rencontres du personnage."
+          "limit": "Un jugement possible, à ajuster aux rencontres du personnage.",
+          "context": "Whurtens : les Nains d’Aèr, trapus et robustes, avec leurs propres communautés terrestres."
         },
         {
           "subject": "Les Ashylls, si sa communauté les fréquente",
           "voice": "On leur demande de rester à leur place ; ils commencent par vérifier toutes les sorties.",
           "status": "Réputation de milieu",
-          "limit": "Un jugement possible, à ajuster aux rencontres du personnage."
+          "limit": "Un jugement possible, à ajuster aux rencontres du personnage.",
+          "context": "Ashylls : petits humanoïdes verts originaires d’Aèr, souples et inventifs."
         },
         {
           "subject": "Les Azménoriens, si leur histoire lui a été transmise",
           "voice": "Une idée magnifique. Demandons quand même ce qui se passe si elle réussit trop bien.",
           "status": "Réputation de milieu",
-          "limit": "Un jugement possible, à ajuster aux rencontres du personnage."
+          "limit": "Un jugement possible, à ajuster aux rencontres du personnage.",
+          "context": "Azménoriens : peuple exilé d’apparence humaine, aux oreilles légèrement pointues et aux ailes de plumes noires."
         },
         {
           "subject": "Une technologie galactique inconnue",
           "voice": "Une œuvre enchantée, d’une école dont je ne reconnais pas les signes.",
           "status": "Origine ignorée",
-          "limit": "Le personnage ne connaît généralement pas l’existence des Extrals."
+          "limit": "Le personnage ne connaît généralement pas l’existence des Extrals.",
+          "context": ""
         }
       ],
       "heritage": "Les Elyë appartiennent aux peuples venus d’Aèr. Cette origine peut être une mémoire entretenue par la famille ou une histoire lointaine pour quelqu’un né sur Terre. Les relais communautaires, dont les Silcenters, permettent de rencontrer des proches et de transmettre des pratiques. Tu peux donc vivre pleinement en 2035 tout en appartenant à une culture dont les repères ne viennent pas tous de ce monde.",
@@ -850,14 +1155,38 @@
         "text": "Tu vis dans une société où la technologie publique est déjà avancée : tu ne prends pas chaque appareil pour de la magie. Face à une technologie extraterrestre inconnue, en revanche, tu peux chercher un enchantement, un esprit ou une pratique de Vérité. Ce rapprochement suit tes repères ; il peut être faux.",
         "example": "« Cette arme lance un rayon… Ils ont peut-être fixé un sort dans l’objet. »",
         "term": "mystification"
-      }
+      },
+      "illustration": {
+        "src": "/api/compendium/media/images/lore/verite-exiles-memoire.webp",
+        "alt": "Une Elyë transmet la mémoire d’Aèr à une adulte née sur Terre.",
+        "caption": "Transmettre la mémoire d’Aèr à quelqu’un qui a grandi sur Terre.",
+        "article": "verite-v7-exiles-peuples-silcenters-traditions",
+        "portrait": false
+      },
+      "quickTerms": [
+        {
+          "id": "exile",
+          "label": "Exilé",
+          "text": "Membre d’un des peuples originaires d’Aèr installés sur Terre : Elfes, Nains, Ashylls, Thulkars et Azménoriens. Il peut être né sur Terre depuis plusieurs générations."
+        },
+        {
+          "id": "aer",
+          "label": "Aèr",
+          "text": "Monde d’origine des peuples exilés. Son histoire continue de marquer leurs cultures, même lorsqu’ils vivent depuis longtemps sur Terre."
+        },
+        {
+          "id": "silcenter",
+          "label": "Silcenter",
+          "text": "Lieu de rassemblement et de relais pour les communautés exilées. On peut y trouver des liens, des savoirs et une transmission culturelle."
+        }
+      ]
     },
     {
       "id": "nain",
       "title": "Nain · Whurten",
       "group": "Peuples exilés",
       "hook": "Un corps robuste, de la ténacité et des traditions que tu choisis de faire vivre.",
-      "identity": "Les Whurtens sont les Nains des peuples exilés. Leur origine ne décide pas de ton métier ni de ton caractère.",
+      "identity": "Les Whurtens sont les Nains des peuples exilés : petits, trapus, larges d’épaules et dotés d’une ossature robuste. Leur peuple vient d’Aèr, un autre monde. Cet héritage ne décide ni de ton métier ni de ton caractère ; un Whurten peut aussi bien être soignant, sportif, restaurateur ou chercheur.",
       "daily": "Une famille, un clan ou un réseau local peut transmettre des savoirs et attendre ta solidarité. Tu peux aussi vivre loin de ces institutions.",
       "abilities": "Une physiologie robuste et un sens magnétique forment des particularités naturelles ; les talents appris développent des usages précis.",
       "limits": "Tu n’es pas automatiquement artisan ou maître des runes. Une tradition s’apprend et son matériel doit être obtenu.",
@@ -877,11 +1206,15 @@
       "links": [
         {
           "article": "regles-verite-v7-exiles-profils-cinq-peuples",
-          "label": "Pour choisir tes capacités"
+          "label": "Les règles : capacités, coûts et limites"
         },
         {
           "article": "verite-v7-exiles-peuples-silcenters-traditions",
-          "label": "Si tu veux connaître ton peuple ou ton milieu"
+          "label": "Le peuple et son milieu : histoire, culture et organisations"
+        },
+        {
+          "article": "verite-v7-habiter-la-verite",
+          "label": "Le quotidien : trouver une place en Grande Californie"
         }
       ],
       "appeal": "Tu aimes la ténacité, la solidarité et un personnage qui tient bon quand les choses tournent mal.",
@@ -898,31 +1231,36 @@
           "subject": "Les humains",
           "voice": "Ils veulent du solide, mais seulement jusqu’à la fin du trimestre.",
           "status": "Réputation de milieu",
-          "limit": "Un jugement possible, à ajuster aux rencontres du personnage."
+          "limit": "Un jugement possible, à ajuster aux rencontres du personnage.",
+          "context": ""
         },
         {
           "subject": "Les Elfes, si sa communauté les fréquente",
           "voice": "Ils ont la mémoire longue. J’aimerais parfois qu’ils aient la réponse plus courte.",
           "status": "Réputation de milieu",
-          "limit": "Un jugement possible, à ajuster aux rencontres du personnage."
+          "limit": "Un jugement possible, à ajuster aux rencontres du personnage.",
+          "context": "Elyë : les Elfes d’Aèr, un autre monde ; leur vie longue n’implique pas d’y être né."
         },
         {
           "subject": "Les Thulkars, si sa communauté les fréquente",
           "voice": "Quand ils prennent leur engagement au sérieux, on peut bâtir dessus.",
           "status": "Réputation de milieu",
-          "limit": "Un jugement possible, à ajuster aux rencontres du personnage."
+          "limit": "Un jugement possible, à ajuster aux rencontres du personnage.",
+          "context": "Thulkars : grands humanoïdes verts venus d’Aèr, attachés à des traditions collectives diverses."
         },
         {
           "subject": "Les Azménoriens, si leur histoire lui a été transmise",
           "voice": "D’abord les essais. Ensuite la merveille. Je tiens à cet ordre-là.",
           "status": "Réputation de milieu",
-          "limit": "Un jugement possible, à ajuster aux rencontres du personnage."
+          "limit": "Un jugement possible, à ajuster aux rencontres du personnage.",
+          "context": "Azménoriens : peuple exilé d’apparence humaine, aux oreilles légèrement pointues et aux ailes de plumes noires."
         },
         {
           "subject": "Une arme galactique inconnue",
           "voice": "Un ouvrage de maître. Mais je ne reconnais pas la façon dont l’enchantement a été lié.",
           "status": "Origine ignorée",
-          "limit": "Être Nain ne donne ni un savoir automatique en fabrication ni la connaissance des Extrals."
+          "limit": "Être Nain ne donne ni un savoir automatique en fabrication ni la connaissance des Extrals.",
+          "context": ""
         }
       ],
       "heritage": "Les Whurten sont un peuple exilé d’Aèr, pas une profession. La robustesse, la ténacité et les perceptions liées aux champs magnétiques donnent des possibilités particulières ; elles n’imposent pas d’être forgeron, mineur ou mécanicien. Les liens de clan et les traditions peuvent compter dans un métier contemporain, un engagement de quartier ou une vie d’exploration.",
@@ -932,7 +1270,31 @@
         "text": "Tu vis dans une société où la technologie publique est déjà avancée : tu ne prends pas chaque appareil pour de la magie. Face à une technologie extraterrestre inconnue, en revanche, tu peux chercher un enchantement, un esprit ou une pratique de Vérité. Ce rapprochement suit tes repères ; il peut être faux.",
         "example": "« Cette arme lance un rayon… Ils ont peut-être fixé un sort dans l’objet. »",
         "term": "mystification"
-      }
+      },
+      "illustration": {
+        "src": "/api/compendium/media/images/lore/verite-exiles-atelier.webp",
+        "alt": "Une artisane whurtenne entretient une augmentation.",
+        "caption": "L’artisanat est une possibilité whurtenne, pas un métier imposé.",
+        "article": "verite-v7-exiles-peuples-silcenters-traditions",
+        "portrait": false
+      },
+      "quickTerms": [
+        {
+          "id": "exile",
+          "label": "Exilé",
+          "text": "Membre d’un des peuples originaires d’Aèr installés sur Terre : Elfes, Nains, Ashylls, Thulkars et Azménoriens. Il peut être né sur Terre depuis plusieurs générations."
+        },
+        {
+          "id": "aer",
+          "label": "Aèr",
+          "text": "Monde d’origine des peuples exilés. Son histoire continue de marquer leurs cultures, même lorsqu’ils vivent depuis longtemps sur Terre."
+        },
+        {
+          "id": "silcenter",
+          "label": "Silcenter",
+          "text": "Lieu de rassemblement et de relais pour les communautés exilées. On peut y trouver des liens, des savoirs et une transmission culturelle."
+        }
+      ]
     },
     {
       "id": "ashyll",
@@ -959,11 +1321,15 @@
       "links": [
         {
           "article": "regles-verite-v7-exiles-profils-cinq-peuples",
-          "label": "Pour choisir tes capacités"
+          "label": "Les règles : capacités, coûts et limites"
         },
         {
           "article": "verite-v7-exiles-peuples-silcenters-traditions",
-          "label": "Si tu veux connaître ton peuple ou ton milieu"
+          "label": "Le peuple et son milieu : histoire, culture et organisations"
+        },
+        {
+          "article": "verite-v7-habiter-la-verite",
+          "label": "Le quotidien : trouver une place en Grande Californie"
         }
       ],
       "appeal": "Tu aimes la mobilité, les perceptions fines et les solutions inventives face à un environnement trop grand.",
@@ -980,31 +1346,36 @@
           "subject": "Les humains",
           "voice": "Ils conçoivent le monde à leur taille et appellent ça une norme universelle.",
           "status": "Réputation de milieu",
-          "limit": "Un jugement possible, à ajuster aux rencontres du personnage."
+          "limit": "Un jugement possible, à ajuster aux rencontres du personnage.",
+          "context": ""
         },
         {
           "subject": "Les Thulkars, si sa communauté les fréquente",
           "voice": "Il voit un obstacle. Moi, je vois déjà l’endroit où il ne rentrera pas.",
           "status": "Réputation de milieu",
-          "limit": "Un jugement possible, à ajuster aux rencontres du personnage."
+          "limit": "Un jugement possible, à ajuster aux rencontres du personnage.",
+          "context": "Thulkars : grands humanoïdes verts venus d’Aèr, attachés à des traditions collectives diverses."
         },
         {
           "subject": "Les Nains, si sa communauté les fréquente",
           "voice": "Ils veulent que ça dure. Je veux d’abord que ça marche aujourd’hui.",
           "status": "Réputation de milieu",
-          "limit": "Un jugement possible, à ajuster aux rencontres du personnage."
+          "limit": "Un jugement possible, à ajuster aux rencontres du personnage.",
+          "context": "Whurtens : les Nains d’Aèr, trapus et robustes, avec leurs propres communautés terrestres."
         },
         {
           "subject": "Les Elfes, si sa communauté les fréquente",
           "voice": "À force de prendre du recul, on finit parfois très loin du problème.",
           "status": "Réputation de milieu",
-          "limit": "Un jugement possible, à ajuster aux rencontres du personnage."
+          "limit": "Un jugement possible, à ajuster aux rencontres du personnage.",
+          "context": "Elyë : les Elfes d’Aèr, un autre monde ; leur vie longue n’implique pas d’y être né."
         },
         {
           "subject": "Un petit appareil galactique",
           "voice": "Un enchantement dans si peu de place ? Je veux bien savoir ce qu’il faut lui donner en échange.",
           "status": "Origine ignorée",
-          "limit": "L’intérêt pour l’objet ne révèle pas son origine extraterrestre."
+          "limit": "L’intérêt pour l’objet ne révèle pas son origine extraterrestre.",
+          "context": ""
         }
       ],
       "heritage": "Ta petite stature, ta peau verte et tes perceptions appartiennent à une physiologie réelle, même lorsque le Voile en traduit l’apparence. L’environnement terrestre n’a pas été conçu à tes mesures. Cela peut nourrir une habitude de détourner les usages, d’anticiper les accès et de trouver des solutions fines ; cela ne te destine pas à un rôle comique ou à la délinquance.",
@@ -1014,7 +1385,31 @@
         "text": "Tu vis dans une société où la technologie publique est déjà avancée : tu ne prends pas chaque appareil pour de la magie. Face à une technologie extraterrestre inconnue, en revanche, tu peux chercher un enchantement, un esprit ou une pratique de Vérité. Ce rapprochement suit tes repères ; il peut être faux.",
         "example": "« Cette arme lance un rayon… Ils ont peut-être fixé un sort dans l’objet. »",
         "term": "mystification"
-      }
+      },
+      "illustration": {
+        "src": "/api/compendium/media/images/lore/verite-derriere-voile-negociation.webp",
+        "alt": "Dans un bar discret, un Ashyll et un enquêteur humain négocient autour d’un dossier.",
+        "caption": "Un Ashyll négocie dans un lieu discret : la petite taille n’empêche pas de tenir sa place.",
+        "article": "verite-v7-derriere-le-voile",
+        "portrait": false
+      },
+      "quickTerms": [
+        {
+          "id": "exile",
+          "label": "Exilé",
+          "text": "Membre d’un des peuples originaires d’Aèr installés sur Terre : Elfes, Nains, Ashylls, Thulkars et Azménoriens. Il peut être né sur Terre depuis plusieurs générations."
+        },
+        {
+          "id": "aer",
+          "label": "Aèr",
+          "text": "Monde d’origine des peuples exilés. Son histoire continue de marquer leurs cultures, même lorsqu’ils vivent depuis longtemps sur Terre."
+        },
+        {
+          "id": "silcenter",
+          "label": "Silcenter",
+          "text": "Lieu de rassemblement et de relais pour les communautés exilées. On peut y trouver des liens, des savoirs et une transmission culturelle."
+        }
+      ]
     },
     {
       "id": "thulkar",
@@ -1041,11 +1436,15 @@
       "links": [
         {
           "article": "regles-verite-v7-exiles-profils-cinq-peuples",
-          "label": "Pour choisir tes capacités"
+          "label": "Les règles : capacités, coûts et limites"
         },
         {
           "article": "verite-v7-exiles-peuples-silcenters-traditions",
-          "label": "Si tu veux connaître ton peuple ou ton milieu"
+          "label": "Le peuple et son milieu : histoire, culture et organisations"
+        },
+        {
+          "article": "verite-v7-habiter-la-verite",
+          "label": "Le quotidien : trouver une place en Grande Californie"
         }
       ],
       "appeal": "Tu aimes la présence physique, la solidarité et le fait d’être celui sur qui les autres peuvent compter.",
@@ -1062,31 +1461,36 @@
           "subject": "Les humains",
           "voice": "Ils disent « chacun pour soi », puis ils appellent du renfort.",
           "status": "Réputation de milieu",
-          "limit": "Un jugement possible, à ajuster aux rencontres du personnage."
+          "limit": "Un jugement possible, à ajuster aux rencontres du personnage.",
+          "context": ""
         },
         {
           "subject": "Les Ashylls, si sa communauté les fréquente",
           "voice": "Je n’entends pas toujours son plan. Mais quand il me dit de me baisser, je me baisse.",
           "status": "Réputation de milieu",
-          "limit": "Un jugement possible, à ajuster aux rencontres du personnage."
+          "limit": "Un jugement possible, à ajuster aux rencontres du personnage.",
+          "context": "Ashylls : petits humanoïdes verts originaires d’Aèr, souples et inventifs."
         },
         {
           "subject": "Les Nains, si sa communauté les fréquente",
           "voice": "Il ne dit pas oui vite. Quand il le dit, j’écoute.",
           "status": "Réputation de milieu",
-          "limit": "Un jugement possible, à ajuster aux rencontres du personnage."
+          "limit": "Un jugement possible, à ajuster aux rencontres du personnage.",
+          "context": "Whurtens : les Nains d’Aèr, trapus et robustes, avec leurs propres communautés terrestres."
         },
         {
           "subject": "Les Elfes, si sa communauté les fréquente",
           "voice": "Il faut du temps pour savoir ce qu’ils pensent. Heureusement, j’ai autre chose à faire en attendant.",
           "status": "Réputation de milieu",
-          "limit": "Un jugement possible, à ajuster aux rencontres du personnage."
+          "limit": "Un jugement possible, à ajuster aux rencontres du personnage.",
+          "context": "Elyë : les Elfes d’Aèr, un autre monde ; leur vie longue n’implique pas d’y être né."
         },
         {
           "subject": "Un Extral physiquement impressionnant",
           "voice": "Une autre lignée, peut-être. Je préfère lui parler avant de décider ce qu’il est.",
           "status": "Origine ignorée",
-          "limit": "Le personnage peut comparer à des êtres connus sans identifier une espèce extrale."
+          "limit": "Le personnage peut comparer à des êtres connus sans identifier une espèce extrale.",
+          "context": ""
         }
       ],
       "heritage": "Le gabarit et la force d’un Thulkar influencent sa présence, mais son héritage comprend aussi des appartenances collectives. Une horde ou une communauté n’impose pas que tous ses membres soient guerriers. L’exil, la vie en ville et les trajectoires familiales peuvent donner à la solidarité des formes très actuelles : un réseau d’entraide, un métier, un voisinage ou des engagements partagés.",
@@ -1096,7 +1500,31 @@
         "text": "Tu vis dans une société où la technologie publique est déjà avancée : tu ne prends pas chaque appareil pour de la magie. Face à une technologie extraterrestre inconnue, en revanche, tu peux chercher un enchantement, un esprit ou une pratique de Vérité. Ce rapprochement suit tes repères ; il peut être faux.",
         "example": "« Cette arme lance un rayon… Ils ont peut-être fixé un sort dans l’objet. »",
         "term": "mystification"
-      }
+      },
+      "illustration": {
+        "src": "/api/compendium/media/images/lore/verite-exiles-silcenter.webp",
+        "alt": "Un Silcenter accueille plusieurs peuples sous leur véritable apparence.",
+        "caption": "À droite, un Thulkar parmi d’autres Exilés dans un Silcenter, leur lieu d’accueil communautaire.",
+        "article": "verite-v7-exiles-peuples-silcenters-traditions",
+        "portrait": false
+      },
+      "quickTerms": [
+        {
+          "id": "exile",
+          "label": "Exilé",
+          "text": "Membre d’un des peuples originaires d’Aèr installés sur Terre : Elfes, Nains, Ashylls, Thulkars et Azménoriens. Il peut être né sur Terre depuis plusieurs générations."
+        },
+        {
+          "id": "aer",
+          "label": "Aèr",
+          "text": "Monde d’origine des peuples exilés. Son histoire continue de marquer leurs cultures, même lorsqu’ils vivent depuis longtemps sur Terre."
+        },
+        {
+          "id": "silcenter",
+          "label": "Silcenter",
+          "text": "Lieu de rassemblement et de relais pour les communautés exilées. On peut y trouver des liens, des savoirs et une transmission culturelle."
+        }
+      ]
     },
     {
       "id": "azmenorien",
@@ -1123,11 +1551,15 @@
       "links": [
         {
           "article": "regles-verite-v7-exiles-profils-cinq-peuples",
-          "label": "Pour choisir tes capacités"
+          "label": "Les règles : capacités, coûts et limites"
         },
         {
           "article": "verite-v7-exiles-peuples-silcenters-traditions",
-          "label": "Si tu veux connaître ton peuple ou ton milieu"
+          "label": "Le peuple et son milieu : histoire, culture et organisations"
+        },
+        {
+          "article": "verite-v7-habiter-la-verite",
+          "label": "Le quotidien : trouver une place en Grande Californie"
         }
       ],
       "appeal": "Tu aimes l’aventure, l’exploration et la rencontre entre magie, technologie et héritage ancien.",
@@ -1144,31 +1576,36 @@
           "subject": "Les humains",
           "voice": "Ils redécouvrent des possibilités merveilleuses. J’espère qu’ils auront le temps d’apprendre la prudence.",
           "status": "Réputation de milieu",
-          "limit": "Un jugement possible, à ajuster aux rencontres du personnage."
+          "limit": "Un jugement possible, à ajuster aux rencontres du personnage.",
+          "context": ""
         },
         {
           "subject": "Les Nains, si sa communauté les fréquente",
           "voice": "Leur première question est toujours ce qui peut casser. C’est souvent la bonne.",
           "status": "Réputation de milieu",
-          "limit": "Un jugement possible, à ajuster aux rencontres du personnage."
+          "limit": "Un jugement possible, à ajuster aux rencontres du personnage.",
+          "context": "Whurtens : les Nains d’Aèr, trapus et robustes, avec leurs propres communautés terrestres."
         },
         {
           "subject": "Les Elfes, si sa communauté les fréquente",
           "voice": "Ils se souviennent de ce que nous préférerions raconter autrement.",
           "status": "Réputation de milieu",
-          "limit": "Un jugement possible, à ajuster aux rencontres du personnage."
+          "limit": "Un jugement possible, à ajuster aux rencontres du personnage.",
+          "context": "Elyë : les Elfes d’Aèr, un autre monde ; leur vie longue n’implique pas d’y être né."
         },
         {
           "subject": "Les Mages, s’il en connaît",
           "voice": "Ils ont des idées fascinantes. Dommage que chacun veuille garder la moitié du raisonnement.",
           "status": "Réputation de milieu",
-          "limit": "Un jugement possible, à ajuster aux rencontres du personnage."
+          "limit": "Un jugement possible, à ajuster aux rencontres du personnage.",
+          "context": "Mages : praticiens dont le Mageius donne accès à la magie, apprise au travers d’affinités et de traditions."
         },
         {
           "subject": "Une technologie galactique inconnue",
           "voice": "Une solution technique remarquable… ou une liaison magique dissimulée ? Je veux l’examiner.",
           "status": "Origine ignorée",
-          "limit": "Une culture mêlant magie et technique ne fournit pas la connaissance des Extrals ni une identification infaillible."
+          "limit": "Une culture mêlant magie et technique ne fournit pas la connaissance des Extrals ni une identification infaillible.",
+          "context": ""
         }
       ],
       "heritage": "Les Azménoriens portent un héritage où magie et technologie se rencontrent, avec une histoire de découvertes et de catastrophes. Tu n’es pas obligé d’en faire un personnage d’atelier : cette curiosité peut mener vers les ruines, les voyages, les phénomènes inconnus ou la recherche de savoirs perdus. Ton rapport à l’histoire du peuple peut aller de la fierté à une grande prudence.",
@@ -1178,14 +1615,38 @@
         "text": "Tu vis dans une société où la technologie publique est déjà avancée : tu ne prends pas chaque appareil pour de la magie. Face à une technologie extraterrestre inconnue, en revanche, tu peux chercher un enchantement, un esprit ou une pratique de Vérité. Ce rapprochement suit tes repères ; il peut être faux.",
         "example": "« Cette arme lance un rayon… Ils ont peut-être fixé un sort dans l’objet. »",
         "term": "mystification"
-      }
+      },
+      "illustration": {
+        "src": "/api/compendium/media/images/lore/verite-exiles-azmenor.webp",
+        "alt": "Une Azménorienne examine un dispositif technomagique.",
+        "caption": "Une Azménorienne et ses ailes sombres, au travail sur un dispositif technomagique.",
+        "article": "verite-v7-exiles-peuples-silcenters-traditions",
+        "portrait": false
+      },
+      "quickTerms": [
+        {
+          "id": "exile",
+          "label": "Exilé",
+          "text": "Membre d’un des peuples originaires d’Aèr installés sur Terre : Elfes, Nains, Ashylls, Thulkars et Azménoriens. Il peut être né sur Terre depuis plusieurs générations."
+        },
+        {
+          "id": "aer",
+          "label": "Aèr",
+          "text": "Monde d’origine des peuples exilés. Son histoire continue de marquer leurs cultures, même lorsqu’ils vivent depuis longtemps sur Terre."
+        },
+        {
+          "id": "silcenter",
+          "label": "Silcenter",
+          "text": "Lieu de rassemblement et de relais pour les communautés exilées. On peut y trouver des liens, des savoirs et une transmission culturelle."
+        }
+      ]
     },
     {
       "id": "talass",
       "title": "Talass",
       "group": "Peuples galactiques",
       "hook": "Un petit extraterrestre vert, agile, avec une anatomie très différente de la nôtre.",
-      "identity": "Ton corps possède des segments et peut produire une soie conductrice. Les Talass ne sont pas des humains miniatures : leur physiologie et leurs rapports au corps leur sont propres.",
+      "identity": "Un Talass est un petit extraterrestre vert, d’origine fongiforme : son évolution vient de formes de vie comparables aux champignons. Son corps segmentaire et sa soie conductrice, capable de transmettre des signaux ou de l’énergie, lui donnent une relation particulière aux lieux et aux machines. Ce n’est pas un humain miniature.",
       "daily": "Les soins, les relations avec ta communauté et ton identité sous le Voile font partie de ta vie terrestre.",
       "abilities": "Tes bonds, ton agilité et la soie ouvrent des possibilités de déplacement et d’action.",
       "limits": "Les segments perdus ne repoussent pas spontanément. Tes capacités concrètes et leurs limites viennent du profil et des talents choisis.",
@@ -1207,11 +1668,15 @@
       "links": [
         {
           "article": "regles-verite-v7-extrals-profils-physiologies",
-          "label": "Pour choisir tes capacités"
+          "label": "Les règles : capacités, coûts et limites"
         },
         {
           "article": "verite-extrals-talass-detail",
-          "label": "Si tu veux connaître ton peuple ou ton milieu"
+          "label": "Le peuple et son milieu : histoire, culture et organisations"
+        },
+        {
+          "article": "verite-v7-habiter-la-verite",
+          "label": "Le quotidien : trouver une place en Grande Californie"
         }
       ],
       "appeal": "Tu aimes résoudre des problèmes, jouer un petit extraterrestre mobile et privilégier l’intelligence à l’affrontement.",
@@ -1229,37 +1694,43 @@
           "subject": "Les Terriens",
           "voice": "Ils règlent encore tant de problèmes par la force. N’ont-ils pas pensé à changer le problème ?",
           "status": "Réputation de milieu",
-          "limit": "Un jugement possible, à ajuster aux rencontres du personnage."
+          "limit": "Un jugement possible, à ajuster aux rencontres du personnage.",
+          "context": ""
         },
         {
           "subject": "Les Mo’sens, s’il en connaît",
           "voice": "Il vérifie d’abord qui peut couper les ressources. C’est moins élégant qu’une théorie, mais très utile.",
           "status": "Réputation de milieu",
-          "limit": "Un jugement possible, à ajuster aux rencontres du personnage."
+          "limit": "Un jugement possible, à ajuster aux rencontres du personnage.",
+          "context": "Mo’sen : extraterrestre reptiloïde écailleux, doté de protections naturelles et de sens prédateurs."
         },
         {
           "subject": "Les Thalsios, s’il en connaît",
           "voice": "Pendant que nous finissons le modèle, elle a déjà trouvé la fuite.",
           "status": "Réputation de milieu",
-          "limit": "Un jugement possible, à ajuster aux rencontres du personnage."
+          "limit": "Un jugement possible, à ajuster aux rencontres du personnage.",
+          "context": "Thalsios : extraterrestre amphibioïde massif, à la peau sensible à l’humidité et aux mains très précises."
         },
         {
           "subject": "Les Ad’rak, si cette réputation lui a été transmise",
           "voice": "Je sais ce qu’a fait leur armée. Il faut encore savoir ce que celui-ci en pense.",
           "status": "Histoire ou réputation",
-          "limit": "Connaître l’Armée noire ne permet pas de confondre réfugiés et loyalistes."
+          "limit": "Connaître l’Armée noire ne permet pas de confondre réfugiés et loyalistes.",
+          "context": "Ad’rak : extraterrestre humanoïde puissant ; les personnages terrestres sont généralement issus de communautés libres ou de la dissidence."
         },
         {
           "subject": "Les « Elfes » des récits terrestres",
           "voice": "Des Elfes ? J’ai vu Le Seigneur des anneaux. Tu parles sûrement de Serys.",
           "status": "Peuple réel ignoré",
-          "limit": "Cette confusion suppose qu’il connaisse les Serys. Il ignore ici les Exilés ; sans cette référence, il peut simplement parler de fiction terrestre."
+          "limit": "Cette confusion suppose qu’il connaisse les Serys. Il ignore ici les Exilés ; sans cette référence, il peut simplement parler de fiction terrestre.",
+          "context": "Serys : peuple galactique que certains Extrals peuvent prendre comme comparaison en entendant parler d’« Elfes » ; cette supposition n’identifie pas les Exilés."
         },
         {
           "subject": "Un phénomène que les Terriens disent magique",
           "voice": "Un fantôme à travers un mur ? Regardez plutôt du côté des dispositifs holographiques.",
           "status": "Cause inconnue",
-          "limit": "Rationaliser est un réflexe culturel, pas une preuve ni une capacité à comprendre le phénomène."
+          "limit": "Rationaliser est un réflexe culturel, pas une preuve ni une capacité à comprendre le phénomène.",
+          "context": ""
         }
       ],
       "heritage": "Les Talass sont de petits êtres verts, segmentaires et d’origine fongiforme. Leurs déplacements, leur soie conductrice et leurs aptitudes perceptives ou psychiques donnent une autre relation au milieu. Cette étrangeté biologique accompagne une culture qui valorise l’intellect et cherche souvent à éviter la violence par une meilleure organisation. Elle ne signifie pas que tous les Talass exercent le même métier.",
@@ -1269,14 +1740,38 @@
         "text": "Tu peux traduire un phénomène inconnu avec le vocabulaire scientifique ou technique qui t’est familier. « Une décharge de photons » paraît plus crédible à tes yeux que « de la magie », sans être forcément la bonne explication. L’avance technologique de ton milieu ne rend pas ton interprétation infaillible.",
         "example": "« Un fantôme qui traverse ce mur ? Cherchez plutôt du côté des dispositifs holographiques. »",
         "term": "rationalisation"
-      }
+      },
+      "illustration": {
+        "src": "/api/compendium/media/images/lore/verite-reference-talass.webp",
+        "alt": "Illustration de référence fournie par l’auteur : morphologie d’un Talass.",
+        "caption": "La morphologie verte et segmentaire d’un Talass.",
+        "article": "verite-extrals-talass-detail",
+        "portrait": true
+      },
+      "quickTerms": [
+        {
+          "id": "extral",
+          "label": "Extral",
+          "text": "Extraterrestre issu d’une civilisation d’un autre monde. À distinguer des Exilés d’Aèr ; il n’existe pas une culture ni une technologie unique pour tous les Extrals."
+        },
+        {
+          "id": "gaac",
+          "label": "GAAC",
+          "text": "Global Alliance of Alien Citizens : instance de représentation et d’intégration légale des communautés extraterrestres sur Terre. Elle ne constitue pas un gouvernement unique de toutes les espèces."
+        },
+        {
+          "id": "voile",
+          "label": "Voile",
+          "text": "Nom courant de l’Hologramme et de ses effets : il rend le surnaturel compatible avec la vie ordinaire, en agissant sur les corps, les perceptions et les traces. Ce n’est pas seulement un déguisement visuel."
+        }
+      ]
     },
     {
       "id": "mosen",
       "title": "Mo’sen",
       "group": "Peuples galactiques",
       "hook": "Un extraterrestre reptiloïde robuste, dont le corps impose des habitudes particulières.",
-      "identity": "Ton corps porte des écailles et des protections naturelles. Les Mo’sens possèdent leurs propres communautés et une histoire distincte de celle des humains.",
+      "identity": "Un Mo’sen est un extraterrestre reptiloïde : son corps écailleux, sa cuirasse naturelle et ses sens de prédateur le distinguent nettement d’un humain. Les Mo’sens possèdent leurs propres communautés et une histoire distincte de la Terre ; leur apparence ne dit pas à elle seule quel métier, quelle loyauté ou quel tempérament ils ont.",
       "daily": "Ton alimentation et les adaptations de tes équipements peuvent compter dans la vie quotidienne. Une apparence humaine sous le Voile ne rend pas tous tes besoins ordinaires.",
       "abilities": "Ta robustesse et ta digestion particulière sont des traits corporels ; tes apprentissages précisent leurs usages en jeu.",
       "limits": "Pouvoir assimiler beaucoup de matières ne te rend pas insensible aux toxines. Toutes les armures ne sont pas adaptées à ton corps.",
@@ -1298,11 +1793,15 @@
       "links": [
         {
           "article": "regles-verite-v7-extrals-profils-physiologies",
-          "label": "Pour choisir tes capacités"
+          "label": "Les règles : capacités, coûts et limites"
         },
         {
           "article": "verite-extrals-mosens-detail",
-          "label": "Si tu veux connaître ton peuple ou ton milieu"
+          "label": "Le peuple et son milieu : histoire, culture et organisations"
+        },
+        {
+          "article": "verite-v7-habiter-la-verite",
+          "label": "Le quotidien : trouver une place en Grande Californie"
         }
       ],
       "appeal": "Tu aimes une forte présence reptilienne, la résistance et les questions d’autonomie d’une communauté.",
@@ -1320,37 +1819,43 @@
           "subject": "Les Terriens",
           "voice": "Ils appellent ça du confort. Moi, je vois quelqu’un d’autre qui peut fermer le robinet.",
           "status": "Réputation de milieu",
-          "limit": "Un jugement possible, à ajuster aux rencontres du personnage."
+          "limit": "Un jugement possible, à ajuster aux rencontres du personnage.",
+          "context": ""
         },
         {
           "subject": "Les Talass, s’il en connaît",
           "voice": "Un excellent raisonnement. Maintenant, explique-moi comment il tient quand l’autre refuse de discuter.",
           "status": "Réputation de milieu",
-          "limit": "Un jugement possible, à ajuster aux rencontres du personnage."
+          "limit": "Un jugement possible, à ajuster aux rencontres du personnage.",
+          "context": "Talass : petit extraterrestre vert au corps segmentaire, capable de produire une soie conductrice."
         },
         {
           "subject": "Les Baséanhs, s’il en connaît",
           "voice": "La préparation est efficace. Je veux quand même savoir qui fournit ce qui la fait vivre.",
           "status": "Réputation de milieu",
-          "limit": "Un jugement possible, à ajuster aux rencontres du personnage."
+          "limit": "Un jugement possible, à ajuster aux rencontres du personnage.",
+          "context": "Baséanh : extraterrestre reptiloïde massif, à quatre bras et six yeux, dont les poches corporelles servent aux cultures biologiques."
         },
         {
           "subject": "Les Rocréens, s’il en connaît",
           "voice": "Il a trouvé trois sorties. Je préfère vérifier laquelle il garde pour lui.",
           "status": "Réputation de milieu",
-          "limit": "Un jugement possible, à ajuster aux rencontres du personnage."
+          "limit": "Un jugement possible, à ajuster aux rencontres du personnage.",
+          "context": "Rocréen : extraterrestre amphibie à l’anatomie molluscoïde, dont la régénération dépend notamment d’un Noyau."
         },
         {
           "subject": "Les « Elfes » des récits terrestres",
           "voice": "Des Elfes ? J’ai vu Le Seigneur des anneaux. Tu parles sûrement de Serys.",
           "status": "Peuple réel ignoré",
-          "limit": "Cette confusion suppose qu’il connaisse les Serys. Il ignore ici les Exilés ; sans cette référence, il peut simplement parler de fiction terrestre."
+          "limit": "Cette confusion suppose qu’il connaisse les Serys. Il ignore ici les Exilés ; sans cette référence, il peut simplement parler de fiction terrestre.",
+          "context": "Serys : peuple galactique que certains Extrals peuvent prendre comme comparaison en entendant parler d’« Elfes » ; cette supposition n’identifie pas les Exilés."
         },
         {
           "subject": "Un phénomène que les Terriens disent magique",
           "voice": "Un fantôme à travers un mur ? Regardez plutôt du côté des dispositifs holographiques.",
           "status": "Cause inconnue",
-          "limit": "Rationaliser est un réflexe culturel, pas une preuve ni une capacité à comprendre le phénomène."
+          "limit": "Rationaliser est un réflexe culturel, pas une preuve ni une capacité à comprendre le phénomène.",
+          "context": ""
         }
       ],
       "heritage": "Le corps reptiloïde, la cuirasse naturelle et les sens prédateurs font partie du profil mo’sen, mais son histoire culturelle compte aussi. Une mémoire de domination peut rendre la maîtrise de ses ressources et de sa sécurité très importante. Les réponses divergent : certains cherchent l’influence discrète, d’autres préfèrent la représentation commune ou des relations plus ouvertes avec les habitants de la Terre.",
@@ -1360,14 +1865,38 @@
         "text": "Tu peux traduire un phénomène inconnu avec le vocabulaire scientifique ou technique qui t’est familier. « Une décharge de photons » paraît plus crédible à tes yeux que « de la magie », sans être forcément la bonne explication. L’avance technologique de ton milieu ne rend pas ton interprétation infaillible.",
         "example": "« Un fantôme qui traverse ce mur ? Cherchez plutôt du côté des dispositifs holographiques. »",
         "term": "rationalisation"
-      }
+      },
+      "illustration": {
+        "src": "/api/compendium/media/images/lore/verite-reference-mosens.webp",
+        "alt": "Illustration de référence fournie par l’auteur : morphologie d’un Mo’sen.",
+        "caption": "La morphologie reptiloïde et les protections naturelles d’un Mo’sen.",
+        "article": "verite-extrals-mosens-detail",
+        "portrait": true
+      },
+      "quickTerms": [
+        {
+          "id": "extral",
+          "label": "Extral",
+          "text": "Extraterrestre issu d’une civilisation d’un autre monde. À distinguer des Exilés d’Aèr ; il n’existe pas une culture ni une technologie unique pour tous les Extrals."
+        },
+        {
+          "id": "gaac",
+          "label": "GAAC",
+          "text": "Global Alliance of Alien Citizens : instance de représentation et d’intégration légale des communautés extraterrestres sur Terre. Elle ne constitue pas un gouvernement unique de toutes les espèces."
+        },
+        {
+          "id": "voile",
+          "label": "Voile",
+          "text": "Nom courant de l’Hologramme et de ses effets : il rend le surnaturel compatible avec la vie ordinaire, en agissant sur les corps, les perceptions et les traces. Ce n’est pas seulement un déguisement visuel."
+        }
+      ]
     },
     {
       "id": "baseanh",
       "title": "Baséanh",
       "group": "Peuples galactiques",
       "hook": "Un extraterrestre à quatre bras, dont le corps peut entretenir des cultures biologiques.",
-      "identity": "Les Baséanhs ont six yeux et des poches corporelles nommées Tardollas. Ils peuvent y cultiver des organismes ou des substances, notamment utiles en médecine.",
+      "identity": "Un Baséanh est un extraterrestre reptiloïde : un humanoïde large et massif, à quatre bras, six yeux bleu ciel et une peau à fines écailles, souvent ocre, brune ou rouge sombre. Ses poches corporelles, les Tardollas, servent à cultiver des organismes et des substances, notamment pour les soins. Tu joues ainsi une personne dont le corps lui-même peut devenir un laboratoire vivant.",
       "daily": "Entretenir tes cultures et trouver les bons soins donnent une dimension concrète à ta vie terrestre. Tu n’es pas obligé d’être médecin, même si cette spécialité est importante dans ton peuple.",
       "abilities": "Tes Tardollas et tes capacités biologiques ouvrent des possibilités précises, à choisir et apprendre selon ton profil.",
       "limits": "Quatre bras ne donnent pas automatiquement des actions supplémentaires. Une culture biologique ne produit pas n’importe quel remède sur demande.",
@@ -1389,11 +1918,15 @@
       "links": [
         {
           "article": "regles-verite-v7-extrals-profils-physiologies",
-          "label": "Pour choisir tes capacités"
+          "label": "Les règles : capacités, coûts et limites"
         },
         {
           "article": "verite-extrals-baseanhs-detail",
-          "label": "Si tu veux connaître ton peuple ou ton milieu"
+          "label": "Le peuple et son milieu : histoire, culture et organisations"
+        },
+        {
+          "article": "verite-v7-habiter-la-verite",
+          "label": "Le quotidien : trouver une place en Grande Californie"
         }
       ],
       "appeal": "Tu aimes la biologie, les corps vraiment extraterrestres et des solutions qui passent par le vivant.",
@@ -1411,37 +1944,43 @@
           "subject": "Les Terriens",
           "voice": "Ils prescrivent comme si tous les corps étaient une variation du leur.",
           "status": "Réputation de milieu",
-          "limit": "Un jugement possible, à ajuster aux rencontres du personnage."
+          "limit": "Un jugement possible, à ajuster aux rencontres du personnage.",
+          "context": ""
         },
         {
           "subject": "Les Talass, s’il en connaît",
           "voice": "Le dispositif est précis. Le vivant, lui, ne se laisse pas toujours réduire au schéma.",
           "status": "Réputation de milieu",
-          "limit": "Un jugement possible, à ajuster aux rencontres du personnage."
+          "limit": "Un jugement possible, à ajuster aux rencontres du personnage.",
+          "context": "Talass : petit extraterrestre vert au corps segmentaire, capable de produire une soie conductrice."
         },
         {
           "subject": "Les Thalsios, s’il en connaît",
           "voice": "Elle remarque tout de suite ce que les autres prennent pour un simple inconfort.",
           "status": "Réputation de milieu",
-          "limit": "Un jugement possible, à ajuster aux rencontres du personnage."
+          "limit": "Un jugement possible, à ajuster aux rencontres du personnage.",
+          "context": "Thalsios : extraterrestre amphibioïde massif, à la peau sensible à l’humidité et aux mains très précises."
         },
         {
           "subject": "Les Mo’sens, s’il en connaît",
           "voice": "Robuste ne veut pas dire compatible avec tout. Même s’il insiste.",
           "status": "Réputation de milieu",
-          "limit": "Un jugement possible, à ajuster aux rencontres du personnage."
+          "limit": "Un jugement possible, à ajuster aux rencontres du personnage.",
+          "context": "Mo’sen : extraterrestre reptiloïde écailleux, doté de protections naturelles et de sens prédateurs."
         },
         {
           "subject": "Les « Elfes » des récits terrestres",
           "voice": "Des Elfes ? J’ai vu Le Seigneur des anneaux. Tu parles sûrement de Serys.",
           "status": "Peuple réel ignoré",
-          "limit": "Cette confusion suppose qu’il connaisse les Serys. Il ignore ici les Exilés ; sans cette référence, il peut simplement parler de fiction terrestre."
+          "limit": "Cette confusion suppose qu’il connaisse les Serys. Il ignore ici les Exilés ; sans cette référence, il peut simplement parler de fiction terrestre.",
+          "context": "Serys : peuple galactique que certains Extrals peuvent prendre comme comparaison en entendant parler d’« Elfes » ; cette supposition n’identifie pas les Exilés."
         },
         {
           "subject": "Un phénomène que les Terriens disent magique",
           "voice": "Un fantôme à travers un mur ? Regardez plutôt du côté des dispositifs holographiques.",
           "status": "Cause inconnue",
-          "limit": "Rationaliser est un réflexe culturel, pas une preuve ni une capacité à comprendre le phénomène."
+          "limit": "Rationaliser est un réflexe culturel, pas une preuve ni une capacité à comprendre le phénomène.",
+          "context": ""
         }
       ],
       "heritage": "Ton anatomie à quatre bras et six yeux n’est qu’une partie de la différence. Les Tardollas permettent d’entretenir des milieux biologiques : le corps peut ainsi devenir un lieu de culture et de production de substances précises. Cela repose sur des connaissances et de l’entretien, pas sur une réserve de potions mystérieuses. La biologie appliquée occupe une place majeure dans la culture baséanne.",
@@ -1451,14 +1990,38 @@
         "text": "Tu peux traduire un phénomène inconnu avec le vocabulaire scientifique ou technique qui t’est familier. « Une décharge de photons » paraît plus crédible à tes yeux que « de la magie », sans être forcément la bonne explication. L’avance technologique de ton milieu ne rend pas ton interprétation infaillible.",
         "example": "« Un fantôme qui traverse ce mur ? Cherchez plutôt du côté des dispositifs holographiques. »",
         "term": "rationalisation"
-      }
+      },
+      "illustration": {
+        "src": "/api/compendium/media/images/lore/verite-baseanh-medecine.webp",
+        "alt": "Un Baséanh prépare des cultures destinées aux soins.",
+        "caption": "Un Baséanh en tenue de travail : quatre bras au service d’une pratique biologique précise.",
+        "article": "verite-extrals-baseanhs-detail",
+        "portrait": false
+      },
+      "quickTerms": [
+        {
+          "id": "extral",
+          "label": "Extral",
+          "text": "Extraterrestre issu d’une civilisation d’un autre monde. À distinguer des Exilés d’Aèr ; il n’existe pas une culture ni une technologie unique pour tous les Extrals."
+        },
+        {
+          "id": "gaac",
+          "label": "GAAC",
+          "text": "Global Alliance of Alien Citizens : instance de représentation et d’intégration légale des communautés extraterrestres sur Terre. Elle ne constitue pas un gouvernement unique de toutes les espèces."
+        },
+        {
+          "id": "voile",
+          "label": "Voile",
+          "text": "Nom courant de l’Hologramme et de ses effets : il rend le surnaturel compatible avec la vie ordinaire, en agissant sur les corps, les perceptions et les traces. Ce n’est pas seulement un déguisement visuel."
+        }
+      ]
     },
     {
       "id": "rocreen",
       "title": "Rocréen",
       "group": "Peuples galactiques",
       "hook": "Un extraterrestre aux nombreux membres, avec une capacité remarquable à se régénérer.",
-      "identity": "Les Rocréens ont un corps très éloigné de l’anatomie humaine et des réseaux communautaires étendus. Leur histoire impériale pèse encore sur leur réputation.",
+      "identity": "Un Rocréen est un extraterrestre amphibie à l’anatomie molluscoïde, très éloignée du squelette et de la silhouette humaine. Son corps possède un Noyau, essentiel à sa continuité et à sa régénération. Les réseaux commerciaux et communautaires de ce peuple sont étendus, mais son ancienne histoire impériale pèse encore sur sa réputation.",
       "daily": "Relations, échanges et survie peuvent prendre une place importante. Une réputation collective ne décide pas de ta conduite personnelle ni de tes loyautés.",
       "abilities": "La régénération est un trait majeur, dont le noyau corporel constitue un élément essentiel. Les règles précisent ce qu’elle permet et à quel rythme.",
       "limits": "Régénérer ne signifie pas être invulnérable. Les blessures graves peuvent avoir des conséquences particulières, notamment sur la mémoire.",
@@ -1480,11 +2043,15 @@
       "links": [
         {
           "article": "regles-verite-v7-extrals-profils-physiologies",
-          "label": "Pour choisir tes capacités"
+          "label": "Les règles : capacités, coûts et limites"
         },
         {
           "article": "verite-extrals-rocreens-detail",
-          "label": "Si tu veux connaître ton peuple ou ton milieu"
+          "label": "Le peuple et son milieu : histoire, culture et organisations"
+        },
+        {
+          "article": "verite-v7-habiter-la-verite",
+          "label": "Le quotidien : trouver une place en Grande Californie"
         }
       ],
       "appeal": "Tu aimes les réseaux, la négociation, la survie et un personnage dont les intérêts personnels peuvent compliquer les alliances.",
@@ -1502,37 +2069,43 @@
           "subject": "Les Terriens",
           "voice": "Ils perdent une porte et se croient enfermés. Ils devraient mieux entretenir leurs relations.",
           "status": "Réputation de milieu",
-          "limit": "Un jugement possible, à ajuster aux rencontres du personnage."
+          "limit": "Un jugement possible, à ajuster aux rencontres du personnage.",
+          "context": ""
         },
         {
           "subject": "Les Talass, s’il en connaît",
           "voice": "Il cherche la solution correcte. Moi, je cherche celle qui arrive à destination.",
           "status": "Réputation de milieu",
-          "limit": "Un jugement possible, à ajuster aux rencontres du personnage."
+          "limit": "Un jugement possible, à ajuster aux rencontres du personnage.",
+          "context": "Talass : petit extraterrestre vert au corps segmentaire, capable de produire une soie conductrice."
         },
         {
           "subject": "Les Baséanhs, s’il en connaît",
           "voice": "Toujours utiles à connaître. Surtout avant d’avoir besoin d’eux.",
           "status": "Réputation de milieu",
-          "limit": "Un jugement possible, à ajuster aux rencontres du personnage."
+          "limit": "Un jugement possible, à ajuster aux rencontres du personnage.",
+          "context": "Baséanh : extraterrestre reptiloïde massif, à quatre bras et six yeux, dont les poches corporelles servent aux cultures biologiques."
         },
         {
           "subject": "Les Mo’sens, s’il en connaît",
           "voice": "Il veut être indépendant. Très bien. Qui lui fournit les moyens de le rester ?",
           "status": "Réputation de milieu",
-          "limit": "Un jugement possible, à ajuster aux rencontres du personnage."
+          "limit": "Un jugement possible, à ajuster aux rencontres du personnage.",
+          "context": "Mo’sen : extraterrestre reptiloïde écailleux, doté de protections naturelles et de sens prédateurs."
         },
         {
           "subject": "Les « Elfes » des récits terrestres",
           "voice": "Des Elfes ? J’ai vu Le Seigneur des anneaux. Tu parles sûrement de Serys.",
           "status": "Peuple réel ignoré",
-          "limit": "Cette confusion suppose qu’il connaisse les Serys. Il ignore ici les Exilés ; sans cette référence, il peut simplement parler de fiction terrestre."
+          "limit": "Cette confusion suppose qu’il connaisse les Serys. Il ignore ici les Exilés ; sans cette référence, il peut simplement parler de fiction terrestre.",
+          "context": "Serys : peuple galactique que certains Extrals peuvent prendre comme comparaison en entendant parler d’« Elfes » ; cette supposition n’identifie pas les Exilés."
         },
         {
           "subject": "Un phénomène que les Terriens disent magique",
           "voice": "Un fantôme à travers un mur ? Regardez plutôt du côté des dispositifs holographiques.",
           "status": "Cause inconnue",
-          "limit": "Rationaliser est un réflexe culturel, pas une preuve ni une capacité à comprendre le phénomène."
+          "limit": "Rationaliser est un réflexe culturel, pas une preuve ni une capacité à comprendre le phénomène.",
+          "context": ""
         }
       ],
       "heritage": "Les Rocréens ont une anatomie molluscoïde amphibie et une capacité de régénération liée à leur Noyau. Leur culture accorde aussi une grande importance aux réseaux et aux échanges d’informations ; les réputations de prédation sociale et de clandestinité ne décrivent pas chaque individu de la même manière. Un personnage peut aimer les arrangements tout en tenant sincèrement à quelques personnes.",
@@ -1542,14 +2115,38 @@
         "text": "Tu peux traduire un phénomène inconnu avec le vocabulaire scientifique ou technique qui t’est familier. « Une décharge de photons » paraît plus crédible à tes yeux que « de la magie », sans être forcément la bonne explication. L’avance technologique de ton milieu ne rend pas ton interprétation infaillible.",
         "example": "« Un fantôme qui traverse ce mur ? Cherchez plutôt du côté des dispositifs holographiques. »",
         "term": "rationalisation"
-      }
+      },
+      "illustration": {
+        "src": "/api/compendium/media/images/lore/verite-rocreen-commerce.webp",
+        "alt": "Un commerçant rocréen accueille un client.",
+        "caption": "Un Rocréen derrière son comptoir : une anatomie étrangère, des échanges très concrets.",
+        "article": "verite-extrals-rocreens-detail",
+        "portrait": false
+      },
+      "quickTerms": [
+        {
+          "id": "extral",
+          "label": "Extral",
+          "text": "Extraterrestre issu d’une civilisation d’un autre monde. À distinguer des Exilés d’Aèr ; il n’existe pas une culture ni une technologie unique pour tous les Extrals."
+        },
+        {
+          "id": "gaac",
+          "label": "GAAC",
+          "text": "Global Alliance of Alien Citizens : instance de représentation et d’intégration légale des communautés extraterrestres sur Terre. Elle ne constitue pas un gouvernement unique de toutes les espèces."
+        },
+        {
+          "id": "voile",
+          "label": "Voile",
+          "text": "Nom courant de l’Hologramme et de ses effets : il rend le surnaturel compatible avec la vie ordinaire, en agissant sur les corps, les perceptions et les traces. Ce n’est pas seulement un déguisement visuel."
+        }
+      ]
     },
     {
       "id": "thalsios",
       "title": "Thalsios",
       "group": "Peuples galactiques",
       "hook": "Un extraterrestre amphibie, sensible au toucher et à ses conditions de vie.",
-      "identity": "Les Thalsios ont une peau qui doit rester humide et une anatomie adaptée à d’autres milieux que l’air sec des villes terrestres.",
+      "identity": "Un Thalsios est un extraterrestre amphibioïde massif, dont l’allure évoque un être adapté aux milieux humides. Sa peau sensible doit conserver son humidité, tandis que ses mains permettent un travail précis. L’air sec d’un appartement ou d’un atelier terrestre est donc un problème concret, pas seulement un inconfort.",
       "daily": "L’humidité, la qualité de l’air et l’accès aux soins peuvent influencer ton logement et tes habitudes. Tes liens locaux t’aident à vivre dans cet environnement.",
       "abilities": "Ta sensibilité tactile et ton aptitude amphibie sont deux traits distincts. Les formations techniques de ton milieu peuvent compléter tes propres choix.",
       "limits": "Être Thalsios ne rend pas automatiquement maître de toutes les machines. Les talents, l’équipement et la compétence restent nécessaires.",
@@ -1571,11 +2168,15 @@
       "links": [
         {
           "article": "regles-verite-v7-extrals-profils-physiologies",
-          "label": "Pour choisir tes capacités"
+          "label": "Les règles : capacités, coûts et limites"
         },
         {
           "article": "verite-extrals-thalsios-detail",
-          "label": "Si tu veux connaître ton peuple ou ton milieu"
+          "label": "Le peuple et son milieu : histoire, culture et organisations"
+        },
+        {
+          "article": "verite-v7-habiter-la-verite",
+          "label": "Le quotidien : trouver une place en Grande Californie"
         }
       ],
       "appeal": "Tu aimes les milieux aquatiques, les interventions concrètes et le plaisir de rendre un lieu à nouveau habitable.",
@@ -1593,37 +2194,43 @@
           "subject": "Les Terriens",
           "voice": "Ils attendent que la machine s’arrête pour croire qu’elle a un problème.",
           "status": "Réputation de milieu",
-          "limit": "Un jugement possible, à ajuster aux rencontres du personnage."
+          "limit": "Un jugement possible, à ajuster aux rencontres du personnage.",
+          "context": ""
         },
         {
           "subject": "Les Talass, s’il en connaît",
           "voice": "Dis-moi seulement quelle pièce chercher. Tu m’expliqueras la théorie quand on respirera mieux.",
           "status": "Réputation de milieu",
-          "limit": "Un jugement possible, à ajuster aux rencontres du personnage."
+          "limit": "Un jugement possible, à ajuster aux rencontres du personnage.",
+          "context": "Talass : petit extraterrestre vert au corps segmentaire, capable de produire une soie conductrice."
         },
         {
           "subject": "Les Baséanhs, s’il en connaît",
           "voice": "Il demande d’abord ce qu’il faut à ton corps. C’est déjà une bonne manière de commencer.",
           "status": "Réputation de milieu",
-          "limit": "Un jugement possible, à ajuster aux rencontres du personnage."
+          "limit": "Un jugement possible, à ajuster aux rencontres du personnage.",
+          "context": "Baséanh : extraterrestre reptiloïde massif, à quatre bras et six yeux, dont les poches corporelles servent aux cultures biologiques."
         },
         {
           "subject": "Les Rocréens, s’il en connaît",
           "voice": "Son contact peut nous sauver la journée. J’aimerais juste connaître le prix avant demain.",
           "status": "Réputation de milieu",
-          "limit": "Un jugement possible, à ajuster aux rencontres du personnage."
+          "limit": "Un jugement possible, à ajuster aux rencontres du personnage.",
+          "context": "Rocréen : extraterrestre amphibie à l’anatomie molluscoïde, dont la régénération dépend notamment d’un Noyau."
         },
         {
           "subject": "Les « Elfes » des récits terrestres",
           "voice": "Des Elfes ? J’ai vu Le Seigneur des anneaux. Tu parles sûrement de Serys.",
           "status": "Peuple réel ignoré",
-          "limit": "Cette confusion suppose qu’il connaisse les Serys. Il ignore ici les Exilés ; sans cette référence, il peut simplement parler de fiction terrestre."
+          "limit": "Cette confusion suppose qu’il connaisse les Serys. Il ignore ici les Exilés ; sans cette référence, il peut simplement parler de fiction terrestre.",
+          "context": "Serys : peuple galactique que certains Extrals peuvent prendre comme comparaison en entendant parler d’« Elfes » ; cette supposition n’identifie pas les Exilés."
         },
         {
           "subject": "Un phénomène que les Terriens disent magique",
           "voice": "Un fantôme à travers un mur ? Regardez plutôt du côté des dispositifs holographiques.",
           "status": "Cause inconnue",
-          "limit": "Rationaliser est un réflexe culturel, pas une preuve ni une capacité à comprendre le phénomène."
+          "limit": "Rationaliser est un réflexe culturel, pas une preuve ni une capacité à comprendre le phénomène.",
+          "context": ""
         }
       ],
       "heritage": "Les Thalsios sont des amphibioïdes massifs, à la peau sensible aux conditions du milieu et aux mains précises. L’humidité et la qualité de l’air peuvent faire d’un logement ou d’une panne une question de santé. Leur histoire d’exploitation a donné au travail, à la réparation et à la maîtrise de l’environnement une portée qui dépasse le simple goût des machines.",
@@ -1633,14 +2240,38 @@
         "text": "Tu peux traduire un phénomène inconnu avec le vocabulaire scientifique ou technique qui t’est familier. « Une décharge de photons » paraît plus crédible à tes yeux que « de la magie », sans être forcément la bonne explication. L’avance technologique de ton milieu ne rend pas ton interprétation infaillible.",
         "example": "« Un fantôme qui traverse ce mur ? Cherchez plutôt du côté des dispositifs holographiques. »",
         "term": "rationalisation"
-      }
+      },
+      "illustration": {
+        "src": "/api/compendium/media/images/lore/verite-reference-thalsios.webp",
+        "alt": "Illustration de référence fournie par l’auteur : morphologie d’un Thalsios.",
+        "caption": "La silhouette massive et amphibioïde d’un Thalsios.",
+        "article": "verite-extrals-thalsios-detail",
+        "portrait": true
+      },
+      "quickTerms": [
+        {
+          "id": "extral",
+          "label": "Extral",
+          "text": "Extraterrestre issu d’une civilisation d’un autre monde. À distinguer des Exilés d’Aèr ; il n’existe pas une culture ni une technologie unique pour tous les Extrals."
+        },
+        {
+          "id": "gaac",
+          "label": "GAAC",
+          "text": "Global Alliance of Alien Citizens : instance de représentation et d’intégration légale des communautés extraterrestres sur Terre. Elle ne constitue pas un gouvernement unique de toutes les espèces."
+        },
+        {
+          "id": "voile",
+          "label": "Voile",
+          "text": "Nom courant de l’Hologramme et de ses effets : il rend le surnaturel compatible avec la vie ordinaire, en agissant sur les corps, les perceptions et les traces. Ce n’est pas seulement un déguisement visuel."
+        }
+      ]
     },
     {
       "id": "homo-superior",
       "title": "Homo Superior",
       "group": "Peuples galactiques",
       "hook": "Un humain de l’AIDH transformé par la science, confronté aux réalités de la Terre.",
-      "identity": "Tu restes humain. Ton corps a été profondément optimisé par la génétique, des traitements et des nanites : de minuscules dispositifs qui travaillent dans ton organisme. Ce profil est réservé aux humains de l’AIDH ; un habitant de la galaxie n’est pas automatiquement Homo Superior.",
+      "identity": "Tu es un humain dont le corps a été optimisé par la génétique, des traitements et des nanites, de minuscules dispositifs qui travaillent dans ton organisme. L’AIDH est une institution galactique chargée de protéger les populations humaines ; elle dispose d’armées autonomes et encadre les présences extraterrestres sur Terre. Le programme Homo Superior lui est réservé : tous les humains de la galaxie ne sont donc pas augmentés de cette manière. Ton apparence reste humaine, même si tes capacités et ton équipement dépassent les standards terrestres.",
       "daily": "L’AIDH est une institution militaire qui protège les populations humaines à l’échelle galactique et surveille les séjours extraterrestres sur Terre. Un personnage en service doit situer sa mission, son responsable, son soutien et sa couverture. La plupart de ses soldats présents sur Terre viennent d’ailleurs ; une origine terrestre serait exceptionnelle.",
       "abilities": "Ton organisme optimisé et tes nanites font partie de toi. Les talents achetés précisent leurs effets. Les patchs tatoués font partie de l’équipement des soldats de l’AIDH ; le Phasage de l’équipement est un talent à 1 PTV, avec 1 PA pour un élément ou 2 PA pour une tenue complète, une armure ou plusieurs éléments, dans les deux sens.",
       "limits": "Le Voile limite l’expression de tes performances en état Voilé. Les autres états libèrent davantage tes capacités sans te donner une forme monstrueuse. Ta technologie ne détecte pas automatiquement tout le surnaturel. Une appartenance à l’AIDH ne donne pas libre accès à tout son arsenal.",
@@ -1664,11 +2295,11 @@
       "links": [
         {
           "article": "regles-verite-v7-extrals-organisations-aidh-homo-superior-adrak",
-          "label": "Pour choisir tes capacités"
+          "label": "Les règles : capacités, coûts et limites"
         },
         {
           "article": "verite-v7-homo-superior-adrak-profils-rares",
-          "label": "Si tu veux connaître ton peuple ou ton milieu"
+          "label": "Le peuple et son milieu : histoire, culture et organisations"
         },
         {
           "article": "verite-humanite-galactique-aidh",
@@ -1677,6 +2308,10 @@
         {
           "article": "realite-v9-corporation-space-force-union",
           "label": "Pour connaître la couverture publique : Space Force Union"
+        },
+        {
+          "article": "verite-v7-habiter-la-verite",
+          "label": "Le quotidien : trouver une place en Grande Californie"
         }
       ],
       "appeal": "Tu aimes la science-fiction, les humains augmentés, les missions sous couverture et le décalage entre une civilisation spatiale et la Terre. Cela donne un passé galactique, pas la promesse d’une campagne dans l’espace.",
@@ -1694,31 +2329,36 @@
           "subject": "Les Terriens",
           "voice": "Ce matériel est archaïque. Ce qui m’étonne, c’est ce qu’ils arrivent encore à faire avec.",
           "status": "Réputation de milieu",
-          "limit": "Un jugement possible, à ajuster aux rencontres du personnage."
+          "limit": "Un jugement possible, à ajuster aux rencontres du personnage.",
+          "context": ""
         },
         {
           "subject": "Les visiteurs extrals",
           "voice": "Un séjour autorisé n’est pas une permission de traiter les habitants comme un décor.",
           "status": "Réputation de milieu",
-          "limit": "Un jugement possible, à ajuster aux rencontres du personnage."
+          "limit": "Un jugement possible, à ajuster aux rencontres du personnage.",
+          "context": ""
         },
         {
           "subject": "Une manifestation magique",
           "voice": "Un effet énergétique mal documenté. « Sortilège » n’est pas une explication.",
           "status": "Interprétation technologique",
-          "limit": "Le briefing peut confirmer le danger sans donner une théorie complète de son fonctionnement."
+          "limit": "Le briefing peut confirmer le danger sans donner une théorie complète de son fonctionnement.",
+          "context": ""
         },
         {
           "subject": "Un « Elfe » hors de son dossier",
           "voice": "Une légende locale ? Un Serys mal identifié ? Je vais vérifier avant de conclure.",
           "status": "Hors briefing",
-          "limit": "Il ne reconnaît pas automatiquement les Exilés. Un dossier de mission peut apporter une information précise."
+          "limit": "Il ne reconnaît pas automatiquement les Exilés. Un dossier de mission peut apporter une information précise.",
+          "context": "Serys : peuple galactique que certains Extrals peuvent prendre comme comparaison en entendant parler d’« Elfes » ; cette supposition n’identifie pas les Exilés."
         },
         {
           "subject": "Les spécialistes terrestres",
           "voice": "Ils n’emploient pas nos mots. Cela ne veut pas dire qu’ils n’ont rien observé.",
           "status": "Opinion possible",
-          "limit": "L’agent peut apprendre d’un savoir local sans en accepter immédiatement l’interprétation."
+          "limit": "L’agent peut apprendre d’un savoir local sans en accepter immédiatement l’interprétation.",
+          "context": ""
         }
       ],
       "heritage": "L’Humanité galactique comprend des populations et des mondes entiers ; l’AIDH n’en est pas le nom collectif. Ton profil vient d’un programme d’optimisation propre à cette institution. Génétique, nanites et conditionnement forment un corps entraîné pour ses fonctions, mais tu restes une personne avec une origine, une expérience et des loyautés. La Terre peut être un lieu d’affectation culturellement très étranger.",
@@ -1728,14 +2368,38 @@
         "text": "Tu peux traduire un phénomène inconnu avec le vocabulaire scientifique ou technique qui t’est familier. « Une décharge de photons » paraît plus crédible à tes yeux que « de la magie », sans être forcément la bonne explication. L’avance technologique de ton milieu ne rend pas ton interprétation infaillible.",
         "example": "« Un fantôme qui traverse ce mur ? Cherchez plutôt du côté des dispositifs holographiques. »",
         "term": "rationalisation"
-      }
+      },
+      "illustration": {
+        "src": "/api/compendium/media/images/lore/verite-homo-superior-evaluation.webp",
+        "alt": "Une humaine augmentée passe une évaluation encadrée.",
+        "caption": "Une humaine du programme Homo Superior pendant une évaluation encadrée.",
+        "article": "verite-v7-homo-superior-adrak-profils-rares",
+        "portrait": false
+      },
+      "quickTerms": [
+        {
+          "id": "aidh",
+          "label": "AIDH",
+          "text": "Institution galactique de protection des populations humaines. Sur Terre, elle encadre aussi les présences extraterrestres. Elle dispose de moyens avancés sans tout connaître ni tout contrôler."
+        },
+        {
+          "id": "nanites",
+          "label": "Nanites",
+          "text": "Minuscules dispositifs technologiques intégrés à l’organisme des soldats de l’AIDH. Leurs effets jouables dépendent des capacités effectivement acquises."
+        },
+        {
+          "id": "homo-superior",
+          "label": "Homo Superior",
+          "text": "Humain de l’AIDH profondément optimisé par la génétique, les nanites et le conditionnement. Il reste humain ; ce n’est ni une espèce alien ni le profil de tous les humains galactiques."
+        }
+      ]
     },
     {
       "id": "adrak",
       "title": "Ad’rak",
       "group": "Peuples galactiques",
       "hook": "Un géant extraterrestre qui construit sa vie loin d’un empire oppressif.",
-      "identity": "Tu appartiens à une espèce extrale puissante. Les profils jouables sur Terre correspondent normalement à des réfugiés, des dissidents ou des descendants de communautés libres, plutôt qu’à des loyalistes de l’Armée noire.",
+      "identity": "Un Ad’rak est un extraterrestre à la silhouette humanoïde puissante et à l’apparence bleutée. L’Armée noire est une puissance impériale guerrière liée à l’histoire de son peuple, pas le nom de toute l’espèce. Sur Terre, un personnage jouable est normalement un réfugié, un dissident ou un descendant de communautés libres, plutôt qu’un loyaliste de cette armée.",
       "daily": "Ton histoire familiale et les réactions à la réputation de ton peuple peuvent peser sur ta vie. Le Voile facilite la coexistence avec les humains mais ne remplace pas des papiers, un logement ou des liens de confiance.",
       "abilities": "Ton gabarit et ta puissance physique donnent des possibilités particulières. Les traditions martiales enseignent une discipline ; elles ne se réduisent pas à la brutalité.",
       "limits": "Cette origine est restreinte et doit être discutée avec le MJ. La réputation de l’Armée noire ne fait pas de tous les Ad’rak ses partisans. Ta force ne donne pas automatiquement accès à tous les arts de ton peuple.",
@@ -1757,11 +2421,15 @@
       "links": [
         {
           "article": "regles-verite-v7-extrals-organisations-aidh-homo-superior-adrak",
-          "label": "Pour choisir tes capacités"
+          "label": "Les règles : capacités, coûts et limites"
         },
         {
           "article": "verite-v7-homo-superior-adrak-profils-rares",
-          "label": "Si tu veux connaître ton peuple ou ton milieu"
+          "label": "Le peuple et son milieu : histoire, culture et organisations"
+        },
+        {
+          "article": "verite-v7-habiter-la-verite",
+          "label": "Le quotidien : trouver une place en Grande Californie"
         }
       ],
       "appeal": "Tu aimes les personnages imposants, la discipline martiale et la construction d’une vie loin d’un empire oppressif.",
@@ -1779,37 +2447,43 @@
           "subject": "Les Terriens",
           "voice": "Ils ont peur de ma taille, puis font confiance à quelqu’un qui possède une armée derrière un bureau.",
           "status": "Réputation de milieu",
-          "limit": "Un jugement possible, à ajuster aux rencontres du personnage."
+          "limit": "Un jugement possible, à ajuster aux rencontres du personnage.",
+          "context": ""
         },
         {
           "subject": "L’Armée noire",
           "voice": "Ils parlent au nom de tout mon peuple. C’est précisément ce que je leur refuse.",
           "status": "Histoire personnelle à préciser",
-          "limit": "Voix possible d’un réfugié ou dissident ; la même phrase ne décrit pas toutes les biographies."
+          "limit": "Voix possible d’un réfugié ou dissident ; la même phrase ne décrit pas toutes les biographies.",
+          "context": ""
         },
         {
           "subject": "Les autres Extrals",
           "voice": "Certains voient encore un uniforme quand je ne porte que mes propres vêtements.",
           "status": "Réputation de milieu",
-          "limit": "Un jugement possible, à ajuster aux rencontres du personnage."
+          "limit": "Un jugement possible, à ajuster aux rencontres du personnage.",
+          "context": ""
         },
         {
           "subject": "Les humains de l’AIDH",
           "voice": "Leur contrôle nous permet de rester. Je n’oublie pas qu’il peut aussi décider de nos vies.",
           "status": "Réputation de milieu",
-          "limit": "Un jugement possible, à ajuster aux rencontres du personnage."
+          "limit": "Un jugement possible, à ajuster aux rencontres du personnage.",
+          "context": "AIDH : institution galactique de protection des populations humaines, qui encadre aussi les présences extraterrestres sur Terre."
         },
         {
           "subject": "Les « Elfes » des récits terrestres",
           "voice": "Des Elfes ? J’ai vu Le Seigneur des anneaux. Tu parles sûrement de Serys.",
           "status": "Peuple réel ignoré",
-          "limit": "Cette confusion suppose qu’il connaisse les Serys. Il ignore ici les Exilés ; sans cette référence, il peut simplement parler de fiction terrestre."
+          "limit": "Cette confusion suppose qu’il connaisse les Serys. Il ignore ici les Exilés ; sans cette référence, il peut simplement parler de fiction terrestre.",
+          "context": "Serys : peuple galactique que certains Extrals peuvent prendre comme comparaison en entendant parler d’« Elfes » ; cette supposition n’identifie pas les Exilés."
         },
         {
           "subject": "Un phénomène que les Terriens disent magique",
           "voice": "Un fantôme à travers un mur ? Regardez plutôt du côté des dispositifs holographiques.",
           "status": "Cause inconnue",
-          "limit": "Rationaliser est un réflexe culturel, pas une preuve ni une capacité à comprendre le phénomène."
+          "limit": "Rationaliser est un réflexe culturel, pas une preuve ni une capacité à comprendre le phénomène.",
+          "context": ""
         }
       ],
       "heritage": "Ton peuple n’est pas réductible à l’Armée noire. Sur Terre, un personnage jouable vient généralement d’une communauté libre, d’un parcours de fuite ou d’une rupture avec cette puissance. Il peut garder des traditions guerrières et un sens de l’honneur tout en rejetant l’empire. Les réactions des autres Extrals peuvent dépendre d’une histoire de guerre que les Terriens, eux, ignorent.",
@@ -1819,8 +2493,33 @@
         "text": "Tu peux traduire un phénomène inconnu avec le vocabulaire scientifique ou technique qui t’est familier. « Une décharge de photons » paraît plus crédible à tes yeux que « de la magie », sans être forcément la bonne explication. L’avance technologique de ton milieu ne rend pas ton interprétation infaillible.",
         "example": "« Un fantôme qui traverse ce mur ? Cherchez plutôt du côté des dispositifs holographiques. »",
         "term": "rationalisation"
-      }
+      },
+      "illustration": {
+        "src": "/api/compendium/media/images/lore/verite-adrak-refugie.webp",
+        "alt": "Un réfugié adrak quitte ses anciens équipements.",
+        "caption": "Un réfugié Ad’rak quitte ses anciens équipements pour une autre vie.",
+        "article": "verite-v7-homo-superior-adrak-profils-rares",
+        "portrait": false
+      },
+      "quickTerms": [
+        {
+          "id": "adrak",
+          "label": "Ad’rak",
+          "text": "extraterrestre humanoïde puissant ; les personnages terrestres sont généralement issus de communautés libres ou de la dissidence."
+        },
+        {
+          "id": "extral",
+          "label": "Extral",
+          "text": "Extraterrestre issu d’une civilisation d’un autre monde. À distinguer des Exilés d’Aèr ; il n’existe pas une culture ni une technologie unique pour tous les Extrals."
+        },
+        {
+          "id": "armee-noire",
+          "label": "Armée noire",
+          "text": "Puissance ad’rak tyrannique et expansionniste. Son emprise sur une grande part de l’espèce ne signifie pas que tous les Ad’rak la soutiennent."
+        }
+      ]
     }
   ],
-  "stereotypesNote": "Ces phrases sont des voix possibles pour jouer des préjugés, pas des vérités objectives ni des opinions obligatoires. Elles n’accordent aucune connaissance, détection ou capacité supplémentaire. Si ton personnage ne connaît pas le groupe mentionné, il ne peut pas reprendre ce stéréotype comme s’il l’avait identifié."
+  "stereotypesNote": "Ces phrases sont des voix possibles pour jouer des préjugés, pas des vérités objectives ni des opinions obligatoires. Elles n’accordent aucune connaissance, détection ou capacité supplémentaire. Si ton personnage ne connaît pas le groupe mentionné, il ne peut pas reprendre ce stéréotype comme s’il l’avait identifié.",
+  "realityLink": "/decouvrir/realite"
 }
