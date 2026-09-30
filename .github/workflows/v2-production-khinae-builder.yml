@@ -1,3 +1,4 @@
+# Include the approved Khinae build-time check in the API image.
 name: V2 production guided Truth and Garou Khinae
 # Guided Truth and approved Khinae; retain 320px overflow assertions after fixing structural choice grids.
 on:
