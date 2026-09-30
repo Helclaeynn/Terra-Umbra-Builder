@@ -2,7 +2,10 @@
 // Run from the repository root; no database or HTTP service required.
 import assert from 'node:assert/strict';
 import {corruptionTalents} from '../src/rules/truth/corruption.ts';
-import {truthCorruptionPrerequisiteSatisfied, truthCorruptionTalentActive} from '../../web/src/lib/truth.ts';
+import {tsImport} from 'tsx/esm/api';
+// Resolve the web TypeScript dependency graph just as the application bundler does.
+const {truthCorruptionPrerequisiteSatisfied, truthCorruptionTalentActive} =
+  await tsImport('../../web/src/lib/truth.ts', import.meta.url);
 
 const expected = new Map([
   ['Partage de l’Écume', 'Récolter les miettes'],
