@@ -57,6 +57,14 @@ jobs:
         with:
           node-version: "24"
 
+      - name: Prepare complete rule data for model regression tests
+        run: |
+          mkdir -p .v2-rules-data/lore
+          cp compendium/source/current-equipment-catalog-v1.json .v2-rules-data/
+          cp compendium/source/reality-lore-v3-*.json .v2-rules-data/lore/
+          cp character-builder/rulesets/terra-umbra/reality/augmentations.json.gz.b64 .v2-rules-data/
+          cp character-builder/rulesets/terra-umbra/reality/safe/neuroprograms.part01.b64 character-builder/rulesets/terra-umbra/reality/safe/vehicles.part01.b64 .v2-rules-data/
+
       - name: Build API
         working-directory: apps/api
         run: |
