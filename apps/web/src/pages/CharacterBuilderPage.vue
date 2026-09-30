@@ -3405,4 +3405,13 @@ textarea:focus{border-color:#6cb5ff;box-shadow:0 0 0 2px rgba(108,181,255,.14)}
 @media(max-width:550px){.truth-talent-entry{flex-basis:100%}}
 
 .truth-disclosure-summary>.schema-badge{max-width:100%;box-sizing:border-box;white-space:normal;overflow-wrap:anywhere}
+/* Reflow long Truth titles, family names and common talent cards at 320px. */
+.section-heading,.subsection-title{flex-wrap:wrap;min-width:0}
+.section-heading>div,.subsection-title>div{min-width:0;max-width:100%}
+.section-heading h2{overflow-wrap:anywhere}
+.truth-group>summary>span{min-width:0;flex-wrap:wrap}
+.truth-group>summary strong{min-width:0;overflow-wrap:anywhere}
+.truth-owned-card{min-width:0;overflow-wrap:anywhere}
+[data-common-truth-talents] .truth-owned-card{flex:1 1 280px;max-width:100%;box-sizing:border-box;grid-template-columns:minmax(0,1fr)}
+[data-common-truth-talents] .truth-owned-card>button{grid-column:1;grid-row:auto}
 </style>

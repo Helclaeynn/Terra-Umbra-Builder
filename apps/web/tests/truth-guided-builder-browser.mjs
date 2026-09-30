@@ -399,7 +399,7 @@ try{
    if(await page.locator('.truth-picker').count())throw new Error('Structural choices leaked onto talent page');
    if(await page.getByLabel(/Autorisation MJ d’accès exceptionnel aux objets de Vérité/).count())throw new Error('Creation override remains');
    if(await page.locator('.truth-group[open]').count())throw new Error('Talent families should initially be collapsed');
-   if(await page.locator('.builder-main').evaluate(el=>el.scrollWidth>el.clientWidth+2))throw new Error(nature.id+': talent-page overflow '+width);
+   if(await page.locator('.builder-main').evaluate(el=>el.scrollWidth>el.clientWidth+2)){console.error(await page.locator('.builder-main').evaluate(el=>{const right=el.getBoundingClientRect().right;return [...el.querySelectorAll('*')].filter(n=>n.getBoundingClientRect().right>right+2).slice(0,20).map(n=>({tag:n.tagName,cls:n.className,width:n.getBoundingClientRect().width,text:(n.textContent??'').slice(0,100)}));}));throw new Error(nature.id+': talent-page overflow '+width);}
    await page.goto(baseUrl+'/characters/'+characterId+'/progression',{waitUntil:'networkidle'});await page.locator('.builder-workspace').waitFor();
    if(await page.locator(absent).count())throw new Error(nature.id+': rejected progression panels');
   }

@@ -5,6 +5,8 @@ const root=fileURLToPath(new URL('../',import.meta.url));
 const bundle=await build({stdin:{resolveDir:root,loader:'ts',contents:"export * from './src/lib/truth';export * from './src/lib/hunter';export * from './src/lib/truth-sheet-details';export * from '../api/src/character-data';"},bundle:true,write:false,format:'esm',platform:'node'});
 const m=await import('data:text/javascript;base64,'+Buffer.from(bundle.outputFiles[0].text).toString('base64'));
 const {terraUmbraTruthRules:pkg}=await import('../../api/dist/rules/truth/rules.js');
+for(const name of ['Forme du Chevalier','Appel de l’arme','Signature impossible','Odeur du semblable'])assert.ok(m.hunterBuildChoiceLabel(pkg.catalogs.humain.find(t=>t.name===name).id),name+' permanent choice');
+assert.equal(m.hunterProfileOptions(pkg.catalogs.humain.find(t=>t.name==='Manifestation prêtée').id).length,4);
 const blank=(nature='humain',mode='creation')=>({nature,mode,consciousness:'initie',choices:{hunterTradition:'aucune'},truthTalents:[],truthEquipment:[],truthEquipmentMjOverride:true,corruptionTalents:[],corruption:0,corruptionSource:''});
 const hunterIds=new Set(pkg.catalogs.humain.map(t=>t.id));
 const getHunter=s=>m.truthAvailableTalents(pkg,s).filter(t=>hunterIds.has(t.id));
