@@ -27,6 +27,11 @@ for(const network of ['smrc','reptile','continuite','ctu']){
  assert.equal(m.truthSanitizeChoices(pkg.structure.natures.extral,aidh.choices).network,'aucune');
 }
 aidh.choices.network='aidh_intervention';assert.ok(rows(aidh).some(t=>t.when?.network==='aidh_intervention'));
+const hunterItem=pkg.equipment.find(i=>i.chapter==='23'&&!i.referenceOnly&&!i.requiresMj);
+assert.equal(m.truthEquipmentVisible(hunterItem,{...aidh,mode:'progression'}),false,'No automatic hunter access');
+const aidhHunter={...aidh,mode:'progression',choices:{...aidh.choices,hunterBuild:{doctrines:['xenoshield']}}};
+assert.equal(m.truthEquipmentVisible(hunterItem,aidhHunter),true,'Explicit progression doctrine retains its own equipment');
+assert.equal(m.truthEquipmentVisible(hunterItem,{...aidhHunter,mode:'creation'}),false,'AIDH creation remains AIDH-only');
 for(const item of pkg.equipment.filter(i=>!i.requiresMj&&['25','26'].includes(i.chapter))){
  assert.equal(m.truthEquipmentVisible(item,{...aidh,mode:'creation'}),item.chapter==='26','AIDH catalogue is separate from xeno market');
  if(!item.referenceOnly)assert.equal(m.truthEquipmentVisible(item,{...blank('talass'),mode:'creation'}),item.chapter==='25','Ordinary Extral catalogue preserved');
