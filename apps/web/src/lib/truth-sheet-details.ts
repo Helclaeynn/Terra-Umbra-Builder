@@ -1,3 +1,4 @@
+import {isKhinae,khinaeNativeBlood,khinaeAwakenedBloods,khinaeBloodOptions,khinaeUnavailable} from "./khinae";
 import {exileSheetDetails,beneficiarySheetDetails} from "./exile";
 import {extralSheetDetails} from "./extral";
 import {mageOwnedAffinities} from "./mage";
@@ -11,7 +12,7 @@ export function truthSheetDetails(rules:TruthRulesPackage,state:TruthState,forti
   const known=new Set<string>();
   for(const choice of [...(nature?.choices??[]),...aserynChoiceFields(state).map(c=>({...c,optional:true}))]){
     known.add(choice.key);
-    const selected=state.choices[choice.key];
+    const selected=isKhinae(state)&&choice.key==='blood'?khinaeNativeBlood(state):state.choices[choice.key];
     if(selected===undefined||selected===null||selected===''||selected==='aucune')continue;
     const options=truthChoiceOptions(choice,state.choices);
     const values=Array.isArray(selected)?selected:[selected];
@@ -23,6 +24,11 @@ export function truthSheetDetails(rules:TruthRulesPackage,state:TruthState,forti
     if(known.has(key)||value===null||value===undefined||value===''||value==='aucune')continue;
     const rendered=format(value);
     if(rendered)result.push({id:key,name:key.replace(/([a-z])([A-Z])/g,'$1 $2').replaceAll('_',' '),value:rendered});
+  }
+  if(isKhinae(state)){
+    const opts=khinaeBloodOptions(rules,state),bloods=khinaeAwakenedBloods(rules,state);
+    result.push({id:'khinae-bloods',name:'Sangs éveillés — ordre d’acquisition',value:bloods.map((b,i)=>(opts.find(o=>o.id===b)?.name??b)+(i?' · éveil acheté 3 PTV':' · natif')).join(' → ')});
+    const invalid=khinaeUnavailable(rules,state);if(invalid.length)result.push({id:'khinae-unavailable',name:'Acquisitions conservées, indisponibles',value:invalid.map(id=>rules.catalogs[state.nature]?.find(t=>t.id===id)?.name??id).join(' · ')});
   }
   const capacity=truthAngelusCapacity(state,fortitude);
   if(capacity){result.push({id:'angelus-rank',name:'Rang céleste',value:capacity.rank==='cherub'?'Chérubin':'Angelus'},{id:'angelus-aura',name:'Aura maximale',value:String(capacity.maximum)});}

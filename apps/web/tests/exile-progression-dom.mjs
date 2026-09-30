@@ -41,7 +41,7 @@ const tick=()=>new Promise(resolve=>setTimeout(resolve,0));
 const set=(node,value,event='change')=>{assert.ok(node,'Control exists');node.value=value;node.dispatchEvent(new w.Event(event,{bubbles:true}));};
 
 const {terraUmbraTruthRules:canonical}=await import('../../api/dist/rules/truth/rules.js');
-const truth={nature:'exile',consciousness:'initie',choices:{people:'whurten',network:'runes_whurten',hunterTradition:'aucune'},truthTalents:[],truthEquipment:[],corruptionTalents:[],corruption:0,corruptionSource:''};
+const truth={nature:'exile',consciousness:'initie',choices:{people:'whurten',network:'runes_whurten',hunterTradition:'aucune',beneficiaryBenefits:{scenario:'Old',refectionReceived:true,guardReceived:true}},truthTalents:[],truthEquipment:[],corruptionTalents:[],corruption:0,corruptionSource:''};
 const reality={equipment:[],augmentations:[],fixedChargeItems:[]};
 const props={rewardsLocked:true,progression:{ptvEarned:15,xpEarned:7,cashBase:900,renownAdjustment:1},reality,truthState:truth,rules:plain(actualRules),truthRules:canonical,realityRules:{equipment:[],augmentations:[],recurring:[],economy:{},source:{},counts:{}},style:null,edge:{},sphereId:'independant',sphereName:'Indépendant',creationTalentIds:[],talentChoiceSpecs:plain(specs),creationTalentChoices:{},skillTalentMap:plain(skillMap),disadvantages:[],skillBases:Object.fromEntries(actualRules.skills.map(s=>[s.id,1])),skillFinalBases:Object.fromEntries(actualRules.skills.map(s=>[s.id,1])),attributeBases:Object.fromEntries(actualRules.attributes.map(a=>[a.id,4])),creationPtvReserve:0,creationAccount:900};
 try{
@@ -65,9 +65,9 @@ try{
  await buy('exile-lecture-de-distorsion');await buy('exile-hdb-hologram-distorsion-block');await buy('exile-hdp-hologram-distorsion-punishment');
  assert.equal((await choose('exile-rune-de-garde')).querySelector('button').disabled,true,'PTV exhausted');
  assert.deepEqual(plain(w.current().truth.truthTalents),[],'Creation talents are not rewritten');assert.equal(w.current().progress.truthTalents.length,8);assert.equal(w.current().progress.ptvEarned,15);assert.equal(w.current().progress.xpEarned,7);assert.equal(w.current().progress.cashBase,900);assert.equal(w.current().progress.renownAdjustment,1);
- d.querySelector('[data-beneficiary="refection"]').click();await tick();
- d.querySelector('[data-beneficiary="guard"]').click();await tick();assert.equal(w.current().truth.choices.beneficiaryBenefits.refectionReceived,true);assert.equal(w.current().truth.choices.beneficiaryBenefits.guardReceived,true);
- const saved=plain(w.current());w.stop();await tick();w.start('progression',{...props,truthState:saved.truth,progression:saved.progress,reality:saved.reality});await tick();assert.deepEqual(plain(w.current()),saved);assert.equal(d.querySelector('[data-beneficiary="refection"]').disabled,true);
+ assert.equal(d.querySelector('[data-beneficiary]'),null,'Session controls removed');
+ assert.equal(w.current().truth.choices.beneficiaryBenefits.refectionReceived,true);assert.equal(w.current().truth.choices.beneficiaryBenefits.guardReceived,true);
+ const saved=plain(w.current());w.stop();await tick();w.start('progression',{...props,truthState:saved.truth,progression:saved.progress,reality:saved.reality});await tick();assert.deepEqual(plain(w.current()),saved);
  assert.equal(d.querySelector('[data-reward-editor]'),null);console.log('EXILE PROGRESSION DOM OK — real Vue purchases of base runes/Brief/Phrase and HDB/HDP, learned training, exact PTV costs, creation isolation, saved recipient tracking and unchanged campaign rewards');
 }finally{w.stop();dom.window.close();}
 assert.deepEqual(errors,[],'No runtime error');

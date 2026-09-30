@@ -1,3 +1,4 @@
+import {applyKhinaeRevisions} from "./khinae-revision.js";
 import {applyExileRevisions} from "./exile-revision.js";
 import {applyExtralRevisions} from "./extral-revision.js";
 import {applyExtralStructure} from "./extral-build.js";
@@ -46,7 +47,7 @@ const vampireCatalog = bindCompendium(truthCatalogVampire, (group) => {
   return undefined;
 });
 
-const garouCatalog = bindCompendium(truthCatalogGarou, (group) => {
+const garouCatalog = bindCompendium(applyKhinaeRevisions(truthCatalogGarou), (group) => {
   if (group === "Garou — commun" || group.startsWith("Pelages ")) {
     return "regles-verite-v7-garou-nature-formes-frenesie-pelages";
   }
@@ -55,7 +56,7 @@ const garouCatalog = bindCompendium(truthCatalogGarou, (group) => {
 });
 
 const khinaeCatalog = bindCompendium(
-  truthCatalogKhinae,
+  applyKhinaeRevisions(truthCatalogKhinae),
   () => "regles-verite-v7-khinae-moteur-lignees"
 );
 

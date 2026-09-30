@@ -49,11 +49,12 @@ try{
  w.start('progression',props);await tick();
  const search=d.querySelector('.truth-search input'),find=name=>Array.from(d.querySelectorAll('.truth-talent-list article')).find(n=>n.querySelector('strong')?.textContent===name),choose=async name=>{set(search,name,'input');await tick();return find(name);};
  let card=await choose('Transcendance chérubique');assert.ok(card);assert.equal(card.querySelector('button').disabled,true);
+ d.querySelector('[data-configure-talent="'+ids.cherub+'"]').click();await tick();
  set(d.querySelector('[data-angelus-field="secondaryNature"]'),'vertu');await tick();set(d.querySelector('[data-angelus-field="transcendenceEvent"]'),'Événement convenu avec le MJ','input');await tick();
  assert.equal(find('Transcendance chérubique').querySelector('button').disabled,false);find('Transcendance chérubique').querySelector('button').click();await tick();assert.ok(w.current().progress.truthTalents.includes(ids.cherub));assert.deepEqual(plain(w.current().truth.truthTalents),truth.truthTalents,'Creation purchases untouched');
  assert.ok(await choose('Apaisement profond'),'Secondary free Purification opens its actual dependent talent');
  card=await choose('Apaisement profond');assert.equal(card.querySelector('button').disabled,false);card.querySelector('button').click();await tick();
- for(const [key,value] of Object.entries({'construct-name':'Porteur','construct-kind':'carrier','construct-purpose':'Porter un blessé','construct-limits':'30 m et mes PA'})){set(d.querySelector('[data-angelus-field="'+key+'"]'),value,key.endsWith('kind')?'change':'input');await tick();}
+ (await choose('Rêve rendu réel')).querySelector('[data-configure-talent]').click();await tick();set(d.querySelector('[data-angelus-field="construct-kind"]'),'carrier');await tick();
  for(const name of ['Rêve rendu réel','Liaison céleste','Réserve transcendée']){card=await choose(name);assert.ok(card,name);assert.equal(card.querySelector('button').disabled,false);card.querySelector('button').click();await tick();}
  card=await choose('Idée incarnée');assert.equal(card.querySelector('button').disabled,true,'All ten granted PTV have been spent');
  assert.equal(w.current().progress.ptvEarned,10);assert.equal(w.current().progress.xpEarned,7);assert.equal(w.current().progress.cashBase,900);assert.equal(w.current().progress.renownAdjustment,1);assert.equal(w.current().progress.truthTalents.length,5);

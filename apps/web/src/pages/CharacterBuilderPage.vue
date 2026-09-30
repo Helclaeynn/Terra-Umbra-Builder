@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import {isKhinae,khinaeNativeBlood,khinaeUnavailable} from "../lib/khinae";
 import TruthBuildChoices from "../components/builder/TruthBuildChoices.vue";
 import TruthTrainingChoices from "../components/builder/TruthTrainingChoices.vue";
 import {truthBuildChoiceLabel,truthHasInnateBuildChoice} from "../lib/truth-build-guidance";
@@ -415,7 +416,7 @@ const truthPtvRemaining=computed(()=>
 );
 
 const truthGroupOptions=computed(()=>truthGroups(availableTruthTalents.value).map(group=>({...group,items:[...group.items].sort(compareTruthTalents)})).sort((a,b)=>compareLabels(a.name,b.name)));
-const selectedTruthTalents=computed(()=>{const state=currentTruthState.value;const candidates=(state?.nature==="extral"||state?.nature==="exile")&&truthRules.value?truthKnownTalents(truthRules.value,state):truthGroupOptions.value.flatMap(group=>group.items);return candidates.filter(talent=>state?.truthTalents.includes(talent.id));});
+const selectedTruthTalents=computed(()=>{const state=currentTruthState.value;return state&&truthRules.value?truthKnownTalents(truthRules.value,state).filter(t=>state.truthTalents.includes(t.id)):[];});
 const visibleTruthGroups=computed(()=>{
   const groups=truthGroupOptions.value
     .filter(group=>group.name===truthGroupChoice.value||!truthGroupChoice.value&&Boolean(truthSearch.value.trim()))
@@ -1454,7 +1455,8 @@ function truthChoiceValue(choice:TruthChoice){
 }
 
 function resolvedTruthChoiceOptions(choice:TruthChoice){
-  return truthChoiceOptions(choice,currentTruthState.value?.choices??{});
+  const state=currentTruthState.value,options=truthChoiceOptions(choice,state?.choices??{});
+  return state&&isKhinae(state)&&choice.key==='blood'&&state.truthTalents.some(id=>id.startsWith('khinae_awaken_'))?options.filter(o=>o.id===khinaeNativeBlood(state)):options;
 }
 
 function selectedTruthChoice(choice:TruthChoice){
@@ -2519,6 +2521,7 @@ onBeforeUnmount(()=>{
                   <h4>Talents acquis · {{ selectedTruthTalents.length }}</h4>
                   <div class="truth-owned-list">
                     <article v-for="talent in selectedTruthTalents" :key="talent.id" class="truth-owned-card">
+                    <small v-if="truthRules&&currentTruthState&&khinaeUnavailable(truthRules,currentTruthState).includes(talent.id)" class="rule-note bad">Acquisition conservée et payée ; indisponible avec les choix ou prérequis actuels.</small>
                       <div><strong>{{ talent.name }}</strong><span>{{ talent.cost }} PTV</span></div>
                       <p>{{ talent.effect }}</p>
                       <button type="button" :aria-label="`Retirer ${talent.name}`" @click="toggleTruthTalent(talent)">Retirer</button>
