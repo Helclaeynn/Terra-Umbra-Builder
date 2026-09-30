@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import NatureStartGuide from './NatureStartGuide.vue';
 import {vampireUnavailable,vampireNativeBlood} from "../../lib/vampire";
 import {khinaeUnavailable} from "../../lib/khinae";
 import HunterDoctrineChoices from './HunterDoctrineChoices.vue';
@@ -738,6 +739,7 @@ function sellCampaignItem(){
 
     <details class="progress-panel" :open="state.truthTalents.length>0">
       <summary><strong>Dépenser des PTV</strong><span>La Vérité progresse par les PTV, jamais par l’XP</span></summary>
+      <NatureStartGuide :state="combinedTruthState" />
       <HunterDoctrineChoices :state="combinedTruthState" :rules="truthRules" @change="setGuidedTruthChoices" />
       <div v-if="truthState.consciousness==='profane'" class="initiation-row">
         <div><strong>Passer de Profane à Initié</strong><span>Changement fictionnel permanent validé par le MJ ; aucun coût automatique en XP ou PTV.</span></div>

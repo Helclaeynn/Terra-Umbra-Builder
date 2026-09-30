@@ -46,14 +46,15 @@ function browse(event: MouseEvent, payload: DiscoveryBrowse) {
   <div class="discovery" :data-mode="mode">
     <section v-if="mode === 'home'" class="discovery-hero" aria-labelledby="discovery-title">
       <img class="discovery-orbit" src="/brand/orbital/orbital-earth.webp" alt="" aria-hidden="true" width="1536" height="1024" decoding="async">
-      <p class="discovery-eyebrow">COMPENDIUM <span aria-hidden="true">/</span> CALIFORNIA, 2035</p>
+      <p class="discovery-eyebrow">TERRA UMBRA <span aria-hidden="true">/</span> UN JEU DE RÔLE EN 2035</p>
       <div class="discovery-coordinates" aria-hidden="true">RÉALITÉ // VÉRITÉ<br>UN MÊME HORIZON</div>
       <h1 id="discovery-title">Un même monde.<span>Une autre réalité.</span></h1>
-      <p class="discovery-hero-copy">Sociétés, peuples et puissances cachées.<br>Explorez Terra Umbra, du quotidien de la Grande Californie aux vérités qui se dissimulent derrière le Voile.</p>
+      <p class="discovery-hero-copy"><strong>Terra Umbra est un jeu de rôle.</strong> Tu y incarnes un habitant de la Grande Californie en 2035 : une société de technologies avancées et de puissantes corporations, où des peuples surnaturels et extraterrestres vivent à l’abri des regards. Avec les autres joueurs et le meneur de jeu, tu fais vivre ton personnage à travers ses choix et ses aventures.</p>
       <div class="discovery-actions">
         <a class="discovery-primary" href="/decouvrir" @click="navigate($event, () => emit('guide'))">Je découvre l’univers <span aria-hidden="true">→</span></a>
         <a class="discovery-secondary" :href="discoveryBrowseHref({})" @click="browse($event, {})">Explorer le Compendium <span aria-hidden="true">→</span></a>
       </div>
+      <nav class="discovery-start-path" aria-labelledby="discovery-start-title"><h2 id="discovery-start-title">Première visite ? Commence ici.</h2><p>Trois étapes courtes, dans cet ordre. Les dossiers détaillés pourront attendre.</p><ol><li><a href="/decouvrir#cadre"><span>01</span><strong>Comprendre le cadre</strong><small>Quatre repères sur le monde.</small></a></li><li><a href="/decouvrir#choisir"><span>02</span><strong>Choisir ton personnage</strong><small>Les envies, les contraintes, les guides.</small></a></li><li><a href="/decouvrir#suite"><span>03</span><strong>Préparer ta première partie</strong><small>Les questions à voir avec le MJ.</small></a></li></ol><a class="discovery-glossary-link" href="/glossaire">Un mot inconnu ? Le glossaire donne une explication courte →</a></nav>
       <div class="discovery-hero-meta"><span>UN MONDE À EXPLORER <span aria-hidden="true">//</span> PLUSIEURS REGARDS</span><span v-if="articleCount !== null">{{ articleCount }} articles</span></div>
     </section>
 
@@ -136,6 +137,7 @@ function browse(event: MouseEvent, payload: DiscoveryBrowse) {
 </template>
 
 <style scoped>
+.discovery-start-path{position:relative;margin-top:26px;max-width:920px;padding:20px 22px;border:1px solid #568397;background:#0a1929ed;border-radius:7px}.discovery-start-path h2{font-size:1.1rem;margin:0 0 8px}.discovery-start-path>p{font-size:.85rem;color:#b7cddd}.discovery-start-path ol{list-style:none;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:17px 0 12px;padding:0}.discovery-start-path li a{display:grid;grid-template-columns:26px minmax(0,1fr);gap:3px 8px;min-height:64px}.discovery-start-path li span{color:#81dce9;font-size:.8rem;grid-row:1/3}.discovery-start-path strong{font-size:.87rem;line-height:1.4;font-weight:600}.discovery-start-path small{font-size:.78rem;color:#adc1d3;line-height:1.5}.discovery-start-path a:hover strong{text-decoration:underline;text-underline-offset:4px}.discovery-start-path .discovery-glossary-link{font-size:.81rem;color:#8cdeeb;display:inline-block;padding:6px 0;text-decoration:underline;text-underline-offset:3px}@media(max-width:700px){.discovery-start-path{padding:18px}.discovery-start-path ol{grid-template-columns:1fr;gap:12px}.discovery-start-path li a{min-height:46px}}
 .discovery{--discovery-cyan:#64def5;--discovery-violet:#b79aff;--discovery-accent:var(--discovery-cyan);--discovery-gutter:clamp(28px,8vw,190px);color:#edf4ff;background:#080f1a;min-width:0;width:100%;overflow:hidden;font-family:Inter,"Segoe UI",Arial,sans-serif}
 .discovery *{box-sizing:border-box}.discovery [data-layer="Vérité"]{--discovery-accent:var(--discovery-violet)}
 .discovery a{color:inherit;text-decoration:none;touch-action:manipulation}.discovery a:focus-visible{outline:2px solid var(--discovery-accent);outline-offset:5px}.discovery a:hover{color:#fff}.discovery h1,.discovery h2,.discovery h3,.discovery p{margin:0}.discovery h1,.discovery h2,.discovery h3{font-family:inherit;font-weight:500;text-wrap:balance}.discovery p{line-height:1.75}.discovery-eyebrow{font:500 .72rem/1.7 Consolas,"Liberation Mono",monospace;letter-spacing:.12em;color:#acc1d6;text-transform:uppercase}
