@@ -22,7 +22,7 @@ for(const g of start.guides){
   for(const field of ['known','rumours','unknown','exceptions']) assert(g.knowledge[field]?.length>30);
   assert(g.stereotypes.length>=4 && g.stereotypes.length<=6);
   for(const s of g.stereotypes) assert(s.voice && s.subject && s.status && s.limit);
-  assert(g.heritage.length>100 && g.inScene.length>100);
+  assert(g.heritage.length>100 && g.inScene.length>100);assert(g.stakes.length>250 && g.pressure.length>200);
   assert(termIds.has(g.interpretation.term));
   assert(g.illustration.src.startsWith('/api/compendium/media/images/lore/'));assert(g.illustration.alt && g.illustration.caption);
   assert.equal(g.quickTerms.length,3);
@@ -42,7 +42,7 @@ const compiled=await build({
     import {filterTerms,playerGuideForTruth} from './src/lib/player-start';
     const truth=ref({nature:'vampire',choices:{}});
     const router=createRouter({history:createMemoryHistory(),routes:[
-      {path:'/decouvrir',component:Start},{path:'/decouvrir/realite',component:Reality},{path:'/decouvrir/:guide',component:Start},
+      {path:'/decouvrir',component:Start},{path:'/decouvrir/realite',component:Reality},{path:'/decouvrir/realite/:milieu',component:Reality},{path:'/decouvrir/:guide',component:Start},
       {path:'/glossaire',component:Glossary},{path:'/article/:id',component:{setup:()=>()=>h(Reading,{articleId:router.currentRoute.value.params.id})}},
       {path:'/builder-guide-test',component:{setup:()=>()=>h(NatureGuide,{state:truth.value})}},
       {path:'/compendium',component:{render:()=>h('p','Compendium destination')}},
@@ -58,7 +58,7 @@ const dom=new JSDOM('<div id="app"></div>',{url:'https://example.test/decouvrir'
 dom.window.eval(compiled.outputFiles[0].text);await dom.window.ready;
 const d=dom.window.document;const api=dom.window.test;
 const wait=()=>new Promise(resolve=>setTimeout(resolve,25));
-assert.equal(d.querySelectorAll('.start-intro-card').length,4);
+assert.equal(d.querySelectorAll('.start-intro-card').length,6);
 assert.equal(d.querySelector('.start-perspectives'),null);
 assert.match(d.querySelector('#suite').textContent,/inscris-toi/);
 assert.match(d.querySelector('#cadre').textContent,/Réalité est le monde publiquement connu/);
@@ -69,30 +69,47 @@ assert.match(d.querySelector('.start-site-steps').textContent,/Mes campagnes et 
 assert.match(d.querySelector('.start-site-steps').textContent,/Accepter l’invitation et faire accepter sa fiche sont deux étapes distinctes/);
 assert.match(d.querySelector('.start-site-steps').textContent,/Soumettre ma version actuelle/);
 assert.equal(d.querySelector('#suite a[href="/campaigns"]').getAttribute('href'),'/campaigns');
-assert.equal(d.querySelectorAll('.start-profile').length,21);
-const group=[...d.querySelectorAll('.start-filters button')].find(b=>b.textContent==='Peuples galactiques');group.click();await wait();assert.equal(d.querySelectorAll('.start-profile').length,7);
-const input=d.querySelector('input');input.value='supérior';input.dispatchEvent(new dom.window.Event('input',{bubbles:true}));await wait();assert.equal(d.querySelectorAll('.start-profile').length,1);
-d.querySelector('.start-profile').click();await wait();assert.equal(api.route(),'/decouvrir/homo-superior');assert.match(d.querySelector('h1').textContent,/Homo Superior/);
+assert.equal(d.querySelectorAll('#choisir .start-profile').length,21);
+const group=[...d.querySelectorAll('.start-filters button')].find(b=>b.textContent==='Peuples galactiques');group.click();await wait();assert.equal(d.querySelectorAll('#choisir .start-profile').length,7);
+const input=d.querySelector('input');input.value='supérior';input.dispatchEvent(new dom.window.Event('input',{bubbles:true}));await wait();assert.equal(d.querySelectorAll('#choisir .start-profile').length,1);
+d.querySelector('#choisir .start-profile').click();await wait();assert.equal(api.route(),'/decouvrir/homo-superior');assert.match(d.querySelector('h1').textContent,/Homo Superior/);
 assert.match(d.querySelector('#envie').textContent,/Ce que cela implique/);assert.match(d.body.textContent,/énergie secrète/);
 assert.match(d.body.textContent,/briefing/);
-const disclosure=d.querySelector('.start-stereotypes');assert.equal(disclosure.open,false);disclosure.querySelector('summary').click();await wait();assert.equal(disclosure.open,true);assert.match(disclosure.textContent,/Hors briefing/);
+const disclosure=d.querySelector('.start-stereotypes');assert.equal(disclosure.open,false);disclosure.querySelector('summary').click();await wait();assert.equal(disclosure.open,true);assert.match(disclosure.textContent,/Hors briefing/);assert.equal(disclosure.querySelectorAll('.start-stereotype>p:not(.stereotype-context)').length,0);
 assert.equal(d.querySelectorAll('#preparer li').length,3);
 const nano=[...d.querySelectorAll('.start-terms a')].find(a=>a.textContent.includes('Nanites'));nano.click();await wait();assert.equal(d.querySelectorAll('.glossary-term').length,1);assert.match(d.querySelector('.glossary-term').textContent,/Minuscules dispositifs/);
 assert.equal(api.filterTerms('essaim')[0].id,'nanites');assert.equal(api.filterTerms('AIDH')[0].id,'aidh');assert.equal(api.filterTerms('semi revele')[0].id,'semi-revele');assert.equal(api.filterTerms("Ad'rak")[0].id,'adrak');assert.equal(api.filterTerms('PA')[0].id,'pa');
 const search=d.querySelector('input');search.value='zzzinconnu';search.dispatchEvent(new dom.window.Event('input',{bubbles:true}));await wait();assert.equal(d.querySelectorAll('.glossary-term').length,0);assert.match(d.body.textContent,/Aucun mot trouvé/);assert(!api.route().includes('terme='));
 await api.go('/glossaire?terme=non-existant');assert.match(d.body.textContent,/Cette entrée n’existe pas/);assert.equal(d.querySelectorAll('.glossary-term').length,terms.length);
+await api.go('/decouvrir');
+assert.equal(d.querySelectorAll('#milieu .start-profile').length,5);
+assert.equal(d.querySelectorAll('#milieu img').length,5);
+d.querySelector('#milieu a[href="/decouvrir/realite/corpo"]').click();await wait();
+assert.equal(api.route(),'/decouvrir/realite/corpo');
+assert.equal(d.querySelector('[data-reality-guide]').dataset.realityGuide,'corpo');
+assert.match(d.querySelector('h1').textContent,/Jouer un Corpo/);
+assert.equal(d.querySelectorAll('.start-guide-cover .guide-illustration').length,1);
+const corpoOpinions=d.querySelector('.start-stereotypes');corpoOpinions.querySelector('summary').click();await wait();
+assert(corpoOpinions.open);assert.match(corpoOpinions.textContent,/vous ne l’invitez pas à dîner/i);
+assert.equal(d.querySelectorAll('.start-stereotype>p').length,0,'No automatic moral rebuttal under each prejudice');
 await api.go('/decouvrir/realite');
 assert.match(d.querySelector('h1').textContent,/De quoi vis-tu/);
-assert.equal(d.querySelectorAll('.reality-profile').length,5);
-assert.equal(d.querySelectorAll('.guide-illustration img').length,5);
-assert.equal(d.querySelectorAll('.reality-profile .start-stereotypes').length,5);
-assert.match(d.querySelector('#regles').textContent,/1d10 explosif/);
+assert.equal(d.querySelectorAll('.start-profile').length,5);
 for(const profile of reality.profiles){
- assert(d.querySelector('#'+profile.id));assert.equal(profile.choices.length,3);assert.equal(profile.stereotypes.length,4);
+ await api.go('/decouvrir/realite/'+profile.id);
+ assert.equal(d.querySelector('[data-reality-guide]').dataset.realityGuide,profile.id);
+ for(const anchor of ['envie','regard','quotidien','capacites','regles','preparer','approfondir']) assert(d.querySelector('#'+anchor));
+ assert.equal(d.querySelectorAll('.start-stereotype').length,4);
+ assert.equal(d.querySelectorAll('.guide-quick-terms>div').length,3);
+ assert.match(d.querySelector('#regles').textContent,/1d10 explosif/);
+ assert.equal(profile.choices.length,3);assert.equal(profile.stereotypes.length,4);
  assert(profile.links.length>=2);assert(profile.illustration.alt.length>20);
+ for(const key of ['heritage','outlook','resources','limits','pressure','team','example']) assert(profile[key].length>180,profile.id+' '+key);
 }
+await api.go('/decouvrir/realite/religieux');assert.match(d.body.textContent,/Pourquoi cette vie/);assert.match(d.body.textContent,/convictions et des engagements/);assert.match(d.body.textContent,/Army of United Christendom/);assert.match(d.body.textContent,/diplomates cherchent des accords/);
+await api.go('/decouvrir/realite/inconnu');assert.match(d.querySelector('h1').textContent,/Ce guide de Réalité n’existe pas/);
 await api.go('/decouvrir/homo-superior');
-assert.match(d.querySelector('.start-guide-body').textContent,/L’AIDH est une institution galactique/);
+assert.match(d.querySelector('.start-guide-body').textContent,/L’AIDH est une institution galactique/);assert.match(d.querySelector('#pression').textContent,/absent du briefing/);
 assert.equal(d.querySelectorAll('.guide-illustration').length,1);
 assert.match(d.querySelector('#approfondir h2').textContent,/Pour aller plus loin/);
 assert.match(d.querySelector('#regles').textContent,/Un 1 naturel au premier dé/);
@@ -121,4 +138,4 @@ await api.setTruth({nature:'humain',choices:{hunterTradition:'aucune',hunterBuil
 await api.setTruth({nature:'vampire',choices:{hunterTradition:'lavandiere'}});assert.equal(guideLink().getAttribute('href'),'/decouvrir/vampire');
 await api.setTruth({nature:'extral',choices:{species:'unknown'}});assert.equal(guideLink().getAttribute('href'),'/decouvrir#choisir');
 assert.deepEqual(errors,[]);dom.window.close();
-console.log(`Onboarding: 21 complete profiles, ${terms.length} glossary entries, ${Object.keys(readings).length} article introductions; routing, filters, accents, aliases, deep links and empty states passed.`);
+console.log(`Onboarding: 21 Nature guides, 5 full Reality guides, ${terms.length} glossary entries, ${Object.keys(readings).length} article introductions; routing, filters, accents, aliases, deep links and empty states passed.`);
