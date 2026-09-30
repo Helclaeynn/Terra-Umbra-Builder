@@ -1,0 +1,95 @@
+name: V2 production atlas
+on:
+  push:
+    branches: [feature/tuc-web-v2]
+    paths: [.github/workflows/v2-production-atlas.yml]
+permissions:
+  contents: read
+concurrency:
+  group: tuc-v2-production
+  cancel-in-progress: false
+env:
+  BASE_SHA: 42af774c1756f3f31898f5c8b3c994bbe9c03aed
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Apply only atlas files to the currently published application
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/atlas-source /tmp/atlas-release
+          git archive "$BASE_SHA" | tar -x -C /tmp/atlas-source
+          # No unpublished builder/API changes are included in this web-only release.
+          for path in apps/web/src/main.ts apps/web/src/pages/CompendiumPage.vue apps/web/src/pages/AtlasPage.vue apps/web/src/components/AtlasArticleLinks.vue apps/web/src/lib/atlas-data.json apps/web/src/lib/atlas-article-maps.json apps/web/tests/atlas-data-check.mjs apps/web/public/map-assets; do
+            mkdir -p "/tmp/atlas-source/$(dirname "$path")"
+            cp -a "$path" "/tmp/atlas-source/$path"
+          done
+          node --input-type=module -e "import {writeFileSync} from 'node:fs';writeFileSync('/tmp/atlas-source/apps/web/public/build-info.json',JSON.stringify({commit:process.env.GITHUB_SHA,base:process.env.BASE_SHA,release:'atlas-20260930',scope:'web-atlas-only'}));"
+      - name: Verify atlas and Compendium against the production base
+        working-directory: /tmp/atlas-source/apps/web
+        run: |
+          npm ci
+          npm run build
+          node tests/atlas-data-check.mjs
+          node tests/compendium-navigation-check.mjs
+          node tests/compendium-reading-check.mjs
+          node tests/compendium-page-dom.mjs
+      - name: Build immutable web image and measure required space
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker build --label "org.opencontainers.image.revision=$GITHUB_SHA" -t "tuc-v2-web:atlas-$GITHUB_SHA" -f /tmp/atlas-source/apps/web/Dockerfile /tmp/atlas-source
+          docker save "tuc-v2-web:atlas-$GITHUB_SHA" | gzip -1 > /tmp/atlas-release/web.tar.gz
+          tar --exclude=web/node_modules --exclude=web/dist -czf /tmp/atlas-release/web-source.tar.gz -C /tmp/atlas-source/apps web
+          image_bytes=$(docker image inspect --format '{{.Size}}' "tuc-v2-web:atlas-$GITHUB_SHA")
+          source_bytes=$(du -sb /tmp/atlas-source/apps/web --exclude=node_modules --exclude=dist | cut -f1)
+          transfer_bytes=$(du -sb /tmp/atlas-release | cut -f1)
+          # Two image copies for load/unpack, source, archives, plus 512 MiB reserve.
+          printf '%s\n' "$((image_bytes*2+source_bytes+transfer_bytes+536870912))" > /tmp/atlas-release/required-bytes.txt
+          cd /tmp/atlas-release
+          sha256sum web.tar.gz web-source.tar.gz required-bytes.txt > SHA256SUMS
+      - uses: actions/upload-artifact@v4
+        with:
+          name: atlas-web-release
+          path: /tmp/atlas-release/
+          compression-level: 0
+          retention-days: 3
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    environment: tuc-dev
+    timeout-minutes: 20
+    env:
+      TUC_DEV_HOST: ${{ secrets.TUC_DEV_HOST }}
+      TUC_DEV_USER: ${{ secrets.TUC_DEV_USER }}
+      TUC_DEV_SSH_KEY: ${{ secrets.TUC_DEV_SSH_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: atlas-web-release
+          path: /tmp/atlas-release
+      - name: Guard current version, transfer and publish only web
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git ls-remote origin refs/heads/feature/tuc-web-v2 | cut -f1)" = "$GITHUB_SHA"
+          install -m 700 -d ~/.ssh
+          trap 'rm -f ~/.ssh/tuc_atlas' EXIT
+          printf '%s\n' "$TUC_DEV_SSH_KEY" > ~/.ssh/tuc_atlas
+          chmod 600 ~/.ssh/tuc_atlas
+          ssh-keyscan -H "$TUC_DEV_HOST" >> ~/.ssh/known_hosts
+          SSH="ssh -i ~/.ssh/tuc_atlas -o IdentitiesOnly=yes"
+          stage="/opt/terra-umbra/releases/atlas-$GITHUB_SHA"
+          required=$(cat /tmp/atlas-release/required-bytes.txt)
+          $SSH "$TUC_DEV_USER@$TUC_DEV_HOST" "test -f /opt/terra-umbra/production-active && test \$(df -B1 --output=avail /opt/terra-umbra | tail -1) -gt $required && mkdir -p '$stage'"
+          rsync -az -e "$SSH" /tmp/atlas-release/ "$TUC_DEV_USER@$TUC_DEV_HOST:$stage/"
+          { printf '{\n'; cat infrastructure/production/release-atlas.sh; printf '\n}\n'; } | $SSH "$TUC_DEV_USER@$TUC_DEV_HOST" bash -s -- "$GITHUB_SHA" "$BASE_SHA"
