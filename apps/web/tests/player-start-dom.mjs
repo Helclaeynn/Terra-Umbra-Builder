@@ -46,7 +46,7 @@ const compiled=await build({
       {path:'/glossaire',component:Glossary},{path:'/article/:id',component:{setup:()=>()=>h(Reading,{articleId:router.currentRoute.value.params.id})}},
       {path:'/builder-guide-test',component:{setup:()=>()=>h(NatureGuide,{state:truth.value})}},
       {path:'/compendium',component:{render:()=>h('p','Compendium destination')}},
-      {path:'/atlas',component:{render:()=>h('p','Atlas')}},{path:'/account',component:{render:()=>h('p','Account')}}
+      {path:'/campaigns',component:{render:()=>h('p','Campaigns')}},{path:'/atlas',component:{render:()=>h('p','Atlas')}},{path:'/account',component:{render:()=>h('p','Account')}}
     ]});
     window.test={filterTerms,playerGuideForTruth,setTruth:async(s)=>{truth.value=s;await nextTick()},go:async(to)=>{await router.push(to);await nextTick()},route:()=>router.currentRoute.value.fullPath};
     window.ready=router.push('/decouvrir').then(()=>{createApp({render:()=>h(RouterView)}).use(router).mount('#app');return nextTick()});
@@ -60,7 +60,15 @@ const d=dom.window.document;const api=dom.window.test;
 const wait=()=>new Promise(resolve=>setTimeout(resolve,25));
 assert.equal(d.querySelectorAll('.start-intro-card').length,4);
 assert.equal(d.querySelector('.start-perspectives'),null);
-assert.match(d.querySelector('#suite').textContent,/Inscris-toi/);
+assert.match(d.querySelector('#suite').textContent,/inscris-toi/);
+assert.match(d.querySelector('#cadre').textContent,/Réalité est le monde publiquement connu/);
+assert.match(d.querySelector('#cadre').textContent,/Vérité est la part cachée de ce même monde/);
+assert.equal(d.querySelectorAll('.start-site-steps>li').length,6);
+assert.match(d.querySelector('.start-site-steps').textContent,/Un administrateur doit valider/);
+assert.match(d.querySelector('.start-site-steps').textContent,/Mes campagnes et invitations/);
+assert.match(d.querySelector('.start-site-steps').textContent,/Accepter l’invitation et faire accepter sa fiche sont deux étapes distinctes/);
+assert.match(d.querySelector('.start-site-steps').textContent,/Soumettre ma version actuelle/);
+assert.equal(d.querySelector('#suite a[href="/campaigns"]').getAttribute('href'),'/campaigns');
 assert.equal(d.querySelectorAll('.start-profile').length,21);
 const group=[...d.querySelectorAll('.start-filters button')].find(b=>b.textContent==='Peuples galactiques');group.click();await wait();assert.equal(d.querySelectorAll('.start-profile').length,7);
 const input=d.querySelector('input');input.value='supérior';input.dispatchEvent(new dom.window.Event('input',{bubbles:true}));await wait();assert.equal(d.querySelectorAll('.start-profile').length,1);

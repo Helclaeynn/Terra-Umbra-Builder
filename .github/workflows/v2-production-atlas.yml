@@ -9,7 +9,7 @@ concurrency:
   group: tuc-v2-production
   cancel-in-progress: false
 env:
-  BASE_SHA: 0126937929ac4d8be3e9cbfef71abd3facfc2bbd
+  BASE_SHA: 50d3238f76e08800d8cad83f058c8aaf24aa58ae
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -27,17 +27,11 @@ jobs:
           set -euo pipefail
           mkdir -p /tmp/atlas-source /tmp/atlas-release
           git archive "$BASE_SHA" | tar -x -C /tmp/atlas-source
-          # Only reviewed onboarding views and links are included in this web-only release.
-          for path in apps/web/src/components/GuideIllustration.vue apps/web/src/components/GuideRulesReminder.vue apps/web/src/pages/RealityStartPage.vue apps/web/src/lib/reality-start.json; do
-            mkdir -p "/tmp/atlas-source/$(dirname "$path")"
+          # The complete illustrated guides and builder links are already live in BASE_SHA.
+          # Overlay only the reviewed concepts and account-to-campaign walkthrough.
+          for path in apps/web/src/pages/PlayerStartPage.vue apps/web/src/pages/RealityStartPage.vue apps/web/src/lib/player-start.json apps/web/src/player-start.css apps/web/tests/player-start-dom.mjs; do
             cp -a "$path" "/tmp/atlas-source/$(dirname "$path")/"
           done
-          for path in apps/web/src/components/builder/NatureStartGuide.vue apps/web/src/main.ts apps/web/src/pages/CompendiumPage.vue apps/web/src/components/CompendiumDiscovery.vue apps/web/src/components/ArticleReadingGuide.vue apps/web/src/components/PlayerStartFrame.vue apps/web/src/pages/PlayerStartPage.vue apps/web/src/pages/GlossaryPage.vue apps/web/src/lib/player-start.ts apps/web/src/lib/player-start.json apps/web/src/lib/player-glossary.json apps/web/src/lib/article-reading-guides.json apps/web/src/player-start.css apps/web/tests/player-start-dom.mjs apps/web/tests/builder-save-navigation.mjs apps/web/tests/compendium-page-dom.mjs; do
-            mkdir -p "/tmp/atlas-source/$(dirname "$path")"
-            cp -a "$path" "/tmp/atlas-source/$(dirname "$path")/"
-          done
-          # Apply just the two guide links to the published builder, preserving its behaviour.
-          git diff 0126937929ac4d8be3e9cbfef71abd3facfc2bbd 32f51ed349dc56a69f4715777228c1081f62f537 -- apps/web/src/components/builder/ProgressionStep.vue apps/web/src/pages/CharacterBuilderPage.vue | git -C /tmp/atlas-source apply -
           node --input-type=module -e "import {writeFileSync} from 'node:fs';writeFileSync('/tmp/atlas-source/apps/web/public/build-info.json',JSON.stringify({commit:process.env.GITHUB_SHA,base:process.env.BASE_SHA,release:'onboarding-20260930',scope:'web-compendium-only'}));"
       - name: Compile existing API definitions for the Compendium fixture test
         working-directory: /tmp/atlas-source/apps/api
@@ -104,20 +98,6 @@ jobs:
           SSH="ssh -i ~/.ssh/tuc_atlas -o IdentitiesOnly=yes"
           stage="/opt/terra-umbra/releases/atlas-$GITHUB_SHA"
           required=$(cat /tmp/atlas-release/required-bytes.txt)
-          # This exact failed upload never reached image loading or publication.
-          # Remove only its reproducible transfer archives, never a rollback/source tree.
-          $SSH "$TUC_DEV_USER@$TUC_DEV_HOST" 'bash -s' <<'CLEAN_FAILED_UPLOAD'
-          set -euo pipefail
-          failed=/opt/terra-umbra/releases/atlas-32f51ed349dc56a69f4715777228c1081f62f537
-          if test -f "$failed/web.tar.gz"; then
-            test ! -e "$failed/deployed.ok"
-            test ! -e "$failed/previous-web-image"
-            test ! -e "$failed/previous-web"
-            test ! -e "$failed/new"
-            (cd "$failed" && sha256sum --check SHA256SUMS)
-            rm -- "$failed/web.tar.gz" "$failed/web-source.tar.gz"
-          fi
-          CLEAN_FAILED_UPLOAD
           $SSH "$TUC_DEV_USER@$TUC_DEV_HOST" "test -f /opt/terra-umbra/production-active && test \$(df -B1 --output=avail /opt/terra-umbra | tail -1) -gt $required && mkdir -p '$stage'"
           rsync -az -e "$SSH" /tmp/atlas-release/ "$TUC_DEV_USER@$TUC_DEV_HOST:$stage/"
           { printf '{\n'; cat infrastructure/production/release-atlas.sh; printf '\n}\n'; } | $SSH "$TUC_DEV_USER@$TUC_DEV_HOST" bash -s -- "$GITHUB_SHA" "$BASE_SHA"
