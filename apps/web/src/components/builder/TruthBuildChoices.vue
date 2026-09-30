@@ -7,6 +7,7 @@ import {normalizeAngelusBuild,angelusTalentIds as a,angelusNatures,angelusConstr
 import {normalizeExtralBuild,extralTalentIds as x,extralInventory} from '../../lib/extral';
 import {normalizeExileBuild,exileTalentIds as e,exileInventory} from '../../lib/exile';
 import {mageAffinities,mageTechniqueKind,normalizeMageTechniques} from '../../lib/mage';
+import VampireBuildChoices from './VampireBuildChoices.vue';
 import MageTechniques from './MageTechniques.vue';
 const props=defineProps<{state:TruthState;rules:TruthRulesPackage;talentId:string}>();
 const emit=defineEmits<{change:[patch:Record<string,unknown>]}>();
@@ -39,7 +40,8 @@ function implant(patch:Record<string,unknown>){
 </script>
 <template>
  <section v-if="label||innate" class="guided-choice" :data-truth-build-choice="talentId" :aria-label="innate?'Affinité spectrale de Méphisto':label">
-  <template v-if="innate||talentId===d.polyphony">
+  <VampireBuildChoices v-if="state.nature==='vampire'" :state="state" :talent-id="talentId" @change="emit('change',$event)" />
+  <template v-else-if="innate||talentId===d.polyphony">
    <h4>{{innate?'Votre magie spectrale':'Une seconde magie spectrale'}}</h4>
    <p>{{innate?'Méphisto vous donne gratuitement un domaine de magie. Choisissez celui que votre personnage sait déjà utiliser.':'Polyphonie ajoute un autre domaine de magie ; elle ne remplace pas votre première Affinité.'}}</p>
    <label>{{innate?'Première Affinité':'Seconde Affinité'}}<select :data-daemon-field="innate?'spectralAffinity':'secondSpectralAffinity'" :value="innate?dc.spectralAffinity:dc.secondSpectralAffinity" @change="daemon({[innate?'spectralAffinity':'secondSpectralAffinity']:text($event)})"><option value="">— Choisir un domaine —</option><option v-for="affinity in affinities" :key="affinity.id" :value="affinity.id" :disabled="!innate&&affinity.id===dc.spectralAffinity">{{affinity.name}}</option></select></label>

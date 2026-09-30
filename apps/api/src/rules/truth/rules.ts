@@ -1,3 +1,4 @@
+import {applyVampireRevisions} from "./vampire-revision.js";
 import {applyKhinaeRevisions} from "./khinae-revision.js";
 import {applyExileRevisions} from "./exile-revision.js";
 import {applyExtralRevisions} from "./extral-revision.js";
@@ -39,7 +40,7 @@ function bindCompendium<T extends readonly TruthTalent[]>(
   }));
 }
 
-const vampireCatalog = bindCompendium(truthCatalogVampire, (group) => {
+const vampireCatalog = bindCompendium(applyVampireRevisions(truthCatalogVampire), (group) => {
   if (group === "Vampire — commun" || group.includes("Talents de Cour")) {
     return "regles-verite-v7-vampire-nature-predation-cours";
   }
