@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import AtlasArticleLinks from "../components/AtlasArticleLinks.vue";
+import AtlasArticleMaps from "../components/AtlasArticleMaps.vue";
 import TerraUmbraBrand from "../components/TerraUmbraBrand.vue";
 import PortraitAdmin from "../components/PortraitAdmin.vue";
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from "vue";
@@ -1801,13 +1802,13 @@ onBeforeUnmount(() => {
       </RouterLink>
 
       <nav class="compendium-top-nav" aria-label="Navigation principale">
-        <RouterLink to="/atlas">Atlas</RouterLink>
         <button type="button" @click="closeNewcomer">Compendium</button>
         <a href="/account">Builder <span aria-hidden="true">↗</span></a>
       </nav>
       <div class="compendium-top-actions">
+        <RouterLink class="ghost compact-link atlas-access" to="/atlas">Atlas &amp; cartes</RouterLink>
         <button class="ghost compact-link" type="button" aria-label="Ouvrir la recherche" @click="focusSearch">Rechercher <kbd>⌘/Ctrl K</kbd></button>
-        <button class="ghost compact-link" type="button" @click="openNewcomer">
+        <button class="ghost compact-link newcomer-link" type="button" @click="openNewcomer">
           Bien commencer
         </button>
         <RouterLink v-if="canEdit" class="ghost compact-link wiki-create-link" to="/compendium/new" @pointerenter="preloadEditor" @focus="preloadEditor">
@@ -2189,7 +2190,6 @@ onBeforeUnmount(() => {
             <template v-else-if="selected">
               <div :key="selected.id" class="wiki-article-grid wiki-article-enter">
                 <div class="wiki-article-main">
-                  <AtlasArticleLinks :article-id="selected.id" />
                   <header class="article-header">
                     <img class="reader-orbital-art" :src="orbitalImage" alt="" width="1536" height="1024" decoding="async" />
                     <div class="reader-topline">
@@ -2309,6 +2309,9 @@ onBeforeUnmount(() => {
                     <a v-if="selectedResume" class="reader-resume" :href="compendiumHref(selected.id, selectedResume.id)" @click="followArticleLink($event,selected.id,selectedResume.id)">Reprendre : {{ selectedResume.title }} <span aria-hidden="true">→</span></a>
                     <p v-if="readingNotice" class="reader-notice" role="status">{{ readingNotice }}</p>
                   </header>
+
+                  <AtlasArticleLinks :article-id="selected.id" />
+                  <AtlasArticleMaps :article-id="selected.id" />
 
                   <figure v-if="showLargeArticleMedia && selectedMedia" class="wiki-featured-media">
                     <img
@@ -4343,7 +4346,7 @@ kbd{margin-left:12px;color:#819bb5;font:10px/1.3 Consolas,monospace}
 @media(max-width:1250px){.compendium-top-nav{display:none}.compendium-page{grid-template-columns:224px minmax(0,1fr)}.wiki-article-grid{grid-template-columns:minmax(0,1fr) 190px;gap:22px}.compendium-top-actions kbd{display:none}}
 @media(max-width:1100px){.wiki-article-grid{grid-template-columns:1fr}.wiki-infobox{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.wiki-infobox>*{margin:0}.wiki-toc{grid-column:1/-1}}
 @media(max-width:900px){.compendium-shell{--orbital-topbar:80px}.compendium-topbar{gap:12px;flex-wrap:wrap}.compendium-top-actions .wiki-create-link{display:none}.compendium-page{--compendium-gutter:20px;grid-template-columns:minmax(0,1fr);width:100%;padding:0}.compendium-navigation{position:static;height:auto;max-height:none;padding:0;border-right:0;border-bottom:1px solid #26394c;overflow:visible}.compendium-content>:is(.compendium-feedback,.compendium-search,.library-panel,.rules-onboarding,.compendium-workspace){margin-top:20px}.navigation-disclosure>summary{display:list-item;margin-left:20px;padding-left:0}.navigation-heading{display:none}.navigation-categories{grid-template-columns:repeat(2,minmax(0,1fr))}.navigation-tree{max-height:55vh;overflow:auto}.article-panel{padding:24px}.reader-focus .article-panel{padding:24px}}
-@media(max-width:650px){.compendium-shell{--orbital-topbar:115px}.compendium-topbar{padding:9px 16px;gap:8px;align-content:center}.compendium-brand-lockup{margin-right:auto}.compendium-top-actions{display:flex;gap:6px}.compendium-top-actions .compact-link{min-height:34px;padding:7px 9px;font-size:11px}.compendium-top-actions .compact-link:nth-child(2){display:none}.compendium-page{--compendium-gutter:12px;width:100%;padding:0}.compendium-search{padding:18px}.category-strip{gap:6px}.category-chip{padding:8px 10px}.article-panel{padding:20px 16px}.reader-topline{margin-bottom:20px}.reader-tools{gap:4px}.reader-back{font-size:11px}.reader-progress-bar{gap:10px;padding:12px 0}.reader-progress-bar span{font-size:10px}.article-section :deep(p){line-height:1.9}.wiki-infobox{grid-template-columns:1fr}.wiki-toc{grid-column:auto}.category-page-links{grid-template-columns:1fr}.library-panel>summary span{display:block;margin-left:0}.category-group-card>header,.category-subgroup-list{padding:16px}.reader-contents-dialog{padding:20px}}
+@media(max-width:650px){.compendium-shell{--orbital-topbar:115px}.compendium-topbar{padding:9px 16px;gap:8px;align-content:center}.compendium-brand-lockup{margin-right:auto}.compendium-top-actions{display:flex;gap:6px}.compendium-top-actions .compact-link{min-height:34px;padding:7px 9px;font-size:11px}.compendium-top-actions .newcomer-link{display:none}.compendium-page{--compendium-gutter:12px;width:100%;padding:0}.compendium-search{padding:18px}.category-strip{gap:6px}.category-chip{padding:8px 10px}.article-panel{padding:20px 16px}.reader-topline{margin-bottom:20px}.reader-tools{gap:4px}.reader-back{font-size:11px}.reader-progress-bar{gap:10px;padding:12px 0}.reader-progress-bar span{font-size:10px}.article-section :deep(p){line-height:1.9}.wiki-infobox{grid-template-columns:1fr}.wiki-toc{grid-column:auto}.category-page-links{grid-template-columns:1fr}.library-panel>summary span{display:block;margin-left:0}.category-group-card>header,.category-subgroup-list{padding:16px}.reader-contents-dialog{padding:20px}}
 @media(prefers-reduced-motion:reduce){.compendium-shell *{scroll-behavior:auto;animation:none;transition:none}}
 
 </style>

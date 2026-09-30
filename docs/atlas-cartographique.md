@@ -2,6 +2,8 @@
 
 Route publique : `/atlas`. Le menu du Compendium et les articles associés y donnent accès.
 
+Le bouton « Atlas & cartes » appartient aux actions de l’en-tête, visibles aussi sur petit écran. Les articles listés dans `atlas-static-articles.json` affichent les cartes classiques sous leur titre : trois articles territoriaux principaux, institutions, corporations maritimes et factions pertinentes. Les aperçus se chargent progressivement et ouvrent les originaux haute définition ; aucune copie volumineuse supplémentaire n’est ajoutée.
+
 - Sept vues : Grande Californie, Grande Réserve, Los Angeles, littoral/ports, est, cœur et nord.
 - Les marqueurs liés ouvrent une vraie URL `/compendium?article=…`. Les autres ouvrent une notice. Les liens d'organisation sont présentés comme tels ; ils ne créent pas de fiches de lieux fictives.
 - Les liens de retour sont limités aux articles présents dans `atlas-article-maps.json` et conservent le repère dans `?map=…&spot=…`.
