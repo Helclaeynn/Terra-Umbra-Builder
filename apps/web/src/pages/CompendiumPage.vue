@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import AtlasArticleLinks from "../components/AtlasArticleLinks.vue";
 import TerraUmbraBrand from "../components/TerraUmbraBrand.vue";
 import PortraitAdmin from "../components/PortraitAdmin.vue";
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from "vue";
@@ -1800,6 +1801,7 @@ onBeforeUnmount(() => {
       </RouterLink>
 
       <nav class="compendium-top-nav" aria-label="Navigation principale">
+        <RouterLink to="/atlas">Atlas</RouterLink>
         <button type="button" @click="closeNewcomer">Compendium</button>
         <a href="/account">Builder <span aria-hidden="true">↗</span></a>
       </nav>
@@ -2187,6 +2189,7 @@ onBeforeUnmount(() => {
             <template v-else-if="selected">
               <div :key="selected.id" class="wiki-article-grid wiki-article-enter">
                 <div class="wiki-article-main">
+                  <AtlasArticleLinks :article-id="selected.id" />
                   <header class="article-header">
                     <img class="reader-orbital-art" :src="orbitalImage" alt="" width="1536" height="1024" decoding="async" />
                     <div class="reader-topline">
