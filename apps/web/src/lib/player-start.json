@@ -1,0 +1,815 @@
+{
+  "intro": [
+    {
+      "title": "Tu vis en Grande Californie, en 2035",
+      "text": "Un pays indépendant s’est formé après des années de guerre et de crises. Des quartiers prospères côtoient des secteurs laissés à eux-mêmes. Les grandes entreprises possèdent des territoires et leurs propres sécurités. Ton adresse, ton employeur et tes relations changent donc beaucoup de choses dans ta vie.",
+      "example": "Dans un quartier, tu appelles la police ; dans un autre, tu dois passer un contrôle tenu par la sécurité d’une entreprise.",
+      "terms": [
+        "grande-californie",
+        "corporation",
+        "laus"
+      ]
+    },
+    {
+      "title": "La technologie est déjà extraordinaire",
+      "text": "Réseaux immersifs, véhicules automatisés et corps augmentés appartiennent au monde connu. Leur qualité et leur disponibilité dépendent des moyens de chacun. Un personnage peut déjà vivre des aventures en enquêtant, en transportant des personnes ou en protégeant son quartier.",
+      "example": "Un bon contrat peut te donner accès à un logement et à des soins que tu risques de perdre en quittant ton emploi.",
+      "terms": [
+        "realite",
+        "holonet",
+        "augmentations"
+      ]
+    },
+    {
+      "title": "Une partie de ce monde reste cachée",
+      "text": "Des êtres surnaturels et extraterrestres vivent dans les mêmes rues. On appelle cette part cachée la Vérité. Un dispositif nommé Hologramme, souvent appelé Voile, leur donne une présence compatible avec le monde ordinaire et peut brouiller la manière dont les témoins et les appareils comprennent un événement.",
+      "example": "Un passant et un Vampire peuvent prendre le même bus. Le passant voit quelqu’un d’ordinaire. Si une vitre est brisée, elle reste brisée même si sa cause réelle est mal comprise.",
+      "terms": [
+        "verite",
+        "voile",
+        "hologramme"
+      ]
+    },
+    {
+      "title": "Ton personnage a une vie avant ses pouvoirs",
+      "text": "Choisis une personne importante, une activité et une raison d’agir avec les autres. Ta Nature précise ton origine ou tes possibilités particulières ; elle ne choisit pas ton métier, tes opinions et tes amis à ta place. Le MJ t’aide à distinguer ce que tu lis de ce que ton personnage sait.",
+      "example": "« Je veux retrouver mon collègue disparu, et l’un de mes compagnons est la dernière personne à l’avoir vu » suffit à lancer une histoire.",
+      "terms": [
+        "nature",
+        "mj"
+      ]
+    }
+  ],
+  "guides": [
+    {
+      "id": "humain",
+      "title": "Humain",
+      "group": "Vie humaine",
+      "hook": "Un personnage du quotidien, avec des compétences et des attaches qui comptent.",
+      "identity": "Tu es un habitant de 2035. Tu peux être soignant, enquêteur, chauffeur, scientifique, employé ou indépendant. Tu n’as pas besoin d’une origine surnaturelle pour prendre part à une aventure.",
+      "daily": "Commence par ton logement, ton revenu, une personne de confiance et un problème que tu ne peux pas résoudre seul. Tu peux connaître la part cachée du monde, la soupçonner ou la découvrir en jeu : choisissez ce point avec le MJ.",
+      "abilities": "Ton entraînement, tes relations et ton matériel déterminent ce que tu sais faire. Les technologies avancées font déjà partie de la société visible.",
+      "limits": "Connaître le surnaturel ne donne pas automatiquement des pouvoirs ni la capacité de le voir. Être humain ne fait pas non plus de toi un Chasseur reconnu.",
+      "choices": [
+        "Quel métier ou savoir-faire rend tes services utiles ?",
+        "Qui comptes-tu protéger ou retrouver ?",
+        "Que sais-tu de la Vérité au début de la partie ?"
+      ],
+      "team": "Tu peux apporter une compétence précise et un ancrage local à des compagnons beaucoup moins familiers de la vie terrestre.",
+      "example": "Une ambulancière cherche un patient disparu ; elle connaît les hôpitaux et peut demander de l’aide à un ancien collègue.",
+      "terms": [
+        "realite",
+        "verite",
+        "augmentations"
+      ],
+      "links": [
+        {
+          "article": "regles-moteur-de-jeu",
+          "label": "Pour choisir tes capacités"
+        },
+        {
+          "article": "realite-v9-vivre-en-2035",
+          "label": "Si tu veux connaître ton peuple ou ton milieu"
+        }
+      ],
+      "appeal": "Tu aimes les enquêtes, les compétences concrètes et le plaisir de découvrir un monde plus vaste à hauteur humaine.",
+      "tradeoff": "Tu dépends davantage de ta préparation, de tes alliés et de ton équipement ; tu ne disposes pas de pouvoirs de Nature.",
+      "outlook": "Ton milieu et ce que tu sais de la Vérité comptent davantage qu’une mentalité humaine unique. Un médecin et un mercenaire n’abordent pas la même anomalie de la même façon."
+    },
+    {
+      "id": "chasseur",
+      "title": "Chasseur",
+      "group": "Traditions de Vérité",
+      "hook": "Un humain qui affronte l’impossible grâce à sa préparation et à une tradition.",
+      "identity": "Tu restes humain. La reconnaissance comme Chasseur te permet de conserver des souvenirs du surnaturel que le Voile aurait normalement brouillés. Tu apprends des méthodes pour enquêter et agir face à ces menaces.",
+      "daily": "Une vie civile peut continuer entre les missions. Ton réseau, ta formation et les personnes auxquelles tu confies ce que tu as vu comptent autant que tes armes.",
+      "abilities": "Ta tradition guide les talents que tu apprends. Préparer une intervention, comprendre une cible et utiliser les bons outils donnent sa saveur à ce personnage.",
+      "limits": "Tu ne reconnais pas automatiquement les créatures Voilées. Ton savoir sur une menace ne vaut pas pour toutes les autres, et tu restes vulnérable.",
+      "choices": [
+        "Quelle tradition t’a formé ?",
+        "Quelle rencontre t’a engagé dans la Chasse ?",
+        "Quelle limite refuses-tu de franchir ?"
+      ],
+      "team": "Tu peux enquêter avec des êtres surnaturels : ton engagement ne t’oblige pas à considérer chaque compagnon comme un ennemi.",
+      "example": "Une enquêtrice prépare une extraction avec un Mage et un Garou ; elle s’occupe des témoins et de la sortie de secours.",
+      "terms": [
+        "chasseur",
+        "voile",
+        "talent"
+      ],
+      "links": [
+        {
+          "article": "regles-verite-v7-chasseurs-doctrine-association-gt-hunt",
+          "label": "Pour choisir tes capacités"
+        },
+        {
+          "article": "verite-v7-chasseurs-doctrine-association-traditions",
+          "label": "Si tu veux connaître ton peuple ou ton milieu"
+        }
+      ],
+      "appeal": "Tu aimes préparer une opération, comprendre une menace et tenir tête au surnaturel avec méthode.",
+      "tradeoff": "Reconnaissance et entraînement ne te rendent ni invulnérable ni capable de repérer toutes les créatures. Il faut accepter l’enquête et l’incertitude.",
+      "outlook": "La Chasse donne des méthodes et des devoirs. À toi de définir ta frontière entre menace, victime et allié : connaître une Nature ne suffit pas à juger chaque individu."
+    },
+    {
+      "id": "vampire",
+      "title": "Vampire",
+      "group": "Traditions de Vérité",
+      "hook": "Un prédateur vivant, pris entre ses besoins, ses proches et une société ancienne.",
+      "identity": "Tu appartiens à une lignée vampirique. Les Vampires de Terra Umbra sont vivants : il ne faut pas leur appliquer automatiquement toutes les conventions des films ou d’autres jeux.",
+      "daily": "Tu peux avoir un emploi, des habitudes et des relations contemporaines. Ta manière de te nourrir et les personnes qui t’aident à préserver ton secret donnent une place concrète à ta Nature dans ta vie.",
+      "abilities": "Ton Sang noir désigne un héritage de lignée ; tes talents précisent les pouvoirs que tu maîtrises. Une Cour est un grand ensemble politique et culturel, une Maison un groupe plus proche.",
+      "limits": "Ton héritage ne te donne pas tous les pouvoirs du catalogue. Les contraintes de prédation et les effets de tes choix restent importants même si le Voile masque ton apparence.",
+      "choices": [
+        "Comment te nourris-tu et quelles limites te fixes-tu ?",
+        "De quelle Maison ou de quel entourage dépends-tu ?",
+        "Quelle attache actuelle comptes-tu préserver ?"
+      ],
+      "team": "Une dette, une amitié ou un intérêt partagé peuvent te lier au groupe bien plus directement que l’histoire de toutes les Cours.",
+      "example": "Un intermédiaire vampirique doit retrouver un fournisseur disparu ; il a besoin des compétences du groupe et leur doit déjà un service.",
+      "terms": [
+        "sang-noir",
+        "cour",
+        "maison",
+        "voile"
+      ],
+      "links": [
+        {
+          "article": "regles-verite-v7-vampire-nature-predation-cours",
+          "label": "Pour choisir tes capacités"
+        },
+        {
+          "article": "verite-v7-vampires-civilisation-cours-sangs",
+          "label": "Si tu veux connaître ton peuple ou ton milieu"
+        }
+      ],
+      "appeal": "Tu aimes les secrets, les relations de pouvoir et les dilemmes d’un prédateur qui tient encore à ses proches.",
+      "tradeoff": "La prédation et les obligations envers ton entourage font partie du personnage. Ce choix demande d’avoir envie de jouer ces contraintes, pas seulement ses pouvoirs.",
+      "outlook": "L’héritage, la Maison et la Cour peuvent peser lourd. Tu peux leur être fidèle, négocier ta place ou chercher à t’en éloigner ; ta vie actuelle reste réelle."
+    },
+    {
+      "id": "garou",
+      "title": "Garou",
+      "group": "Traditions de Vérité",
+      "hook": "Un héritage lupin, plusieurs formes et un lien fort avec la meute.",
+      "identity": "Tu descends d’une ancienne famille de changeformes appelée Khinae. Cet héritage n’est pas une infection et ne se transmet pas par morsure. Il peut s’éveiller dans une famille qui se croyait humaine.",
+      "daily": "Ta meute est un groupe de relations et de solidarités. Elle peut s’inscrire dans la ville moderne ; ton métier et ta famille ne disparaissent pas quand tu découvres ta Nature.",
+      "abilities": "La Mue est le passage entre tes formes. L’humain, le loup et l’hybride servent des situations différentes. Le Pelage précise ton héritage garou ; les Sangs vifs correspondent à des héritages que tu peux éveiller.",
+      "limits": "Changer de forme et gérer la Frénésie suivent des règles précises. Une forme plus impressionnante ne règle pas une enquête, une dette ou une relation difficile.",
+      "choices": [
+        "Quel Pelage et quelle meute donnent tes premiers repères ?",
+        "Qui a assisté à ton premier changement ?",
+        "Quand préfères-tu négocier plutôt que te transformer ?"
+      ],
+      "team": "Le groupe peut devenir un cercle de confiance sans que chaque membre soit un loup.",
+      "example": "Une pompière garou veut protéger son quartier et cherche qui provoque des incendies près du territoire de sa meute.",
+      "terms": [
+        "mue",
+        "frenesie",
+        "pelage",
+        "sang-vif"
+      ],
+      "links": [
+        {
+          "article": "regles-verite-v7-garou-nature-formes-frenesie-pelages",
+          "label": "Pour choisir tes capacités"
+        },
+        {
+          "article": "verite-v7-garous-khinae-meutes-pelages",
+          "label": "Si tu veux connaître ton peuple ou ton milieu"
+        }
+      ],
+      "appeal": "Tu aimes changer de forme, ressentir des instincts puissants et jouer la solidarité d’un groupe proche.",
+      "tradeoff": "La Mue et la Frénésie demandent de gérer tes réactions et les conséquences de tes transformations. La puissance physique ne règle pas tout.",
+      "outlook": "La meute offre des liens et des responsabilités. Cela peut nourrir une loyauté très forte sans t’obliger à obéir aveuglément ni à rejeter tous les non-Garous."
+    },
+    {
+      "id": "khinae",
+      "title": "Autre descendant de Khinae",
+      "group": "Traditions de Vérité",
+      "hook": "Un changeforme dont le corps et les instincts dépendent d’une lignée animale.",
+      "identity": "Les loups ne sont qu’une branche de cette famille. D’autres lignées sont liées à des félins, des oiseaux, des serpents ou à d’autres animaux. Tu ne joues donc pas simplement un Garou avec une autre silhouette.",
+      "daily": "Choisis une manière de vivre compatible avec ta lignée et ton histoire : habitudes, liens familiaux, rapport au territoire et personnes qui connaissent ton secret.",
+      "abilities": "Tu peux apprendre à utiliser plusieurs formes et les capacités de ta lignée. Tes sens et tes déplacements donnent des approches différentes des mêmes problèmes.",
+      "limits": "Les Pelages et les instincts de meute lupins ne s’appliquent pas automatiquement. Certaines lignées sont rares : le profil retenu doit correspondre aux règles et à la campagne.",
+      "choices": [
+        "Quelle lignée veux-tu jouer ?",
+        "Quelles habitudes animales ont une place dans ton quotidien ?",
+        "Qui t’a aidé à comprendre ton héritage ?"
+      ],
+      "team": "Définis une raison personnelle de rester avec les autres : la lignée ne décide pas à ta place de tes amitiés.",
+      "example": "Un coursier changeforme félin connaît les accès et les hauteurs de la ville ; il aide le groupe à retrouver une personne disparue.",
+      "terms": [
+        "khinae",
+        "mue",
+        "sang-vif"
+      ],
+      "links": [
+        {
+          "article": "regles-verite-v7-khinae-moteur-lignees",
+          "label": "Pour choisir tes capacités"
+        },
+        {
+          "article": "verite-v7-descendants-khinae",
+          "label": "Si tu veux connaître ton peuple ou ton milieu"
+        }
+      ],
+      "appeal": "Tu aimes une identité animale précise, des sens inhabituels et une autre manière d’habiter la ville.",
+      "tradeoff": "Tu dois choisir une lignée compatible avec la campagne. Les formes et habitudes du loup ne constituent pas un modèle valable pour toutes.",
+      "outlook": "Ta lignée et ton éducation orientent tes repères. Un individu isolé, élevé par des humains, peut se sentir très différent d’un membre d’une communauté ancienne."
+    },
+    {
+      "id": "mage",
+      "title": "Mage",
+      "group": "Traditions de Vérité",
+      "hook": "Une magie personnelle, apprise et expérimentée, avec des limites concrètes.",
+      "identity": "Ton Mageius est ce qui te permet de pratiquer la magie. Son type te donne un point de départ sur la Roue magique, qui organise les domaines de magie et leurs relations.",
+      "daily": "Ta famille, ta lignée, un apprentissage ou une Loge peuvent t’aider à comprendre tes capacités. Une Loge est une communauté de Mages, avec ses ressources et ses attentes.",
+      "abilities": "Choisis d’abord une Affinité dominante : un domaine que tu pratiques particulièrement. Tu peux improviser dans une Affinité non éveillée, mais seulement en Maîtrise Initiale et Amplitude Mineure, avec une difficulté accrue.",
+      "limits": "Une idée de sort n’est pas une réussite automatique. Décris l’effet recherché ; les règles déterminent sa difficulté, sa portée et ses conséquences. Apprendre une tradition demande davantage que la connaître de nom.",
+      "choices": [
+        "Quelle Affinité correspond aux effets que tu veux produire ?",
+        "Quelle famille ou quel milieu t’a formé ?",
+        "Quel problème concret cherches-tu à résoudre par la magie ?"
+      ],
+      "team": "Tu peux apporter une solution inhabituelle tout en ayant besoin d’un enquêteur, d’un technicien ou d’un protecteur.",
+      "example": "Une Mage formée dans sa famille cherche à comprendre des pannes répétées dans une clinique où travaille son frère.",
+      "terms": [
+        "mageius",
+        "affinite",
+        "roue",
+        "loge"
+      ],
+      "links": [
+        {
+          "article": "regles-verite-v7-mage-maitrise-amplitude-lancement",
+          "label": "Pour choisir tes capacités"
+        },
+        {
+          "article": "verite-v7-mages-mageius-roue-loges",
+          "label": "Si tu veux connaître ton peuple ou ton milieu"
+        }
+      ],
+      "appeal": "Tu aimes inventer des solutions, apprendre et explorer une magie qui prolonge tes connaissances.",
+      "tradeoff": "Il faut décrire tes intentions et accepter les limites, difficultés et risques du lancement. Toutes les Affinités ne sont pas aussi accessibles.",
+      "outlook": "La magie se travaille. Famille, lignée d’enseignement ou Loge peuvent encourager la curiosité comme le secret ; les connaissances ordinaires restent précieuses."
+    },
+    {
+      "id": "daemon",
+      "title": "Daemon",
+      "group": "Traditions de Vérité",
+      "hook": "Une vie actuelle confrontée à une âme ancienne choisie par une divinité.",
+      "identity": "Ton âme a déjà vécu puis a été choisie et transformée par une divinité. Revenu dans une nouvelle incarnation, tu as réellement grandi avec une famille et une histoire actuelle.",
+      "daily": "L’éveil de souvenirs anciens peut te placer face à des fidélités que ta personne actuelle n’a pas choisies. Tu dois décider ce que tu conserves de tes deux histoires.",
+      "abilities": "Tes capacités et tes faveurs dépendent de ta divinité et de ta progression. La Maisonnée est ton entourage politique ou spirituel ; un Temple est un lieu et une organisation qui servent ce milieu.",
+      "limits": "Daemon ne veut pas dire automatiquement malveillant, ni humain possédé par un étranger. Une appartenance divine ne t’accorde pas tous les pouvoirs ou toutes les ressources de son culte.",
+      "choices": [
+        "Quelle divinité a choisi ton âme ?",
+        "Quelle relation de ta vie actuelle compte le plus ?",
+        "Quel devoir ancien acceptes-tu, négocies-tu ou contestes-tu ?"
+      ],
+      "team": "Tes liens avec le groupe peuvent appartenir pleinement à ta vie moderne, même lorsque tes obligations anciennes viennent les compliquer.",
+      "example": "Une avocate découvre qu’une Maisonnée attend d’elle un service incompatible avec la protection d’un ami.",
+      "terms": [
+        "daemon",
+        "eveil",
+        "maisonnee",
+        "temple"
+      ],
+      "links": [
+        {
+          "article": "regles-verite-v7-daemon-nature-fonctions-divinites-facettes",
+          "label": "Pour choisir tes capacités"
+        },
+        {
+          "article": "verite-v7-daemons-divinites-maisonnees-temples",
+          "label": "Si tu veux connaître ton peuple ou ton milieu"
+        }
+      ],
+      "appeal": "Tu aimes les identités multiples, les souvenirs anciens et les conflits entre attachements actuels et fidélités divines.",
+      "tradeoff": "La divinité, les engagements et les souvenirs ne sont pas qu’un décor : ils peuvent compliquer tes choix. Ce profil ne signifie pas être libre de toute obligation.",
+      "outlook": "Tu as une vie présente et une histoire d’âme plus ancienne. Leur accord ou leur conflit constitue une piste de jeu ; ce n’est pas une personnalité maléfique imposée."
+    },
+    {
+      "id": "angelus",
+      "title": "Angelus",
+      "group": "Traditions de Vérité",
+      "hook": "Un être céleste incarné, partagé entre sa vie terrestre et ses devoirs.",
+      "identity": "Tu peux avoir grandi sur Terre avant de découvrir une mémoire et une appartenance célestes. La personne élevée par ta famille ne s’efface pas au moment de l’Éveil.",
+      "daily": "Ton travail, tes proches et tes convictions coexistent avec des liens envers des puissances célestes. L’Arbre de Vie désigne leur organisation spirituelle et politique ; tu n’as pas besoin d’en mémoriser toute la structure.",
+      "abilities": "Ton lien à un Archange, tes choix de progression et tes faveurs précisent ce que tu peux manifester. La Transcendance concerne le développement de ton état céleste.",
+      "limits": "Être céleste ne rend pas omniscient et ne décide pas de tous tes choix moraux. Se Révéler et employer tes capacités restent des actes encadrés par les règles.",
+      "choices": [
+        "À quel Archange es-tu lié ?",
+        "Quel aspect de ta vie terrestre refuses-tu d’abandonner ?",
+        "Comment réagis-tu lorsqu’un ordre heurte tes convictions ?"
+      ],
+      "team": "Un devoir de protection, une relation personnelle ou un objectif commun peut t’engager aux côtés de compagnons très différents.",
+      "example": "Une soignante Angelus protège un témoin que sa hiérarchie préférerait déplacer loin de sa famille.",
+      "terms": [
+        "angelus",
+        "eveil",
+        "archange",
+        "transcendance"
+      ],
+      "links": [
+        {
+          "article": "regles-verite-v7-angelus-nature-revelation-transcendance",
+          "label": "Pour choisir tes capacités"
+        },
+        {
+          "article": "verite-v7-angelus-elynea-arbre-vie",
+          "label": "Si tu veux connaître ton peuple ou ton milieu"
+        }
+      ],
+      "appeal": "Tu aimes les idéaux difficiles à tenir, les pouvoirs célestes et une vocation confrontée à la vie humaine.",
+      "tradeoff": "Le rapport à la hiérarchie et à la Transcendance doit t’intéresser. Une origine angélique ne rend pas tes décisions automatiquement justes.",
+      "outlook": "Une mission et des souvenirs célestes peuvent te guider. Ton incarnation a aussi ses propres liens : apprendre à écouter les autres fait partie des choix possibles."
+    },
+    {
+      "id": "aseryn",
+      "title": "Aseryn",
+      "group": "Traditions de Vérité",
+      "hook": "Un peuple proche des humains en apparence, avec une perception électrique du monde.",
+      "identity": "Tu appartiens à un peuple terrestre ancien, dont le corps et le système nerveux diffèrent profondément de ceux des humains. Les diasporas aserynes ont développé plusieurs cultures.",
+      "daily": "La ville moderne, ses réseaux et ses appareils ont pour toi une présence sensorielle particulière. Tu peux être pleinement californien et connaître ton héritage surtout par ta famille.",
+      "abilities": "L’Accelyr repose sur une accélération des échanges et de l’activité nerveuse. Tu portes aussi un potentiel lié à la Foudre, dont la maîtrise demande un apprentissage.",
+      "limits": "L’origine et la Tradition sont deux choix différents. Les Traditions des Treize s’enseignent ; elles ne donnent pas automatiquement les mêmes capacités à tous les membres d’une diaspora.",
+      "choices": [
+        "De quelle diaspora vient ta famille ?",
+        "Quelle Tradition as-tu apprise ou veux-tu apprendre ?",
+        "Quelle activité actuelle nourrit ta curiosité ?"
+      ],
+      "team": "Ta perception et ton expérience peuvent aider le groupe sans te cantonner au rôle de technicien.",
+      "example": "Une secouriste aseryne remarque une anomalie électrique avant les autres et cherche pourquoi elle revient au même endroit.",
+      "terms": [
+        "aseryn",
+        "accelyr",
+        "dratyn",
+        "tradition"
+      ],
+      "links": [
+        {
+          "article": "regles-verite-v7-aseryn-nature-accelyr-origines",
+          "label": "Pour choisir tes capacités"
+        },
+        {
+          "article": "verite-v7-aseryns-serathe-atlantide-treize",
+          "label": "Si tu veux connaître ton peuple ou ton milieu"
+        }
+      ],
+      "appeal": "Tu aimes une puissance électrique discrète, les savoirs transmis et un peuple ancien intégré aux sociétés terrestres.",
+      "tradeoff": "L’origine et la Tradition ne donnent pas tous les pouvoirs. Il faut distinguer ton héritage des techniques réellement apprises.",
+      "outlook": "Longévité, transmission et appartenances peuvent influencer ton regard. Les Treize Traditions offrent des cultures différentes ; aucune n’efface ta personne actuelle."
+    },
+    {
+      "id": "elfe",
+      "title": "Elfe · Elyë",
+      "group": "Peuples exilés",
+      "hook": "Une longue mémoire et une affinité avec la magie, au milieu d’une ville contemporaine.",
+      "identity": "Les Elyë sont les Elfes des peuples exilés. Leur histoire vient d’Aèr, mais un personnage peut être né sur Terre et y avoir toutes ses attaches.",
+      "daily": "Ta longévité peut donner une autre profondeur à tes relations et à tes choix. Elle ne te donne pas automatiquement la connaissance de tout le passé.",
+      "abilities": "Ton agilité, ton ambidextrie naturelle et ton accès à des traditions magiques font partie de tes repères.",
+      "limits": "L’affinité elfique ne donne aucun sort gratuit ; être ambidextre ne donne pas une attaque supplémentaire.",
+      "choices": [
+        "Quel souvenir ou lien familial guide tes choix ?",
+        "Es-tu né sur Terre, et qui t’a transmis ton héritage ?",
+        "Quelle compétence exercée au quotidien apportes-tu au groupe ?"
+      ],
+      "team": "Ton peuple ne fixe pas tes alliés. Donne-toi une relation concrète avec au moins un autre personnage.",
+      "example": "Une enquêtrice elyë retrouve dans une affaire actuelle un lieu important pour sa famille.",
+      "terms": [
+        "exile",
+        "aer",
+        "silcenter",
+        "talent"
+      ],
+      "links": [
+        {
+          "article": "regles-verite-v7-exiles-profils-cinq-peuples",
+          "label": "Pour choisir tes capacités"
+        },
+        {
+          "article": "verite-v7-exiles-peuples-silcenters-traditions",
+          "label": "Si tu veux connaître ton peuple ou ton milieu"
+        }
+      ],
+      "appeal": "Tu aimes un héritage ancien, l’agilité et le contraste entre une longue mémoire collective et la ville de 2035.",
+      "tradeoff": "L’accès à certaines pratiques ne donne pas gratuitement des sorts ou des attaques supplémentaires. Un Elfe peut aussi devoir apprendre son propre héritage.",
+      "outlook": "La mémoire d’Aèr peut être entretenue, contestée ou lointaine. Être né sur Terre change le rapport à un monde que tu n’as peut-être jamais connu."
+    },
+    {
+      "id": "nain",
+      "title": "Nain · Whurten",
+      "group": "Peuples exilés",
+      "hook": "Un corps robuste, de la ténacité et des traditions que tu choisis de faire vivre.",
+      "identity": "Les Whurtens sont les Nains des peuples exilés. Leur origine ne décide pas de ton métier ni de ton caractère.",
+      "daily": "Une famille, un clan ou un réseau local peut transmettre des savoirs et attendre ta solidarité. Tu peux aussi vivre loin de ces institutions.",
+      "abilities": "Une physiologie robuste et un sens magnétique forment des particularités naturelles ; les talents appris développent des usages précis.",
+      "limits": "Tu n’es pas automatiquement artisan ou maître des runes. Une tradition s’apprend et son matériel doit être obtenu.",
+      "choices": [
+        "Quelles attentes de ton entourage acceptes-tu ?",
+        "Es-tu né sur Terre, et qui t’a transmis ton héritage ?",
+        "Quelle compétence exercée au quotidien apportes-tu au groupe ?"
+      ],
+      "team": "Ton peuple ne fixe pas tes alliés. Donne-toi une relation concrète avec au moins un autre personnage.",
+      "example": "Une conductrice whurtenne connaît les itinéraires de secours et refuse d’abandonner une équipe isolée.",
+      "terms": [
+        "exile",
+        "aer",
+        "silcenter",
+        "talent"
+      ],
+      "links": [
+        {
+          "article": "regles-verite-v7-exiles-profils-cinq-peuples",
+          "label": "Pour choisir tes capacités"
+        },
+        {
+          "article": "verite-v7-exiles-peuples-silcenters-traditions",
+          "label": "Si tu veux connaître ton peuple ou ton milieu"
+        }
+      ],
+      "appeal": "Tu aimes la ténacité, la solidarité et un personnage qui tient bon quand les choses tournent mal.",
+      "tradeoff": "Tu n’es ni automatiquement artisan ni expert de toute technologie. Choisis une activité et des compétences plutôt qu’un cliché de métier.",
+      "outlook": "Clan, transmission et engagements peuvent servir de repères. Tu peux les incarner dans une expédition, un quartier ou un métier tout à fait contemporain."
+    },
+    {
+      "id": "ashyll",
+      "title": "Ashyll",
+      "group": "Peuples exilés",
+      "hook": "Une petite stature, une ouïe fine et de l’inventivité dans un monde qui te sous-estime.",
+      "identity": "Les Ashylls sont un peuple venu d’Aèr, souvent installé sur Terre depuis des générations. Leur apparence réelle est petite et verte.",
+      "daily": "Tu peux vivre dans n’importe quel milieu social. Tes proches et ton expérience comptent davantage qu’un rôle imposé de voleur ou de bricoleur.",
+      "abilities": "Ta petite morphologie, ton agilité et ton ouïe donnent des approches différentes de celles d’un personnage massif.",
+      "limits": "La discrétion n’est pas l’invisibilité ; une anatomie avantageuse ne remplace ni une compétence ni les conditions d’un talent.",
+      "choices": [
+        "Dans quel domaine veux-tu être reconnu plutôt que sous-estimé ?",
+        "Es-tu né sur Terre, et qui t’a transmis ton héritage ?",
+        "Quelle compétence exercée au quotidien apportes-tu au groupe ?"
+      ],
+      "team": "Ton peuple ne fixe pas tes alliés. Donne-toi une relation concrète avec au moins un autre personnage.",
+      "example": "Une Ashyll régisseuse de théâtre connaît les coulisses et aide le groupe à approcher un témoin.",
+      "terms": [
+        "exile",
+        "aer",
+        "silcenter",
+        "talent"
+      ],
+      "links": [
+        {
+          "article": "regles-verite-v7-exiles-profils-cinq-peuples",
+          "label": "Pour choisir tes capacités"
+        },
+        {
+          "article": "verite-v7-exiles-peuples-silcenters-traditions",
+          "label": "Si tu veux connaître ton peuple ou ton milieu"
+        }
+      ],
+      "appeal": "Tu aimes la mobilité, les perceptions fines et les solutions inventives face à un environnement trop grand.",
+      "tradeoff": "Ton gabarit impose parfois une adaptation du matériel et des lieux. Il ne te donne pas d’emblée toutes les compétences de furtivité.",
+      "outlook": "L’ingéniosité peut s’exprimer dans bien des milieux. Ton peuple ne t’impose ni le vol, ni la plaisanterie permanente, ni une attitude infantile."
+    },
+    {
+      "id": "thulkar",
+      "title": "Thulkar",
+      "group": "Peuples exilés",
+      "hook": "Une présence physique puissante et un rapport important au collectif.",
+      "identity": "Les Thulkars sont de grands humanoïdes verts parmi les peuples exilés. Les Hordes sont des communautés avec des traditions distinctes, pas une unique armée.",
+      "daily": "Ton collectif peut compter énormément : famille, Horde, équipe ou collègues. Cette loyauté peut soutenir tes choix ou entrer en conflit avec eux.",
+      "abilities": "Ta puissance corporelle constitue un atout. Tes formations et tes talents décident ensuite de ta manière d’agir et de combattre.",
+      "limits": "La force ne te réduit pas à la violence. Appartenir à une Horde n’accorde pas toutes ses techniques ni tout son matériel.",
+      "choices": [
+        "À quel collectif es-tu loyal, et pourquoi ?",
+        "Es-tu né sur Terre, et qui t’a transmis ton héritage ?",
+        "Quelle compétence exercée au quotidien apportes-tu au groupe ?"
+      ],
+      "team": "Ton peuple ne fixe pas tes alliés. Donne-toi une relation concrète avec au moins un autre personnage.",
+      "example": "Un pompier thulkar mobilise ses contacts pour retrouver un collègue disparu après une intervention.",
+      "terms": [
+        "exile",
+        "aer",
+        "silcenter",
+        "talent"
+      ],
+      "links": [
+        {
+          "article": "regles-verite-v7-exiles-profils-cinq-peuples",
+          "label": "Pour choisir tes capacités"
+        },
+        {
+          "article": "verite-v7-exiles-peuples-silcenters-traditions",
+          "label": "Si tu veux connaître ton peuple ou ton milieu"
+        }
+      ],
+      "appeal": "Tu aimes la présence physique, la solidarité et le fait d’être celui sur qui les autres peuvent compter.",
+      "tradeoff": "La force n’est pas une réponse universelle. Les techniques de combat et talents particuliers restent des apprentissages.",
+      "outlook": "Les appartenances collectives peuvent compter beaucoup, sans interdire les désaccords ni les parcours individuels. Être Thulkar ne limite pas ton métier au combat."
+    },
+    {
+      "id": "azmenorien",
+      "title": "Azménorien",
+      "group": "Peuples exilés",
+      "hook": "Un héritage mêlant magie et technologie, qui peut nourrir une vie d’aventure.",
+      "identity": "Les Azménoriens appartiennent aux peuples venus d’Aèr. Leur apparence comporte des ailes sombres et ils portent une histoire ancienne liée à la magie et aux techniques.",
+      "daily": "Tu peux être explorateur, enquêteur, soignant ou exercer un autre métier. L’inventivité de ton peuple ne t’oblige pas à passer ta vie dans un atelier.",
+      "abilities": "Ton don magique ouvre l’accès à des apprentissages. Certaines traditions travaillent la rencontre entre magie et technologie.",
+      "limits": "Le don ne fournit aucun sort gratuit et les ailes n’accordent pas un vol libre. L’histoire de ton peuple ne rend pas ses prouesses anciennes accessibles à un personnage débutant.",
+      "choices": [
+        "Quelle découverte vaut pour toi de prendre des risques ?",
+        "Es-tu né sur Terre, et qui t’a transmis ton héritage ?",
+        "Quelle compétence exercée au quotidien apportes-tu au groupe ?"
+      ],
+      "team": "Ton peuple ne fixe pas tes alliés. Donne-toi une relation concrète avec au moins un autre personnage.",
+      "example": "Une exploratrice azménorienne enquête sur une installation abandonnée avant qu’une corporation ne la récupère.",
+      "terms": [
+        "exile",
+        "aer",
+        "silcenter",
+        "talent"
+      ],
+      "links": [
+        {
+          "article": "regles-verite-v7-exiles-profils-cinq-peuples",
+          "label": "Pour choisir tes capacités"
+        },
+        {
+          "article": "verite-v7-exiles-peuples-silcenters-traditions",
+          "label": "Si tu veux connaître ton peuple ou ton milieu"
+        }
+      ],
+      "appeal": "Tu aimes l’aventure, l’exploration et la rencontre entre magie, technologie et héritage ancien.",
+      "tradeoff": "Tes ailes ne donnent pas automatiquement un vol libre ; ton héritage ne livre pas un catalogue gratuit de machines ou de sorts.",
+      "outlook": "L’inventivité peut donner envie d’explorer autant que de construire. Le poids de l’histoire de ton peuple peut susciter fierté, prudence ou volonté de faire autrement."
+    },
+    {
+      "id": "talass",
+      "title": "Talass",
+      "group": "Peuples galactiques",
+      "hook": "Un petit extraterrestre vert, agile, avec une anatomie très différente de la nôtre.",
+      "identity": "Ton corps possède des segments et peut produire une soie conductrice. Les Talass ne sont pas des humains miniatures : leur physiologie et leurs rapports au corps leur sont propres.",
+      "daily": "Les soins, les relations avec ta communauté et ton identité sous le Voile font partie de ta vie terrestre.",
+      "abilities": "Tes bonds, ton agilité et la soie ouvrent des possibilités de déplacement et d’action.",
+      "limits": "Les segments perdus ne repoussent pas spontanément. Tes capacités concrètes et leurs limites viennent du profil et des talents choisis.",
+      "choices": [
+        "Comment assumes-tu ton individualité au sein de ta communauté ?",
+        "Es-tu né sur Terre ou arrivé plus récemment ?",
+        "Quel lien rend tes compagnons importants pour toi ?"
+      ],
+      "team": "Tu peux apporter une compétence et un regard différents ; tu as aussi besoin de partenaires qui connaissent la ville et ses habitants.",
+      "example": "Un Talass spécialiste des communications cherche qui détourne du matériel destiné à son quartier.",
+      "terms": [
+        "extral",
+        "voile",
+        "gaac",
+        "talent"
+      ],
+      "links": [
+        {
+          "article": "regles-verite-v7-extrals-profils-physiologies",
+          "label": "Pour choisir tes capacités"
+        },
+        {
+          "article": "verite-extrals-talass-detail",
+          "label": "Si tu veux connaître ton peuple ou ton milieu"
+        }
+      ],
+      "appeal": "Tu aimes résoudre des problèmes, jouer un petit extraterrestre mobile et privilégier l’intelligence à l’affrontement.",
+      "tradeoff": "Ton anatomie et tes besoins font partie de la vie sur Terre. Une grande culture scientifique ne remplace pas les compétences de ton personnage.",
+      "outlook": "La culture talass valorise l’intellect et se méfie de la violence : devoir se battre peut apparaître comme l’échec d’une meilleure solution. Il existe aussi des courants radicaux.",
+      "earthPerspective": "Certains visiteurs galactiques regardent la Terre comme un monde primitif, voire un safari sous surveillance. Ce regard condescendant est une possibilité culturelle, pas une vérité sur la valeur des Terriens ni une obligation de personnage. Un résident installé depuis longtemps peut se sentir chez lui ici."
+    },
+    {
+      "id": "mosen",
+      "title": "Mo’sen",
+      "group": "Peuples galactiques",
+      "hook": "Un extraterrestre reptiloïde robuste, dont le corps impose des habitudes particulières.",
+      "identity": "Ton corps porte des écailles et des protections naturelles. Les Mo’sens possèdent leurs propres communautés et une histoire distincte de celle des humains.",
+      "daily": "Ton alimentation et les adaptations de tes équipements peuvent compter dans la vie quotidienne. Une apparence humaine sous le Voile ne rend pas tous tes besoins ordinaires.",
+      "abilities": "Ta robustesse et ta digestion particulière sont des traits corporels ; tes apprentissages précisent leurs usages en jeu.",
+      "limits": "Pouvoir assimiler beaucoup de matières ne te rend pas insensible aux toxines. Toutes les armures ne sont pas adaptées à ton corps.",
+      "choices": [
+        "Quel compromis fais-tu pour vivre parmi les humains ?",
+        "Es-tu né sur Terre ou arrivé plus récemment ?",
+        "Quel lien rend tes compagnons importants pour toi ?"
+      ],
+      "team": "Tu peux apporter une compétence et un regard différents ; tu as aussi besoin de partenaires qui connaissent la ville et ses habitants.",
+      "example": "Une Mo’sen convoyeur veut récupérer une livraison perdue dont dépend un dispensaire.",
+      "terms": [
+        "extral",
+        "voile",
+        "gaac",
+        "talent"
+      ],
+      "links": [
+        {
+          "article": "regles-verite-v7-extrals-profils-physiologies",
+          "label": "Pour choisir tes capacités"
+        },
+        {
+          "article": "verite-extrals-mosens-detail",
+          "label": "Si tu veux connaître ton peuple ou ton milieu"
+        }
+      ],
+      "appeal": "Tu aimes une forte présence reptilienne, la résistance et les questions d’autonomie d’une communauté.",
+      "tradeoff": "La cuirasse et la digestion ne rendent pas invulnérable. Tes alliances et ton matériel comptent autant que ta physiologie.",
+      "outlook": "Une histoire de domination rend la dépendance sensible dans bien des communautés mo’sennes. Certains cherchent l’influence discrète, d’autres une intégration plus transparente.",
+      "earthPerspective": "Certains visiteurs galactiques regardent la Terre comme un monde primitif, voire un safari sous surveillance. Ce regard condescendant est une possibilité culturelle, pas une vérité sur la valeur des Terriens ni une obligation de personnage. Un résident installé depuis longtemps peut se sentir chez lui ici."
+    },
+    {
+      "id": "baseanh",
+      "title": "Baséanh",
+      "group": "Peuples galactiques",
+      "hook": "Un extraterrestre à quatre bras, dont le corps peut entretenir des cultures biologiques.",
+      "identity": "Les Baséanhs ont six yeux et des poches corporelles nommées Tardollas. Ils peuvent y cultiver des organismes ou des substances, notamment utiles en médecine.",
+      "daily": "Entretenir tes cultures et trouver les bons soins donnent une dimension concrète à ta vie terrestre. Tu n’es pas obligé d’être médecin, même si cette spécialité est importante dans ton peuple.",
+      "abilities": "Tes Tardollas et tes capacités biologiques ouvrent des possibilités précises, à choisir et apprendre selon ton profil.",
+      "limits": "Quatre bras ne donnent pas automatiquement des actions supplémentaires. Une culture biologique ne produit pas n’importe quel remède sur demande.",
+      "choices": [
+        "Quel savoir ou quel métier as-tu choisi personnellement ?",
+        "Es-tu né sur Terre ou arrivé plus récemment ?",
+        "Quel lien rend tes compagnons importants pour toi ?"
+      ],
+      "team": "Tu peux apporter une compétence et un regard différents ; tu as aussi besoin de partenaires qui connaissent la ville et ses habitants.",
+      "example": "Un Baséanh soignant enquête sur une souche défectueuse distribuée à plusieurs cliniques.",
+      "terms": [
+        "extral",
+        "voile",
+        "gaac",
+        "talent"
+      ],
+      "links": [
+        {
+          "article": "regles-verite-v7-extrals-profils-physiologies",
+          "label": "Pour choisir tes capacités"
+        },
+        {
+          "article": "verite-extrals-baseanhs-detail",
+          "label": "Si tu veux connaître ton peuple ou ton milieu"
+        }
+      ],
+      "appeal": "Tu aimes la biologie, les corps vraiment extraterrestres et des solutions qui passent par le vivant.",
+      "tradeoff": "Tes préparations demandent connaissances et entretien. Quatre bras ne signifient pas quatre actions gratuites.",
+      "outlook": "Dans cette culture, le corps peut aussi être un lieu de culture biologique et de travail. Soigner ou adapter un habitat peut compter davantage qu’imposer à tous un même environnement.",
+      "earthPerspective": "Certains visiteurs galactiques regardent la Terre comme un monde primitif, voire un safari sous surveillance. Ce regard condescendant est une possibilité culturelle, pas une vérité sur la valeur des Terriens ni une obligation de personnage. Un résident installé depuis longtemps peut se sentir chez lui ici."
+    },
+    {
+      "id": "rocreen",
+      "title": "Rocréen",
+      "group": "Peuples galactiques",
+      "hook": "Un extraterrestre aux nombreux membres, avec une capacité remarquable à se régénérer.",
+      "identity": "Les Rocréens ont un corps très éloigné de l’anatomie humaine et des réseaux communautaires étendus. Leur histoire impériale pèse encore sur leur réputation.",
+      "daily": "Relations, échanges et survie peuvent prendre une place importante. Une réputation collective ne décide pas de ta conduite personnelle ni de tes loyautés.",
+      "abilities": "La régénération est un trait majeur, dont le noyau corporel constitue un élément essentiel. Les règles précisent ce qu’elle permet et à quel rythme.",
+      "limits": "Régénérer ne signifie pas être invulnérable. Les blessures graves peuvent avoir des conséquences particulières, notamment sur la mémoire.",
+      "choices": [
+        "Quel désir personnel te pousse à coopérer avec le groupe ?",
+        "Es-tu né sur Terre ou arrivé plus récemment ?",
+        "Quel lien rend tes compagnons importants pour toi ?"
+      ],
+      "team": "Tu peux apporter une compétence et un regard différents ; tu as aussi besoin de partenaires qui connaissent la ville et ses habitants.",
+      "example": "Un Rocréen négociateur doit retrouver une personne qui détient la preuve d’un marché truqué.",
+      "terms": [
+        "extral",
+        "voile",
+        "gaac",
+        "talent"
+      ],
+      "links": [
+        {
+          "article": "regles-verite-v7-extrals-profils-physiologies",
+          "label": "Pour choisir tes capacités"
+        },
+        {
+          "article": "verite-extrals-rocreens-detail",
+          "label": "Si tu veux connaître ton peuple ou ton milieu"
+        }
+      ],
+      "appeal": "Tu aimes les réseaux, la négociation, la survie et un personnage dont les intérêts personnels peuvent compliquer les alliances.",
+      "tradeoff": "La régénération a des limites et des conséquences. Si tu joues l’égoïsme ou la cruauté, trouve avec la table une vraie raison de coopérer durablement.",
+      "outlook": "L’histoire de prédateurs sociaux et les réseaux clandestins pèsent sur cette culture. Tu peux jouer l’opportunisme sans réduire tous les Rocréens au crime, ni rendre ton personnage injouable en groupe.",
+      "earthPerspective": "Certains visiteurs galactiques regardent la Terre comme un monde primitif, voire un safari sous surveillance. Ce regard condescendant est une possibilité culturelle, pas une vérité sur la valeur des Terriens ni une obligation de personnage. Un résident installé depuis longtemps peut se sentir chez lui ici."
+    },
+    {
+      "id": "thalsios",
+      "title": "Thalsios",
+      "group": "Peuples galactiques",
+      "hook": "Un extraterrestre amphibie, sensible au toucher et à ses conditions de vie.",
+      "identity": "Les Thalsios ont une peau qui doit rester humide et une anatomie adaptée à d’autres milieux que l’air sec des villes terrestres.",
+      "daily": "L’humidité, la qualité de l’air et l’accès aux soins peuvent influencer ton logement et tes habitudes. Tes liens locaux t’aident à vivre dans cet environnement.",
+      "abilities": "Ta sensibilité tactile et ton aptitude amphibie sont deux traits distincts. Les formations techniques de ton milieu peuvent compléter tes propres choix.",
+      "limits": "Être Thalsios ne rend pas automatiquement maître de toutes les machines. Les talents, l’équipement et la compétence restent nécessaires.",
+      "choices": [
+        "Comment assures-tu tes besoins quotidiens sur Terre ?",
+        "Es-tu né sur Terre ou arrivé plus récemment ?",
+        "Quel lien rend tes compagnons importants pour toi ?"
+      ],
+      "team": "Tu peux apporter une compétence et un regard différents ; tu as aussi besoin de partenaires qui connaissent la ville et ses habitants.",
+      "example": "Une Thalsios technicienne cherche à réparer le système d’air d’un immeuble que son propriétaire laisse se dégrader.",
+      "terms": [
+        "extral",
+        "voile",
+        "gaac",
+        "talent"
+      ],
+      "links": [
+        {
+          "article": "regles-verite-v7-extrals-profils-physiologies",
+          "label": "Pour choisir tes capacités"
+        },
+        {
+          "article": "verite-extrals-thalsios-detail",
+          "label": "Si tu veux connaître ton peuple ou ton milieu"
+        }
+      ],
+      "appeal": "Tu aimes les milieux aquatiques, les interventions concrètes et le plaisir de rendre un lieu à nouveau habitable.",
+      "tradeoff": "Humidité et qualité de l’air sont des besoins réels. Être adapté à l’eau ne te rend pas expert de toutes les installations.",
+      "outlook": "Une histoire d’exploitation a donné une place forte au travail et à la résolution des problèmes. Réparer une infrastructure peut être une manière de reprendre du contrôle sur sa vie.",
+      "earthPerspective": "Certains visiteurs galactiques regardent la Terre comme un monde primitif, voire un safari sous surveillance. Ce regard condescendant est une possibilité culturelle, pas une vérité sur la valeur des Terriens ni une obligation de personnage. Un résident installé depuis longtemps peut se sentir chez lui ici."
+    },
+    {
+      "id": "homo-superior",
+      "title": "Homo Superior",
+      "group": "Peuples galactiques",
+      "hook": "Un humain de l’AIDH transformé par la science, confronté aux réalités de la Terre.",
+      "identity": "Tu restes humain. Ton corps a été profondément optimisé par la génétique, des traitements et des nanites : de minuscules dispositifs qui travaillent dans ton organisme. Ce profil est réservé aux humains de l’AIDH ; un habitant de la galaxie n’est pas automatiquement Homo Superior.",
+      "daily": "L’AIDH est une institution militaire qui protège les populations humaines à l’échelle galactique et surveille les séjours extraterrestres sur Terre. Un personnage en service doit situer sa mission, son responsable, son soutien et sa couverture. La plupart de ses soldats présents sur Terre viennent d’ailleurs ; une origine terrestre serait exceptionnelle.",
+      "abilities": "Ton organisme optimisé et tes nanites font partie de toi. Les talents achetés précisent leurs effets. Les patchs tatoués font partie de l’équipement des soldats de l’AIDH ; le Phasage de l’équipement est un talent à 1 PTV, avec 1 PA pour un élément ou 2 PA pour une tenue complète, une armure ou plusieurs éléments, dans les deux sens.",
+      "limits": "Le Voile limite l’expression de tes performances en état Voilé. Les autres états libèrent davantage tes capacités sans te donner une forme monstrueuse. Ta technologie ne détecte pas automatiquement tout le surnaturel. Une appartenance à l’AIDH ne donne pas libre accès à tout son arsenal.",
+      "choices": [
+        "Quelle mission et quelle couverture expliquent ta présence à Los Angeles ?",
+        "Quelle compétence te rend utile au-delà du combat ?",
+        "Pourquoi coopères-tu durablement avec les autres personnages ?"
+      ],
+      "team": "Tes compagnons peuvent connaître les habitants, les traditions occultes ou un terrain que tes capteurs ne suffisent pas à comprendre. Ton personnage peut connaître ses procédures sans que tu aies à apprendre toute l’histoire galactique : le MJ peut te rappeler les informations pertinentes.",
+      "example": "Piste à adapter avec le MJ : tu enquêtes sous couverture sur une disparition. Un membre du groupe connaît le témoin principal ; tu apportes ton entraînement, mais tu dépends de sa confiance et de ses contacts.",
+      "terms": [
+        "aidh",
+        "nanites",
+        "homo-superior",
+        "sfu",
+        "voile",
+        "phasage"
+      ],
+      "links": [
+        {
+          "article": "regles-verite-v7-extrals-organisations-aidh-homo-superior-adrak",
+          "label": "Pour choisir tes capacités"
+        },
+        {
+          "article": "verite-v7-homo-superior-adrak-profils-rares",
+          "label": "Si tu veux connaître ton peuple ou ton milieu"
+        },
+        {
+          "article": "verite-humanite-galactique-aidh",
+          "label": "Pour préciser une mission ou une obligation AIDH"
+        },
+        {
+          "article": "realite-v9-corporation-space-force-union",
+          "label": "Pour connaître la couverture publique : Space Force Union"
+        }
+      ],
+      "appeal": "Tu aimes la science-fiction, les humains augmentés, les missions sous couverture et le décalage entre une civilisation spatiale et la Terre. Cela donne un passé galactique, pas la promesse d’une campagne dans l’espace.",
+      "tradeoff": "Tu as un cadre AIDH, des obligations et des limites d’accès au matériel. Ton approche technologique ne remplace pas la connaissance des traditions occultes ; ce n’est pas le profil le plus direct pour pratiquer la magie.",
+      "outlook": "Un agent peut trouver la Terre provinciale et ses technologies rudimentaires, tout en devant protéger ses habitants. L’AIDH connaît l’existence de la magie et l’étudie comme une « énergie secrète » : méfiance, lecture scientifique ou incompréhension sont plus justes qu’une incapacité obligatoire à y croire.",
+      "earthPerspective": "Certains visiteurs galactiques regardent la Terre comme un monde primitif, voire un safari sous surveillance. Ce regard condescendant est une possibilité culturelle, pas une vérité sur la valeur des Terriens ni une obligation de personnage. Un résident installé depuis longtemps peut se sentir chez lui ici."
+    },
+    {
+      "id": "adrak",
+      "title": "Ad’rak",
+      "group": "Peuples galactiques",
+      "hook": "Un géant extraterrestre qui construit sa vie loin d’un empire oppressif.",
+      "identity": "Tu appartiens à une espèce extrale puissante. Les profils jouables sur Terre correspondent normalement à des réfugiés, des dissidents ou des descendants de communautés libres, plutôt qu’à des loyalistes de l’Armée noire.",
+      "daily": "Ton histoire familiale et les réactions à la réputation de ton peuple peuvent peser sur ta vie. Le Voile facilite la coexistence avec les humains mais ne remplace pas des papiers, un logement ou des liens de confiance.",
+      "abilities": "Ton gabarit et ta puissance physique donnent des possibilités particulières. Les traditions martiales enseignent une discipline ; elles ne se réduisent pas à la brutalité.",
+      "limits": "Cette origine est restreinte et doit être discutée avec le MJ. La réputation de l’Armée noire ne fait pas de tous les Ad’rak ses partisans. Ta force ne donne pas automatiquement accès à tous les arts de ton peuple.",
+      "choices": [
+        "Quelle relation as-tu à l’exil et à ta communauté ?",
+        "Qui t’a appris à employer ta force ?",
+        "Quelle raison te pousse à faire confiance au groupe ?"
+      ],
+      "team": "Une amitié, une protection réciproque ou un engagement local donnent un point de départ plus immédiat que la connaissance de tout l’empire.",
+      "example": "Une Ad’rak protège une communauté de réfugiés et cherche des alliés capables d’enquêter discrètement sur les pressions qu’elle subit.",
+      "terms": [
+        "adrak",
+        "extral",
+        "armee-noire",
+        "voile"
+      ],
+      "links": [
+        {
+          "article": "regles-verite-v7-extrals-organisations-aidh-homo-superior-adrak",
+          "label": "Pour choisir tes capacités"
+        },
+        {
+          "article": "verite-v7-homo-superior-adrak-profils-rares",
+          "label": "Si tu veux connaître ton peuple ou ton milieu"
+        }
+      ],
+      "appeal": "Tu aimes les personnages imposants, la discipline martiale et la construction d’une vie loin d’un empire oppressif.",
+      "tradeoff": "C’est un profil rare à situer avec le MJ. La force et la réputation guerrière ne doivent pas remplacer une raison de vivre et coopérer avec le groupe.",
+      "outlook": "Les traditions guerrières et le sens de l’honneur peuvent rester importants. Un réfugié ou un dissident peut cependant rejeter les idéaux de l’Armée noire qui ont façonné la réputation de son peuple.",
+      "earthPerspective": "Certains visiteurs galactiques regardent la Terre comme un monde primitif, voire un safari sous surveillance. Ce regard condescendant est une possibilité culturelle, pas une vérité sur la valeur des Terriens ni une obligation de personnage. Un résident installé depuis longtemps peut se sentir chez lui ici."
+    }
+  ]
+}

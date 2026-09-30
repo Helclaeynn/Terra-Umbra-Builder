@@ -1,0 +1,646 @@
+{
+  "verite-humanite-galactique-aidh": {
+    "purpose": "Comprendre l’institution à laquelle appartient un Homo Superior et préparer ses obligations.",
+    "essentials": [
+      "L’AIDH protège les populations humaines à l’échelle galactique.",
+      "Elle encadre les présences extraterrestres sur Terre ; Space Force Union est sa couverture publique.",
+      "Pour commencer, situe ta mission, ta couverture et ton interlocuteur. Les détails historiques peuvent attendre."
+    ],
+    "terms": [
+      "aidh",
+      "sfu",
+      "homo-superior"
+    ],
+    "guides": [
+      "homo-superior"
+    ]
+  },
+  "verite-humanite-galactique": {
+    "purpose": "Situer les humains de l’espace et les enjeux particuliers de la Terre.",
+    "essentials": [
+      "Des humains vivent sur d’autres mondes depuis très longtemps.",
+      "La coexistence de magie et de technologie rend la Terre importante et dangereuse aux yeux d’acteurs galactiques.",
+      "Tu peux jouer un humain venu d’ailleurs sans mémoriser la cosmologie et toute l’histoire de sa civilisation."
+    ],
+    "terms": [
+      "humanite-galactique",
+      "manasphere",
+      "magitechnologie"
+    ],
+    "guides": [
+      "homo-superior"
+    ]
+  },
+  "verite-galaxie-histoire-civilisations": {
+    "purpose": "Approfondir l’histoire des civilisations lorsque ton origine ou une aventure la rend utile.",
+    "essentials": [
+      "Ce dossier raconte une histoire longue, avec de nombreux peuples.",
+      "Il sert de référence : il n’est pas nécessaire de retenir tous les noms avant de jouer.",
+      "Commence par ton peuple et ton attache actuelle ; reviens aux événements anciens quand tu en as besoin."
+    ],
+    "terms": [
+      "extral",
+      "aer",
+      "humanite-galactique"
+    ],
+    "guides": []
+  },
+  "verite-humanite-galactique-g-corporations": {
+    "purpose": "Trouver un acteur économique galactique utile à une histoire ou à une mission.",
+    "essentials": [
+      "Ces entreprises agissent à l’échelle des mondes humains de l’espace.",
+      "Elles ne sont pas une liste de contacts que chaque personnage possède déjà.",
+      "Identifie d’abord l’entreprise qui compte pour ton histoire ; les autres restent des références."
+    ],
+    "terms": [
+      "g-corporations",
+      "humanite-galactique",
+      "corporation"
+    ],
+    "guides": [
+      "homo-superior"
+    ]
+  },
+  "verite-v7-voile-hologramme": {
+    "purpose": "Comprendre comment la vie ordinaire et le surnaturel coexistent.",
+    "essentials": [
+      "Réalité et Vérité concernent le même monde.",
+      "Le Voile agit sur la cohérence des corps, des perceptions et des traces ; ce n’est pas une simple illusion.",
+      "Connaître la Vérité ne permet pas de reconnaître automatiquement tous les êtres cachés."
+    ],
+    "terms": [
+      "voile",
+      "hologramme",
+      "revele"
+    ],
+    "guides": []
+  },
+  "verite-v7-derriere-le-voile": {
+    "purpose": "Découvrir ce que recouvre la part cachée du monde.",
+    "essentials": [
+      "Les êtres de Vérité partagent les villes et les vies de 2035.",
+      "Les différentes Natures n’ont ni les mêmes pouvoirs, ni les mêmes cultures.",
+      "Choisir ton personnage ne demande pas de connaître toutes les autres Natures."
+    ],
+    "terms": [
+      "verite",
+      "nature",
+      "extral"
+    ],
+    "guides": []
+  },
+  "verite-v7-habiter-la-verite": {
+    "purpose": "Donner une vie quotidienne à un personnage qui connaît le surnaturel.",
+    "essentials": [
+      "Logement, soins, travail et proches restent des questions concrètes.",
+      "Le Voile ne supprime pas les besoins propres à ton corps.",
+      "Choisis quelques attaches utiles à ta première partie avant de détailler toutes tes appartenances."
+    ],
+    "terms": [
+      "verite",
+      "voile",
+      "silcenter"
+    ],
+    "guides": []
+  },
+  "realite-v9-grande-californie-2035": {
+    "purpose": "Situer le pays et choisir le lieu de vie de ton personnage.",
+    "essentials": [
+      "Tu joues en 2035 dans un pays marqué par la guerre et la reconstruction.",
+      "Villes, enclaves corporatistes et périphéries n’offrent pas les mêmes protections.",
+      "Ton quartier, ton emploi et tes déplacements suffisent à poser tes premiers repères."
+    ],
+    "terms": [
+      "grande-californie",
+      "corporation",
+      "laus"
+    ],
+    "guides": []
+  },
+  "realite-v9-vivre-en-2035": {
+    "purpose": "Comprendre ce que signifie une journée ordinaire dans ce monde.",
+    "essentials": [
+      "Les technologies avancées font déjà partie de la vie publique.",
+      "Le confort et la sécurité dépendent fortement des ressources et du lieu de vie.",
+      "Définis d’abord un revenu, un logement, une personne proche et une difficulté actuelle."
+    ],
+    "terms": [
+      "realite",
+      "holonet",
+      "augmentations"
+    ],
+    "guides": [
+      "humain"
+    ]
+  },
+  "realite-v9-corporations-territoires": {
+    "purpose": "Comprendre pourquoi une entreprise peut aussi organiser un territoire.",
+    "essentials": [
+      "Les corporations ne sont pas seulement des marques : elles possèdent des moyens de sécurité et des zones d’influence.",
+      "Leur protection peut aller avec une forte dépendance.",
+      "Tu n’as besoin de connaître que celles qui touchent ton quartier, ton travail ou l’aventure en cours."
+    ],
+    "terms": [
+      "corporation",
+      "grande-californie"
+    ],
+    "guides": []
+  },
+  "realite-v9-corporation-ushkoll-security-corporation": {
+    "purpose": "Situer un employeur ou un adversaire du secteur de la sécurité.",
+    "essentials": [
+      "Ushkoll est une corporation publique de sécurité et de mercenariat.",
+      "Travailler avec elle ne signifie pas appartenir à l’AIDH.",
+      "Lis ses activités en fonction du rôle qu’elle joue dans ton histoire."
+    ],
+    "terms": [
+      "ushkoll",
+      "corporation",
+      "aidh"
+    ],
+    "guides": []
+  },
+  "realite-v9-corporation-space-force-union": {
+    "purpose": "Distinguer l’entreprise connue du public de son rôle dans la Vérité.",
+    "essentials": [
+      "Space Force Union intervient publiquement dans le secteur spatial.",
+      "Elle est la couverture terrestre de l’AIDH.",
+      "Les civils connaissent la corporation ; ils ne connaissent pas automatiquement les activités cachées de l’AIDH."
+    ],
+    "terms": [
+      "sfu",
+      "aidh",
+      "realite"
+    ],
+    "guides": [
+      "homo-superior"
+    ]
+  },
+  "regles-moteur-de-jeu": {
+    "purpose": "Comprendre comment résoudre les actions et suivre un personnage en jeu.",
+    "essentials": [
+      "Le joueur décrit ce que son personnage essaie de faire ; les règles et le MJ déterminent comment résoudre l’action.",
+      "Les compétences, les talents et l’équipement ne jouent pas tous le même rôle.",
+      "Commence par la résolution des tests ; reviens aux règles détaillées quand la situation les demande."
+    ],
+    "terms": [
+      "mj",
+      "pj",
+      "talent",
+      "pa"
+    ],
+    "guides": []
+  },
+  "regles-verite-v7-chasseurs-doctrine-association-gt-hunt": {
+    "purpose": "Comprendre les règles du profil Chasseur.",
+    "essentials": [
+      "Tu restes humain.",
+      "Ta tradition guide les talents que tu apprends.",
+      "Tu ne reconnais pas automatiquement les créatures Voilées."
+    ],
+    "terms": [
+      "chasseur",
+      "voile",
+      "talent"
+    ],
+    "guides": [
+      "chasseur"
+    ]
+  },
+  "verite-v7-chasseurs-doctrine-association-traditions": {
+    "purpose": "Comprendre les origines et les appartenances du profil Chasseur.",
+    "essentials": [
+      "Tu restes humain.",
+      "Ta tradition guide les talents que tu apprends.",
+      "Tu ne reconnais pas automatiquement les créatures Voilées."
+    ],
+    "terms": [
+      "chasseur",
+      "voile",
+      "talent"
+    ],
+    "guides": [
+      "chasseur"
+    ]
+  },
+  "regles-verite-v7-vampire-nature-predation-cours": {
+    "purpose": "Comprendre les règles du profil Vampire.",
+    "essentials": [
+      "Tu appartiens à une lignée vampirique.",
+      "Ton Sang noir désigne un héritage de lignée ; tes talents précisent les pouvoirs que tu maîtrises.",
+      "Ton héritage ne te donne pas tous les pouvoirs du catalogue."
+    ],
+    "terms": [
+      "sang-noir",
+      "cour",
+      "maison",
+      "voile"
+    ],
+    "guides": [
+      "vampire"
+    ]
+  },
+  "verite-v7-vampires-civilisation-cours-sangs": {
+    "purpose": "Comprendre les origines et les appartenances du profil Vampire.",
+    "essentials": [
+      "Tu appartiens à une lignée vampirique.",
+      "Ton Sang noir désigne un héritage de lignée ; tes talents précisent les pouvoirs que tu maîtrises.",
+      "Ton héritage ne te donne pas tous les pouvoirs du catalogue."
+    ],
+    "terms": [
+      "sang-noir",
+      "cour",
+      "maison",
+      "voile"
+    ],
+    "guides": [
+      "vampire"
+    ]
+  },
+  "regles-verite-v7-garou-nature-formes-frenesie-pelages": {
+    "purpose": "Comprendre les règles du profil Garou.",
+    "essentials": [
+      "Tu descends d’une ancienne famille de changeformes appelée Khinae.",
+      "La Mue est le passage entre tes formes.",
+      "Changer de forme et gérer la Frénésie suivent des règles précises."
+    ],
+    "terms": [
+      "mue",
+      "frenesie",
+      "pelage",
+      "sang-vif"
+    ],
+    "guides": [
+      "garou"
+    ]
+  },
+  "verite-v7-garous-khinae-meutes-pelages": {
+    "purpose": "Comprendre les origines et les appartenances du profil Garou.",
+    "essentials": [
+      "Tu descends d’une ancienne famille de changeformes appelée Khinae.",
+      "La Mue est le passage entre tes formes.",
+      "Changer de forme et gérer la Frénésie suivent des règles précises."
+    ],
+    "terms": [
+      "mue",
+      "frenesie",
+      "pelage",
+      "sang-vif"
+    ],
+    "guides": [
+      "garou"
+    ]
+  },
+  "regles-verite-v7-khinae-moteur-lignees": {
+    "purpose": "Comprendre les règles du profil Autre descendant de Khinae.",
+    "essentials": [
+      "Les loups ne sont qu’une branche de cette famille.",
+      "Tu peux apprendre à utiliser plusieurs formes et les capacités de ta lignée.",
+      "Les Pelages et les instincts de meute lupins ne s’appliquent pas automatiquement."
+    ],
+    "terms": [
+      "khinae",
+      "mue",
+      "sang-vif"
+    ],
+    "guides": [
+      "khinae"
+    ]
+  },
+  "verite-v7-descendants-khinae": {
+    "purpose": "Comprendre les origines et les appartenances du profil Autre descendant de Khinae.",
+    "essentials": [
+      "Les loups ne sont qu’une branche de cette famille.",
+      "Tu peux apprendre à utiliser plusieurs formes et les capacités de ta lignée.",
+      "Les Pelages et les instincts de meute lupins ne s’appliquent pas automatiquement."
+    ],
+    "terms": [
+      "khinae",
+      "mue",
+      "sang-vif"
+    ],
+    "guides": [
+      "khinae"
+    ]
+  },
+  "regles-verite-v7-mage-maitrise-amplitude-lancement": {
+    "purpose": "Comprendre les règles du profil Mage.",
+    "essentials": [
+      "Ton Mageius est ce qui te permet de pratiquer la magie.",
+      "Choisis d’abord une Affinité dominante : un domaine que tu pratiques particulièrement.",
+      "Une idée de sort n’est pas une réussite automatique."
+    ],
+    "terms": [
+      "mageius",
+      "affinite",
+      "roue",
+      "loge"
+    ],
+    "guides": [
+      "mage"
+    ]
+  },
+  "verite-v7-mages-mageius-roue-loges": {
+    "purpose": "Comprendre les origines et les appartenances du profil Mage.",
+    "essentials": [
+      "Ton Mageius est ce qui te permet de pratiquer la magie.",
+      "Choisis d’abord une Affinité dominante : un domaine que tu pratiques particulièrement.",
+      "Une idée de sort n’est pas une réussite automatique."
+    ],
+    "terms": [
+      "mageius",
+      "affinite",
+      "roue",
+      "loge"
+    ],
+    "guides": [
+      "mage"
+    ]
+  },
+  "regles-verite-v7-daemon-nature-fonctions-divinites-facettes": {
+    "purpose": "Comprendre les règles du profil Daemon.",
+    "essentials": [
+      "Ton âme a déjà vécu puis a été choisie et transformée par une divinité.",
+      "Tes capacités et tes faveurs dépendent de ta divinité et de ta progression.",
+      "Daemon ne veut pas dire automatiquement malveillant, ni humain possédé par un étranger."
+    ],
+    "terms": [
+      "daemon",
+      "eveil",
+      "maisonnee",
+      "temple"
+    ],
+    "guides": [
+      "daemon"
+    ]
+  },
+  "verite-v7-daemons-divinites-maisonnees-temples": {
+    "purpose": "Comprendre les origines et les appartenances du profil Daemon.",
+    "essentials": [
+      "Ton âme a déjà vécu puis a été choisie et transformée par une divinité.",
+      "Tes capacités et tes faveurs dépendent de ta divinité et de ta progression.",
+      "Daemon ne veut pas dire automatiquement malveillant, ni humain possédé par un étranger."
+    ],
+    "terms": [
+      "daemon",
+      "eveil",
+      "maisonnee",
+      "temple"
+    ],
+    "guides": [
+      "daemon"
+    ]
+  },
+  "regles-verite-v7-angelus-nature-revelation-transcendance": {
+    "purpose": "Comprendre les règles du profil Angelus.",
+    "essentials": [
+      "Tu peux avoir grandi sur Terre avant de découvrir une mémoire et une appartenance célestes.",
+      "Ton lien à un Archange, tes choix de progression et tes faveurs précisent ce que tu peux manifester.",
+      "Être céleste ne rend pas omniscient et ne décide pas de tous tes choix moraux."
+    ],
+    "terms": [
+      "angelus",
+      "eveil",
+      "archange",
+      "transcendance"
+    ],
+    "guides": [
+      "angelus"
+    ]
+  },
+  "verite-v7-angelus-elynea-arbre-vie": {
+    "purpose": "Comprendre les origines et les appartenances du profil Angelus.",
+    "essentials": [
+      "Tu peux avoir grandi sur Terre avant de découvrir une mémoire et une appartenance célestes.",
+      "Ton lien à un Archange, tes choix de progression et tes faveurs précisent ce que tu peux manifester.",
+      "Être céleste ne rend pas omniscient et ne décide pas de tous tes choix moraux."
+    ],
+    "terms": [
+      "angelus",
+      "eveil",
+      "archange",
+      "transcendance"
+    ],
+    "guides": [
+      "angelus"
+    ]
+  },
+  "regles-verite-v7-aseryn-nature-accelyr-origines": {
+    "purpose": "Comprendre les règles du profil Aseryn.",
+    "essentials": [
+      "Tu appartiens à un peuple terrestre ancien, dont le corps et le système nerveux diffèrent profondément de ceux des humains.",
+      "L’Accelyr repose sur une accélération des échanges et de l’activité nerveuse.",
+      "L’origine et la Tradition sont deux choix différents."
+    ],
+    "terms": [
+      "aseryn",
+      "accelyr",
+      "dratyn",
+      "tradition"
+    ],
+    "guides": [
+      "aseryn"
+    ]
+  },
+  "verite-v7-aseryns-serathe-atlantide-treize": {
+    "purpose": "Comprendre les origines et les appartenances du profil Aseryn.",
+    "essentials": [
+      "Tu appartiens à un peuple terrestre ancien, dont le corps et le système nerveux diffèrent profondément de ceux des humains.",
+      "L’Accelyr repose sur une accélération des échanges et de l’activité nerveuse.",
+      "L’origine et la Tradition sont deux choix différents."
+    ],
+    "terms": [
+      "aseryn",
+      "accelyr",
+      "dratyn",
+      "tradition"
+    ],
+    "guides": [
+      "aseryn"
+    ]
+  },
+  "regles-verite-v7-exiles-profils-cinq-peuples": {
+    "purpose": "Approfondir les capacités et le milieu de ton personnage, après avoir choisi ce que tu veux jouer.",
+    "essentials": [
+      "Les cinq peuples exilés viennent d’Aèr ; leurs membres peuvent être nés sur Terre depuis plusieurs générations.",
+      "Leur héritage ne leur impose pas une profession ou une personnalité.",
+      "Les dons naturels se distinguent des techniques et talents qu’il faut apprendre."
+    ],
+    "terms": [
+      "exile",
+      "aer",
+      "silcenter",
+      "talent"
+    ],
+    "guides": [
+      "elfe",
+      "nain",
+      "ashyll",
+      "thulkar",
+      "azmenorien"
+    ]
+  },
+  "verite-v7-exiles-peuples-silcenters-traditions": {
+    "purpose": "Approfondir les capacités et le milieu de ton personnage, après avoir choisi ce que tu veux jouer.",
+    "essentials": [
+      "Les cinq peuples exilés viennent d’Aèr ; leurs membres peuvent être nés sur Terre depuis plusieurs générations.",
+      "Leur héritage ne leur impose pas une profession ou une personnalité.",
+      "Les dons naturels se distinguent des techniques et talents qu’il faut apprendre."
+    ],
+    "terms": [
+      "exile",
+      "aer",
+      "silcenter",
+      "talent"
+    ],
+    "guides": [
+      "elfe",
+      "nain",
+      "ashyll",
+      "thulkar",
+      "azmenorien"
+    ]
+  },
+  "regles-verite-v7-extrals-profils-physiologies": {
+    "purpose": "Approfondir les capacités et le milieu de ton personnage, après avoir choisi ce que tu veux jouer.",
+    "essentials": [
+      "Les cinq grandes espèces présentes sur Terre ont des corps, des besoins et des cultures différents.",
+      "Le GAAC les représente ; il ne remplace pas leurs communautés ni leurs choix personnels.",
+      "Le Voile facilite leur présence sans supprimer les besoins biologiques ni fournir tout le matériel nécessaire."
+    ],
+    "terms": [
+      "extral",
+      "voile",
+      "gaac",
+      "talent"
+    ],
+    "guides": [
+      "talass",
+      "mosen",
+      "baseanh",
+      "rocreen",
+      "thalsios"
+    ]
+  },
+  "verite-extrals-talass-detail": {
+    "purpose": "Comprendre les origines et les appartenances du profil Talass.",
+    "essentials": [
+      "Ton corps possède des segments et peut produire une soie conductrice.",
+      "Tes bonds, ton agilité et la soie ouvrent des possibilités de déplacement et d’action..",
+      "Les segments perdus ne repoussent pas spontanément."
+    ],
+    "terms": [
+      "extral",
+      "voile",
+      "gaac",
+      "talent"
+    ],
+    "guides": [
+      "talass"
+    ]
+  },
+  "verite-extrals-mosens-detail": {
+    "purpose": "Comprendre les origines et les appartenances du profil Mo’sen.",
+    "essentials": [
+      "Ton corps porte des écailles et des protections naturelles.",
+      "Ta robustesse et ta digestion particulière sont des traits corporels ; tes apprentissages précisent leurs usages en jeu..",
+      "Pouvoir assimiler beaucoup de matières ne te rend pas insensible aux toxines."
+    ],
+    "terms": [
+      "extral",
+      "voile",
+      "gaac",
+      "talent"
+    ],
+    "guides": [
+      "mosen"
+    ]
+  },
+  "verite-extrals-baseanhs-detail": {
+    "purpose": "Comprendre les origines et les appartenances du profil Baséanh.",
+    "essentials": [
+      "Les Baséanhs ont six yeux et des poches corporelles nommées Tardollas.",
+      "Tes Tardollas et tes capacités biologiques ouvrent des possibilités précises, à choisir et apprendre selon ton profil..",
+      "Quatre bras ne donnent pas automatiquement des actions supplémentaires."
+    ],
+    "terms": [
+      "extral",
+      "voile",
+      "gaac",
+      "talent"
+    ],
+    "guides": [
+      "baseanh"
+    ]
+  },
+  "verite-extrals-rocreens-detail": {
+    "purpose": "Comprendre les origines et les appartenances du profil Rocréen.",
+    "essentials": [
+      "Les Rocréens ont un corps très éloigné de l’anatomie humaine et des réseaux communautaires étendus.",
+      "La régénération est un trait majeur, dont le noyau corporel constitue un élément essentiel.",
+      "Régénérer ne signifie pas être invulnérable."
+    ],
+    "terms": [
+      "extral",
+      "voile",
+      "gaac",
+      "talent"
+    ],
+    "guides": [
+      "rocreen"
+    ]
+  },
+  "verite-extrals-thalsios-detail": {
+    "purpose": "Comprendre les origines et les appartenances du profil Thalsios.",
+    "essentials": [
+      "Les Thalsios ont une peau qui doit rester humide et une anatomie adaptée à d’autres milieux que l’air sec des villes terrestres..",
+      "Ta sensibilité tactile et ton aptitude amphibie sont deux traits distincts.",
+      "Être Thalsios ne rend pas automatiquement maître de toutes les machines."
+    ],
+    "terms": [
+      "extral",
+      "voile",
+      "gaac",
+      "talent"
+    ],
+    "guides": [
+      "thalsios"
+    ]
+  },
+  "regles-verite-v7-extrals-organisations-aidh-homo-superior-adrak": {
+    "purpose": "Approfondir les capacités et le milieu de ton personnage, après avoir choisi ce que tu veux jouer.",
+    "essentials": [
+      "L’Homo Superior reste un humain : ce programme d’optimisation est réservé à l’AIDH.",
+      "L’Ad’rak appartient à une espèce extraterrestre ; les personnages joueurs sont surtout issus de communautés libres ou réfugiées.",
+      "Ces deux profils rares demandent de situer clairement leur présence sur Terre avec le MJ."
+    ],
+    "terms": [
+      "aidh",
+      "nanites",
+      "homo-superior",
+      "sfu"
+    ],
+    "guides": [
+      "homo-superior",
+      "adrak"
+    ]
+  },
+  "verite-v7-homo-superior-adrak-profils-rares": {
+    "purpose": "Approfondir les capacités et le milieu de ton personnage, après avoir choisi ce que tu veux jouer.",
+    "essentials": [
+      "L’Homo Superior reste un humain : ce programme d’optimisation est réservé à l’AIDH.",
+      "L’Ad’rak appartient à une espèce extraterrestre ; les personnages joueurs sont surtout issus de communautés libres ou réfugiées.",
+      "Ces deux profils rares demandent de situer clairement leur présence sur Terre avec le MJ."
+    ],
+    "terms": [
+      "aidh",
+      "nanites",
+      "homo-superior",
+      "sfu"
+    ],
+    "guides": [
+      "homo-superior",
+      "adrak"
+    ]
+  }
+}

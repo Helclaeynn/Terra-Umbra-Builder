@@ -1,0 +1,614 @@
+[
+  {
+    "id": "realite",
+    "label": "Réalité",
+    "definition": "Le monde tel qu’il est publiquement connu en 2035 : ses habitants, ses institutions et ses technologies. Le surnaturel y demeure masqué.",
+    "article": "realite-v9-vivre-en-2035",
+    "aliases": []
+  },
+  {
+    "id": "verite",
+    "label": "Vérité",
+    "definition": "La part cachée du même monde : peuples surnaturels, extraterrestres, pouvoirs et sociétés que la plupart des humains ne reconnaissent pas.",
+    "article": "verite-v7-derriere-le-voile",
+    "aliases": []
+  },
+  {
+    "id": "voile",
+    "label": "Voile",
+    "definition": "Nom courant de l’Hologramme et de ses effets : il rend le surnaturel compatible avec la vie ordinaire, en agissant sur les corps, les perceptions et les traces. Ce n’est pas seulement un déguisement visuel.",
+    "article": "verite-v7-voile-hologramme",
+    "aliases": []
+  },
+  {
+    "id": "hologramme",
+    "label": "Hologramme",
+    "definition": "Dispositif qui maintient une version cohérente du monde ordinaire malgré les présences surnaturelles. Il ne supprime pas automatiquement les blessures, les dégâts ni toutes les conséquences d’un événement.",
+    "article": "verite-v7-voile-hologramme",
+    "aliases": []
+  },
+  {
+    "id": "voile-etat",
+    "label": "Voilé (V)",
+    "definition": "État dans lequel une Nature reste traduite et limitée par le Voile. Savoir que la Vérité existe ne fait pas automatiquement sortir de cet état.",
+    "article": "regles-verite-v7-voile-continuite-objets-reseaux-interfaces",
+    "aliases": [
+      "V",
+      "état voilé"
+    ]
+  },
+  {
+    "id": "semi-revele",
+    "label": "Semi-Révélé (SR)",
+    "definition": "État intermédiaire qui laisse s’exprimer certaines capacités d’une Nature. Les effets précis dépendent de son profil ; ce n’est pas une vision universelle du surnaturel.",
+    "article": "regles-verite-v7-voile-continuite-objets-reseaux-interfaces",
+    "aliases": [
+      "SR",
+      "semi révélation"
+    ]
+  },
+  {
+    "id": "revele",
+    "label": "Révélé (R)",
+    "definition": "État où une Nature exprime plus complètement ses capacités. La transformation, les bonus et les limites varient selon le profil ; ce n’est pas la même chose que connaître la Vérité.",
+    "article": "regles-verite-v7-voile-continuite-objets-reseaux-interfaces",
+    "aliases": [
+      "R",
+      "révélation"
+    ]
+  },
+  {
+    "id": "nature",
+    "label": "Nature",
+    "definition": "Le profil qui décrit une origine ou des possibilités particulières du personnage : Vampire, Mage, peuple exilé, etc. Il ne choisit pas à lui seul sa personnalité ou sa profession.",
+    "article": "verite-v7-derriere-le-voile",
+    "aliases": []
+  },
+  {
+    "id": "eveil",
+    "label": "Éveil",
+    "definition": "Découverte ou activation d’un héritage jusque-là latent. Ses circonstances varient selon la Nature ; il ne faut pas le confondre avec le passage temporaire à l’état Révélé.",
+    "article": "verite-v7-derriere-le-voile",
+    "aliases": []
+  },
+  {
+    "id": "mj",
+    "label": "MJ",
+    "definition": "Meneur ou meneuse de jeu : la personne qui présente les situations, joue les autres habitants du monde et arbitre les règles avec la table.",
+    "article": "regles-moteur-de-jeu",
+    "aliases": [
+      "meneur",
+      "meneuse"
+    ]
+  },
+  {
+    "id": "pj",
+    "label": "PJ",
+    "definition": "Personnage joueur : le personnage incarné par l’un des participants. Ses connaissances peuvent dépasser celles du joueur ; le MJ peut rappeler les informations utiles.",
+    "article": "regles-moteur-de-jeu",
+    "aliases": [
+      "personnage joueur"
+    ]
+  },
+  {
+    "id": "talent",
+    "label": "Talent",
+    "definition": "Capacité particulière acquise par un personnage. Son texte précise ce qu’elle permet, ses conditions et ses éventuels coûts ; connaître son nom ne donne pas son effet.",
+    "article": "regles-moteur-de-jeu",
+    "aliases": []
+  },
+  {
+    "id": "pa",
+    "label": "PA",
+    "definition": "Points d’action : la ressource qui sert à payer les actions pendant un affrontement. Les coûts des capacités précisent combien en dépenser.",
+    "article": "regles-moteur-de-jeu",
+    "aliases": [
+      "points d’action"
+    ]
+  },
+  {
+    "id": "pv",
+    "label": "PV",
+    "definition": "Points de vie : la valeur utilisée pour suivre les blessures et l’état physique du personnage.",
+    "article": "regles-moteur-de-jeu",
+    "aliases": [
+      "points de vie"
+    ]
+  },
+  {
+    "id": "ptv",
+    "label": "PTV",
+    "definition": "Points de Vérité : des points utilisés pour acquérir des capacités de Vérité. Leur dépense ne fournit pas automatiquement les objets ou le matériel associés.",
+    "article": "regles-verite-v7-equipement-proprietes-acquisition",
+    "aliases": [
+      "points de vérité"
+    ]
+  },
+  {
+    "id": "xp",
+    "label": "XP",
+    "definition": "Points d’expérience : la ressource de progression utilisée pour améliorer les capacités prévues par les règles.",
+    "article": "regles-moteur-de-jeu",
+    "aliases": [
+      "expérience"
+    ]
+  },
+  {
+    "id": "grande-californie",
+    "label": "Grande Californie",
+    "definition": "Pays de 2035 issu des bouleversements de l’ancien territoire américain. Los Angeles en est un centre politique majeur ; ses villes, territoires corporatistes et périphéries ont des conditions de vie très différentes.",
+    "article": "realite-v9-grande-californie-2035",
+    "aliases": [
+      "Californie"
+    ]
+  },
+  {
+    "id": "corporation",
+    "label": "Corporation",
+    "definition": "Grande entreprise disposant d’un poids politique et territorial. Ses quartiers, services et forces de sécurité peuvent organiser une grande partie de la vie de ses salariés.",
+    "article": "realite-v9-corporations-territoires",
+    "aliases": [
+      "corpo"
+    ]
+  },
+  {
+    "id": "laus",
+    "label": "LAUS",
+    "definition": "Force de sécurité publique de Los Angeles. Son rôle se distingue des sécurités privées des corporations et des autorités qui gèrent leurs propres territoires.",
+    "article": "realite-v9-los-angeles-laus-securites",
+    "aliases": []
+  },
+  {
+    "id": "holonet",
+    "label": "Holonet",
+    "definition": "Réseau de communication et d’expériences numériques de la société de 2035. On y travaille, échange, se divertit et construit aussi sa réputation.",
+    "article": "realite-v9-holonet-medias-culture-identite",
+    "aliases": []
+  },
+  {
+    "id": "augmentations",
+    "label": "Augmentations",
+    "definition": "Modifications technologiques ou biologiques du corps. Certaines appartiennent déjà à la vie publique de 2035 ; elles ne signalent donc pas automatiquement une Nature surnaturelle.",
+    "article": "realite-v9-vivre-en-2035",
+    "aliases": [
+      "implants",
+      "cybernétique"
+    ]
+  },
+  {
+    "id": "chasseur",
+    "label": "Chasseur",
+    "definition": "Humain reconnu et formé pour agir face aux menaces surnaturelles. Cette reconnaissance stabilise ses souvenirs, sans lui donner une détection automatique de toutes les créatures.",
+    "article": "verite-v7-chasseurs-doctrine-association-traditions",
+    "aliases": []
+  },
+  {
+    "id": "sang-noir",
+    "label": "Sang noir",
+    "definition": "Héritage de lignée vampirique, associé à des particularités et à des capacités. À distinguer de la Cour et de la Maison, qui sont des appartenances sociales.",
+    "article": "verite-v7-vampires-civilisation-cours-sangs",
+    "aliases": []
+  },
+  {
+    "id": "cour",
+    "label": "Cour vampirique",
+    "definition": "Grand ensemble politique et culturel de la société vampirique. Elle n’est pas la même chose que la lignée biologique ou le cercle local du personnage.",
+    "article": "verite-v7-vampires-civilisation-cours-sangs",
+    "aliases": [
+      "cour"
+    ]
+  },
+  {
+    "id": "maison",
+    "label": "Maison vampirique",
+    "definition": "Groupe d’appartenance plus proche dans la société vampirique, avec ses relations et ses obligations. À distinguer de la Cour et du Sang noir.",
+    "article": "verite-v7-vampires-civilisation-cours-sangs",
+    "aliases": [
+      "maison"
+    ]
+  },
+  {
+    "id": "khinae",
+    "label": "Khinae",
+    "definition": "Ancienne famille de changeformes dont les Garous sont une branche. Les autres lignées n’ont pas forcément leurs formes, leurs Pelages ni leurs habitudes de meute.",
+    "article": "verite-v7-descendants-khinae",
+    "aliases": [
+      "thérianthrope",
+      "changeforme"
+    ]
+  },
+  {
+    "id": "mue",
+    "label": "Mue",
+    "definition": "Changement de forme d’un Garou ou d’un autre descendant de Khinae. Ses coûts et effets dépendent des règles du profil.",
+    "article": "regles-verite-v7-garou-nature-formes-frenesie-pelages",
+    "aliases": []
+  },
+  {
+    "id": "frenesie",
+    "label": "Frénésie",
+    "definition": "État de débordement instinctif encadré par les règles des changeformes. Ce n’est pas un choix libre de puissance sans conséquences.",
+    "article": "regles-verite-v7-garou-nature-formes-frenesie-pelages",
+    "aliases": []
+  },
+  {
+    "id": "pelage",
+    "label": "Pelage",
+    "definition": "Héritage garou qui donne des repères de lignée et de tradition. Le terme ne désigne pas seulement la couleur du poil.",
+    "article": "verite-v7-garous-khinae-meutes-pelages",
+    "aliases": []
+  },
+  {
+    "id": "sang-vif",
+    "label": "Sang vif",
+    "definition": "Héritage particulier que peut porter et éveiller un Garou. Les règles distinguent ce qui est natif de ce qui a été éveillé.",
+    "article": "verite-v7-garous-khinae-meutes-pelages",
+    "aliases": [
+      "sangs vifs"
+    ]
+  },
+  {
+    "id": "mageius",
+    "label": "Mageius",
+    "definition": "Structure magique liée au Mage, qui relie sa volonté à la magie. Ce n’est ni une réserve de mana, ni une personne enfermée dans son corps.",
+    "article": "verite-v7-mages-mageius-roue-loges",
+    "aliases": []
+  },
+  {
+    "id": "affinite",
+    "label": "Affinité",
+    "definition": "Domaine de magie avec lequel un Mage a un lien particulier. Une Affinité non éveillée reste utilisable, mais avec des limites de puissance et une difficulté accrue.",
+    "article": "regles-verite-v7-mage-maitrise-amplitude-lancement",
+    "aliases": []
+  },
+  {
+    "id": "roue",
+    "label": "Roue magique",
+    "definition": "Organisation des domaines de magie et de leurs relations. Elle aide à situer le Mageius, les Affinités et l’apprentissage d’un Mage.",
+    "article": "verite-v7-mages-mageius-roue-loges",
+    "aliases": [
+      "roue de Mageius"
+    ]
+  },
+  {
+    "id": "loge",
+    "label": "Loge",
+    "definition": "Communauté de Mages qui organise notamment l’apprentissage, les relations et les ressources. Elle peut fournir du soutien et demander des engagements.",
+    "article": "verite-v7-mages-mageius-roue-loges",
+    "aliases": []
+  },
+  {
+    "id": "daemon",
+    "label": "Daemon",
+    "definition": "Être dont l’âme a vécu, été choisie et transformée par une divinité, puis s’est incarnée dans une nouvelle vie. Il n’est pas automatiquement maléfique ou possédé.",
+    "article": "verite-v7-daemons-divinites-maisonnees-temples",
+    "aliases": [
+      "démon"
+    ]
+  },
+  {
+    "id": "maisonnee",
+    "label": "Maisonnée",
+    "definition": "Cercle de vie et d’appartenance daemon. Les liens personnels y comptent ; ce n’est pas simplement un autre nom pour un Temple.",
+    "article": "verite-v7-daemons-divinites-maisonnees-temples",
+    "aliases": []
+  },
+  {
+    "id": "temple",
+    "label": "Temple daemon",
+    "definition": "Institution liée à une divinité, avec ses pratiques et ses engagements. Son rôle dépasse celui d’un simple bâtiment de culte.",
+    "article": "verite-v7-daemons-divinites-maisonnees-temples",
+    "aliases": []
+  },
+  {
+    "id": "angelus",
+    "label": "Angelus",
+    "definition": "Être d’origine céleste incarné dans une vie terrestre. Son éveil peut faire revenir des souvenirs et une vocation qui coexistent avec ses attaches actuelles.",
+    "article": "verite-v7-angelus-elynea-arbre-vie",
+    "aliases": [
+      "ange"
+    ]
+  },
+  {
+    "id": "archange",
+    "label": "Archange",
+    "definition": "Figure céleste à laquelle se rattachent des orientations et des dons des Angelus. Le lien à un Archange ne donne pas gratuitement tous ses talents.",
+    "article": "verite-v7-angelus-elynea-arbre-vie",
+    "aliases": []
+  },
+  {
+    "id": "transcendance",
+    "label": "Transcendance",
+    "definition": "Notion qui suit le rapport d’un Angelus à sa condition céleste. Ses effets et sa progression sont définis par les règles de cette Nature.",
+    "article": "regles-verite-v7-angelus-nature-revelation-transcendance",
+    "aliases": []
+  },
+  {
+    "id": "aseryn",
+    "label": "Aseryn",
+    "definition": "Membre d’un peuple terrestre ancien, d’apparence humaine mais doté d’une physiologie et de capacités particulières liées notamment à l’électricité.",
+    "article": "verite-v7-aseryns-serathe-atlantide-treize",
+    "aliases": []
+  },
+  {
+    "id": "accelyr",
+    "label": "Accelyr",
+    "definition": "Fonctionnement interne aseryn qui permet notamment une communication nerveuse accélérée et une perception électromagnétique.",
+    "article": "verite-v7-aseryns-serathe-atlantide-treize",
+    "aliases": []
+  },
+  {
+    "id": "dratyn",
+    "label": "Dratyn",
+    "definition": "Technique ou discipline aseryn apprise. Elle se distingue de l’origine du personnage et de ses aptitudes naturelles.",
+    "article": "regles-verite-v7-aseryn-nature-accelyr-origines",
+    "aliases": []
+  },
+  {
+    "id": "tradition",
+    "label": "Tradition",
+    "definition": "Ensemble de pratiques et d’enseignements transmis par un milieu. Selon la Nature, elle ouvre des apprentissages précis ; elle ne donne pas tous ses talents à la naissance.",
+    "article": "verite-v7-derriere-le-voile",
+    "aliases": []
+  },
+  {
+    "id": "exile",
+    "label": "Exilé",
+    "definition": "Membre d’un des peuples originaires d’Aèr installés sur Terre : Elfes, Nains, Ashylls, Thulkars et Azménoriens. Il peut être né sur Terre depuis plusieurs générations.",
+    "article": "verite-v7-exiles-peuples-silcenters-traditions",
+    "aliases": [
+      "exilés"
+    ]
+  },
+  {
+    "id": "aer",
+    "label": "Aèr",
+    "definition": "Monde d’origine des peuples exilés. Son histoire continue de marquer leurs cultures, même lorsqu’ils vivent depuis longtemps sur Terre.",
+    "article": "verite-v7-exiles-peuples-silcenters-traditions",
+    "aliases": []
+  },
+  {
+    "id": "silcenter",
+    "label": "Silcenter",
+    "definition": "Lieu de rassemblement et de relais pour les communautés exilées. On peut y trouver des liens, des savoirs et une transmission culturelle.",
+    "article": "verite-v7-exiles-peuples-silcenters-traditions",
+    "aliases": [
+      "silcenters"
+    ]
+  },
+  {
+    "id": "extral",
+    "label": "Extral",
+    "definition": "Extraterrestre issu d’une civilisation d’un autre monde. À distinguer des Exilés d’Aèr ; il n’existe pas une culture ni une technologie unique pour tous les Extrals.",
+    "article": "verite-v7-extrals-gaac-aidh-diasporas",
+    "aliases": [
+      "extraterrestre",
+      "alien",
+      "extrals"
+    ]
+  },
+  {
+    "id": "gaac",
+    "label": "GAAC",
+    "definition": "Global Alliance of Alien Citizens : instance de représentation et d’intégration légale des communautés extraterrestres sur Terre. Elle ne constitue pas un gouvernement unique de toutes les espèces.",
+    "article": "verite-v7-extrals-gaac-aidh-diasporas",
+    "aliases": []
+  },
+  {
+    "id": "aidh",
+    "label": "AIDH",
+    "definition": "Institution galactique de protection des populations humaines. Sur Terre, elle encadre aussi les présences extraterrestres. Elle dispose de moyens avancés sans tout connaître ni tout contrôler.",
+    "article": "verite-humanite-galactique-aidh",
+    "aliases": []
+  },
+  {
+    "id": "homo-superior",
+    "label": "Homo Superior",
+    "definition": "Humain de l’AIDH profondément optimisé par la génétique, les nanites et le conditionnement. Il reste humain ; ce n’est ni une espèce alien ni le profil de tous les humains galactiques.",
+    "article": "verite-v7-homo-superior-adrak-profils-rares",
+    "aliases": [
+      "homo supérior"
+    ]
+  },
+  {
+    "id": "nanites",
+    "label": "Nanites",
+    "definition": "Minuscules dispositifs technologiques intégrés à l’organisme des soldats de l’AIDH. Leurs effets jouables dépendent des capacités effectivement acquises.",
+    "article": "verite-humanite-galactique-aidh",
+    "aliases": [
+      "essaim",
+      "essaim de nanites"
+    ]
+  },
+  {
+    "id": "sfu",
+    "label": "Space Force Union",
+    "definition": "Corporation publique du secteur spatial qui sert de couverture terrestre à l’AIDH. Le grand public connaît cette façade, pas toute l’institution qu’elle dissimule.",
+    "article": "realite-v9-corporation-space-force-union",
+    "aliases": [
+      "SFU"
+    ]
+  },
+  {
+    "id": "phasage",
+    "label": "Phasage de l’équipement",
+    "definition": "Talent technologique de l’Homo Superior permettant de faire apparaître ou disparaître l’équipement associé. Acquisition : 1 PTV ; activation : 1 PA pour un élément, 2 PA pour un ensemble.",
+    "article": "regles-verite-v7-extrals-organisations-aidh-homo-superior-adrak",
+    "aliases": [
+      "déphasage",
+      "patchs tatoués"
+    ]
+  },
+  {
+    "id": "adrak",
+    "label": "Ad’rak",
+    "definition": "Espèce extrale de géants à la peau bleue. Sur Terre, les profils jouables sont surtout des réfugiés, dissidents ou descendants de communautés libres.",
+    "article": "verite-v7-homo-superior-adrak-profils-rares",
+    "aliases": [
+      "Adrak",
+      "Ad’raks"
+    ]
+  },
+  {
+    "id": "armee-noire",
+    "label": "Armée noire",
+    "definition": "Puissance ad’rak tyrannique et expansionniste. Son emprise sur une grande part de l’espèce ne signifie pas que tous les Ad’rak la soutiennent.",
+    "article": "verite-v7-homo-superior-adrak-profils-rares",
+    "aliases": []
+  },
+  {
+    "id": "humanite-galactique",
+    "label": "Humanité galactique",
+    "definition": "Les populations humaines vivant au-delà de la Terre, avec leurs mondes et leurs histoires. L’AIDH est une institution de cet ensemble ; tous ces humains ne sont pas des soldats.",
+    "article": "verite-humanite-galactique",
+    "aliases": []
+  },
+  {
+    "id": "magitechnologie",
+    "label": "Magitechnologie",
+    "definition": "Usage conjoint de procédés technologiques et de magie. Leurs possibilités et leurs risques dépassent ceux d’une technologie ordinaire ; l’AIDH s’interdit cette voie.",
+    "article": "verite-humanite-galactique",
+    "aliases": [
+      "technomagie"
+    ]
+  },
+  {
+    "id": "corruption",
+    "label": "Corruption",
+    "definition": "Altération suivie par les règles de Vérité, avec des effets sur l’intégrité et les risques de bascule. Elle ne se réduit pas à une étiquette morale de « méchant ».",
+    "article": "regles-verite-v7-corruption-integrite-bascule",
+    "aliases": []
+  },
+  {
+    "id": "ombremonde",
+    "label": "Ombremonde",
+    "definition": "Part du monde qui n’est pas contenue de la même manière dans la dimension protégée par l’Hologramme. Plus riche en magie, elle n’est pas un passage sans danger.",
+    "article": "verite-v7-voile-hologramme",
+    "aliases": [
+      "Ombre-monde"
+    ]
+  },
+  {
+    "id": "manasphere",
+    "label": "Manasphère",
+    "definition": "Enveloppe magique d’un monde suffisamment riche en magie. Sa présence rend les lois naturelles plus variables et peut compliquer l’emploi des moyens purement technologiques.",
+    "article": "verite-humanite-galactique",
+    "aliases": []
+  },
+  {
+    "id": "g-corporations",
+    "label": "G-corporations",
+    "definition": "Grandes corporations de l’espace humain galactique. Leur échelle et leurs intérêts dépassent ceux des seules entreprises présentes publiquement sur Terre.",
+    "article": "verite-humanite-galactique-g-corporations",
+    "aliases": [
+      "G corporations"
+    ]
+  },
+  {
+    "id": "ushkoll",
+    "label": "Ushkoll",
+    "definition": "Corporation de sécurité et de mercenariat de Grande Californie. Elle appartient au paysage public des entreprises et ne se confond pas avec l’AIDH.",
+    "article": "realite-v9-corporation-ushkoll-security-corporation",
+    "aliases": [
+      "Ushkoll Security Corporation"
+    ]
+  },
+  {
+    "id": "humain",
+    "label": "Humain",
+    "definition": "Tu es un habitant de 2035. Tu peux être soignant, enquêteur, chauffeur, scientifique, employé ou indépendant. Tu n’as pas besoin d’une origine surnaturelle pour prendre part à une aventure.",
+    "article": "realite-v9-vivre-en-2035",
+    "aliases": []
+  },
+  {
+    "id": "vampire",
+    "label": "Vampire",
+    "definition": "Tu appartiens à une lignée vampirique. Les Vampires de Terra Umbra sont vivants : il ne faut pas leur appliquer automatiquement toutes les conventions des films ou d’autres jeux.",
+    "article": "verite-v7-vampires-civilisation-cours-sangs",
+    "aliases": []
+  },
+  {
+    "id": "garou",
+    "label": "Garou",
+    "definition": "Tu descends d’une ancienne famille de changeformes appelée Khinae. Cet héritage n’est pas une infection et ne se transmet pas par morsure. Il peut s’éveiller dans une famille qui se croyait humaine.",
+    "article": "verite-v7-garous-khinae-meutes-pelages",
+    "aliases": []
+  },
+  {
+    "id": "mage",
+    "label": "Mage",
+    "definition": "Ton Mageius est ce qui te permet de pratiquer la magie. Son type te donne un point de départ sur la Roue magique, qui organise les domaines de magie et leurs relations.",
+    "article": "verite-v7-mages-mageius-roue-loges",
+    "aliases": []
+  },
+  {
+    "id": "elfe",
+    "label": "Elfe · Elyë",
+    "definition": "Les Elyë sont les Elfes des peuples exilés. Leur histoire vient d’Aèr, mais un personnage peut être né sur Terre et y avoir toutes ses attaches.",
+    "article": "verite-v7-exiles-peuples-silcenters-traditions",
+    "aliases": []
+  },
+  {
+    "id": "nain",
+    "label": "Nain · Whurten",
+    "definition": "Les Whurtens sont les Nains des peuples exilés. Leur origine ne décide pas de ton métier ni de ton caractère.",
+    "article": "verite-v7-exiles-peuples-silcenters-traditions",
+    "aliases": []
+  },
+  {
+    "id": "ashyll",
+    "label": "Ashyll",
+    "definition": "Les Ashylls sont un peuple venu d’Aèr, souvent installé sur Terre depuis des générations. Leur apparence réelle est petite et verte.",
+    "article": "verite-v7-exiles-peuples-silcenters-traditions",
+    "aliases": []
+  },
+  {
+    "id": "thulkar",
+    "label": "Thulkar",
+    "definition": "Les Thulkars sont de grands humanoïdes verts parmi les peuples exilés. Les Hordes sont des communautés avec des traditions distinctes, pas une unique armée.",
+    "article": "verite-v7-exiles-peuples-silcenters-traditions",
+    "aliases": []
+  },
+  {
+    "id": "azmenorien",
+    "label": "Azménorien",
+    "definition": "Les Azménoriens appartiennent aux peuples venus d’Aèr. Leur apparence comporte des ailes sombres et ils portent une histoire ancienne liée à la magie et aux techniques.",
+    "article": "verite-v7-exiles-peuples-silcenters-traditions",
+    "aliases": []
+  },
+  {
+    "id": "talass",
+    "label": "Talass",
+    "definition": "Ton corps possède des segments et peut produire une soie conductrice. Les Talass ne sont pas des humains miniatures : leur physiologie et leurs rapports au corps leur sont propres.",
+    "article": "verite-extrals-talass-detail",
+    "aliases": []
+  },
+  {
+    "id": "mosen",
+    "label": "Mo’sen",
+    "definition": "Ton corps porte des écailles et des protections naturelles. Les Mo’sens possèdent leurs propres communautés et une histoire distincte de celle des humains.",
+    "article": "verite-extrals-mosens-detail",
+    "aliases": []
+  },
+  {
+    "id": "baseanh",
+    "label": "Baséanh",
+    "definition": "Les Baséanhs ont six yeux et des poches corporelles nommées Tardollas. Ils peuvent y cultiver des organismes ou des substances, notamment utiles en médecine.",
+    "article": "verite-extrals-baseanhs-detail",
+    "aliases": []
+  },
+  {
+    "id": "rocreen",
+    "label": "Rocréen",
+    "definition": "Les Rocréens ont un corps très éloigné de l’anatomie humaine et des réseaux communautaires étendus. Leur histoire impériale pèse encore sur leur réputation.",
+    "article": "verite-extrals-rocreens-detail",
+    "aliases": []
+  },
+  {
+    "id": "thalsios",
+    "label": "Thalsios",
+    "definition": "Les Thalsios ont une peau qui doit rester humide et une anatomie adaptée à d’autres milieux que l’air sec des villes terrestres.",
+    "article": "verite-extrals-thalsios-detail",
+    "aliases": []
+  }
+]
