@@ -87,6 +87,11 @@ jobs:
           set -euo pipefail
           npm install --no-save --package-lock=false playwright-core@1.55.0
           export CHROME_BIN="$(command -v google-chrome || command -v chromium)"
+          npx vite preview --host 127.0.0.1 --port 4173 >/tmp/tuc-exile-preview.log 2>&1 &
+          pid=$!; trap 'kill "$pid" 2>/dev/null || true' EXIT
+          for n in $(seq 1 30); do curl -fsS http://127.0.0.1:4173/ >/dev/null && break; sleep 1; done
+          export TUC_V2_SMOKE_BASE_URL=http://127.0.0.1:4173
+          node tests/truth-guided-builder-browser.mjs
           node tests/character-evolution-browser.mjs
           node tests/aseryn-browser.mjs
           node tests/mage-browser.mjs
@@ -94,12 +99,7 @@ jobs:
           node tests/angelus-browser.mjs
           node tests/extral-browser.mjs
           node tests/exile-browser.mjs
-          npx vite preview --host 127.0.0.1 --port 4173 >/tmp/tuc-exile-preview.log 2>&1 &
-          pid=$!; trap 'kill "$pid" 2>/dev/null || true' EXIT
-          for n in $(seq 1 30); do curl -fsS http://127.0.0.1:4173/ >/dev/null && break; sleep 1; done
-          export TUC_V2_SMOKE_BASE_URL=http://127.0.0.1:4173
           node tests/builder-v2-smoke.mjs
-          node tests/truth-guided-builder-browser.mjs
           node tests/campaigns-smoke.mjs
       - name: Bind release to exact tested source and reject concurrent changes
         id: publish
