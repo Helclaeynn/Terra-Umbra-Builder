@@ -8,7 +8,7 @@ const router=createRouter({
   scrollBehavior(to, from, savedPosition) {
     if (savedPosition) return savedPosition;
     if (to.path === '/decouvrir' && ['#cadre','#milieu','#choisir','#regles','#suite'].includes(to.hash)) return { el: to.hash, top: 24 };
-    if (to.path.startsWith('/decouvrir/') && ['#envie','#regard','#quotidien','#capacites','#regles','#preparer','#approfondir','#corpo','#crawler','#gouvernemental','#religieux','#pegre','#suite','#start-main'].includes(to.hash)) return { el: to.hash, top: 24 };
+    if (to.path.startsWith('/decouvrir/') && ['#envie','#pression','#regard','#quotidien','#capacites','#regles','#preparer','#approfondir','#corpo','#crawler','#gouvernemental','#religieux','#pegre','#suite','#start-main'].includes(to.hash)) return { el: to.hash, top: 24 };
     if (to.path === '/atlas' && to.hash === '#cartes-classiques') return { el: to.hash, top: 16 };
     if (to.path === '/atlas' && to.query.map !== from.query.map) return { top: 0, left: 0 };
     // The account view scrolls to this section after its asynchronous user data renders.
@@ -18,6 +18,7 @@ const router=createRouter({
   },
   routes:[
     { path:"/decouvrir", component:()=>import("./pages/PlayerStartPage.vue") },
+    { path:"/decouvrir/realite/:milieu", component:()=>import("./pages/RealityStartPage.vue") },
     { path:"/decouvrir/realite", component:()=>import("./pages/RealityStartPage.vue") },
     { path:"/decouvrir/:guide", component:()=>import("./pages/PlayerStartPage.vue") },
     { path:"/glossaire", component:()=>import("./pages/GlossaryPage.vue") },
@@ -41,6 +42,7 @@ const router=createRouter({
 });
 
 router.beforeEach((to)=>{
+  if (to.path === '/decouvrir/realite' && ['#corpo','#crawler','#gouvernemental','#religieux','#pegre'].includes(to.hash)) return `/decouvrir/realite/${to.hash.slice(1)}`;
   if ((to.path === '/' || to.path === '/compendium') && !to.query.article && (to.query.view === 'guide' || to.query.start === '1')) return '/decouvrir';
   // Stay in the router: a forced document reload also fires beforeunload and
   // asks a second time after an already-approved leave guard.
