@@ -35,3 +35,8 @@ s.choices.lineage='serpents';s.choices.variant='constricteur';p=m.khinaeBodyProf
 s.choices.lineage='berserkirs';s.choices.variant='brun';p=m.khinaeBodyProfile(pkg,s,'hybrid');assert.deepEqual([p.vigor,p.damage,p.armor],[5,6,3]);
 s.choices.lineage='crocodiliens';s.choices.variant='nil';p=m.khinaeBodyProfile(pkg,s,'hybrid');assert.deepEqual([p.damage,p.armor,p.agility],[6,4,0]);assert.equal(m.khinaeBodyProfile(pkg,s,'hybrid',true).agility,2);
 console.log('KHINAE WEB OK — 136 stable entries, exact dependencies, ordered 3 PTV awakenings, both advanced voies, secondary Jayanti, retained purchases and replace-only variants');
+
+for(const nature of Object.keys(pkg.structure.natures).filter(n=>!['garou','khinae'].includes(n))){
+ const state={...blank(nature),truthTalents:(pkg.catalogs[nature]??[]).slice(0,3).map(t=>t.id)};
+ assert.deepEqual(m.khinaeUnavailable(pkg,state),[],nature+' must never receive Khinae warnings');
+}
