@@ -1,15 +1,12 @@
 <script setup lang="ts">
-import ExileOptions from "../components/builder/ExileOptions.vue";
-import BeneficiaryBenefits from "../components/builder/BeneficiaryBenefits.vue";
+import TruthBuildChoices from "../components/builder/TruthBuildChoices.vue";
+import TruthTrainingChoices from "../components/builder/TruthTrainingChoices.vue";
+import {truthBuildChoiceLabel,truthHasInnateBuildChoice} from "../lib/truth-build-guidance";
 import {exileOwnedItems,exileUsableTalents,normalizeExileBuild,normalizeBeneficiaryBenefits,type ExileBuild,type BeneficiaryBenefits as BeneficiaryState} from "../lib/exile";
-import ExtralOptions from "../components/builder/ExtralOptions.vue";
 import {normalizeExtralBuild,extralOwnedItems,type ExtralBuild} from "../lib/extral";
 import {truthKnownTalents} from "../lib/truth";
-import AngelusOptions from "../components/builder/AngelusOptions.vue";
 import {normalizeAngelusBuild,type AngelusBuild} from "../lib/angelus";
-import DaemonOptions from "../components/builder/DaemonOptions.vue";
 import {normalizeDaemonBuild,type DaemonBuild} from "../lib/daemon";
-import MageTechniques from "../components/builder/MageTechniques.vue";
 import {normalizeMageTechniques,type MageTechniques as MageTechniqueDefinitions} from "../lib/mage";
 import TruthTalentText from "../components/builder/TruthTalentText.vue";
 import AserynTalentChoices from "../components/builder/AserynTalentChoices.vue";
@@ -1415,6 +1412,14 @@ function setTruthChoice(key:string,value:string){
   writeTruthState(next);
 }
 
+
+const configuredTruthTalent=ref("");
+function setGuidedTruthChoices(patch:Record<string,unknown>){
+ if(!currentTruthState.value)return;
+ const allowed=Object.fromEntries(Object.entries(patch).filter(([key])=>['daemonBuild','angelusBuild','extralBuild','exileBuild','mageTechniques'].includes(key)));
+ writeTruthState({...currentTruthState.value,choices:{...currentTruthState.value.choices,...allowed}});
+}
+
 function setExileBuild(value:ExileBuild){
  if(!currentTruthState.value)return;
  writeTruthState({...currentTruthState.value,choices:{...currentTruthState.value.choices,exileBuild:normalizeExileBuild(value)}});
@@ -2490,9 +2495,8 @@ onBeforeUnmount(()=>{
                 </div>
               </details>
 
-              <AngelusOptions :state="currentTruthState" :rules="truthRules" @change="setAngelusBuild" />
-              <DaemonOptions :state="currentTruthState" :rules="truthRules" @change="setDaemonBuild" />
-              <MageTechniques :state="currentTruthState" :rules="truthRules" @change="setMageTechniques" />
+              <TruthBuildChoices v-if="truthHasInnateBuildChoice(currentTruthState)" :state="currentTruthState" :rules="truthRules" talent-id="innate-spectre" @change="setGuidedTruthChoices" />
+              <TruthTrainingChoices :state="currentTruthState" :rules="truthRules" @change="setGuidedTruthChoices" />
               <section class="truth-talents-section">
                 <div class="subsection-title">
                   <div>
@@ -2518,6 +2522,8 @@ onBeforeUnmount(()=>{
                       <div><strong>{{ talent.name }}</strong><span>{{ talent.cost }} PTV</span></div>
                       <p>{{ talent.effect }}</p>
                       <button type="button" :aria-label="`Retirer ${talent.name}`" @click="toggleTruthTalent(talent)">Retirer</button>
+                      <button v-if="truthBuildChoiceLabel(currentTruthState,talent.id)" type="button" :data-configure-talent="talent.id" @click="configuredTruthTalent=configuredTruthTalent===talent.id?'':talent.id">{{truthBuildChoiceLabel(currentTruthState,talent.id)}}</button>
+                      <TruthBuildChoices v-if="configuredTruthTalent===talent.id" :state="currentTruthState" :rules="truthRules" :talent-id="talent.id" @change="setGuidedTruthChoices" />
                     </article>
                   </div>
                 </div>
@@ -2592,6 +2598,8 @@ onBeforeUnmount(()=>{
                           <small v-if="!truthTalentCanAdd(talent)">{{ !truthTalentPrereqOk(talent) ? 'Prérequis à remplir' : 'PTV disponibles insuffisants' }}</small>
                           <span v-else>Ajouter ce Talent</span>
                         </button>
+                        <button v-if="truthBuildChoiceLabel(currentTruthState,talent.id)" type="button" class="secondary" :data-configure-talent="talent.id" @click="configuredTruthTalent=configuredTruthTalent===talent.id?'':talent.id">{{truthBuildChoiceLabel(currentTruthState,talent.id)}}</button>
+                        <TruthBuildChoices v-if="configuredTruthTalent===talent.id" :state="currentTruthState" :rules="truthRules" :talent-id="talent.id" @change="setGuidedTruthChoices" />
                         <TruthTalentText v-if="talent.effectDetails" :effect="talent.effect" :details="talent.effectDetails" :lore="talent.runtimeLore" :activation="talent.activation" :show-summary="false" />
                       </div>
                     </div>
@@ -2599,9 +2607,6 @@ onBeforeUnmount(()=>{
                 </section>
               </section>
 
-              <ExileOptions v-if="currentTruthState.nature==='exile'" :state="currentTruthState" :rules="truthRules" @change="setExileBuild" />
-              <BeneficiaryBenefits :value="currentTruthState.choices.beneficiaryBenefits" @change="setBeneficiaryBenefits" />
-              <ExtralOptions v-if="currentTruthState.nature==='extral'" :state="currentTruthState" :rules="truthRules" :rewards-locked="campaignRewardsLocked" @change="setExtralBuild" />
               <AserynTalentChoices :state="currentTruthState" @change="setTruthChoice" />
               <TruthEquipmentPanel
                 :model-value="currentTruthState"

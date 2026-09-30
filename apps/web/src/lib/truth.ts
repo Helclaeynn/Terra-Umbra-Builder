@@ -277,11 +277,12 @@ export function truthSanitizeChoices(nature:TruthNature,source:Record<string,unk
     else if(choice.optional&&options.some(option=>option.id==="aucune"))next[choice.key]="aucune";
     else next[choice.key]="";
   }
-  if(nature.id==="exile"&&Object.hasOwn(source,"exileBuild"))return {...next,exileBuild:normalizeExileBuild(source.exileBuild)};
-  if(nature.id==="extral"&&Object.hasOwn(source,"extralBuild"))return {...next,extralBuild:normalizeExtralBuild(source.extralBuild)};
-  if(nature.id==="angelus"&&Object.hasOwn(source,"angelusBuild"))return {...next,angelusBuild:normalizeAngelusBuild(source.angelusBuild)};
-  if(nature.id==="daemon"&&Object.hasOwn(source,"daemonBuild"))return {...next,daemonBuild:normalizeDaemonBuild(source.daemonBuild)};
-  if(nature.id==="mage"&&Object.hasOwn(source,"mageTechniques"))return {...next,mageTechniques:normalizeMageTechniques(source.mageTechniques)};
+  // Retain hidden legacy definitions; whitelisted data never grants access.
+  if(Object.hasOwn(source,"exileBuild"))next.exileBuild=normalizeExileBuild(source.exileBuild);
+  if(Object.hasOwn(source,"extralBuild"))next.extralBuild=normalizeExtralBuild(source.extralBuild);
+  if(Object.hasOwn(source,"angelusBuild"))next.angelusBuild=normalizeAngelusBuild(source.angelusBuild);
+  if(Object.hasOwn(source,"daemonBuild"))next.daemonBuild=normalizeDaemonBuild(source.daemonBuild);
+  if(Object.hasOwn(source,"mageTechniques"))next.mageTechniques=normalizeMageTechniques(source.mageTechniques);
   return nature.id==="aseryn"?{...next,...sanitizeAserynChoices(source)}:next;
 }
 
