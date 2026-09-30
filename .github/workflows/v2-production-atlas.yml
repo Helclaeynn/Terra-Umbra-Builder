@@ -1,4 +1,4 @@
-name: V2 production atlas
+name: V2 production Compendium guides
 on:
   push:
     branches: [feature/tuc-web-v2]
@@ -9,7 +9,7 @@ concurrency:
   group: tuc-v2-production
   cancel-in-progress: false
 env:
-  BASE_SHA: 8728bc24f71fb04af74265429f51ac6ba2a0f6b0
+  BASE_SHA: 7917d7fe91404f03706261ba99b55dc1ac628167
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -21,28 +21,29 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
-      - name: Apply only atlas files to the currently published application
+      - name: Apply only beginner guides and glossary to the published application
         shell: bash
         run: |
           set -euo pipefail
           mkdir -p /tmp/atlas-source /tmp/atlas-release
           git archive "$BASE_SHA" | tar -x -C /tmp/atlas-source
           # No unpublished builder/API changes are included in this web-only release.
-          for path in apps/web/src/main.ts apps/web/src/pages/CompendiumPage.vue apps/web/src/pages/AtlasPage.vue apps/web/src/components/AtlasArticleLinks.vue apps/web/src/components/AtlasArticleMaps.vue apps/web/src/lib/atlas-data.json apps/web/src/lib/atlas-article-maps.json apps/web/src/lib/atlas-static-articles.json apps/web/tests/atlas-data-check.mjs apps/web/tests/compendium-page-dom.mjs apps/web/public/map-assets; do
+          for path in apps/web/src/main.ts apps/web/src/pages/CompendiumPage.vue apps/web/src/components/CompendiumDiscovery.vue apps/web/src/components/ArticleReadingGuide.vue apps/web/src/components/PlayerStartFrame.vue apps/web/src/pages/PlayerStartPage.vue apps/web/src/pages/GlossaryPage.vue apps/web/src/lib/player-start.ts apps/web/src/lib/player-start.json apps/web/src/lib/player-glossary.json apps/web/src/lib/article-reading-guides.json apps/web/src/player-start.css apps/web/tests/player-start-dom.mjs apps/web/tests/compendium-page-dom.mjs; do
             mkdir -p "/tmp/atlas-source/$(dirname "$path")"
             cp -a "$path" "/tmp/atlas-source/$(dirname "$path")/"
           done
-          node --input-type=module -e "import {writeFileSync} from 'node:fs';writeFileSync('/tmp/atlas-source/apps/web/public/build-info.json',JSON.stringify({commit:process.env.GITHUB_SHA,base:process.env.BASE_SHA,release:'atlas-20260930',scope:'web-atlas-only'}));"
+          node --input-type=module -e "import {writeFileSync} from 'node:fs';writeFileSync('/tmp/atlas-source/apps/web/public/build-info.json',JSON.stringify({commit:process.env.GITHUB_SHA,base:process.env.BASE_SHA,release:'onboarding-20260930',scope:'web-compendium-only'}));"
       - name: Compile existing API definitions for the Compendium fixture test
         working-directory: /tmp/atlas-source/apps/api
         run: |
           npm ci
           npx tsc -p tsconfig.json
-      - name: Verify atlas and Compendium against the production base
+      - name: Verify beginner routes, glossary, atlas and Compendium
         working-directory: /tmp/atlas-source/apps/web
         run: |
           npm ci
           npm run build
+          node tests/player-start-dom.mjs
           node tests/atlas-data-check.mjs
           node tests/compendium-navigation-check.mjs
           node tests/compendium-reading-check.mjs

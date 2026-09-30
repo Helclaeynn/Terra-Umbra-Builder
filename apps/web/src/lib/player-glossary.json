@@ -610,5 +610,23 @@
     "definition": "Les Thalsios ont une peau qui doit rester humide et une anatomie adaptée à d’autres milieux que l’air sec des villes terrestres.",
     "article": "verite-extrals-thalsios-detail",
     "aliases": []
+  },
+  {
+    "id": "rationalisation",
+    "label": "Rationaliser la magie",
+    "definition": "Expliquer un phénomène magique avec des notions scientifiques ou techniques familières : prendre un fantôme pour un hologramme, par exemple. C’est l’interprétation du personnage, pas la preuve que l’effet est technologique.",
+    "article": "verite-v7-habiter-la-verite",
+    "aliases": [
+      "rationalisation"
+    ]
+  },
+  {
+    "id": "mystification",
+    "label": "Mystifier la technologie",
+    "definition": "Attribuer une explication magique ou sacrée à une technologie inconnue : voir un sort gravé dans une arme laser, par exemple. Ce réflexe dépend de la culture et de l’expérience du personnage.",
+    "article": "verite-v7-habiter-la-verite",
+    "aliases": [
+      "mystification"
+    ]
   }
 ]

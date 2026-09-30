@@ -562,7 +562,8 @@
         "extral",
         "voile",
         "gaac",
-        "talent"
+        "talent",
+        "rationalisation"
       ],
       "links": [
         {
@@ -577,7 +578,7 @@
       "appeal": "Tu aimes résoudre des problèmes, jouer un petit extraterrestre mobile et privilégier l’intelligence à l’affrontement.",
       "tradeoff": "Ton anatomie et tes besoins font partie de la vie sur Terre. Une grande culture scientifique ne remplace pas les compétences de ton personnage.",
       "outlook": "La culture talass valorise l’intellect et se méfie de la violence : devoir se battre peut apparaître comme l’échec d’une meilleure solution. Il existe aussi des courants radicaux.",
-      "earthPerspective": "Certains visiteurs galactiques regardent la Terre comme un monde primitif, voire un safari sous surveillance. Ce regard condescendant est une possibilité culturelle, pas une vérité sur la valeur des Terriens ni une obligation de personnage. Un résident installé depuis longtemps peut se sentir chez lui ici."
+      "earthPerspective": "Certains visiteurs galactiques voient la Terre comme un monde primitif, voire un safari sous surveillance. Ils rationalisent volontiers l’inconnu : « Ce fantôme ? Un dispositif holographique. Cette magie ? Une décharge de photons. » Leur assurance ne garantit pas que l’explication soit juste. Un résident installé depuis longtemps peut avoir un tout autre regard ; une technologie étrangère peut aussi dérouter un Extral."
     },
     {
       "id": "mosen",
@@ -599,7 +600,8 @@
         "extral",
         "voile",
         "gaac",
-        "talent"
+        "talent",
+        "rationalisation"
       ],
       "links": [
         {
@@ -614,7 +616,7 @@
       "appeal": "Tu aimes une forte présence reptilienne, la résistance et les questions d’autonomie d’une communauté.",
       "tradeoff": "La cuirasse et la digestion ne rendent pas invulnérable. Tes alliances et ton matériel comptent autant que ta physiologie.",
       "outlook": "Une histoire de domination rend la dépendance sensible dans bien des communautés mo’sennes. Certains cherchent l’influence discrète, d’autres une intégration plus transparente.",
-      "earthPerspective": "Certains visiteurs galactiques regardent la Terre comme un monde primitif, voire un safari sous surveillance. Ce regard condescendant est une possibilité culturelle, pas une vérité sur la valeur des Terriens ni une obligation de personnage. Un résident installé depuis longtemps peut se sentir chez lui ici."
+      "earthPerspective": "Certains visiteurs galactiques voient la Terre comme un monde primitif, voire un safari sous surveillance. Ils rationalisent volontiers l’inconnu : « Ce fantôme ? Un dispositif holographique. Cette magie ? Une décharge de photons. » Leur assurance ne garantit pas que l’explication soit juste. Un résident installé depuis longtemps peut avoir un tout autre regard ; une technologie étrangère peut aussi dérouter un Extral."
     },
     {
       "id": "baseanh",
@@ -636,7 +638,8 @@
         "extral",
         "voile",
         "gaac",
-        "talent"
+        "talent",
+        "rationalisation"
       ],
       "links": [
         {
@@ -651,7 +654,7 @@
       "appeal": "Tu aimes la biologie, les corps vraiment extraterrestres et des solutions qui passent par le vivant.",
       "tradeoff": "Tes préparations demandent connaissances et entretien. Quatre bras ne signifient pas quatre actions gratuites.",
       "outlook": "Dans cette culture, le corps peut aussi être un lieu de culture biologique et de travail. Soigner ou adapter un habitat peut compter davantage qu’imposer à tous un même environnement.",
-      "earthPerspective": "Certains visiteurs galactiques regardent la Terre comme un monde primitif, voire un safari sous surveillance. Ce regard condescendant est une possibilité culturelle, pas une vérité sur la valeur des Terriens ni une obligation de personnage. Un résident installé depuis longtemps peut se sentir chez lui ici."
+      "earthPerspective": "Certains visiteurs galactiques voient la Terre comme un monde primitif, voire un safari sous surveillance. Ils rationalisent volontiers l’inconnu : « Ce fantôme ? Un dispositif holographique. Cette magie ? Une décharge de photons. » Leur assurance ne garantit pas que l’explication soit juste. Un résident installé depuis longtemps peut avoir un tout autre regard ; une technologie étrangère peut aussi dérouter un Extral."
     },
     {
       "id": "rocreen",
@@ -673,7 +676,8 @@
         "extral",
         "voile",
         "gaac",
-        "talent"
+        "talent",
+        "rationalisation"
       ],
       "links": [
         {
@@ -688,7 +692,7 @@
       "appeal": "Tu aimes les réseaux, la négociation, la survie et un personnage dont les intérêts personnels peuvent compliquer les alliances.",
       "tradeoff": "La régénération a des limites et des conséquences. Si tu joues l’égoïsme ou la cruauté, trouve avec la table une vraie raison de coopérer durablement.",
       "outlook": "L’histoire de prédateurs sociaux et les réseaux clandestins pèsent sur cette culture. Tu peux jouer l’opportunisme sans réduire tous les Rocréens au crime, ni rendre ton personnage injouable en groupe.",
-      "earthPerspective": "Certains visiteurs galactiques regardent la Terre comme un monde primitif, voire un safari sous surveillance. Ce regard condescendant est une possibilité culturelle, pas une vérité sur la valeur des Terriens ni une obligation de personnage. Un résident installé depuis longtemps peut se sentir chez lui ici."
+      "earthPerspective": "Certains visiteurs galactiques voient la Terre comme un monde primitif, voire un safari sous surveillance. Ils rationalisent volontiers l’inconnu : « Ce fantôme ? Un dispositif holographique. Cette magie ? Une décharge de photons. » Leur assurance ne garantit pas que l’explication soit juste. Un résident installé depuis longtemps peut avoir un tout autre regard ; une technologie étrangère peut aussi dérouter un Extral."
     },
     {
       "id": "thalsios",
@@ -710,7 +714,8 @@
         "extral",
         "voile",
         "gaac",
-        "talent"
+        "talent",
+        "rationalisation"
       ],
       "links": [
         {
@@ -725,7 +730,7 @@
       "appeal": "Tu aimes les milieux aquatiques, les interventions concrètes et le plaisir de rendre un lieu à nouveau habitable.",
       "tradeoff": "Humidité et qualité de l’air sont des besoins réels. Être adapté à l’eau ne te rend pas expert de toutes les installations.",
       "outlook": "Une histoire d’exploitation a donné une place forte au travail et à la résolution des problèmes. Réparer une infrastructure peut être une manière de reprendre du contrôle sur sa vie.",
-      "earthPerspective": "Certains visiteurs galactiques regardent la Terre comme un monde primitif, voire un safari sous surveillance. Ce regard condescendant est une possibilité culturelle, pas une vérité sur la valeur des Terriens ni une obligation de personnage. Un résident installé depuis longtemps peut se sentir chez lui ici."
+      "earthPerspective": "Certains visiteurs galactiques voient la Terre comme un monde primitif, voire un safari sous surveillance. Ils rationalisent volontiers l’inconnu : « Ce fantôme ? Un dispositif holographique. Cette magie ? Une décharge de photons. » Leur assurance ne garantit pas que l’explication soit juste. Un résident installé depuis longtemps peut avoir un tout autre regard ; une technologie étrangère peut aussi dérouter un Extral."
     },
     {
       "id": "homo-superior",
@@ -749,7 +754,8 @@
         "homo-superior",
         "sfu",
         "voile",
-        "phasage"
+        "phasage",
+        "rationalisation"
       ],
       "links": [
         {
@@ -771,8 +777,8 @@
       ],
       "appeal": "Tu aimes la science-fiction, les humains augmentés, les missions sous couverture et le décalage entre une civilisation spatiale et la Terre. Cela donne un passé galactique, pas la promesse d’une campagne dans l’espace.",
       "tradeoff": "Tu as un cadre AIDH, des obligations et des limites d’accès au matériel. Ton approche technologique ne remplace pas la connaissance des traditions occultes ; ce n’est pas le profil le plus direct pour pratiquer la magie.",
-      "outlook": "Un agent peut trouver la Terre provinciale et ses technologies rudimentaires, tout en devant protéger ses habitants. L’AIDH connaît l’existence de la magie et l’étudie comme une « énergie secrète » : méfiance, lecture scientifique ou incompréhension sont plus justes qu’une incapacité obligatoire à y croire.",
-      "earthPerspective": "Certains visiteurs galactiques regardent la Terre comme un monde primitif, voire un safari sous surveillance. Ce regard condescendant est une possibilité culturelle, pas une vérité sur la valeur des Terriens ni une obligation de personnage. Un résident installé depuis longtemps peut se sentir chez lui ici."
+      "outlook": "Un agent peut trouver la Terre provinciale et ses technologies rudimentaires, tout en devant protéger ses habitants. L’AIDH connaît la magie et l’étudie comme une « énergie secrète ». Ton personnage peut admettre les phénomènes observés, refuser de les appeler magiques et leur donner une explication technique — parfois erronée.",
+      "earthPerspective": "Certains visiteurs galactiques voient la Terre comme un monde primitif, voire un safari sous surveillance. Ils rationalisent volontiers l’inconnu : « Ce fantôme ? Un dispositif holographique. Cette magie ? Une décharge de photons. » Leur assurance ne garantit pas que l’explication soit juste. Un résident installé depuis longtemps peut avoir un tout autre regard ; une technologie étrangère peut aussi dérouter un Extral."
     },
     {
       "id": "adrak",
@@ -794,7 +800,8 @@
         "adrak",
         "extral",
         "armee-noire",
-        "voile"
+        "voile",
+        "rationalisation"
       ],
       "links": [
         {
@@ -809,7 +816,22 @@
       "appeal": "Tu aimes les personnages imposants, la discipline martiale et la construction d’une vie loin d’un empire oppressif.",
       "tradeoff": "C’est un profil rare à situer avec le MJ. La force et la réputation guerrière ne doivent pas remplacer une raison de vivre et coopérer avec le groupe.",
       "outlook": "Les traditions guerrières et le sens de l’honneur peuvent rester importants. Un réfugié ou un dissident peut cependant rejeter les idéaux de l’Armée noire qui ont façonné la réputation de son peuple.",
-      "earthPerspective": "Certains visiteurs galactiques regardent la Terre comme un monde primitif, voire un safari sous surveillance. Ce regard condescendant est une possibilité culturelle, pas une vérité sur la valeur des Terriens ni une obligation de personnage. Un résident installé depuis longtemps peut se sentir chez lui ici."
+      "earthPerspective": "Certains visiteurs galactiques voient la Terre comme un monde primitif, voire un safari sous surveillance. Ils rationalisent volontiers l’inconnu : « Ce fantôme ? Un dispositif holographique. Cette magie ? Une décharge de photons. » Leur assurance ne garantit pas que l’explication soit juste. Un résident installé depuis longtemps peut avoir un tout autre regard ; une technologie étrangère peut aussi dérouter un Extral."
     }
-  ]
+  ],
+  "perspectives": {
+    "title": "Deux témoins, deux explications",
+    "text": "Les habitants n’expliquent pas tous l’inconnu de la même façon. Un visiteur galactique peut rationaliser la magie avec son vocabulaire scientifique ; quelqu’un formé à une tradition magique peut mystifier une technologie qu’il ne connaît pas. Ce sont leurs interprétations, qui peuvent être fausses.",
+    "examples": [
+      {
+        "title": "Rationaliser la magie",
+        "text": "« Un fantôme qui traverse un mur ? C’est un dispositif holographique. Votre éclair magique ? Une simple décharge de photons. » Le personnage reconnaît ce qu’il voit, mais peut se tromper sur sa cause."
+      },
+      {
+        "title": "Mystifier la technologie",
+        "text": "« Cette arme projette un rayon : ils ont gravé un sort dedans. » Le personnage explique une machine avec les forces et les pratiques qu’il connaît déjà."
+      }
+    ],
+    "closing": "Ce décalage dépend de l’éducation, de l’expérience et du domaine concerné, pas seulement de l’espèce. Il donne matière à jouer la curiosité, l’arrogance, les malentendus et les découvertes ; il n’oblige pas à contredire ses compagnons en permanence."
+  }
 }
