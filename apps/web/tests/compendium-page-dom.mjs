@@ -7,6 +7,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { inspect } from "node:util";
 import { applyCompendiumPnjStatProfiles } from "../../api/dist/compendium-pnj-stat-profiles.js";
+import { applyBestiaryBalance } from "../../api/dist/compendium-bestiary-balance.js";
 
 const repoRoot = fileURLToPath(new URL("../../../", import.meta.url));
 const webRequire = createRequire(process.env.TUC_WEB_TEST_MODULE_ROOT || new URL("../package.json", import.meta.url));
@@ -46,6 +47,16 @@ const publicArticle = {
   ]
 };
 const fixtures = new Map([cole, ...additionalNpcs, publicArticle].map(article => [article.id, article]));
+const soldato = { id: 'bestiaire-v15-soldato', title: 'Soldato', category: 'Bestiaire', tags: [], sections: [
+  { id: 'description', title: 'Description', blocks: [{ type: 'p', text: 'Professionnel de la violence mafieuse.' }] },
+  { id: 'dossier-mj', title: 'Dossier MJ', audience: 'mj', blocks: [
+    { type: 'p', text: 'MOUVEMENT 8 m • ACTIONS 2 PA • INITIATIVE 1d10e + 8' },
+    { type: 'p', text: 'DÉF. PHYSIQUE 7 (+1d10e active) • DÉF. OCCULTE 7 (+1d10e active) • PV 14 • ARMURE 3' }
+  ] }
+] };
+const bestiaryFixtures = new Map([[soldato.id, soldato]]);
+applyBestiaryBalance(bestiaryFixtures);
+for (const [id, article] of bestiaryFixtures) fixtures.set(id, article);
 const mapArticles = [
   ['realite-v9-grande-californie-2035', 'Grande Californie en 2035', 1],
   ['realite-v9-grande-reserve-detail', 'Grande Réserve', 1],
@@ -208,6 +219,26 @@ async function mount({ role = null, initialRoute = articleUrl(coleId), authDelay
 
 let checks = 0;
 function check(label, verify) { verify(); checks++; console.log("OK", label); }
+for (const role of [null, 'player', 'gm']) {
+  const reader = await mount({role, sendPrivateToUnauthorized: role === 'player', initialRoute: articleUrl(soldato.id, 'rencontres-recommandees')});
+  try {
+    await waitFor(() => reader.authReady() && reader.d.querySelector('.article-header h1'), 'Bestiary loads');
+    if (role === 'gm') {
+      await waitFor(() => reader.d.getElementById('wiki-section-rencontres-recommandees')?.querySelector('details')?.open, 'Targeted encounter section opens');
+      check('MJ : rencontres et références de progression lisibles dans la vraie fiche', () => {
+        const content = reader.d.getElementById('wiki-section-rencontres-recommandees');
+        assert.match(content.textContent, /35 XP \/ 10 PTV/);
+        assert.match(content.textContent, /3 PJ/);assert.match(content.textContent, /6 PJ/);
+        assert(content.querySelector('table'));assert.match(content.textContent, /2 dangereux/);
+        assert.deepEqual(reader.errors, []);
+      });
+    } else check(`${role || 'anonymous'} : aucune recommandation du bestiaire exposée`, () => {
+      assert(!reader.d.body.textContent.includes('MENACE INDIVIDUELLE'));
+      assert.equal(reader.d.getElementById('wiki-section-rencontres-recommandees'), null);
+      assert.deepEqual(reader.errors, []);
+    });
+  } finally { reader.close(); }
+}
 function verifyProfile(reader, sourceProfile = profile) {
   const rendered = reader.d.querySelector(".npc-stat-profile");
   assert(rendered, "Authorized profile uses NPC cards");

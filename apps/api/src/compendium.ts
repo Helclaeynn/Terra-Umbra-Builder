@@ -1,4 +1,5 @@
 import { applyReviewedLoreTaxonomy } from "./compendium-reviewed-lore-taxonomy.js";
+import { applyBestiaryBalance, BESTIARY_BALANCE_VERSION } from "./compendium-bestiary-balance.js";
 import { applyReviewedRuleTaxonomy, repairReviewedAserynOverview } from "./compendium-reviewed-rule-taxonomy.js";
 import { applyReviewedCatalogueBatch01, REVIEWED_CATALOGUE_BATCH_01_TAGS } from "./compendium-reviewed-catalogue-batch-01.js";
 import { applyReviewedCatalogueBatch02, REVIEWED_CATALOGUE_BATCH_02_TAGS } from "./compendium-reviewed-catalogue-batch-02.js";
@@ -3205,6 +3206,7 @@ async function loadCorpus(): Promise<Corpus> {
   addPortraitRefreshArticles(byId, portraitRefresh);
   const refreshedPortraitsById = new Map(portraitRefresh.items.map((item) => [item.id, item]));
 
+  applyBestiaryBalance(byId);
   const overrideSummary = await applyCommittedOverrides(byId, overridePayload);
 
   const customArticles = await pool.query<{ articleId: string; baseDocument: Article }>(
@@ -4335,6 +4337,7 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
     const corpus = await getCorpus();
     return {
       version: corpus.manifest.version,
+      bestiaryBalanceVersion: BESTIARY_BALANCE_VERSION,
       generated: corpus.manifest.generated ?? null,
       total: corpus.articles.length,
       archivedTotal: 0,
