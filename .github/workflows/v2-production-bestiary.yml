@@ -1,5 +1,5 @@
 name: V2 production Bestiary encounters and AIDH access
-# Guided Truth and approved Vampires; retain 320px overflow assertions after fixing structural choice grids.
+# AIDH creation is restricted; an explicitly chosen progression hunter doctrine keeps its equipment.
 on:
   push:
     branches: [feature/tuc-web-v2]

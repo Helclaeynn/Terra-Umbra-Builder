@@ -199,7 +199,8 @@ export type TruthEquipmentAccess={
 };
 
 export function truthEquipmentAccess(item:TruthEquipmentItem,state:TruthState):TruthEquipmentAccess{
-  if(state.nature==="extral"&&stringChoice(state.choices,"species")==="homo_superior"&&!["22","26"].includes(item.chapter)){
+  if(state.nature==="extral"&&stringChoice(state.choices,"species")==="homo_superior"&&!["22","26"].includes(item.chapter)&&
+    !(item.chapter==="23"&&state.mode==="progression"&&selectedHunterDoctrines(state).length>0)){
     return {ok:false,natural:false,reason:"Catalogue AIDH uniquement pour les Homo Superior"};
   }
   if(item.referenceOnly){
@@ -256,7 +257,8 @@ export function truthEquipmentAccess(item:TruthEquipmentItem,state:TruthState):T
 }
 
 export function truthEquipmentVisible(item:TruthEquipmentItem,state:TruthState){
-  if(state.nature==="extral"&&stringChoice(state.choices,"species")==="homo_superior"&&!["22","26"].includes(item.chapter))return false;
+  if(state.nature==="extral"&&stringChoice(state.choices,"species")==="homo_superior"&&!["22","26"].includes(item.chapter)&&
+    !(item.chapter==="23"&&state.mode==="progression"&&selectedHunterDoctrines(state).length>0))return false;
   return item.referenceOnly||truthEquipmentAccess(item,state).ok;
 }
 
