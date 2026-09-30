@@ -131,6 +131,20 @@
           "status": "Phénomène inconnu",
           "limit": "Cette explication peut être fausse ; le Voile contribue à préserver une lecture ordinaire.",
           "context": ""
+        },
+        {
+          "subject": "Les beaux quartiers",
+          "voice": "Leur sécurité privée nous prend pour des menaces. C’est flatteur : jusque-là, leur service de recrutement nous prenait pour rien.",
+          "status": "Opinion du quotidien",
+          "limit": "À rattacher aux rencontres et aux informations accessibles au personnage.",
+          "context": ""
+        },
+        {
+          "subject": "Les donneurs de leçons",
+          "voice": "Il m’expliquera comment vivre dignement quand il aura essayé avec mon salaire. Je lui laisse même le loyer du premier mois.",
+          "status": "Opinion du quotidien",
+          "limit": "À rattacher aux rencontres et aux informations accessibles au personnage.",
+          "context": ""
         }
       ],
       "heritage": "Ton point de départ est une vie que les autres reconnaissent : des papiers, un métier, un logement, des habitudes. Dans cette société, être soignant, chauffeur ou employé d’une corporation te donne déjà accès à des lieux, à des gens et à des problèmes intéressants. Tu n’as pas besoin d’un passé extraordinaire pour avoir quelque chose à perdre.",
@@ -247,6 +261,20 @@
           "status": "Origine ignorée",
           "limit": "Par défaut, il ne sait pas identifier les Extrals ni reconnaître leur technologie.",
           "context": ""
+        },
+        {
+          "subject": "Les chasseurs qui font les malins",
+          "voice": "Son premier monstre, il en a fait un récit de trois heures. Attendons le deuxième avant de lui confier notre dos.",
+          "status": "Rencontre ou réputation de milieu",
+          "limit": "À rattacher aux rencontres et aux informations accessibles au personnage.",
+          "context": ""
+        },
+        {
+          "subject": "Les notables qui veulent étouffer une affaire",
+          "voice": "Ils ne croient pas aux monstres, mais savent immédiatement combien coûte notre silence. Étrange forme d’ignorance.",
+          "status": "Rencontre ou réputation de milieu",
+          "limit": "À rattacher aux rencontres et aux informations accessibles au personnage.",
+          "context": ""
         }
       ],
       "heritage": "La Chasse est une transmission : quelqu’un t’a appris à prendre au sérieux des phénomènes que la plupart des gens écartent. Les traditions proposent des doctrines, des pratiques et parfois des engagements très différents. Ta reconnaissance stabilise tes souvenirs ; elle ne transforme pas chaque soupçon en certitude. Tu peux savoir qu’une menace existe sans savoir la reconnaître dans une foule.",
@@ -289,7 +317,7 @@
       "title": "Vampire",
       "group": "Traditions de Vérité",
       "hook": "Un prédateur vivant, une Maison, des dettes : conserver sa place sans laisser la faim choisir à sa place.",
-      "identity": "Tu appartiens à une lignée vampirique. Les Vampires de Terra Umbra sont vivants : il ne faut pas leur appliquer automatiquement toutes les conventions des films ou d’autres jeux.",
+      "identity": "Tu appartiens à une lignée vampirique. Les Vampires de Terra Umbra sont vivants : il ne faut pas leur appliquer automatiquement toutes les conventions des films ou d’autres jeux. Ta condition porte dès l’origine la corruption d’un Fléau, une puissance corruptrice. Cette marque est un véritable poids de ton héritage : les Daemons et les Angelus détestent les Fléaux et peuvent te traiter avec un mépris féroce lorsqu’ils savent ce que tu es.",
       "daily": "Tu peux avoir un emploi, des habitudes et des relations contemporaines. Ta manière de te nourrir et les personnes qui t’aident à préserver ton secret donnent une place concrète à ta Nature dans ta vie.",
       "abilities": "Ton Sang noir désigne un héritage de lignée ; tes talents précisent les pouvoirs que tu maîtrises. Une Cour est un grand ensemble politique et culturel, une Maison un groupe plus proche.",
       "limits": "Ton héritage ne te donne pas tous les pouvoirs du catalogue. Les contraintes de prédation et les effets de tes choix restent importants même si le Voile masque ton apparence.",
@@ -363,6 +391,20 @@
           "voice": "Une créature cousue par quelque apprenti ? Faites-la entrer par le service. Je tiens à mes invités.",
           "status": "Origine ignorée",
           "limit": "L’existence et l’espèce extraterrestres ne sont généralement pas connues.",
+          "context": ""
+        },
+        {
+          "subject": "Les Daemons",
+          "voice": "Il me regarde comme une souillure. C’est touchant, cette nostalgie d’un monde où son dieu choisissait encore les invités.",
+          "status": "Rencontre ou réputation de milieu",
+          "limit": "À rattacher aux rencontres et aux informations accessibles au personnage.",
+          "context": ""
+        },
+        {
+          "subject": "Les Angelus",
+          "voice": "Mon sang lui répugne et il tient à me le faire savoir. Très bien. Qu’il explique maintenant pourquoi sa mission exige mon aide.",
+          "status": "Rencontre ou réputation de milieu",
+          "limit": "À rattacher aux rencontres et aux informations accessibles au personnage.",
           "context": ""
         }
       ],
@@ -481,6 +523,20 @@
           "status": "Origine ignorée",
           "limit": "Une lecture surnaturelle d’une technologie ne permet pas d’en comprendre le fonctionnement.",
           "context": ""
+        },
+        {
+          "subject": "Les promoteurs",
+          "voice": "Ils ont dessiné un parc sur l’endroit où nous enterrons nos morts. Ils pensent vraiment que des arbres neufs vont régler la conversation.",
+          "status": "Rencontre ou réputation de milieu",
+          "limit": "À rattacher aux rencontres et aux informations accessibles au personnage.",
+          "context": ""
+        },
+        {
+          "subject": "Les beaux parleurs de la meute",
+          "voice": "Il a beaucoup à dire sur la loyauté des autres. La sienne, on l’attend encore au rendez-vous.",
+          "status": "Rencontre ou réputation de milieu",
+          "limit": "À rattacher aux rencontres et aux informations accessibles au personnage.",
+          "context": ""
         }
       ],
       "heritage": "Ton héritage peut apparaître dans une famille qui en avait perdu le souvenir. La meute peut alors fournir un langage, des pratiques et une solidarité pour comprendre ce qui t’arrive. Ton Pelage situe une part de cet héritage ; il ne remplace ni ton histoire familiale ni ton caractère. Le loup est une dimension du personnage, pas l’effacement automatique de sa vie humaine.",
@@ -596,6 +652,20 @@
           "voice": "Si c’est une Mue, quelqu’un a sérieusement raté sa transmission. Je ne vais pas accueillir ça parce que ça a des griffes.",
           "status": "Origine ignorée",
           "limit": "Une ressemblance avec la Mue n’établit pas l’existence d’une lignée Khinae.",
+          "context": ""
+        },
+        {
+          "subject": "Les collectionneurs de choses rares",
+          "voice": "Il a regardé ma peau comme on regarde un manteau. Qu’il approche encore : je lui ferai essayer la doublure.",
+          "status": "Rencontre ou réputation de milieu",
+          "limit": "À rattacher aux rencontres et aux informations accessibles au personnage.",
+          "context": ""
+        },
+        {
+          "subject": "Les chefs autoproclamés",
+          "voice": "Il a senti que j’étais différent et décidé que je devais lui obéir. La deuxième erreur devrait lui coûter plus cher que la première.",
+          "status": "Rencontre ou réputation de milieu",
+          "limit": "À rattacher aux rencontres et aux informations accessibles au personnage.",
           "context": ""
         }
       ],
@@ -714,6 +784,20 @@
           "status": "Origine ignorée",
           "limit": "Un Mage connaît la technologie publique de 2035, mais peut mystifier une technologie galactique inconnue.",
           "context": ""
+        },
+        {
+          "subject": "Les mécènes",
+          "voice": "Il finance un laboratoire et se croit propriétaire de ce qu’on y comprend. Qu’il essaie donc d’acheter le talent qui lui manque.",
+          "status": "Rencontre ou réputation de milieu",
+          "limit": "À rattacher aux rencontres et aux informations accessibles au personnage.",
+          "context": ""
+        },
+        {
+          "subject": "Les disciples pressés",
+          "voice": "Il veut la formule avant de savoir fermer le cercle. Donnez-lui d’abord un balai : au moins, il saura à quoi servent les morceaux de ses prédécesseurs.",
+          "status": "Rencontre ou réputation de milieu",
+          "limit": "À rattacher aux rencontres et aux informations accessibles au personnage.",
+          "context": ""
         }
       ],
       "heritage": "Le Mageius relie ta volonté à la magie. Il porte des affinités et parfois des traces d’anciens porteurs, sans être une réserve de mana ou une personne qui commande ton corps. Une famille de Mages peut transmettre des méthodes et des œuvres autant qu’un héritage de sang ; la filiation peut donc aussi être celle d’un enseignement. La Loge donne un milieu, pas tous les savoirs de la magie.",
@@ -789,9 +873,9 @@
       ],
       "appeal": "Tu aimes les identités multiples, les souvenirs anciens et les conflits entre attachements actuels et fidélités divines.",
       "tradeoff": "La divinité, les engagements et les souvenirs ne sont pas qu’un décor : ils peuvent compliquer tes choix. Ce profil ne signifie pas être libre de toute obligation.",
-      "outlook": "Une ancienne vie peut donner le sentiment d’avoir déjà compris les humains, leurs promesses et leurs petites urgences. Puis une personne de ta vie actuelle compte plus que tous ces raisonnements. Les Maisonnées et les fidélités divines peuvent accueillir ton retour tout en attendant de retrouver celui que tu étais. Tu peux être flatté par cette importance retrouvée ou comprendre qu’on te demande surtout de reprendre un rôle.",
+      "outlook": "Une ancienne vie peut donner le sentiment d’avoir déjà compris les humains, leurs promesses et leurs petites urgences. Puis une personne de ta vie actuelle compte plus que tous ces raisonnements. Les Maisonnées et les fidélités divines peuvent accueillir ton retour tout en attendant de retrouver celui que tu étais. Tu peux être flatté par cette importance retrouvée ou comprendre qu’on te demande surtout de reprendre un rôle. Les relations avec les Angelus sont volontiers hostiles : fidélités, autorité et vieilles rancunes nourrissent le mépris réciproque. Un point les rapproche pourtant : leur haine des Fléaux, puissances corruptrices. La corruption liée à un Fléau qui marque d’emblée la condition vampirique fait des Vampires une cible de ce dégoût. Coopérer avec l’un d’eux peut demander bien plus qu’une poignée de main.",
       "knowledge": {
-        "known": "Tu connais ta vie actuelle et ce que ton éveil, tes proches et ta Maisonnée t’ont rendu accessible. Tes souvenirs anciens ne sont pas une encyclopédie complète ni forcément une description du présent.",
+        "known": "Tu connais ta vie actuelle et ce que ton éveil, tes proches et ta Maisonnée t’ont rendu accessible. Tes souvenirs anciens ne sont pas une encyclopédie complète ni forcément une description du présent. Si ton entourage t’a enseigné cette hostilité aux Vampires, cela ne te permet pas pour autant de les reconnaître à coup sûr ni de connaître leurs pouvoirs.",
         "rumours": "Les jugements ci-dessous peuvent circuler dans ton milieu. Garde seulement ceux que ton personnage a pu entendre ; un nom connu ou une réputation ne vaut pas connaissance des pouvoirs réels.",
         "unknown": "Les extraterrestres sont généralement ignorés. Leurs manifestations seront souvent interprétées comme du surnaturel, un enchantement ou une Nature inconnue. Connaître une part de la Vérité ne révèle pas toutes les autres.",
         "exceptions": "Une relation, un enseignement ou une aventure peut t’avoir donné des informations précises. Fixe avec le MJ lesquelles ; une rencontre ne suffit pas à connaître tout un peuple."
@@ -830,6 +914,20 @@
           "voice": "Une incarnation pareille et aucun nom à donner ? Quelqu’un a encore cru pouvoir économiser sur le réceptacle.",
           "status": "Origine ignorée",
           "limit": "Ce rapprochement ne signifie pas qu’il connaît les espèces extraterrestres.",
+          "context": ""
+        },
+        {
+          "subject": "Les Vampires",
+          "voice": "Un Fléau leur a pourri le sang et ils en ont fait une noblesse. On peut difficilement cracher plus haut depuis le fond d’un égout.",
+          "status": "Rencontre ou réputation de milieu",
+          "limit": "À rattacher aux rencontres et aux informations accessibles au personnage.",
+          "context": ""
+        },
+        {
+          "subject": "Les fidèles qui réclament un miracle",
+          "voice": "Ils ont prié pour mon retour. Maintenant que je suis là, ils voudraient surtout que je règle leurs querelles de voisinage.",
+          "status": "Rencontre ou réputation de milieu",
+          "limit": "À rattacher aux rencontres et aux informations accessibles au personnage.",
           "context": ""
         }
       ],
@@ -906,9 +1004,9 @@
       ],
       "appeal": "Tu aimes les idéaux difficiles à tenir, les pouvoirs célestes et une vocation confrontée à la vie humaine.",
       "tradeoff": "Le rapport à la hiérarchie et à la Transcendance doit t’intéresser. Une origine angélique ne rend pas tes décisions automatiquement justes.",
-      "outlook": "Le devoir peut donner une direction dans une ville où tout semble s’acheter. Il peut aussi servir à ne plus écouter ceux qui subissent la décision. Tu peux regarder les compromis humains de haut, puis découvrir que ta propre hiérarchie possède ses calculs et ses silences. L’Arbre de Vie est aussi une organisation spirituelle et politique : retrouver ta place dans cet ordre ne rend pas toutes ses attentes immédiatement claires.",
+      "outlook": "Le devoir peut donner une direction dans une ville où tout semble s’acheter. Il peut aussi servir à ne plus écouter ceux qui subissent la décision. Tu peux regarder les compromis humains de haut, puis découvrir que ta propre hiérarchie possède ses calculs et ses silences. L’Arbre de Vie est aussi une organisation spirituelle et politique : retrouver ta place dans cet ordre ne rend pas toutes ses attentes immédiatement claires. Les Daemons suscitent une antipathie tenace, mais les Vampires peuvent inspirer un mépris plus profond encore : leur condition porte dès l’origine la corruption d’un Fléau, une puissance corruptrice que les Angelus abhorrent. Partager une mission avec un Vampire oblige à regarder en face une personne dont l’héritage te répugne, parfois alors que tu lui dois la vie.",
       "knowledge": {
-        "known": "Tu connais ta vie actuelle et les éléments célestes qui t’ont été transmis ou rendus accessibles par l’éveil. Une origine céleste ne garantit pas une compréhension totale de la Vérité.",
+        "known": "Tu connais ta vie actuelle et les éléments célestes qui t’ont été transmis ou rendus accessibles par l’éveil. Une origine céleste ne garantit pas une compréhension totale de la Vérité. Si ton entourage t’a enseigné cette hostilité aux Vampires, cela ne te permet pas pour autant de les reconnaître à coup sûr ni de connaître leurs pouvoirs.",
         "rumours": "Les jugements ci-dessous peuvent circuler dans ton milieu. Garde seulement ceux que ton personnage a pu entendre ; un nom connu ou une réputation ne vaut pas connaissance des pouvoirs réels.",
         "unknown": "Les extraterrestres sont généralement ignorés. Leurs manifestations seront souvent interprétées comme du surnaturel, un enchantement ou une Nature inconnue. Connaître une part de la Vérité ne révèle pas toutes les autres.",
         "exceptions": "Une relation, un enseignement ou une aventure peut t’avoir donné des informations précises. Fixe avec le MJ lesquelles ; une rencontre ne suffit pas à connaître tout un peuple."
@@ -947,6 +1045,20 @@
           "voice": "Ils ont enfermé une puissance dans cet objet et confié la clef au premier crétin capable de le payer. Une époque admirable.",
           "status": "Origine ignorée",
           "limit": "C’est une lecture possible d’un dispositif inconnu, pas la reconnaissance de sa vraie nature.",
+          "context": ""
+        },
+        {
+          "subject": "Les Vampires",
+          "voice": "Ils nomment héritage ce qu’un Fléau a corrompu en eux. Le parfum, les titres, les siècles : rien de tout cela ne couvre l’infection.",
+          "status": "Rencontre ou réputation de milieu",
+          "limit": "À rattacher aux rencontres et aux informations accessibles au personnage.",
+          "context": ""
+        },
+        {
+          "subject": "Les dévots de façade",
+          "voice": "Il embrasse les symboles et ferme sa porte aux affamés. Qu’il essuie sa bouche avant de prononcer le mot devoir.",
+          "status": "Rencontre ou réputation de milieu",
+          "limit": "À rattacher aux rencontres et aux informations accessibles au personnage.",
           "context": ""
         }
       ],
@@ -1065,6 +1177,20 @@
           "status": "Origine ignorée",
           "limit": "Une perception particulière ne fournit pas l’histoire ni le mode d’emploi d’une technologie extrale.",
           "context": ""
+        },
+        {
+          "subject": "Les maîtres qui vendent des raccourcis",
+          "voice": "Sa méthode promet dix ans de maîtrise en trois séances. La seule discipline qu’il enseigne correctement, c’est le paiement anticipé.",
+          "status": "Rencontre ou réputation de milieu",
+          "limit": "À rattacher aux rencontres et aux informations accessibles au personnage.",
+          "context": ""
+        },
+        {
+          "subject": "Les recruteurs",
+          "voice": "Il veut savoir combien de temps il faut pour former quelqu’un comme moi. Il parle déjà de rendement. Je vais le laisser attendre.",
+          "status": "Rencontre ou réputation de milieu",
+          "limit": "À rattacher aux rencontres et aux informations accessibles au personnage.",
+          "context": ""
         }
       ],
       "heritage": "L’histoire des Aseryns est terrestre, même si leur physiologie n’est pas celle des humains. Leur longévité et leurs diasporas donnent une grande place à la transmission. Les Treize Traditions représentent des fonctions et des enseignements : une origine lémuriane ou serathéenne n’est pas une seconde Tradition. Tu peux avoir une histoire familiale précise sans maîtriser tous les savoirs anciens de ton peuple.",
@@ -1181,6 +1307,20 @@
           "voice": "Un enchantement sans signature, sans école et sans élégance. La puissance n’excuse décidément pas tout.",
           "status": "Origine ignorée",
           "limit": "Le personnage ne connaît généralement pas l’existence des Extrals.",
+          "context": ""
+        },
+        {
+          "subject": "Les Thulkars",
+          "voice": "Ils ont une manière admirable de conclure les débats : soulever la table. Il reste ensuite à reconstruire tout ce qu’ils ont eu raison de casser.",
+          "status": "Rencontre ou réputation de milieu",
+          "limit": "À rattacher aux rencontres et aux informations accessibles au personnage.",
+          "context": ""
+        },
+        {
+          "subject": "Les protecteurs de salon",
+          "voice": "Il adore notre culture, surtout quand elle ne demande ni place, ni argent, ni droit de répondre. Quel hôte délicieux.",
+          "status": "Rencontre ou réputation de milieu",
+          "limit": "À rattacher aux rencontres et aux informations accessibles au personnage.",
           "context": ""
         }
       ],
@@ -1299,6 +1439,20 @@
           "status": "Origine ignorée",
           "limit": "Être Nain ne donne ni un savoir automatique en fabrication ni la connaissance des Extrals.",
           "context": ""
+        },
+        {
+          "subject": "Les Ashylls",
+          "voice": "Il appelle ça trouver un passage. Moi, j’appelle ça démonter ma serrure avec un couvert. Qu’il rapporte au moins le couvert.",
+          "status": "Rencontre ou réputation de milieu",
+          "limit": "À rattacher aux rencontres et aux informations accessibles au personnage.",
+          "context": ""
+        },
+        {
+          "subject": "Les commanditaires qui marchandent",
+          "voice": "Il m’a demandé une réduction au nom de notre amitié. Curieux : elle ne commence jamais quand c’est lui qui encaisse.",
+          "status": "Rencontre ou réputation de milieu",
+          "limit": "À rattacher aux rencontres et aux informations accessibles au personnage.",
+          "context": ""
         }
       ],
       "heritage": "Les Whurten sont un peuple exilé d’Aèr, pas une profession. La robustesse, la ténacité et les perceptions liées aux champs magnétiques donnent des possibilités particulières ; elles n’imposent pas d’être forgeron, mineur ou mécanicien. Les liens de clan et les traditions peuvent compter dans un métier contemporain, un engagement de quartier ou une vie d’exploration.",
@@ -1415,6 +1569,20 @@
           "voice": "Le petit bijou est enchanté et son propriétaire ne sait pas par qui. C’est fou comme les gens achètent des problèmes.",
           "status": "Origine ignorée",
           "limit": "L’intérêt pour l’objet ne révèle pas son origine extraterrestre.",
+          "context": ""
+        },
+        {
+          "subject": "Les Azménoriens",
+          "voice": "Son invention ouvre toutes les portes. Elle pèse quarante kilos et réveille le quartier. Je vais garder mon fil de fer.",
+          "status": "Rencontre ou réputation de milieu",
+          "limit": "À rattacher aux rencontres et aux informations accessibles au personnage.",
+          "context": ""
+        },
+        {
+          "subject": "Les gens qui veulent nous protéger",
+          "voice": "Il m’a tapoté la tête. Je lui ai pris sa montre. Chacun ses petites marques d’affection.",
+          "status": "Rencontre ou réputation de milieu",
+          "limit": "À rattacher aux rencontres et aux informations accessibles au personnage.",
           "context": ""
         }
       ],
@@ -1533,6 +1701,20 @@
           "status": "Origine ignorée",
           "limit": "Le personnage peut comparer à des êtres connus sans identifier une espèce extrale.",
           "context": ""
+        },
+        {
+          "subject": "Les employeurs",
+          "voice": "Il me paie pour mes bras et voudrait que ma tête reste au vestiaire. Il sera surpris le jour où les deux démissionneront ensemble.",
+          "status": "Rencontre ou réputation de milieu",
+          "limit": "À rattacher aux rencontres et aux informations accessibles au personnage.",
+          "context": ""
+        },
+        {
+          "subject": "Les Azménoriens",
+          "voice": "Il a besoin que je tienne sa machine pendant l’essai. La dernière fois, il s’est mis à courir sans me prévenir. Cette fois, je le tiens aussi.",
+          "status": "Rencontre ou réputation de milieu",
+          "limit": "À rattacher aux rencontres et aux informations accessibles au personnage.",
+          "context": ""
         }
       ],
       "heritage": "Le gabarit et la force d’un Thulkar influencent sa présence, mais son héritage comprend aussi des appartenances collectives. Une horde ou une communauté n’impose pas que tous ses membres soient guerriers. L’exil, la vie en ville et les trajectoires familiales peuvent donner à la solidarité des formes très actuelles : un réseau d’entraide, un métier, un voisinage ou des engagements partagés.",
@@ -1649,6 +1831,20 @@
           "voice": "Une architecture aussi dense, ici ? Le propriétaire n’a manifestement pas le niveau pour l’avoir conçue. Il a dû la voler.",
           "status": "Origine ignorée",
           "limit": "Une culture mêlant magie et technique ne fournit pas la connaissance des Extrals ni une identification infaillible.",
+          "context": ""
+        },
+        {
+          "subject": "Les Ashylls",
+          "voice": "Je lui ai montré six mois de travail. Il a trouvé comment contourner le mécanisme avec un clou. Je ne l’inviterai plus aux présentations.",
+          "status": "Rencontre ou réputation de milieu",
+          "limit": "À rattacher aux rencontres et aux informations accessibles au personnage.",
+          "context": ""
+        },
+        {
+          "subject": "Les Thulkars",
+          "voice": "Il sait exactement quand une pièce va céder. Il appelle ça du bon sens. J’aimerais qu’il attende que j’aie terminé mes calculs avant d’avoir raison.",
+          "status": "Rencontre ou réputation de milieu",
+          "limit": "À rattacher aux rencontres et aux informations accessibles au personnage.",
           "context": ""
         }
       ],
@@ -1777,6 +1973,20 @@
           "status": "Cause inconnue",
           "limit": "Rationaliser est un réflexe culturel, pas une preuve ni une capacité à comprendre le phénomène.",
           "context": ""
+        },
+        {
+          "subject": "Les Rocréens",
+          "voice": "Il ne comprend pas ce que je construis, mais sait déjà à qui le vendre. Éloignez-le du prototype avant qu’il vende aussi mon nom.",
+          "status": "Rencontre ou réputation de milieu",
+          "limit": "À rattacher aux rencontres et aux informations accessibles au personnage.",
+          "context": ""
+        },
+        {
+          "subject": "Les corporations terrestres",
+          "voice": "Ils ont breveté une impasse technique et déploient des soldats pour la défendre. Toute leur civilisation tient dans ce choix de budget.",
+          "status": "Rencontre ou réputation de milieu",
+          "limit": "À rattacher aux rencontres et aux informations accessibles au personnage.",
+          "context": ""
         }
       ],
       "heritage": "Les Talass sont de petits êtres verts, segmentaires et d’origine fongiforme. Leurs déplacements, leur soie conductrice et leurs aptitudes perceptives ou psychiques donnent une autre relation au milieu. Cette étrangeté biologique accompagne une culture qui valorise l’intellect et cherche souvent à éviter la violence par une meilleure organisation. Elle ne signifie pas que tous les Talass exercent le même métier.",
@@ -1788,11 +1998,11 @@
         "term": "rationalisation"
       },
       "illustration": {
-        "src": "/api/compendium/media/images/lore/verite-reference-talass.webp",
-        "alt": "Illustration de référence fournie par l’auteur : morphologie d’un Talass.",
-        "caption": "La morphologie verte et segmentaire d’un Talass.",
+        "src": "/api/compendium/media/images/lore/verite-talass-fils.webp",
+        "alt": "Un Talass à la peau verte manipule de fins filaments au-dessus d’un établi, devant une ville éclairée par le soleil.",
+        "caption": "Précision et filaments : un Talass au travail dans un atelier terrestre.",
         "article": "verite-extrals-talass-detail",
-        "portrait": true
+        "portrait": false
       },
       "quickTerms": [
         {
@@ -1904,6 +2114,20 @@
           "status": "Cause inconnue",
           "limit": "Rationaliser est un réflexe culturel, pas une preuve ni une capacité à comprendre le phénomène.",
           "context": ""
+        },
+        {
+          "subject": "Les Ad’rak",
+          "voice": "Il attend que je baisse les yeux. Il peut attendre : j’ai déjà donné assez d’années à des gens qui confondaient leur taille avec un droit.",
+          "status": "Rencontre ou réputation de milieu",
+          "limit": "À rattacher aux rencontres et aux informations accessibles au personnage.",
+          "context": ""
+        },
+        {
+          "subject": "Les recruteurs terrestres",
+          "voice": "Il dit prise en charge complète. J’entends logement surveillé, dette organisée et sortie condamnée. Qu’il garde son sourire avec son contrat.",
+          "status": "Rencontre ou réputation de milieu",
+          "limit": "À rattacher aux rencontres et aux informations accessibles au personnage.",
+          "context": ""
         }
       ],
       "heritage": "Le corps reptiloïde, la cuirasse naturelle et les sens prédateurs font partie du profil mo’sen, mais son histoire culturelle compte aussi. Une mémoire de domination peut rendre la maîtrise de ses ressources et de sa sécurité très importante. Les réponses divergent : certains cherchent l’influence discrète, d’autres préfèrent la représentation commune ou des relations plus ouvertes avec les habitants de la Terre.",
@@ -1915,11 +2139,11 @@
         "term": "rationalisation"
       },
       "illustration": {
-        "src": "/api/compendium/media/images/lore/verite-reference-mosens.webp",
-        "alt": "Illustration de référence fournie par l’auteur : morphologie d’un Mo’sen.",
-        "caption": "La morphologie reptiloïde et les protections naturelles d’un Mo’sen.",
+        "src": "/api/compendium/media/images/lore/verite-mosen-atelier.webp",
+        "alt": "Un Mo’sen reptilien aux écailles rouges aide un mécanicien humain à déplacer un moteur suspendu dans un atelier.",
+        "caption": "La force mise au travail : un Mo’sen et un mécanicien humain autour d’un moteur.",
         "article": "verite-extrals-mosens-detail",
-        "portrait": true
+        "portrait": false
       },
       "quickTerms": [
         {
@@ -2030,6 +2254,20 @@
           "voice": "Guérison sacrée ? Je voudrais le composé actif. Vous pouvez conserver les prières, je n’ai pas de place pour elles au laboratoire.",
           "status": "Cause inconnue",
           "limit": "Rationaliser est un réflexe culturel, pas une preuve ni une capacité à comprendre le phénomène.",
+          "context": ""
+        },
+        {
+          "subject": "Les Rocréens",
+          "voice": "Il vend mes soins comme une promesse de jeunesse. Le prochain client qui me demande une garantie éternelle, je l’envoie vivre chez lui.",
+          "status": "Rencontre ou réputation de milieu",
+          "limit": "À rattacher aux rencontres et aux informations accessibles au personnage.",
+          "context": ""
+        },
+        {
+          "subject": "Les industriels terrestres",
+          "voice": "Ils empoisonnent le sol, rachètent la clinique et appellent ça diversifier leurs activités. Une espèce inventive, dans son genre.",
+          "status": "Rencontre ou réputation de milieu",
+          "limit": "À rattacher aux rencontres et aux informations accessibles au personnage.",
           "context": ""
         }
       ],
@@ -2158,6 +2396,20 @@
           "status": "Cause inconnue",
           "limit": "Rationaliser est un réflexe culturel, pas une preuve ni une capacité à comprendre le phénomène.",
           "context": ""
+        },
+        {
+          "subject": "Les Thalsios",
+          "voice": "Elle connaît le vrai prix d’une pièce et ne supporte pas qu’on l’oublie. Ne négociez jamais devant l’établi : elle a tous ses arguments à portée de main.",
+          "status": "Rencontre ou réputation de milieu",
+          "limit": "À rattacher aux rencontres et aux informations accessibles au personnage.",
+          "context": ""
+        },
+        {
+          "subject": "Les riches touristes extrals",
+          "voice": "Il veut une expérience terrestre authentique avec une évacuation médicale garantie. Pour ce prix-là, je lui trouve même des indigènes qui sourient.",
+          "status": "Rencontre ou réputation de milieu",
+          "limit": "À rattacher aux rencontres et aux informations accessibles au personnage.",
+          "context": ""
         }
       ],
       "heritage": "Les Rocréens ont une anatomie molluscoïde amphibie et une capacité de régénération liée à leur Noyau. Leur culture accorde aussi une grande importance aux réseaux et aux échanges d’informations ; les réputations de prédation sociale et de clandestinité ne décrivent pas chaque individu de la même manière. Un personnage peut aimer les arrangements tout en tenant sincèrement à quelques personnes.",
@@ -2285,6 +2537,20 @@
           "status": "Cause inconnue",
           "limit": "Rationaliser est un réflexe culturel, pas une preuve ni une capacité à comprendre le phénomène.",
           "context": ""
+        },
+        {
+          "subject": "Les Mo’sens",
+          "voice": "Il a encore remplacé le verrou par quelque chose qu’il peut arracher. C’est une conception très personnelle de la maintenance.",
+          "status": "Rencontre ou réputation de milieu",
+          "limit": "À rattacher aux rencontres et aux informations accessibles au personnage.",
+          "context": ""
+        },
+        {
+          "subject": "Les propriétaires des installations",
+          "voice": "Il a supprimé l’entretien pour économiser. Maintenant, il me demande de sauver ses machines avant les ouvriers. Qu’il commence par descendre lui-même.",
+          "status": "Rencontre ou réputation de milieu",
+          "limit": "À rattacher aux rencontres et aux informations accessibles au personnage.",
+          "context": ""
         }
       ],
       "heritage": "Les Thalsios sont des amphibioïdes massifs, à la peau sensible aux conditions du milieu et aux mains précises. L’humidité et la qualité de l’air peuvent faire d’un logement ou d’une panne une question de santé. Leur histoire d’exploitation a donné au travail, à la réparation et à la maîtrise de l’environnement une portée qui dépasse le simple goût des machines.",
@@ -2296,11 +2562,11 @@
         "term": "rationalisation"
       },
       "illustration": {
-        "src": "/api/compendium/media/images/lore/verite-reference-thalsios.webp",
-        "alt": "Illustration de référence fournie par l’auteur : morphologie d’un Thalsios.",
-        "caption": "La silhouette massive et amphibioïde d’un Thalsios.",
+        "src": "/api/compendium/media/images/lore/verite-thalsios-mecanique.webp",
+        "alt": "Un Thalsios massif à la peau humide répare une pièce mécanique sur un établi, près d’un brumisateur.",
+        "caption": "Outils, mécanique et humidité : l’atelier d’un Thalsios installé sur Terre.",
         "article": "verite-extrals-thalsios-detail",
-        "portrait": true
+        "portrait": false
       },
       "quickTerms": [
         {
@@ -2414,6 +2680,20 @@
           "voice": "Il a peut-être observé quelque chose d’utile sous ses trois couches de superstition. Qu’il parle ; je ferai le tri.",
           "status": "Opinion possible",
           "limit": "L’agent peut apprendre d’un savoir local sans en accepter immédiatement l’interprétation.",
+          "context": ""
+        },
+        {
+          "subject": "Les Talass",
+          "voice": "Il a raison sur le fonctionnement de l’appareil. Il tient à l’expliquer au témoin, au garde et à la caméra. L’extraction va être longue.",
+          "status": "Rencontre ou réputation de milieu",
+          "limit": "À rattacher aux rencontres et aux informations accessibles au personnage.",
+          "context": ""
+        },
+        {
+          "subject": "Les dirigeants terrestres",
+          "voice": "Il menace de nous interdire son territoire. Quelqu’un lui a laissé croire que la frontière avait une hauteur infinie.",
+          "status": "Rencontre ou réputation de milieu",
+          "limit": "À rattacher aux rencontres et aux informations accessibles au personnage.",
           "context": ""
         }
       ],
@@ -2541,6 +2821,20 @@
           "voice": "Votre sorcier se cache derrière de la lumière et du bruit. J’ai déjà vu des armes produire ça sans exiger qu’on les admire.",
           "status": "Cause inconnue",
           "limit": "Rationaliser est un réflexe culturel, pas une preuve ni une capacité à comprendre le phénomène.",
+          "context": ""
+        },
+        {
+          "subject": "Les recruteurs",
+          "voice": "Il m’a demandé combien je coûte avant de me demander mon nom. Il a pourtant eu très peur que je réponde dans cet ordre.",
+          "status": "Rencontre ou réputation de milieu",
+          "limit": "À rattacher aux rencontres et aux informations accessibles au personnage.",
+          "context": ""
+        },
+        {
+          "subject": "Les vétérans qui vivent de leur réputation",
+          "voice": "Il raconte ce qu’il a fait pendant la guerre. Très bien. Aujourd’hui, la porte est là et les tirs viennent d’en face. À lui l’honneur.",
+          "status": "Rencontre ou réputation de milieu",
+          "limit": "À rattacher aux rencontres et aux informations accessibles au personnage.",
           "context": ""
         }
       ],

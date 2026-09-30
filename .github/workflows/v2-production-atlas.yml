@@ -9,7 +9,7 @@ concurrency:
   group: tuc-v2-production
   cancel-in-progress: false
 env:
-  BASE_SHA: 0d556a6432c6adab6f6517ac0f569d6f5111cb1a
+  BASE_SHA: ba617cd2d36d91737297dc104afb4b28a0159105
 jobs:
   build:
     runs-on: ubuntu-latest

@@ -3,13 +3,13 @@
     {
       "id": "corpo",
       "title": "Corpo",
-      "hook": "Une carrière, des moyens et un contrat qui peut engager toute une vie.",
-      "definition": "Un personnage corporatiste travaille au sein d’une corporation, une grande entreprise qui peut gérer des usines, des cliniques, des logements, des transports et sa propre sécurité. Tu peux être technicien, juriste, chercheur, commercial ou agent de terrain. « Corpo » décrit ton milieu, pas ton rang : tous ne sont pas dirigeants ou milliardaires.",
-      "appeal": "Si tu aimes les rivalités professionnelles, les opérations avec des moyens organisés et les choix entre réussite personnelle et loyauté. Un bon contrat peut offrir une stabilité que beaucoup n’ont plus : logement, soins, formation et soutien juridique.",
+      "hook": "Des missions, des moyens et un employeur qui attend des résultats, même quand il faut se salir les mains.",
+      "definition": "Un personnage corporatiste travaille pour une corporation, une grande entreprise qui peut gérer des usines, des cliniques, des logements et sa propre sécurité. Pour l’aventure, pense agent de récupération, spécialiste des intrusions, garde du corps, enquêteur industriel, technicien d’intervention ou négociateur envoyé en territoire hostile. « Corpo » décrit ton milieu et tes obligations ; ton métier précise ce que tu sais faire sur le terrain.",
+      "appeal": "Si tu aimes les extractions sous pression, les rivalités industrielles, les opérations discrètes ou les interventions avec du matériel et une équipe derrière toi. Tu peux avoir un véhicule, du renseignement et un soutien spécialisé, puis découvrir sur place ce que le commanditaire a omis du briefing. La réussite ouvre des portes ; les méthodes employées laissent des traces.",
       "tradeoff": "Les ressources appartiennent souvent à l’employeur. Perdre ton poste peut aussi signifier perdre une assurance, un véhicule ou un logement. Confidentialité, objectifs et exclusivité peuvent entrer en conflit avec tes amitiés. La protection corporative reste encadrée par le droit californien : ton badge n’efface pas la loi.",
-      "daily": "Ta journée se joue entre habilitations, échéances et relations de service. La personne qui valide un accès peut compter autant que celle qui signe ton salaire. Tu peux croire sincèrement à ton entreprise, négocier durement ta place, préparer un départ ou protéger ton équipe contre une décision venue d’en haut.",
+      "daily": "Briefing, préparation du matériel, repérage, intervention : tu travailles là où ton entreprise a besoin de quelqu’un de compétent, de discret ou d’assez déterminé pour passer la porte. Entre deux missions, il faut entretenir les relations qui fournissent les accès, les soins et les renforts. Ton chef peut être celui qui te sort d’une mauvaise passe, puis celui qui exige que tu y retournes pour récupérer ce qui manque.",
       "knowledge": "Tu connais surtout ton secteur, ton service et les concurrents qui touchent ton travail. Une entreprise ne remet pas tous ses secrets à chaque salarié ; travailler pour une corporation servant de couverture à autre chose ne donne pas automatiquement accès à cette vérité.",
-      "scene": "Piste de scène : un fournisseur disparaît juste avant une livraison essentielle. Tu peux obtenir un véhicule de service, mais l’autorisation prend du temps. Un Crawler propose une piste immédiate ; l’accepter t’aidera peut-être à remplir ta mission, tout en créant une relation que ton supérieur voudra contrôler.",
+      "scene": "Piste de scène : une chercheuse veut quitter le laboratoire d’un concurrent avec ses travaux. Tu dois la récupérer dans un parking surveillé, mais sa famille n’apparaît pas dans le contrat d’extraction. Un Crawler peut ouvrir une sortie de secours, ton contact interne réclame que tu partes immédiatement et une patrouille arrive. Tu as les moyens d’agir ; reste à choisir qui tu emmènes et à qui tu désobéis.",
       "choices": [
         "Quel service t’emploie et qu’attend-il de toi ?",
         "Quel confort ou quelle personne dépend de ton contrat ?",
@@ -35,6 +35,16 @@
           "subject": "Pègre",
           "voice": "Des sous-traitants qui ne savent pas fermer leur gueule sur leurs méthodes. Passez par un intermédiaire : leur odeur ne doit pas remonter jusqu’au conseil.",
           "limit": "Ce calcul peut entraîner crimes, chantage et dépendance ; toute entreprise ou tout salarié ne l’accepte pas."
+        },
+        {
+          "subject": "Les cadres rivaux",
+          "voice": "Elle m’appelle son partenaire devant le client et cherche mon remplaçant dans l’ascenseur. Au moins, nous partageons le goût du travail bien fait.",
+          "limit": "Une voix possible dans ce milieu, selon les relations du personnage."
+        },
+        {
+          "subject": "Les nouveaux promus",
+          "voice": "Il vient d’obtenir un badge supérieur et ne reconnaît déjà plus l’étage où il déjeunait. Une ascension aussi rapide doit être mauvaise pour la mémoire.",
+          "limit": "Une voix possible dans ce milieu, selon les relations du personnage."
         }
       ],
       "links": [
@@ -57,11 +67,11 @@
       "playTitle": "un Corpo",
       "heritage": "Les crises ont permis aux corporations de devenir bien plus que des employeurs. Elles produisent, logent, soignent et sécurisent ; leurs enclaves rendent cette puissance visible. Grandir dans ce cadre, c’est apprendre que la qualité de vie se gagne par l’utilité et que l’extérieur menace ce qui a été acquis. Pour un salarié bien installé, les contrôles et les évaluations peuvent sembler aussi naturels que l’eau courante. Celui qui a déjà vu disparaître le badge d’un collègue connaît l’autre face du confort : une personne peut perdre plusieurs protections à la fois.",
       "outlook": "Le mépris de classe peut être quotidien et parfaitement poli. On juge les vêtements, le vocabulaire, les soins, les adresses et la capacité à se présenter avec les bons justificatifs. Un Crawler peut coûter cher à embaucher sans devenir fréquentable ; son prix mesure son utilité, pas sa place à table. Les supérieurs eux-mêmes sont triés par rang, résultat et proximité avec le pouvoir. Tu peux avoir intériorisé cette hiérarchie, en profiter lucidement ou commencer à la haïr après en avoir payé le prix.",
-      "resources": "Tu sais à qui adresser une demande, comment présenter un projet et ce qu’un service attend pour débloquer une situation. Ton emploi peut te donner accès à des collègues spécialisés, des installations et des moyens professionnels. Pour jouer, distingue ce que tu possèdes de ce qu’on te confie pour une mission : le véhicule de service et les données du laboratoire ne deviennent pas tes biens personnels. Dans la fiche, choisis les compétences, relations et équipements qui correspondent à ton poste ; le nom de la corporation ne remplace pas leurs conditions d’accès.",
+      "resources": "Ton expertise peut servir à infiltrer une installation, remettre un système en route sous le feu, extraire une personne ou protéger une négociation qui tourne mal. Selon ton poste et la mission, ton employeur peut confier du matériel, du renseignement, un véhicule ou un appui spécialisé. Ces moyens ont des responsables, des limites et parfois une heure de rappel. Dans la fiche, choisis les compétences, relations et équipements correspondant à ton poste : le nom de la corporation ne remplace pas leurs conditions d’accès.",
       "limits": "La hiérarchie veut des résultats exploitables et quelqu’un à qui imputer les échecs. Une initiative brillante peut devenir un problème si elle compromet un client, expose un secret ou contourne le mauvais responsable. Être précieux ne signifie pas être irremplaçable. Précise avec le MJ qui peut retirer tes accès, ce qu’il exige et ce que tu risques de perdre ; sans cela, l’appartenance corporative reste seulement un logo sur la fiche.",
-      "pressure": "Ton supérieur te demande de certifier un rapport qui fera porter une défaillance sur un sous-traitant. Tu sais qu’il ment, mais contester signifie mettre ton nom sur le dossier. Le dilemme ne porte pas seulement sur ta carrière : un logement, un traitement médical ou la protection d’un proche peuvent dépendre de ta situation. Qu’es-tu prêt à signer pour garder tout cela ?",
+      "pressure": "Tu dois récupérer un prototype dans un atelier passé aux mains d’un concurrent. Sur place, tu trouves aussi des ouvriers enfermés et les preuves d’un accident que ton employeur a couvert. L’ordre tombe : prendre le prototype, détruire les serveurs et repartir avant l’arrivée de la sécurité. Faire sortir les témoins compromet l’extraction ; les abandonner règle le problème de ta direction. Ton équipe attend ta décision, et le traitement médical de ton proche dépend toujours de ton contrat. Comment termines-tu le travail, et qui paiera pour la manière dont tu l’as fait ?",
       "team": "Le groupe peut disposer d’un contact que ton employeur ne peut pas approcher, d’un savoir absent du dossier ou d’une liberté d’action que ton badge t’interdit. Tu as une raison de rester même si tu supportes mal leurs manières. Fixe une dépendance concrète : leur réussite protège ton équipe, ton secret ou une personne que la corporation a décidé de ne plus considérer comme prioritaire.",
-      "example": "Une technicienne de maintenance d’une enclave enquête sur un accident maquillé. Elle sait lire les procédures et circuler dans le complexe, mais son accès est surveillé. Les autres personnages ont trouvé un survivant que sa direction prétend inexistant.",
+      "example": "Une spécialiste des récupérations industrielles travaille pour une corporation qui paie les soins de son frère. Elle sait entrer dans un site verrouillé et en ressortir avec le matériel demandé. Sa dernière mission l’a laissée avec un témoin que son chef voulait oublier ; les autres personnages l’ont aidée à le cacher.",
       "quickTerms": [
         {
           "label": "Corporation",
@@ -116,6 +126,16 @@
           "subject": "Pègre",
           "voice": "Ils disent famille avant de t’envoyer encaisser à leur place. Moi aussi, je serais très affectueux avec un gilet pare-balles qui marche.",
           "limit": "Un contrat n’équivaut pas à une adhésion, mais une faveur peut créer une dette durable."
+        },
+        {
+          "subject": "Les indépendants qui cassent les prix",
+          "voice": "Il prend la moitié, dort dans sa voiture et appelle ça conquérir le marché. La prochaine fois, le client nous demandera pourquoi nous mangeons.",
+          "limit": "Une voix possible dans ce milieu, selon les relations du personnage."
+        },
+        {
+          "subject": "Les recruteurs corporatistes",
+          "voice": "Ils reviennent avec un contrat quand ils ont épuisé leurs propres équipes. Soudain, mon casier devient une expérience de terrain intéressante.",
+          "limit": "Une voix possible dans ce milieu, selon les relations du personnage."
         }
       ],
       "links": [
@@ -201,6 +221,16 @@
           "subject": "Pègre",
           "voice": "Ils appellent protection le fait de vous faire payer pour ne pas devenir leur prochaine démonstration. Qu’ils gardent leurs discours de quartier pour le tribunal.",
           "limit": "Ce regard critique ne dispense pas de comprendre pourquoi des habitants se tournent vers ces réseaux."
+        },
+        {
+          "subject": "Les élus en visite",
+          "voice": "Il veut une opération propre avant les caméras et des résultats avant le déjeuner. Qu’il mette le gilet : on verra si son calendrier résiste à la porte.",
+          "limit": "Une voix possible dans ce milieu, selon les relations du personnage."
+        },
+        {
+          "subject": "Les services concurrents",
+          "voice": "Ils classent l’information secret jusqu’au moment où ils ont besoin de nos hommes. Ensuite, c’est une grande famille au service du pays.",
+          "limit": "Une voix possible dans ce milieu, selon les relations du personnage."
         }
       ],
       "links": [
@@ -274,18 +304,28 @@
         },
         {
           "subject": "Gouvernement",
-          "voice": "Ils confondent le refus de toute autorité avec une pensée. La colère les tient debout ; elle ne leur dira pas où aller.",
+          "voice": "Ils voudraient nous apprendre à nous occuper des habitants qu’ils nous ont laissés nourrir. Le retour de leur mémoire coïncide toujours avec celui du budget.",
           "limit": "L’urgence de l’accueil n’abolit pas les responsabilités publiques ni les règles communes."
         },
         {
           "subject": "Crawlers",
-          "voice": "Ils voudraient nous apprendre à nous occuper des habitants qu’ils nous ont laissés nourrir. Le retour de leur mémoire coïncide toujours avec celui du budget.",
+          "voice": "Ils confondent le refus de toute autorité avec une pensée. La colère les tient debout ; elle ne leur dira pas où aller.",
           "limit": "L’entraide n’exige pas une conversion ; les convictions d’un indépendant peuvent rester différentes."
         },
         {
           "subject": "Pègre",
           "voice": "Ils déposent une enveloppe pour les pauvres et attendent qu’on bénisse la main qui les a dépouillés. Qu’ils la gardent visible, cette main.",
           "limit": "L’origine des ressources peut devenir un dilemme concret ; les communautés n’y répondent pas toutes de la même façon."
+        },
+        {
+          "subject": "Les fidèles de prestige",
+          "voice": "Il veut son nom sur la façade du dispensaire, mais ne supporte pas d’attendre avec les malades. Nous pourrions commencer son éducation dans la file.",
+          "limit": "Une voix possible dans ce milieu, selon les relations du personnage."
+        },
+        {
+          "subject": "Les zélotes de sa propre communauté",
+          "voice": "Il brûle de défendre notre foi. J’aimerais qu’il apprenne d’abord à reconnaître ceux qu’il est censé protéger.",
+          "limit": "Une voix possible dans ce milieu, selon les relations du personnage."
         }
       ],
       "links": [
@@ -367,13 +407,23 @@
         },
         {
           "subject": "Crawlers",
-          "voice": "Ils parlent de reprendre nos quartiers. Reprendre quoi ? Les serrures étaient déjà changées quand ils ont retrouvé le chemin.",
+          "voice": "Il ne doit rien à personne, paraît-il. Très bien : le jour où il aura besoin d’un toit, d’un médecin et d’un endroit où cacher son arme, on lui fera un devis séparé.",
           "limit": "Un contrat crée une obligation professionnelle ; l’appartenance et la fidélité doivent se construire autrement."
         },
         {
           "subject": "Religieux",
           "voice": "Ils savent compter les dons et oublier les donateurs. Un beau métier. Il faut seulement leur rappeler de temps en temps qui tient la rue.",
           "limit": "Écouter une communauté peut servir l’entraide autant que l’influence ; ses responsables peuvent refuser tout arrangement."
+        },
+        {
+          "subject": "Les bandes qui veulent monter",
+          "voice": "Ils ont acheté trois armes et se sont donné un nom. Pour l’instant, leur seul territoire, c’est le mur sur lequel ils l’ont écrit.",
+          "limit": "Une voix possible dans ce milieu, selon les relations du personnage."
+        },
+        {
+          "subject": "Les héritiers de la famille",
+          "voice": "Il a reçu le nom, les hommes et le bureau. La peur qu’inspirait son père ne faisait pas partie des meubles ; quelqu’un devrait le prévenir.",
+          "limit": "Une voix possible dans ce milieu, selon les relations du personnage."
         }
       ],
       "links": [
