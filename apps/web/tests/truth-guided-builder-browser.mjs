@@ -391,7 +391,7 @@ try{
    await page.locator('.builder-nav').getByRole('button',{name:/Vérité/}).click();
    if(await page.locator(absent).count())throw new Error(nature.id+': rejected creation panels');
    if(nature.id==='extral')await page.getByText(/Formation AIDH au combat en équipe/).waitFor();
-   if(await page.locator('.builder-main').evaluate(el=>el.scrollWidth>el.clientWidth+2))throw new Error(nature.id+': overflow '+width);
+   if(await page.locator('.builder-main').evaluate(el=>el.scrollWidth>el.clientWidth+2)){console.error(await page.locator('.builder-main').evaluate(el=>{const boundary=el.getBoundingClientRect().right;return [...el.querySelectorAll('*')].filter(n=>n.getBoundingClientRect().right>boundary+2).slice(0,20).map(n=>({tag:n.tagName,cls:n.className,width:n.getBoundingClientRect().width,text:(n.textContent??'').slice(0,100)}));}));throw new Error(nature.id+': overflow '+width);}
    if(width===1440){await page.locator('.truth-picker-grid select').nth(1).selectOption('profane');await page.getByRole('button',{name:/Enregistrer/}).first().click();await page.waitForTimeout(150);if(!savedPayload?.data.truth.choices.beneficiaryBenefits.refectionReceived||!savedPayload.data.truth.choices.extralBuild.repairUsed)throw new Error(nature.id+': hidden legacy data lost');}
    await page.goto(baseUrl+'/characters/'+characterId+'/progression',{waitUntil:'networkidle'});await page.locator('.builder-workspace').waitFor();
    if(await page.locator(absent).count())throw new Error(nature.id+': rejected progression panels');
