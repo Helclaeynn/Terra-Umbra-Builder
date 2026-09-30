@@ -1,3 +1,4 @@
+# Include shared Vampire definitions in the isolated web image.
 # Include the approved Vampires build-time check in the API image.
 name: V2 production guided Truth and Vampires
 # Guided Truth and approved Vampires; retain 320px overflow assertions after fixing structural choice grids.
