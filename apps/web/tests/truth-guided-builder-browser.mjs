@@ -387,6 +387,7 @@ try{
    Object.assign(choices,{beneficiaryBenefits:{scenario:'Old',refectionReceived:true,guardReceived:true},extralBuild:{repairUsed:true,reserveUsed:true},daemonBuild:{riteDomain:'corvides',rites:[{name:'Old',effect:'Kept',pa:1}]}});
    characterData.truth={...characterData.truth,nature:nature.id,consciousness:'initie',choices,truthTalents:[]};savedPayload=null;
    await page.goto(baseUrl+'/characters/'+characterId+'/builder',{waitUntil:'networkidle'});await page.locator('.builder-workspace').waitFor();
+   if(await page.locator('.builder-mobile-steps').isVisible())await page.locator('.builder-mobile-steps').click();
    await page.locator('.builder-nav').getByRole('button',{name:/Vérité/}).click();
    if(await page.locator(absent).count())throw new Error(nature.id+': rejected creation panels');
    if(nature.id==='extral')await page.getByText(/Formation AIDH au combat en équipe/).waitFor();
