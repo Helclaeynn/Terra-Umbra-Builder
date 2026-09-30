@@ -4,6 +4,7 @@ import {vampireUnavailable,vampireNativeBlood} from "../lib/vampire";
 import {isKhinae,khinaeNativeBlood,khinaeUnavailable} from "../lib/khinae";
 import TruthBuildChoices from "../components/builder/TruthBuildChoices.vue";
 import TruthTrainingChoices from "../components/builder/TruthTrainingChoices.vue";
+import NatureStartGuide from "../components/builder/NatureStartGuide.vue";
 import {truthBuildChoiceLabel,truthHasInnateBuildChoice} from "../lib/truth-build-guidance";
 import {exileOwnedItems,exileUsableTalents,normalizeExileBuild,normalizeBeneficiaryBenefits,type ExileBuild,type BeneficiaryBenefits as BeneficiaryState} from "../lib/exile";
 import {normalizeExtralBuild,extralOwnedItems,type ExtralBuild} from "../lib/extral";
@@ -2396,6 +2397,7 @@ onBeforeUnmount(()=>{
               </article>
             </section>
 
+            <NatureStartGuide :state="currentTruthState" />
             <template v-if="selectedTruthNature">
               <template v-if="activeStep === 'truth'">
               <CharacterGallery v-if="character" v-model="draft.appearances" layer="truth" :character-id="character.id" editable />

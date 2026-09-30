@@ -340,7 +340,7 @@
   {
     "id": "dratyn",
     "label": "Dratyn",
-    "definition": "Technique ou discipline aseryn apprise. Elle se distingue de l’origine du personnage et de ses aptitudes naturelles.",
+    "definition": "Fondatrice aseryne associée à la transmission de la Foudre, dont le nom désigne aussi la Tradition correspondante. Porter le potentiel de Foudre ne suffit pas à le maîtriser : la discipline doit être apprise.",
     "article": "regles-verite-v7-aseryn-nature-accelyr-origines",
     "aliases": []
   },
@@ -628,5 +628,12 @@
     "aliases": [
       "mystification"
     ]
+  },
+  {
+    "id": "serys",
+    "label": "Serys",
+    "definition": "Peuple galactique de grande longévité, héritier de technologies anciennes. Un Extral peut connaître les Serys sans connaître les Exilés d’Aèr : rapprocher quelqu’un des Serys peut être une erreur d’identification.",
+    "article": "verite-galaxie-histoire-civilisations",
+    "aliases": []
   }
 ]
