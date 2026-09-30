@@ -51,8 +51,8 @@ function browse(event: MouseEvent, payload: DiscoveryBrowse) {
       <h1 id="discovery-title">Un même monde.<span>Une autre réalité.</span></h1>
       <p class="discovery-hero-copy">Sociétés, peuples et puissances cachées.<br>Explorez Terra Umbra, du quotidien de la Grande Californie aux vérités qui se dissimulent derrière le Voile.</p>
       <div class="discovery-actions">
-        <a class="discovery-primary" :href="discoveryBrowseHref({})" @click="browse($event, {})">Explorer le Compendium <span aria-hidden="true">→</span></a>
-        <a class="discovery-secondary" :href="articleLink(discoveryTruthArticle.id)" @click="openArticle($event, discoveryTruthArticle.id)">Derrière le Voile <span aria-hidden="true">↗</span></a>
+        <a class="discovery-primary" href="/decouvrir" @click="navigate($event, () => emit('guide'))">Je découvre l’univers <span aria-hidden="true">→</span></a>
+        <a class="discovery-secondary" :href="discoveryBrowseHref({})" @click="browse($event, {})">Explorer le Compendium <span aria-hidden="true">→</span></a>
       </div>
       <div class="discovery-hero-meta"><span>UN MONDE À EXPLORER <span aria-hidden="true">//</span> PLUSIEURS REGARDS</span><span v-if="articleCount !== null">{{ articleCount }} articles</span></div>
     </section>
@@ -108,7 +108,7 @@ function browse(event: MouseEvent, payload: DiscoveryBrowse) {
       </template>
 
       <template v-else-if="journey">
-        <a class="discovery-text-link" href="/compendium?view=guide" @click="navigate($event, () => emit('guide'))">← Guide d’accompagnement</a>
+        <a class="discovery-text-link" href="/decouvrir" @click="navigate($event, () => emit('guide'))">← Guide d’accompagnement</a>
         <header class="discovery-page-heading"><p class="discovery-eyebrow">PARCOURS DE LECTURE / {{ journey.articles.length }} ÉTAPES</p><h1>{{ journey.title }}</h1><p>{{ journey.description }}</p></header>
         <ol class="discovery-steps">
           <li v-for="(article, index) in journey.articles" :key="article.id" :data-layer="article.category"><span class="discovery-step-index" aria-hidden="true">{{ String(index + 1).padStart(2, '0') }}</span><div><p class="discovery-eyebrow">{{ article.category }} / LORE</p><h2><a :href="articleLink(article.id)" @click="openArticle($event, article.id)">{{ article.title }} <span aria-hidden="true">→</span></a></h2><p>{{ article.summary }}</p></div></li>
@@ -125,9 +125,9 @@ function browse(event: MouseEvent, payload: DiscoveryBrowse) {
         </div>
       </section>
       <section class="discovery-section" aria-labelledby="discovery-journeys-title">
-        <div class="discovery-heading"><h2 id="discovery-journeys-title">{{ mode === 'journey' ? 'Autres parcours à découvrir' : 'Par où commencer ?' }}</h2><a v-if="mode === 'home'" class="discovery-text-link" href="/compendium?view=guide" @click="navigate($event, () => emit('guide'))">Guide d’accompagnement <span aria-hidden="true">→</span></a></div>
+        <div class="discovery-heading"><h2 id="discovery-journeys-title">{{ mode === 'journey' ? 'Autres parcours à découvrir' : 'Approfondir par thème' }}</h2><a v-if="mode === 'home'" class="discovery-text-link" href="/decouvrir" @click="navigate($event, () => emit('guide'))">Guide d’accompagnement <span aria-hidden="true">→</span></a></div>
         <div class="discovery-journeys">
-          <a v-for="(item, index) in discoveryJourneys" :key="item.id" class="discovery-journey" :aria-current="mode === 'journey' && item.id === journeyId ? 'page' : undefined" :href="journeyLink(item.id)" @click="navigate($event, () => emit('journey', item.id))"><span class="discovery-eyebrow">PARCOURS {{ String(index + 1).padStart(2, '0') }} / {{ item.articles.length }} LECTURES</span><h3>{{ item.title }}</h3><p>{{ item.description }}</p><span class="discovery-card-action">{{ mode === 'journey' && item.id === journeyId ? 'Parcours actuel' : 'Commencer' }} <span aria-hidden="true">→</span></span></a>
+          <a v-for="(item, index) in discoveryJourneys" :key="item.id" class="discovery-journey" :aria-current="mode === 'journey' && item.id === journeyId ? 'page' : undefined" :href="journeyLink(item.id)" @click="navigate($event, () => emit('journey', item.id))"><span class="discovery-eyebrow">PARCOURS {{ String(index + 1).padStart(2, '0') }} / {{ item.articles.length }} LECTURES</span><h3>{{ item.title }}</h3><p>{{ item.description }}</p><span class="discovery-card-action">{{ mode === 'journey' && item.id === journeyId ? 'Parcours actuel' : 'Explorer' }} <span aria-hidden="true">→</span></span></a>
         </div>
       </section>
       <footer class="discovery-footer"><span>TERRA UMBRA <span aria-hidden="true">//</span> COMPENDIUM</span><a :href="discoveryBrowseHref({})" @click="browse($event, {})">Explorer tous les articles <span aria-hidden="true">→</span></a></footer>

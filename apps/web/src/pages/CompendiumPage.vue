@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import AtlasArticleLinks from "../components/AtlasArticleLinks.vue";
 import AtlasArticleMaps from "../components/AtlasArticleMaps.vue";
+import ArticleReadingGuide from "../components/ArticleReadingGuide.vue";
 import TerraUmbraBrand from "../components/TerraUmbraBrand.vue";
 import PortraitAdmin from "../components/PortraitAdmin.vue";
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from "vue";
@@ -8,6 +9,9 @@ import { isNavigationFailure, NavigationFailureType, RouterLink, useRoute, useRo
 import { api, ApiError } from "../lib/api";
 import CompendiumOnboarding from "../components/CompendiumOnboarding.vue";
 import CompendiumDiscovery from "../components/CompendiumDiscovery.vue";
+const topbarElement = ref<HTMLElement | null>(null);
+const topbarHeight = ref<number | undefined>();
+let topbarObserver: ResizeObserver | undefined;
 import CompendiumHologramComparison from "../components/CompendiumHologramComparison.vue";
 import NpcStatProfile from "../components/NpcStatProfile.vue";
 import { isNpcStatProfileSection } from "../lib/npc-stat-profile";
@@ -1453,7 +1457,7 @@ async function chooseCategory(name: string) {
 }
 
 async function openNewcomer() {
-  await router.push({ path: "/compendium", query: { view: "guide" } });
+  await router.push({ path: "/decouvrir" });
 }
 
 async function closeNewcomer() {
@@ -1746,6 +1750,13 @@ watch(
 
 onMounted(() => {
   pageMounted = true;
+  // Navigation can wrap when glossary/account controls share a narrow viewport.
+  if (typeof ResizeObserver !== 'undefined' && topbarElement.value) {
+    topbarObserver = new ResizeObserver(() => {
+      topbarHeight.value = topbarElement.value?.getBoundingClientRect().height;
+    });
+    topbarObserver.observe(topbarElement.value);
+  }
   previousScrollRestoration = window.history.scrollRestoration;
   window.history.scrollRestoration = "manual";
   updateScreen(); loadReadingPositions();
@@ -1777,6 +1788,7 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   pageMounted = false;
+  topbarObserver?.disconnect();
   textRenderCache.clear();
   ++articleRequest;
   window.history.scrollRestoration = previousScrollRestoration;
@@ -1794,9 +1806,9 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div class="compendium-shell" :class="{ 'reader-active': selected, 'reader-focus': readerFocus }" :data-layer="activeLayer" :style="{ '--reader-font-size': `${readerFontSize}px` }">
+  <div class="compendium-shell" :class="{ 'reader-active': selected, 'reader-focus': readerFocus }" :data-layer="activeLayer" :style="{ '--reader-font-size': `${readerFontSize}px`, '--measured-topbar': topbarHeight ? `${topbarHeight}px` : undefined }">
     <a class="compendium-skip" href="#compendium-main" @click="skipToContent">Aller au contenu</a>
-    <header class="compendium-topbar">
+    <header ref="topbarElement" class="compendium-topbar">
       <RouterLink class="brand compendium-brand-lockup" to="/">
         <TerraUmbraBrand />
       </RouterLink>
@@ -1807,6 +1819,7 @@ onBeforeUnmount(() => {
       </nav>
       <div class="compendium-top-actions">
         <RouterLink class="ghost compact-link atlas-access" to="/atlas">Atlas &amp; cartes</RouterLink>
+        <RouterLink class="ghost compact-link glossary-access" to="/glossaire">Glossaire</RouterLink>
         <button class="ghost compact-link" type="button" aria-label="Ouvrir la recherche" @click="focusSearch">Rechercher <kbd>⌘/Ctrl K</kbd></button>
         <button class="ghost compact-link newcomer-link" type="button" @click="openNewcomer">
           Bien commencer
@@ -1837,6 +1850,7 @@ onBeforeUnmount(() => {
             <svg class="navigation-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h6l3 2 3-2h6v15h-6l-3 2-3-2H3Zm9 2v15"/></svg>
             <span>Bien commencer</span>
           </button>
+          <RouterLink class="navigation-category" to="/glossaire"><span>Glossaire</span><small>Définitions courtes</small></RouterLink>
           <button
             type="button"
             class="navigation-category"
@@ -2310,6 +2324,7 @@ onBeforeUnmount(() => {
                     <p v-if="readingNotice" class="reader-notice" role="status">{{ readingNotice }}</p>
                   </header>
 
+                  <ArticleReadingGuide :article-id="selected.id" />
                   <AtlasArticleLinks :article-id="selected.id" />
                   <AtlasArticleMaps :article-id="selected.id" />
 
@@ -2742,6 +2757,10 @@ onBeforeUnmount(() => {
 </template>
 
 <style scoped>
+:global(body:has(.compendium-shell)){min-width:0}
+.compendium-shell .compendium-navigation{top:var(--measured-topbar,var(--orbital-topbar));height:calc(100dvh - var(--measured-topbar,var(--orbital-topbar)))}
+.compendium-shell .reader-progress-bar{top:calc(var(--measured-topbar,var(--orbital-topbar)) - 1px)}
+@media(max-width:900px){.compendium-shell .compendium-navigation{height:auto}}
 .article-header, .article-section {
   scroll-margin-top: var(--compendium-anchor-offset, 90px);
 }

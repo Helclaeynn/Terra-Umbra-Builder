@@ -7,6 +7,8 @@ const router=createRouter({
   history:createWebHistory(),
   scrollBehavior(to, from, savedPosition) {
     if (savedPosition) return savedPosition;
+    if (to.path === '/decouvrir' && ['#cadre','#choisir','#suite'].includes(to.hash)) return { el: to.hash, top: 24 };
+    if (to.path.startsWith('/decouvrir/') && ['#envie','#quotidien','#capacites','#preparer'].includes(to.hash)) return { el: to.hash, top: 24 };
     if (to.path === '/atlas' && to.hash === '#cartes-classiques') return { el: to.hash, top: 16 };
     if (to.path === '/atlas' && to.query.map !== from.query.map) return { top: 0, left: 0 };
     // The account view scrolls to this section after its asynchronous user data renders.
@@ -15,6 +17,9 @@ const router=createRouter({
     if (to.path !== from.path) return { top: 0, left: 0 };
   },
   routes:[
+    { path:"/decouvrir", component:()=>import("./pages/PlayerStartPage.vue") },
+    { path:"/decouvrir/:guide", component:()=>import("./pages/PlayerStartPage.vue") },
+    { path:"/glossaire", component:()=>import("./pages/GlossaryPage.vue") },
     { path:"/atlas", component:()=>import("./pages/AtlasPage.vue") },
     { path:"/", component:()=>import("./pages/CompendiumPage.vue") },
     { path:"/campaigns", component:()=>import("./pages/CampaignsPage.vue") },
@@ -34,7 +39,8 @@ const router=createRouter({
   ]
 });
 
-router.beforeEach(()=>{
+router.beforeEach((to)=>{
+  if ((to.path === '/' || to.path === '/compendium') && !to.query.article && (to.query.view === 'guide' || to.query.start === '1')) return '/decouvrir';
   // Stay in the router: a forced document reload also fires beforeunload and
   // asks a second time after an already-approved leave guard.
   document.documentElement.classList.add("route-changing");
