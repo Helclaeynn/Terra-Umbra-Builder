@@ -20,7 +20,7 @@ for(const g of start.guides){
   for(const t of g.terms) assert(termIds.has(t),`${g.id}: missing term ${t}`);
   for(const l of g.links) assert(/^(regles|verite|realite)-/.test(l.article));
   for(const field of ['known','rumours','unknown','exceptions']) assert(g.knowledge[field]?.length>30);
-  assert(g.stereotypes.length>=4 && g.stereotypes.length<=6);
+  assert(g.stereotypes.length>=6 && g.stereotypes.length<=8);
   for(const s of g.stereotypes) assert(s.voice && s.subject && s.status && s.limit);
   assert(g.heritage.length>100 && g.inScene.length>100);assert(g.stakes.length>250 && g.pressure.length>200);
   assert(termIds.has(g.interpretation.term));
@@ -98,11 +98,12 @@ assert.equal(d.querySelectorAll('.start-profile').length,5);
 for(const profile of reality.profiles){
  await api.go('/decouvrir/realite/'+profile.id);
  assert.equal(d.querySelector('[data-reality-guide]').dataset.realityGuide,profile.id);
- for(const anchor of ['envie','regard','quotidien','capacites','regles','preparer','approfondir']) assert(d.querySelector('#'+anchor));
- assert.equal(d.querySelectorAll('.start-stereotype').length,4);
+ for(const anchor of ['envie','regard','quotidien','capacites','preparer','approfondir']) assert(d.querySelector('#'+anchor));
+ assert.equal(d.querySelectorAll('.start-stereotype').length,profile.stereotypes.length);
  assert.equal(d.querySelectorAll('.guide-quick-terms>div').length,3);
- assert.match(d.querySelector('#regles').textContent,/1d10 explosif/);
- assert.equal(profile.choices.length,3);assert.equal(profile.stereotypes.length,4);
+ assert.equal(d.querySelector('#regles'),null,'Reality guides do not repeat the core rules');
+ assert.equal(d.querySelector('a[href="#regles"]'),null);
+ assert.equal(profile.choices.length,3);assert.equal(profile.stereotypes.length,6);
  assert(profile.links.length>=2);assert(profile.illustration.alt.length>20);
  for(const key of ['heritage','outlook','resources','limits','pressure','team','example']) assert(profile[key].length>180,profile.id+' '+key);
 }
@@ -116,6 +117,16 @@ assert.match(d.querySelector('#regles').textContent,/Un 1 naturel au premier dé
 await api.go('/decouvrir/baseanh');assert.match(d.querySelector('.start-guide-body').textContent,/quatre bras, six yeux bleu ciel/);
 await api.go('/decouvrir/inconnu');assert.match(d.querySelector('h1').textContent,/Ce guide n’existe pas/);
 await api.go('/decouvrir/talass');assert.match(d.body.textContent,/tu ignores l’existence des Exilés/);assert.match(d.querySelector('.start-stereotypes').textContent,/Serys/);
+for(const [id,filename] of [['talass','verite-talass-fils.webp'],['mosen','verite-mosen-atelier.webp'],['thalsios','verite-thalsios-mecanique.webp']]){
+ await api.go('/decouvrir/'+id);
+ assert(d.querySelector('.guide-illustration img').getAttribute('src').endsWith(filename));
+ assert.equal(d.querySelector('.guide-portrait'),null,'Narrative scene, not a white-background portrait');
+}
+for(const id of ['daemon','angelus','vampire']){
+ await api.go('/decouvrir/'+id);
+ assert.match(d.querySelector('.start-guide-body').textContent,/Fléau/);
+ assert.match(d.querySelector('.start-stereotypes').textContent,id==='vampire'?/Les Angelus/:/Les Vampires/);
+}
 await api.go('/decouvrir/mage');assert.match(d.body.textContent,/Les extraterrestres sont généralement ignorés/);
 await api.go('/article/verite-humanite-galactique-aidh');assert(d.querySelector('.article-reading-guide'));assert.equal(d.querySelectorAll('.reading-links a').length,1);assert.equal(d.querySelector('.reading-links a').getAttribute('href'),'/decouvrir/homo-superior');
 await api.go('/article/article-sans-guide');assert.equal(d.querySelector('.article-reading-guide'),null);
