@@ -41,33 +41,20 @@ const tick=()=>new Promise(resolve=>setTimeout(resolve,0));
 const set=(node,value,event='change')=>{assert.ok(node,'Control exists');node.value=value;node.dispatchEvent(new w.Event(event,{bubbles:true}));};
 
 const {terraUmbraTruthRules:canonical}=await import('../../api/dist/rules/truth/rules.js');
-const truth={nature:'exile',consciousness:'initie',choices:{people:'whurten',network:'runes_whurten',hunterTradition:'aucune',beneficiaryBenefits:{scenario:'Old',refectionReceived:true,guardReceived:true}},truthTalents:[],truthEquipment:[],corruptionTalents:[],corruption:0,corruptionSource:''};
+const {daemonTalentIds:ids}=await import('../../api/dist/rules/truth/daemon-build.js');
+const truth={nature:'daemon',consciousness:'initie',choices:{divinity:'mephisto',function:'oracle',patron:'',soulOrigin:'eveille'},truthTalents:[],truthEquipment:[],truthEquipmentMjOverride:false,corruptionMjAuthorized:false,corruption:0,corruptionSource:'',corruptionTalents:[]};
 const reality={equipment:[],augmentations:[],fixedChargeItems:[]};
-const props={rewardsLocked:true,progression:{ptvEarned:15,xpEarned:7,cashBase:900,renownAdjustment:1},reality,truthState:truth,rules:plain(actualRules),truthRules:canonical,realityRules:{equipment:[],augmentations:[],recurring:[],economy:{},source:{},counts:{}},style:null,edge:{},sphereId:'independant',sphereName:'Indépendant',creationTalentIds:[],talentChoiceSpecs:plain(specs),creationTalentChoices:{},skillTalentMap:plain(skillMap),disadvantages:[],skillBases:Object.fromEntries(actualRules.skills.map(s=>[s.id,1])),skillFinalBases:Object.fromEntries(actualRules.skills.map(s=>[s.id,1])),attributeBases:Object.fromEntries(actualRules.attributes.map(a=>[a.id,4])),creationPtvReserve:0,creationAccount:900};
+const props={rewardsLocked:true,progression:{ptvEarned:10,xpEarned:7,cashBase:900,renownAdjustment:1},reality,truthState:truth,rules:plain(actualRules),truthRules:canonical,realityRules:{equipment:[],augmentations:[],recurring:[],economy:{},source:{},counts:{}},style:null,edge:{},sphereId:'independant',sphereName:'Indépendant',creationTalentIds:[],talentChoiceSpecs:plain(specs),creationTalentChoices:{},skillTalentMap:plain(skillMap),disadvantages:[],skillBases:Object.fromEntries(actualRules.skills.map(s=>[s.id,1])),skillFinalBases:Object.fromEntries(actualRules.skills.map(s=>[s.id,1])),attributeBases:Object.fromEntries(actualRules.attributes.map(a=>[a.id,4])),creationPtvReserve:0,creationAccount:900};
 try{
- w.start('progression',props);await tick();
- const search=d.querySelector('.truth-search input'),find=name=>Array.from(d.querySelectorAll('.truth-talent-list article')).find(n=>n.querySelector('strong')?.textContent===name),choose=async id=>{const name=canonical.catalogs.exile.find(t=>t.id===id).name;set(search,name,'input');await tick();return find(name);};
- const buy=async id=>{const card=await choose(id);assert.ok(card,id);assert.equal(card.querySelector('button').disabled,false,id+' buyable');card.querySelector('button').click();await tick();};
- assert.equal((await choose('exile-inscription-breve')).querySelector('button').disabled,true);
- await buy('exile-rune-du-foyer');await buy('exile-rune-de-veille');await buy('exile-inscription-breve');
- assert.equal((await choose('exile-phrase-runique')).querySelector('button').disabled,true);
- await buy('exile-rune-de-fer');await buy('exile-phrase-runique');
- // Each user event has its own Vue render cycle, as it does in a browser.
- d.querySelector('[data-exile-add="trainings"]').click();await tick();
- const training=d.querySelector('[data-exile-section="trainings"] fieldset');
- set(training.querySelector('select'),'hds');await tick();
- set(training.querySelector('input:not([type=checkbox])'),'Enseignant','input');await tick();
- set(training.querySelector('textarea'),'Cursus réellement acquis','input');await tick();
- training.querySelector('[type=checkbox]').click();await tick();
- const learned=w.current().truth.choices.exileBuild.trainings[0];
- assert.equal(learned.network,'hds');assert.equal(learned.mentor,'Enseignant');
- assert.equal(learned.conditions,'Cursus réellement acquis');assert.equal(learned.learned,true);
- await buy('exile-lecture-de-distorsion');await buy('exile-hdb-hologram-distorsion-block');await buy('exile-hdp-hologram-distorsion-punishment');
- assert.equal((await choose('exile-rune-de-garde')).querySelector('button').disabled,true,'PTV exhausted');
- assert.deepEqual(plain(w.current().truth.truthTalents),[],'Creation talents are not rewritten');assert.equal(w.current().progress.truthTalents.length,8);assert.equal(w.current().progress.ptvEarned,15);assert.equal(w.current().progress.xpEarned,7);assert.equal(w.current().progress.cashBase,900);assert.equal(w.current().progress.renownAdjustment,1);
- assert.equal(d.querySelector('[data-beneficiary]'),null,'Session controls removed');
- assert.equal(w.current().truth.choices.beneficiaryBenefits.refectionReceived,true);assert.equal(w.current().truth.choices.beneficiaryBenefits.guardReceived,true);
- const saved=plain(w.current());w.stop();await tick();w.start('progression',{...props,truthState:saved.truth,progression:saved.progress,reality:saved.reality});await tick();assert.deepEqual(plain(w.current()),saved);
- assert.equal(d.querySelector('[data-reward-editor]'),null);console.log('EXILE PROGRESSION DOM OK — real Vue purchases of base runes/Brief/Phrase and HDB/HDP, learned training, exact PTV costs, creation isolation, saved recipient tracking and unchanged campaign rewards');
-}finally{w.stop();dom.window.close();}
+ for(const nature of Object.values(canonical.structure.natures)){
+  const choices={};for(const c of nature.choices){const options=c.optionsBy&&c.dependsOn?c.optionsBy[choices[c.dependsOn]]??c.options:c.options;choices[c.key]=(options.find(o=>o.id==='aucune')??options[0])?.id??'';}
+  Object.assign(choices,{beneficiaryBenefits:{scenario:'Old',refectionReceived:true,guardReceived:true},extralBuild:{repairUsed:true,reserveUsed:true},daemonBuild:{riteDomain:'corvides',rites:[{name:'Old',effect:'Kept',pa:1}]}});
+  const state={...truth,nature:nature.id,choices,truthTalents:[]};w.start('progression',{...props,truthState:state});await tick();
+  assert.equal(d.querySelector('.daemon-options,.angelus-options,.extral-options,.exile-options,.beneficiary-benefits,.mage-technique-editor'),null,nature.id+' no unsolicited panels');
+  assert.equal(d.querySelector('[data-reward-editor]'),null,'Campaign rewards locked');
+  assert.deepEqual(plain(w.current().truth.choices),choices,'Hidden legacy data retained');w.stop();await tick();
+ }
+ assert.match(canonical.structure.natures.extral.choices.find(c=>c.key==='network').optionsBy.homo_superior.find(o=>o.id==='aidh_intervention').description,/Formation AIDH au combat en équipe/);
+ console.log('GUIDED TRUTH DOM OK — all Natures, no global free/session panels, legacy data retained and protected campaign rewards');
+}finally{dom.window.close();}
 assert.deepEqual(errors,[],'No runtime error');

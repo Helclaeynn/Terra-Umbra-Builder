@@ -1,3 +1,4 @@
+import {isKhinae,khinaeVisibleTalent,khinaeAwakeningTalents,khinaeAcquisitionIssues,khinaeBodyProfile,khinaeProfileText,khinaeAwakenedBloods} from "./khinae";
 import {normalizeExileBuild,normalizeBeneficiaryBenefits,exileVisibleTalent,exileAcquisitionIssues,exileCombatProfile} from "./exile";
 import {normalizeExtralBuild,extralVisibleTalent,extralAcquisitionIssues,extralCombatProfile} from "./extral";
 import {normalizeAngelusBuild,angelusLearnedNatures,angelusSecondaryTraits,angelusAcquisitionIssues,angelusUnavailableAcquisitions,angelusAuraCapacity} from "./angelus";
@@ -314,6 +315,7 @@ function visibleNativeTalent(pkg:TruthRulesPackage,state:TruthState,talent:Truth
   const cost=Number(talent.cost||0);
   if(!(cost>0&&cost<=3))return false;
 
+  if(isKhinae(state))return khinaeVisibleTalent(pkg,state,talent);
   if(nature==="exile")return exileVisibleTalent(pkg,state,talent);
   if(nature==="extral")return extralVisibleTalent(pkg,state,talent);
   const exact=whenMatches(talent.when,state.choices);
@@ -456,6 +458,7 @@ function availableMageTalents(pkg:TruthRulesPackage,state:TruthState){
 
 /** Full price index: unavailable saved purchases must not turn into free PTV. */
 export function truthKnownTalents(pkg:TruthRulesPackage,state:TruthState):TruthTalent[]{
+  if(isKhinae(state))return [...Object.values(pkg.catalogs).flat(),...khinaeAwakeningTalents(pkg,state,true)];
   if(state.nature==="daemon")return [...Object.values(pkg.catalogs).flat(),...daemonAdditionalTalents(pkg)];
   if(state.nature!=="mage")return Object.values(pkg.catalogs).flat();
   const rows=new Map(mageAllTalents(pkg,state).map(t=>[t.id,t]));
@@ -472,6 +475,7 @@ export function truthAvailableTalents(pkg:TruthRulesPackage,state:TruthState){
   if(state.nature==="mage")rows=availableMageTalents(pkg,state);
   else rows=(pkg.catalogs[state.nature]??[]).filter(talent=>visibleNativeTalent(pkg,state,talent));
 
+  if(isKhinae(state))rows.push(...khinaeAwakeningTalents(pkg,state));
   if(state.nature==="daemon"&&state.choices.divinity==="mephisto"&&state.truthTalents.includes(daemonTalentIds.polyphony))rows.push(...daemonAdditionalTalents(pkg));
 
   const hunterTradition=stringChoice(state.choices,"hunterTradition")||"aucune";
@@ -493,7 +497,7 @@ export function truthSelectedFreeTraits(pkg:TruthRulesPackage,state:TruthState){
   if(!nature)return [];
   const rows:TruthTrait[]=[...(nature.baseFreeTraits??[]),...aserynSignatureTraits(state),...daemonSecondaryTraits(pkg,state),...angelusSecondaryTraits(pkg,state)];
   for(const rule of nature.freeTraitRules??[]){
-    if(whenMatches(rule.when,state.choices))rows.push(...rule.traits);
+    if(whenMatches(rule.when,state.choices)||(isKhinae(state)&&rule.when?.blood==="sang_enchaine"&&khinaeAwakenedBloods(pkg,state).includes("sang_enchaine")))rows.push(...rule.traits);
   }
   const unique=new Map<string,TruthTrait>();
   for(const trait of rows){
@@ -646,37 +650,9 @@ export function truthRevelationProfile(pkg:TruthRulesPackage,state:TruthState){
       sr:row?.sr??"Choisir un profil",
       r:row?.r??"Choisir un profil"
     };
-  }else if(nature==="garou"){
-    const chained=stringChoice(choices,"blood")==="sang_enchaine";
-    label=chained?"Garou · Sang Enchaîné":"Garou";
-    stats=chained
-      ? {
-          v:"Aucun bonus de Nature",
-          sr:"Aucun bonus d’Attribut automatique · instincts/sens SR",
-          r:"+2 Vigueur · +2 Agilité · +3 Pugilat · +1 PA/round · forme hybride interdite"
-        }
-      : {
-          v:"Aucun bonus de Nature",
-          sr:"Aucun bonus d’Attribut automatique · instincts/sens SR",
-          r:"Humain révélé : aucun gros bonus automatique · Loup : +2 Agilité · morsure DGT 3 · Hybride : +3 Vigueur · +2 Agilité · +3 Pugilat · griffes/crocs DGT 5 · Armure 2 · Régénération 2 PV/round · +1 PA/round"
-        };
-  }else if(nature==="khinae"){
-    const lineage=stringChoice(choices,"lineage");
-    const variant=stringChoice(choices,"variant");
-    const base=revelation.khinaeBase[lineage];
-    const variantStats=revelation.khinaeVariant[lineage]?.[variant];
-    const suffix=variantStats?` · Variante hybride sélectionnée : ${variantStats}`:"";
-    label=[
-      truthChoiceLabel(pkg,state,"lineage"),
-      truthChoiceLabel(pkg,state,"variant")
-    ].filter(Boolean).join(" · ")||"Lignée à choisir";
-    stats={
-      v:"Aucun bonus de Nature",
-      sr:"Aucun bonus d’Attribut commun · instincts/perceptions SR de Lignée",
-      r:base
-        ? `Humain révélé : aucun bonus d’Attribut automatique · Animal : ${base.animal} · Hybride : ${base.hybrid}${suffix}`
-        : "Choisir une Lignée"
-    };
+  }else if(isKhinae(state)){
+    label=nature==="garou"?"Garou":[truthChoiceLabel(pkg,state,"lineage"),truthChoiceLabel(pkg,state,"variant")].filter(Boolean).join(" · ")||"Lignée à choisir";
+    stats={v:"Aucun bonus de Nature",sr:"Aucun bonus d’Attribut automatique · instincts/perceptions SR",r:"Humain : "+khinaeProfileText(khinaeBodyProfile(pkg,state,'human'))+" Animal : "+khinaeProfileText(khinaeBodyProfile(pkg,state,'animal'))+" Hybride : "+khinaeProfileText(khinaeBodyProfile(pkg,state,'hybrid'))};
   }
 
   if(nature==="exile"&&choices.people==="thulkar")for(const stage of ["v","sr","r"] as const){const physical=exileCombatProfile(pkg,state,stage);stats[stage]+=` · Armure corporelle ${physical.armor} · Pugilat DGT ${physical.unarmed} (hors pouvoirs temporaires)`;}
@@ -709,6 +685,7 @@ export function truthPrerequisiteSatisfied(
   talent:TruthTalent,
   available=truthAvailableTalents(pkg,state)
 ){
+  const khinaeIssues=khinaeAcquisitionIssues(pkg,state,talent);if(khinaeIssues!==null)return khinaeIssues.length===0;
   const exileIssues=exileAcquisitionIssues(pkg,state,talent);
   if(exileIssues!==null)return exileIssues.length===0;
   const extralIssues=extralAcquisitionIssues(pkg,state,talent);
@@ -754,7 +731,7 @@ export function truthPtvSpent(pkg:TruthRulesPackage,state:TruthState){
   const all=new Map(available.map(talent=>[talent.id,talent]));
   // A saved inherited talent retains its price even while its choice is incomplete.
   if(state.nature==="aseryn")for(const talent of pkg.catalogs.aseryn??[])all.set(talent.id,talent);
-  if(state.nature==="mage"||state.nature==="daemon"||state.nature==="angelus"||state.nature==="extral"||state.nature==="exile"){
+  if(isKhinae(state)||state.nature==="mage"||state.nature==="daemon"||state.nature==="angelus"||state.nature==="extral"||state.nature==="exile"){
     for(const talent of truthKnownTalents(pkg,state))all.set(talent.id,talent);
   }
   const native=state.truthTalents.reduce((sum,id)=>sum+Number(all.get(id)?.cost||0),0);
@@ -780,7 +757,7 @@ export function truthChoicesValid(pkg:TruthRulesPackage,state:TruthState){
 
 export function truthSanitizeTalents(pkg:TruthRulesPackage,state:TruthState){
   // Changing an Extral network or consciousness never erases already-paid acquisitions.
-  if(state.nature==="extral"||state.nature==="exile"){const known=new Set(truthKnownTalents(pkg,state).map(t=>t.id));return [...new Set(state.truthTalents)].filter(id=>known.has(id));}
+  if(isKhinae(state)||state.nature==="extral"||state.nature==="exile"){const known=new Set(truthKnownTalents(pkg,state).map(t=>t.id));return [...new Set(state.truthTalents)].filter(id=>known.has(id));}
   if(state.consciousness==="profane")return [];
   // A descriptive edit must not erase previously paid Daemon acquisitions. Invalid access is reported separately.
   if(state.nature==="daemon"||state.nature==="angelus"){const known=new Set(truthKnownTalents(pkg,state).map(t=>t.id));return [...new Set(state.truthTalents)].filter(id=>known.has(id));}

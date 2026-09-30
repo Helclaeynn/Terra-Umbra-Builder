@@ -49,10 +49,11 @@ try{
  w.start('progression',props);await tick();
  const search=d.querySelector('.truth-search input'),find=name=>Array.from(d.querySelectorAll('.truth-talent-list article')).find(n=>n.querySelector('strong')?.textContent===name),choose=async name=>{set(search,name,'input');await tick();return find(name);};
  let card=await choose('Formation secondaire');assert.ok(card);assert.equal(card.querySelector('button').disabled,true);
+ d.querySelector('[data-configure-talent="'+ids.formation+'"]').click();await tick();
  set(d.querySelector('[data-daemon-field="secondaryFunction"]'),'legionnaire');await tick();set(d.querySelector('[data-daemon-field="secondaryMentor"]'),'Mentor de la Cour','input');await tick();
  assert.equal(find('Formation secondaire').querySelector('button').disabled,false);find('Formation secondaire').querySelector('button').click();await tick();assert.ok(w.current().progress.truthTalents.includes(ids.formation));assert.deepEqual(plain(w.current().truth.truthTalents),[],'Original creation talents untouched');
  assert.ok(await choose('Arme changeante'),'Second Function actually opens paid talents');
- set(d.querySelector('[data-daemon-field="spectralAffinity"]'),'photomancie');await tick();set(d.querySelector('[data-daemon-field="secondSpectralAffinity"]'),'divination');await tick();
+ set(d.querySelector('[data-daemon-field="spectralAffinity"]'),'photomancie');await tick();(await choose('Polyphonie occulte')).querySelector('[data-configure-talent]').click();await tick();set(d.querySelector('[data-daemon-field="secondSpectralAffinity"]'),'divination');await tick();
  for(const name of ['Polyphonie occulte','Spectre affiné — second Spectre','Spectre amplifié — second Spectre']){card=await choose(name);assert.ok(card,name);assert.equal(card.querySelector('button').disabled,false);card.querySelector('button').click();await tick();}
  assert.equal(w.current().progress.ptvEarned,10);assert.equal(w.current().progress.xpEarned,7);assert.equal(w.current().progress.cashBase,900);assert.equal(w.current().progress.renownAdjustment,1);assert.equal(w.current().progress.truthTalents.length,4);
  card=await choose('Spectre amplifié');assert.equal(card.querySelector('button').disabled,true,'Real remaining budget is one PTV after spending nine');
