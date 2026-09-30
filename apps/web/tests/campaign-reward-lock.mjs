@@ -42,4 +42,4 @@ try{await import(temp.href);}finally{await unlink(temp);}
 const builder=await readFile(new URL('../src/pages/CharacterBuilderPage.vue',import.meta.url),'utf8');
 assert.match(builder,/campaignRewardsLocked=computed\(\(\)=>Boolean\(character.value\?\.campaignId\)\)/,'Scope comes only from server character.campaignId');
 assert.match(builder,/<ProgressionStep :rewards-locked="campaignRewardsLocked"/);
-assert.match(builder,/<CorruptionPanel :rewards-locked="campaignRewardsLocked"/);
+assert.match(builder,/<CorruptionPanel\b[^>]*:rewards-locked="campaignRewardsLocked"/);
