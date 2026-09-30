@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import {vampireUnavailable,vampireNativeBlood} from "../../lib/vampire";
 import {khinaeUnavailable} from "../../lib/khinae";
 import TruthBuildChoices from "./TruthBuildChoices.vue";
 import TruthTrainingChoices from "./TruthTrainingChoices.vue";
@@ -131,7 +132,7 @@ function setAserynChoice(key:string,value:string){
 
 const configuredTruthTalent=ref("");
 function setGuidedTruthChoices(patch:Record<string,unknown>){
- const allowed=Object.fromEntries(Object.entries(patch).filter(([key])=>['daemonBuild','angelusBuild','extralBuild','exileBuild','mageTechniques'].includes(key)));
+ const allowed=Object.fromEntries(Object.entries(patch).filter(([key])=>['vampireBuild','daemonBuild','angelusBuild','extralBuild','exileBuild','mageTechniques'].includes(key)));
  emit("update:truth",{...props.truthState,choices:{...props.truthState.choices,...allowed}});
 }
 
@@ -427,7 +428,7 @@ function removeTruthTalent(id:string){
     const byId=new Map(available.map(talent=>[talent.id,talent]));
     for(const ownedId of [...next.truthTalents]){
       const talent=byId.get(ownedId)??truthById.value.get(ownedId);
-      if(!talent||!(combined.nature==="garou"||combined.nature==="khinae"||combined.nature==="exile"||combined.nature==="extral"||combined.nature==="angelus"||combined.nature==="daemon"||combined.nature==="mage"&&mageTechniqueKind(ownedId))&&!truthPrerequisiteSatisfied(props.truthRules,combined,talent,available)){
+      if(!talent||!(combined.nature==="vampire"||combined.nature==="garou"||combined.nature==="khinae"||combined.nature==="exile"||combined.nature==="extral"||combined.nature==="angelus"||combined.nature==="daemon"||combined.nature==="mage"&&mageTechniqueKind(ownedId))&&!truthPrerequisiteSatisfied(props.truthRules,combined,talent,available)){
         next.truthTalents=next.truthTalents.filter(item=>item!==ownedId);
         changed=true;
       }
@@ -740,7 +741,7 @@ function sellCampaignItem(){
       </div>
       <div v-if="state.truthTalents.length" class="owned-list">
         <div v-for="id in learnedTruthIds" :key="id" class="owned-row">
-          <div><strong>{{ truthById.get(id)?.name || id }}</strong><small v-if="truthRules&&khinaeUnavailable(truthRules,combinedTruthState).includes(id)" class="rule-note bad">Acquisition conservée et payée ; indisponible avec les choix ou prérequis actuels.</small><span>{{ truthCost(id) }} PTV · {{ truthById.get(id)?.group || "Vérité" }}</span><TruthTalentText :effect="truthById.get(id)?.effect" :details="truthById.get(id)?.effectDetails" :lore="truthById.get(id)?.runtimeLore" :activation="truthById.get(id)?.activation" /></div>
+          <div><strong>{{ truthById.get(id)?.name || id }}</strong><small v-if="truthRules&&[...khinaeUnavailable(truthRules,combinedTruthState),...vampireUnavailable(truthRules,combinedTruthState)].includes(id)" class="rule-note bad">Acquisition conservée et payée ; indisponible avec les choix ou prérequis actuels.</small><span>{{ truthCost(id) }} PTV · {{ truthById.get(id)?.group || "Vérité" }}</span><TruthTalentText :effect="truthById.get(id)?.effect" :details="truthById.get(id)?.effectDetails" :lore="truthById.get(id)?.runtimeLore" :activation="truthById.get(id)?.activation" /></div>
           <button class="ghost danger compact" type="button" @click="removeTruthTalent(id)">Retirer</button>
         </div>
       </div>

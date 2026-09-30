@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import {vampireUnavailable,vampireNativeBlood} from "../lib/vampire";
 import {isKhinae,khinaeNativeBlood,khinaeUnavailable} from "../lib/khinae";
 import TruthBuildChoices from "../components/builder/TruthBuildChoices.vue";
 import TruthTrainingChoices from "../components/builder/TruthTrainingChoices.vue";
@@ -1417,7 +1418,7 @@ function setTruthChoice(key:string,value:string){
 const configuredTruthTalent=ref("");
 function setGuidedTruthChoices(patch:Record<string,unknown>){
  if(!currentTruthState.value)return;
- const allowed=Object.fromEntries(Object.entries(patch).filter(([key])=>['daemonBuild','angelusBuild','extralBuild','exileBuild','mageTechniques'].includes(key)));
+ const allowed=Object.fromEntries(Object.entries(patch).filter(([key])=>['vampireBuild','daemonBuild','angelusBuild','extralBuild','exileBuild','mageTechniques'].includes(key)));
  writeTruthState({...currentTruthState.value,choices:{...currentTruthState.value.choices,...allowed}});
 }
 
@@ -1456,6 +1457,7 @@ function truthChoiceValue(choice:TruthChoice){
 
 function resolvedTruthChoiceOptions(choice:TruthChoice){
   const state=currentTruthState.value,options=truthChoiceOptions(choice,state?.choices??{});
+  if(state?.nature==='vampire'&&choice.key==='blood'&&state.truthTalents.some(id=>id.startsWith('vampire_awaken_')))return options.filter(o=>o.id===vampireNativeBlood(state));
   return state&&isKhinae(state)&&choice.key==='blood'&&state.truthTalents.some(id=>id.startsWith('khinae_awaken_'))?options.filter(o=>o.id===khinaeNativeBlood(state)):options;
 }
 
@@ -2521,7 +2523,7 @@ onBeforeUnmount(()=>{
                   <h4>Talents acquis · {{ selectedTruthTalents.length }}</h4>
                   <div class="truth-owned-list">
                     <article v-for="talent in selectedTruthTalents" :key="talent.id" class="truth-owned-card">
-                    <small v-if="truthRules&&currentTruthState&&khinaeUnavailable(truthRules,currentTruthState).includes(talent.id)" class="rule-note bad">Acquisition conservée et payée ; indisponible avec les choix ou prérequis actuels.</small>
+                    <small v-if="truthRules&&currentTruthState&&[...khinaeUnavailable(truthRules,currentTruthState),...vampireUnavailable(truthRules,currentTruthState)].includes(talent.id)" class="rule-note bad">Acquisition conservée et payée ; indisponible avec les choix ou prérequis actuels.</small>
                       <div><strong>{{ talent.name }}</strong><span>{{ talent.cost }} PTV</span></div>
                       <p>{{ talent.effect }}</p>
                       <button type="button" :aria-label="`Retirer ${talent.name}`" @click="toggleTruthTalent(talent)">Retirer</button>

@@ -1,3 +1,4 @@
+import {normalizeVampireBuild,vampireNativeBlood,vampireAwakenedBloods,vampireBloodOptions,vampireUnavailable,vampireWeaponProfiles} from "./vampire";
 import {isKhinae,khinaeNativeBlood,khinaeAwakenedBloods,khinaeBloodOptions,khinaeUnavailable} from "./khinae";
 import {exileSheetDetails,beneficiarySheetDetails} from "./exile";
 import {extralSheetDetails} from "./extral";
@@ -12,7 +13,7 @@ export function truthSheetDetails(rules:TruthRulesPackage,state:TruthState,forti
   const known=new Set<string>();
   for(const choice of [...(nature?.choices??[]),...aserynChoiceFields(state).map(c=>({...c,optional:true}))]){
     known.add(choice.key);
-    const selected=isKhinae(state)&&choice.key==='blood'?khinaeNativeBlood(state):state.choices[choice.key];
+    const selected=isKhinae(state)&&choice.key==='blood'?khinaeNativeBlood(state):state.nature==='vampire'&&choice.key==='blood'?vampireNativeBlood(state):state.choices[choice.key];
     if(selected===undefined||selected===null||selected===''||selected==='aucune')continue;
     const options=truthChoiceOptions(choice,state.choices);
     const values=Array.isArray(selected)?selected:[selected];
@@ -29,6 +30,15 @@ export function truthSheetDetails(rules:TruthRulesPackage,state:TruthState,forti
     const opts=khinaeBloodOptions(rules,state),bloods=khinaeAwakenedBloods(rules,state);
     result.push({id:'khinae-bloods',name:'Sangs éveillés — ordre d’acquisition',value:bloods.map((b,i)=>(opts.find(o=>o.id===b)?.name??b)+(i?' · éveil acheté 3 PTV':' · natif')).join(' → ')});
     const invalid=khinaeUnavailable(rules,state);if(invalid.length)result.push({id:'khinae-unavailable',name:'Acquisitions conservées, indisponibles',value:invalid.map(id=>rules.catalogs[state.nature]?.find(t=>t.id===id)?.name??id).join(' · ')});
+  }
+  if(state.nature==='vampire'){
+    const opts=vampireBloodOptions(rules),bloods=vampireAwakenedBloods(rules,state),b=normalizeVampireBuild(state.choices.vampireBuild);
+    result.push({id:'vampire-bloods',name:'Sangs éveillés — ordre d’acquisition',value:bloods.map((id,i)=>(opts.find(o=>o.id===id)?.name??id)+(i?' · éveil 3 PTV':' · natif')).join(' → ')});
+    const unavailable=vampireUnavailable(rules,state);if(unavailable.length)result.push({id:'vampire-unavailable',name:'Acquisitions conservées et payées, indisponibles',value:unavailable.map(id=>rules.catalogs.vampire?.find(t=>t.id===id)?.name??id).join(' · ')});
+    if(b.forms.length)result.push({id:'vampire-forms',name:'Répertoire animal',value:b.forms.map((f,i)=>f.name+' · '+f.role+' · référence '+f.articleId+(i>0&&!state.truthTalents.includes('menagerie')?' · indisponible sans Ménagerie':'')).join(' ; '),description:'Profil de l’animal de référence : mobilité, sens, taille et attaque naturelle remplacés ; aucun Attribut supplémentaire ni soin.'});
+    if(state.truthTalents.includes('arme_hematique'))result.push({id:'vampire-weapons',name:'Armes hématiques',value:vampireWeaponProfiles.map(p=>p.name+' : '+p.effect).join(' ; ')});
+    if(b.deimon.name||b.deimon.reference)result.push({id:'vampire-deimon',name:'Deimon lié — PNJ existant',value:[b.deimon.name,b.deimon.reference,b.deimon.obligations].filter(Boolean).join(' · ')});
+    if(b.anchor.container||b.anchor.location||b.anchor.practitioner||b.anchor.notes)result.push({id:'vampire-anchor',name:'Ancrage de Sang préservé',value:[b.anchor.container,b.anchor.location,b.anchor.practitioner,b.anchor.notes].filter(Boolean).join(' · '),description:'3 PV sacrifiés tant que l’ancrage subsiste ; retour en 24 h dans le corps réparable, à 1 PV en Stase ; ancrage consommé.'});
   }
   const capacity=truthAngelusCapacity(state,fortitude);
   if(capacity){result.push({id:'angelus-rank',name:'Rang céleste',value:capacity.rank==='cherub'?'Chérubin':'Angelus'},{id:'angelus-aura',name:'Aura maximale',value:String(capacity.maximum)});}

@@ -82,7 +82,7 @@ export const COMPENDIUM_VERITE_V7_KHINAE_LORE_ARTICLES: Article[] = [
         title: "Une branche maudite de Khinae",
         level: 2,
         blocks: [
-          p("Les Vampires partagent avec les Garous une origine très ancienne : Khinae. Certaines lignées furent toutefois corrompues par les Fléaux. Cette altération ne s'est pas contentée de modifier leur corps : elle a changé leur destin métaphysique. Les descendants ordinaires de Khinae restent liés au Cycle ; la vraie mort du Vampire conduit son âme au Néant."),
+          p("Les Vampires partagent avec les Garous une origine très ancienne : Khinae. Certaines lignées furent toutefois corrompues par les Fléaux. Cette altération ne s'est pas contentée de modifier leur corps : elle a changé leur destin métaphysique. Les descendants ordinaires de Khinae restent liés au Cycle ; la vraie mort du Vampire conduit son âme au Néant. Sang préservé constitue une exception préalable : un ancrage préparé avant la mort peut retenir l’âme avant ce passage, sans permettre de la rappeler depuis le Néant."),
           p("Cette condamnation explique une part de leur obsession de la survie. Un Vampire peut craindre la douleur, la perte d'une Maison ou l'effondrement de son influence comme n'importe quel être, mais derrière ces risques existe une certitude plus profonde : certaines destructions sont réellement définitives.")
         ]
       },
@@ -395,7 +395,7 @@ export const COMPENDIUM_VERITE_V7_KHINAE_RULE_ARTICLES: Article[] = [
             ["État", "Effets communs"],
             ["Voilé", "Corps humain ; aucun bonus de Nature. Le Vampire vieillit et subit les limites biologiques humaines s'il demeure durablement dans cet état."],
             ["Semi-Révélé", "+1 Vigueur, +1 Volonté ; accès aux sens surnaturels et pouvoirs subtils. Compromis, pas forme de combat principale."],
-            ["Révélé", "+2 Vigueur, +1 Agilité, +1 Volonté ; accès au corps prédateur, à la prédation, à la stase, à la régénération, à l'Empreinte de Cour et à la majorité des Talents de Sang."]
+            ["Révélé", "+2 Vigueur, +1 Volonté ; accès au corps prédateur, à la prédation, à la stase, à la régénération, à l'Empreinte de Cour et à la majorité des Talents de Sang."]
           ])
         ]
       },
@@ -534,7 +534,7 @@ export const COMPENDIUM_VERITE_V7_KHINAE_RULE_ARTICLES: Article[] = [
         title: "Éveiller d'autres Sangs",
         level: 2,
         blocks: [
-          p("Un Sang noir est considéré comme maîtrisé après 4 PTV réellement investis dans son arbre. Une fois ce seuil atteint, l'éveil d'un Sang supplémentaire coûte 3 PTV ; ses Talents doivent ensuite être achetés normalement. La petite immortalité du Vampire reste volontairement fictionnelle et n'est pas une monnaie de progression.")
+          p("Un Sang noir est considéré comme maîtrisé après 4 PTV réellement investis dans son arbre. Une fois ce seuil atteint, l'éveil d'un Sang supplémentaire coûte 3 PTV ; ses Talents doivent ensuite être achetés normalement. Le seuil de 4 PTV doit ensuite être atteint dans ce dernier Sang avant d’en éveiller un autre. L’ordre des éveils et le Sang natif sont conservés ; les achats restent payés même lorsque leurs conditions d’accès ne sont plus remplies. La petite immortalité du Vampire reste volontairement fictionnelle et n'est pas une monnaie de progression.")
         ]
       }
     ]
