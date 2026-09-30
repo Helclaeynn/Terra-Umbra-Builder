@@ -1,3 +1,4 @@
+# Verify the complete current branch, including the concurrent onboarding guides.
 # Browser coverage verifies absent equipment without access and restored references with a doctrine.
 # Expanded Truth rules remain keyboard-foldable across every Nature.
 # Keep the reward-lock assertion independent of Vue attribute ordering.
@@ -89,6 +90,7 @@ jobs:
           npm ci
           npm run build
           npm run test:ui
+          node tests/player-start-dom.mjs
           npm run test:pdf
       - name: Real browser Exile choices, mobile and complete application
         working-directory: apps/web
