@@ -300,7 +300,7 @@ await page.route("**/api/**",async route=>{
     const nextVersion=Number(savedPayload.version||7)+1;
     return route.fulfill({
       status:200,contentType:"application/json",
-      body:JSON.stringify({character:{id:characterId,name:savedPayload.name,data:savedPayload.data,version:nextVersion,createdAt:new Date(0).toISOString(),updatedAt:new Date().toISOString()}})
+      body:JSON.stringify({character:{id:characterId,campaignId,name:savedPayload.name,data:savedPayload.data,version:nextVersion,createdAt:new Date(0).toISOString(),updatedAt:new Date().toISOString()}})
     });
   }
   if(url.pathname==="/api/rulesets/terra-umbra/creation"){
@@ -384,7 +384,7 @@ try{
   for(const nature of Object.values(canonical.structure.natures)){
    const choices={};for(const c of nature.choices){const options=c.optionsBy&&c.dependsOn?c.optionsBy[choices[c.dependsOn]]??c.options:c.options;choices[c.key]=(options.find(o=>o.id==='aucune')??options[0])?.id??'';}
    if(nature.id==='extral'){choices.species='homo_superior';choices.network='aidh_intervention';}
-   if(nature.id==='daemon'){choices.divinity='morrighan';choices.function='oracle';}
+   if(nature.id==='daemon'){choices.divinity='morrighan';choices.function='oracle';choices.patron='huginn';}
    campaignId=nature.id==='daemon'?'22222222-2222-4222-8222-222222222222':null;
    Object.assign(choices,{beneficiaryBenefits:{scenario:'Old',refectionReceived:true,guardReceived:true},extralBuild:{repairUsed:true,reserveUsed:true},daemonBuild:{riteDomain:'corvides',rites:[{name:'Old',effect:'Kept',pa:1}]}});
    characterData.truth={...characterData.truth,nature:nature.id,consciousness:'initie',choices,truthTalents:[]};savedPayload=null;
@@ -413,7 +413,7 @@ try{
     await authority.click();
     await page.locator('.truth-selected-recap').getByText('Autorité ancienne',{exact:true}).waitFor();
     if(await page.locator('.truth-selected-recap .rule-note.bad').count())throw new Error('New valid Daemon talent falsely unavailable');
-    const ritual=page.locator('.truth-talent-entry').filter({hasText:'Sorcellerie des corneilles'});
+    const ritual=page.locator('.truth-talent-entry').filter({hasText:/Sorcellerie des Corneilles/i});
     await ritual.evaluate(el=>el.closest('details').open=true);
     await ritual.locator('[data-truth-prerequisites]').getByText(/domaine.*rite complet/).waitFor();
     if(await ritual.locator('.truth-talent-details:not([open])').count())throw new Error('Talent details must be expanded');
