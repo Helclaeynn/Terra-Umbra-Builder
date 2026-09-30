@@ -77,7 +77,7 @@ const dom=new JSDOM('<div id="app"></div>',{url:'https://test.invalid/',runScrip
 const tick=()=>new Promise(r=>setTimeout(r,0));
 for(const rule of Object.values(aserynRevisions)){
  w.start('text',{effect:rule.effect,details:rule.effectDetails,activation:rule.activation,lore:'Ambiance'});await tick();
- assert.equal(d.querySelector('[data-truth-summary]').textContent,rule.effect);assert.equal(d.querySelector('details').open,false);assert.equal(d.querySelector('[data-truth-full-rule]').textContent,rule.effectDetails);w.stop();await tick();
+ assert.equal(d.querySelector('[data-truth-summary]').textContent,rule.effect);assert.equal(d.querySelector('details').open,true);d.querySelector('details').open=false;assert.equal(d.querySelector('details').open,false,'The expanded rule can still be folded');assert.equal(d.querySelector('[data-truth-full-rule]').textContent,rule.effectDetails);w.stop();await tick();
 }
 w.start('choices',{state});await tick();assert.ok(d.querySelector('[data-aseryn-choice="aserynMosaic"]'));
 const select=d.querySelector('[data-aseryn-choice="aserynMosaic"]');assert.equal([...select.options].some(o=>o.value==='aerilien'),false);select.value='mulien';select.dispatchEvent(new w.Event('change',{bubbles:true}));await tick();assert.equal(w.state().choices.aserynMosaic,'mulien');w.stop();await tick();

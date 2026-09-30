@@ -40,7 +40,7 @@ try{const page=await browser.newPage(),errors=[];page.on('pageerror',e=>errors.p
   assert.equal(await page.locator('[data-angelus-spent]').textContent(),'11');assert.match(await page.locator('[data-angelus-sheet="construct"]').textContent(),/10 PV/);
   const saved=await page.evaluate(()=>window.current());await page.evaluate(()=>window.reload());assert.deepEqual(await page.evaluate(()=>window.current()),saved);
   assert.equal(await page.locator('[data-angelus-sheet] input').count(),0);assert.equal(await page.locator('[data-angelus-sheet] button').count(),0);assert.equal(await page.locator('[data-angelus-sheet] img').count(),0);assert.equal(await page.locator('[data-angelus-sheet] script').count(),0);
-  await page.locator('.truth-talent-details>summary').focus();await page.keyboard.press('Enter');assert.ok(await page.locator('[data-truth-full-rule]').isVisible());
+  assert.ok(await page.locator('[data-truth-full-rule]').isVisible());await page.locator('.truth-talent-details>summary').focus();await page.keyboard.press('Enter');assert.equal(await page.locator('[data-truth-full-rule]').isVisible(),false);await page.keyboard.press('Enter');assert.ok(await page.locator('[data-truth-full-rule]').isVisible());
   await open('cherub');await field('secondaryNature').selectOption('');
   assert.equal(await page.locator('[data-angelus-spent]').textContent(),'11','No silent refund after clearing a definition');assert.ok(await page.locator('[data-angelus-sheet="unavailable"]').isVisible());
   await field('secondaryNature').selectOption('vertu');await open('construct');

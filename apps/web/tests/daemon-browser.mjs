@@ -38,7 +38,7 @@ try{const page=await browser.newPage(),errors=[];page.on('pageerror',e=>errors.p
   assert.match(await page.locator('[data-daemon-sheet="spectrum-secondary"]').textContent(),/Initiale \/ Mineure/);await buy('secondAffined').click();await buy('secondAmplified').click();assert.equal(await page.locator('[data-daemon-spent]').textContent(),'12');
   const saved=await page.evaluate(()=>window.current());await page.evaluate(()=>window.reload());assert.deepEqual(await page.evaluate(()=>window.current()),saved);
   assert.equal(await page.locator('[data-daemon-sheet] input').count(),0);assert.equal(await page.locator('[data-daemon-sheet] button').count(),0);
-  await page.locator('.truth-talent-details>summary').focus();await page.keyboard.press('Enter');assert.ok(await page.locator('[data-truth-full-rule]').isVisible());
+  assert.ok(await page.locator('[data-truth-full-rule]').isVisible());await page.locator('.truth-talent-details>summary').focus();await page.keyboard.press('Enter');assert.equal(await page.locator('[data-truth-full-rule]').isVisible(),false);await page.keyboard.press('Enter');assert.ok(await page.locator('[data-truth-full-rule]').isVisible());
   const belzebuth={...initial,choices:{...initial.choices,divinity:'belzebuth',function:'tourmenteur'}};await page.evaluate(([rules,s])=>window.start(rules,s),[truth,belzebuth]);
   assert.equal(await buy('form').isDisabled(),true);await open('form');await page.locator('[data-daemon-property="armour"]').check();await page.locator('[data-daemon-property="flight"]').check();await buy('form').click();await buy('contagion').click();
   await open('pathologies');await page.locator('[data-daemon-add="pathology"]').click();
