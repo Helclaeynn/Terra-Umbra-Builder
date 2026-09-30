@@ -1,5 +1,5 @@
 name: V2 production guided Truth and Garou Khinae
-# Complete approved Exile revision; all prior regression checks are retained.
+# Guided Truth and approved Khinae; mobile recipe opens the real navigation before selecting a step.
 on:
   push:
     branches: [feature/tuc-web-v2]
