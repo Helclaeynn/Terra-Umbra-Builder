@@ -2,7 +2,11 @@
 import assert from 'node:assert/strict';
 import {truthCatalogExtral} from '../../api/src/rules/truth/catalog-extral.ts';
 import {truthRuntimeStructure} from '../../api/src/rules/truth/runtime-structure.ts';
-import {truthAvailableTalents, truthSelectedFreeTraits, truthPtvSpent, truthSanitizeTalents} from '../src/lib/truth.ts';
+import {build} from 'esbuild';
+import {fileURLToPath} from 'node:url';
+const bundle=await build({entryPoints:[fileURLToPath(new URL('../src/lib/truth.ts',import.meta.url))],bundle:true,write:false,platform:'node',format:'esm'});
+const {truthAvailableTalents, truthSelectedFreeTraits, truthPtvSpent, truthSanitizeTalents}=
+  await import('data:text/javascript;base64,'+Buffer.from(bundle.outputFiles[0].text).toString('base64'));
 
 const id='extral-phasage-de-l-equipement';
 const rules={
@@ -45,6 +49,9 @@ assert.equal(truthPtvSpent(rules,hs),0,'Free tattoo patches spend no PTV');
 const acquired={...hs,truthTalents:[id]};
 assert.equal(truthPtvSpent(rules,acquired),1,'Purchasing phasing debits exactly 1 PTV');
 assert.ok(truthSanitizeTalents(rules,acquired).includes(id),'A valid purchased phasing talent survives sanitization');
-assert.ok(!truthSanitizeTalents(rules,{...acquired,choices:{species:'talass'}}).includes(id),'Changing species removes an invalid Homo Superior purchase');
+const changedSpecies={...acquired,choices:{species:'talass'}};
+assert.ok(truthSanitizeTalents(rules,changedSpecies).includes(id),'Changing species preserves an already paid purchase');
+assert.equal(truthPtvSpent(rules,changedSpecies),1,'Unavailable paid phasing retains its cost');
+assert.ok(!truthAvailableTalents(rules,changedSpecies).some(t=>t.id===id),'Preserved acquisition does not grant Talass access to Homo Superior phasing');
 assert.equal(JSON.stringify(rules),original,'Filtering and purchases do not mutate the canonical rules');
 console.log('HOMO SUPERIOR PHASING OK — 1 PTV, V/SR/R, 1/2 PA both directions, linked existing gear only, HS-only, free patches, purchase and sanitization');
