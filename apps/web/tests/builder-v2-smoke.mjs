@@ -419,14 +419,14 @@ async function assertBuilderReflow(context) {
 
 const nav=page.locator(".builder-nav button");
 if(await nav.count()!==12)throw new Error("Le Builder V2 doit exposer exactement 12 étapes de création.");
-for(let i=0;i<11;i++){
+for(let i=0;i<12;i++){
   if(await nav.nth(i).isDisabled())throw new Error("Étape "+(i+1)+" encore désactivée.");
 }
 
 // Exercise every creation screen at both desktop and phone widths, before purchases.
 for(const width of [1440,390]){
   await page.setViewportSize({width,height:1000});
-  for(let index=0;index<11;index++){
+  for(let index=0;index<12;index++){
     if(width<=900){
       const stepMenu=page.locator("button.builder-mobile-steps");
       if(await stepMenu.getAttribute("aria-expanded")==="false") await stepMenu.click();
@@ -458,7 +458,7 @@ for(const label of ["+5 000 $ Compte","+1 Train de vie","+5 000 $ Aug. / Gen2","
 }
 await page.getByText("5 restant / 5",{exact:true}).waitFor();
 
-await page.locator(".builder-nav").getByRole("button",{name:/Talents/}).click();
+await page.locator(".builder-nav").getByRole("button",{name:/Talents/}).filter({hasNotText:"Vérité"}).click();
 await page.locator('.talent-detail').filter({hasText:'Brave'}).waitFor();
 if (await page.locator('.talent-detail a').count()) throw new Error('Les talents ne doivent plus proposer de lien d’article');
 await page.locator('.talent-detail').filter({hasText:'Brave'}).getByText('Test commun',{exact:false}).waitFor();
