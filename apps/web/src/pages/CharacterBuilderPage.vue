@@ -3158,10 +3158,10 @@ textarea:focus{border-color:#6cb5ff;box-shadow:0 0 0 2px rgba(108,181,255,.14)}
 .truth-choice-section,.truth-free-section,.truth-talents-section{margin-top:1.8rem;padding-top:1.3rem;border-top:1px solid rgba(255,255,255,.07)}
 .truth-picker{margin-top:1rem;padding-top:1.2rem;border-top:1px solid rgba(255,255,255,.07)}
 .truth-picker-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.85rem;max-width:760px}
-.truth-picker-grid label{display:grid;gap:.4rem;color:#c5ddf3;font-size:.8125rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.truth-picker-grid label{min-width:0;overflow-wrap:anywhere;display:grid;gap:.4rem;color:#c5ddf3;font-size:.8125rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
 .truth-picker-grid label{align-content:start}.truth-picker-grid label>span{min-height:20px}
 .truth-nature-summary{display:grid;grid-template-columns:minmax(0,1fr) 118px;gap:1rem;align-items:center;margin-top:1rem;padding:1rem;border:1px solid rgba(100,222,245,.28);background:rgba(100,222,245,.035)}
-.truth-nature-summary-copy{display:grid;gap:.45rem}
+.truth-nature-summary-copy{min-width:0;overflow-wrap:anywhere;display:grid;gap:.45rem}
 .truth-nature-summary-copy h3{margin:0;font:600 1.35rem/1.15 Inter,"Segoe UI",sans-serif}
 .truth-nature-summary-copy>p:not(.eyebrow){margin:0;color:#b3c5d9;line-height:1.6}
 .truth-nature-summary-copy small{color:#a1b5cc;line-height:1.45}
@@ -3169,8 +3169,8 @@ textarea:focus{border-color:#6cb5ff;box-shadow:0 0 0 2px rgba(108,181,255,.14)}
 .truth-reserve strong{color:#64def5;font:700 1.75rem/1 Inter,"Segoe UI",sans-serif}
 .truth-reserve span{color:#b3c5d9;font-size:.8125rem;text-transform:uppercase;letter-spacing:.07em}
 .truth-choice-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.85rem;margin-top:1rem}
-.truth-choice-field{display:grid;gap:.55rem;padding:.15rem 0 .8rem;border-bottom:1px solid rgba(255,255,255,.06)}
-.truth-choice-field>span{display:flex;justify-content:space-between;gap:.6rem}
+.truth-choice-field{min-width:0;overflow-wrap:anywhere;display:grid;gap:.55rem;padding:.15rem 0 .8rem;border-bottom:1px solid rgba(255,255,255,.06)}
+.truth-choice-field>span{flex-wrap:wrap;display:flex;justify-content:space-between;gap:.6rem}
 .truth-choice-field small{color:#a1b5cc;font-size:.8125rem}
 .truth-choice-field em{color:#a1b5cc;font-size:.8125rem;line-height:1.5}
 .truth-reveal-section{margin-top:1.8rem;padding-top:1.3rem;border-top:1px solid rgba(255,255,255,.07)}
@@ -3220,7 +3220,7 @@ textarea:focus{border-color:#6cb5ff;box-shadow:0 0 0 2px rgba(108,181,255,.14)}
 .truth-talent-card em{color:#a1b5cc;font-size:.8125rem;line-height:1.5}
 .truth-talent-card p{margin:0;color:#b3c5d9;font-size:.8125rem;line-height:1.5}
 .disadvantage-controls{display:grid;grid-template-columns:minmax(180px,.7fr) minmax(240px,1fr);gap:.8rem;align-items:end;margin-top:1rem;max-width:900px}
-.v1-select-shell{position:relative;display:flex;align-items:center}
+.v1-select-shell{min-width:0;max-width:100%;position:relative;display:flex;align-items:center}
 .v1-select-shell select{width:100%;min-width:0}
 .choice-preview{display:grid;gap:.45rem;max-width:900px;margin:.65rem 0 0;padding:.8rem 1rem;border:1px solid rgba(100,222,245,.2);border-radius:8px;background:rgba(100,222,245,.035)}
 .choice-preview>div{display:flex;align-items:baseline;gap:.6rem;flex-wrap:wrap}
@@ -3268,7 +3268,7 @@ textarea:focus{border-color:#6cb5ff;box-shadow:0 0 0 2px rgba(108,181,255,.14)}
 @media(max-width:1180px){.choice-grid>.choice-card-shell,.truth-free-grid>.truth-free-card,.edge-grid>.edge-card,.allocator-card,.attribute-card,.edge-alloc-card,.skill-grid>.skill-card{flex-basis:calc(50% - .4rem)}
 .talent-grid,.truth-talent-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
-@media(max-width:900px){.truth-picker-grid,.truth-choice-grid,.disadvantage-controls{grid-template-columns:1fr}
+@media(max-width:900px){.truth-picker-grid,.truth-choice-grid,.disadvantage-controls{grid-template-columns:minmax(0,1fr)}
 .truth-nature-summary{grid-template-columns:1fr}
 .truth-reserve{min-height:72px}
 .truth-reveal-grid{grid-template-columns:1fr}
