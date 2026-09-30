@@ -19,4 +19,6 @@ Les vues LA utilisent toutes un seul raster et un rectangle de découpe normalis
 
 `npm run build` et `npm run test:atlas` dans `apps/web`. Le contrôle atlas est aussi inclus dans `test:ui` : coordonnées, raccords LA, assets, encodage, lien Mannan, Cour suprême et liens de retour. Vérifier en navigateur un clic carte→article→carte, le changement des sept vues, une notice sans article sur mobile, recherche, filtres, zoom et galerie.
 
-Les emprises agricoles, sites régionaux, relais et communautés proposés restent des interprétations explicites de 2035. Sources géographiques et notices sont jointes dans le dossier d'images. La publication passe par le workflow V2 habituel sur `feature/tuc-web-v2`.
+Les emprises agricoles, sites régionaux, relais et communautés proposés restent des interprétations explicites de 2035. Sources géographiques et notices sont jointes dans le dossier d'images.
+
+La publication utilise `v2-production-atlas.yml` : seuls les fichiers atlas sont appliqués à la version actuellement publiée (base figée et vérifiée avant déploiement). Le conteneur web est remplacé avec sauvegarde et retour automatique si les contrôles échouent. API, données et médias restent en place. Les changements atlas sont également intégrés à la branche courante pour les publications suivantes. Toute évolution de la version en ligne impose de réexaminer la base du workflow.
