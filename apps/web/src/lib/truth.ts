@@ -1,3 +1,4 @@
+import {normalizeHunterBuild,selectedHunterDoctrines,hunterTalentReady} from "./hunter";
 import {normalizeVampireBuild,vampireVisibleTalent,vampireAwakeningTalents,vampireAcquisitionIssues} from "./vampire";
 import {isKhinae,khinaeVisibleTalent,khinaeAwakeningTalents,khinaeAcquisitionIssues,khinaeBodyProfile,khinaeProfileText,khinaeAwakenedBloods} from "./khinae";
 import {normalizeExileBuild,normalizeBeneficiaryBenefits,exileVisibleTalent,exileAcquisitionIssues,exileCombatProfile} from "./exile";
@@ -88,6 +89,7 @@ export type CorruptionTalent={
 };
 
 export type TruthTalent={
+  anyRequiredTalentIds?:readonly string[];
   requiredTalentIds?:readonly string[];
   effectDetails?:string;
   activation?:string;
@@ -146,6 +148,8 @@ export type TruthRulesPackage={
 };
 
 export type TruthState={
+  /** Transient UI context: creation excludes external doctrines and exceptional equipment. */
+  mode?:"creation"|"progression";
   exileInventory?:import("../../../api/src/rules/truth/exile-build").ExileOwnedItem[];
   /** Transient inventory projection, never accepted as a source of purchases. */
   extralInventory?:import("../../../api/src/rules/truth/extral-build").ExtralOwnedItem[];
@@ -198,19 +202,18 @@ export function truthEquipmentAccess(item:TruthEquipmentItem,state:TruthState):T
   if(item.referenceOnly){
     return {ok:true,natural:true,reason:"Référence commune"};
   }
-  if(state.truthEquipmentMjOverride){
+  if(state.mode!=="creation"&&state.truthEquipmentMjOverride){
     return {ok:true,natural:false,reason:"Autorisation MJ exceptionnelle"};
   }
   if(item.requiresMj){
     return {ok:false,natural:false,reason:"Autorisation MJ requise"};
   }
 
-  const hunterTradition=stringChoice(state.choices,"hunterTradition");
-  const species=stringChoice(state.choices,"species");
+    const species=stringChoice(state.choices,"species");
   const network=stringChoice(state.choices,"network");
 
   if(item.chapter==="23"){
-    const ok=!!hunterTradition&&hunterTradition!=="aucune";
+    const ok=selectedHunterDoctrines(state).length>0;
     return {
       ok,
       natural:ok,
@@ -280,6 +283,7 @@ export function truthSanitizeChoices(nature:TruthNature,source:Record<string,unk
     else next[choice.key]="";
   }
   // Retain hidden legacy definitions; whitelisted data never grants access.
+  if(Object.hasOwn(source,"hunterBuild"))next.hunterBuild=normalizeHunterBuild(source.hunterBuild);
   if(Object.hasOwn(source,"vampireBuild"))next.vampireBuild=normalizeVampireBuild(source.vampireBuild);
   if(Object.hasOwn(source,"exileBuild"))next.exileBuild=normalizeExileBuild(source.exileBuild);
   if(Object.hasOwn(source,"extralBuild"))next.extralBuild=normalizeExtralBuild(source.extralBuild);
@@ -479,12 +483,9 @@ export function truthAvailableTalents(pkg:TruthRulesPackage,state:TruthState){
   if(isKhinae(state))rows.push(...khinaeAwakeningTalents(pkg,state));
   if(state.nature==="daemon"&&state.choices.divinity==="mephisto"&&state.truthTalents.includes(daemonTalentIds.polyphony))rows.push(...daemonAdditionalTalents(pkg));
 
-  const hunterTradition=stringChoice(state.choices,"hunterTradition")||"aucune";
-  if(pkg.visibility.sharedHunterNatures.includes(state.nature as never)&&hunterTradition!=="aucune"){
-    const hunterNeedles=pkg.visibility.needles.humain?.[hunterTradition];
-    const hunter=(pkg.catalogs.humain??[]).filter(talent=>
-      hunterDoctrine(talent)||groupHas(talent.group,hunterNeedles)
-    );
+  const doctrines=selectedHunterDoctrines(state);
+  if(doctrines.length){
+    const hunter=(pkg.catalogs.humain??[]).filter(talent=>hunterDoctrine(talent)||doctrines.some(id=>groupHas(talent.group,pkg.visibility.needles.humain?.[id])));
     rows=[...rows,...hunter];
   }
 
@@ -493,11 +494,17 @@ export function truthAvailableTalents(pkg:TruthRulesPackage,state:TruthState){
   return [...unique.values()];
 }
 
+export function truthUnavailableHunters(pkg:TruthRulesPackage,state:TruthState){
+ const available=truthAvailableTalents(pkg,state),hunters=new Map((pkg.catalogs.humain??[]).map(t=>[t.id,t]));
+ return state.truthTalents.filter(id=>{const t=hunters.get(id);return t&&!hunterTalentReady(pkg,state,t,available);});
+}
+
 export function truthSelectedFreeTraits(pkg:TruthRulesPackage,state:TruthState){
   const nature=pkg.structure.natures[state.nature];
   if(!nature)return [];
   const rows:TruthTrait[]=[...(nature.baseFreeTraits??[]),...aserynSignatureTraits(state),...daemonSecondaryTraits(pkg,state),...angelusSecondaryTraits(pkg,state)];
   for(const rule of nature.freeTraitRules??[]){
+    if(state.mode==="creation"&&state.nature!=="humain"&&rule.when?.hunterTradition)continue;
     if(whenMatches(rule.when,state.choices)||(isKhinae(state)&&rule.when?.blood==="sang_enchaine"&&khinaeAwakenedBloods(pkg,state).includes("sang_enchaine")))rows.push(...rule.traits);
   }
   const unique=new Map<string,TruthTrait>();
@@ -686,6 +693,7 @@ export function truthPrerequisiteSatisfied(
   talent:TruthTalent,
   available=truthAvailableTalents(pkg,state)
 ){
+  if((pkg.catalogs.humain??[]).some(t=>t.id===talent.id))return hunterTalentReady(pkg,state,talent,available);
   const vampireIssues=vampireAcquisitionIssues(pkg,state,talent);if(vampireIssues!==null)return vampireIssues.length===0;
   const khinaeIssues=khinaeAcquisitionIssues(pkg,state,talent);if(khinaeIssues!==null)return khinaeIssues.length===0;
   const exileIssues=exileAcquisitionIssues(pkg,state,talent);
@@ -733,10 +741,10 @@ export function truthPtvSpent(pkg:TruthRulesPackage,state:TruthState){
   const all=new Map(available.map(talent=>[talent.id,talent]));
   // A saved inherited talent retains its price even while its choice is incomplete.
   if(state.nature==="aseryn")for(const talent of pkg.catalogs.aseryn??[])all.set(talent.id,talent);
-  if(state.nature==="vampire"||isKhinae(state)||state.nature==="mage"||state.nature==="daemon"||state.nature==="angelus"||state.nature==="extral"||state.nature==="exile"){
+  {
     for(const talent of truthKnownTalents(pkg,state))all.set(talent.id,talent);
   }
-  const native=state.truthTalents.reduce((sum,id)=>sum+Number(all.get(id)?.cost||0),0);
+  const native=[...new Set(state.truthTalents)].reduce((sum,id)=>sum+Number(all.get(id)?.cost||0),0);
   const corruptionById=new Map((pkg.corruption?.talents??[]).map(talent=>[talent.id,talent]));
   const corrupted=(state.corruptionTalents??[]).reduce(
     (sum,id)=>sum+Number(corruptionById.get(id)?.cost||0),
@@ -758,6 +766,7 @@ export function truthChoicesValid(pkg:TruthRulesPackage,state:TruthState){
 }
 
 export function truthSanitizeTalents(pkg:TruthRulesPackage,state:TruthState){
+  if(state.truthTalents.some(id=>(pkg.catalogs.humain??[]).some(t=>t.id===id))){const known=new Set(truthKnownTalents(pkg,state).map(t=>t.id));return [...new Set(state.truthTalents)].filter(id=>known.has(id));}
   // Changing an Extral network or consciousness never erases already-paid acquisitions.
   if(state.nature==="vampire"||isKhinae(state)||state.nature==="extral"||state.nature==="exile"){const known=new Set(truthKnownTalents(pkg,state).map(t=>t.id));return [...new Set(state.truthTalents)].filter(id=>known.has(id));}
   if(state.consciousness==="profane")return [];

@@ -1,3 +1,4 @@
+import {applyHunterRevisions} from "./hunter-revision.js";
 import {applyVampireRevisions} from "./vampire-revision.js";
 import {applyKhinaeRevisions} from "./khinae-revision.js";
 import {applyExileRevisions} from "./exile-revision.js";
@@ -111,7 +112,7 @@ const extralCatalog = bindCompendium(applyExtralRevisions(truthCatalogExtral), (
   return "regles-verite-v7-extrals-organisations-aidh-homo-superior-adrak";
 });
 
-const humainCatalog = bindCompendium(truthCatalogHumain, (group) =>
+const humainCatalog = bindCompendium(applyHunterRevisions(truthCatalogHumain), (group) =>
   group.startsWith("Doctrine commune de Chasse")
     ? "regles-verite-v7-chasseurs-doctrine-association-gt-hunt"
     : "regles-verite-v7-chasseurs-traditions"

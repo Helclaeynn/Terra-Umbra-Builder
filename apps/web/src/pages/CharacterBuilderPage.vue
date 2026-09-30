@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import {truthUnavailableHunters} from "../lib/truth";
 import {vampireUnavailable,vampireNativeBlood} from "../lib/vampire";
 import {isKhinae,khinaeNativeBlood,khinaeUnavailable} from "../lib/khinae";
 import TruthBuildChoices from "../components/builder/TruthBuildChoices.vue";
@@ -81,7 +82,7 @@ import {
 import type { CreationRules, CreationLore, DisadvantageOption, DisadvantageCatalog, EdgeRules, RuleTalent } from "../lib/creation-types";
 import { buildCharacterSheet } from "../lib/character-sheet-model";
 
-type StepId="identity"|"origin"|"sphere"|"attributes"|"skills"|"talents"|"truth"|"disadvantages"|"edge"|"equipment"|"finish"|"progression"|"sheet";
+type StepId="identity"|"origin"|"sphere"|"attributes"|"skills"|"talents"|"truth"|"truth-talents"|"disadvantages"|"edge"|"equipment"|"finish"|"progression"|"sheet";
 type KnowledgeRef={
   key:string;
   label:string;
@@ -109,7 +110,6 @@ const realityRules=shallowRef<RealityRulesPackage|null>(null);
 const disadvantageCategory=ref("common");
 const disadvantagePick=ref("");
 const truthSearch=ref("");
-const truthGroupChoice=ref("");
 const skillGroupOpen=ref<Record<string,boolean>>({});
 const loading=ref(true);
 const supplementalLoading=ref(false);
@@ -142,7 +142,8 @@ const sections:Array<[StepId,string,boolean]>=progressionMode
       ["attributes","Attributs",true],
       ["skills","Compétences",true],
       ["talents","Talents",true],
-      ["truth","Vérité",true],
+      ["truth","Nature & origines",true],
+      ["truth-talents","Talents & équipement de Vérité",true],
       ["disadvantages","Désavantages",true],
       ["edge","Edge",true],
       ["equipment","Équipement",true],
@@ -364,6 +365,7 @@ const currentTruthState=computed<TruthState|null>(()=>{
     ? raw.choices as Record<string,unknown>
     : {};
   return {
+    mode:progressionMode?"progression":"creation",
     exileInventory:exileOwnedItems(draft.value.reality,progressionMode||campaignRewardsLocked.value,[...(realityRules.value?.equipment??[]),...(realityRules.value?.augmentations??[])]),
     extralInventory:extralOwnedItems(draft.value.reality,progressionMode||campaignRewardsLocked.value,[...(realityRules.value?.equipment??[]),...(realityRules.value?.augmentations??[])]),
     nature:typeof raw.nature==="string"?raw.nature:"humain",
@@ -416,11 +418,14 @@ const truthPtvRemaining=computed(()=>
   (truthRules.value?.structure.ptvInitial??0)-truthPtvSpentValue.value
 );
 
+function isCommonTruthGroup(name:string){return /commun/i.test(name);}
+const commonTruthTalents=computed(()=>availableTruthTalents.value.filter(t=>isCommonTruthGroup(t.group)));
+const creationTruthChoices=computed(()=>(selectedTruthNature.value?.choices??[]).filter(c=>c.key!=='hunterTradition'||currentTruthState.value?.nature==='humain'));
 const truthGroupOptions=computed(()=>truthGroups(availableTruthTalents.value).map(group=>({...group,items:[...group.items].sort(compareTruthTalents)})).sort((a,b)=>compareLabels(a.name,b.name)));
 const selectedTruthTalents=computed(()=>{const state=currentTruthState.value;return state&&truthRules.value?truthKnownTalents(truthRules.value,state).filter(t=>state.truthTalents.includes(t.id)):[];});
 const visibleTruthGroups=computed(()=>{
   const groups=truthGroupOptions.value
-    .filter(group=>group.name===truthGroupChoice.value||!truthGroupChoice.value&&Boolean(truthSearch.value.trim()))
+    .filter(group=>!isCommonTruthGroup(group.name))
     .map(group=>({...group,items:group.items.filter(talent=>!truthTalentSelected(talent.id))}));
   const query=truthSearch.value.trim().toLocaleLowerCase("fr");
   if(!query)return groups;
@@ -808,14 +813,15 @@ const validationReasons:Partial<Record<StepId,string>>={
   attributes:"Budget d’Attributs à terminer.",
   skills:"Répartition des Compétences à terminer.",
   talents:"Choix de Talents ou prérequis à corriger.",
-  truth:"Choix de Vérité incomplet ou PTV de création dépassés.",
+  truth:"Choix de Nature incomplets.",
+  "truth-talents":"Talents, équipement de Vérité ou PTV à corriger.",
   disadvantages:"Désavantages incompatibles ou trop nombreux.",
   edge:"Dépenses ou allocations Edge à corriger.",
   equipment:"Budget, accès, Charge, Stress, Gen2 ou Neuroprogrammes à corriger."
 };
 
 const creationStepIds:StepId[]=[
-  "identity","origin","sphere","attributes","skills","talents","truth","disadvantages","edge","equipment"
+  "identity","origin","sphere","attributes","skills","talents","truth","truth-talents","disadvantages","edge","equipment"
 ];
 
 const creationValidationMap=computed<Record<string,boolean>>(()=>{
@@ -873,13 +879,15 @@ const creationValidationMap=computed<Record<string,boolean>>(()=>{
   const truthEquipmentAccessValid=!!truthRules.value&&!!currentTruthState.value&&
     truthEquipmentInvalidIds(truthRules.value,currentTruthState.value).length===0;
 
-  result.truth=!!truthRules.value&&!!currentTruthState.value&&
+  result["truth-talents"]=!!truthRules.value&&!!currentTruthState.value&&
     !!currentTruthState.value.nature&&
     !!currentTruthState.value.consciousness&&
     truthChoicesValid(truthRules.value,currentTruthState.value)&&
     corruptionAuthorizationValid&&corruptionSourceValid&&corruptionTalentsValid&&
-    truthEquipmentAccessValid&&
+    truthEquipmentAccessValid&&truthUnavailableHunters(truthRules.value,currentTruthState.value).length===0&&
     truthPtvSpentValue.value<=truthRules.value.structure.ptvInitial;
+
+  result.truth=!!truthRules.value&&!!currentTruthState.value&&truthChoicesValid(truthRules.value,currentTruthState.value);
 
   result.disadvantages=draft.value.disadvantages.length<=3&&disadvantagesCompatible();
 
@@ -1392,7 +1400,8 @@ function setTruthConsciousness(id:string){
   writeTruthState(next);
 }
 
-function focusTruthConsciousness(){
+async function focusTruthConsciousness(){
+  activeStep.value="truth";await nextTick();
   truthConsciousnessInput.value?.focus();
   truthConsciousnessInput.value?.scrollIntoView({block:"center"});
 }
@@ -1418,7 +1427,7 @@ function setTruthChoice(key:string,value:string){
 const configuredTruthTalent=ref("");
 function setGuidedTruthChoices(patch:Record<string,unknown>){
  if(!currentTruthState.value)return;
- const allowed=Object.fromEntries(Object.entries(patch).filter(([key])=>['vampireBuild','daemonBuild','angelusBuild','extralBuild','exileBuild','mageTechniques'].includes(key)));
+ const allowed=Object.fromEntries(Object.entries(patch).filter(([key])=>['hunterBuild','vampireBuild','daemonBuild','angelusBuild','extralBuild','exileBuild','mageTechniques'].includes(key)));
  writeTruthState({...currentTruthState.value,choices:{...currentTruthState.value.choices,...allowed}});
 }
 
@@ -2297,18 +2306,18 @@ onBeforeUnmount(()=>{
           </template>
         </article>
 
-        <article v-else-if="activeStep === 'truth'" class="panel builder-card">
+        <article v-else-if="(activeStep === 'truth'||activeStep === 'truth-talents')" class="panel builder-card">
           <div class="section-heading">
             <div>
-              <p class="eyebrow">07 · VÉRITÉ</p>
-              <h2>Nature & Vérité</h2>
+              <p class="eyebrow">{{activeStep === 'truth' ? '07 · NATURE' : '08 · VÉRITÉ'}}</p>
+              <h2>{{activeStep === 'truth' ? 'Nature & origines' : 'Talents & équipement de Vérité'}}</h2>
             </div>
             <span class="schema-badge">
               {{ truthPtvRemaining }} / {{ truthRules?.structure.ptvInitial || 0 }} PTV restant
             </span>
           </div>
 
-          <p class="builder-intro">
+          <p v-if="activeStep === 'truth'" class="builder-intro">
             La Nature décrit ce que le personnage est réellement derrière le Voile. Les choix
             structurels ouvrent uniquement les branches qui lui appartiennent ; les Traits gratuits
             sont accordés automatiquement et les Talents de Vérité consomment les PTV de création.
@@ -2319,7 +2328,7 @@ onBeforeUnmount(()=>{
           </div>
 
           <template v-else>
-            <section class="truth-picker">
+            <section v-if="activeStep === 'truth'" class="truth-picker">
               <div class="truth-picker-grid">
                 <label>
                   <span>Nature</span>
@@ -2388,8 +2397,9 @@ onBeforeUnmount(()=>{
             </section>
 
             <template v-if="selectedTruthNature">
+              <template v-if="activeStep === 'truth'">
               <CharacterGallery v-if="character" v-model="draft.appearances" layer="truth" :character-id="character.id" editable />
-              <section v-if="selectedTruthNature.choices.length" class="truth-choice-section">
+              <section v-if="creationTruthChoices.length" class="truth-choice-section">
                 <div class="subsection-title">
                   <div>
                     <h3>Choix structurels</h3>
@@ -2399,7 +2409,7 @@ onBeforeUnmount(()=>{
                 </div>
 
                 <div class="truth-choice-grid">
-                  <label v-for="choice in selectedTruthNature.choices" :key="choice.key" class="truth-choice-field">
+                  <label v-for="choice in creationTruthChoices" :key="choice.key" class="truth-choice-field">
                     <span>
                       <strong>{{ choice.label }}</strong>
                       <small v-if="choice.optional">optionnel</small>
@@ -2431,7 +2441,7 @@ onBeforeUnmount(()=>{
                 </div>
               </section>
 
-              <details v-if="truthRevealProfile" class="truth-reveal-section">
+              <details v-if="truthRevealProfile" class="truth-reveal-section" open>
                 <summary class="truth-disclosure-summary"><span><strong>Voile & Révélation</strong><small>Profils de manifestation</small></span><span class="schema-badge">{{ truthRevealProfile.label }}</span></summary>
                 <p class="truth-disclosure-intro">
                   Chaque état détermine ce que la Nature matérialise réellement et quelles
@@ -2500,6 +2510,20 @@ onBeforeUnmount(()=>{
               </details>
 
               <TruthBuildChoices v-if="truthHasInnateBuildChoice(currentTruthState)" :state="currentTruthState" :rules="truthRules" talent-id="innate-spectre" @change="setGuidedTruthChoices" />
+              <section class="truth-talents-section" data-common-truth-talents>
+                <h3>Talents communs de cette Nature</h3>
+                <p v-if="!commonTruthTalents.length">Aucun talent commun à acheter avec les choix actuels. Les capacités gratuites figurent ci-dessus.</p>
+                <div class="truth-talent-grid">
+                  <article v-for="talent in commonTruthTalents" :key="talent.id" class="truth-owned-card">
+                    <h4>{{talent.name}} · {{talent.cost}} PTV</h4>
+                    <TruthTalentText :effect="talent.effect" :details="talent.effectDetails" :lore="talent.runtimeLore" :activation="talent.activation" />
+                    <button type="button" :disabled="!truthTalentSelected(talent.id)&&!truthTalentCanAdd(talent)" @click="toggleTruthTalent(talent)">{{truthTalentSelected(talent.id)?'Retirer':'Acquérir'}} · {{talent.cost}} PTV</button>
+                    <TruthBuildChoices v-if="truthTalentSelected(talent.id)&&truthBuildChoiceLabel(currentTruthState,talent.id)" :state="currentTruthState" :rules="truthRules" :talent-id="talent.id" @change="setGuidedTruthChoices" />
+                  </article>
+                </div>
+              </section>
+              </template>
+              <template v-else>
               <TruthTrainingChoices :state="currentTruthState" :rules="truthRules" @change="setGuidedTruthChoices" />
               <section class="truth-talents-section">
                 <div class="subsection-title">
@@ -2507,7 +2531,7 @@ onBeforeUnmount(()=>{
                     <h3>Talents de Vérité</h3>
                     <p>
                       Seuls les Talents compatibles avec la Nature et les choix ci-dessus sont proposés.
-                      Les choix et prérequis conditionnent l’usage des talents ; les acquisitions personnalisées Mage, Daemon et Angelus restent enregistrées et signalées si elles deviennent incompatibles.
+                      Ouvrez une famille pour consulter ses talents. Les acquisitions déjà payées restent enregistrées si les choix changent.
                     </p>
                   </div>
                   <span class="schema-badge">
@@ -2523,7 +2547,7 @@ onBeforeUnmount(()=>{
                   <h4>Talents acquis · {{ selectedTruthTalents.length }}</h4>
                   <div class="truth-owned-list">
                     <article v-for="talent in selectedTruthTalents" :key="talent.id" class="truth-owned-card">
-                    <small v-if="truthRules&&currentTruthState&&[...khinaeUnavailable(truthRules,currentTruthState),...vampireUnavailable(truthRules,currentTruthState)].includes(talent.id)" class="rule-note bad">Acquisition conservée et payée ; indisponible avec les choix ou prérequis actuels.</small>
+                    <small v-if="truthRules&&currentTruthState&&[...truthUnavailableHunters(truthRules,currentTruthState),...khinaeUnavailable(truthRules,currentTruthState),...vampireUnavailable(truthRules,currentTruthState)].includes(talent.id)" class="rule-note bad">Acquisition conservée et payée ; indisponible avec les choix ou prérequis actuels.</small>
                       <div><strong>{{ talent.name }}</strong><span>{{ talent.cost }} PTV</span></div>
                       <p>{{ talent.effect }}</p>
                       <button type="button" :aria-label="`Retirer ${talent.name}`" @click="toggleTruthTalent(talent)">Retirer</button>
@@ -2544,10 +2568,6 @@ onBeforeUnmount(()=>{
                   <h4>Ajouter des Talents</h4>
                   <p>Dépensez vos PTV dans les Talents accessibles à votre personnage. Vos acquis sont regroupés au-dessus.</p>
                   <label class="truth-search">
-                    Catégorie de talents
-                    <select v-model="truthGroupChoice"><option value="">— Choisir une catégorie —</option><option v-for="group in truthGroupOptions" :key="group.name" :value="group.name">{{ group.name }} · {{ group.items.length }}</option></select>
-                  </label>
-                  <label class="truth-search">
                     Rechercher dans les Talents accessibles
                     <input
                       v-model="truthSearch"
@@ -2557,14 +2577,13 @@ onBeforeUnmount(()=>{
                   </label>
 
                   <div v-if="!visibleTruthGroups.length" class="rule-note">
-                    {{ !truthGroupChoice&&!truthSearch ? 'Choisis une catégorie pour voir les cartes de ses Talents, ou recherche un Talent par son nom.' : 'Aucun Talent ne correspond aux choix actuels ou à la recherche.' }}
+                    Aucun Talent ne correspond aux choix actuels ou à la recherche.
                   </div>
 
                   <details
                     v-for="group in visibleTruthGroups"
                     :key="group.name"
                     class="truth-group"
-                    open
                   >
                     <summary>
                       <span>
@@ -2628,8 +2647,9 @@ onBeforeUnmount(()=>{
                 @request-initiation="focusTruthConsciousness"
               />
 
-              <div class="rule-note" :class="{ bad: !stepDone('truth') }">
-                <strong v-if="stepDone('truth')">Vérité cohérente.</strong>
+              </template>
+              <div class="rule-note" :class="{ bad: !stepDone(activeStep) }">
+                <strong v-if="stepDone(activeStep)">Vérité cohérente.</strong>
                 <strong v-else>Vérité à compléter.</strong>
                 {{ truthPtvRemaining }} PTV restent disponibles à la création.
               </div>
@@ -2640,7 +2660,7 @@ onBeforeUnmount(()=>{
         <article v-else-if="activeStep === 'disadvantages'" class="panel builder-card">
           <div class="section-heading">
             <div>
-              <p class="eyebrow">08 · DÉSAVANTAGES</p>
+              <p class="eyebrow">09 · DÉSAVANTAGES</p>
               <h2>Désavantages</h2>
             </div>
             <span class="schema-badge">{{ draft.disadvantages.length }}/3 · Edge {{ edgeTotal }}</span>
@@ -2747,7 +2767,7 @@ onBeforeUnmount(()=>{
         <article v-else-if="activeStep === 'edge'" class="panel builder-card">
           <div class="section-heading">
             <div>
-              <p class="eyebrow">09 · EDGE</p>
+              <p class="eyebrow">10 · EDGE</p>
               <h2>Edge</h2>
             </div>
             <span class="schema-badge">{{ edgeRemaining }} restant / {{ edgeTotal }}</span>
@@ -2906,7 +2926,7 @@ onBeforeUnmount(()=>{
           v-else-if="activeStep === 'equipment' && !realityRules"
           class="panel builder-card"
         >
-          <p class="eyebrow">10 · ÉQUIPEMENT</p>
+          <p class="eyebrow">11 · ÉQUIPEMENT</p>
           <h2>Chargement du catalogue…</h2>
           <p class="builder-intro">La fiche est déjà disponible ; le catalogue Réalité termine son chargement en arrière-plan.</p>
         </article>

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import HunterBuildChoices from './HunterBuildChoices.vue';
+import {hunterBuildChoiceLabel} from '../../lib/hunter';
 import {computed} from 'vue';
 import type {TruthState,TruthRulesPackage} from '../../lib/truth';
 import {truthBuildChoiceLabel,truthHasInnateBuildChoice} from '../../lib/truth-build-guidance';
@@ -40,7 +42,8 @@ function implant(patch:Record<string,unknown>){
 </script>
 <template>
  <section v-if="label||innate" class="guided-choice" :data-truth-build-choice="talentId" :aria-label="innate?'Affinité spectrale de Méphisto':label">
-  <VampireBuildChoices v-if="state.nature==='vampire'" :state="state" :talent-id="talentId" @change="emit('change',$event)" />
+  <HunterBuildChoices v-if="hunterBuildChoiceLabel(talentId)" :state="state" :rules="rules" :talent-id="talentId" @change="emit('change',$event)" />
+  <VampireBuildChoices v-else-if="state.nature==='vampire'" :state="state" :talent-id="talentId" @change="emit('change',$event)" />
   <template v-else-if="innate||talentId===d.polyphony">
    <h4>{{innate?'Votre magie spectrale':'Une seconde magie spectrale'}}</h4>
    <p>{{innate?'Méphisto vous donne gratuitement un domaine de magie. Choisissez celui que votre personnage sait déjà utiliser.':'Polyphonie ajoute un autre domaine de magie ; elle ne remplace pas votre première Affinité.'}}</p>

@@ -1,3 +1,4 @@
+import {hunterBuildChoiceLabel} from "./hunter";
 import type {TruthState} from './truth';
 import {daemonTalentIds as d} from '../../../api/src/rules/truth/daemon-build';
 import {angelusTalentIds as a} from '../../../api/src/rules/truth/angelus-build';
@@ -6,6 +7,7 @@ import {exileTalentIds as e} from '../../../api/src/rules/truth/exile-build';
 import {mageTechniqueKind} from '../../../api/src/rules/truth/mage-techniques';
 /** Only permanent character choices belong in the builder. Never return game-session controls. */
 export function truthBuildChoiceLabel(state:TruthState,id:string):string {
+ const hunter=hunterBuildChoiceLabel(id);if(hunter)return hunter;
  if(state.nature==='vampire'){const labels:Record<string,string>={forme_animale:'Choisir la forme animale',menagerie:'Compléter le répertoire animal',arme_hematique:'Consulter les trois armes hématiques',lien_du_deimon:'Référencer le Deimon lié',sang_preserve:'Consigner l’ancrage de Sang'};return labels[id]??'';}
  if(state.nature==='daemon'){
   if(id===d.form)return 'Choisir le répertoire de formes';

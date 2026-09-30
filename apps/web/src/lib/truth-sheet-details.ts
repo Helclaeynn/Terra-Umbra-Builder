@@ -1,9 +1,10 @@
+import {normalizeHunterBuild,selectedHunterDoctrines,hunterDoctrines} from "./hunter";
 import {normalizeVampireBuild,vampireNativeBlood,vampireAwakenedBloods,vampireBloodOptions,vampireUnavailable,vampireWeaponProfiles} from "./vampire";
 import {isKhinae,khinaeNativeBlood,khinaeAwakenedBloods,khinaeBloodOptions,khinaeUnavailable} from "./khinae";
 import {exileSheetDetails,beneficiarySheetDetails} from "./exile";
 import {extralSheetDetails} from "./extral";
 import {mageOwnedAffinities} from "./mage";
-import {truthChoiceOptions,truthSelectedFreeTraits,truthAngelusCapacity,type TruthState,type TruthRulesPackage} from './truth';
+import {truthUnavailableHunters,truthChoiceOptions,truthSelectedFreeTraits,truthAngelusCapacity,type TruthState,type TruthRulesPackage} from './truth';
 import {aserynChoiceFields} from './aseryn';
 export type TruthSheetDetail = {id:string;name:string;value:string;description?:string};
 /** Common projection for all ten Natures; do not hard-code Vampire-only fields. */
@@ -40,6 +41,11 @@ export function truthSheetDetails(rules:TruthRulesPackage,state:TruthState,forti
     if(b.deimon.name||b.deimon.reference)result.push({id:'vampire-deimon',name:'Deimon lié — PNJ existant',value:[b.deimon.name,b.deimon.reference,b.deimon.obligations].filter(Boolean).join(' · ')});
     if(b.anchor.container||b.anchor.location||b.anchor.practitioner||b.anchor.notes)result.push({id:'vampire-anchor',name:'Ancrage de Sang préservé',value:[b.anchor.container,b.anchor.location,b.anchor.practitioner,b.anchor.notes].filter(Boolean).join(' · '),description:'3 PV sacrifiés tant que l’ancrage subsiste ; retour en 24 h dans le corps réparable, à 1 PV en Stase ; ancrage consommé.'});
   }
+  const unavailableHunters=truthUnavailableHunters(rules,state);
+  if(unavailableHunters.length)result.push({id:'hunter-unavailable',name:'Talents de Chasse conservés et payés, indisponibles',value:unavailableHunters.map(id=>rules.catalogs.humain?.find(t=>t.id===id)?.name??id).join(' · ')});
+  const hunter=normalizeHunterBuild(state.choices.hunterBuild),doctrines=selectedHunterDoctrines(state);
+  if(doctrines.length)result.push({id:'hunter-doctrines',name:'Doctrines de Chasse choisies',value:doctrines.map(id=>hunterDoctrines.find(d=>d.id===id)?.name??id).join(' · ')});
+  for(const [id,r] of Object.entries(hunter.records))if(state.truthTalents.includes(id))result.push({id:'hunter-'+id,name:rules.catalogs.humain?.find(t=>t.id===id)?.name??id,value:[r.reference,r.agreement,r.profile,r.limits].filter(Boolean).join(' · ')});
   const capacity=truthAngelusCapacity(state,fortitude);
   if(capacity){result.push({id:'angelus-rank',name:'Rang céleste',value:capacity.rank==='cherub'?'Chérubin':'Angelus'},{id:'angelus-aura',name:'Aura maximale',value:String(capacity.maximum)});}
   if(state.nature==='mage'){

@@ -198,7 +198,7 @@ function propertyPreview(item:TruthEquipmentItem){
         <label>Famille<select v-model="family"><option value="">— Choisir une famille —</option><option v-for="item in families" :key="item" :value="item">{{ item }}</option></select></label>
       </div>
 
-      <details class="catalog-help"><summary>Accès exceptionnel et règles d’acquisition</summary>
+      <details v-if="modelValue.mode!=='creation'" class="catalog-help"><summary>Accès exceptionnel et règles d’acquisition</summary>
       <label class="truth-equipment-mj">
         <span class="truth-equipment-mj-copy">
           <strong>Autorisation MJ d’accès exceptionnel aux objets de Vérité</strong>
@@ -227,7 +227,7 @@ function propertyPreview(item:TruthEquipmentItem){
       </details>
       <p class="catalog-count" role="status">{{ filtered.length }} résultat(s) · {{ catalogMode==='references' ? 'Consultation uniquement' : 'La possession ne débite pas automatiquement vos ressources' }}</p>
       <p v-if="catalogMode==='objects'&&!modeCatalog.length" class="empty-line" role="status">
-        Aucun objet accessible avec les choix actuels du personnage. Les propriétés communes sont des règles à consulter dans « Règles et références ». Un accord MJ peut ouvrir un accès exceptionnel.
+        Aucun objet accessible avec les choix actuels du personnage. Les propriétés communes sont des règles à consulter dans « Règles et références ».
       </p>
       <p v-else-if="!groups.length" class="empty-line" role="status">
         {{ !chapter&&!family&&!query ? 'Choisis un chapitre ou une famille pour voir ses objets illustrés, ou effectue une recherche.' : 'Aucun objet ne correspond à ces filtres. Essaie une autre famille ou réinitialise les filtres.' }}
