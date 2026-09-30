@@ -13,6 +13,8 @@ export type ExtralLearningAccess='N'|'O'|'R'|'';
 /** Learning restrictions are separate from V/SR/R manifestation states. */
 export function extralNetworkAccess(species:string,network:string):ExtralLearningAccess{
  if(!(extralSpecies as readonly string[]).includes(species))return '';
+ // Homo Superior follow AIDH doctrines, not the extraterrestrial networks.
+ if(species==='homo_superior'&&!['aidh_intervention','aidh_coherence'].includes(network))return '';
  switch(network){
   case 'continuite':return 'N';
   case 'ctu':return ['talass','thalsios'].includes(species)?'N':'O';

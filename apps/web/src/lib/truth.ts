@@ -199,6 +199,9 @@ export type TruthEquipmentAccess={
 };
 
 export function truthEquipmentAccess(item:TruthEquipmentItem,state:TruthState):TruthEquipmentAccess{
+  if(state.nature==="extral"&&stringChoice(state.choices,"species")==="homo_superior"&&!["22","26"].includes(item.chapter)){
+    return {ok:false,natural:false,reason:"Catalogue AIDH uniquement pour les Homo Superior"};
+  }
   if(item.referenceOnly){
     return {ok:true,natural:true,reason:"Référence commune"};
   }
@@ -229,11 +232,11 @@ export function truthEquipmentAccess(item:TruthEquipmentItem,state:TruthState):T
     };
   }
   if(item.chapter==="25"){
-    const ok=state.nature==="extral";
+    const ok=state.nature==="extral"&&species!=="homo_superior";
     return {
       ok,
       natural:ok,
-      reason:ok?"Accès Extral / marché xéno":"Réservé aux Extrals"
+      reason:ok?"Accès Extral / marché xéno":"Réservé aux espèces Extrales ; les Homo Superior utilisent le catalogue AIDH"
     };
   }
   if(item.chapter==="26"){
@@ -253,6 +256,7 @@ export function truthEquipmentAccess(item:TruthEquipmentItem,state:TruthState):T
 }
 
 export function truthEquipmentVisible(item:TruthEquipmentItem,state:TruthState){
+  if(state.nature==="extral"&&stringChoice(state.choices,"species")==="homo_superior"&&!["22","26"].includes(item.chapter))return false;
   return item.referenceOnly||truthEquipmentAccess(item,state).ok;
 }
 
