@@ -1,0 +1,173 @@
+﻿ÉDITION 2 — AGRICULTURE, COMMUNAUTÉS ET CONSULTATION ÉCRAN
+
+Ouvrir Carte-ecran.html dans un navigateur après avoir extrait tout le ZIP. Fonctionne hors ligne. Molette et boutons : zoom ; glisser : déplacement ; recherche et liste : centrage sur un lieu. Les noms gardent une taille lisible. Les cases de catégories filtrent les repères et leurs noms ; les zones dessinées restent présentes sur le fond.
+Les images de 12 000 et 8 000 pixels restent les versions pour impression. Le dossier ecran contient des fonds distincts sans les petites annotations du poster.
+Les Fermes Mannan sont nommées ainsi dans le corpus. Leur indépendance est conservée. Gold Cow Kingdom reste une communauté indépendante soutenue par Dwarfood, pas une enclave privée de cette corporation.
+Les Green Nomads sont mobiles : leur repère est une halte et la ligne pointillée un trajet proposé. Les communautés maritimes sont distinguées des implantations terrestres. Aucun lieu supplémentaire n’a de position canonique affirmée par cette édition.
+Champs, pâturages et exploitations : 22 bassins schématiques proposés sur des plaines et vallées. Les petits carreaux figurent des parcelles interprétées, sans données cadastrales ni promesse d’exhaustivité. Les usages en 2035 et leur répartition corporatiste restent des propositions.
+
+COMMUNAUTÉS ET FERMES
+E01 — Fermes Mannan (36.0500 N, 119.5300 O). Ferme indépendante d’Harmony Mannan et de ses proches. Implantation proposée ; pas un domaine corporatiste.
+E02 — Gold Cow Kingdom (36.5300 N, 120.2700 O). Village de fermiers indépendants soutenu financièrement par Dwarfood, auquel il fournit des produits animaux classiques. Emplacement proposé.
+E03 — Green Fairy Daughters (38.9500 N, 120.3400 O). Communauté retirée de la société, liée au mouvement Green Fairy. Implantation forestière proposée.
+E04 — Underwater Nation (33.2600 N, 119.2000 O). Communautés sous-marines indépendantes de Mary Shanasti, opposées à Ocean Master et Seawares. Site régional proposé.
+E05 — Mola Mola (33.9200 N, 119.9200 O). Communauté maritime indépendante occupant des îles et des cités sous-marines. Implantation régionale proposée.
+E06 — Losttown (35.9200 N, 117.4200 O). Cité souterraine autarcique du corpus. Position indicative proposée ; ne désigne pas une ville visible en surface.
+E07 — Bunkfarm · Fuel King (33.0000 N, 116.0900 O). Communauté de Damian Escribano : bunker-ferme, élevage de chèvres, production de carburant. Sud californien établi ; emplacement précis proposé.
+E08 — True Nations · relais (39.3200 N, 116.3300 O). Réseau opposé à l’hégémonie de Tala. Ce relais proposé ne représente pas l’ensemble des habitants ni le gouvernement de la réserve.
+E09 — Green Nomads · halte mobile (34.5500 N, 116.4000 O). Village mobile de caravanes et camions. Halte et trajet proposés, jamais une capitale permanente.
+E10 — Enders · piémont du Mojave (35.6300 N, 117.9200 O). Communauté de récupération et petite agriculture protégée : proposition supplémentaire.
+E11 — Enders · bassin de Tonopah (38.4800 N, 116.9900 O). Communauté de récupération près de friches minières : proposition supplémentaire.
+E12 — Enders · contreforts de White Pine (38.7200 N, 115.4500 O). Petit établissement indépendant proposé dans les contreforts, avec accès aux bassins cultivés.
+E13 — Enders · arrière-pays côtier (35.8500 N, 121.1100 O). Hameau autonome proposé en retrait du corridor côtier.
+E14 — Enders · haut Humboldt (41.0200 N, 115.9400 O). Petit hameau indépendant proposé hors des pôles urbains.
+
+BASSINS AGRICOLES
+F01 — Plaine de Sacramento : ASCO · cultures industrielles. Implantation schématique proposée.
+F02 — Delta agricole : ASCO · cultures et collecte. Implantation schématique proposée.
+F03 — Vignobles du nord : HERBREWS · domaines sous contrat. Implantation schématique proposée.
+F04 — San Joaquin nord : YELLOW FOOD · céréales. Implantation schématique proposée.
+F05 — Bassin de Fresno : DWARFOOD · production alimentaire. Implantation schématique proposée.
+F06 — Plaine de Tulare : Agriculture mixte · fermes et domaines. Implantation schématique proposée.
+F07 — Bassin de Kern : ASCO · serres et cultures. Implantation schématique proposée.
+F08 — Vallée de Salinas : Cultures sous contrat corporatiste. Implantation schématique proposée.
+F09 — Santa Maria et vallées côtières : Maraîchage · exploitations mixtes. Implantation schématique proposée.
+F10 — Plaine d’Oxnard : Serres et cultures intensives. Implantation schématique proposée.
+F11 — Vallée impériale : YELLOW FOOD · grands périmètres irrigués. Implantation schématique proposée.
+F12 — Bassin de Mexicali : ASCO · agriculture frontalière. Implantation schématique proposée.
+F13 — Vallée de Yuma : Périmètres irrigués sous contrat. Implantation schématique proposée.
+F14 — Palo Verde : Cultures irriguées · Colorado. Implantation schématique proposée.
+F15 — Vallée de Gila : DWARFOOD · serres et céréales. Implantation schématique proposée.
+F16 — San Quintín : Agriculture littorale. Implantation schématique proposée.
+F17 — Vallées de Humboldt : Élevage et agriculture locale. Implantation schématique proposée.
+F18 — Ruby Valley : Prairies et ranchs dispersés. Implantation schématique proposée.
+F19 — Diamond Valley : Agriculture irriguée de la réserve. Implantation schématique proposée.
+F20 — White River Valley : Élevage et cultures locales. Implantation schématique proposée.
+F21 — Pahranagat : Cultures et prairies autour de l’eau. Implantation schématique proposée.
+F22 — Lovelock : Plaine cultivée du Humboldt. Implantation schématique proposée.
+
+GRANDE CALIFORNIE 2035 — NOTICE ET INVENTAIRE
+
+Deux cartes raster : carte générale et zoom de la Grande Réserve.
+Les deux cartes utilisent les mêmes coordonnées et le même tracé territorial. Le relief du zoom est échantillonné à une échelle plus détaillée ; ce n’est pas un agrandissement du petit aperçu.
+
+STATUT DES INFORMATIONS
+Les noms des corporations et clubs proviennent du corpus. Les sites régionaux, corridors de contrôle, relais, pôles de casinos et friches listés ci-dessous sont des propositions cartographiques de 2035, sauf mention contraire. Ils ne constituent pas un ajout déjà validé au canon.
+Les emprises de ces sites sont schématiques. Un relais près d’une ville ne signifie pas que le club possède toute la ville. Les friches ne signifient pas que la ville voisine est entièrement abandonnée.
+San Iron Paulo est un village détruit du corpus ; son emplacement ici est proposé. San Farnilio est nommé dans le corpus ; sa localisation est proposée.
+La Grande Réserve est un territoire autonome habité, pas un parc naturel vide. Les casinos sont des pôles ponctuels ; les zones W désignent des secteurs naturels peu aménagés, pas des propriétés exclusives.
+Les limites territoriales reprennent la forme générale validée, adaptée aux coordonnées géographiques ; il ne s’agit pas d’un relevé cadastral.
+
+GÉOGRAPHIE ET RÉSEAUX
+Lacs et rivières : géographie de référence Natural Earth. Leur dessin n’est pas une prédiction hydrologique pour 2035 : niveaux des réservoirs, cours intermittents et assèchements peuvent varier.
+Routes et rails : réseaux existants de référence Natural Earth. Aucun maintien en service en 2035 n’est garanti par le trait ferroviaire. Les changements futurs précis restent à arbitrer dans le lore. Les corridors colorés de motards sont des propositions schématiques autour des grands axes, pas un relevé de chaque tronçon.
+Emprises urbaines américaines : US Census 2020. Mexique : Natural Earth, données plus anciennes. Les surfaces rendent l’étendue des villes visible ; elles ne sont pas une simulation exhaustive de l’urbanisation de 2035.
+Forêts : domaines administratifs du US Forest Service, qui peuvent inclure des terrains non boisés. La couleur verte ne constitue pas un inventaire de la couverture arborée.
+Relief : Esri World Shaded Relief. Projection Mercator ; proportions conservées dans chaque vue, nord en haut. L’échelle linéaire est donnée pour la latitude indiquée ; elle varie vers le nord et le sud.
+L’inventaire des zones abandonnées est une sélection proposée, pas un recensement exhaustif de toute la Grande Californie.
+
+CORRIDORS DE MOTARDS
+R1 — Hell Angels · corridor côtier
+R2 — Cruisers · accès du Mojave
+R3 — Sons of Silence · axe oriental
+R4 — Vagos · passages frontaliers
+R5 — Urban Wolves · piémont oriental
+R6 — Hell Angels · relais de l’ouest
+R7 — Cruisers · axe du Colorado
+
+RELAIS ET VILLAGES (implantations proposées)
+M1 — Salinas / Hell Angels — 36.6300 N, 121.6100 O
+M2 — San Farnilio / Hell Angels — 35.6400 N, 120.3000 O
+M3 — Barstow / Cruisers — 34.8700 N, 117.0300 O
+M4 — Baker / Cruisers — 35.2500 N, 116.0900 O
+M5 — Kingman / Sons of Silence — 35.1700 N, 114.0400 O
+M6 — Needles / Sons of Silence — 34.8600 N, 114.6300 O
+M7 — Mojave / Urban Wolves — 35.0300 N, 118.1800 O
+M8 — Lone Pine / Urban Wolves — 36.5800 N, 118.0600 O
+M9 — Tecate / Vagos — 32.5700 N, 116.6300 O
+M10 — Mexicali / Vagos — 32.6100 N, 115.4400 O
+M11 — Blythe / Cruisers — 33.6000 N, 114.6100 O
+M12 — Hawthorne / Hell Angels — 38.5100 N, 118.6100 O
+
+SITES CORPORATISTES (implantations régionales proposées)
+ASCO · agroterritoires — 38.7500 N, 121.0000 O
+DWARFOOD · agro-industrie — 37.0500 N, 120.4200 O
+YELLOW FOOD · cultures — 32.9500 N, 115.4500 O
+HERBREWS · production — 38.5500 N, 122.4200 O
+BIOSUN · biotechnologies — 37.2500 N, 121.6500 O
+SUNWAYS · santé — 37.9000 N, 122.2200 O
+ACES · calcul — 38.3700 N, 121.4500 O
+ANTELLIGENCE · recherche — 33.3400 N, 111.8400 O
+RAVEN · essais et industrie — 35.1400 N, 117.6800 O
+PHOENIX · industrie — 32.8500 N, 114.3300 O
+BYRON · sites industriels — 35.2100 N, 118.8500 O
+BULLMOTORS · logistique — 34.9600 N, 116.8200 O
+SPACE FORCE UNION · installations — 34.7400 N, 118.3500 O
+WELLSPRINGS · énergie — 33.4400 N, 115.1600 O
+WELLSPRINGS · centrales maritimes — 33.6000 N, 118.7000 O
+OCEAN MASTER · exploitations marines — 34.0800 N, 119.3300 O
+SEAWARES · installations marines — 32.6000 N, 117.3500 O
+USHKOLL · formation — 35.9800 N, 115.4100 O
+EVERSOR · pôle côtier — 34.0000 N, 118.4550 O
+TORTOISE · sécurité portuaire — 31.8200 N, 116.5500 O
+
+FRICHES ET ZONES ABANDONNÉES (implantations proposées)
+A01 — Anciens docks de la baie — 37.7800 N, 122.2600 O
+A02 — Friches du Delta — 38.0400 N, 121.4900 O
+A03 — Dépôts de la vallée centrale — 37.3300 N, 120.6100 O
+A04 — Ceinture industrielle délaissée — 35.2500 N, 119.1500 O
+A05 — Anciens champs et stations — 35.0700 N, 119.4900 O
+A06 — Friches nord du Grand LA — 34.4000 N, 118.2600 O
+A07 — Docks et dépôts du Grand LA — 33.8600 N, 118.2100 O
+A08 — Stations de l’Intercités — 34.8200 N, 116.7400 O
+A09 — Secteurs de récupération du Mojave — 35.1300 N, 116.3800 O
+A10 — San Iron Paulo · ruines — 35.3100 N, 118.0200 O
+A11 — Anciennes emprises de Salton — 33.2300 N, 115.8700 O
+A12 — Friches de la vallée impériale — 32.9100 N, 115.6400 O
+A13 — Anciennes carrières du Colorado — 34.4000 N, 114.6600 O
+A14 — Relais routiers désertés — 33.9000 N, 114.8800 O
+A15 — Dépôts périphériques de Phoenix — 33.3600 N, 112.3700 O
+A16 — Franges de Tucson — 32.1200 N, 111.0700 O
+A17 — Installations littorales délaissées — 31.5800 N, 116.5600 O
+A18 — Relais de Basse-Californie — 29.6700 N, 115.4600 O
+A19 — Bassins miniers délaissés — 38.2200 N, 117.1800 O
+A20 — Anciens sites miniers de Belmont — 38.5900 N, 116.8730 O
+A21 — Anciennes installations de Hamilton — 39.2540 N, 115.4910 O
+A22 — Anciens puits et ateliers de Pioche — 37.9460 N, 114.3970 O
+A23 — Friches minières de Goldfield — 37.7300 N, 117.1700 O
+A24 — Installations délaissées du Humboldt — 40.5900 N, 116.8200 O
+
+PÔLES DE CASINOS (proposés)
+C1 — Pôle de casinos d’Elko — 40.8600 N, 115.7500 O
+C2 — Pôle de casinos de Wells — 41.1300 N, 114.9600 O
+C3 — Pôle de casinos d’Ely — 39.2700 N, 114.8500 O
+C4 — Accueil et casinos de Tonopah — 38.0400 N, 117.2100 O
+C5 — Accueil et casinos de Caliente — 37.6300 N, 114.5000 O
+
+ESPACES NATURELS (délimitations interprétées)
+W1 — Ruby Mountains · hautes terres
+W2 — Ruby Valley · espaces ouverts
+W3 — Schell Creek Range
+W4 — White Pine · montagnes et forêts
+W5 — Snake Range · hauts massifs
+W6 — Railroad Valley · grands espaces
+W7 — Bassin de Pahranagat
+
+IMPRESSION
+Générale : 12 000 pixels de large, soit environ 305 ppp à 1 mètre ou 152 ppp à 2 mètres.
+Grande Réserve : 8 000 pixels de large, soit environ 203 ppp à 1 mètre ou 102 ppp à 2 mètres.
+Utiliser le PNG pour la version sans perte, ou le JPEG qualité 95 pour un fichier moins volumineux. Les aperçus sont uniquement destinés à la consultation.
+Respecter les proportions de l’image : ne pas la forcer dans un cadre carré. La métadonnée 300 ppp ne remplace pas le choix de largeur chez l’imprimeur.
+Les petits caractères et l’échantillonnage du relief bénéficieront d’une impression de la réserve autour de 1 mètre de large.
+
+SOURCES
+Esri World Shaded Relief — Copyright © 2014 Esri
+https://services.arcgisonline.com/ArcGIS/rest/services/World_Shaded_Relief/MapServer
+Natural Earth — données du domaine public
+https://www.naturalearthdata.com/
+https://github.com/nvkelso/natural-earth-vector
+US Census Bureau — TIGERweb Urban Areas 2020
+https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/Urban/MapServer/0
+US Forest Service — Forest System Boundaries
+https://apps.fs.usda.gov/arcx/rest/services/EDW/EDW_ForestSystemBoundaries_01/MapServer/0
+Corpus Terra Umbra California — Crawlers, gouvernement, lore ; cartes régionales validées.
