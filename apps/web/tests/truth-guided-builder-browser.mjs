@@ -6,6 +6,7 @@ if(!executablePath)throw new Error("CHROME_BIN manquant.");
 
 const characterId="11111111-1111-4111-8111-111111111111";
 let savedPayload=null;
+let campaignId=null;
 let sheetOwner=true;
 let readerGrant=null;
 const readerId="33333333-3333-4333-8333-333333333333";
@@ -259,7 +260,7 @@ await page.route("**/api/**",async route=>{
 
   if(url.pathname===`/api/characters/${characterId}/sheet`){
     return route.fulfill({status:200,contentType:"application/json",body:JSON.stringify({
-      character:{id:characterId,name:savedPayload?.name||"V2 Smoke",data:savedPayload?.data||characterData,version:9,createdAt:new Date(0).toISOString(),updatedAt:new Date(0).toISOString()},
+      character:{id:characterId,campaignId,name:savedPayload?.name||"V2 Smoke",data:savedPayload?.data||characterData,version:9,createdAt:new Date(0).toISOString(),updatedAt:new Date(0).toISOString()},
       canEdit:sheetOwner,ownerName:"Joueur Smoke"
     })});
   }
@@ -291,7 +292,7 @@ await page.route("**/api/**",async route=>{
     const currentVersion=savedPayload?Number(savedPayload.version||7)+1:7;
     return route.fulfill({
       status:200,contentType:"application/json",
-      body:JSON.stringify({character:{id:characterId,name:savedPayload?.name||"V2 Smoke",data:savedPayload?.data||characterData,version:currentVersion,createdAt:new Date(0).toISOString(),updatedAt:new Date(0).toISOString()}})
+      body:JSON.stringify({character:{id:characterId,campaignId,name:savedPayload?.name||"V2 Smoke",data:savedPayload?.data||characterData,version:currentVersion,createdAt:new Date(0).toISOString(),updatedAt:new Date(0).toISOString()}})
     });
   }
   if(url.pathname==="/api/characters/"+characterId&&method==="PATCH"){
@@ -383,22 +384,41 @@ try{
   for(const nature of Object.values(canonical.structure.natures)){
    const choices={};for(const c of nature.choices){const options=c.optionsBy&&c.dependsOn?c.optionsBy[choices[c.dependsOn]]??c.options:c.options;choices[c.key]=(options.find(o=>o.id==='aucune')??options[0])?.id??'';}
    if(nature.id==='extral'){choices.species='homo_superior';choices.network='aidh_intervention';}
-   if(nature.id==='daemon')choices.divinity='morrighan';
+   if(nature.id==='daemon'){choices.divinity='morrighan';choices.function='oracle';}
+   campaignId=nature.id==='daemon'?'22222222-2222-4222-8222-222222222222':null;
    Object.assign(choices,{beneficiaryBenefits:{scenario:'Old',refectionReceived:true,guardReceived:true},extralBuild:{repairUsed:true,reserveUsed:true},daemonBuild:{riteDomain:'corvides',rites:[{name:'Old',effect:'Kept',pa:1}]}});
    characterData.truth={...characterData.truth,nature:nature.id,consciousness:'initie',choices,truthTalents:[]};savedPayload=null;
    await page.goto(baseUrl+'/characters/'+characterId+'/builder',{waitUntil:'networkidle'});await page.locator('.builder-workspace').waitFor();
    if(await page.locator('.builder-mobile-steps').isVisible())await page.locator('.builder-mobile-steps').click();
    await page.locator('.builder-nav').getByRole('button',{name:/Nature & origines/}).click();
    if(await page.locator(absent).count())throw new Error(nature.id+': rejected creation panels');
+   if(await page.locator('.truth-free-section:not([open])').count())throw new Error('Free traits must be expanded');
+   if(await page.locator('.truth-talent-card,[data-common-truth-talents]').count())throw new Error('Purchases must only appear on page two');
    if(nature.id!=='humain'&&await page.locator('.truth-choice-field').filter({hasText:/Voie.*Chasse|tradition de Chasse/}).count())throw new Error(nature.id+': external hunting choice during creation');
    if(nature.id==='extral')await page.getByText(/Formation AIDH au combat en équipe/).waitFor();
    if(await page.locator('.builder-main').evaluate(el=>el.scrollWidth>el.clientWidth+2)){console.error(await page.locator('.builder-main').evaluate(el=>{const boundary=el.getBoundingClientRect().right;return [...el.querySelectorAll('*')].filter(n=>n.getBoundingClientRect().right>boundary+2).slice(0,20).map(n=>({tag:n.tagName,cls:n.className,width:n.getBoundingClientRect().width,text:(n.textContent??'').slice(0,100)}));}));throw new Error(nature.id+': overflow '+width);}
-   if(width===1440){await page.locator('.truth-picker-grid select').nth(1).selectOption('profane');await page.getByRole('button',{name:/Enregistrer/}).first().click();await page.waitForTimeout(150);if(!savedPayload?.data.truth.choices.beneficiaryBenefits.refectionReceived||!savedPayload.data.truth.choices.extralBuild.repairUsed)throw new Error(nature.id+': hidden legacy data lost');}
+   if(width===1440){await page.locator('.truth-picker-grid select').nth(1).selectOption('profane');await page.getByRole('button',{name:/Enregistrer/}).first().click();await page.waitForTimeout(150);if(!savedPayload?.data.truth.choices.beneficiaryBenefits.refectionReceived||!savedPayload.data.truth.choices.extralBuild.repairUsed)throw new Error(nature.id+': hidden legacy data lost');await page.locator('.truth-picker-grid select').nth(1).selectOption('initie');}
    if(await page.locator('.builder-mobile-steps').isVisible())await page.locator('.builder-mobile-steps').click();
    await page.locator('.builder-nav').getByRole('button',{name:/Talents & équipement de Vérité/}).click();
    if(await page.locator('.truth-picker').count())throw new Error('Structural choices leaked onto talent page');
    if(await page.getByLabel(/Autorisation MJ d’accès exceptionnel aux objets de Vérité/).count())throw new Error('Creation override remains');
    if(await page.locator('.truth-group[open]').count())throw new Error('Talent families should initially be collapsed');
+   if(nature.id==='daemon'){
+    if(await page.locator('.truth-equipment-panel').count())throw new Error('Empty equipment panel');
+    if(await page.getByLabel('Autorisation MJ — Corruption & Fléaux',{exact:true}).count())throw new Error('Unavailable corruption control');
+    await page.locator('.truth-group>summary').filter({hasText:/commun/i}).first().click();
+    if(!(await page.locator('.truth-group[open] .truth-talent-card').count()))throw new Error('Common purchases missing from page two');
+    const authority=page.locator('.truth-talent-card').filter({hasText:'Autorité ancienne'});
+    await authority.evaluate(el=>el.closest('details').open=true);
+    await authority.click();
+    await page.locator('.truth-selected-recap').getByText('Autorité ancienne',{exact:true}).waitFor();
+    if(await page.locator('.truth-selected-recap .rule-note.bad').count())throw new Error('New valid Daemon talent falsely unavailable');
+    const ritual=page.locator('.truth-talent-entry').filter({hasText:'Sorcellerie des corneilles'});
+    await ritual.evaluate(el=>el.closest('details').open=true);
+    await ritual.locator('[data-truth-prerequisites]').getByText(/domaine.*rite complet/).waitFor();
+    if(await ritual.locator('.truth-talent-details:not([open])').count())throw new Error('Talent details must be expanded');
+   }
+
    if(await page.locator('.builder-main').evaluate(el=>el.scrollWidth>el.clientWidth+2)){console.error(await page.locator('.builder-main').evaluate(el=>{const right=el.getBoundingClientRect().right;return [...el.querySelectorAll('*')].filter(n=>n.getBoundingClientRect().right>right+2).slice(0,20).map(n=>({tag:n.tagName,cls:n.className,width:n.getBoundingClientRect().width,text:(n.textContent??'').slice(0,100)}));}));throw new Error(nature.id+': talent-page overflow '+width);}
    await page.goto(baseUrl+'/characters/'+characterId+'/progression',{waitUntil:'networkidle'});await page.locator('.builder-workspace').waitFor();
    if(await page.locator(absent).count())throw new Error(nature.id+': rejected progression panels');

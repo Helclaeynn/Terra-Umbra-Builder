@@ -65,6 +65,8 @@ import {
   truthChoicesValid,
   truthGroups,
   truthPrerequisiteSatisfied,
+  truthPrerequisiteIssues,
+  truthEquipmentAccess,
   truthPermanentAttributeBonus,
   truthPtvSpent,
   truthRevelationProfile,
@@ -419,14 +421,11 @@ const truthPtvRemaining=computed(()=>
   (truthRules.value?.structure.ptvInitial??0)-truthPtvSpentValue.value
 );
 
-function isCommonTruthGroup(name:string){return /commun/i.test(name);}
-const commonTruthTalents=computed(()=>availableTruthTalents.value.filter(t=>isCommonTruthGroup(t.group)));
 const creationTruthChoices=computed(()=>(selectedTruthNature.value?.choices??[]).filter(c=>c.key!=='hunterTradition'||currentTruthState.value?.nature==='humain'));
 const truthGroupOptions=computed(()=>truthGroups(availableTruthTalents.value).map(group=>({...group,items:[...group.items].sort(compareTruthTalents)})).sort((a,b)=>compareLabels(a.name,b.name)));
 const selectedTruthTalents=computed(()=>{const state=currentTruthState.value;return state&&truthRules.value?truthKnownTalents(truthRules.value,state).filter(t=>state.truthTalents.includes(t.id)):[];});
 const visibleTruthGroups=computed(()=>{
   const groups=truthGroupOptions.value
-    .filter(group=>!isCommonTruthGroup(group.name))
     .map(group=>({...group,items:group.items.filter(talent=>!truthTalentSelected(talent.id))}));
   const query=truthSearch.value.trim().toLocaleLowerCase("fr");
   if(!query)return groups;
@@ -2489,7 +2488,7 @@ onBeforeUnmount(()=>{
                 </div>
               </details>
 
-              <details v-if="selectedTruthFreeTraits.length" class="truth-free-section">
+              <details v-if="selectedTruthFreeTraits.length" class="truth-free-section" open>
                 <summary class="truth-disclosure-summary"><span><strong>Traits gratuits de Vérité</strong><small>Acquis automatiques de la Nature</small></span><span class="schema-badge">{{ selectedTruthFreeTraits.length }}</span></summary>
                 <p class="truth-disclosure-intro">
                   Ils découlent directement de la Nature et des choix structurels. Ils ne coûtent aucun PTV.
@@ -2512,18 +2511,7 @@ onBeforeUnmount(()=>{
               </details>
 
               <TruthBuildChoices v-if="truthHasInnateBuildChoice(currentTruthState)" :state="currentTruthState" :rules="truthRules" talent-id="innate-spectre" @change="setGuidedTruthChoices" />
-              <section class="truth-talents-section" data-common-truth-talents>
-                <h3>Talents communs de cette Nature</h3>
-                <p v-if="!commonTruthTalents.length">Aucun talent commun à acheter avec les choix actuels. Les capacités gratuites figurent ci-dessus.</p>
-                <div class="truth-talent-grid">
-                  <article v-for="talent in commonTruthTalents" :key="talent.id" class="truth-owned-card">
-                    <h4>{{talent.name}} · {{talent.cost}} PTV</h4>
-                    <TruthTalentText :effect="talent.effect" :details="talent.effectDetails" :lore="talent.runtimeLore" :activation="talent.activation" />
-                    <button type="button" :disabled="!truthTalentSelected(talent.id)&&!truthTalentCanAdd(talent)" @click="toggleTruthTalent(talent)">{{truthTalentSelected(talent.id)?'Retirer':'Acquérir'}} · {{talent.cost}} PTV</button>
-                    <TruthBuildChoices v-if="truthTalentSelected(talent.id)&&truthBuildChoiceLabel(currentTruthState,talent.id)" :state="currentTruthState" :rules="truthRules" :talent-id="talent.id" @change="setGuidedTruthChoices" />
-                  </article>
-                </div>
-              </section>
+
               </template>
               <template v-else>
               <TruthTrainingChoices :state="currentTruthState" :rules="truthRules" @change="setGuidedTruthChoices" />
@@ -2532,7 +2520,7 @@ onBeforeUnmount(()=>{
                   <div>
                     <h3>Talents de Vérité</h3>
                     <p>
-                      Seuls les Talents compatibles avec la Nature et les choix ci-dessus sont proposés.
+                      Seuls les Talents compatibles avec la Nature et les choix de la page précédente sont proposés.
                       Ouvrez une famille pour consulter ses talents. Les acquisitions déjà payées restent enregistrées si les choix changent.
                     </p>
                   </div>
@@ -2621,9 +2609,13 @@ onBeforeUnmount(()=>{
                           </div>
                           <em v-if="talent.runtimeLore&&!talent.effectDetails">{{ talent.runtimeLore }}</em>
                           <small v-if="talent.activation">{{talent.activation}}</small><p><b>Effet :</b> {{ talent.effect }}</p>
-                          <small v-if="!truthTalentCanAdd(talent)">{{ !truthTalentPrereqOk(talent) ? 'Prérequis à remplir' : 'PTV disponibles insuffisants' }}</small>
+                          <small v-if="!truthTalentCanAdd(talent)">{{ !truthTalentPrereqOk(talent) ? 'Prérequis manquants — voir les conditions ci-dessous' : 'PTV disponibles insuffisants' }}</small>
                           <span v-else>Ajouter ce Talent</span>
                         </button>
+                        <div v-if="!truthTalentPrereqOk(talent)" class="rule-note bad" data-truth-prerequisites>
+                          <strong>Conditions à remplir avant l’achat</strong>
+                          <ul><li v-for="issue in truthPrerequisiteIssues(truthRules,currentTruthState,talent)" :key="issue">{{ issue }}</li></ul>
+                        </div>
                         <button v-if="truthBuildChoiceLabel(currentTruthState,talent.id)" type="button" class="secondary" :data-configure-talent="talent.id" @click="configuredTruthTalent=configuredTruthTalent===talent.id?'':talent.id">{{truthBuildChoiceLabel(currentTruthState,talent.id)}}</button>
                         <TruthBuildChoices v-if="configuredTruthTalent===talent.id" :state="currentTruthState" :rules="truthRules" :talent-id="talent.id" @change="setGuidedTruthChoices" />
                         <TruthTalentText v-if="talent.effectDetails" :effect="talent.effect" :details="talent.effectDetails" :lore="talent.runtimeLore" :activation="talent.activation" :show-summary="false" />
@@ -2635,12 +2627,13 @@ onBeforeUnmount(()=>{
 
               <AserynTalentChoices :state="currentTruthState" @change="setTruthChoice" />
               <TruthEquipmentPanel
+                v-if="currentTruthState.truthEquipment.length || truthRules.equipment.some(item=>!item.referenceOnly && truthEquipmentAccess(item,currentTruthState!).ok)"
                 :model-value="currentTruthState"
                 :rules="truthRules"
                 @update:model-value="writeTruthState($event)"
               />
 
-              <CorruptionPanel :rewards-locked="campaignRewardsLocked"
+              <CorruptionPanel v-if="!campaignRewardsLocked || currentTruthState.corruptionMjAuthorized" :rewards-locked="campaignRewardsLocked"
                 :model-value="currentTruthState"
                 :rules="truthRules"
                 :integrity="derivedStats.integrity"
@@ -3229,8 +3222,8 @@ textarea:focus{border-color:#6cb5ff;box-shadow:0 0 0 2px rgba(108,181,255,.14)}
 .truth-disclosure-intro{margin:.1rem 0 1rem;color:#b3c5d9;font-size:.84rem;line-height:1.55}
 .truth-reveal-section,.truth-free-section{margin-top:1.5rem;padding:0 0 .25rem;border-top:1px solid rgba(255,255,255,.07);border-bottom:1px solid rgba(255,255,255,.05)}
 .truth-talent-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:.65rem;padding:.75rem;border-top:1px solid rgba(255,255,255,.06)}
-.truth-talent-entry{box-sizing:border-box;flex:0 1 calc((100% - 1.3rem)/3);min-width:0;display:grid;position:relative}
-.truth-talent-card{display:grid;gap:.55rem;width:100%;padding:.9rem;padding-bottom:2.05rem;border:1px solid #2b3b51;text-align:left;color:#edf4ff;background:rgba(255,255,255,.015)}
+.truth-talent-entry{box-sizing:border-box;flex:0 1 calc((100% - 1.3rem)/3);min-width:0;display:grid;align-content:start;gap:.6rem;position:relative}
+.truth-talent-card{display:grid;align-content:start;gap:.55rem;width:100%;padding:.9rem;padding-bottom:2.05rem;border:1px solid #2b3b51;text-align:left;color:#edf4ff;background:rgba(255,255,255,.015)}
 .truth-talent-wiki{position:absolute;left:.9rem;bottom:.55rem;font-size:.8125rem;color:#6fb9d6}
 .truth-talent-card:hover:not(:disabled){border-color:rgba(100,222,245,.38)}
 .truth-talent-card.selected{border-color:#6cb5ff;background:rgba(108,181,255,.1)}

@@ -68,3 +68,6 @@ assert.deepEqual(campaign.derived,base.derived,'Conditional talents, secondary i
 assert.deepEqual(m.normalizeCharacterData(data,'Daemon recette').truth.choices,data.truth.choices);
 const pdf=m.projectCharacterPdf({data,core,truth:pkg,reality,campaign:true},new Set());assert.ok(pdf.annex.some(a=>a.title.includes('Rémanence prophétique')));assert.ok(pdf.annex.some(a=>a.title.includes('Fonction secondaire')));
 console.log('DAEMON WEB OK — 13 Divinities × 3 Functions, actual secondary access/imprint, separate Spectre prices/caps, complete profiles, conditional non-inflation, legacy warnings, shared/campaign/PDF projection and no reward mutation');
+
+const blockedRitual=blank('morrighan');
+assert.match(m.truthPrerequisiteIssues(pkg,blockedRitual,row(blockedRitual,ids.ritual)).join(' '),/domaine.*rite complet/);

@@ -736,6 +736,27 @@ export function truthPrerequisiteSatisfied(
   return false;
 }
 
+/** Explain the same blockers used by the purchase gate, including configured repertoires. */
+export function truthPrerequisiteIssues(pkg:TruthRulesPackage,state:TruthState,talent:TruthTalent):string[]{
+  if(truthPrerequisiteSatisfied(pkg,state,talent))return [];
+  if(state.consciousness==='profane')return ['L’initiation à la Vérité est nécessaire.'];
+  if((pkg.catalogs.humain??[]).some(t=>t.id===talent.id)){
+    const available=truthAvailableTalents(pkg,state),byId=new Map((pkg.catalogs.humain??[]).map(t=>[t.id,t]));
+    const ready=(id:string)=>state.truthTalents.includes(id)&&!!byId.get(id)&&hunterTalentReady(pkg,state,byId.get(id)!,available);
+    const name=(id:string)=>byId.get(id)?.name??id;
+    const issues=(talent.requiredTalentIds??[]).filter(id=>!ready(id)).map(id=>'Talent requis et utilisable : '+name(id));
+    if(talent.anyRequiredTalentIds?.length&&!talent.anyRequiredTalentIds.some(ready))issues.push('Au moins un talent requis et utilisable : '+talent.anyRequiredTalentIds.map(name).join(' ou '));
+    return issues.length?issues:['Choisissez la doctrine de Chasse correspondante.'];
+  }
+  for(const check of [vampireAcquisitionIssues,khinaeAcquisitionIssues,exileAcquisitionIssues,extralAcquisitionIssues,angelusAcquisitionIssues,daemonAcquisitionIssues]){
+    const issues=check(pkg,state,talent);if(issues!==null)return issues;
+  }
+  const technique=state.nature==='mage'?mageTechniqueKind(talent.id):undefined;
+  if(technique)return mageTechniqueIssues(pkg,state,technique);
+  const parent=truthKnownTalents(pkg,state).find(t=>t.id===talent.prerequisite);
+  return ['Prérequis : '+(talent.prerequisiteName||parent?.name||talent.prerequisite||'Complétez les choix de ce talent.')];
+}
+
 export function truthPtvSpent(pkg:TruthRulesPackage,state:TruthState){
   const available=truthAvailableTalents(pkg,state);
   const all=new Map(available.map(talent=>[talent.id,talent]));
