@@ -32,10 +32,12 @@ jobs:
             mkdir -p "/tmp/atlas-source/$(dirname "$path")"
             cp -a "$path" "/tmp/atlas-source/$(dirname "$path")/"
           done
-          for path in apps/web/src/components/builder/NatureStartGuide.vue apps/web/src/components/builder/ProgressionStep.vue apps/web/src/pages/CharacterBuilderPage.vue apps/web/src/main.ts apps/web/src/pages/CompendiumPage.vue apps/web/src/components/CompendiumDiscovery.vue apps/web/src/components/ArticleReadingGuide.vue apps/web/src/components/PlayerStartFrame.vue apps/web/src/pages/PlayerStartPage.vue apps/web/src/pages/GlossaryPage.vue apps/web/src/lib/player-start.ts apps/web/src/lib/player-start.json apps/web/src/lib/player-glossary.json apps/web/src/lib/article-reading-guides.json apps/web/src/player-start.css apps/web/tests/player-start-dom.mjs apps/web/tests/builder-save-navigation.mjs apps/web/tests/compendium-page-dom.mjs; do
+          for path in apps/web/src/components/builder/NatureStartGuide.vue apps/web/src/main.ts apps/web/src/pages/CompendiumPage.vue apps/web/src/components/CompendiumDiscovery.vue apps/web/src/components/ArticleReadingGuide.vue apps/web/src/components/PlayerStartFrame.vue apps/web/src/pages/PlayerStartPage.vue apps/web/src/pages/GlossaryPage.vue apps/web/src/lib/player-start.ts apps/web/src/lib/player-start.json apps/web/src/lib/player-glossary.json apps/web/src/lib/article-reading-guides.json apps/web/src/player-start.css apps/web/tests/player-start-dom.mjs apps/web/tests/builder-save-navigation.mjs apps/web/tests/compendium-page-dom.mjs; do
             mkdir -p "/tmp/atlas-source/$(dirname "$path")"
             cp -a "$path" "/tmp/atlas-source/$(dirname "$path")/"
           done
+          # Apply just the two guide links to the published builder, preserving its behaviour.
+          git diff 0126937929ac4d8be3e9cbfef71abd3facfc2bbd 32f51ed349dc56a69f4715777228c1081f62f537 -- apps/web/src/components/builder/ProgressionStep.vue apps/web/src/pages/CharacterBuilderPage.vue | git -C /tmp/atlas-source apply -
           node --input-type=module -e "import {writeFileSync} from 'node:fs';writeFileSync('/tmp/atlas-source/apps/web/public/build-info.json',JSON.stringify({commit:process.env.GITHUB_SHA,base:process.env.BASE_SHA,release:'onboarding-20260930',scope:'web-compendium-only'}));"
       - name: Compile existing API definitions for the Compendium fixture test
         working-directory: /tmp/atlas-source/apps/api
