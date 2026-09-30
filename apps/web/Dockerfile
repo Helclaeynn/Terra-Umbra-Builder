@@ -19,6 +19,7 @@ COPY apps/api/src/rules/truth/angelus-build.ts /app/apps/api/src/rules/truth/ang
 COPY apps/api/src/rules/truth/extral-build.ts /app/apps/api/src/rules/truth/extral-build.ts
 COPY apps/api/src/rules/truth/exile-build.ts /app/apps/api/src/rules/truth/exile-build.ts
 COPY apps/api/src/rules/truth/vampire-build.ts /app/apps/api/src/rules/truth/vampire-build.ts
+COPY apps/api/src/rules/truth/hunter-build.ts /app/apps/api/src/rules/truth/hunter-build.ts
 RUN npm run build
 
 FROM nginx:1.29-alpine

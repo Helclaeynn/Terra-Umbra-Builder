@@ -418,7 +418,7 @@ async function assertBuilderReflow(context) {
 }
 
 const nav=page.locator(".builder-nav button");
-if(await nav.count()!==11)throw new Error("Le Builder V2 doit exposer exactement 11 étapes de création.");
+if(await nav.count()!==12)throw new Error("Le Builder V2 doit exposer exactement 12 étapes de création.");
 for(let i=0;i<11;i++){
   if(await nav.nth(i).isDisabled())throw new Error("Étape "+(i+1)+" encore désactivée.");
 }
@@ -476,7 +476,7 @@ await expertise.getByRole('button',{name:/Analyste/}).click();
 
 await page.locator(".builder-nav").getByRole("button",{name:/Vérité/}).click();
 const truthTalents=page.locator('.truth-talents-section');
-await truthTalents.getByLabel('Catégorie de talents').selectOption('Groupe Smoke');
+await truthTalents.locator('.truth-group summary').filter({hasText:'Groupe Smoke'}).click();
 const truthCards=truthTalents.locator('.truth-available-catalog .truth-talent-card');
 await truthCards.filter({hasText:'Aube occulte'}).click();
 await truthTalents.getByRole('button',{name:'Retirer Aube occulte',exact:true}).waitFor();
@@ -494,13 +494,15 @@ if(await truthSearch.inputValue()!=='Aube')throw new Error('Ajouter un Talent ne
 await truthCards.filter({hasText:'Aube supérieure'}).waitFor({state:'visible'});
 await truthTalents.getByRole('button',{name:'Retirer Aube occulte',exact:true}).click();
 await truthSearch.fill('');
+await page.locator(".builder-nav").getByRole("button",{name:/Nature & origines/}).click();
 const revealDisclosure=page.locator("summary.truth-disclosure-summary").filter({hasText:"Voile & Révélation"});
 await revealDisclosure.waitFor({state:"visible",timeout:5000});
-await revealDisclosure.click();
+if(!await revealDisclosure.evaluate(n=>n.parentElement.open))await revealDisclosure.click();
 for(const label of ["Voilé","Semi-Révélé","Révélé"]){
   await page.getByText(label,{exact:true}).waitFor({state:"attached",timeout:5000});
 }
 
+await page.locator(".builder-nav").getByRole("button",{name:/Vérité/}).click();
 // Truth equipment is scoped by the character's actual access. A Human with no
 // hunter tradition only sees the common reference layer.
 await page.getByRole("heading",{name:"Objets de Vérité"}).waitFor({state:"visible",timeout:5000});
@@ -514,30 +516,10 @@ if(await truthEquipmentLink("Arme de Chasse Smoke").count())throw new Error("Éq
 if(await truthEquipmentLink("Objet d’Aèr Smoke").count())throw new Error("Objet d’Aèr visible pour un non-Exilé.");
 if(await truthEquipmentLink("Relique corrompue Smoke").count())throw new Error("Équipement corrompu visible sans autorisation MJ.");
 
-await page.locator(".catalog-help>summary").click();
-const truthEquipmentMj=page.getByLabel(/Autorisation MJ d’accès exceptionnel aux objets de Vérité/);
-const approvalLayout=await truthEquipmentMj.evaluate(input=>{
-  const hit=input.closest("label").getBoundingClientRect();
-  const control=input.getBoundingClientRect();
-  return {hitHeight:hit.height,controlWidth:control.width,controlHeight:control.height};
-});
-if(approvalLayout.hitHeight<44 || approvalLayout.controlWidth>48 || approvalLayout.controlHeight>28){
-  throw new Error("Autorisation Objets de Vérité disproportionnée : "+JSON.stringify(approvalLayout));
-}
-await truthEquipmentMj.focus();
-await truthEquipmentMj.press("Space");
-if(!await truthEquipmentMj.isChecked())throw new Error("Autorisation Objets de Vérité inaccessible au clavier.");
-await page.getByRole("button",{name:"Objets à acquérir",exact:true}).click();
-if(await page.locator('.truth-equipment-toolbar select option[value="22"]').count())throw new Error('Propriétés communes proposées dans les achats');
-for(const [chapter,label] of [["23","Arme de Chasse Smoke"],["24","Objet d’Aèr Smoke"],["27","Relique corrompue Smoke"]]){
-  await page.locator('.truth-equipment-toolbar').getByLabel('Chapitre').selectOption(chapter);
-  await truthEquipmentLink(label).waitFor({state:"attached",timeout:5000});
-}
+if(await page.getByLabel(/Autorisation MJ d’accès exceptionnel aux objets de Vérité/).count())throw new Error('No exceptional equipment override during creation');
 await page.setViewportSize({width:390,height:1000});
-await assertBuilderReflow("Catalogue de Vérité ouvert avec autorisation, 390px");
+await assertBuilderReflow('Catalogue de Vérité naturel, 390px');
 await page.setViewportSize({width:1440,height:1000});
-await truthEquipmentMj.uncheck();
-await truthEquipmentLink("Objet d’Aèr Smoke").waitFor({state:"detached",timeout:5000});
 
 // Corruption is not a normal creation choice: it stays closed until explicit GM approval.
 const corruptionApproval=page.getByRole("checkbox",{name:"Autorisation MJ — Corruption & Fléaux",exact:true});
@@ -678,7 +660,7 @@ for(const width of [1440,390]){
   await assertBuilderReflow(`Progression, ${width}px`);
 }
 await page.setViewportSize({width:1440,height:1000});
-console.log("BUILDER UI OK — 11 étapes + progression à1440/390px · autorisation Vérité au clavier et zone tactile44px");
+console.log("BUILDER UI OK — 12 étapes + progression à1440/390px · autorisation Vérité au clavier et zone tactile44px");
 await page.getByText("XP disponibles",{exact:true}).waitFor();
 await page.getByText("PTV disponibles",{exact:true}).waitFor();
 await page.getByText("Argent & possessions de campagne",{exact:true}).waitFor();
@@ -911,5 +893,5 @@ console.log('Final equipment recipe OK — automatic free Silver coverage persis
 
 if(browserErrors.length)throw new Error("Erreurs navigateur :\n"+browserErrors.join("\n"));
 
-console.log("Builder Web V2 smoke OK — 11 étapes de création, progression séparée, tiroir Références, Talents locaux triés, wiki Équipement, V/SR/R, Finalisation et sauvegarde validés.");
+console.log("Builder Web V2 smoke OK — 12 étapes de création, progression séparée, tiroir Références, Talents locaux triés, wiki Équipement, V/SR/R, Finalisation et sauvegarde validés.");
 await browser.close();

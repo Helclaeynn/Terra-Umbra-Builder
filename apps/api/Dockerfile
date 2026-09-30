@@ -12,7 +12,7 @@ COPY compendium/source/truth-mechanics-v6-fixed.manifest.json ./rules-data/truth
 COPY compendium/source/truth-mechanics-v6-fixed.part*.b64 ./rules-data/truth-mechanics/
 COPY apps/api/scripts/check-exile-revision.mjs apps/api/scripts/exile-approved-20260930.json ./scripts/
 COPY apps/api/scripts/check-khinae-revision.mjs ./scripts/
-COPY apps/api/scripts/check-vampire-revision.mjs ./scripts/
+COPY apps/api/scripts/check-vampire-revision.mjs apps/api/scripts/check-hunter-revision.mjs ./scripts/
 RUN npm run build
 
 FROM node:24-alpine AS runtime
