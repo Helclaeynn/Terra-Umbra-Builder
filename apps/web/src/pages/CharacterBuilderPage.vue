@@ -3197,7 +3197,7 @@ textarea:focus{border-color:#6cb5ff;box-shadow:0 0 0 2px rgba(108,181,255,.14)}
 .truth-group[open]>summary::after{transform:rotate(-90deg)}
 .truth-group>summary>span{display:flex;justify-content:space-between;gap:.75rem;align-items:center;flex:1}
 .truth-group>summary small{color:#a1b5cc}
-.truth-disclosure-summary{cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.85rem 0;list-style:none}
+.truth-disclosure-summary{flex-wrap:wrap;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.85rem 0;list-style:none}
 .truth-disclosure-summary::-webkit-details-marker{display:none}
 .truth-disclosure-summary>span:first-child{display:grid;gap:.2rem}
 .truth-disclosure-summary strong{font:500 1.18rem/1.2 Inter,"Segoe UI",sans-serif;color:#edf4ff}
@@ -3381,4 +3381,6 @@ textarea:focus{border-color:#6cb5ff;box-shadow:0 0 0 2px rgba(108,181,255,.14)}
 .truth-talent-card{text-align:left;width:100%;padding:16px 20px}.truth-talent-head{display:flex;justify-content:space-between;gap:20px}.truth-talent-head>span{white-space:nowrap;color:#a3ecfa}.knowledge-item>p{white-space:pre-line}
 @media(max-width:850px){.truth-talent-entry{flex-basis:calc((100% - .65rem)/2)}}
 @media(max-width:550px){.truth-talent-entry{flex-basis:100%}}
+
+.truth-disclosure-summary>.schema-badge{max-width:100%;box-sizing:border-box;white-space:normal;overflow-wrap:anywhere}
 </style>

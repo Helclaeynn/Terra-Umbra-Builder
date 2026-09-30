@@ -378,7 +378,7 @@ const {terraUmbraTruthRules:canonical}=await import('../../api/dist/rules/truth/
 Object.assign(truthRules,canonical);
 const absent='.daemon-options,.angelus-options,.extral-options,.exile-options,.beneficiary-benefits,.mage-technique-editor';
 try{
- for(const width of [1440,390,320]){
+ for(const width of [320,390,1440]){
   await page.setViewportSize({width,height:950});
   for(const nature of Object.values(canonical.structure.natures)){
    const choices={};for(const c of nature.choices){const options=c.optionsBy&&c.dependsOn?c.optionsBy[choices[c.dependsOn]]??c.options:c.options;choices[c.key]=(options.find(o=>o.id==='aucune')??options[0])?.id??'';}
