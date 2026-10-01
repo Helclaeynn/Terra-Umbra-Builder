@@ -1,3 +1,4 @@
+import {armorStats} from './equipment-armor.js';
 import type { FastifyInstance, FastifyReply } from "fastify";
 import { requireUser } from "../auth.js";
 import { pool } from "../db.js";
@@ -284,6 +285,7 @@ function mechanicalSnapshot(entry:Record<string,unknown>):Record<string,unknown>
     if(value===undefined||value===null||value==="")continue;
     result[key]=value;
   }
+  for(const [label,value] of armorStats(entry))result[label]=value;
   return result;
 }
 

@@ -1,3 +1,4 @@
+import {armorStats} from '../../../api/src/rules/equipment-armor';
 import {isCybermechanicalItem} from "../../../api/src/rules/truth/exile-build";
 export {purchasePrice,realityEconomic} from '../../../api/src/rules/economy-model';
 import {purchasePrice,realityEconomic} from '../../../api/src/rules/economy-model';
@@ -500,10 +501,12 @@ export function equipmentStats(item:RealityItem){
     ["Autonomie",["Autonomie"]],
     ["Entretien/mois",["Entretien/mois","Entretien mensuel","Maintenance/mois"]]
   ];
-  return specs.flatMap(([label,names])=>{
+  const stats=specs.flatMap(([label,names])=>{
     const value=realityDeepField(item,names);
     return value===null||value===undefined||String(value).trim()===""?[]:[[label,String(value).trim()] as const];
   });
+  const seen=new Set(stats.map(([label])=>label));
+  return [...stats,...armorStats(item).filter(([label])=>!seen.has(label))];
 }
 
 export type RealityPriceSpec={

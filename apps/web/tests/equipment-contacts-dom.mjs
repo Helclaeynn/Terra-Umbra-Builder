@@ -140,5 +140,17 @@ assert.equal(tooltip.style.top,'209px','Tooltip follows the contact while its co
 anchorTop=60;list.dispatchEvent(new w.Event('scroll'));await tick();
 assert.equal(tooltip.style.visibility,'hidden','A contact scrolled outside the list leaves no detached tooltip');
 ref.dispatchEvent(new w.MouseEvent('mouseleave'));await tick();assert.equal(d.querySelector('[role="tooltip"]'),null);
+
+// Every armour family retains its original protection profile in Builder cards.
+const armorCatalog=JSON.parse(await readFile(path.join(root,'../../compendium/source/current-equipment-catalog-v1.json'),'utf8')).catalog.entries.filter(entry=>entry.category.startsWith('Armures'));
+assert.equal(armorCatalog.length,27);
+for(const entry of armorCatalog){
+ const stats=w.reality.equipmentStats(item(entry.name,entry.price,{category:entry.category,sourceCategory:entry.category,data:entry.data}));
+ const values=stats.map(([label,value])=>value);
+ for(const [key,value] of Object.entries(entry.data).filter(([key])=>['Protection','Bal.','Mel.','Ant.','Profil'].includes(key)))assert.ok(values.includes(value),entry.name+' '+key+' must remain visible');
+}
+assert.equal(w.reality.equipmentStats(item('Zero armour',0,{category:'Armures',sourceCategory:'Armures',data:{Armure:0}})).find(([label])=>label==='Armure')[1],'0');
+assert.ok(!w.reality.equipmentStats(item('Ordinary item',1,{data:{Profil:'Unrelated profile'}})).some(([label])=>label==='Profil'));
+
 w.stop();dom.window.close();assert.deepEqual(errors,[]);
 globalThis.console.log('EQUIPMENT / CONTACTS OK — autonomous implants; price/name sorting; Mission acquisition requires a positive agreed price and GM confirmation; preview follows scroll outside clipping container.');
