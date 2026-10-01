@@ -17,6 +17,7 @@ mkdir -p "$stage/previous"
 cp -a "$root/apps/api/src" "$stage/previous/api-src"
 cp -a "$root/apps/web/src" "$stage/previous/web-src"
 cp "$root/apps/web/Dockerfile" "$stage/previous/web-Dockerfile"
+cp "$root/apps/api/Dockerfile" "$stage/previous/api-Dockerfile"
 cp "$root/apps/web/public/build-info.json" "$stage/previous/build-info.json"
 docker inspect --format '{{.Image}}' "$(docker compose ps -q api)" > "$stage/previous-api-image"
 docker inspect --format '{{.Image}}' "$(docker compose ps -q web)" > "$stage/previous-web-image"
@@ -28,6 +29,7 @@ rollback(){
   cp -a "$stage/previous/api-src/." "$root/apps/api/src/"
   cp -a "$stage/previous/web-src/." "$root/apps/web/src/"
   cp "$stage/previous/web-Dockerfile" "$root/apps/web/Dockerfile"
+  cp "$stage/previous/api-Dockerfile" "$root/apps/api/Dockerfile"
   cp "$stage/previous/build-info.json" "$root/apps/web/public/build-info.json"
   docker tag "$(cat "$stage/previous-api-image")" tuc-v2-api:latest
   docker tag "$(cat "$stage/previous-web-image")" tuc-v2-web:latest
@@ -37,7 +39,7 @@ rollback(){
  fi
 }
 trap rollback EXIT
-for file in apps/api/src/rules/equipment-armor.ts apps/api/src/rules/index.ts apps/api/src/compendium-armor-properties.ts apps/api/src/compendium.ts apps/web/src/lib/reality.ts apps/web/Dockerfile; do
+for file in apps/api/src/rules/equipment-armor.ts apps/api/src/rules/index.ts apps/api/src/compendium-armor-properties.ts apps/api/src/compendium.ts apps/web/src/lib/reality.ts apps/web/Dockerfile apps/api/Dockerfile; do
  cp "$stage/$file" "$root/$file"
 done
 SOURCE_SHA="$sha" python3 - <<'PY'
@@ -46,6 +48,14 @@ pathlib.Path('/opt/terra-umbra/apps/web/public/build-info.json').write_text(json
 PY
 docker build --label "org.opencontainers.image.revision=$sha" -t tuc-v2-api -f "$root/apps/api/Dockerfile" "$root" </dev/null
 docker build --label "org.opencontainers.image.revision=$sha" -t tuc-v2-web -f "$root/apps/web/Dockerfile" "$root" </dev/null
+docker run --pull=never --rm --network none --entrypoint node tuc-v2-api --input-type=module <<'NODE'
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {getRealityRules} from './dist/rules/reality.js';
+assert.ok(readFileSync('/app/package.json','utf8'));
+assert.equal(getRealityRules().equipment.filter(item=>item.sourceCategory.startsWith('Armures')).length,27);
+console.log('NON-ROOT API IMAGE OK — package and all 27 armour profiles readable');
+NODE
 docker compose up -d --no-deps api web </dev/null
 ready=false
 for attempt in $(seq 1 24); do
