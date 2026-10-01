@@ -1,5 +1,5 @@
 name: V2 production armour values restoration
-# Host JSON checks use Python; the non-root API image is checked before replacing production.
+# Host JSON checks use Python; the non-root API image receives its preflight script and is checked before replacing production.
 on:
   push:
     branches: [feature/tuc-web-v2]

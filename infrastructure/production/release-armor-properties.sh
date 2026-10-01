@@ -48,7 +48,7 @@ pathlib.Path('/opt/terra-umbra/apps/web/public/build-info.json').write_text(json
 PY
 docker build --label "org.opencontainers.image.revision=$sha" -t tuc-v2-api -f "$root/apps/api/Dockerfile" "$root" </dev/null
 docker build --label "org.opencontainers.image.revision=$sha" -t tuc-v2-web -f "$root/apps/web/Dockerfile" "$root" </dev/null
-docker run --pull=never --rm --network none --entrypoint node tuc-v2-api --input-type=module <<'NODE'
+docker run -i --pull=never --rm --network none --entrypoint node tuc-v2-api --input-type=module <<'NODE'
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {getRealityRules} from './dist/rules/reality.js';
