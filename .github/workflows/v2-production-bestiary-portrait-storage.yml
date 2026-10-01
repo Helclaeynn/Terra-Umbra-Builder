@@ -52,11 +52,11 @@ jobs:
           import {pool} from './dist/db.js';
           const migration='20261001_campaign_bestiary_portrait_storage.sql';
           for(const n of (await readdir('../../infrastructure/migrations')).filter(n=>n.endsWith('.sql')&&n!==migration).sort())await pool.query(await readFile('../../infrastructure/migrations/'+n,'utf8'));
-          await pool.query('CREATE TEMP TABLE old_bestiary_budget (LIKE campaign_bestiary INCLUDING CONSTRAINTS)');
+          await pool.query('CREATE TEMP TABLE old_bestiary_budget (LIKE campaign_bestiary INCLUDING CONSTRAINTS INCLUDING DEFAULTS)');
           await assert.rejects(pool.query("INSERT INTO old_bestiary_budget(id,campaign_id,data) VALUES(gen_random_uuid(),gen_random_uuid(),jsonb_build_object('image',repeat('x',81000)))"),e=>e.code==='23514');
           const sql=await readFile('../../infrastructure/migrations/'+migration,'utf8');
           await pool.query(sql);await pool.query(sql);
-          await pool.query('CREATE TEMP TABLE new_bestiary_budget (LIKE campaign_bestiary INCLUDING CONSTRAINTS)');
+          await pool.query('CREATE TEMP TABLE new_bestiary_budget (LIKE campaign_bestiary INCLUDING CONSTRAINTS INCLUDING DEFAULTS)');
           await pool.query("INSERT INTO new_bestiary_budget(id,campaign_id,data) VALUES(gen_random_uuid(),gen_random_uuid(),jsonb_build_object('image',repeat('x',699000)))");
           for(const invalid of ['[]',JSON.stringify({image:'x'.repeat(800000)})])await assert.rejects(pool.query('INSERT INTO new_bestiary_budget(id,campaign_id,data) VALUES(gen_random_uuid(),gen_random_uuid(),$1::jsonb)',[invalid]),e=>e.code==='23514');
           await pool.end();
@@ -104,7 +104,7 @@ jobs:
           docker compose exec -T db psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -v ON_ERROR_STOP=1 < migrations/20261001_campaign_bestiary_portrait_storage.sql
           docker compose exec -T db psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -v ON_ERROR_STOP=1 <<'SQL'
           BEGIN;
-          CREATE TEMP TABLE portrait_storage_probe (LIKE campaign_bestiary INCLUDING CONSTRAINTS);
+          CREATE TEMP TABLE portrait_storage_probe (LIKE campaign_bestiary INCLUDING CONSTRAINTS INCLUDING DEFAULTS);
           INSERT INTO portrait_storage_probe(id,campaign_id,data) VALUES(gen_random_uuid(),gen_random_uuid(),jsonb_build_object('image',repeat('x',699000)));
           DO $$
           BEGIN
