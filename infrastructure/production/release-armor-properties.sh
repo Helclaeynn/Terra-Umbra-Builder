@@ -56,6 +56,7 @@ assert.ok(readFileSync('/app/package.json','utf8'));
 assert.equal(getRealityRules().equipment.filter(item=>item.sourceCategory.startsWith('Armures')).length,27);
 console.log('NON-ROOT API IMAGE OK — package and all 27 armour profiles readable');
 NODE
+docker run --pull=never --rm --network none --user nginx --entrypoint sh tuc-v2-web -c 'test -r /usr/share/nginx/html/index.html && test -r /usr/share/nginx/html/build-info.json && echo "NGINX STATIC FILES READABLE"'
 docker compose up -d --no-deps api web </dev/null
 ready=false
 for attempt in $(seq 1 24); do
