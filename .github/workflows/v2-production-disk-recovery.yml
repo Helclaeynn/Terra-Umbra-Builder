@@ -65,6 +65,12 @@ jobs:
             curl --fail --silent --show-error --connect-timeout 5 --max-time 15 --resolve terra-umbra.fr:443:127.0.0.1 --output /dev/null --write-out "$path HTTP=%{http_code} TLS=%{ssl_verify_result}\n" "https://terra-umbra.fr$path"
           done
           if [ "$free_after" -lt 4294967296 ]; then
+            echo 'READ-ONLY STORAGE INVENTORY; no broader deletion'
+            du -x -h --max-depth=1 "$root" /var/lib/docker /var/lib/containerd /var/log /tmp 2>/dev/null | sort -h || true
+            echo 'IMAGE INVENTORY'; docker image ls --no-trunc --digests
+            echo 'CONTAINER IMAGE REFERENCES'; docker ps -a --format '{{.Names}} {{.Image}} {{.Status}}'
+            echo 'ROLLBACK IMAGE REFERENCES IN RELEASE METADATA'
+            find "$root/releases" -maxdepth 3 -type f -size -1024c \( -name '*image*' -o -name '*sha*' \) -exec grep -H -E '^sha256:[a-f0-9]{64}$' {} \; || true
             echo 'CACHE CLEANED BUT FREE SPACE STILL BELOW 4 GiB; no broader deletion authorized by this workflow' >&2
             exit 1
           fi
@@ -72,6 +78,7 @@ jobs:
           REMOTE
   public-browser:
     needs: recover-cache
+    if: always() && !cancelled()
     runs-on: ubuntu-latest
     timeout-minutes: 6
     steps:
