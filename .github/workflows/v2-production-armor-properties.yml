@@ -1,4 +1,5 @@
 name: V2 production armour values restoration
+# Host JSON checks use Python; Node runs inside the application container.
 on:
   push:
     branches: [feature/tuc-web-v2]
