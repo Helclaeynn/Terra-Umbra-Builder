@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "generated": "2026-09-17",
+  "generated": "2026-10-01",
   "categories": [
     "Règles",
     "Réalité",
@@ -68,8 +68,8 @@
       "id": "verite-catalogue",
       "prefix": "v3-verite-catalogue-v6",
       "parts": 18,
-      "count": 229,
-      "sha256": "e547079015c34a59f0c3fa95f7f6b741b393fec0d0103eca3f5026f19b08d8e2",
+      "count": 231,
+      "sha256": "a351e57bba908460ee7e3fbdbb64560c17beb6308d4217f19c71674c05536504",
       "quality": {
         "loreVersion": 3,
         "maxIdenticalTextRatio": 0.6,
@@ -98,5 +98,5 @@
       "sha256": "a6371b223bbde189b4d2cdaed752554562910aef2d6738729afac4338f7dd18b"
     }
   ],
-  "expectedTotal": 1891
+  "expectedTotal": 1893
 }

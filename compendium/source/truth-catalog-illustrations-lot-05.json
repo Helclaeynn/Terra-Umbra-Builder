@@ -252,6 +252,24 @@
       "width": 1200,
       "height": 1097,
       "bytes": 459576
+    },
+    {
+      "id": "verite-catalogue-230-fulgur-eb-7",
+      "title": "Fulgur EB-7",
+      "src": "images/manual/verite-catalogue-230-fulgur-eb-7-aidh-20261001.webp",
+      "sha256": "c1b3f8893368c22fc265387b1518548f2edd4634596dd7886798fe752d5cbe66",
+      "width": 1024,
+      "height": 1536,
+      "bytes": 235476
+    },
+    {
+      "id": "verite-catalogue-231-duplex-ar-12",
+      "title": "Duplex AR-12",
+      "src": "images/manual/verite-catalogue-231-duplex-ar-12-aidh-20261001.webp",
+      "sha256": "61d1d88f3ed8afb1340957806c081b224ee0db9c334f98aaf25c67ca935c4150",
+      "width": 1976,
+      "height": 796,
+      "bytes": 269108
     }
   ]
 }

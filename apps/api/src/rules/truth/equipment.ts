@@ -85,9 +85,9 @@ function loadTruthEquipment():TruthEquipmentItem[]{
   ) as {entryCount?:unknown;entries?:TruthEquipmentRaw[]};
 
   const entries=Array.isArray(parsed.entries)?parsed.entries:[];
-  if(entries.length!==229||Number(parsed.entryCount)!==229){
+  if(entries.length<229||Number(parsed.entryCount)!==entries.length){
     throw new Error(
-      `Catalogue Vérité invalide: ${entries.length} entrées, 229 attendues.`
+      `Catalogue Vérité invalide: ${entries.length} entrées, minimum 229 et total déclaré cohérent attendus.`
     );
   }
 

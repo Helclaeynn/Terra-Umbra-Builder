@@ -20809,6 +20809,28 @@
       "subgroupOrder": 10,
       "pageOrder": 500,
       "displayTitle": "Autres créatures"
+    },
+    {
+      "id": "verite-catalogue-230-fulgur-eb-7",
+      "dataset": "verite-catalogue",
+      "category": "Équipement & Objets",
+      "group": "Objets de Vérité",
+      "groupOrder": 30,
+      "subgroup": "Arsenal AIDH — Arsenal AIDH moderne",
+      "subgroupOrder": 50010,
+      "pageOrder": 230,
+      "displayTitle": "Fulgur EB-7"
+    },
+    {
+      "id": "verite-catalogue-231-duplex-ar-12",
+      "dataset": "verite-catalogue",
+      "category": "Équipement & Objets",
+      "group": "Objets de Vérité",
+      "groupOrder": 30,
+      "subgroup": "Arsenal AIDH — Arsenal AIDH moderne",
+      "subgroupOrder": 50010,
+      "pageOrder": 231,
+      "displayTitle": "Duplex AR-12"
     }
   ]
 }

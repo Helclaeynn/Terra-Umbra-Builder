@@ -1,0 +1,241 @@
+{
+  "date": "2026-10-01",
+  "generator": "built-in image_gen",
+  "items": [
+    {
+      "id": "verite-catalogue-160-bastion",
+      "title": "Bastion",
+      "src": "images/manual/verite-catalogue-160-bastion-aidh-20261001.webp",
+      "sha256": "2dbd3f8e3a020b275d25cdfdf9769127ea794ec770f28fe2079c9274434cbc5d",
+      "width": 1023,
+      "height": 1537,
+      "bytes": 429886
+    },
+    {
+      "id": "verite-catalogue-159-urgent-matter",
+      "title": "Urgent Matter",
+      "src": "images/manual/verite-catalogue-159-urgent-matter-aidh-20261001.webp",
+      "sha256": "569d1bb5b4a64c2c5a469bb2a66ed32d6b77cfc28210a59521c225f5b11306a5",
+      "width": 1023,
+      "height": 1537,
+      "bytes": 305220
+    },
+    {
+      "id": "verite-catalogue-158-vesper-recon",
+      "title": "Vesper Recon",
+      "src": "images/manual/verite-catalogue-158-vesper-recon-aidh-20261001.webp",
+      "sha256": "f8ef4d52fe6695b908e8b2a9e2cc7b1253dacc243e6f7f7ba41228f4b00ca94b",
+      "width": 1023,
+      "height": 1537,
+      "bytes": 282664
+    },
+    {
+      "id": "verite-catalogue-157-second-skin",
+      "title": "Second Skin",
+      "src": "images/manual/verite-catalogue-157-second-skin-aidh-20261001.webp",
+      "sha256": "3494c2cca6b90dfff86ca8ba112c475ba6b49c9cb956938344919afa87c1ae01",
+      "width": 1023,
+      "height": 1537,
+      "bytes": 258418
+    },
+    {
+      "id": "verite-catalogue-145-defensor",
+      "title": "Defensor",
+      "src": "images/manual/verite-catalogue-145-defensor-aidh-20261001.webp",
+      "sha256": "83a00fcc8302221a1381bfcb1616072d861f94cc045d6280fa8063034d0ac7ec",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 328590
+    },
+    {
+      "id": "verite-catalogue-147-custodian-ar-9",
+      "title": "Custodian AR-9",
+      "src": "images/manual/verite-catalogue-147-custodian-ar-9-aidh-20261001.webp",
+      "sha256": "2fba72a824e955029604e6880310cc5898b1b88f4c160ad24fd8ad47b503207b",
+      "width": 1774,
+      "height": 887,
+      "bytes": 196406
+    },
+    {
+      "id": "verite-catalogue-148-long-watch-sr-6",
+      "title": "Long Watch SR-6",
+      "src": "images/manual/verite-catalogue-148-long-watch-sr-6-aidh-20261001.webp",
+      "sha256": "0fe4b8d3a2cf94eef9261fc874b94e5f93d731d5c4f2c620764accecbcda35ee",
+      "width": 1774,
+      "height": 887,
+      "bytes": 174642
+    },
+    {
+      "id": "verite-catalogue-146-praetor-c-14",
+      "title": "Praetor C-14",
+      "src": "images/manual/verite-catalogue-146-praetor-c-14-aidh-20261001.webp",
+      "sha256": "fea0b8a9d605eac7555b56ff4552e3b6619726eae79c2719cd14b20c1f753096",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 199342
+    },
+    {
+      "id": "verite-catalogue-149-cerberus-hmg-3",
+      "title": "Cerberus HMG-3",
+      "src": "images/manual/verite-catalogue-149-cerberus-hmg-3-aidh-20261001.webp",
+      "sha256": "93db40a539e2cb2577274aa0777125399dbca22d7687ffc8acb81d4559750c64",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 224726
+    },
+    {
+      "id": "verite-catalogue-150-helios-pr-8",
+      "title": "Helios PR-8",
+      "src": "images/manual/verite-catalogue-150-helios-pr-8-aidh-20261001.webp",
+      "sha256": "c90d6f6bf6000d1ec963593dd47bfe86bf8367a2fc48cf1788600e1982376905",
+      "width": 1774,
+      "height": 887,
+      "bytes": 282644
+    },
+    {
+      "id": "verite-catalogue-151-prometheus-px-2",
+      "title": "Prometheus PX-2",
+      "src": "images/manual/verite-catalogue-151-prometheus-px-2-aidh-20261001.webp",
+      "sha256": "375cd74bc30ea11a6854e13110fad2b3caf815e3c0da359bcbf00ce97bd0c209",
+      "width": 1774,
+      "height": 887,
+      "bytes": 286448
+    },
+    {
+      "id": "verite-catalogue-152-null-lance-ie-4",
+      "title": "Null Lance IE-4",
+      "src": "images/manual/verite-catalogue-152-null-lance-ie-4-aidh-20261001.webp",
+      "sha256": "d18964fe6ea903d455aeb8340557ae10624be627a7cfefd8d6e0136d69885922",
+      "width": 1774,
+      "height": 887,
+      "bytes": 230998
+    },
+    {
+      "id": "verite-catalogue-153-judicator-rl-5",
+      "title": "Judicator RL-5",
+      "src": "images/manual/verite-catalogue-153-judicator-rl-5-aidh-20261001.webp",
+      "sha256": "51d1efbc6200997cec9f61ad634ce41e11b9dab2388aebe1730426ab15f63737",
+      "width": 2172,
+      "height": 724,
+      "bytes": 335080
+    },
+    {
+      "id": "verite-catalogue-154-blackstar-gr-1",
+      "title": "Blackstar GR-1",
+      "src": "images/manual/verite-catalogue-154-blackstar-gr-1-aidh-20261001.webp",
+      "sha256": "de4130b78b6b23724548882c7edcd5a043536d5564e9e0229f9a5a46029f7879",
+      "width": 2172,
+      "height": 724,
+      "bytes": 362042
+    },
+    {
+      "id": "verite-catalogue-155-ward-m-6",
+      "title": "Ward M-6",
+      "src": "images/manual/verite-catalogue-155-ward-m-6-aidh-20261001.webp",
+      "sha256": "64ff1c99334f55bd05f2e8b25c533104ba74765fd3a7858b3d3b5b622ac02d85",
+      "width": 1983,
+      "height": 793,
+      "bytes": 206338
+    },
+    {
+      "id": "verite-catalogue-156-breacher-b-9",
+      "title": "Breacher B-9",
+      "src": "images/manual/verite-catalogue-156-breacher-b-9-aidh-20261001.webp",
+      "sha256": "399cd75d2253446aba84b4663fbc33ffd7e2b38e69754ed34c9540b6d8cb75d8",
+      "width": 2172,
+      "height": 724,
+      "bytes": 150018
+    },
+    {
+      "id": "verite-catalogue-230-fulgur-eb-7",
+      "title": "Fulgur EB-7",
+      "src": "images/manual/verite-catalogue-230-fulgur-eb-7-aidh-20261001.webp",
+      "sha256": "c1b3f8893368c22fc265387b1518548f2edd4634596dd7886798fe752d5cbe66",
+      "width": 1024,
+      "height": 1536,
+      "bytes": 235476
+    },
+    {
+      "id": "verite-catalogue-142-farwalker-es-4",
+      "title": "Farwalker ES-4",
+      "src": "images/manual/verite-catalogue-142-farwalker-es-4-aidh-20261001.webp",
+      "sha256": "a3c3e13ed181650a3713e84e1235e68b0fee02cfcee169e2df4f00b52ceb5608",
+      "width": 1023,
+      "height": 1537,
+      "bytes": 269108
+    },
+    {
+      "id": "verite-catalogue-133-cipherline-c-9",
+      "title": "Cipherline C-9",
+      "src": "images/manual/verite-catalogue-133-cipherline-c-9-aidh-20261001.webp",
+      "sha256": "4aadbeccbca23575559afabdc83d39a890c83f7872c6f605be55ccaf10f843e8",
+      "width": 1215,
+      "height": 1295,
+      "bytes": 364094
+    },
+    {
+      "id": "verite-catalogue-134-omnispectre-os-6",
+      "title": "Omnispectre OS-6",
+      "src": "images/manual/verite-catalogue-134-omnispectre-os-6-aidh-20261001.webp",
+      "sha256": "acc40f5de23f2314a2d8480dad2d7aea10486d8af8102ce9ae26624ffddd204c",
+      "width": 1023,
+      "height": 1537,
+      "bytes": 285892
+    },
+    {
+      "id": "verite-catalogue-137-wisp-r-3",
+      "title": "Wisp R-3",
+      "src": "images/manual/verite-catalogue-137-wisp-r-3-aidh-20261001.webp",
+      "sha256": "5d95b12aef4d1acc67769cd172a27c85a009e6209a5b248b747095592a96aff0",
+      "width": 1312,
+      "height": 1199,
+      "bytes": 312200
+    },
+    {
+      "id": "verite-catalogue-141-aegis-medpack-m-8",
+      "title": "Aegis Medpack M-8",
+      "src": "images/manual/verite-catalogue-141-aegis-medpack-m-8-aidh-20261001.webp",
+      "sha256": "0f425c2254f3ac1c327c1b078c4832f757f8e918a845b02b780c33ce794d49ab",
+      "width": 1144,
+      "height": 1375,
+      "bytes": 500918
+    },
+    {
+      "id": "verite-catalogue-231-duplex-ar-12",
+      "title": "Duplex AR-12",
+      "src": "images/manual/verite-catalogue-231-duplex-ar-12-aidh-20261001.webp",
+      "sha256": "61d1d88f3ed8afb1340957806c081b224ee0db9c334f98aaf25c67ca935c4150",
+      "width": 1976,
+      "height": 796,
+      "bytes": 269108
+    },
+    {
+      "id": "verite-catalogue-117-pistolet-aidh-2e-generation",
+      "title": "Pistolet AIDH — 2e génération",
+      "src": "images/manual/verite-catalogue-117-pistolet-aidh-2e-generation-aidh-20261001.webp",
+      "sha256": "edfa9b7ce0004885569b6be294e47227e642d0bd9f0985874b2549b1579190fc",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 271694
+    },
+    {
+      "id": "verite-catalogue-118-fusil-aidh-1re-generation",
+      "title": "Fusil AIDH — 1re génération",
+      "src": "images/manual/verite-catalogue-118-fusil-aidh-1re-generation-aidh-20261001.webp",
+      "sha256": "9d0627207a7aa127ad967da31fe3ef9fdb6110a6cd92ce8e456af95d12adf81d",
+      "width": 1774,
+      "height": 887,
+      "bytes": 236536
+    }
+  ],
+  "notes": [
+    "Armes de profil, armures unisexes.",
+    "Defensor : pistolet lourd semi-automatique sans barillet, correction explicite de l’auteur.",
+    "Fulgur et Duplex : profils validés par l’auteur ; dotation soumise aux habilitations AIDH normales."
+  ],
+  "status": "Validé par l’auteur le 1er octobre 2026",
+  "approvedEquipment": [
+    "verite-catalogue-230-fulgur-eb-7",
+    "verite-catalogue-231-duplex-ar-12"
+  ]
+}
