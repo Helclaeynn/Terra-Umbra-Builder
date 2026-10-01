@@ -1,0 +1,47 @@
+name: V2 Chrome TLS compatibility diagnostic
+on:
+  push:
+    branches: [feature/tuc-web-v2]
+    paths: [.github/workflows/v2-chrome-tls-compatibility.yml]
+permissions:
+  contents: read
+jobs:
+  public-tls:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - name: Probe public Chrome ClientHello compatibility without changing production
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import base64, socket, struct, ssl, urllib.request
+          # Public TLS handshake template only. Client random and session ID regenerated.
+          # No cookies, credentials, requests, private keys or NetLog file are included.
+          hello = base64.b64decode('AQAH2QMDScTRHnI7JdQHj4rywionpfyh32lWx7Z+R/PDJ/botO4gIYt4tpDJG3dxzjHArJ719LM4Mpv3vXUFVHpw24PZnlYAICoqEwETAhMDwCvAL8AswDDMqcyowBPAFACcAJ0ALwA1AQAHcGpqAAAAIwAAyjQAugC4BYLfEwIBBYLfEwIGBYLfEwINBYLfEwIOBYLfEwIPBYLfEwISBYLfEwITBYLfEwIUCIOaZIybLQEHCIOaZIybLQEICIOaZIybLQEJCIOaZIybLQEKCIOaZIybLQELCIOaZIybLQEMCIOaZIybLQENCIOaZIybLQESCIOaZIybLQETBNZ5CQEE1nkJBATWeQkFBNZ5CQYE1nkJBwTWeQkIBNZ5CQoE1nkJCwTWeQkMBNZ5CQ0E1nkJDwAQAA4ADAJoMghodHRwLzEuMQAFAAUBAAAAAAASAAAAGwADAgACAAoADAAKWloR7AAdABcAGAAtAAIBAUTNAAUAAwJoMgArAAcGWloDBAMDABcAAAAAABMAEQAADnRlcnJhLXVtYnJhLmZyAA0AGgAYGhoJBAkFCQYEAwgEBAEFAwgFBQEIBgYB/g0BGgAAAQABXAAgkon5uJxJTQ+YUiXC+BRvhugYtsrJmr4jfHZi3S/kkVUA8J5nhRMxpqMD97hizgKH7QmxdqVWIwvW9QpXetax528bDHRcnpxp/zA93L7LOg9k5bPHIh18BPJjtOcKu2O/z/rkM5zBf5DOWp4kV+YrShk8jWI8qjJI5Y/Low1oNNwzWUQ5oH0MczSc6cweVQqVy6F+2C9QgMQ+K0kuufPwlpAnEzrXXXqrVmmCOYt9vyuNnCNtkLzRo22Yp0CgKnhHuGF+Zp9gtYpxJ7Gz1cPvMS1jBAnN8M7vnKMVeykEapdG06Ott1FZzKIUJFtWexflYZQ9GPGMxfF/uC/9qHrlCt90pX5EpfvT9f3xCHxHyvvXtgAzBO8E7VpaAAEAEewEwDjlOUO3f0FnXzAMORTQacS8tEshzYDwxeHifNTyTtjnhUgJO3GIlOgivwniN/TIIV/2RHWzKqYTkB6ki4hcLjWYav72zck3nGoKophmpW2UDMQAjru1P+sMCAriEfehkV4ajdryHu7ilF6LoKjCR3lBk4/AqySyQdKouYTFu/AWaDUMq1sqYvxSfp/xvPSCkfLqIEhLSBfZr+ZFBYkmc02Axrr2yNGIVV00UDh5pDuGomjsvkFZmBZMB/lsOa8RzhdJwpM5FqLMO14RHnyHwnYpVtG2v0gAAuFTT+1RbEa7Q3FjBN9gkFlFE7ybnP4HQrrQKaqDlg56ozIgW141nOhog4QRpWDhCdL0XkN3mmCnm28rViNTx//of9SaZBW3WqkXD4m5GvVKgg01wXPwm4Qrz1JXFLLwNmeVYUJiX3rHZF9Ai9w8ZdIwz9CWbzkccLtzX7OmFkeLXZLQooPkooHkFH6SlINHNWgCkK9IsXnyw1XpGZ5isy55Ro7HnEwbLStDcT1sV6SDMLVXOxWKWIc3PjiEfzWmObLyK08KZz1rCoZEc42Ys7aCyfNJmUgpj2p1epwbsBOoAjw4nWyALdSULTFXbrBjHMliys1YO1UhY6BBErT4tCKKpGj4E+1liYBaMPj6qAmJCXaKI89zTWp2hZpnYoYqowYblmtZceIDafvxcmCSzZQEhuqmTy/Cqt+EvlA5qVxKGtS3v55naWRACujbINtkQkmhYti3btZ8AE4lonlyG9N0WFQGRraKhIcIZpQirySijOXMwo/xUMBqQ7nYFPnzJv9MVSz5QTXQs6gCW/6lDDaiZjfpTRoXw0tlE0swqzvxBwkcA+eIqm+HomU1chxJIw40Z9jBJlchi8oztmVEJim8KEU3FtYCQUzglhYoFa6oJkbnr3lgy1eSlirjk68xEfuRe2M5clhqOKL2HsVqyDXqbB/YQ9/GVc83O9Q3mYsUoMxjaTD0semUS+uCBVqjIihKQ0TASKriaAxUPJaSa068j1p1ulGnXMCChhDAEv5WBrdxw8QpCszAfDFxmwamYEx7QmhxjwSEHUR1LGAwBjdGiVXsIjhYW5JjFS6oM+OZUGGyUuXhn4QLLwM3bhcJSYoodc+SLm1cby+Vq7eKGp/kUCsUToCpOfZFTJq6ys9FL6tcDsAFF2c0QFnmYwKYbbzVYkH0X4BlQZBUPkFhOnXjzJSrexpMLUw8aApYKTYng4RGNDmbb7GhN/+rfo7ZOxKghd+kC0scHoNyClgDGcsVgd6kZRqzQ25iRq8hPgBjQmtGv2zUQP9HCamQF983bGi2S2pbaxgsCpz8A//DCqg1iVJovJXEWrqWuo16dinHsIAxCUXcbEFLCwCVLSXGNNyjTdv5EoHSPBQyjotydDxmLtnRnL9ArTwHa7chb4viMUL4VD/nGUWjkK2MGdkYQ4LIFlzpQNo3nbl5pOqjsU7MLeKpO2EUXkTFoHMRfDSksu5bsG0yi+y8J6BRaJEVKExHq1y4RkCGWU3UtO5xqwACu1zXSatXgSx4VcPzkjgAR6CWwrjXov1jT+bzfo7IPPx49ynvsGrxgQjTOspni4vP696f+jYBAkeOKcdWOe5RS23Kwh31/DYAHQAgsmX5oEbn7klmc8i1jGncx54PDc4up3fJCYHBvfoJT3cACwACAQD/AQABACoqAAEA')
+          def receive(sock, length):
+              result = b''
+              while len(result) < length:
+                  part = sock.recv(length-len(result))
+                  if not part:
+                      raise RuntimeError('Unexpected connection close')
+                  result += part
+              return result
+          def probe(label, packet):
+              with socket.create_connection(('terra-umbra.fr',443),timeout=10) as sock:
+                  sock.sendall(b'\x16\x03\x01'+struct.pack('!H',len(packet))+packet)
+                  header=receive(sock,5)
+                  payload=receive(sock,int.from_bytes(header[3:5],'big'))
+                  print(label, 'record_type',header[0],'first_payload_bytes',payload[:2].hex(),flush=True)
+                  if header[0]==21:
+                      raise RuntimeError('Server TLS alert '+payload.hex())
+                  assert header[0]==22 and payload[0]==2, 'Expected ServerHello'
+                  print(label,'SERVER_ACCEPTED_CLIENT_HELLO',flush=True)
+          probe('Chrome154-compatible',hello)
+          for version in [ssl.TLSVersion.TLSv1_2,ssl.TLSVersion.TLSv1_3]:
+              context=ssl.create_default_context()
+              context.minimum_version=context.maximum_version=version
+              with urllib.request.urlopen('https://terra-umbra.fr/api/health',context=context,timeout=15) as response:
+                  assert response.status==200
+                  print('CERTIFICATE_VALIDATED',version.name,'HTTP',response.status,flush=True)
+          print('READ_ONLY_DIAGNOSTIC_COMPLETE')
+          PY
