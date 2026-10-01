@@ -1,0 +1,204 @@
+name: V2 production HTTP3 isolation
+
+on:
+  push:
+    branches: [feature/tuc-web-v2]
+    paths: [.github/workflows/v2-production-http3-isolation.yml]
+permissions:
+  contents: read
+concurrency:
+  group: tuc-v2-production
+  cancel-in-progress: false
+
+jobs:
+  isolate-http3:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    environment: tuc-dev
+    env:
+      TUC_DEV_HOST: ${{ secrets.TUC_DEV_HOST }}
+      TUC_DEV_USER: ${{ secrets.TUC_DEV_USER }}
+      TUC_DEV_SSH_KEY: ${{ secrets.TUC_DEV_SSH_KEY }}
+    steps:
+      - name: Back up gateway configuration and isolate HTTP3 without changing TLS or applications
+        shell: bash
+        run: |
+          set -euo pipefail
+          install -m 700 -d ~/.ssh
+          trap 'rm -f ~/.ssh/tuc_transport ~/.ssh/tuc_transport_hosts' EXIT
+          printf '%s\n' "$TUC_DEV_SSH_KEY" > ~/.ssh/tuc_transport
+          chmod 600 ~/.ssh/tuc_transport
+          ssh-keyscan -T 10 -H "$TUC_DEV_HOST" > ~/.ssh/tuc_transport_hosts
+          ssh -i ~/.ssh/tuc_transport -o BatchMode=yes -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes -o UserKnownHostsFile=~/.ssh/tuc_transport_hosts -o ConnectTimeout=15 "$TUC_DEV_USER@$TUC_DEV_HOST" bash -s <<'REMOTE'
+          {
+          set -euo pipefail
+          umask 077
+          root=/opt/terra-umbra
+          cd "$root/infrastructure"
+          test -f "$root/production-active"
+          exec 9>"$root/.production-release.lock"
+          flock -n 9
+          expected=9414edbd307683ce0eac4fa7491e9494e4f1fead
+          test "$(cat "$root/.production-release-sha")" = "$expected" || { echo 'Application changed; refusing stale mitigation' >&2; exit 1; }
+          audit="$root/releases/http3-isolation-$(date -u +%Y%m%dT%H%M%SZ)"
+          mkdir -m 700 "$audit"
+          cp -p Caddyfile "$audit/Caddyfile.before"
+          sha256sum .env docker-compose.yml "$root/.production-release-sha" > "$audit/protected-files.before"
+          snapshot(){
+            for service in api web db caddy; do
+              docker inspect --format '{{.Id}} {{.Image}} {{.State.StartedAt}} {{json .Mounts}}' "$(docker compose ps -q "$service")"
+            done
+          }
+          snapshot > "$audit/services.before"
+          docker volume ls --format '{{.Name}}' | LC_ALL=C sort > "$audit/volumes.before"
+          docker compose exec -T caddy wget -qO- http://127.0.0.1:2019/config/ </dev/null > "$audit/active.before.json"
+          docker compose exec -T caddy caddy adapt --config /etc/caddy/Caddyfile --adapter caddyfile </dev/null > "$audit/disk.before.json"
+          python3 - "$audit" <<'PY'
+          import json,pathlib,sys
+          root=pathlib.Path(sys.argv[1])
+          assert json.loads((root/'active.before.json').read_text())==json.loads((root/'disk.before.json').read_text()), 'Active Caddy configuration differs from disk; nothing changed'
+          text=(root/'Caddyfile.before').read_text()
+          assert text.lstrip().startswith('terra-umbra.fr {'), 'Unexpected global configuration; nothing changed'
+          assert 'Alt-Svc' not in text and 'protocols ' not in text, 'Transport already configured; nothing changed'
+          headers=['terra-umbra.fr {','www.terra-umbra.fr, dev.terra-umbra.fr {']
+          prefix='{\n  servers {\n    protocols h1 h2\n  }\n}\n\n'
+          candidate=text
+          for header in headers:
+              assert candidate.count(header)==1, 'Unexpected site blocks; nothing changed'
+              candidate=candidate.replace(header,header+'\n  header >Alt-Svc "clear"',1)
+          candidate=prefix+candidate
+          assert candidate[len(prefix):].replace('\n  header >Alt-Svc "clear"','')==text
+          (root/'Caddyfile.candidate').write_text(candidate)
+          print('CONFIGURATION DELTA: HTTP protocols h1/h2 only; Alt-Svc clear on both existing site blocks; all other text preserved')
+          PY
+          docker compose exec -T caddy caddy adapt --validate --config - --adapter caddyfile < "$audit/Caddyfile.candidate" > "$audit/candidate.json"
+          cat > "$audit/verify.py" <<'PY'
+          import hashlib,http.client,json,pathlib,socket,ssl,sys,time
+          root=pathlib.Path(sys.argv[1]); mode=sys.argv[2]
+          hosts=['terra-umbra.fr','www.terra-umbra.fr','dev.terra-umbra.fr']
+          certificates={}
+          for host in hosts:
+              for version in [ssl.TLSVersion.TLSv1_2,ssl.TLSVersion.TLSv1_3]:
+                  ctx=ssl.create_default_context(); ctx.minimum_version=ctx.maximum_version=version
+                  ctx.set_alpn_protocols(['http/1.1'])
+                  with socket.create_connection(('127.0.0.1',443),timeout=10) as tcp:
+                      with ctx.wrap_socket(tcp,server_hostname=host) as tls:
+                          fp=hashlib.sha256(tls.getpeercert(binary_form=True)).hexdigest()
+                          certificates[host]=fp
+                          tls.sendall(('GET /api/health HTTP/1.1\r\nHost: '+host+'\r\nConnection: close\r\n\r\n').encode())
+                          response=http.client.HTTPResponse(tls); response.begin(); response.read()
+                          assert response.status==(200 if host=='terra-umbra.fr' else 308)
+                          alt=response.getheader('Alt-Svc')
+                          if mode=='after': assert alt=='clear', (host,alt)
+                          print(mode.upper(),'TLS',host,tls.version(),'HTTP',response.status,'Alt-Svc',alt,flush=True)
+          if mode=='before':
+              (root/'certificates.before.json').write_text(json.dumps(certificates))
+          else:
+              assert certificates==json.loads((root/'certificates.before.json').read_text()), 'Certificate changed unexpectedly'
+              for path in ['/','/account','/api/health','/api/compendium/meta','/api/auth/setup-status','/build-info.json','/api/auth/me']:
+                  ctx=ssl.create_default_context(); ctx.set_alpn_protocols(['http/1.1'])
+                  with socket.create_connection(('127.0.0.1',443),timeout=15) as tcp:
+                      with ctx.wrap_socket(tcp,server_hostname='terra-umbra.fr') as tls:
+                          tls.sendall(('GET '+path+' HTTP/1.1\r\nHost: terra-umbra.fr\r\nConnection: close\r\n\r\n').encode())
+                          response=http.client.HTTPResponse(tls); response.begin(); body=response.read()
+                          assert response.status==(401 if path=='/api/auth/me' else 200),(path,response.status)
+                          assert response.getheader('Alt-Svc')=='clear'
+                          assert response.getheader('Strict-Transport-Security')=='max-age=86400'
+                          if path=='/build-info.json': assert json.loads(body)['commit']=='9414edbd307683ce0eac4fa7491e9494e4f1fead'
+                          print('ORIGIN',path,response.status,flush=True)
+              ctx=ssl.create_default_context(); ctx.set_alpn_protocols(['h2','http/1.1'])
+              with socket.create_connection(('127.0.0.1',443),timeout=10) as tcp:
+                  with ctx.wrap_socket(tcp,server_hostname='terra-umbra.fr') as tls:
+                      assert tls.selected_alpn_protocol()=='h2'
+              print('CERTIFICATES UNCHANGED; TLS 1.2, TLS 1.3, HTTP/2 AND PRIVATE ACCOUNT PROTECTION VERIFIED',flush=True)
+          PY
+          python3 "$audit/verify.py" "$audit" before
+          changed=0
+          recover(){
+            status=$?
+            trap - EXIT
+            if [ "$status" -ne 0 ] && [ "$changed" = 1 ]; then
+              echo 'TRANSPORT CHECK FAILED: restoring original gateway configuration' >&2
+              cat "$audit/Caddyfile.before" > Caddyfile
+              docker compose exec -T caddy caddy reload --config /etc/caddy/Caddyfile --adapter caddyfile </dev/null
+              python3 "$audit/verify.py" "$audit" before
+            fi
+            exit "$status"
+          }
+          trap recover EXIT
+          changed=1
+          # Preserve the inode: Caddyfile is a single-file Docker bind mount.
+          cat "$audit/Caddyfile.candidate" > Caddyfile
+          docker compose exec -T caddy cat /etc/caddy/Caddyfile </dev/null > "$audit/mounted.candidate"
+          cmp "$audit/Caddyfile.candidate" "$audit/mounted.candidate"
+          docker compose exec -T caddy caddy reload --config /etc/caddy/Caddyfile --adapter caddyfile </dev/null
+          docker compose exec -T caddy wget -qO- http://127.0.0.1:2019/config/ </dev/null > "$audit/active.after.json"
+          python3 - "$audit" <<'PY'
+          import json,pathlib,sys
+          root=pathlib.Path(sys.argv[1]); active=json.loads((root/'active.after.json').read_text())
+          assert active==json.loads((root/'candidate.json').read_text())
+          for server in active['apps']['http']['servers'].values(): assert server['protocols']==['h1','h2']
+          print('ACTIVE CADDY CONFIGURATION CONFIRMED: HTTP3 DISABLED')
+          PY
+          python3 "$audit/verify.py" "$audit" after
+          snapshot > "$audit/services.after"
+          docker volume ls --format '{{.Name}}' | LC_ALL=C sort > "$audit/volumes.after"
+          sha256sum .env docker-compose.yml "$root/.production-release-sha" > "$audit/protected-files.after"
+          cmp "$audit/services.before" "$audit/services.after"
+          cmp "$audit/volumes.before" "$audit/volumes.after"
+          cmp "$audit/protected-files.before" "$audit/protected-files.after"
+          cat > "$audit/README.txt" <<'NOTE'
+          Temporary diagnostic mitigation: HTTP/3 disabled; Alt-Svc clear sent.
+          No TLS/cipher/certificate changes. No application rebuild/restart, data migration or volume deletion.
+          Original Caddyfile is Caddyfile.before in this private directory.
+          Workplace retest required: this operation does not by itself establish the cause.
+          NOTE
+          trap - EXIT
+          echo "PRIVATE_AUDIT=$audit"
+          echo 'HTTP3 ISOLATION LIVE VERIFIED; ORIGINAL APPLICATION IMAGES AND ALL SERVICE START TIMES UNCHANGED'
+          }
+          REMOTE
+  external-browser:
+    needs: isolate-http3
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Install isolated browser driver on runner only
+        run: npm install --prefix "$RUNNER_TEMP/tuc-transport" --no-package-lock --no-audit --no-fund --ignore-scripts playwright-core@1.55.0
+      - name: Repeated Chrome loads with normal TLS validation
+        shell: bash
+        run: |
+          set -euo pipefail
+          export CHROME_BIN="$(command -v google-chrome || command -v google-chrome-stable || command -v chromium)"
+          cat > "$RUNNER_TEMP/tuc-transport/check.cjs" <<'JS'
+          const {chromium}=require('playwright-core');
+          const assert=require('node:assert/strict');
+          (async()=>{
+            const browser=await chromium.launch({executablePath:process.env.CHROME_BIN,headless:true,args:['--no-sandbox']});
+            try{
+              const context=await browser.newContext({ignoreHTTPSErrors:false});
+              const page=await context.newPage();const errors=[];
+              page.on('pageerror',e=>errors.push(e.message));
+              page.on('response',r=>{if(r.status()>=500)errors.push('HTTP '+r.status()+' '+new URL(r.url()).pathname)});
+              const cdp=await context.newCDPSession(page);await cdp.send('Network.enable');
+              cdp.on('Network.responseReceived',({response:r,type})=>{if(type==='Document'){console.log('CHROME_DOCUMENT_PROTOCOL',r.protocol);assert.notEqual(r.protocol,'h3');}});
+              for(let i=0;i<6;i++){
+                const account=i%2===0;
+                const response=await page.goto('https://terra-umbra.fr/'+(account?'account#characters':''),{waitUntil:'networkidle',timeout:30000});
+                assert.equal(response.status(),200);assert.equal(response.headers()['alt-svc'],'clear');
+                if(account)await page.getByRole('button',{name:'Se connecter',exact:true}).waitFor({timeout:15000});
+                const text=await page.locator('body').innerText();
+                assert.ok(!text.includes('Service indisponible'));assert.ok(!text.includes('Une erreur est survenue.'));
+                assert.equal((await context.request.get('https://terra-umbra.fr/api/health')).status(),200);
+                console.log('PASS',i+1,account?'account':'Compendium','Alt-Svc clear / HTTPS valid');
+                await page.waitForTimeout(5000);
+              }
+              assert.equal((await context.request.get('https://terra-umbra.fr/api/auth/me')).status(),401);
+              const build=await(await context.request.get('https://terra-umbra.fr/build-info.json')).json();
+              assert.equal(build.commit,'9414edbd307683ce0eac4fa7491e9494e4f1fead');
+              assert.deepEqual(errors,[]);
+              console.log('REPEATED EXTERNAL CHROME CHECK PASSED - workplace outcome still requires user confirmation');
+            }finally{await browser.close();}
+          })().catch(e=>{console.error(e);process.exitCode=1});
+          JS
+          node "$RUNNER_TEMP/tuc-transport/check.cjs"
