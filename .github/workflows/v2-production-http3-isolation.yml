@@ -54,7 +54,7 @@ jobs:
           docker compose exec -T caddy wget -qO- http://127.0.0.1:2019/config/ </dev/null > "$audit/active.before.json"
           docker compose exec -T caddy caddy adapt --config /etc/caddy/Caddyfile --adapter caddyfile </dev/null > "$audit/disk.before.json"
           python3 - "$audit" <<'PY'
-          import json,pathlib,sys
+          import json,pathlib,re,sys
           root=pathlib.Path(sys.argv[1])
           assert json.loads((root/'active.before.json').read_text())==json.loads((root/'disk.before.json').read_text()), 'Active Caddy configuration differs from disk; nothing changed'
           text=(root/'Caddyfile.before').read_text()
@@ -64,8 +64,9 @@ jobs:
           prefix='{\n  servers {\n    protocols h1 h2\n  }\n}\n\n'
           candidate=text
           for header in headers:
-              assert candidate.count(header)==1, 'Unexpected site blocks; nothing changed'
-              candidate=candidate.replace(header,header+'\n  header >Alt-Svc "clear"',1)
+              pattern='^'+re.escape(header)+'$'
+              assert len(re.findall(pattern,candidate,re.MULTILINE))==1, 'Unexpected site blocks; nothing changed'
+              candidate=re.sub(pattern,lambda match:match.group(0)+'\n  header >Alt-Svc "clear"',candidate,count=1,flags=re.MULTILINE)
           candidate=prefix+candidate
           assert candidate[len(prefix):].replace('\n  header >Alt-Svc "clear"','')==text
           (root/'Caddyfile.candidate').write_text(candidate)
