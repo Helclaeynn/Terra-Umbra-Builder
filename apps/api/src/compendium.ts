@@ -1,3 +1,4 @@
+import {restoreArmorProperties} from './compendium-armor-properties.js';
 import { applyReviewedLoreTaxonomy } from "./compendium-reviewed-lore-taxonomy.js";
 import { applyBestiaryBalance, BESTIARY_BALANCE_VERSION } from "./compendium-bestiary-balance.js";
 import { applyReviewedRuleTaxonomy, repairReviewedAserynOverview } from "./compendium-reviewed-rule-taxonomy.js";
@@ -4000,6 +4001,7 @@ async function loadCorpus(): Promise<Corpus> {
   applyReviewedCatalogueBatch04(byId);
   applyReviewedCatalogueBatch05(byId);
   applyReviewedCatalogueBatch06(byId);
+  restoreArmorProperties(byId);
 
   // Preserve removed truth labels for the GM. Public article serialization
   // strips secretTags, including in search and navigation responses.

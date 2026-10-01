@@ -1,0 +1,94 @@
+name: V2 production armour values restoration
+on:
+  push:
+    branches: [feature/tuc-web-v2]
+    paths: [.github/workflows/v2-production-armor-properties.yml]
+permissions:
+  contents: read
+concurrency:
+  group: tuc-v2-production
+  cancel-in-progress: false
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: tuc
+          POSTGRES_PASSWORD: ci-only-placeholder
+          POSTGRES_DB: tuc_sheet_test
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U tuc -d tuc_sheet_test"
+          --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      DATABASE_URL: postgres://tuc:ci-only-placeholder@127.0.0.1:5432/tuc_sheet_test
+      TUC_SHEET_SMOKE: ci
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Prepare rules and compile API
+        run: |
+          mkdir -p .v2-rules-data/lore
+          cp compendium/source/current-equipment-catalog-v1.json .v2-rules-data/
+          cp compendium/source/reality-lore-v3-*.json .v2-rules-data/lore/
+          cp character-builder/rulesets/terra-umbra/reality/augmentations.json.gz.b64 .v2-rules-data/
+          cp character-builder/rulesets/terra-umbra/reality/safe/neuroprograms.part01.b64 character-builder/rulesets/terra-umbra/reality/safe/vehicles.part01.b64 .v2-rules-data/
+          cd apps/api
+          npm ci
+          npm run build
+      - name: Verify all canonical armour values in complete corpus
+        working-directory: apps/api
+        run: |
+          node --input-type=module <<'NODE'
+          import {readFile,readdir} from 'node:fs/promises';
+          import {pool} from './dist/db.js';
+          for(const file of (await readdir('../../infrastructure/migrations')).filter(file=>file.endsWith('.sql')).sort())await pool.query(await readFile('../../infrastructure/migrations/'+file,'utf8'));
+          await pool.end();
+          NODE
+          node scripts/check-armor-properties.mjs
+      - name: Compile web and verify armour cards and equipment interactions
+        working-directory: apps/web
+        run: |
+          npm ci
+          npm run build
+          node tests/equipment-contacts-dom.mjs
+          node tests/compendium-page-dom.mjs
+  release:
+    needs: verify
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    environment: tuc-dev
+    env:
+      TUC_DEV_HOST: ${{ secrets.TUC_DEV_HOST }}
+      TUC_DEV_USER: ${{ secrets.TUC_DEV_USER }}
+      TUC_DEV_SSH_KEY: ${{ secrets.TUC_DEV_SSH_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Back up, rebuild changed applications and verify live values
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git ls-remote origin refs/heads/feature/tuc-web-v2 | cut -f1)" = "$GITHUB_SHA"
+          install -m 700 -d ~/.ssh
+          trap 'rm -f ~/.ssh/tuc_prod' EXIT
+          printf '%s\n' "$TUC_DEV_SSH_KEY" > ~/.ssh/tuc_prod
+          chmod 600 ~/.ssh/tuc_prod
+          ssh-keyscan -H "$TUC_DEV_HOST" >> ~/.ssh/known_hosts
+          SSH="ssh -i ~/.ssh/tuc_prod -o IdentitiesOnly=yes"
+          stage="/opt/terra-umbra/releases/armor-properties-$GITHUB_SHA"
+          $SSH "$TUC_DEV_USER@$TUC_DEV_HOST" "mkdir -p '$stage'"
+          tar -czf /tmp/armor-source.tar.gz apps/api/src/rules/equipment-armor.ts apps/api/src/rules/index.ts apps/api/src/compendium-armor-properties.ts apps/api/src/compendium.ts apps/web/src/lib/reality.ts apps/web/Dockerfile
+          rsync -az -e "$SSH" /tmp/armor-source.tar.gz "$TUC_DEV_USER@$TUC_DEV_HOST:$stage/"
+          $SSH "$TUC_DEV_USER@$TUC_DEV_HOST" "tar -xzf '$stage/armor-source.tar.gz' -C '$stage'"
+          { printf '{\n'; cat infrastructure/production/release-armor-properties.sh; printf '\n}\n'; } | $SSH "$TUC_DEV_USER@$TUC_DEV_HOST" bash -s -- "$GITHUB_SHA" | tee /tmp/armor-release.log
+          grep -q '^ARMOR PROPERTIES LIVE VERIFIED' /tmp/armor-release.log
+          $SSH "$TUC_DEV_USER@$TUC_DEV_HOST" "rm -f '$stage/armor-source.tar.gz'"
