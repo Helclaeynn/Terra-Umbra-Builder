@@ -58,6 +58,8 @@ ENV COMPENDIUM_ARBITRAGE_FILE=/app/review-data/wiki-taxonomy-arbitrage-v1.json.g
 
 RUN mkdir -p /app/editor-media && chown -R node:node /app/editor-media
 
+RUN chmod -R a+rX /app
+
 USER node
 EXPOSE 3000
 CMD ["npm", "start"]
