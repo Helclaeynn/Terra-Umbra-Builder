@@ -40,10 +40,10 @@ trap rollback EXIT
 for file in apps/api/src/rules/equipment-armor.ts apps/api/src/rules/index.ts apps/api/src/compendium-armor-properties.ts apps/api/src/compendium.ts apps/web/src/lib/reality.ts apps/web/Dockerfile; do
  cp "$stage/$file" "$root/$file"
 done
-SOURCE_SHA="$sha" node --input-type=module - <<'NODE'
-import {writeFileSync} from 'node:fs';
-writeFileSync('/opt/terra-umbra/apps/web/public/build-info.json',JSON.stringify({commit:process.env.SOURCE_SHA,release:'armor-properties-20261001'}));
-NODE
+SOURCE_SHA="$sha" python3 - <<'PY'
+import json,os,pathlib
+pathlib.Path('/opt/terra-umbra/apps/web/public/build-info.json').write_text(json.dumps({'commit':os.environ['SOURCE_SHA'],'release':'armor-properties-20261001'}))
+PY
 docker build --label "org.opencontainers.image.revision=$sha" -t tuc-v2-api -f "$root/apps/api/Dockerfile" "$root" </dev/null
 docker build --label "org.opencontainers.image.revision=$sha" -t tuc-v2-web -f "$root/apps/web/Dockerfile" "$root" </dev/null
 docker compose up -d --no-deps api web </dev/null
@@ -73,14 +73,17 @@ try{
 }finally{await pool.end();}
 NODE
 curl --fail --silent --show-error --max-time 20 https://terra-umbra.fr/api/compendium/articles/equipement-087-raven-black-dog > "$stage/live-armor.json"
-node --input-type=module - "$stage/live-armor.json" <<'NODE'
-import assert from 'node:assert/strict';import {readFileSync} from 'node:fs';
-const {article}=JSON.parse(readFileSync(process.argv[2],'utf8'));
-assert.ok(article.sections.some(section=>section.blocks.some(block=>block.type==='table'&&block.rows.some(row=>row[0]==='Protection'&&row[1]==='Balistique 3, Melee 2, Antichoc 2'))));
-console.log('LIVE PUBLIC ARMOR API OK');
-NODE
+python3 - "$stage/live-armor.json" <<'PY'
+import json,sys
+article=json.load(open(sys.argv[1]))['article']
+assert any(block.get('type')=='table' and ['Protection','Balistique 3, Melee 2, Antichoc 2'] in block.get('rows',[]) for section in article['sections'] for block in section['blocks'])
+print('LIVE PUBLIC ARMOR API OK')
+PY
 curl --fail --silent --show-error --max-time 20 "https://terra-umbra.fr/build-info.json?armor=$sha" > "$stage/live-build.json"
-SOURCE_SHA="$sha" node -e 'const x=require(process.argv[1]);if(x.commit!==process.env.SOURCE_SHA)process.exit(1)' "$stage/live-build.json"
+SOURCE_SHA="$sha" python3 - "$stage/live-build.json" <<'PY'
+import json,os,sys
+assert json.load(open(sys.argv[1]))['commit']==os.environ['SOURCE_SHA']
+PY
 printf '%s\n' "$sha" > "$root/.production-release-sha"
 trap - EXIT
 echo 'ARMOR PROPERTIES LIVE VERIFIED — Builder and Compendium application deployed; no database migration'
