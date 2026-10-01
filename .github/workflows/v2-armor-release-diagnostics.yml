@@ -27,6 +27,10 @@ jobs:
           ssh -i ~/.ssh/tuc_prod -o IdentitiesOnly=yes "$TUC_DEV_USER@$TUC_DEV_HOST" bash -s <<'REMOTE'
           {
             set -euo pipefail
+            for image in $(docker images --filter label=org.opencontainers.image.revision=c77fcb63938ae012e37178d1158449029fdd9648 --format '{{.ID}}'); do
+              docker image inspect --format '{{json .Config.Cmd}}' "$image"
+              docker run --rm --network none --entrypoint sh "$image" -c 'id; if test -d /app; then stat -c "%a %U %n" /app/package.json /app/dist/server.js; node -e "const f=require(\"node:fs\");try{f.readFileSync(\"/app/package.json\");console.log(\"PACKAGE READ OK\")}catch(e){console.log(e.code)}"; fi'
+            done
             df -h /opt/terra-umbra
             free -m
             ps -eo pid,comm,etime,pcpu,pmem --sort=-pcpu | head -15
