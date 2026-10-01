@@ -1,0 +1,38 @@
+name: V2 armour release read-only diagnostics
+on:
+  push:
+    branches: [feature/tuc-web-v2]
+    paths: [.github/workflows/v2-armor-release-diagnostics.yml]
+permissions:
+  contents: read
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    environment: tuc-dev
+    env:
+      TUC_DEV_HOST: ${{ secrets.TUC_DEV_HOST }}
+      TUC_DEV_USER: ${{ secrets.TUC_DEV_USER }}
+      TUC_DEV_SSH_KEY: ${{ secrets.TUC_DEV_SSH_KEY }}
+    steps:
+      - name: Read build activity and available storage
+        shell: bash
+        run: |
+          set -euo pipefail
+          install -m 700 -d ~/.ssh
+          trap 'rm -f ~/.ssh/tuc_prod' EXIT
+          printf '%s\n' "$TUC_DEV_SSH_KEY" > ~/.ssh/tuc_prod
+          chmod 600 ~/.ssh/tuc_prod
+          ssh-keyscan -H "$TUC_DEV_HOST" >> ~/.ssh/known_hosts
+          ssh -i ~/.ssh/tuc_prod -o IdentitiesOnly=yes "$TUC_DEV_USER@$TUC_DEV_HOST" bash -s <<'REMOTE'
+          {
+            set -euo pipefail
+            df -h /opt/terra-umbra
+            free -m
+            ps -eo pid,comm,etime,pcpu,pmem --sort=-pcpu | head -15
+            docker ps --format '{{.Names}} {{.Status}}'
+            docker system df
+            du -sh /opt/terra-umbra/releases /opt/terra-umbra/private-backups /opt/terra-umbra/apps /opt/terra-umbra/compendium
+            if test -f /opt/terra-umbra/.dockerignore; then cat /opt/terra-umbra/.dockerignore; fi
+          }
+          REMOTE
