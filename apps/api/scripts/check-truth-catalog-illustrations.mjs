@@ -1,20 +1,26 @@
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
-import {readFile,readdir} from 'node:fs/promises';
-import {fileURLToPath} from 'node:url';
+import {readFile,readdir,copyFile,mkdtemp,rm} from 'node:fs/promises';
+import {tmpdir} from 'node:os';
+import {join} from 'node:path';
+import {fileURLToPath,pathToFileURL} from 'node:url';
 
 const root=fileURLToPath(new URL('../../../',import.meta.url)).replace(/\/$/,'');
 process.env.DATABASE_URL ??= 'postgres://test:test@127.0.0.1:1/test';
 process.env.COMPENDIUM_DATA_DIR=root+'/compendium/data';
 process.env.COMPENDIUM_MEDIA_DIR=root+'/compendium';
+const rulesRoot=await mkdtemp(join(tmpdir(),'tuc-truth-art-'));
+process.env.TUC_REALITY_RULES_ROOT=rulesRoot;
+await copyFile(root+'/compendium/source/current-equipment-catalog-v1.json',join(rulesRoot,'current-equipment-catalog-v1.json'));
+await copyFile(root+'/character-builder/rulesets/terra-umbra/reality/augmentations.json.gz.b64',join(rulesRoot,'augmentations.json.gz.b64'));
 process.chdir(root+'/apps/api');
-const {pool}=await import(root+'/apps/api/dist/db.js');
+const {pool}=await import(pathToFileURL(root+'/apps/api/dist/db.js').href);
 pool.query=async sql=>{
   if(/FROM compendium_custom_articles|FROM compendium_portrait_visibility|FROM compendium_article_edits|(?:FROM|INTO) compendium_legacy_articles|FROM compendium_deleted_articles/.test(String(sql))) return {rows:[]};
   throw new Error('Unexpected DB query: '+sql);
 };
-const {getCompendiumQualityCorpus,registerCompendiumRoutes}=await import(root+'/apps/api/dist/compendium.js');
-const {default:Fastify}=await import(root+'/apps/api/node_modules/fastify/fastify.js');
+const {getCompendiumQualityCorpus,registerCompendiumRoutes}=await import(pathToFileURL(root+'/apps/api/dist/compendium.js').href);
+const {default:Fastify}=await import(pathToFileURL(root+'/apps/api/node_modules/fastify/fastify.js').href);
 const sourceDir=root+'/compendium/source';
 const lots=(await readdir(sourceDir)).filter(name=>/^truth-catalog-illustrations-lot-\d{2}\.json$/.test(name)).sort();
 assert.ok(lots.length>0,'No truth-catalog illustration lots');
@@ -43,4 +49,5 @@ for(const item of items){
   assert.deepEqual(response.rawPayload,body,item.id);
 }
 await app.close();await pool.end();
+await rm(rulesRoot,{recursive:true,force:true});
 console.log(`OK: ${items.length} truth-catalog illustrations across ${lots.length} lots.`);

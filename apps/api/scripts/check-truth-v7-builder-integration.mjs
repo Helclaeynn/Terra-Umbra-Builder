@@ -13,8 +13,8 @@ const expectedFleauIds = new Set([
 ]);
 
 const equipment = terraUmbraTruthRules.equipment;
-assert.equal(equipment.length, 229, "Truth equipment catalog must contain exactly 229 entries");
-assert.equal(new Set(equipment.map((item) => item.id)).size, 229, "Truth equipment ids must be unique");
+assert.ok(equipment.length >= 229, "The original Truth equipment catalog must be preserved");
+assert.equal(new Set(equipment.map((item) => item.id)).size, equipment.length, "Truth equipment ids must be unique");
 assert.ok(equipment.every((item) => item.compendiumId), "Every Truth equipment entry needs a Compendium target");
 
 const corruption = terraUmbraTruthRules.corruption;

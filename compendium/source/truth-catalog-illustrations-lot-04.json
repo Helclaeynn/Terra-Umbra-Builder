@@ -4,83 +4,83 @@
     {
       "id": "verite-catalogue-152-null-lance-ie-4",
       "title": "Null Lance IE-4",
-      "src": "images/manual/verite-catalogue-152-null-lance-ie-4.webp",
-      "sha256": "d13dc3fd1067c549cbc4e7f1e3ba530d85a59ace950af4a9bb64a543c7b2394c",
-      "width": 1200,
-      "height": 800,
-      "bytes": 93782
+      "src": "images/manual/verite-catalogue-152-null-lance-ie-4-aidh-20261001.webp",
+      "sha256": "d18964fe6ea903d455aeb8340557ae10624be627a7cfefd8d6e0136d69885922",
+      "width": 1774,
+      "height": 887,
+      "bytes": 230998
     },
     {
       "id": "verite-catalogue-153-judicator-rl-5",
       "title": "Judicator RL-5",
-      "src": "images/manual/verite-catalogue-153-judicator-rl-5.webp",
-      "sha256": "bb2e8c8796600c943df0e6b79bfc684354ba14264329859ef12502fd8258bae1",
-      "width": 1200,
-      "height": 800,
-      "bytes": 98050
+      "src": "images/manual/verite-catalogue-153-judicator-rl-5-aidh-20261001.webp",
+      "sha256": "51d1efbc6200997cec9f61ad634ce41e11b9dab2388aebe1730426ab15f63737",
+      "width": 2172,
+      "height": 724,
+      "bytes": 335080
     },
     {
       "id": "verite-catalogue-154-blackstar-gr-1",
       "title": "Blackstar GR-1",
-      "src": "images/manual/verite-catalogue-154-blackstar-gr-1.webp",
-      "sha256": "e316c1488f99b556cac5b9b67fd4cbd48eeee13f30205f89568456592c91b514",
-      "width": 1200,
-      "height": 1066,
-      "bytes": 162174
+      "src": "images/manual/verite-catalogue-154-blackstar-gr-1-aidh-20261001.webp",
+      "sha256": "de4130b78b6b23724548882c7edcd5a043536d5564e9e0229f9a5a46029f7879",
+      "width": 2172,
+      "height": 724,
+      "bytes": 362042
     },
     {
       "id": "verite-catalogue-155-ward-m-6",
       "title": "Ward M-6",
-      "src": "images/manual/verite-catalogue-155-ward-m-6.webp",
-      "sha256": "b842dd2d4c1e992bf82585760cd37a69784a7317e9a74e47ac1baa64fa92c749",
-      "width": 1200,
-      "height": 800,
-      "bytes": 77460
+      "src": "images/manual/verite-catalogue-155-ward-m-6-aidh-20261001.webp",
+      "sha256": "64ff1c99334f55bd05f2e8b25c533104ba74765fd3a7858b3d3b5b622ac02d85",
+      "width": 1983,
+      "height": 793,
+      "bytes": 206338
     },
     {
       "id": "verite-catalogue-156-breacher-b-9",
       "title": "Breacher B-9",
-      "src": "images/manual/verite-catalogue-156-breacher-b-9.webp",
-      "sha256": "5d03179ee1924144e060bcee1756b3b0d96740a1854ba037abcd28dd8ff160ed",
-      "width": 1200,
-      "height": 800,
-      "bytes": 104648
+      "src": "images/manual/verite-catalogue-156-breacher-b-9-aidh-20261001.webp",
+      "sha256": "399cd75d2253446aba84b4663fbc33ffd7e2b38e69754ed34c9540b6d8cb75d8",
+      "width": 2172,
+      "height": 724,
+      "bytes": 150018
     },
     {
       "id": "verite-catalogue-157-second-skin",
       "title": "Second Skin",
-      "src": "images/manual/verite-catalogue-157-second-skin.webp",
-      "sha256": "34c485138fac95555de54449247380583a63a1a04d6021c3f0cedd25720bc2a9",
-      "width": 1000,
-      "height": 1200,
-      "bytes": 128616
+      "src": "images/manual/verite-catalogue-157-second-skin-aidh-20261001.webp",
+      "sha256": "3494c2cca6b90dfff86ca8ba112c475ba6b49c9cb956938344919afa87c1ae01",
+      "width": 1023,
+      "height": 1537,
+      "bytes": 258418
     },
     {
       "id": "verite-catalogue-158-vesper-recon",
       "title": "Vesper Recon",
-      "src": "images/manual/verite-catalogue-158-vesper-recon.webp",
-      "sha256": "6624c5d92318bae93ae5e13d80a212f790e9de331519fee319a85135c240facf",
-      "width": 1000,
-      "height": 1200,
-      "bytes": 173392
+      "src": "images/manual/verite-catalogue-158-vesper-recon-aidh-20261001.webp",
+      "sha256": "f8ef4d52fe6695b908e8b2a9e2cc7b1253dacc243e6f7f7ba41228f4b00ca94b",
+      "width": 1023,
+      "height": 1537,
+      "bytes": 282664
     },
     {
       "id": "verite-catalogue-159-urgent-matter",
       "title": "Urgent Matter",
-      "src": "images/manual/verite-catalogue-159-urgent-matter.webp",
-      "sha256": "be15cd33d13b1d10d9acc2f253539ffdd1fb62aec876cae86fd0c1c162d6cace",
-      "width": 1018,
-      "height": 1200,
-      "bytes": 172274
+      "src": "images/manual/verite-catalogue-159-urgent-matter-aidh-20261001.webp",
+      "sha256": "569d1bb5b4a64c2c5a469bb2a66ed32d6b77cfc28210a59521c225f5b11306a5",
+      "width": 1023,
+      "height": 1537,
+      "bytes": 305220
     },
     {
       "id": "verite-catalogue-160-bastion",
       "title": "Bastion",
-      "src": "images/manual/verite-catalogue-160-bastion.webp",
-      "sha256": "39823f7c44a738649d64ff7c44d56aeb10c7fcdf200cc246cefd063d3c8d5a50",
-      "width": 1119,
-      "height": 1200,
-      "bytes": 324476
+      "src": "images/manual/verite-catalogue-160-bastion-aidh-20261001.webp",
+      "sha256": "2dbd3f8e3a020b275d25cdfdf9769127ea794ec770f28fe2079c9274434cbc5d",
+      "width": 1023,
+      "height": 1537,
+      "bytes": 429886
     },
     {
       "id": "verite-catalogue-161-argus-t",

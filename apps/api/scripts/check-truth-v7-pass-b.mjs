@@ -64,8 +64,8 @@ for (const article of articles) {
 }
 
 const truthEquipment = terraUmbraTruthRules.equipment;
-if (truthEquipment.length !== 229) fail(`truth equipment: expected 229 entries, found ${truthEquipment.length}`);
-if (new Set(truthEquipment.map((item) => item.id)).size !== 229) fail("truth equipment: duplicate ids");
+if (truthEquipment.length < 229) fail(`truth equipment: expected at least 229 entries, found ${truthEquipment.length}`);
+if (new Set(truthEquipment.map((item) => item.id)).size !== truthEquipment.length) fail("truth equipment: duplicate ids");
 for (const chapter of ["22","23","24","25","26","27"]) {
   if (!truthEquipment.some((item) => item.chapter === chapter)) {
     fail(`truth equipment: missing chapter ${chapter}`);

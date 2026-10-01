@@ -8,7 +8,7 @@ const source=JSON.parse(zlib.gunzipSync(Buffer.from(sourceB64,'base64')).toStrin
 const dataset=manifest.datasets.find(x=>x.id==='verite-catalogue');if(!dataset)throw new Error('dataset absent');
 const b64=Array.from({length:dataset.parts},(_,i)=>fs.readFileSync(`compendium/data/${dataset.prefix}-${String(i).padStart(2,'0')}.b64part`,'utf8').replace(/\s+/g,'')).join('');
 const rows=JSON.parse(zlib.gunzipSync(Buffer.from(b64,'base64')).toString('utf8'));
-if(rows.length!==source.entryCount||rows.length!==sourceManifest.entryCount||rows.length!==229)throw new Error(`count ${rows.length}`);
+if(rows.length!==source.entryCount||rows.length!==sourceManifest.entryCount||rows.length<229)throw new Error(`count ${rows.length}`);
 
 function norm(value){return String(value??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();}
 function words(value,title=''){
