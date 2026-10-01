@@ -1,0 +1,139 @@
+name: V2 production disk recovery and browser verification
+
+on:
+  push:
+    branches: [feature/tuc-web-v2]
+    paths: [.github/workflows/v2-production-disk-recovery.yml]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+concurrency:
+  group: tuc-v2-production
+  cancel-in-progress: false
+
+jobs:
+  recover-cache:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment: tuc-dev
+    env:
+      TUC_DEV_HOST: ${{ secrets.TUC_DEV_HOST }}
+      TUC_DEV_USER: ${{ secrets.TUC_DEV_USER }}
+      TUC_DEV_SSH_KEY: ${{ secrets.TUC_DEV_SSH_KEY }}
+    steps:
+      - name: Remove unused build cache while preserving images, containers, volumes and backups
+        shell: bash
+        run: |
+          set -euo pipefail
+          install -m 700 -d ~/.ssh
+          trap 'rm -f ~/.ssh/tuc_recovery ~/.ssh/tuc_recovery_hosts' EXIT
+          printf '%s\n' "$TUC_DEV_SSH_KEY" > ~/.ssh/tuc_recovery
+          chmod 600 ~/.ssh/tuc_recovery
+          ssh-keyscan -T 10 -H "$TUC_DEV_HOST" > ~/.ssh/tuc_recovery_hosts
+          ssh -i ~/.ssh/tuc_recovery -o BatchMode=yes -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes -o UserKnownHostsFile=~/.ssh/tuc_recovery_hosts -o ConnectTimeout=15 "$TUC_DEV_USER@$TUC_DEV_HOST" 'bash -s' <<'REMOTE'
+          set -euo pipefail
+          root=/opt/terra-umbra
+          test -f "$root/production-active"
+          cd "$root/infrastructure"
+          exec 9>"$root/.production-release.lock"
+          flock -n 9
+          images_before=$(docker image ls --filter dangling=false --format '{{.ID}} {{.Repository}}:{{.Tag}}' | LC_ALL=C sort)
+          volumes_before=$(docker volume ls --format '{{.Name}}' | LC_ALL=C sort)
+          state_before=$(docker compose ps -aq | xargs docker inspect --format '{{.Id}} {{.Image}} {{.State.StartedAt}}' | LC_ALL=C sort)
+          free_before=$(df -PB1 "$root" | awk 'NR==2 {print $4}')
+          echo 'DISK BEFORE'; df -h "$root"
+          echo 'DOCKER STORAGE BEFORE'; docker system df
+          # Never use system/image/container/volume prune here. Rollback images are retained.
+          docker builder prune --force --filter until=24h | tail -n 5
+          free_now=$(df -PB1 "$root" | awk 'NR==2 {print $4}')
+          if [ "$free_now" -lt 6442450944 ]; then
+            docker builder prune --all --force --keep-storage 1GB | tail -n 5
+          fi
+          images_after=$(docker image ls --filter dangling=false --format '{{.ID}} {{.Repository}}:{{.Tag}}' | LC_ALL=C sort)
+          volumes_after=$(docker volume ls --format '{{.Name}}' | LC_ALL=C sort)
+          state_after=$(docker compose ps -aq | xargs docker inspect --format '{{.Id}} {{.Image}} {{.State.StartedAt}}' | LC_ALL=C sort)
+          test "$images_before" = "$images_after"
+          test "$volumes_before" = "$volumes_after"
+          test "$state_before" = "$state_after"
+          echo 'UNCHANGED: all tagged images, volumes, running service identities and start times'
+          echo 'DISK AFTER'; df -h "$root"
+          echo 'DOCKER STORAGE AFTER'; docker system df
+          free_after=$(df -PB1 "$root" | awk 'NR==2 {print $4}')
+          echo "DISK_FREE_BYTES_BEFORE=$free_before DISK_FREE_BYTES_AFTER=$free_after RECLAIMED_BYTES=$((free_after-free_before))"
+          for path in / /account /api/health /api/auth/setup-status /api/auth/capabilities /build-info.json; do
+            curl --fail --silent --show-error --connect-timeout 5 --max-time 15 --resolve terra-umbra.fr:443:127.0.0.1 --output /dev/null --write-out "$path HTTP=%{http_code} TLS=%{ssl_verify_result}\n" "https://terra-umbra.fr$path"
+          done
+          if [ "$free_after" -lt 4294967296 ]; then
+            echo 'CACHE CLEANED BUT FREE SPACE STILL BELOW 4 GiB; no broader deletion authorized by this workflow' >&2
+            exit 1
+          fi
+          echo 'PRODUCTION DISK RECOVERY VERIFIED - no application restart, database change or certificate modification'
+          REMOTE
+  public-browser:
+    needs: recover-cache
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - name: Install isolated browser driver on runner only
+        shell: bash
+        run: |
+          npm install --prefix "$RUNNER_TEMP/tuc-browser" --no-package-lock --no-audit --no-fund --ignore-scripts playwright-core@1.55.0
+      - name: Check production in Chrome with normal TLS validation
+        shell: bash
+        run: |
+          set -euo pipefail
+          export CHROME_BIN="$(command -v google-chrome || command -v google-chrome-stable || command -v chromium)"
+          cat > "$RUNNER_TEMP/tuc-browser/check.cjs" <<'JS'
+          const { chromium } = require('playwright-core');
+          const assert = require('node:assert/strict');
+          (async () => {
+            const browser = await chromium.launch({executablePath:process.env.CHROME_BIN, headless:true, args:['--no-sandbox']});
+            try {
+              const context = await browser.newContext({ignoreHTTPSErrors:false, viewport:{width:1440,height:1000}});
+              const page = await context.newPage();
+              const errors = [];
+              const failed = [];
+              page.on('pageerror', error => errors.push(error.message));
+              page.on('requestfailed', request => failed.push(new URL(request.url()).pathname + ' ' + request.failure()?.errorText));
+              page.on('response', response => {
+                if (response.status() >= 500) errors.push('HTTP_' + response.status() + ' ' + new URL(response.url()).pathname);
+              });
+              const health = page.waitForResponse(response => new URL(response.url()).pathname === '/api/health', {timeout:25000});
+              const account = await page.goto('https://terra-umbra.fr/account#characters', {waitUntil:'domcontentloaded',timeout:30000});
+              assert.equal(account.status(),200);
+              assert.equal((await health).status(),200);
+              await page.getByRole('button',{name:'Se connecter',exact:true}).waitFor({state:'visible',timeout:25000});
+              await page.waitForTimeout(1500);
+              const accountText = await page.locator('body').innerText();
+              assert.ok(!accountText.includes('Service indisponible'),'Account displays service unavailable');
+              assert.ok(!accountText.includes('Une erreur est survenue.'),'Account displays generic error');
+              await page.screenshot({path:process.env.RUNNER_TEMP+'/tuc-account-verified.png',fullPage:true});
+              console.log('BROWSER ACCOUNT OK - login form rendered, API reachable, certificate accepted');
+              const compendium = await page.goto('https://terra-umbra.fr/',{waitUntil:'networkidle',timeout:30000});
+              assert.equal(compendium.status(),200);
+              assert.ok((await page.locator('body').innerText()).includes('Compendium'));
+              await page.screenshot({path:process.env.RUNNER_TEMP+'/tuc-compendium-verified.png',fullPage:true});
+              const armour = await context.request.get('https://terra-umbra.fr/api/compendium/articles/equipement-087-raven-black-dog');
+              assert.equal(armour.status(),200);
+              const data = await armour.json();
+              assert.ok(data.article.sections.some(section=>section.blocks.some(block=>block.type==='table' && block.rows.some(row=>row[0]==='Protection' && row[1]==='Balistique 3, Melee 2, Antichoc 2'))));
+              console.log('BROWSER COMPENDIUM AND PUBLIC ARMOUR OK');
+              const me = await context.request.get('https://terra-umbra.fr/api/auth/me');
+              assert.equal(me.status(),401,'Unauthenticated request must not expose any account');
+              assert.deepEqual(errors,[]);
+              assert.deepEqual(failed,[]);
+              console.log('NO JAVASCRIPT ERRORS, FAILED REQUESTS OR HTTP 5XX; PRIVATE ACCOUNT ACCESS STILL PROTECTED');
+              console.log('NOTE: no real-user password or authenticated character was accessed in this test');
+            } finally { await browser.close(); }
+          })().catch(error=>{console.error(error);process.exitCode=1;});
+          JS
+          node "$RUNNER_TEMP/tuc-browser/check.cjs"
+      - name: Keep public-page verification screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: production-public-browser-verification
+          path: ${{ runner.temp }}/tuc-*-verified.png
+          if-no-files-found: ignore
+          retention-days: 3
