@@ -18,6 +18,32 @@ try{
  const id=randomUUID(),row={id,data:{...generated[0],name:'Contact MJ',hook:'SECRET MJ'}};await call(gm,'POST',url,{creatures:[row]},201);await call(gm,'POST',url,{creatures:[row]},201);const list=await call(gm,'GET',url);assert.equal(list.creatures.length,1);assert.ok(!JSON.stringify(list).includes('SECRET MJ'));assert.equal((await call(gm,'GET',url+'/'+id)).creature.data.hook,'SECRET MJ');
  await call(gm,'POST',url,{creatures:[{id,data:{...row.data,name:'Conflit'}}]},409);await call(gm,'PATCH',url+'/'+id,{data:{...row.data,name:'Mise à jour'},version:1,archived:false});await call(gm,'PATCH',url+'/'+id,{data:row.data,version:1,archived:false},409);
  const reference={creatureId:id,articleId:'campaign-creature:'+id,title:row.data.name,category:'Bestiaire de campagne',quantity:1,notes:''};const session={title:'Rencontre',preparation:'',scenes:[{id:'scene',title:'Face à face',notes:'',done:false,references:[reference]}],playedOn:null,status:'planned',report:'',published:false,requestId:randomUUID()};await call(gm,'POST',base+'/sessions',session,201);const unknown=randomUUID();await call(gm,'POST',base+'/sessions',{...session,requestId:randomUUID(),scenes:[{...session.scenes[0],references:[{...reference,creatureId:unknown,articleId:'campaign-creature:'+unknown}]}]},400);
+
+ // Regression: portraits accepted by the API must also fit the database constraint.
+ // A complete PNG with a large valid tEXt chunk exercises the previous 30 KB limit.
+ const png=Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jRZkAAAAASUVORK5CYII=','base64');
+ const text=Buffer.from('Comment\0'+'x'.repeat(480000)),chunk=Buffer.alloc(text.length+12);
+ chunk.writeUInt32BE(text.length,0);chunk.write('tEXt',4);text.copy(chunk,8);
+ let crc=0xffffffff;for(const byte of chunk.subarray(4,-4)){crc^=byte;for(let bit=0;bit<8;bit++)crc=(crc>>>1)^((crc&1)?0xedb88320:0);}
+ chunk.writeUInt32BE((crc^0xffffffff)>>>0,chunk.length-4);
+ const picture=Buffer.concat([png.subarray(0,-12),chunk,png.subarray(-12)]);
+ const image='data:image/png;base64,'+picture.toString('base64');
+ const customId=randomUUID(),custom={...generated[0],source:'custom',name:'Kermit portrait regression',image};
+ assert.ok(Buffer.byteLength(JSON.stringify(custom))>30000);
+ await call(gm,'POST',url,{creatures:[{id:customId,data:custom}]},201);
+ assert.equal((await call(gm,'GET',url+'/'+customId)).creature.data.image,image);
+ const portrait=await app.inject({method:'GET',url:url+'/'+customId+'/image',headers:{cookie:gm.cookie}});
+ assert.equal(portrait.statusCode,200);assert.deepEqual(portrait.rawPayload,picture);
+ await call(other,'GET',url+'/'+customId+'/image',undefined,404);
+ await call(player,'GET',url+'/'+customId+'/image',undefined,404);
+ await call(null,'GET',url+'/'+customId+'/image',undefined,401);
+ await call(gm,'PATCH',url+'/'+customId,{data:{...custom,name:'Portrait updated'},version:1,archived:false});
+ assert.equal((await call(gm,'GET',url+'/'+customId)).creature.data.image,image);
+ await call(gm,'PATCH',url+'/'+customId,{data:{...custom,image:''},version:2,archived:false});
+ assert.equal((await call(gm,'GET',url+'/'+customId)).creature.data.image,'');
+ await call(gm,'POST',url,{creatures:[{id:randomUUID(),data:{...custom,image:'data:image/png;base64,'+'A'.repeat(700000)}}]},400);
+
  await call(gm,'PATCH',url+'/'+id,{data:row.data,version:2,archived:true});assert.equal((await call(gm,'GET',url+'?archived=true')).creatures.length,1);await pool.query('UPDATE campaigns SET archived_at=now() WHERE id=$1',[cid]);await call(gm,'POST',url,{creatures:[{id:randomUUID(),data:row.data}]},404);
+
  console.log('CAMPAIGN BESTIARY DB OK — MJ privacy, exact weapons, atomic persistence, versions, scene validation and archives');
 }finally{await app.close();if(ids.length)await pool.query("DELETE FROM users WHERE id=ANY($1::uuid[]) AND email LIKE 'ci-bestiary-%@example.invalid'",[ids]);await pool.end();}
