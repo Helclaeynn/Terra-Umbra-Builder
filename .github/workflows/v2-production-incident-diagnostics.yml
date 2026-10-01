@@ -1,0 +1,96 @@
+name: V2 production incident diagnostics
+
+on:
+  push:
+    branches: [feature/tuc-web-v2]
+    paths: [.github/workflows/v2-production-incident-diagnostics.yml]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+concurrency:
+  group: tuc-v2-production
+  cancel-in-progress: false
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    environment: tuc-dev
+    env:
+      TUC_DEV_HOST: ${{ secrets.TUC_DEV_HOST }}
+      TUC_DEV_USER: ${{ secrets.TUC_DEV_USER }}
+      TUC_DEV_SSH_KEY: ${{ secrets.TUC_DEV_SSH_KEY }}
+    steps:
+      - name: Independently verify public DNS, certificates and HTTP endpoints
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import datetime, json, socket, ssl, urllib.request, urllib.error
+          print('UTC', datetime.datetime.now(datetime.timezone.utc).isoformat(), flush=True)
+          for host in ['terra-umbra.fr', 'www.terra-umbra.fr', 'dev.terra-umbra.fr']:
+              print('HOST', host, flush=True)
+              try:
+                  addresses = sorted(set(entry[4][0] for entry in socket.getaddrinfo(host, 443, type=socket.SOCK_STREAM)))
+                  print('DNS', json.dumps(addresses), flush=True)
+              except Exception as error:
+                  print('DNS_ERROR', type(error).__name__, str(error), flush=True)
+                  continue
+              for address in addresses:
+                  try:
+                      with socket.create_connection((address, 443), timeout=8) as tcp:
+                          with ssl.create_default_context().wrap_socket(tcp, server_hostname=host) as tls:
+                              certificate = tls.getpeercert()
+                              print('TLS_VERIFIED', address, tls.version(), json.dumps({key: certificate.get(key) for key in ['subject', 'issuer', 'notBefore', 'notAfter', 'subjectAltName']}), flush=True)
+                  except Exception as error:
+                      print('TLS_ERROR', address, type(error).__name__, str(error), flush=True)
+          for path in ['/', '/account', '/api/health', '/api/auth/setup-status', '/build-info.json']:
+              try:
+                  request = urllib.request.Request('https://terra-umbra.fr' + path, headers={'User-Agent': 'TUC-Incident-ReadOnly/1.0', 'Cache-Control': 'no-cache'})
+                  with urllib.request.urlopen(request, timeout=15) as response:
+                      print('HTTP', path, response.status, response.headers.get('content-type'), flush=True)
+                      if path in ['/api/health', '/build-info.json']:
+                          print('PUBLIC_BODY', response.read(1000).decode('utf-8', errors='replace'), flush=True)
+              except Exception as error:
+                  print('HTTP_ERROR', path, type(error).__name__, str(error), flush=True)
+          PY
+      - name: Read origin service state without restarting or modifying anything
+        shell: bash
+        run: |
+          set -euo pipefail
+          install -m 700 -d ~/.ssh
+          trap 'rm -f ~/.ssh/tuc_incident ~/.ssh/tuc_incident_hosts' EXIT
+          printf '%s\n' "$TUC_DEV_SSH_KEY" > ~/.ssh/tuc_incident
+          chmod 600 ~/.ssh/tuc_incident
+          ssh-keyscan -T 10 -H "$TUC_DEV_HOST" > ~/.ssh/tuc_incident_hosts
+          ssh -i ~/.ssh/tuc_incident -o BatchMode=yes -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes -o UserKnownHostsFile=~/.ssh/tuc_incident_hosts -o ConnectTimeout=15 "$TUC_DEV_USER@$TUC_DEV_HOST" 'bash -s' <<'REMOTE'
+          set -uo pipefail
+          cd /opt/terra-umbra/infrastructure || exit 1
+          test -f /opt/terra-umbra/production-active || exit 1
+          echo 'ORIGIN UTC'; date -u
+          echo 'PRODUCTION RELEASE'; cat /opt/terra-umbra/.production-release-sha
+          echo 'SERVICE STATES'; docker compose ps -a
+          for service in api web caddy db; do
+            id=$(docker compose ps -aq "$service")
+            if [ -n "$id" ]; then
+              docker inspect --format 'STATE {{.Name}} running={{.State.Running}} restarting={{.State.Restarting}} oom={{.State.OOMKilled}} exit={{.State.ExitCode}} restarts={{.RestartCount}} started={{.State.StartedAt}} image={{.Image}}' "$id"
+            fi
+          done
+          echo 'DISK'; df -h /opt/terra-umbra
+          echo 'MEMORY'; free -m
+          echo 'CONTAINER USAGE'; docker stats --no-stream --format '{{.Name}} cpu={{.CPUPerc}} memory={{.MemUsage}}'
+          echo 'CADDY SITE CONFIGURATION'; sed -n '1,180p' Caddyfile
+          echo 'CADDY CONFIGURATION VALIDATION'; docker compose exec -T caddy caddy validate --config /etc/caddy/Caddyfile --adapter caddyfile </dev/null
+          echo 'HTTPS DIRECTLY TO ORIGIN WITH CERTIFICATE VALIDATION'
+          for path in / /account /api/health /api/auth/setup-status /build-info.json; do
+            curl --silent --show-error --connect-timeout 5 --max-time 15 --resolve terra-umbra.fr:443:127.0.0.1 --output /dev/null --write-out "$path HTTP=%{http_code} TLS=%{ssl_verify_result} time=%{time_total}\n" "https://terra-umbra.fr$path"
+          done
+          echo 'INTERNAL API HEALTH'
+          docker compose exec -T api node -e "fetch('http://127.0.0.1:3000/api/health',{signal:AbortSignal.timeout(10000)}).then(async r=>console.log('API_INTERNAL',r.status,await r.text())).catch(e=>{console.error(e.name,e.message);process.exitCode=1})" </dev/null
+          echo 'ERROR SIGNATURE COUNTS ONLY - NO REQUESTS, COOKIES OR USER RECORDS'
+          for service in api web caddy; do
+            echo "ERROR SIGNATURES $service"
+            docker compose logs --no-color --since 3h --tail 2000 "$service" 2>&1 | grep -Eo 'EACCES|ENOENT|ECONNREFUSED|EADDRINUSE|ERR_[A-Z_]+|permission denied|no space left on device|out of memory|certificate expired|certificate has expired|TLS handshake error|tls: internal error|no certificate available' | sort | uniq -c || true
+          done
+          echo 'READ-ONLY DIAGNOSTICS COMPLETE'
+          REMOTE
