@@ -1,0 +1,127 @@
+name: V2 production campaign creature portrait storage
+on:
+  push:
+    branches: [feature/tuc-web-v2]
+    paths: [.github/workflows/v2-production-bestiary-portrait-storage.yml]
+permissions:
+  contents: read
+concurrency:
+  group: tuc-v2-production
+  cancel-in-progress: false
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: tuc
+          POSTGRES_PASSWORD: ci-only-placeholder
+          POSTGRES_DB: tuc_sheet_test
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U tuc -d tuc_sheet_test"
+          --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      DATABASE_URL: postgres://tuc:ci-only-placeholder@127.0.0.1:5432/tuc_sheet_test
+      TUC_SHEET_SMOKE: ci
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Prepare rule data and compile API
+        run: |
+          mkdir -p .v2-rules-data/lore
+          cp compendium/source/current-equipment-catalog-v1.json .v2-rules-data/
+          cp compendium/source/reality-lore-v3-*.json .v2-rules-data/lore/
+          cp character-builder/rulesets/terra-umbra/reality/augmentations.json.gz.b64 .v2-rules-data/
+          cp character-builder/rulesets/terra-umbra/reality/safe/neuroprograms.part01.b64 character-builder/rulesets/terra-umbra/reality/safe/vehicles.part01.b64 .v2-rules-data/
+          cd apps/api
+          npm ci
+          npm run build
+      - name: Reproduce old constraint, migrate twice and test portrait persistence
+        working-directory: apps/api
+        run: |
+          node --input-type=module <<'NODE'
+          import assert from 'node:assert/strict';
+          import {readFile,readdir} from 'node:fs/promises';
+          import {pool} from './dist/db.js';
+          const migration='20261001_campaign_bestiary_portrait_storage.sql';
+          for(const n of (await readdir('../../infrastructure/migrations')).filter(n=>n.endsWith('.sql')&&n!==migration).sort())await pool.query(await readFile('../../infrastructure/migrations/'+n,'utf8'));
+          await pool.query('CREATE TEMP TABLE old_bestiary_budget (LIKE campaign_bestiary INCLUDING CONSTRAINTS)');
+          await assert.rejects(pool.query("INSERT INTO old_bestiary_budget(id,campaign_id,data) VALUES(gen_random_uuid(),gen_random_uuid(),jsonb_build_object('image',repeat('x',81000)))"),e=>e.code==='23514');
+          const sql=await readFile('../../infrastructure/migrations/'+migration,'utf8');
+          await pool.query(sql);await pool.query(sql);
+          await pool.query('CREATE TEMP TABLE new_bestiary_budget (LIKE campaign_bestiary INCLUDING CONSTRAINTS)');
+          await pool.query("INSERT INTO new_bestiary_budget(id,campaign_id,data) VALUES(gen_random_uuid(),gen_random_uuid(),jsonb_build_object('image',repeat('x',699000)))");
+          for(const invalid of ['[]',JSON.stringify({image:'x'.repeat(800000)})])await assert.rejects(pool.query('INSERT INTO new_bestiary_budget(id,campaign_id,data) VALUES(gen_random_uuid(),gen_random_uuid(),$1::jsonb)',[invalid]),e=>e.code==='23514');
+          await pool.end();
+          console.log('STORAGE MIGRATION OK — old failure reproduced, idempotence, JSON type and size budget');
+          NODE
+          node scripts/check-campaign-bestiary.mjs
+          node scripts/check-campaign-bestiary-db.mjs
+  release:
+    needs: verify
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment: tuc-dev
+    env:
+      TUC_DEV_HOST: ${{ secrets.TUC_DEV_HOST }}
+      TUC_DEV_USER: ${{ secrets.TUC_DEV_USER }}
+      TUC_DEV_SSH_KEY: ${{ secrets.TUC_DEV_SSH_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Back up and apply verified database constraint only
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git ls-remote origin refs/heads/feature/tuc-web-v2 | cut -f1)" = "$GITHUB_SHA"
+          test -n "$TUC_DEV_HOST" && test -n "$TUC_DEV_USER" && test -n "$TUC_DEV_SSH_KEY"
+          install -m 700 -d ~/.ssh
+          trap 'rm -f ~/.ssh/tuc_prod' EXIT
+          printf '%s\n' "$TUC_DEV_SSH_KEY" > ~/.ssh/tuc_prod
+          chmod 600 ~/.ssh/tuc_prod
+          ssh-keyscan -H "$TUC_DEV_HOST" >> ~/.ssh/known_hosts
+          SSH="ssh -i ~/.ssh/tuc_prod -o IdentitiesOnly=yes"
+          migration=20261001_campaign_bestiary_portrait_storage.sql
+          rsync -az -e "$SSH" "infrastructure/migrations/$migration" "$TUC_DEV_USER@$TUC_DEV_HOST:/opt/terra-umbra/infrastructure/migrations/"
+          $SSH "$TUC_DEV_USER@$TUC_DEV_HOST" <<'REMOTE'
+          set -euo pipefail
+          test -f /opt/terra-umbra/production-active
+          exec 9>/opt/terra-umbra/.production-release.lock
+          flock -n 9
+          cd /opt/terra-umbra/infrastructure
+          bash production/backup.sh
+          set -a
+          . ./.env
+          set +a
+          docker compose exec -T db psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -v ON_ERROR_STOP=1 < migrations/20261001_campaign_bestiary_portrait_storage.sql
+          docker compose exec -T db psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -v ON_ERROR_STOP=1 <<'SQL'
+          BEGIN;
+          CREATE TEMP TABLE portrait_storage_probe (LIKE campaign_bestiary INCLUDING CONSTRAINTS);
+          INSERT INTO portrait_storage_probe(id,campaign_id,data) VALUES(gen_random_uuid(),gen_random_uuid(),jsonb_build_object('image',repeat('x',699000)));
+          DO $$
+          BEGIN
+            BEGIN
+              INSERT INTO portrait_storage_probe(id,campaign_id,data) VALUES(gen_random_uuid(),gen_random_uuid(),'[]'::jsonb);
+              RAISE EXCEPTION 'Array was incorrectly accepted';
+            EXCEPTION WHEN check_violation THEN NULL;
+            END;
+            BEGIN
+              INSERT INTO portrait_storage_probe(id,campaign_id,data) VALUES(gen_random_uuid(),gen_random_uuid(),jsonb_build_object('image',repeat('x',800000)));
+              RAISE EXCEPTION 'Oversized object was incorrectly accepted';
+            EXCEPTION WHEN check_violation THEN NULL;
+            END;
+          END $$;
+          SELECT pg_get_constraintdef(oid) FROM pg_constraint WHERE conrelid='campaign_bestiary'::regclass AND conname='campaign_bestiary_data_check' AND convalidated;
+          ROLLBACK;
+          SQL
+          curl --fail --silent --show-error --max-time 20 https://terra-umbra.fr/api/health >/dev/null
+          echo 'BESTIARY PORTRAIT STORAGE LIVE — verified backup, bounded storage, existing application retained'
+          REMOTE
