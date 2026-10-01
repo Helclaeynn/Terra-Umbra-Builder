@@ -50,16 +50,17 @@ jobs:
           import assert from 'node:assert/strict';
           import {readFile,readdir} from 'node:fs/promises';
           import {pool} from './dist/db.js';
+          const client=await pool.connect();
           const migration='20261001_campaign_bestiary_portrait_storage.sql';
-          for(const n of (await readdir('../../infrastructure/migrations')).filter(n=>n.endsWith('.sql')&&n!==migration).sort())await pool.query(await readFile('../../infrastructure/migrations/'+n,'utf8'));
-          await pool.query('CREATE TEMP TABLE old_bestiary_budget (LIKE campaign_bestiary INCLUDING CONSTRAINTS INCLUDING DEFAULTS)');
-          await assert.rejects(pool.query("INSERT INTO old_bestiary_budget(id,campaign_id,data) VALUES(gen_random_uuid(),gen_random_uuid(),jsonb_build_object('image',repeat('x',81000)))"),e=>e.code==='23514');
+          for(const n of (await readdir('../../infrastructure/migrations')).filter(n=>n.endsWith('.sql')&&n!==migration).sort())await client.query(await readFile('../../infrastructure/migrations/'+n,'utf8'));
+          await client.query('CREATE TEMP TABLE old_bestiary_budget (LIKE campaign_bestiary INCLUDING CONSTRAINTS INCLUDING DEFAULTS)');
+          await assert.rejects(client.query("INSERT INTO old_bestiary_budget(id,campaign_id,data) VALUES(gen_random_uuid(),gen_random_uuid(),jsonb_build_object('image',repeat('x',81000)))"),e=>e.code==='23514');
           const sql=await readFile('../../infrastructure/migrations/'+migration,'utf8');
-          await pool.query(sql);await pool.query(sql);
-          await pool.query('CREATE TEMP TABLE new_bestiary_budget (LIKE campaign_bestiary INCLUDING CONSTRAINTS INCLUDING DEFAULTS)');
-          await pool.query("INSERT INTO new_bestiary_budget(id,campaign_id,data) VALUES(gen_random_uuid(),gen_random_uuid(),jsonb_build_object('image',repeat('x',699000)))");
-          for(const invalid of ['[]',JSON.stringify({image:'x'.repeat(800000)})])await assert.rejects(pool.query('INSERT INTO new_bestiary_budget(id,campaign_id,data) VALUES(gen_random_uuid(),gen_random_uuid(),$1::jsonb)',[invalid]),e=>e.code==='23514');
-          await pool.end();
+          await client.query(sql);await client.query(sql);
+          await client.query('CREATE TEMP TABLE new_bestiary_budget (LIKE campaign_bestiary INCLUDING CONSTRAINTS INCLUDING DEFAULTS)');
+          await client.query("INSERT INTO new_bestiary_budget(id,campaign_id,data) VALUES(gen_random_uuid(),gen_random_uuid(),jsonb_build_object('image',repeat('x',699000)))");
+          for(const invalid of ['[]',JSON.stringify({image:'x'.repeat(800000)})])await assert.rejects(client.query('INSERT INTO new_bestiary_budget(id,campaign_id,data) VALUES(gen_random_uuid(),gen_random_uuid(),$1::jsonb)',[invalid]),e=>e.code==='23514');
+          client.release();await pool.end();
           console.log('STORAGE MIGRATION OK — old failure reproduced, idempotence, JSON type and size budget');
           NODE
           node scripts/check-campaign-bestiary.mjs
