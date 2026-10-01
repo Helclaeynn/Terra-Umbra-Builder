@@ -21,7 +21,7 @@ try{
 
  // Regression: portraits accepted by the API must also fit the database constraint.
  // A complete PNG with a large valid tEXt chunk exercises the previous 30 KB limit.
- const png=Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jRZkAAAAASUVORK5CYII=','base64');
+ const png=Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=','base64');
  const text=Buffer.from('Comment\0'+'x'.repeat(480000)),chunk=Buffer.alloc(text.length+12);
  chunk.writeUInt32BE(text.length,0);chunk.write('tEXt',4);text.copy(chunk,8);
  let crc=0xffffffff;for(const byte of chunk.subarray(4,-4)){crc^=byte;for(let bit=0;bit<8;bit++)crc=(crc>>>1)^((crc&1)?0xedb88320:0);}
