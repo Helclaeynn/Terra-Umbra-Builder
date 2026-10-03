@@ -38,6 +38,7 @@ try{
  await pool.query("INSERT INTO campaign_members(campaign_id,user_id,status,character_id,admission_status,approved_basis) SELECT $1,$2,'accepted',id,'approved',campaign_character_basis(data) FROM characters WHERE id=$3",[campaign,player.id,character]);await pool.query("INSERT INTO campaign_members(campaign_id,user_id,status) VALUES($1,$2,'accepted')",[campaign,other.id]);
  const path=`/api/characters/${character}/play`;
  await call(null,'GET',path,undefined,401);await call(other,'GET',path,undefined,404);await call(stranger,'GET',path,undefined,404);assert.equal((await call(manager,'GET',path)).canEdit,false);
+ assert.equal((await call(player,'GET',path)).state.share,true);assert.equal((await call(other,'GET',`/api/campaigns/${campaign}/play`)).characters.length,1);
  let live=await call(player,'GET',path);const saved=await call(player,'POST',path,{requestId:randomUUID(),version:0,action:'save',state:{...live.state,share:true}});assert.equal(saved.version,1);
  await call(manager,'POST',path,{requestId:randomUUID(),version:1,action:'damage',amount:1},404);
  const damage={requestId:randomUUID(),version:1,action:'damage',amount:6};const damaged=await call(player,'POST',path,damage);assert.equal(damaged.profile.hp,6);assert.equal(damaged.profile.stress,1);assert.equal((await call(player,'POST',path,damage)).alreadyApplied,true);await call(player,'POST',path,{...damage,requestId:randomUUID()},409);
@@ -72,6 +73,7 @@ try{
  const gift={requestId:randomUUID(),reason:'Trouvaille',rewards:[{characterId:character,version:1,xp:0,ptv:0,money:0,renownDelta:0,corruptionDelta:0,corruptionSource:'',equipment:[{itemId:item.id,quantity:2}]}]};
  await call(other,'POST',`/api/campaigns/${campaign}/rewards`,gift,404);await call(manager,'POST',`/api/campaigns/${campaign}/rewards`,gift);assert.equal((await call(manager,'POST',`/api/campaigns/${campaign}/rewards`,gift)).alreadyApplied,true);
  const inventory=(await pool.query('SELECT data,version FROM characters WHERE id=$1',[character])).rows[0];assert.equal(inventory.version,2);assert.equal(inventory.data.reality.equipment.length,2);assert.ok(inventory.data.reality.equipment.every(i=>i.selectedPrice===0&&i.acquiredInCampaign));assert.equal((await call(manager,'GET',`/api/campaigns/${campaign}/rewards`)).rewards[0].equipment[0].quantity,2);
+ await (await import('./check-campaign-live.mjs')).checkCampaignLive({app,pool,call,player,other,manager,stranger,campaign,character});
  await pool.query('DELETE FROM campaign_members WHERE campaign_id=$1 AND user_id=$2',[campaign,other.id]);await call(other,'GET',`/api/campaigns/${campaign}/play`,undefined,404);
  console.log('PLAY OK — dice, truth gating, injuries, recovery, server rolls, conflicts, replay safety, private projections, revoked access, migration replay and equipment-only rewards.');
 }finally{await app.close();await pool.query('DELETE FROM users WHERE id=ANY($1::uuid[])',[users]);if(embedded)await embedded.close();else await pool.end();}

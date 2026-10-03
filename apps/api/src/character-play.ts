@@ -1,3 +1,4 @@
+import {liveSnapshot,registerCampaignLiveRoutes} from './campaign-live.js';
 import { isDeepStrictEqual } from 'node:util';
 import { randomInt } from 'node:crypto';
 import type { FastifyInstance } from 'fastify';
@@ -19,6 +20,7 @@ async function characterAccess(db:Pick<PoolClient,'query'>,id:string,user:{id:st
   return r.rows[0]??null;
 }
 export async function registerCharacterPlayRoutes(app:FastifyInstance){
+  await registerCampaignLiveRoutes(app);
   app.get<{Params:{id:string}}>('/api/characters/:id/play',async(req,reply)=>{
     reply.header('Cache-Control','private, no-store');
     const user=await requireUser(req,reply);if(!user)return;
@@ -81,6 +83,7 @@ export async function registerCharacterPlayRoutes(app:FastifyInstance){
         const die=rollD10(profile.stress,()=>randomInt(1,11));
         const modifier=b.action==='initiative'?profile.derived.initiative:skill!.total;
         payload={label:b.action==='initiative'?'Nouveau combat · Initiative':skill!.name,modifier,...die,total:modifier+die.sum,stress:profile.stress,revelation:state.revelation,
+          components:b.action==='initiative'?null:{attribute:skill!.attributeValue,attributeName:rules.attributes.find(a=>a.id===skill!.attribute)?.name,rank:skill!.rank,skillName:skill!.name,bonus:skill!.bonus},
           bonuses:b.action==='initiative'?[]:[...skill!.automatic.filter(x=>x.enabled),...skill!.contexts.filter(x=>x.enabled),...skill!.prepared.filter(x=>x.active),...skill!.extras]};
         if(b.action==='initiative'){
           const total=modifier+die.sum;
@@ -104,7 +107,7 @@ export async function registerCharacterPlayRoutes(app:FastifyInstance){
     reply.header('Cache-Control','private, no-store');
     const user=await requireUser(req,reply);if(!user)return;
     if(!uuid.test(req.params.id))return reply.code(404).send({error:'campaign_not_found'});
-    const access=await pool.query(`SELECT c.owner_id FROM campaigns c WHERE c.id=$1 AND c.archived_at IS NULL AND
+    const access=await pool.query(`SELECT c.owner_id,c.name FROM campaigns c WHERE c.id=$1 AND c.archived_at IS NULL AND
       ((c.owner_id=$2 AND $3::boolean) OR EXISTS(SELECT 1 FROM campaign_members m WHERE m.campaign_id=c.id AND m.user_id=$2 AND m.status='accepted'))`,[req.params.id,user.id,gm(user.role)]);
     if(!access.rowCount)return reply.code(404).send({error:'campaign_not_found'});
     const manager=access.rows[0].owner_id===user.id&&gm(user.role);
@@ -115,13 +118,17 @@ export async function registerCharacterPlayRoutes(app:FastifyInstance){
       if(!manager&&c.owner_id!==user.id&&!state.share)return [];
       const profile=playProfile(c.data,state),identity=c.data.identity??{};
       const portrait=appearanceGallery(c.data.appearances,'reality',identity).primary?.src??'';
-      const publicFields={id:c.id,name:c.name,portrait,occupation:String(identity.occupation??''),sphere:rules.spheres[c.data.creation?.sphere as keyof typeof rules.spheres]?.name??'',health:profile.health};
+      const publicFields={kind:'character',id:c.id,name:c.name,portrait,occupation:String(identity.occupation??''),sphere:rules.spheres[c.data.creation?.sphere as keyof typeof rules.spheres]?.name??'',health:profile.health};
       return [{...publicFields,...(manager||c.owner_id===user.id?{hp:profile.hp,pvMax:profile.derived.pvMax,pa:profile.pa,paPerRound:state.paPerRound,initiative:state.initiative,round:state.round,stress:profile.stress,revelation:state.revelation,canReadSheet:true}:{})}];
     });
-    const events=await pool.query(`SELECT e.id,e.kind,e.payload,e.created_at AS "createdAt",c.name AS "characterName" FROM character_play_events e
+    const events=await pool.query(`SELECT e.id,e.kind,e.payload,e.created_by,e.created_at AS "createdAt",c.name AS "characterName",u.display_name AS "playerName" FROM character_play_events e JOIN users u ON u.id=e.created_by
       JOIN characters c ON c.id=e.character_id JOIN campaign_members m ON m.character_id=c.id AND m.campaign_id=e.campaign_id AND m.user_id=c.owner_id
-      WHERE e.campaign_id=$1 AND c.campaign_id=$1 AND m.status='accepted' AND c.archived_at IS NULL AND ($2::boolean OR c.owner_id=$3)
+      WHERE e.campaign_id=$1 AND c.campaign_id=$1 AND m.status='accepted' AND c.archived_at IS NULL AND ($2::boolean OR c.owner_id=$3 OR e.kind IN ('roll','initiative'))
       ORDER BY e.created_at DESC LIMIT 40`,[req.params.id,manager,user.id]);
-    return {characters,events:events.rows};
+    const live=await liveSnapshot(req.params.id,manager);
+    const order=[...rows.rows.filter(c=>characters.some(p=>p.id===c.id)).map(c=>({id:c.id,initiative:c.state?.initiative??null})),...live.order]
+      .sort((a,b)=>(b.initiative??-Infinity)-(a.initiative??-Infinity)||a.id.localeCompare(b.id)).map(c=>c.id);
+    const projected=events.rows.map(e=>({id:e.id,kind:e.kind,createdAt:e.createdAt,characterName:e.characterName,playerName:e.playerName,payload:manager||e.created_by===user.id?e.payload:{label:e.payload.label,dice:e.payload.dice,modifier:e.payload.modifier,total:e.payload.total,exploded:e.payload.exploded,narrativeFailure:e.payload.narrativeFailure}}));
+    return {campaignName:access.rows[0].name,canManage:manager,ownCharacterId:rows.rows.find(c=>c.owner_id===user.id)?.id??null,characters,combatants:live.combatants,order,events:[...projected,...live.messages].sort((a,b)=>new Date(b.createdAt).getTime()-new Date(a.createdAt).getTime()).slice(0,100)};
   });
 }
