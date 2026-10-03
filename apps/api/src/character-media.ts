@@ -61,7 +61,15 @@ export async function registerCharacterMediaRoutes(app: FastifyInstance) {
           OR EXISTS(SELECT 1 FROM campaign_members m JOIN campaigns camp ON camp.id=m.campaign_id
             WHERE m.character_id=c.id AND m.user_id=c.owner_id AND m.status='accepted'
               AND camp.owner_id=$2 AND camp.archived_at IS NULL))
-      )))`,[req.params.id,user.id,canReadShared]);
+      )) OR EXISTS (
+        SELECT 1 FROM characters c JOIN character_play_states s ON s.character_id=c.id
+        JOIN campaign_members owner_member ON owner_member.character_id=c.id AND owner_member.user_id=c.owner_id AND owner_member.campaign_id=c.campaign_id AND owner_member.status='accepted'
+        JOIN campaigns camp ON camp.id=c.campaign_id AND camp.archived_at IS NULL
+        JOIN campaign_members viewer ON viewer.campaign_id=camp.id AND viewer.user_id=$2 AND viewer.status='accepted'
+        WHERE c.archived_at IS NULL AND c.owner_id=media.owner_id AND s.state->>'share'='true'
+          AND COALESCE(c.data->'appearances'->'reality','[]'::jsonb) @> jsonb_build_array(jsonb_build_object('mediaId',media.id::text))
+          AND media.id::text=COALESCE(NULLIF(c.data->'appearances'->>'primaryReality',''),c.data->'appearances'->'reality'->0->>'mediaId')
+      ))`,[req.params.id,user.id,canReadShared]);
     const row = result.rows[0]; if (!row) return reply.code(404).send({error:'image_not_found'});
     return reply.type(row.mime_type).send(row.content);
   });

@@ -85,6 +85,15 @@ const grant=()=>[...w.document.querySelectorAll('button')].find(b=>b.textContent
 assert.equal(grant().disabled,false);
 input.value='Nobody';input.dispatchEvent(new w.Event('input',{bubbles:true}));await wait(5);
 assert.equal(grant().disabled,true,'Changing query must reset selection');
+let visibility='visible';Object.defineProperty(w.document,'visibilityState',{get:()=>visibility,configurable:true});
+w.scrollTo=(x,y)=>{Object.defineProperty(w,'scrollX',{value:x,configurable:true});Object.defineProperty(w,'scrollY',{value:y,configurable:true});};
+w.scrollTo(0,880);w.document.querySelector('#sheet-skills').open=false;
+const tabTitle=w.document.title;assert.match(tabTitle,/Test.*Fiche.*Terra Umbra/);
+visibility='hidden';w.document.dispatchEvent(new w.Event('visibilitychange'));await wait(5);
+assert.equal(w.document.querySelector('.character-sheet'),null,'Private content removed while hidden');assert.equal(w.document.title,tabTitle,'Inactive tab retains its useful title');
+w.scrollTo(0,0);visibility='visible';w.document.dispatchEvent(new w.Event('visibilitychange'));
+await until(()=>w.document.querySelector('#sheet-skills'));
+assert.equal(w.scrollY,880,'Reading position restored after access revalidation');assert.equal(w.document.querySelector('#sheet-skills').open,false,'Collapsed sections restored');
 assert.deepEqual(errors,[]);w.unmount();w.close();
 console.log('ACCOUNT SEARCH DOM OK — rapid opening/typing, debounce, result selection, invalidated selection, no render errors');
 const journalDom=new JSDOM('<!doctype html><div id="app"></div>',{url:'https://test.invalid/characters/'+id+'/journal',runScripts:'outside-only',virtualConsole:vc});

@@ -1,3 +1,4 @@
+import {exilePlayBonuses as contextual} from '../../../api/src/rules/play-bonuses';
 import type {TruthState,TruthRulesPackage,TruthTalent} from './truth';
 import {normalizeExileBuild,normalizeBeneficiaryBenefits,exileNetworks,exileHordes,exileRuneIds,exileTalentIds as ids,isCybermechanicalItem,type ExileOwnedItem,type ExileRune,type ExileTechnique} from '../../../api/src/rules/truth/exile-build';
 export * from '../../../api/src/rules/truth/exile-build';
@@ -98,23 +99,6 @@ export function exileSheetDetails(pkg:TruthRulesPackage,s:TruthState):Array<{id:
  for(const p of c.supplies)add('supply-'+p.uid,p.name||'Lot récupéré',p.consumed?'Consommé':'Disponible',`Provenance : ${p.source} · aucune valeur de revente créée.`);
  return rows;
 }
-const contextual:ReadonlyArray<{id:string;skills:string[];bonus:number;label:string}>=[
- {id:'exile-pas-leger',skills:['athletisme','furtivite'],bonus:3,label:'SR/R · annulation de malus seulement, jusqu’à 3, sol difficile'},
- {id:'exile-lecture-des-etres',skills:['diplomatie','empathie','manipulation','autorite'],bonus:3,label:'Premier test social exploitant la lecture, 1/scène'},
- {id:'exile-endurance-obstinee',skills:['constitution'],bonus:3,label:'Endurance corporelle : fatigue, froid, privation'},
- {id:'exile-masse-enracinee',skills:['athletisme'],bonus:3,label:'SR/R · résister à une projection ou poussée physique'},
- {id:'exile-volonte-incompressible',skills:['force_mentale'],bonus:3,label:'Résister à une domination, possession ou injonction surnaturelle'},
- {id:'exile-ca-devrait-marcher',skills:['technologie','mecanique','artisanat'],bonus:3,label:'Usage crédible d’un outil improvisé, 1/scène'},
- {id:'exile-diagnostic-sauvage',skills:['technologie','mecanique'],bonus:3,label:'Diagnostic ou première réparation après examen de 1 PA'},
- {id:'exile-impossible-non-mal-prepare',skills:['technologie','mecanique'],bonus:3,label:'Fonction nouvelle réalisable avec matériel réel, 1/scénario'},
- {id:'exile-meme-pas-peur',skills:['force_mentale'],bonus:3,label:'Peur/intimidation reposant sur taille, statut ou menace ordinaire'},
- {id:'exile-poigne-thulkar',skills:['pugilat','athletisme'],bonus:3,label:'R · maintenir une saisie ou résister au désarmement'},
- {id:'exile-douleur-familiere',skills:['constitution','force_mentale'],bonus:3,label:'SR/R · test causé directement par douleur ou blessure'},
- {id:'exile-se-fondre-dans-le-decor',skills:['furtivite'],bonus:3,label:'Immobile dans un couvert naturel réel'},
- {id:'exile-standard',skills:['technologie','mecanique','artisanat'],bonus:3,label:'Recherche d’un vice caché dans un domaine connu'},
- {id:'exile-aucune-reverence',skills:['force_mentale'],bonus:3,label:'Pression fondée sur statut sacré, noblesse ou autorité religieuse'},
- {id:'exile-ancrage-de-realite',skills:['force_mentale'],bonus:3,label:'Transition V/SR/R forcée ou entravée, pas observation par capteur'}
-];
 export function exileContextualBonuses(pkg:TruthRulesPackage,s:TruthState,skill:string,total:number,active=exileUsableTalents(pkg,s)){
  return contextual.filter(b=>active.has(b.id)&&b.skills.includes(skill)&&b.id!=='exile-pas-leger').map(b=>({id:b.id,label:b.label+' · conditionnel, sans cumul équivalent',bonus:b.bonus,total:total+b.bonus}));
 }

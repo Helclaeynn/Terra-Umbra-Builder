@@ -16,7 +16,8 @@ const targets=[{id:'22222222-2222-4222-8222-222222222222',name:'Alex',version:1,
 const history=[];
 w.fetch=async(url,options={})=>{
  calls.push({url,options});const method=options.method||'GET';let body;
- if(url.endsWith('/effect-targets'))body={characters:structuredClone(targets),sources:[{id:'vhodhal',name:'Vhodhal'}]};
+ if(url.endsWith('/reality'))body={equipment:[]};
+ else if(url.endsWith('/effect-targets'))body={characters:structuredClone(targets),sources:[{id:'vhodhal',name:'Vhodhal'}]};
  else if(url.endsWith('/rewards')&&method==='GET')body={canManage:true,rewards:structuredClone(history)};
  else if(url.endsWith('/rewards')&&method==='POST'){
   const b=JSON.parse(options.body),existing=batches.get(b.requestId);

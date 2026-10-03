@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { usePageTitle } from "../lib/page-title";
 import {truthUnavailableHunters} from "../lib/truth";
 import {vampireUnavailable,vampireNativeBlood} from "../lib/vampire";
 import {isKhinae,khinaeNativeBlood,khinaeUnavailable} from "../lib/khinae";
@@ -932,6 +933,8 @@ const originNameValue=computed(()=>draft.value&&rules.value
   ? rules.value.origins[draft.value.creation.origin]?.name??""
   : ""
 );
+
+usePageTitle(()=>[draft.value?.identity.firstName,draft.value?.identity.name].filter(Boolean).join(' ') + (route.path.endsWith('/progression')?' — Progression':' — Création'));
 const sphereNameValue=computed(()=>selectedSphere.value?.name??"");
 const styleNameValue=computed(()=>selectedStyle.value?.name??"");
 const renownScore=computed(()=>draft.value?computeRenown(selectedRealityTalentIds(),progressionMode?(draft.value.progression.realityTalents as string[]??[]):[],Number(draft.value.edge.renownPack||0),hasUnknownDisadvantage.value,progressionMode?Number(draft.value.progression.renownAdjustment||0):0):0);

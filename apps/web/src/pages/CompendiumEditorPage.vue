@@ -5,6 +5,7 @@ const publishedNavigation = new Map<string, unknown>();
 </script>
 
 <script setup lang="ts">
+import {usePageTitle} from "../lib/page-title";
 import { computed, nextTick, onMounted, ref, watch } from "vue";
 import { RouterLink, useRoute, useRouter } from "vue-router";
 import { api, ApiError } from "../lib/api";
@@ -80,6 +81,7 @@ const id = computed(() => String(route.params.id ?? ""));
 const isNew = computed(() => route.path === "/compendium/new" || !id.value);
 const pageId = ref("");
 const article = ref<EditableArticle | null>(null);
+usePageTitle(()=>article.value?.title ? `${article.value.title} — Édition` : 'Nouvelle page');
 const wikiText = ref("");
 const sourceArea = ref<HTMLTextAreaElement | null>(null);
 const wikiLinkOpen = ref(false);

@@ -143,6 +143,7 @@ jobs:
           await pool.end();
           NODE
           node scripts/check-character-sheet-access.mjs
+          node scripts/check-character-play.mjs
           node scripts/check-campaign-calendar-format.mjs
           node scripts/check-campaign-calendar-delivery.mjs
           node scripts/check-campaign-workspace.mjs

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import {usePageTitle} from "../lib/page-title";
 import { onMounted, onUnmounted, ref, shallowRef } from 'vue';
 import { RouterLink, useRoute } from 'vue-router';
 import TerraUmbraBrand from '../components/TerraUmbraBrand.vue';
@@ -8,6 +9,7 @@ import type { CreationRules } from '../lib/creation-types';
 import { ensureTruthRulesPackage, type TruthRulesPackage } from '../lib/truth';
 const id=String(useRoute().params.id);
 const character=ref<HistoryPage['character']|null>(null),loading=ref(false),error=ref(''),needsLogin=ref(false),nextBefore=ref<number|null>(null);
+usePageTitle(()=>character.value?.name ? `${character.value.name} — Historique` : '');
 type Row={revision:HistoryRevision;changes:HistoryChange[];initial:boolean;missing:boolean};
 const rows=ref<Row[]>([]),rules=shallowRef<CreationRules|null>(null),truth=shallowRef<TruthRulesPackage|null>(null);
 let generation=0,controller:AbortController|null=null;

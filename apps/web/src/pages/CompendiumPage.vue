@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { usePageTitle } from "../lib/page-title";
 import AtlasArticleLinks from "../components/AtlasArticleLinks.vue";
 import AtlasArticleMaps from "../components/AtlasArticleMaps.vue";
 import ArticleReadingGuide from "../components/ArticleReadingGuide.vue";
@@ -229,6 +230,8 @@ const suggestionIndex = ref(-1);
 let suggestionTimer: number | undefined;
 let suggestionRequest = 0;
 const selected = ref<Article | null>(null);
+usePageTitle(()=>selected.value?.title || 'Compendium');
+
 const articlePanel = ref<HTMLElement | null>(null);
 let articleRequest = 0;
 const articleCache = new Map<string, Promise<Article>>();

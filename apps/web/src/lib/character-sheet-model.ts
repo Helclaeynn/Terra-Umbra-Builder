@@ -105,7 +105,7 @@ export function buildCharacterSheet(data:CharacterDataV2, core:SheetCore, truth:
     const item=truth.equipment.find(item=>item.id===id);
     inventory.push({id:`truth-${id}`,name:item?.name??id,detail:[item?.lore,extralInventoryAnnotation(truthState,`truth-${id}`),exileInventoryAnnotation(truthState,`truth-${id}`)].filter(Boolean).join("\n"),compendiumId:item?.compendiumId,group:"Objet de Vérité"});
   }
-  for(const charge of realityState.fixedChargeItems.filter(c=>c.talentGrant||c.sphereSupport))inventory.push({id:charge.uid,name:charge.name,group:charge.talentGrant?loanLabel(charge.talentGrant):'Appui de Sphère',detail:charge.monthly+' $/mois · prestation prise en charge'});
+  for(const charge of realityState.fixedChargeItems)inventory.push({id:charge.uid,name:charge.name,group:charge.talentGrant?loanLabel(charge.talentGrant):charge.sphereSupport?'Appui de Sphère':'Logement et charges fixes',detail:charge.monthly+' $/mois'+(charge.talentGrant||charge.sphereSupport?' · prestation prise en charge':'')});
   const recovered=recoverySummary(permanentSkill('constitution'),realityIds);
   const recoveryMultiplier=extralNaturalRecoveryMultiplier(truth,truthState);
   recovered.normal*=recoveryMultiplier;recovered.prolonged*=recoveryMultiplier;
