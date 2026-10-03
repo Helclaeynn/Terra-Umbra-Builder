@@ -1,3 +1,5 @@
+import {edgeBalance,grantEdge} from './character-edge.js';
+import {lockCombat} from './campaign-rounds.js';
 import { getRealityRules } from './rules/reality.js';
 import { builderPurchaseAllowed } from './rules/builder-equipment-policy.js';
 import { isDeepStrictEqual } from 'node:util';
@@ -12,7 +14,7 @@ const gm = (role: string) => ['gm', 'editor', 'admin'].includes(role);
 const whole = (value: unknown, maximum: number): value is number =>
   typeof value === 'number' && Number.isSafeInteger(value) && value >= 0 && value <= maximum;
 type Grant = {
-  characterId: string; version: number; xp: number; ptv: number; money: number;
+  edge:number; characterId: string; version: number; xp: number; ptv: number; money: number;
   renownDelta: number; corruptionDelta: number; corruptionSource: string; equipment: Array<{itemId:string;quantity:number}>;
 };
 type RewardRequest = { requestId: string; reason: string; rewards: Grant[] };
@@ -28,7 +30,7 @@ export function validateCampaignRewards(value: unknown): RewardRequest | null {
   for (const value of b.rewards) {
     if (!value || typeof value !== 'object' || Array.isArray(value)) return null;
     const row = value as Record<string, unknown>;
-    const equipment=row.equipment??[];
+    const equipment=row.equipment??[];const edge=row.edge??0;if(!whole(edge,8))return null;
     if(!Array.isArray(equipment)||equipment.length>20||equipment.some(e=>!e||typeof e.itemId!=='string'||!whole(e.quantity,20)||e.quantity<1))return null;
     if(new Set(equipment.map(e=>e.itemId)).size!==equipment.length||equipment.reduce((n,e)=>n+e.quantity,0)>100)return null;
     const catalog=getRealityRules().equipment;
@@ -37,13 +39,13 @@ export function validateCampaignRewards(value: unknown): RewardRequest | null {
         seen.has(row.characterId.toLowerCase()) || !whole(row.version, 2147483646) || row.version < 1 ||
         !whole(row.xp, 100000) || !whole(row.ptv, 100000) || !whole(row.money, 1e9) ||
         !whole(row.renownDelta, 5) || !whole(row.corruptionDelta, 100) ||
-        (row.xp + row.ptv + row.money + row.renownDelta + row.corruptionDelta === 0 && !equipment.length) ||
+        (row.xp + row.ptv + row.money + row.renownDelta + row.corruptionDelta + edge === 0 && !equipment.length) ||
         typeof row.corruptionSource !== 'string' ||
         (row.corruptionDelta > 0 && !corruptionSources.some(source => source.id === row.corruptionSource)) ||
         (row.corruptionDelta === 0 && row.corruptionSource !== '')) return null;
     const characterId = row.characterId.toLowerCase();
     seen.add(characterId);
-    rewards.push({ characterId, version: row.version, xp: row.xp, ptv: row.ptv, money: row.money,
+    rewards.push({ edge,characterId, version: row.version, xp: row.xp, ptv: row.ptv, money: row.money,
       renownDelta: row.renownDelta, corruptionDelta: row.corruptionDelta, corruptionSource: row.corruptionSource, equipment: equipment.map(e=>({itemId:e.itemId,quantity:e.quantity})).sort((a,b)=>a.itemId.localeCompare(b.itemId)) });
   }
   rewards.sort((a, b) => a.characterId.localeCompare(b.characterId));
@@ -63,7 +65,7 @@ export async function registerCampaignRewardRoutes(app: FastifyInstance) {
     if (!access.rows.length) return reply.code(404).send({ error: 'campaign_not_found' });
     const canManage = access.rows[0].owner_id === user.id && gm(user.role);
     const entries = await pool.query(`SELECT b.id AS "requestId", b.reason, b.created_at::text AS "createdAt",
-      g.character_id AS "characterId", g.character_name AS "characterName", g.xp, g.ptv,
+      g.edge,g.character_id AS "characterId", g.character_name AS "characterName", g.xp, g.ptv,
       g.money::double precision AS money, g.renown_delta AS "renownDelta",
       g.corruption_delta AS "corruptionDelta", g.corruption_source AS "corruptionSource", g.equipment, g.revision
       FROM campaign_reward_batches b JOIN campaign_reward_grants g ON g.batch_id=b.id
@@ -88,6 +90,7 @@ export async function registerCampaignRewardRoutes(app: FastifyInstance) {
       const owned = await client.query(`SELECT id FROM campaigns
         WHERE id=$1 AND owner_id=$2 AND archived_at IS NULL FOR SHARE`, [req.params.id, user.id]);
       if (!owned.rows.length) return await deny(404, 'campaign_not_found');
+      await lockCombat(client,req.params.id);
       // Serialize retries even before the first ledger row exists. All recipients
       // and the receipt commit together; a lost response never doubles a gift.
       await client.query('SELECT pg_advisory_xact_lock(hashtextextended($1, 0))', [body.requestId]);
@@ -97,7 +100,7 @@ export async function registerCampaignRewardRoutes(app: FastifyInstance) {
       if (existing.rows.length) {
         const row = existing.rows[0];
         if (row.campaign_id !== req.params.id.toLowerCase() || row.created_by !== user.id ||
-            !isDeepStrictEqual(row.request_payload, payload)) return await deny(409, 'reward_request_conflict');
+            !isDeepStrictEqual({...row.request_payload,rewards:row.request_payload.rewards.map((r:any)=>({...r,edge:r.edge??0}))}, payload)) return await deny(409, 'reward_request_conflict');
         await client.query('COMMIT');
         return { ok: true, alreadyApplied: true, requestId: body.requestId };
       }
@@ -123,7 +126,8 @@ export async function registerCampaignRewardRoutes(app: FastifyInstance) {
       for (const grant of body.rewards) {
         const character = characters.rows.find(row => row.id === grant.characterId)!;
         if (character.version !== grant.version) return await deny(409, 'character_version_conflict', character.id);
-        const before = campaignCharacterState(character.data);
+        const before = {...campaignCharacterState(character.data),edge:await edgeBalance(client,character.id,character.data)};
+        if(before.edge+grant.edge>8)return await deny(400,'edge_limit',character.id);
         if (before.renown + grant.renownDelta > 5) return await deny(400, 'renown_limit', character.id);
         if (grant.corruptionDelta && before.corruption + grant.corruptionDelta > before.integrity) {
           return await deny(400, 'corruption_integrity_limit', character.id);
@@ -156,7 +160,7 @@ export async function registerCampaignRewardRoutes(app: FastifyInstance) {
         if (grant.corruptionDelta) data.truth = { ...data.truth,
           corruption: before.corruption + grant.corruptionDelta, corruptionSource: grant.corruptionSource,
           corruptionMjAuthorized: true };
-        const after = campaignCharacterState(data);
+        const after = {...campaignCharacterState(data),edge:before.edge+grant.edge};
         if (after.renown !== before.renown + grant.renownDelta) return await deny(400, 'renown_limit', character.id);
         prepared.push({ character, grant, data, before, after });
       }
@@ -164,16 +168,17 @@ export async function registerCampaignRewardRoutes(app: FastifyInstance) {
         VALUES($1,$2,$3,$4,$5::jsonb)`, [body.requestId, req.params.id, user.id, body.reason, JSON.stringify(payload)]);
       for (const { character, grant, data, before, after } of prepared) {
         const revision = character.version + 1;
+        if(grant.edge){const error=await grantEdge(client,character.id,data,grant.edge);if(error)return await deny(400,error,character.id);}
         await client.query(`UPDATE characters SET data=$2::jsonb,version=$3,updated_at=now() WHERE id=$1`,
           [character.id, JSON.stringify(data), revision]);
         await client.query(`INSERT INTO character_revisions(character_id,revision,name,data,reason,created_by)
           VALUES($1,$2,$3,$4::jsonb,$5,$6)`,
           [character.id, revision, character.name, JSON.stringify(data), 'campaign-bonus:' + body.reason, user.id]);
         await client.query(`INSERT INTO campaign_reward_grants(batch_id,character_id,character_name,xp,ptv,money,
-          renown_delta,corruption_delta,corruption_source,before_state,after_state,revision,equipment)
-          VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10::jsonb,$11::jsonb,$12,$13::jsonb)`,
+          renown_delta,corruption_delta,corruption_source,before_state,after_state,revision,equipment,edge)
+          VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10::jsonb,$11::jsonb,$12,$13::jsonb,$14)`,
           [body.requestId, character.id, character.name, grant.xp, grant.ptv, grant.money, grant.renownDelta,
-            grant.corruptionDelta, grant.corruptionSource, JSON.stringify(before), JSON.stringify(after), revision, JSON.stringify(grant.equipment.map(e=>({...e,name:getRealityRules().equipment.find(i=>i.id===e.itemId)?.name??e.itemId})))]);
+            grant.corruptionDelta, grant.corruptionSource, JSON.stringify(before), JSON.stringify(after), revision, JSON.stringify(grant.equipment.map(e=>({...e,name:getRealityRules().equipment.find(i=>i.id===e.itemId)?.name??e.itemId}))),grant.edge]);
       }
       await client.query('COMMIT');
       return { ok: true, alreadyApplied: false, requestId: body.requestId,

@@ -1,3 +1,4 @@
+import {BESTIARY_WEAPONS} from './campaign-bestiary-weapons.js';
 import {terraUmbraCreationRules as rules} from './rules/terra-umbra-creation.js';
 const norm=(s:any)=>String(s??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
 const number=(s:any)=>{const m=/^-?\d+(?:\s|$)/.exec(String(s??'').replace(/−/g,'-'));return m?Number(m[0]):null;};
@@ -6,8 +7,14 @@ export function articleCombatProfiles(article:any){
  const sections=article.sections??[];
  for(const section of sections){
   if(!/stat|profil|verite|realite/.test(norm(section.id+' '+section.title)))continue;
-  const attributes:Record<string,number>={},skills:Record<string,number>={};let armor=0;
+  const attributes:Record<string,number>={},skills:Record<string,number>={};let armor=0,attributesRead=false;
+  const revealed=/verite|revele/.test(norm(section.id+' '+section.title));
   for(const block of section.blocks??[]){if(block.type!=='table')continue;const rows=block.rows??[];
+   const heading=norm(rows[0]?.join(' '));
+   if(!revealed&&/verite|revele/.test(heading))continue;
+   const attributeTable=rules.attributes.every(a=>rows[0]?.some((v:any)=>norm(v)===norm(a.name)));
+   if(attributeTable&&attributesRead)continue;
+   if(attributeTable)attributesRead=true;
    for(let i=0;i<rows.length;i++)for(let j=0;j<rows[i].length;j++){
     const name=norm(rows[i][j]),a=rules.attributes.find(x=>norm(x.name)===name),s=rules.skills.find(x=>norm(x.name)===name);
     const val=number(rows[i]?.[j+1])??number(rows[i+1]?.[j]);if(val===null)continue;
@@ -17,7 +24,7 @@ export function articleCombatProfiles(article:any){
   }
   if(rules.attributes.every(a=>Number.isInteger(attributes[a.id]))){
    const title=norm(section.id+' '+section.title),label=title.includes('verite')||title.includes('revele')?'Vérité / Révélé':'Réalité';
-   profiles.push({key:section.id,kind:'npc',name:article.title+' · '+label,data:{name:article.title,attributes,skills,armor,equipmentIds:[],sourceArticle:article.id,sourceSection:section.id,sourcePortrait:portrait(article)}});
+   profiles.push({key:section.id,kind:'npc',name:article.title+' · '+label,data:{name:article.title,attributes,skills,armor,combatProfileVersion:2,equipmentIds:articleEquipment(article),sourceArticle:article.id,sourceSection:section.id,sourcePortrait:portrait(article)}});
   }
  }
  if(/bestiaire/.test(norm(article.category)+' '+article.id)){
@@ -27,9 +34,26 @@ export function articleCombatProfiles(article:any){
   const stats={pv:read('pv'),initiative:read('initiative'),actions:read('actions'),physicalDefense:read('def physique'),occultDefense:read('def occulte'),armor:read('armure'),attack:read('attaque'),movement:read('mouvement'),perception:read('perception'),mastery:read('maitrise')};
   const attacks=text.split('\n').flatMap((line:string)=>{const m=/^ATTAQUE\s*[—:–]\s*(.+?)\s*[—:–]\s*1d10e?\s*\+\s*(\d+).*?DGT\s*(\d+)/i.exec(line);return m?[{name:m[1],score:Number(m[2]),damage:Number(m[3]),range:/Contact/i.test(line)?'Contact':(/Port[eé]e\s*([^•]+)/i.exec(line)?.[1]??''),properties:line}]:[];});
   const reductions=Object.fromEntries(['melee','balistique','antichoc','feu','neuro'].map(k=>[k,read(k)]));
-  if(stats.pv>0&&stats.actions>0&&stats.initiative>0){if(!stats.attack&&attacks.length)stats.attack=attacks[0].score;profiles.push({key:'creature',kind:'creature',name:article.title,data:{name:article.title,stats,attacks,reductions,sourceArticle:article.id,sourcePortrait:portrait(article)}});}
+  if(stats.pv>0&&stats.actions>0&&stats.initiative>0){if(!stats.attack&&attacks.length)stats.attack=attacks[0].score;profiles.push({key:'creature',kind:'creature',name:article.title,data:{name:article.title,combatProfileVersion:2,stats,attacks,reductions,sourceArticle:article.id,sourcePortrait:portrait(article)}});}
  }
+ const reality=profiles.find(p=>p.kind==='npc'&&!/verite|revele/.test(norm(p.key)));
+ if(reality)for(const p of profiles)if(p.kind==='npc'&&p!==reality)p.data.skills={...reality.data.skills,...p.data.skills};
  return profiles;
 }
 function portrait(a:any){const all=(a.sections??[]).flatMap((s:any)=>s.blocks??[]),p=a.pnj?.portrait??a.image?.src??a.illustration?.src??all.find((b:any)=>b.type==='image')?.src;if(typeof p==='string'&&/^images\//.test(p))return '/api/compendium/media/'+p;return typeof p==='string'&&/^\/api\/compendium\/media\//.test(p)?p:'';}
-export async function liveCatalog(){const {getCompendiumQualityCorpus}=await import('./compendium.js');const corpus=await getCompendiumQualityCorpus();return corpus.articles.flatMap(a=>articleCombatProfiles(a).map(p=>({...p,id:a.id+'::'+p.key,articleId:a.id}))).sort((a,b)=>a.name.localeCompare(b.name,'fr'));}
+function articleEquipment(article:any){
+ const texts=(article.sections??[]).flatMap((s:any)=>(s.blocks??[]).filter((b:any)=>/equipement|armement/.test(norm(s.title+' '+s.id))||b.type==='table'&&/equipement|arme portee/.test(norm(b.rows?.[0]?.join(' ')))).map((b:any)=>norm(b.text??b.rows?.flat().join(' '))));
+ return BESTIARY_WEAPONS.filter(w=>texts.some((t:string)=>t.includes(norm(w.name)))).map(w=>w.id);
+}
+let cached:Promise<any[]>|null=null,expires=0;
+export async function liveCatalog(){
+ if(!cached||Date.now()>expires){expires=Date.now()+30000;cached=(async()=>{const {getCompendiumQualityCorpus}=await import('./compendium.js');const corpus=await getCompendiumQualityCorpus();return corpus.articles.flatMap(a=>articleCombatProfiles(a).map(p=>({...p,id:a.id+'::'+p.key,articleId:a.id}))).sort((a,b)=>a.name.localeCompare(b.name,'fr'));})();cached.catch(()=>{cached=null;});}
+ return cached;
+}
+/** Repair legacy canonical snapshots without touching current HP, PA or initiative. */
+export async function repairedCombatantData(c:any){
+ if(!c.data?.sourceArticle||c.data.combatProfileVersion===2)return c.data;
+ const row=(await liveCatalog()).find(p=>p.articleId===c.data.sourceArticle&&p.kind===c.source_kind&&(p.kind==='creature'||p.key===c.data.sourceSection));
+ if(!row)return c.data;
+ return {...c.data,...row.data,...(c.data.equipmentIds?.length?{equipmentIds:c.data.equipmentIds}:{})};
+}

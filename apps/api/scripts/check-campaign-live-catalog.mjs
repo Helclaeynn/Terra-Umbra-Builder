@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 process.env.DATABASE_URL ||= 'postgres://fixture:fixture@127.0.0.1:1/fixture';
 const {pool}=await import('../dist/db.js');pool.query=async()=>({rows:[],rowCount:0});
-const {liveCatalog}=await import('../dist/campaign-live-catalog.js');
+const {liveCatalog,repairedCombatantData}=await import('../dist/campaign-live-catalog.js');
 const rows=await liveCatalog(),soldato=rows.find(r=>r.articleId==='bestiaire-v15-soldato');
 assert.equal(rows.filter(r=>r.kind==='creature').length,269,'All 269 bestiary entries with a combat profile; narrative relics have no invented stats');
 assert.ok(rows.filter(r=>r.kind==='npc').length>1000);
@@ -9,3 +9,20 @@ assert.equal(soldato.data.stats.initiative,8);assert.equal(soldato.data.stats.ph
 assert.equal(new Set(rows.map(r=>r.id)).size,rows.length);
 for(const r of rows)assert.ok(!r.data.sourcePortrait||r.data.sourcePortrait.startsWith('/api/compendium/media/'));
 console.log('LIVE CATALOG OK — canonical numeric profiles, 269 combat creatures, distinct PNJ profiles, saved attacks and no invented relic statistics.');
+
+const {combatantRolls}=await import('../dist/campaign-live.js');
+const dive=rows.find(r=>r.articleId==='bestiaire-v16-dive'&&r.kind==='creature');
+assert.ok(dive);const attacks=combatantRolls({source_kind:'creature',data:dive.data}).filter(r=>r.attack);
+assert.deepEqual(attacks.map(a=>[a.modifier,a.damage]),[[15,8],[14,6]]);
+assert.equal(attacks[0].components.profileScore,15);assert.equal(attacks[1].damageType,'occulte');
+assert.ok(!combatantRolls({source_kind:'creature',data:{stats:{attack:0},attacks:[]}}).some(r=>r.attack),'No invented zero-score attack or DGT 1');
+const legacy={source_kind:'creature',hp:17,pa:1,initiative:23,data:{sourceArticle:dive.articleId,stats:{attack:0},attacks:[]}};
+const repaired=await repairedCombatantData(legacy);assert.equal(repaired.attacks[0].damage,8);assert.equal(legacy.hp,17);assert.equal(legacy.pa,1);assert.equal(legacy.initiative,23);
+const veronica=rows.filter(r=>r.articleId==='personnages-verite-especes-veronica-silver');
+const reality=veronica.find(r=>r.key==='profil-statistique'),revealed=veronica.find(r=>r.key.startsWith('profil-verite'));
+assert.equal(reality.data.attributes.agilite,11);assert.equal(reality.data.skills.tir,13);
+assert.equal(revealed.data.attributes.agilite,18);assert.equal(revealed.data.skills.tir,22);assert.equal(revealed.data.skills.melee,10,'Unchanged ranks inherited from reality');
+const choices=combatantRolls({source_kind:'npc',data:revealed.data},true);
+const gun=choices.find(o=>o.attack&&o.attackMode==='ranged');assert.ok(gun&&gun.damage>1);assert.equal(gun.modifier,40);assert.equal(gun.components.attribute,18);assert.equal(gun.components.rank,22);assert.equal(gun.profile,'Révélé');
+assert.equal(choices.find(o=>o.id==='reality:tir').attack,false,'An unarmed Tir roll is not an attack with invented damage');
+console.log('COMBAT CATALOG REGRESSIONS OK — Dive attacks and old snapshots, Veronica 18 + 22, inherited skills, MJ weapons, no fallback damage.');

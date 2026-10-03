@@ -31,7 +31,7 @@ const button=text=>[...d.querySelectorAll('button')].find(b=>b.textContent.trim(
 function input(label,value){const el=[...d.querySelectorAll('label')].find(l=>l.firstChild.textContent.trim()===label)?.querySelector('input');assert.ok(el,label);el.value=String(value);el.dispatchEvent(new w.Event('input',{bubbles:true}));}
 const posts=()=>calls.filter(c=>c.options.method==='POST');
 w.eval(bundle.outputFiles[0].text);w.start(true);assert.equal(calls.length,0,'No hidden form request on mount');button('Attribuer une récompense').click();await until(()=>d.querySelectorAll('.recipient').length===2);
-button('Tous les personnages').click();input('XP',3);input('Renommée',1);input('Motif','Initiative hors séance');await wait(10);assert.match(d.querySelector('.hint').textContent,/Camille.*5/);assert.equal(d.querySelector('button[type=submit]').disabled,true);
+button('Tous les personnages').click();input('Edge',1);input('XP',3);input('Renommée',1);input('Motif','Initiative hors séance');await wait(10);assert.match(d.querySelector('.hint').textContent,/Camille.*5/);assert.equal(d.querySelector('button[type=submit]').disabled,true);
 d.querySelectorAll('.recipient input')[1].click();await wait(10);assert.equal(d.querySelector('button[type=submit]').disabled,false);
 confirm=false;d.querySelector('form').dispatchEvent(new w.Event('submit',{bubbles:true,cancelable:true}));await wait(10);assert.equal(posts().length,0,'Cancelled confirmation has no effect');
 confirm=true;d.querySelector('form').dispatchEvent(new w.Event('submit',{bubbles:true,cancelable:true}));await until(()=>history.length===1&&d.querySelector('.success')&&!d.querySelector('fieldset').disabled);
@@ -42,5 +42,5 @@ d.querySelector('form').dispatchEvent(new w.Event('submit',{bubbles:true,cancela
 assert.equal(JSON.parse(posts().at(-1).options.body).requestId,lostId);assert.equal(targets[0].xpEarned,5);assert.equal(history.length,2);
 w.stop();await wait(10);const before=calls.length;w.start(false);assert.equal(d.querySelector('form'),null);button('Voir mes récompenses').click();await until(()=>d.querySelector('.reward-history'));
 await wait(10);assert.equal(d.querySelector('form'),null,'Player cannot show GM grant inputs');assert.equal(calls.slice(before).some(c=>c.url.endsWith('/effect-targets')),false,'Player never requests private roster');
-w.stop();w.close();assert.deepEqual(errors,[]);
+w.stop();w.close();assert.ok(posts().some(p=>JSON.parse(p.options.body).rewards.some(r=>r.edge===1)));assert.deepEqual(errors,[]);
 console.log('CAMPAIGN REWARDS DOM OK — real GM form, no scheduled session, selection and renown cap, confirmation, idempotent lost-response retry and player read-only history');

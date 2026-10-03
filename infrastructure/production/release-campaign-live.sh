@@ -78,8 +78,15 @@ PY
  exit "$status"
 }
 trap rollback EXIT
-# The transaction adds tables and a defaulted column; old containers remain compatible.
-docker compose exec -T -e PGOPTIONS='-c lock_timeout=10000 -c statement_timeout=60000' db sh -c 'psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -v ON_ERROR_STOP=1' < "$stage/infrastructure/migrations/20261003_campaign_live.sql"
+# Apply the grouped additive schema atomically, with Edge constraints last.
+{
+ printf 'BEGIN;\n'
+ for migration in 20261003_campaign_live.sql 20261003_campaign_rounds.sql 20261003_live_sessions_edge.sql; do
+  cat "$stage/infrastructure/migrations/$migration"
+  printf '\n'
+ done
+ printf 'COMMIT;\n'
+} | docker compose exec -T -e PGOPTIONS='-c lock_timeout=10000 -c statement_timeout=60000' db sh -c 'psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -v ON_ERROR_STOP=1' 
 STAGE="$stage" ROOT="$root" python3 - <<'PY'
 import json,os,pathlib,shutil
 s=pathlib.Path(os.environ['STAGE']);r=pathlib.Path(os.environ['ROOT'])
@@ -123,7 +130,13 @@ import assert from 'node:assert/strict';import {pool} from './dist/db.js';
 try{
  const r=await pool.query("SELECT to_regclass('campaign_live_combatants') AS states,to_regclass('campaign_live_events') AS events");assert.ok(r.rows[0].states&&r.rows[0].events);
  const c=await pool.query("SELECT column_default FROM information_schema.columns WHERE table_name='campaign_reward_grants' AND column_name='equipment'");assert.equal(c.rowCount,1);
- console.log('PLAYTEST LIVE MIGRATION VERIFIED');
+ for(const table of ['campaign_combat_states','character_edge_accounts','character_edge_uses','campaign_live_session_runs','campaign_live_context','campaign_live_versions']) {
+  const result=await pool.query('SELECT to_regclass($1) AS relation',[table]);assert.ok(result.rows[0].relation,table);
+ }
+ for(const table of ['campaign_reward_grants','campaign_session_rewards']) {
+  const result=await pool.query("SELECT 1 FROM information_schema.columns WHERE table_name=$1 AND column_name='edge'",[table]);assert.equal(result.rowCount,1,table);
+ }
+ console.log('PLAYTEST LIVE MIGRATION VERIFIED — rounds, session archives and Edge');
 }finally{await pool.end();}
 NODE
 printf '%s\n' "$sha" > "$root/.production-campaign-live-sha"
