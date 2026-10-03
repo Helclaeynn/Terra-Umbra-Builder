@@ -1,0 +1,11 @@
+import assert from 'node:assert/strict';
+process.env.DATABASE_URL ||= 'postgres://fixture:fixture@127.0.0.1:1/fixture';
+const {pool}=await import('../dist/db.js');pool.query=async()=>({rows:[],rowCount:0});
+const {liveCatalog}=await import('../dist/campaign-live-catalog.js');
+const rows=await liveCatalog(),soldato=rows.find(r=>r.articleId==='bestiaire-v15-soldato');
+assert.equal(rows.filter(r=>r.kind==='creature').length,269,'All 269 bestiary entries with a combat profile; narrative relics have no invented stats');
+assert.ok(rows.filter(r=>r.kind==='npc').length>1000);
+assert.equal(soldato.data.stats.initiative,8);assert.equal(soldato.data.stats.physicalDefense,8);assert.equal(soldato.data.stats.pv,16);assert.equal(soldato.data.attacks[0].score,9);assert.equal(soldato.data.attacks[0].damage,11);assert.equal(soldato.data.reductions.melee,2);
+assert.equal(new Set(rows.map(r=>r.id)).size,rows.length);
+for(const r of rows)assert.ok(!r.data.sourcePortrait||r.data.sourcePortrait.startsWith('/api/compendium/media/'));
+console.log('LIVE CATALOG OK — canonical numeric profiles, 269 combat creatures, distinct PNJ profiles, saved attacks and no invented relic statistics.');

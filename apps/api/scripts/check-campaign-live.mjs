@@ -11,8 +11,8 @@ export async function checkCampaignLive({app,pool,call,player,other,manager,stra
  const gmLog=(await snapshot(manager)).events.find(e=>e.kind==='roll');assert.equal(gmLog.characterName,'CI Play');assert.equal(gmLog.playerName,'CI Play');assert.equal(gmLog.payload.components.attribute,4);
  const portrait='data:image/png;base64,'+Buffer.from([137,80,78,71,13,10,26,10,0,0,0,0]).toString('base64');
  const npcId=randomUUID(),creatureId=randomUUID();
- await pool.query('INSERT INTO campaign_npcs(id,campaign_id,data) VALUES($1,$2,$3::jsonb)',[npcId,campaign,JSON.stringify({name:'Secret identity',secret:'SECRET NEVER PUBLIC',attributes:{vigueur:4,agilite:3},skills:{constitution:4,athletisme:3},portrait})]);
- await pool.query('INSERT INTO campaign_bestiary(id,campaign_id,data) VALUES($1,$2,$3::jsonb)',[creatureId,campaign,JSON.stringify({name:'Loup',stats:{pv:20,initiative:7,actions:2},image:portrait,weaknesses:['SECRET WEAKNESS']})]);
+ await pool.query('INSERT INTO campaign_npcs(id,campaign_id,data) VALUES($1,$2,$3::jsonb)',[npcId,campaign,JSON.stringify({name:'Secret identity',secret:'SECRET NEVER PUBLIC',attributes:{vigueur:4,agilite:3},skills:{constitution:4,athletisme:3,pugilat:6},portrait})]);
+ await pool.query('INSERT INTO campaign_bestiary(id,campaign_id,data) VALUES($1,$2,$3::jsonb)',[creatureId,campaign,JSON.stringify({name:'Loup',stats:{pv:20,initiative:7,actions:2,attack:8},attacks:[{name:"Morsure",score:9,damage:3}],image:portrait,weaknesses:['SECRET WEAKNESS']})]);
  const add={requestId:randomUUID(),action:'add',kind:'npc',sourceId:npcId,name:'Garde du portail',visible:false};
  await action(other,add,404);await action(stranger,add,404);await action(manager,{...add,sourceId:randomUUID()},404);
  await action(manager,add);assert.equal((await action(manager,add)).alreadyApplied,true);
@@ -31,8 +31,28 @@ export async function checkCampaignLive({app,pool,call,player,other,manager,stra
  await action(manager,{action:'round',combatantId:actor.id,version:actor.version});actor=await latest(actor.id);assert.equal(actor.initiative,initiative);assert.equal(actor.round,2);assert.equal(actor.pa,actor.paPerRound);
  const creature={requestId:randomUUID(),action:'add',kind:'creature',sourceId:creatureId,name:'Loup gris',visible:true};await action(manager,creature);
  let wolf=await latest(creature.requestId);await action(manager,{action:'initiative',combatantId:wolf.id,version:wolf.version});wolf=await latest(wolf.id);assert.equal(wolf.paPerRound,2);
+
+ // Public/private dice, authoritative scores, PA spending, retry and injury restrictions.
+ const free={action:'gm-roll',label:'Écouter derrière la porte',bonus:5,stress:0,public:false};
+ await action(other,free,404);await action(manager,{...free,bonus:1.5},400);
+ const diceId=randomUUID();await action(manager,{...free,requestId:diceId,mode:'dice',faces:6,count:3,public:true});const diceLog=(await snapshot(other)).events.find(e=>e.id===diceId).payload;assert.equal(diceLog.dice.length,3);assert.ok(diceLog.dice.every(d=>d>=1&&d<=6));assert.equal(diceLog.exploded,false);
+ await action(manager,{...free,mode:'dice',faces:1,count:1},400);
+ const choiceId=randomUUID();await action(manager,{action:'random-player',public:true,requestId:choiceId});assert.equal((await snapshot(other)).events.find(e=>e.id===choiceId).payload.candidateCount,2);
+ const privateId=randomUUID();await action(manager,{...free,requestId:privateId});assert.ok(!(await snapshot(other)).events.some(e=>e.id===privateId));
+ const publicId=randomUUID();await action(manager,{...free,public:true,requestId:publicId});assert.equal((await snapshot(other)).events.find(e=>e.id===publicId).payload.modifier,5);
+ assert.equal(wolf.rolls.find(r=>r.id==='attack:0').modifier,9);
+ const bite={requestId:randomUUID(),action:'roll',combatantId:wolf.id,version:wolf.version,rollId:'attack:0',label:'Morsure',bonus:2,stress:0,public:true,paCost:1};
+ await action(manager,{...bite,rollId:'unknown'},400);await action(manager,{...bite,paCost:3},400);
+ await action(manager,bite);await action(manager,bite);wolf=await latest(wolf.id);assert.equal(wolf.pa,1);
+ const biteLog=(await snapshot(other)).events.find(e=>e.id===bite.requestId);assert.equal(biteLog.payload.modifier,11);assert.equal(biteLog.payload.damage,3);assert.equal(biteLog.payload.total,11+biteLog.payload.dice.reduce((a,b)=>a+b,0));
+ await action(manager,{...bite,requestId:randomUUID()},409);
+ actor=await latest(actor.id);const punch={action:'roll',combatantId:actor.id,version:actor.version,rollId:'reality:pugilat',label:'Pugilat',bonus:1,stress:0,public:true,paCost:0};
+ const punchId=randomUUID();await action(manager,{...punch,requestId:punchId});const punchLog=(await snapshot(manager)).events.find(e=>e.id===punchId);assert.equal(punchLog.payload.modifier,11);assert.equal(punchLog.payload.components.rank,6);assert.equal(punchLog.payload.stress,1);assert.ok(!('components' in (await snapshot(other)).events.find(e=>e.id===punchId).payload));
+ actor=await latest(actor.id);await action(manager,{action:'settings',combatantId:actor.id,version:actor.version,name:actor.name,visible:false,pa:actor.pa});actor=await latest(actor.id);
+ const hiddenId=randomUUID();await action(manager,{...punch,version:actor.version,requestId:hiddenId});assert.ok(!(await snapshot(other)).events.some(e=>e.id===hiddenId));
+ actor=await latest(actor.id);await action(manager,{action:'damage',combatantId:actor.id,version:actor.version,amount:6});actor=await latest(actor.id);await action(manager,{...punch,version:actor.version},400);
  const gm=await snapshot(manager),ordered=gm.order.map(id=>[...gm.characters,...gm.combatants].find(c=>c.id===id)?.initiative??-Infinity);assert.deepEqual(ordered,[...ordered].sort((a,b)=>b-a));
- await action(manager,{action:'damage',combatantId:wolf.id,version:wolf.version,amount:20});assert.equal((await snapshot(other)).combatants.find(c=>c.id===wolf.id).health,'Mort');
+ await action(manager,{action:'damage',combatantId:wolf.id,version:wolf.version,amount:20});assert.equal((await snapshot(other)).combatants.find(c=>c.id===wolf.id).health,'Mort');wolf=await latest(wolf.id);await action(manager,{...bite,requestId:randomUUID(),version:wolf.version},400);
  const message={requestId:randomUUID(),action:'message',text:'Voici le lieu de rendez-vous.',link:'/compendium?article=regles-sante-blessures-soins',image:portrait};
  await action(player,message,404);await action(manager,{...message,link:'javascript:alert(1)'},400);
  await action(manager,message);await action(manager,message);
@@ -43,5 +63,10 @@ export async function checkCampaignLive({app,pool,call,player,other,manager,stra
  await pool.query("UPDATE campaign_members SET status='invited' WHERE campaign_id=$1 AND user_id=$2",[campaign,other.id]);await call(other,'GET',endpoint,undefined,404);assert.equal((await app.inject({url:portraitPath,headers:{cookie:other.cookie}})).statusCode,404);
  await pool.query("UPDATE campaign_members SET status='accepted' WHERE campaign_id=$1 AND user_id=$2",[campaign,other.id]);
  actor=await latest(actor.id);await action(manager,{action:'remove',combatantId:actor.id,version:actor.version});assert.ok(!(await snapshot(manager)).combatants.some(c=>c.id===actor.id));assert.equal((await app.inject({url:portraitPath,headers:{cookie:other.cookie}})).statusCode,404);
+ await call(other,'GET',endpoint+'/catalog',undefined,404);
+ const catalog=await call(manager,'GET',endpoint+'/catalog');const canonical=catalog.entries.find(e=>e.articleId==='bestiaire-v15-soldato');assert.ok(canonical);assert.ok(catalog.entries.every(e=>!e.data));
+ const canonicalId=randomUUID();await action(manager,{requestId:canonicalId,action:'add',catalog:'compendium',kind:'creature',sourceId:canonical.id,name:'Homme de main',visible:true});
+ const imported=await latest(canonicalId);assert.equal(imported.initiativeBonus,8);assert.equal(imported.rolls.find(r=>r.id==='attack:0').damage,11);
+ const publicImported=(await snapshot(other)).combatants.find(c=>c.id===canonicalId);assert.ok(!('sourceArticle' in publicImported));assert.ok(!('rolls' in publicImported));
  console.log('CAMPAIGN LIVE OK — public dice, detailed MJ log, hidden combatants, strict projections, initiative order, HP, creature PA, idempotence, image permissions, withdrawal and revocation.');
 }

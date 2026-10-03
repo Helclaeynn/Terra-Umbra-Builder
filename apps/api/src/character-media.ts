@@ -67,8 +67,10 @@ export async function registerCharacterMediaRoutes(app: FastifyInstance) {
         JOIN campaigns camp ON camp.id=c.campaign_id AND camp.archived_at IS NULL
         JOIN campaign_members viewer ON viewer.campaign_id=camp.id AND viewer.user_id=$2 AND viewer.status='accepted'
         WHERE c.archived_at IS NULL AND c.owner_id=media.owner_id AND COALESCE(s.state->>'share','true')='true'
-          AND COALESCE(c.data->'appearances'->'reality','[]'::jsonb) @> jsonb_build_array(jsonb_build_object('mediaId',media.id::text))
-          AND media.id::text=COALESCE(NULLIF(c.data->'appearances'->>'primaryReality',''),c.data->'appearances'->'reality'->0->>'mediaId')
+          AND ((COALESCE(c.data->'appearances'->'reality','[]'::jsonb) @> jsonb_build_array(jsonb_build_object('mediaId',media.id::text))
+          AND media.id::text=COALESCE(NULLIF(c.data->'appearances'->>'primaryReality',''),c.data->'appearances'->'reality'->0->>'mediaId'))
+          OR (s.state->>'revelation'='r' AND COALESCE(c.data->'appearances'->'truth','[]'::jsonb) @> jsonb_build_array(jsonb_build_object('mediaId',media.id::text))
+          AND media.id::text=COALESCE(NULLIF(c.data->'appearances'->>'primaryTruth',''),c.data->'appearances'->'truth'->0->>'mediaId')))
       ))`,[req.params.id,user.id,canReadShared]);
     const row = result.rows[0]; if (!row) return reply.code(404).send({error:'image_not_found'});
     return reply.type(row.mime_type).send(row.content);
