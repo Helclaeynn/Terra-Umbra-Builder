@@ -1,3 +1,4 @@
+import {edgeBalance} from './character-edge.js';
 import type {FastifyInstance} from 'fastify';
 import {registerCampaignRewardRoutes} from './campaign-rewards.js';
 import {pool} from './db.js';
@@ -14,7 +15,7 @@ export async function registerCampaignEffectRoutes(app:FastifyInstance){
   const own=await pool.query('SELECT id FROM campaigns WHERE id=$1 AND owner_id=$2 AND archived_at IS NULL',[req.params.id,user.id]);
   if(!own.rows.length)return reply.code(404).send({error:'campaign_not_found'});
   const r=await pool.query(`SELECT ch.id,ch.name,ch.version,ch.data FROM campaign_members m JOIN characters ch ON ch.id=m.character_id AND ch.owner_id=m.user_id WHERE m.campaign_id=$1 AND m.status='accepted' AND ch.campaign_id=m.campaign_id AND m.admission_status='approved' AND m.approved_basis=campaign_character_basis(ch.data) AND ch.archived_at IS NULL ORDER BY ch.name,ch.id`,[req.params.id]);
-  return {characters:r.rows.map(c=>{try{return {id:c.id,name:c.name,version:c.version,...campaignCharacterState(c.data)};}catch{return {id:c.id,name:c.name,unavailable:true};}}),sources:corruptionSources};
+  return {characters:await Promise.all(r.rows.map(async c=>{try{return {id:c.id,name:c.name,version:c.version,edge:await edgeBalance(pool,c.id,c.data),...campaignCharacterState(c.data)};}catch{return {id:c.id,name:c.name,unavailable:true};}})),sources:corruptionSources};
  });
  app.post<{Params:{id:string;sessionId:string};Body:{requestId:string;characterId:string;version:number;money:number;corruptionDelta:number;corruptionSource:string;reason:string}}>('/api/campaigns/:id/sessions/:sessionId/effects',async(req,reply)=>{
   const user=await requireUser(req,reply);if(!user)return;

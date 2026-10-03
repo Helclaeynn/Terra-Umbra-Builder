@@ -13,15 +13,17 @@ if(process.env.TUC_PGLITE){
  pool.connect=async()=>({query:pool.query,release(){}});
  for(const name of (await readdir('../../infrastructure/migrations')).filter(n=>n.endsWith('.sql')).sort())await embedded.exec((await readFile('../../infrastructure/migrations/'+name,'utf8')).replace(/CREATE EXTENSION IF NOT EXISTS pgcrypto;/g,''));
  await embedded.exec(await readFile('../../infrastructure/migrations/20261003_character_play.sql','utf8'));
+ await embedded.exec(await readFile('../../infrastructure/migrations/20261003_live_sessions_edge.sql','utf8'));
 }
 const {hashSessionToken}=await import('../dist/auth.js');
+const {registerCampaignSessionRoutes}=await import('../dist/campaign-sessions.js');
 const {registerCharacterPlayRoutes}=await import('../dist/character-play.js');
 const {registerCampaignRewardRoutes}=await import('../dist/campaign-rewards.js');
 const {registerCharacterMediaRoutes}=await import('../dist/character-media.js');
 const {blankCharacterData}=await import('../dist/character-data.js');
 const {getRealityRules}=await import('../dist/rules/reality.js');
 const {builderPurchaseAllowed}=await import('../dist/rules/builder-equipment-policy.js');
-const app=Fastify();await registerCharacterPlayRoutes(app);await registerCampaignRewardRoutes(app);await registerCharacterMediaRoutes(app);
+const app=Fastify();await registerCharacterPlayRoutes(app);await registerCampaignSessionRoutes(app);await registerCampaignRewardRoutes(app);await registerCharacterMediaRoutes(app);
 const users=[];
 async function account(role){const id=randomUUID(),token=randomBytes(32).toString('base64url');await pool.query('INSERT INTO users(id,email,display_name,role) VALUES($1,$2,$3,$4)',[id,`${id}@example.invalid`,'CI Play',role]);users.push(id);await pool.query("INSERT INTO sessions(token_hash,user_id,expires_at) VALUES($1,$2,now()+interval '1 hour')",[hashSessionToken(token),id]);return {id,cookie:`__Host-tuc_session=${token}`};}
 async function call(user,method,url,payload,status=200){const r=await app.inject({method,url,headers:user?{cookie:user.cookie}:{},...(payload===undefined?{}:{payload})});assert.equal(r.statusCode,status,r.body);return r.json();}
@@ -54,6 +56,9 @@ try{
  const mj=await call(manager,'GET',`/api/campaigns/${campaign}/play`);assert.equal(mj.characters[0].hp,6);assert.equal(mj.events.length,2);
  const rested=await call(player,'POST',path,{requestId:randomUUID(),version:2,action:'rest',days:3,prolonged:false});assert.equal(rested.profile.hp,12);assert.equal(rested.event.payload.recovered,6);
  const roll=await call(player,'POST',path,{requestId:randomUUID(),version:3,action:'roll',skill:'athletisme'});assert.equal(roll.event.payload.modifier,10);assert.equal(roll.event.payload.total,10+roll.event.payload.sum);
+ // Standalone characters retain individual lifecycle controls; campaigns are MJ-only.
+ await call(player,'POST',path,{requestId:randomUUID(),version:4,action:'initiative'},403);
+ await pool.query('UPDATE characters SET campaign_id=NULL WHERE id=$1',[character]);
  // Initiative and the PA budget persist throughout a combat, including reloads and injury.
  await call(player,'POST',path,{requestId:randomUUID(),version:4,action:'round'},400);
  let combat=await call(player,'POST',path,{requestId:randomUUID(),version:4,action:'initiative'});
@@ -65,12 +70,15 @@ try{
  combat=await call(player,'POST',path,next);assert.equal(combat.state.round,2);assert.equal(combat.state.pa,paPerRound);assert.equal(combat.state.initiative,initiative);assert.equal(combat.event.payload.dice,undefined);
  assert.equal((await call(player,'POST',path,next)).alreadyApplied,true);
  const reloaded=await call(manager,'GET',path);assert.equal(reloaded.state.initiative,initiative);assert.equal(reloaded.state.paPerRound,paPerRound);
+ await pool.query('UPDATE characters SET campaign_id=$2 WHERE id=$1',[character,campaign]);
  const group=await call(manager,'GET',`/api/campaigns/${campaign}/play`);assert.equal(group.characters[0].initiative,initiative);
+ await pool.query('UPDATE characters SET campaign_id=NULL WHERE id=$1',[character]);
  combat=await call(player,'POST',path,{requestId:randomUUID(),version:combat.version,action:'damage',amount:12});
  combat=await call(player,'POST',path,{requestId:randomUUID(),version:combat.version,action:'round'});assert.equal(combat.state.pa,1);assert.equal(combat.state.paPerRound,paPerRound);
  combat=await call(player,'POST',path,{requestId:randomUUID(),version:combat.version,action:'heal',amount:12});
  combat=await call(player,'POST',path,{requestId:randomUUID(),version:combat.version,action:'round'});assert.equal(combat.state.pa,paPerRound);
  combat=await call(player,'POST',path,{requestId:randomUUID(),version:combat.version,action:'initiative'});assert.equal(combat.state.round,1);assert.equal(combat.state.initiative,combat.event.payload.total);
+ await pool.query('UPDATE characters SET campaign_id=$2 WHERE id=$1',[character,campaign]);
  const item=getRealityRules().equipment.find(i=>builderPurchaseAllowed(i)&&i.price>0&&!['monthly','annual','per_use'].includes(i.recurring));assert.ok(item);
  const gift={requestId:randomUUID(),reason:'Trouvaille',rewards:[{characterId:character,version:1,xp:0,ptv:0,money:0,renownDelta:0,corruptionDelta:0,corruptionSource:'',equipment:[{itemId:item.id,quantity:2}]}]};
  await call(other,'POST',`/api/campaigns/${campaign}/rewards`,gift,404);await call(manager,'POST',`/api/campaigns/${campaign}/rewards`,gift);assert.equal((await call(manager,'POST',`/api/campaigns/${campaign}/rewards`,gift)).alreadyApplied,true);
@@ -85,6 +93,8 @@ try{
  await call(player,'POST',path,{requestId:randomUUID(),version:portraitState.version,action:'save',state:{...portraitState.state,revelation:'sr'}});
  assert.equal((await app.inject({url:`/api/character-media/${privateMedia}`,headers:{cookie:other.cookie}})).statusCode,404);
  await (await import('./check-truth-play.mjs')).checkTruthPlay({pool,app,call,player,other,manager,campaign,character});
+ await (await import('./check-campaign-rounds.mjs')).checkCampaignRounds({pool,call,player,other,manager,campaign,character});
+ await (await import('./check-live-sessions-edge.mjs')).checkLiveSessionsEdge({pool,call,player,other,manager,campaign,character});
  await pool.query('DELETE FROM campaign_members WHERE campaign_id=$1 AND user_id=$2',[campaign,other.id]);await call(other,'GET',`/api/campaigns/${campaign}/play`,undefined,404);
  console.log('PLAY OK — dice, truth gating, injuries, recovery, server rolls, conflicts, replay safety, private projections, revoked access, migration replay and equipment-only rewards.');
 }finally{await app.close();await pool.query('DELETE FROM users WHERE id=ANY($1::uuid[])',[users]);if(embedded)await embedded.close();else await pool.end();}

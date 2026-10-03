@@ -1,3 +1,5 @@
+import {grantEdge} from './character-edge.js';
+import {lockCombat} from './campaign-rounds.js';
 import {campaignNpcReferencesAvailable} from './campaign-npcs.js';
 import {campaignBestiaryReferencesAvailable} from './campaign-bestiary.js';
 import {registerCampaignWorkspaceRoutes} from './campaign-session-workspace.js';
@@ -36,7 +38,7 @@ export async function registerCampaignSessionRoutes(app:FastifyInstance){
       COALESCE((SELECT jsonb_agg(jsonb_build_object('userId',m.user_id,'displayName',p.display_name,'characterId',m.character_id,'response',a.response) ORDER BY lower(p.display_name),m.user_id)
         FROM campaign_members m JOIN users p ON p.id=m.user_id LEFT JOIN campaign_session_attendance a ON a.session_id=s.id AND a.user_id=m.user_id WHERE m.campaign_id=s.campaign_id AND m.status='accepted' AND p.is_active),'[]') AS attendance,
       ${manage?'s.preparation,s.report,s.scenes':"CASE WHEN s.published THEN s.report ELSE '' END AS report"},
-      COALESCE((SELECT jsonb_agg(jsonb_build_object('characterId',r.character_id,'characterName',r.character_name,'xp',r.xp,'ptv',r.ptv,'awardedAt',r.awarded_at) ORDER BY r.awarded_at,r.character_id)
+      COALESCE((SELECT jsonb_agg(jsonb_build_object('characterId',r.character_id,'characterName',r.character_name,'xp',r.xp,'ptv',r.ptv,'edge',r.edge,'awardedAt',r.awarded_at) ORDER BY r.awarded_at,r.character_id)
         FROM campaign_session_rewards r JOIN characters ch ON ch.id=r.character_id WHERE r.session_id=s.id AND ($4 OR ch.owner_id=$3)),'[]') AS rewards,
       COALESCE((SELECT jsonb_agg(jsonb_build_object('id',e.id,'characterName',e.character_name,'money',e.money,'corruptionDelta',e.corruption_delta,'corruptionSource',e.corruption_source,'reason',e.reason,'before',e.before_state,'after',e.after_state,'appliedAt',e.applied_at) ORDER BY e.applied_at,e.id)
         FROM campaign_session_effects e JOIN characters ch ON ch.id=e.character_id WHERE e.session_id=s.id AND ($4 OR ch.owner_id=$3)),'[]') AS effects
@@ -71,7 +73,7 @@ export async function registerCampaignSessionRoutes(app:FastifyInstance){
     if(!gm(user.role)||!uuid.test(req.params.id)||!uuid.test(req.params.sessionId))return reply.code(404).send(missing);
     const b=req.body;
     const rewards:unknown=b?.rewards??(Array.isArray(b?.characterIds)?b.characterIds.map(characterId=>({characterId,xp:b.xp,ptv:b.ptv})):null);
-    if(!Array.isArray(rewards)||!rewards.length||rewards.length>100||rewards.some(r=>!r||typeof r.characterId!=='string'||!uuid.test(r.characterId)||![r.xp,r.ptv].every(n=>Number.isSafeInteger(n)&&n>=0&&n<=100000)||r.xp+r.ptv===0)||new Set(rewards.map(r=>r.characterId)).size!==rewards.length)return reply.code(400).send({error:'invalid_rewards'});
+    if(!Array.isArray(rewards)||!rewards.length||rewards.length>100||rewards.some(r=>!r||typeof r.characterId!=='string'||!uuid.test(r.characterId)||![r.xp,r.ptv].every(n=>Number.isSafeInteger(n)&&n>=0&&n<=100000)||!Number.isSafeInteger(r.edge??0)||(r.edge??0)<0||(r.edge??0)>8||r.xp+r.ptv+(r.edge??0)===0)||new Set(rewards.map(r=>r.characterId)).size!==rewards.length)return reply.code(400).send({error:'invalid_rewards'});
     const ids=rewards.map(r=>r.characterId),byId=new Map(rewards.map(r=>[r.characterId,r]));
     const client=await pool.connect();
     try{
@@ -79,6 +81,7 @@ export async function registerCampaignSessionRoutes(app:FastifyInstance){
       const denied=async(code:number,error:string)=>{await client.query('ROLLBACK');return reply.code(code).send({error});};
       const own=await client.query('SELECT id FROM campaigns WHERE id=$1 AND owner_id=$2 AND archived_at IS NULL FOR SHARE',[req.params.id,user.id]);
       if(!own.rows.length)return await denied(404,'campaign_not_found');
+      await lockCombat(client,req.params.id);
       const session=await client.query('SELECT id,title,status FROM campaign_sessions WHERE id=$1 AND campaign_id=$2 FOR UPDATE',[req.params.sessionId,req.params.id]);
       if(!session.rows.length)return await denied(404,'session_not_found');
       if(session.rows[0].status!=='played')return await denied(400,'session_not_played');
@@ -95,12 +98,13 @@ export async function registerCampaignSessionRoutes(app:FastifyInstance){
         const reward=byId.get(c.id)!;
         const data=c.data;
         if(!data||typeof data!=='object'||Array.isArray(data))return await denied(409,'invalid_character_progression');
+        if(reward.edge){const error=await grantEdge(client,c.id,data,reward.edge);if(error)return await denied(400,error);}
         const progression=data.progression??{};
         if(typeof progression!=='object'||Array.isArray(progression))return await denied(409,'invalid_character_progression');
         const xp=Number(progression.xpEarned??0),ptv=Number(progression.ptvEarned??0);
         if(![xp,ptv,xp+Number(reward.xp),ptv+Number(reward.ptv)].every(n=>Number.isSafeInteger(n)&&n>=0))return await denied(409,'invalid_character_progression');
         data.progression={...progression,xpEarned:xp+Number(reward.xp),ptvEarned:ptv+Number(reward.ptv)};
-        await client.query(`INSERT INTO campaign_session_rewards(session_id,character_id,character_name,xp,ptv,awarded_by) VALUES($1,$2,$3,$4,$5,$6)`,[req.params.sessionId,c.id,c.name,reward.xp,reward.ptv,user.id]);
+        await client.query(`INSERT INTO campaign_session_rewards(session_id,character_id,character_name,xp,ptv,awarded_by,edge) VALUES($1,$2,$3,$4,$5,$6,$7)`,[req.params.sessionId,c.id,c.name,reward.xp,reward.ptv,user.id,reward.edge??0]);
         await client.query('UPDATE characters SET data=$2::jsonb,version=version+1,updated_at=now() WHERE id=$1',[c.id,JSON.stringify(data)]);
         await client.query(`INSERT INTO character_revisions(character_id,revision,name,data,reason,created_by) VALUES($1,$2,$3,$4::jsonb,$5,$6)`,[c.id,c.version+1,c.name,JSON.stringify(data),'campaign-reward:'+session.rows[0].title,user.id]);
       }

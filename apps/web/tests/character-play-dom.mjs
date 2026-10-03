@@ -17,10 +17,10 @@ const bundle=await build({stdin:{resolveDir:root,loader:'ts',contents:`
 `},bundle:true,write:false,format:'iife',platform:'browser',define:{'process.env.NODE_ENV':'"test"',__VUE_OPTIONS_API__:'true',__VUE_PROD_DEVTOOLS__:'false'},plugins:[{name:'vue',setup(b){b.onLoad({filter:/\.vue$/},async({path:filename})=>{const {descriptor}=parse(await readFile(filename,'utf8'));return {contents:compileScript(descriptor,{id:'play-test',inlineTemplate:true}).content,loader:'ts',resolveDir:path.dirname(filename)};});}}]});
 const errors=[],vc=new VirtualConsole();vc.on('jsdomError',e=>errors.push(e.message));
 const dom=new JSDOM('<div id="app"></div>',{url:'https://test.invalid',runScripts:'outside-only',virtualConsole:vc});const w=dom.window,d=w.document;w.Headers=Headers;
-let version=0,events=[],lastRequest,drop=false;const requests=[];
+let edge=5,version=0,events=[],lastRequest,drop=false;const requests=[];
 w.fetch=async(url,options={})=>{
  const b=options.body?JSON.parse(options.body):null;let body;
- if(!b)body={state:w.live,version,events};
+ if(!b)body={edge,state:w.live,version,events};
  else{
   requests.push(b);
   if(lastRequest?.requestId===b.requestId){assert.deepEqual(b,lastRequest);body={ok:true,alreadyApplied:true};}
@@ -43,4 +43,8 @@ drop=true;d.querySelector('[aria-label="Lancer le d10 pour Athlétisme"]').click
 w.data.truth={nature:'garou',consciousness:'initie',choices:{},truthTalents:[]};await wait();
 assert.ok(d.querySelector('[aria-label="Forme souhaitée"]'));const transform=[...d.querySelectorAll('button')].find(b=>b.textContent==='Changer de forme');transform.click();await until(()=>requests.at(-1).action==='form');assert.equal(requests.at(-1).form,'hybrid');
 w.data.truth={nature:'vampire',consciousness:'initie',choices:{},truthTalents:['faveur_de_la_nuit']};await wait();const power=d.querySelector('[aria-label="Capacité de Vérité"]');power.value='faveur_de_la_nuit';power.dispatchEvent(new w.Event('change',{bubbles:true}));await wait();assert.match(d.body.textContent,/Furtivité dans les ombres/);assert.ok([...d.querySelectorAll('button')].find(b=>b.textContent==='Activer la capacité').disabled);
+const jetsTab=[...d.querySelectorAll('.play-tabs button')].find(b=>b.textContent==='Jets & compétences');jetsTab.click();await wait();
+const search=d.querySelector('.skill-tools input[type=search]');search.value='athletisme';search.dispatchEvent(new w.Event('input',{bubbles:true}));await wait();assert.equal(d.querySelectorAll('.skill-roll').length,1);
+const edgeToggle=d.querySelector('.skill-tools input[type=checkbox]');assert.equal(edgeToggle.disabled,false);edgeToggle.click();await wait();d.querySelector('[aria-label="Lancer le d10 pour Athlétisme"]').click();await until(()=>requests.at(-1).edge===true);await until(()=>!d.querySelector('[aria-label="Lancer le d10 pour Athlétisme"]').disabled);
+const statesTab=[...d.querySelectorAll('.play-tabs button')].find(b=>b.textContent==='États & PV');statesTab.click();await wait();assert.equal(statesTab.getAttribute('aria-pressed'),'true');assert.equal(d.querySelector('.skill-tools').style.display,'none');
 assert.deepEqual(errors,[]);w.stop();w.close();console.log('PLAY DOM OK — precalculated totals, prepared augmentation toggle, automatic save before roll, explosion rendering, retry identity and no Vue errors.');

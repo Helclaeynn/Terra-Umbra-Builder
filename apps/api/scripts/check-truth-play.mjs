@@ -15,7 +15,8 @@ export async function checkTruthPlay({pool,app,call,player,other,manager,campaig
  const setData=()=>pool.query('UPDATE characters SET data=$2::jsonb WHERE id=$1',[character,JSON.stringify(data)]);await setData();
  await pool.query('UPDATE character_play_states SET state=$2::jsonb WHERE character_id=$1',[character,JSON.stringify({...blankPlayState(),hp:10,pa:3,paPerRound:3,initiative:19})]);
  const path=`/api/characters/${character}/play`;let live=await call(player,'GET',path);
- const act=async(action,extra={},status=200)=>{const r=await call(player,'POST',path,{requestId:randomUUID(),version:live.version,action,...extra},status);if(status===200)live=r;return r;};
+ // Individual round endpoint is only available outside campaigns.
+ const act=async(action,extra={},status=200)=>{if(action==='round')await pool.query('UPDATE characters SET campaign_id=NULL WHERE id=$1',[character]);const r=await call(player,'POST',path,{requestId:randomUUID(),version:live.version,action,...extra},status);if(action==='round')await pool.query('UPDATE characters SET campaign_id=$2 WHERE id=$1',[character,campaign]);if(status===200)live=r;return r;};
  const wounds=live.profile.derived.pvMax-live.profile.hp;
  await act('form',{form:'hybrid'});assert.equal(live.state.pa,0);assert.equal(live.state.form,'human');
  await act('round');assert.equal(live.state.form,'hybrid');assert.equal(live.state.pa,3);assert.equal(live.profile.derived.pvMax-live.profile.hp,wounds);assert.equal(live.profile.body.damage,5);assert.equal(live.profile.body.armor,2);
