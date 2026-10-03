@@ -17,7 +17,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 2
+          fetch-depth: 8
           persist-credentials: false
       - uses: actions/setup-node@v4
         with:
@@ -28,7 +28,7 @@ jobs:
         run: |
           set -euo pipefail
           source=3458d6c00f071bea289645be00028f13db90bc2a
-          test "$(git rev-parse HEAD^)" = "$source"
+          git merge-base --is-ancestor "$source" HEAD
           gh api "repos/$GITHUB_REPOSITORY/actions/runs?head_sha=$source" --jq '.workflow_runs[] | select(.path == ".github/workflows/v2-dev.yml" and .conclusion == "success") | .id' | grep -q .
           test -z "$(git diff "$source" HEAD -- apps compendium character-builder infrastructure/migrations)"
       - name: Compile approved application code
