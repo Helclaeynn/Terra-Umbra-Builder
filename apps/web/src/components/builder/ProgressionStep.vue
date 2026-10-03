@@ -206,7 +206,7 @@ const combinedTruthState=computed<TruthState>(()=>({
   corruptionTalents:[...new Set([...props.truthState.corruptionTalents,...state.value.corruptionTalents])],
   truthTalents:[...new Set([...props.truthState.truthTalents,...state.value.truthTalents])]
 }));
-const truthAvailable=computed(()=>truthAvailableTalents(props.truthRules,combinedTruthState.value));
+const truthAvailable=computed(()=>truthAvailableTalents(props.truthRules,combinedTruthState.value).filter(t=>combinedTruthState.value.nature==='humain'||!props.truthRules.catalogs.humain?.some(h=>h.id===t.id)));
 const truthById=computed(()=>{
   const map=new Map<string,TruthTalent>();
   for(const catalog of Object.values(props.truthRules.catalogs)){

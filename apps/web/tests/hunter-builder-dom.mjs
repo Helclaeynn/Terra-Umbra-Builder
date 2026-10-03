@@ -46,7 +46,7 @@ const truth={nature:'daemon',consciousness:'initie',choices:{divinity:'mephisto'
 const reality={equipment:[],augmentations:[],fixedChargeItems:[]};
 const props={rewardsLocked:true,progression:{ptvEarned:10,xpEarned:7,cashBase:900,renownAdjustment:1},reality,truthState:truth,rules:plain(actualRules),truthRules:canonical,realityRules:{equipment:[],augmentations:[],recurring:[],economy:{},source:{},counts:{}},style:null,edge:{},sphereId:'independant',sphereName:'Indépendant',creationTalentIds:[],talentChoiceSpecs:plain(specs),creationTalentChoices:{},skillTalentMap:plain(skillMap),disadvantages:[],skillBases:Object.fromEntries(actualRules.skills.map(s=>[s.id,1])),skillFinalBases:Object.fromEntries(actualRules.skills.map(s=>[s.id,1])),attributeBases:Object.fromEntries(actualRules.attributes.map(a=>[a.id,4])),creationPtvReserve:0,creationAccount:900};
 try{
- const state={...truth,nature:'vampire',choices:{court:'alghul_almalakiu',blood:'sang_primal'},truthTalents:[]};
+ const state={...truth,nature:'humain',choices:{hunterTradition:'aucune'},truthTalents:[]};
  w.start('progression',{...props,truthState:state});await tick();
  const doctrine=d.querySelector('[data-hunter-doctrines] input[value="xenoshield"]');assert.ok(doctrine);assert.equal(doctrine.checked,false);
  doctrine.click();await tick();assert.ok(w.current().truth.choices.hunterBuild.doctrines.includes('xenoshield'));
@@ -54,6 +54,7 @@ try{
  doctrine.click();await tick();assert.ok(!w.current().truth.choices.hunterBuild.doctrines.includes('xenoshield'));assert.ok(![...family.options].some(o=>/xenoshield/i.test(o.value)));
  assert.equal(w.current().progress.ptvEarned,10);assert.equal(w.current().progress.cashBase,900);
  w.stop();await tick();
+ w.start('progression',{...props,truthState:{...state,nature:'vampire'}});await tick();assert.equal(d.querySelector('[data-hunter-doctrines]'),null);w.stop();await tick();
  const djinn=canonical.catalogs.humain.find(t=>t.name==='Pacte du Djinn');
  state.choices.hunterBuild={doctrines:['nizarite']};state.truthTalents=[djinn.id];w.start('progression',{...props,truthState:state});await tick();
  const configure=d.querySelector('[data-configure-talent="'+djinn.id+'"]');assert.ok(configure);configure.click();await tick();
