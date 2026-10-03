@@ -52,7 +52,7 @@ import {registerCharacterRoutes} from './dist/characters.js';
 import {registerCharacterPlayRoutes} from './dist/character-play.js';
 import {playProfile,blankPlayState} from './dist/rules/play-state.js';
 assert.equal(typeof registerCharacterRoutes,'function');assert.equal(typeof registerCharacterPlayRoutes,'function');
-const p=playProfile({},blankPlayState());assert.equal(p.health,'Indemne');assert.ok(p.skills.length>0);
+const p=playProfile({attributes:{vigueur:3,agilite:3,esprit:3,volonte:3,charisme:3}},blankPlayState());assert.equal(p.health,'Indemne');assert.ok(p.skills.length>0);
 console.log('PLAYTEST CANDIDATE IMPORTS VERIFIED');
 NODE
 bash production/backup.sh </dev/null
