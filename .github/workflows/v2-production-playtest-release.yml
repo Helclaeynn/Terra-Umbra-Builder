@@ -1,0 +1,76 @@
+name: V2 production playtest release
+on:
+  push:
+    branches: [feature/tuc-web-v2]
+    paths: [.github/workflows/v2-production-playtest-release.yml]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: tuc-v2-production
+  cancel-in-progress: false
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    environment: tuc-dev
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Require the approved and fully tested source
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          source=3458d6c00f071bea289645be00028f13db90bc2a
+          test "$(git rev-parse HEAD^)" = "$source"
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs?head_sha=$source" --jq '.workflow_runs[] | select(.path == ".github/workflows/v2-dev.yml" and .conclusion == "success") | .id' | grep -q .
+          test -z "$(git diff "$source" HEAD -- apps compendium character-builder infrastructure/migrations)"
+      - name: Compile approved application code
+        run: |
+          set -euo pipefail
+          cd apps/api
+          npm ci
+          npm run build
+          cd ../web
+          npm ci
+          npm run build
+      - name: Package application overlay and additive migration
+        run: |
+          python3 - <<'PY'
+          import json,pathlib,subprocess,tarfile
+          files=subprocess.check_output(['git','diff','--name-only','c2eae41f9679e53cfc1d512c5417255533fd967e','3458d6c00f071bea289645be00028f13db90bc2a'],text=True).splitlines()
+          files=[p for p in files if p.startswith(('apps/','infrastructure/migrations/'))]
+          pathlib.Path('payload-files.json').write_text(json.dumps(files))
+          runtime=[p.replace('/src/','/dist/').removesuffix('.ts')+'.js' for p in files if p.startswith('apps/api/src/')]
+          assert len(runtime)==6
+          with tarfile.open('/tmp/playtest-release.tar.gz','w:gz') as t:
+            for p in files+runtime+['payload-files.json','apps/web/dist']:t.add(p,arcname=p)
+          PY
+      - name: Back up, deploy and verify production
+        env:
+          TUC_DEV_HOST: ${{ secrets.TUC_DEV_HOST }}
+          TUC_DEV_USER: ${{ secrets.TUC_DEV_USER }}
+          TUC_DEV_SSH_KEY: ${{ secrets.TUC_DEV_SSH_KEY }}
+        run: |
+          set -euo pipefail
+          test "$(git ls-remote origin refs/heads/feature/tuc-web-v2 | cut -f1)" = "$GITHUB_SHA"
+          install -m 700 -d ~/.ssh
+          trap 'rm -f ~/.ssh/tuc_prod' EXIT
+          printf '%s\n' "$TUC_DEV_SSH_KEY" > ~/.ssh/tuc_prod
+          chmod 600 ~/.ssh/tuc_prod
+          ssh-keyscan -H "$TUC_DEV_HOST" >> ~/.ssh/known_hosts
+          SSH="ssh -i ~/.ssh/tuc_prod -o IdentitiesOnly=yes"
+          { printf '{\n'; cat infrastructure/production/cleanup-playtest-cache.sh; printf '\n}\n'; } | $SSH "$TUC_DEV_USER@$TUC_DEV_HOST" bash | tee /tmp/playtest-cleanup.log
+          grep -q '^PLAYTEST CACHE CLEANUP VERIFIED' /tmp/playtest-cleanup.log
+          stage="/opt/terra-umbra/releases/playtest-$GITHUB_SHA"
+          $SSH "$TUC_DEV_USER@$TUC_DEV_HOST" "mkdir -p '$stage'"
+          rsync -az -e "$SSH" /tmp/playtest-release.tar.gz "$TUC_DEV_USER@$TUC_DEV_HOST:$stage/"
+          $SSH "$TUC_DEV_USER@$TUC_DEV_HOST" "tar -xzf '$stage/playtest-release.tar.gz' -C '$stage'"
+          { printf '{\n'; cat infrastructure/production/release-playtest.sh; printf '\n}\n'; } | $SSH "$TUC_DEV_USER@$TUC_DEV_HOST" bash -s -- "$GITHUB_SHA" | tee /tmp/playtest-release.log
+          grep -q '^PLAYTEST PRODUCTION LIVE VERIFIED' /tmp/playtest-release.log
