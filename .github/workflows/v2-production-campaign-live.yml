@@ -27,7 +27,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          source=4883e8285cc15d82b1921adc2c77deabf4c50d6c
+          source=1b779b179d295481f9917063bb95df4ae5ccc7f3
           git merge-base --is-ancestor "$source" HEAD
           verified=false
           for attempt in $(seq 1 90); do
@@ -51,11 +51,11 @@ jobs:
         run: |
           python3 - <<'PY'
           import json,pathlib,subprocess,tarfile
-          files=subprocess.check_output(['git','diff','--name-only','6f36b180fbc00f7785ee3a38609d895d8bafb623','4883e8285cc15d82b1921adc2c77deabf4c50d6c'],text=True).splitlines()
+          files=subprocess.check_output(['git','diff','--name-only','6f36b180fbc00f7785ee3a38609d895d8bafb623','1b779b179d295481f9917063bb95df4ae5ccc7f3'],text=True).splitlines()
           files=[p for p in files if p.startswith(('apps/','infrastructure/migrations/'))]
           pathlib.Path('payload-files.json').write_text(json.dumps(files))
           runtime=[p.replace('/src/','/dist/').removesuffix('.ts')+'.js' for p in files if p.startswith('apps/api/src/')]
-          assert len(runtime)==4
+          assert len(runtime)==6
           with tarfile.open('/tmp/playtest-release.tar.gz','w:gz') as t:
             for p in files+runtime+['payload-files.json','apps/web/dist/index.html','apps/web/dist/assets']:t.add(p,arcname=p)
           PY
