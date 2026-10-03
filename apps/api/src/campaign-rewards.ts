@@ -1,3 +1,5 @@
+import { getRealityRules } from './rules/reality.js';
+import { builderPurchaseAllowed } from './rules/builder-equipment-policy.js';
 import { isDeepStrictEqual } from 'node:util';
 import type { FastifyInstance } from 'fastify';
 import { pool } from './db.js';
@@ -11,7 +13,7 @@ const whole = (value: unknown, maximum: number): value is number =>
   typeof value === 'number' && Number.isSafeInteger(value) && value >= 0 && value <= maximum;
 type Grant = {
   characterId: string; version: number; xp: number; ptv: number; money: number;
-  renownDelta: number; corruptionDelta: number; corruptionSource: string;
+  renownDelta: number; corruptionDelta: number; corruptionSource: string; equipment: Array<{itemId:string;quantity:number}>;
 };
 type RewardRequest = { requestId: string; reason: string; rewards: Grant[] };
 
@@ -26,18 +28,23 @@ export function validateCampaignRewards(value: unknown): RewardRequest | null {
   for (const value of b.rewards) {
     if (!value || typeof value !== 'object' || Array.isArray(value)) return null;
     const row = value as Record<string, unknown>;
+    const equipment=row.equipment??[];
+    if(!Array.isArray(equipment)||equipment.length>20||equipment.some(e=>!e||typeof e.itemId!=='string'||!whole(e.quantity,20)||e.quantity<1))return null;
+    if(new Set(equipment.map(e=>e.itemId)).size!==equipment.length||equipment.reduce((n,e)=>n+e.quantity,0)>100)return null;
+    const catalog=getRealityRules().equipment;
+    if(equipment.some(e=>!catalog.some(item=>item.id===e.itemId&&builderPurchaseAllowed(item)&&!['monthly','annual','per_use'].includes(item.recurring))))return null;
     if (typeof row.characterId !== 'string' || !uuid.test(row.characterId) ||
         seen.has(row.characterId.toLowerCase()) || !whole(row.version, 2147483646) || row.version < 1 ||
         !whole(row.xp, 100000) || !whole(row.ptv, 100000) || !whole(row.money, 1e9) ||
         !whole(row.renownDelta, 5) || !whole(row.corruptionDelta, 100) ||
-        row.xp + row.ptv + row.money + row.renownDelta + row.corruptionDelta === 0 ||
+        (row.xp + row.ptv + row.money + row.renownDelta + row.corruptionDelta === 0 && !equipment.length) ||
         typeof row.corruptionSource !== 'string' ||
         (row.corruptionDelta > 0 && !corruptionSources.some(source => source.id === row.corruptionSource)) ||
         (row.corruptionDelta === 0 && row.corruptionSource !== '')) return null;
     const characterId = row.characterId.toLowerCase();
     seen.add(characterId);
     rewards.push({ characterId, version: row.version, xp: row.xp, ptv: row.ptv, money: row.money,
-      renownDelta: row.renownDelta, corruptionDelta: row.corruptionDelta, corruptionSource: row.corruptionSource });
+      renownDelta: row.renownDelta, corruptionDelta: row.corruptionDelta, corruptionSource: row.corruptionSource, equipment: equipment.map(e=>({itemId:e.itemId,quantity:e.quantity})).sort((a,b)=>a.itemId.localeCompare(b.itemId)) });
   }
   rewards.sort((a, b) => a.characterId.localeCompare(b.characterId));
   return { requestId: b.requestId.toLowerCase(), reason: b.reason.trim(), rewards };
@@ -58,7 +65,7 @@ export async function registerCampaignRewardRoutes(app: FastifyInstance) {
     const entries = await pool.query(`SELECT b.id AS "requestId", b.reason, b.created_at::text AS "createdAt",
       g.character_id AS "characterId", g.character_name AS "characterName", g.xp, g.ptv,
       g.money::double precision AS money, g.renown_delta AS "renownDelta",
-      g.corruption_delta AS "corruptionDelta", g.corruption_source AS "corruptionSource", g.revision
+      g.corruption_delta AS "corruptionDelta", g.corruption_source AS "corruptionSource", g.equipment, g.revision
       FROM campaign_reward_batches b JOIN campaign_reward_grants g ON g.batch_id=b.id
       JOIN characters ch ON ch.id=g.character_id
       WHERE b.campaign_id=$1 AND ($2::boolean OR ch.owner_id=$3)
@@ -139,6 +146,13 @@ export async function registerCampaignRewardRoutes(app: FastifyInstance) {
           }];
         }
         data.progression = progress;
+        if(grant.equipment.length){
+          data.reality={...(data.reality??{}),equipment:[...(data.reality?.equipment??[])]};
+          for(const gift of grant.equipment){
+            const item=getRealityRules().equipment.find(i=>i.id===gift.itemId)!;
+            for(let i=0;i<gift.quantity;i++)data.reality.equipment.push({uid:`${body.requestId}:${character.id}:${gift.itemId}:${i}`,itemId:gift.itemId,kind:'equipment',selectedPrice:0,priceConfirmed:true,acquiredInCampaign:true,cataloguePrice:Math.max(0,Number(item.price??item.priceMin)||0),campaignCatalogPrice:Math.max(0,Number(item.price??item.priceMin)||0)});
+          }
+        }
         if (grant.corruptionDelta) data.truth = { ...data.truth,
           corruption: before.corruption + grant.corruptionDelta, corruptionSource: grant.corruptionSource,
           corruptionMjAuthorized: true };
@@ -156,10 +170,10 @@ export async function registerCampaignRewardRoutes(app: FastifyInstance) {
           VALUES($1,$2,$3,$4::jsonb,$5,$6)`,
           [character.id, revision, character.name, JSON.stringify(data), 'campaign-bonus:' + body.reason, user.id]);
         await client.query(`INSERT INTO campaign_reward_grants(batch_id,character_id,character_name,xp,ptv,money,
-          renown_delta,corruption_delta,corruption_source,before_state,after_state,revision)
-          VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10::jsonb,$11::jsonb,$12)`,
+          renown_delta,corruption_delta,corruption_source,before_state,after_state,revision,equipment)
+          VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10::jsonb,$11::jsonb,$12,$13::jsonb)`,
           [body.requestId, character.id, character.name, grant.xp, grant.ptv, grant.money, grant.renownDelta,
-            grant.corruptionDelta, grant.corruptionSource, JSON.stringify(before), JSON.stringify(after), revision]);
+            grant.corruptionDelta, grant.corruptionSource, JSON.stringify(before), JSON.stringify(after), revision, JSON.stringify(grant.equipment.map(e=>({...e,name:getRealityRules().equipment.find(i=>i.id===e.itemId)?.name??e.itemId})))]);
       }
       await client.query('COMMIT');
       return { ok: true, alreadyApplied: false, requestId: body.requestId,

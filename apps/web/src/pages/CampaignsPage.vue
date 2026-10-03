@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { usePageTitle } from "../lib/page-title";
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue';
 import { onBeforeRouteLeave, RouterLink, useRoute, useRouter } from 'vue-router';
 import { api, ApiError } from '../lib/api';
@@ -6,6 +7,7 @@ import CampaignNpcs from '../components/CampaignNpcs.vue';
 import CampaignBestiary from '../components/CampaignBestiary.vue';
 import CampaignAdmissions from '../components/CampaignAdmissions.vue';
 import CampaignSessions from '../components/CampaignSessions.vue';
+import CampaignPlay from '../components/CampaignPlay.vue';
 import CampaignRewards from '../components/CampaignRewards.vue';
 import TerraUmbraBrand from '../components/TerraUmbraBrand.vue';
 type Campaign={admissionRules?:string;id:string;name:string;description:string;gmName:string;ownerId:string;canManage:boolean;membershipStatus:'invited'|'accepted'|null;memberCount?:number;archivedAt:string|null;version:number;gmNotes?:string};
@@ -26,6 +28,8 @@ function toggleNpcs(e:Event){const el=e.target as HTMLDetailsElement;if(!el.open
 function toggleBestiary(e:Event){const el=e.target as HTMLDetailsElement;if(!el.open&&bestiaryDirty.value&&!window.confirm('Abandonner les créatures non enregistrées ?')){el.open=true;return;}bestiaryOpen.value=el.open;}
 const dirty=computed(()=>editing.value&&JSON.stringify(draft.value)!==baseline.value);
 const me=computed(()=>members.value.find(m=>m.userId===userId.value));
+
+usePageTitle(()=>campaign.value?.name || 'Campagnes');
 const invited=computed(()=>campaigns.value.filter(c=>c.membershipStatus==='invited'));
 const active=computed(()=>campaigns.value.filter(c=>!c.archivedAt&&c.membershipStatus!=='invited'));
 const archived=computed(()=>campaigns.value.filter(c=>c.archivedAt));
@@ -154,6 +158,7 @@ onUnmounted(()=>{clearInterval(refreshTimer);document.removeEventListener('visib
         <form v-if="editing&&campaign.canManage" class="panel form" @submit.prevent="save"><h2>Notes et paramètres</h2><label>Nom<input v-model="draft.name" required maxlength="120" /></label><label>Présentation visible par les joueurs<textarea v-model="draft.description" rows="3" maxlength="2000" /></label><label>Conditions d’admission des personnages<textarea v-model="draft.admissionRules" rows="3" maxlength="4000" placeholder="Ex. : uniquement des Crawlers, personnages débutants, pas de Corruption au départ…" /></label><label>Notes privées du MJ<textarea v-model="draft.gmNotes" rows="9" maxlength="20000" /></label><small>Ces notes sont réservées au MJ de cette campagne.</small><div class="actions"><button class="primary" :disabled="busy">Enregistrer</button><button type="button" @click="cancel">Annuler</button></div><p v-if="dirty">Modifications non enregistrées.</p></form>
         <section v-if="campaign.membershipStatus==='invited'" class="panel form"><h2>Tu es invité à cette campagne</h2><p v-if="campaign.admissionRules" class="description"><strong>Conditions de la table :</strong><br />{{ campaign.admissionRules }}</p><p>Une copie indépendante de la fiche et de ses acquis sera proposée à {{ campaign.gmName }}. Choisis une sauvegarde antérieure pour proposer l’état avant des gains d’XP. La fiche source reste intacte.</p><label>Personnage<select v-model="chosenCharacter"><option value="">Je choisirai plus tard</option><option v-for="c in characters" :key="c.id" :value="c.id">{{ c.name }} · {{ c.campaignName||'Hors campagne' }}</option></select></label><label v-if="chosenCharacter">Version à proposer<select v-model="chosenRevision" :disabled="revisionsLoading"><option value="current">Version actuelle</option><option v-for="r in revisions" :key="r.revision" :value="String(r.revision)">Version {{ r.revision }} · {{ new Date(r.createdAt).toLocaleDateString('fr-FR') }} · {{ r.xpEarned }} XP / {{ r.ptvEarned }} PTV reçus</option></select></label><p v-if="revisionsLoading" role="status">Chargement des versions…</p><p v-if="revisionsError" role="alert">{{ revisionsError }}</p><div class="actions"><button class="primary" :disabled="busy||revisionsLoading" @click="join">Accepter l’invitation</button><button :disabled="busy" @click="decline">Décliner</button></div></section>
         <template v-if="campaign.canManage||campaign.membershipStatus==='accepted'">
+          <CampaignPlay v-if="!campaign.archivedAt" :key="id" :campaign-id="id" />
           <CampaignRewards :campaign-id="id" :can-manage="campaign.canManage" :archived="!!campaign.archivedAt" />
           <CampaignSessions :user-id="userId" :campaign-id="id" :can-manage="campaign.canManage" :archived="!!campaign.archivedAt" :members="members" />
           <details v-if="campaign.canManage" class="panel" @toggle="toggleNpcs"><summary>Mes PNJ de campagne · générateur et fiches</summary><CampaignNpcs v-if="npcsOpen" :campaign-id="id" :archived="!!campaign.archivedAt" @dirty="npcDirty=$event" /></details>

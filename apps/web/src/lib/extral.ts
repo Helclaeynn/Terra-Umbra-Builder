@@ -1,3 +1,4 @@
+import {extralPlayBonuses as bonuses} from '../../../api/src/rules/play-bonuses';
 import type {TruthState,TruthRulesPackage,TruthTalent} from './truth';
 import {normalizeExtralBuild,extralTalentIds as ids,extralNetworkAccess,extralAccessLabels,type ExtralOwnedItem} from '../../../api/src/rules/truth/extral-build';
 export * from '../../../api/src/rules/truth/extral-build';
@@ -81,26 +82,6 @@ export function extralInventoryAnnotation(s:TruthState,uid:string){
  const p=normalizeExtralBuild(s.choices.extralBuild).patches.find(p=>p.uid===uid);
  return p?`Patch tatoué AIDH — ${p.state==='phased'?'déphasé : indisponible avant matérialisation':'matérialisé'}. 1 PA par élément, 2 PA pour tenue/armure/lot, dans les deux sens ; aucun objet créé.`:'';
 }
-const bonuses:ReadonlyArray<{id:string;skills:string[];bonus:number;label:string}>=[
- {id:'rebond-d-appui',skills:['athletisme'],bonus:3,label:'R · bonds difficiles sur appuis'},
- {id:'vision-des-fractures',skills:['perception','savoirs','savoirs_occultes'],bonus:3,label:'SR/R · interpréter une fracture effectivement perçue'},
- {id:'culture-de-secours',skills:['soin','medecine'],bonus:3,label:'R · premiers soins/Stabilisation avec culture préparée'},
- {id:'deuxieme-paire-experte',skills:['soin','medecine','mecanique','technologie','artisanat'],bonus:2,label:'R · auto-Assistance manuelle réelle, hors combat'},
- {id:'lecture-vibratoire',skills:['perception'],bonus:3,label:'R · vibrations faibles à 10 m'},
- {id:'branchies-barometriques',skills:['perception'],bonus:3,label:'R · présence hors champ visuel à 5 m'},
- {id:'resonance-holographique',skills:['perception'],bonus:3,label:'R · interprétation d’une fluctuation du Voile'},
- {id:'reflexe-conditionne',skills:['esquive'],bonus:3,label:'Défense active gratuite · 1/scène, même Surpris'},
- {id:'ancrage-de-masse',skills:['athletisme'],bonus:3,label:'SR/R · résister à une poussée ou projection physique'},
- {id:'saisie-ecrasante',skills:['pugilat','athletisme'],bonus:3,label:'SR/R · maintenir une prise sur une cible plus petite'},
- {id:'declassement-fonctionnel',skills:['technologie','mecanique'],bonus:3,label:'CTU · préserver une fonction en sacrifiant une autre'},
- {id:'emulation-de-composant',skills:['technologie','mecanique'],bonus:3,label:'CTU · substitut temporaire préparé en dix minutes'},
- {id:'stabilisation-exotique',skills:['soin','medecine'],bonus:3,label:'Croix Verte · Stabiliser une physiologie inconnue'},
- {id:'servomusculature',skills:['athletisme'],bonus:3,label:'Émeraude · effort assisté par une armure réellement adaptée'},
- {id:'sous-le-tir',skills:['force_mentale','maitrise_spirituelle'],bonus:3,label:'Émeraude · suppression/intimidation en approchant un adversaire plus massif'},
- {id:'tolerance-au-greffon',skills:['constitution'],bonus:3,label:'SMRC · résistance au rejet/conflit d’une greffe compatible'},
- {id:'peau-saturee',skills:['constitution'],bonus:3,label:'R · chaleur/feu ordinaires, pas plasma'},
- {id:'digestion-selective',skills:['constitution'],bonus:3,label:'R · toxine ingérée uniquement'}
-];
 export function extralContextualBonuses(pkg:TruthRulesPackage,s:TruthState,skill:string,total:number,active=extralUsableTalents(pkg,s)){
  if(s.nature!=='extral')return [];
  return bonuses.filter(r=>active.has('extral-'+r.id)&&r.skills.includes(skill)).map(r=>({id:'extral-'+r.id,label:r.label+' · bonus conditionnel non cumulable avec un équivalent',bonus:r.bonus,total:total+r.bonus}));

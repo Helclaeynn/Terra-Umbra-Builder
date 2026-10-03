@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import {usePageTitle} from "../lib/page-title";
 import { computed, nextTick, onMounted, onUnmounted, ref } from "vue";
 import { onBeforeRouteLeave, RouterLink, useRoute } from "vue-router";
 import { api, ApiError } from "../lib/api";
@@ -7,6 +8,7 @@ import TerraUmbraBrand from "../components/TerraUmbraBrand.vue";
 type Entry={id:string;title:string;playedOn:string;content:string;version:number;createdAt:string;updatedAt:string};
 const id=String(useRoute().params.id), endpoint=`/api/characters/${id}/journal`;
 const character=ref<{id:string;name:string}|null>(null),entries=ref<Entry[]>([]);
+usePageTitle(()=>character.value?.name ? `${character.value.name} — Journal` : '');
 const loading=ref(false),busy=ref(false),hasMore=ref(false),error=ref(""),notice=ref(""),needsLogin=ref(false);
 const editorOpen=ref(false),editing=ref<Entry|null>(null),conflict=ref(false);
 const editorTitle=ref<HTMLInputElement|null>(null);

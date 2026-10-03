@@ -1,6 +1,7 @@
 import { createApp, h } from "vue";
 import { createRouter, createWebHistory, RouterView } from "vue-router";
 import "./style.css";
+import { pageTitle } from "./lib/page-title";
 import "./orbital-ui.css";
 
 const router=createRouter({
@@ -29,6 +30,7 @@ const router=createRouter({
     { path:"/account", component:()=>import("./App.vue") },
     { path:"/characters/:id/history", component:()=>import("./pages/CharacterHistoryPage.vue") },
     { path:"/characters/:id/journal", component:()=>import("./pages/CharacterJournalPage.vue") },
+    { path:"/characters/:id/play", component:()=>import("./pages/CharacterSheetPage.vue") },
     { path:"/characters/:id/sheet", component:()=>import("./pages/CharacterSheetPage.vue") },
     { path:"/characters/:id/builder", component:()=>import("./pages/CharacterBuilderPage.vue") },
     { path:"/characters/:id/progression", component:()=>import("./pages/CharacterBuilderPage.vue") },
@@ -49,7 +51,10 @@ router.beforeEach((to)=>{
   document.documentElement.classList.add("route-changing");
 });
 
-router.afterEach(()=>{
+router.afterEach((to)=>{
+  const titles:Record<string,string>={'/':'Compendium','/compendium':'Compendium','/account':'Mon espace','/campaigns':'Campagnes','/atlas':'Atlas','/glossaire':'Glossaire','/decouvrir':'Découvrir','/compendium/new':'Nouvelle page','/admin/quality':'Recette','/admin/arbitrage':'Arbitrage'};
+  const section=to.path.endsWith('/builder')?'Création':to.path.endsWith('/progression')?'Progression':to.path.endsWith('/sheet')?'Fiche personnage':to.path.endsWith('/journal')?'Journal':to.path.endsWith('/history')?'Historique':to.path.startsWith('/campaigns/')?'Campagne':to.path.startsWith('/compendium/edit/')?'Édition':to.path.startsWith('/decouvrir/')?'Guide':'Compendium';
+  document.title=pageTitle(titles[to.path]??section);
   window.requestAnimationFrame(()=>{
     window.setTimeout(()=>document.documentElement.classList.remove("route-changing"),180);
   });

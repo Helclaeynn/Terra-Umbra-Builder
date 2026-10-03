@@ -1,20 +1,24 @@
 <script setup lang="ts">
-import { computed, onMounted, onUnmounted, ref, shallowRef, watch } from "vue";
+import { computed, nextTick, onMounted, onUnmounted, ref, shallowRef, watch } from "vue";
 import { RouterLink, useRoute } from "vue-router";
 import { api, ApiError } from "../lib/api";
 import type { Character } from "../types/character";
 import TerraUmbraBrand from "../components/TerraUmbraBrand.vue";
+import CharacterPlay from "../components/CharacterPlay.vue";
 import CharacterSummary from "../components/builder/CharacterSummary.vue";
 import CharacterPdfActions from "../components/CharacterPdfActions.vue";
 import { buildCharacterSheet, type SheetCore } from "../lib/character-sheet-model";
 import { ensureTruthRulesPackage, type TruthRulesPackage } from "../lib/truth";
 import type { RealityRulesPackage } from "../lib/reality";
 
+import { usePageTitle } from "../lib/page-title";
 const route=useRoute();
 const id=String(route.params.id);
+const playOpen=ref(route.path.endsWith("/play"));
 const campaignBack=computed(()=>typeof route.query.campaign==='string'&&/^[0-9a-f-]{36}$/i.test(route.query.campaign)?`/campaigns/${route.query.campaign}`:null);
 const endpoint=`/api/characters/${id}`;
 const character=shallowRef<Character|null>(null);
+usePageTitle(()=>character.value?.name ? `${character.value.name} — ${playOpen.value?'En jeu':'Fiche'}` : '');
 const core=shallowRef<SheetCore|null>(null), truth=shallowRef<TruthRulesPackage|null>(null), reality=shallowRef<RealityRulesPackage|null>(null);
 const owner=ref(false), ownerName=ref(""), loading=ref(true), error=ref(""), needsLogin=ref(false);
 const shareOpen=ref(false), shareBusy=ref(false), shareError=ref(""), shareNotice=ref("");
@@ -34,7 +38,20 @@ const sheet=computed(()=>character.value&&core.value&&truth.value&&reality.value
   ?buildCharacterSheet(character.value.data,core.value,truth.value,reality.value,true,character.value.name):null);
 const loginLink=computed(()=>`/account?redirect=${encodeURIComponent(`/characters/${id}/sheet`)}`);
 const updated=computed(()=>character.value?new Intl.DateTimeFormat("fr-FR",{dateStyle:"medium",timeStyle:"short"}).format(new Date(character.value.updatedAt)):"");
+let readingPosition:{x:number;y:number;details:boolean[]}|null=null;
+function rememberReading(){
+  if(character.value)readingPosition={x:window.scrollX,y:window.scrollY,details:[...document.querySelectorAll<HTMLDetailsElement>('.standalone-sheet-main details')].map(el=>el.open)};
+}
+async function restoreReading(clear=true){
+  await nextTick();
+  if(!readingPosition||!character.value)return;
+  const saved=readingPosition;
+  document.querySelectorAll<HTMLDetailsElement>('.standalone-sheet-main details').forEach((el,i)=>{if(saved.details[i]!==undefined)el.open=saved.details[i]!;});
+  window.scrollTo(saved.x,saved.y);
+  if(clear)readingPosition=null;
+}
 async function load(){
+  rememberReading();
   const current=++generation;
   controller?.abort();controller=new AbortController();
   const options={signal:controller.signal};
@@ -58,7 +75,7 @@ async function load(){
     error.value=needsLogin.value?"Connecte-toi pour consulter cette fiche.":cause instanceof ApiError&&[403,404].includes(cause.status)
       ?"Cette fiche n’est pas accessible avec ton compte. Son propriétaire peut te donner accès si tu disposes du rôle MJ."
       :"Impossible de charger la fiche. Réessaie dans un instant.";
-  }finally{if(current===generation)loading.value=false;}
+  }finally{if(current===generation){loading.value=false;await restoreReading(!playOpen.value);}}
 }
 async function loadReaders(){
   const current=generation;
@@ -120,8 +137,8 @@ function jump(event:MouseEvent){
   if(section instanceof HTMLDetailsElement)section.open=true;
 }
 function onVisibility(){if(document.visibilityState==="hidden"){
-  ++generation;controller?.abort();character.value=null;owner.value=false;readers.value=[];resetSearch();
-}else void load();}
+  rememberReading();++generation;controller?.abort();character.value=null;owner.value=false;readers.value=[];resetSearch();
+}else if(!loading.value||!character.value)void load();}
 function onFocus(){if(!loading.value&&document.visibilityState!=="hidden")void load();}
 onMounted(()=>{void load();window.addEventListener("focus",onFocus);document.addEventListener("visibilitychange",onVisibility);});
 onUnmounted(()=>{++generation;controller?.abort();resetSearch();window.removeEventListener("focus",onFocus);document.removeEventListener("visibilitychange",onVisibility);});
@@ -141,7 +158,9 @@ onUnmounted(()=>{++generation;controller?.abort();resetSearch();window.removeEve
         <p v-if="character?.campaignId" class="sheet-version">Version de campagne · <RouterLink :to="`/campaigns/${character.campaignId}`">{{ character.campaignName }}</RouterLink> · Progression indépendante</p>
         <p class="sheet-version">{{ owner ? 'Ta fiche sauvegardée' : `Partagée par ${ownerName}` }} · Mise à jour le {{ updated }} · v{{ character?.version }}</p>
         <nav class="sheet-jumps" @click="jump" aria-label="Sections de la fiche"><a href="#sheet-main">Vue d’ensemble</a><a href="#sheet-skills">Compétences</a><a href="#sheet-reality">Talents</a><a href="#sheet-truth">Vérité</a><a href="#sheet-equipment">Possessions</a></nav>
-        <CharacterSummary :sheet="sheet" />
+        <button class="primary" @click="playOpen=!playOpen">{{ playOpen?'Revenir à la fiche':'En jeu · PV, PA, états et jets' }}</button>
+        <CharacterPlay v-if="playOpen&&character" :id="id" :data="character.data" :sheet="sheet" :can-edit="owner" @ready="restoreReading()" />
+        <CharacterSummary v-show="!playOpen" :sheet="sheet" />
         <details v-if="owner" class="sheet-sharing panel" @toggle="toggleShares">
           <summary>Partager cette fiche avec mon MJ</summary>
           <p>Le partage donne accès à toute cette fiche sauvegardée, y compris sa Vérité et les notes de la fiche, en lecture seule. Le journal d’aventure reste privé. Ce partage ne donne aucun droit de modification. Tu peux retirer cet accès à tout moment.</p>
