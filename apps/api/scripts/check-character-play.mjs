@@ -3,6 +3,7 @@ import {randomUUID,randomBytes} from 'node:crypto';
 import {readFile,readdir} from 'node:fs/promises';
 import Fastify from 'fastify';
 import {blankPlayState,playProfile,rollD10} from '../dist/rules/play-state.js';
+assert.ok(process.env.TUC_PGLITE||process.env.TUC_SHEET_SMOKE==='ci','Isolated CI database required');
 process.env.DATABASE_URL ||= 'postgres://test:test@localhost/tuc_play_test';
 const {pool}=await import('../dist/db.js');
 let embedded;
@@ -56,4 +57,4 @@ try{
  const inventory=(await pool.query('SELECT data,version FROM characters WHERE id=$1',[character])).rows[0];assert.equal(inventory.version,2);assert.equal(inventory.data.reality.equipment.length,2);assert.ok(inventory.data.reality.equipment.every(i=>i.selectedPrice===0&&i.acquiredInCampaign));assert.equal((await call(manager,'GET',`/api/campaigns/${campaign}/rewards`)).rewards[0].equipment[0].quantity,2);
  await pool.query('DELETE FROM campaign_members WHERE campaign_id=$1 AND user_id=$2',[campaign,other.id]);await call(other,'GET',`/api/campaigns/${campaign}/play`,undefined,404);
  console.log('PLAY OK — dice, truth gating, injuries, recovery, server rolls, conflicts, replay safety, private projections, revoked access, migration replay and equipment-only rewards.');
-}finally{await app.close();if(embedded)await embedded.close();else{await pool.query('DELETE FROM users WHERE id=ANY($1::uuid[])',[users]);await pool.end();}}
+}finally{await app.close();await pool.query('DELETE FROM users WHERE id=ANY($1::uuid[])',[users]);if(embedded)await embedded.close();else await pool.end();}

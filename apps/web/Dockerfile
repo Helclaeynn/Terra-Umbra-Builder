@@ -21,6 +21,9 @@ COPY apps/api/src/rules/truth/extral-build.ts /app/apps/api/src/rules/truth/extr
 COPY apps/api/src/rules/truth/exile-build.ts /app/apps/api/src/rules/truth/exile-build.ts
 COPY apps/api/src/rules/truth/vampire-build.ts /app/apps/api/src/rules/truth/vampire-build.ts
 COPY apps/api/src/rules/truth/hunter-build.ts /app/apps/api/src/rules/truth/hunter-build.ts
+COPY apps/api/src/rules/play-state.ts apps/api/src/rules/play-bonuses.ts /app/apps/api/src/rules/
+COPY apps/api/src/rules/terra-umbra-creation.ts apps/api/src/rules/terra-umbra-creation-base.ts apps/api/src/rules/terra-umbra-creation-lore.ts apps/api/src/rules/terra-umbra-creation-lore-base.ts apps/api/src/rules/reality-talents-revision.ts /app/apps/api/src/rules/
+COPY apps/api/src/rules/truth/revelation.ts /app/apps/api/src/rules/truth/revelation.ts
 RUN npm run build
 
 FROM nginx:1.29-alpine
