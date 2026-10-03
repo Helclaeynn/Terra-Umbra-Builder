@@ -36,6 +36,7 @@ export type CharacterDataV2 = {
     firstName: string;
     alias: string;
     occupation: string;
+    nationality?: string;
     age: string;
     sex: string;
     height: string;
@@ -85,6 +86,7 @@ export function blankCharacterData(name:string): CharacterDataV2 {
       firstName:"",
       alias:"",
       occupation:"",
+      nationality:"",
       age:"",
       sex:"",
       height:"",
@@ -156,6 +158,7 @@ export function normalizeCharacterData(input:unknown, fallbackName:string): Char
     firstName:asString(identity.firstName),
     alias:asString(identity.alias),
     occupation:asString(identity.occupation,asString(identity.activity)),
+    nationality:asString(identity.nationality).slice(0,120),
     age:asString(identity.age),
     sex:asString(identity.sex),
     height:asString(identity.height),

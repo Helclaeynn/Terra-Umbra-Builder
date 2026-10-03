@@ -1,3 +1,4 @@
+import {liveBody,activeTruthPowers,type BodyForm,type ActivePower} from './play-truth.js';
 import {truthRevelationRules} from './truth/revelation.js';
 import {extralPlayBonuses,exilePlayBonuses,augmentationPlayBonuses} from './play-bonuses.js';
 import { terraUmbraCreationRules as rules } from './terra-umbra-creation.js';
@@ -6,8 +7,8 @@ import { contextualSkillBonuses } from './reality-conditional-bonuses.js';
 import { dailyRecovery, injuryStress } from './reality-talents-policy.js';
 import { characterDerivedStats } from './character-derived-stats.js';
 export type PlayBonus={id:string;label:string;skill:string;amount:number;truth:boolean;enabled:boolean};
-export type PlayState={hp:number|null;stress:0|1|2;revelation:'v'|'sr'|'r';pa:number;round:number;initiative:number|null;paPerRound:number;stabilized:boolean;share:boolean;disabled:string[];contexts:string[];bonuses:PlayBonus[]};
-export const blankPlayState=():PlayState=>({hp:null,stress:0,revelation:'v',pa:0,round:1,initiative:null,paPerRound:0,stabilized:false,share:true,disabled:[],contexts:[],bonuses:[]});
+export type PlayState={form?:BodyForm;inWater?:boolean;muePending?:number|null;mueCount?:number;mueBlocked?:boolean;formPaRound?:number;powers?:ActivePower[];powerUses?:Record<string,number>;hp:number|null;stress:0|1|2;revelation:'v'|'sr'|'r';pa:number;round:number;initiative:number|null;paPerRound:number;stabilized:boolean;share:boolean;disabled:string[];contexts:string[];bonuses:PlayBonus[]};
+export const blankPlayState=():PlayState=>({form:'human',inWater:false,muePending:null,mueCount:0,mueBlocked:false,formPaRound:0,powers:[],powerUses:{},hp:null,stress:0,revelation:'v',pa:0,round:1,initiative:null,paPerRound:0,stabilized:false,share:true,disabled:[],contexts:[],bonuses:[]});
 export function validatePlayState(v:any):v is PlayState {
   return !!v && (v.hp===null||Number.isSafeInteger(v.hp)&&Math.abs(v.hp)<=10000) && [0,1,2].includes(v.stress) && ['v','sr','r'].includes(v.revelation)
     && Number.isInteger(v.pa)&&v.pa>=0&&v.pa<=5 && Number.isInteger(v.round)&&v.round>=1&&v.round<=100000
@@ -41,6 +42,9 @@ export function playProfile(data:any,state:PlayState){
     const attribute=rules.attributes.find(a=>a.name===match[2])!.id,id='nature-'+attribute;
     attributeBonuses.push({id,label:(stage==='sr'?'Nature Semi-révélée · ':'Nature Révélée · ')+match[2],attribute,amount:Number(match[1]),truth:true,enabled:true});
   }
+  const body=liveBody(data,state);
+  if(body)for(const [attribute,amount] of [['vigueur',body.vigor],['agilite',body.agility]] as const)if(amount)attributeBonuses.push({id:'nature-form-'+attribute,label:'Forme '+body.form,attribute,amount,truth:true,enabled:true});
+  const powers=activeTruthPowers(data,state);
   const attributes=rules.attributes.map(a=>({...a,value:n(data.attributes?.[a.id])+n(data.edgeAttributes?.[a.id])+n(p.attributeRanks?.[a.id])+attributeBonuses.filter(b=>b.attribute===a.id&&b.enabled&&(!b.truth||state.revelation!=='v')).reduce((sum,b)=>sum+b.amount,0)}));
   const raw=(id:string)=>((sphere?.fixedSkills as readonly string[]|undefined)?.includes(id)?1:0)+n(data.skills?.[id]?.style)+n(data.skills?.[id]?.free)+n(data.skills?.[id]?.edge)+n(p.skillRanks?.[id]);
   const attribute=(id:string)=>attributes.find(a=>a.id===id)?.value??0;
@@ -64,7 +68,8 @@ export function playProfile(data:any,state:PlayState){
       ...(data.truth?.nature==='extral'?extralPlayBonuses.map(b=>({...b,id:'extral-'+b.id})):data.truth?.nature==='exile'?exilePlayBonuses.filter(b=>b.id!=='exile-pas-leger'):[]).filter(b=>truthIds.has(b.id)&&b.skills.includes(s.id)).map(b=>({...b,truth:true}))
     ].map(b=>({...b,enabled:state.contexts.includes(b.id),active:state.contexts.includes(b.id)&&(!b.truth||state.revelation==='r')}));
     const preparedBonus=Math.max(0,...prepared.filter(b=>b.active).map(b=>b.bonus));
-    const bonus=Math.max(staticBonus,contextual,preparedBonus)+extras.reduce((sum,b)=>sum+b.amount,0);
+    const powerBonus=Math.max(0,...powers.filter(p=>p.skill===s.id).map(p=>p.amount));
+    const bonus=Math.max(staticBonus,contextual,preparedBonus,powerBonus)+(s.id==='pugilat'?(body?.pugilat??0):0)+extras.reduce((sum,b)=>sum+b.amount,0);
     const rank=raw(s.id)+permanent(s.id);
     return {...s,rank,attributeValue:attribute(s.attribute),automatic,contexts,prepared,extras,bonus,total:attribute(s.attribute)+rank+bonus};
   });
@@ -75,7 +80,7 @@ export function playProfile(data:any,state:PlayState){
   const painReduction=Math.max(talents.includes('insensibilite_a_la_douleur')?1:0,...mechanics.filter(b=>b.enabled).map(b=>b.pain));
   const stress=Math.max(state.stress,hp<=0?2:Math.max(0,injuryStress(hp,derived.pvMax,false)-painReduction)) as 0|1|2;
   const health=hp<=derived.death?'Mort':hp<=0?(state.stabilized?'Stabilisé':'Agonisant'):hp<=derived.pvMax*.25?'Gravement blessé':hp<=derived.pvMax*.5?'Blessé':hp<derived.pvMax?'Légèrement blessé':'Indemne';
-  return {attributes,attributeBonuses,mechanics,skills,derived,hp,stress,health,pa:hp<=derived.death?0:hp<=0?Math.min(state.pa,1):state.pa,
+  return {body,powers,attributes,attributeBonuses,mechanics,skills,derived,hp,stress,health,pa:hp<=derived.death?0:hp<=0?Math.min(state.pa,1):state.pa,
     recovery:{normal:dailyRecovery(raw('constitution')+permanent('constitution'),false,talents.includes('sante_de_fer'))*recoveryMultiplier,prolonged:dailyRecovery(raw('constitution')+permanent('constitution'),true,talents.includes('sante_de_fer'))*recoveryMultiplier}};
 }
 export function rollD10(stress:0|1|2,draw:()=>number){

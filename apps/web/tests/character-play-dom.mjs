@@ -7,10 +7,10 @@ import {parse,compileScript} from '@vue/compiler-sfc';
 import {JSDOM,VirtualConsole} from 'jsdom';
 const root=fileURLToPath(new URL('../',import.meta.url));
 const bundle=await build({stdin:{resolveDir:root,loader:'ts',contents:`
- import {createApp,h} from 'vue';
+ import {createApp,h,reactive} from 'vue';
  import CharacterPlay from './src/components/CharacterPlay.vue';
  import {blankPlayState,playProfile} from '../api/src/rules/play-state';
- const data={attributes:{vigueur:4,agilite:3},skills:{athletisme:{style:6},constitution:{style:4}},creation:{},truth:{nature:'humain'},talents:{},reality:{augmentations:[{itemId:'realignement_spinal'}]},progression:{}};
+ const data=reactive({attributes:{vigueur:4,agilite:3},skills:{athletisme:{style:6},constitution:{style:4}},creation:{},truth:{nature:'humain'},talents:{},reality:{augmentations:[{itemId:'realignement_spinal'}]},progression:{}});window.data=data;
  window.live=blankPlayState();window.profile=()=>playProfile(data,window.live);
  const app=createApp({render:()=>h(CharacterPlay,{id:'11111111-1111-4111-8111-111111111111',data,sheet:{name:'Nikos',realityTalents:[],truthTalents:[],inventory:[]},canEdit:true})});
  app.mount('#app');window.stop=()=>app.unmount();
@@ -40,4 +40,7 @@ const spinal=[...athletics().querySelectorAll('label')].find(e=>e.textContent.in
 d.querySelector('[aria-label="Lancer le d10 pour Athlétisme"]').click();await until(()=>d.querySelectorAll('.die').length===2);assert.deepEqual(requests.map(r=>r.action),['save','roll']);assert.match(d.querySelector('.roll-result').textContent,/11 \+ 10 \+ 4 = 25/);
 // A lost response can be safely retried from the same button.
 drop=true;d.querySelector('[aria-label="Lancer le d10 pour Athlétisme"]').click();await until(()=>d.querySelector('[role=alert]'));const lost=requests.at(-1).requestId;d.querySelector('[aria-label="Lancer le d10 pour Athlétisme"]').click();await until(()=>!d.querySelector('[role=alert]'));assert.equal(requests.at(-1).requestId,lost);
+w.data.truth={nature:'garou',consciousness:'initie',choices:{},truthTalents:[]};await wait();
+assert.ok(d.querySelector('[aria-label="Forme souhaitée"]'));const transform=[...d.querySelectorAll('button')].find(b=>b.textContent==='Changer de forme');transform.click();await until(()=>requests.at(-1).action==='form');assert.equal(requests.at(-1).form,'hybrid');
+w.data.truth={nature:'vampire',consciousness:'initie',choices:{},truthTalents:['faveur_de_la_nuit']};await wait();const power=d.querySelector('[aria-label="Capacité de Vérité"]');power.value='faveur_de_la_nuit';power.dispatchEvent(new w.Event('change',{bubbles:true}));await wait();assert.match(d.body.textContent,/Furtivité dans les ombres/);assert.ok([...d.querySelectorAll('button')].find(b=>b.textContent==='Activer la capacité').disabled);
 assert.deepEqual(errors,[]);w.stop();w.close();console.log('PLAY DOM OK — precalculated totals, prepared augmentation toggle, automatic save before roll, explosion rendering, retry identity and no Vue errors.');

@@ -2,12 +2,13 @@
 import {computed,ref,nextTick} from 'vue';
 import {appearanceGallery,normalizeAppearances,MAX_APPEARANCES,type CharacterAppearances,type AppearanceLayer} from '../../../api/src/character-appearances';
 import {uploadCharacterImage} from '../lib/character-image-upload';
-const props=defineProps<{modelValue?:CharacterAppearances;layer:AppearanceLayer;characterId?:string;legacy?:{portraitDataUrl?:string;portraitName?:string};editable?:boolean}>();
+const props=defineProps<{modelValue?:CharacterAppearances;layer:AppearanceLayer;characterId?:string;legacy?:{portraitDataUrl?:string;portraitName?:string};editable?:boolean;forms?:boolean}>();
 const emit=defineEmits<{'update:modelValue':[value:CharacterAppearances];'remove-legacy':[]}>();
 const gallery=computed(()=>appearanceGallery(props.modelValue,props.layer,props.legacy));
 const title=computed(()=>props.layer==='truth'?'Apparences de Vérité':'Apparences de Réalité');
 const busy=ref(false),error=ref(''),input=ref<HTMLInputElement|null>(null),dialog=ref<HTMLDialogElement|null>(null),expanded=ref<{src:string;label:string}|null>(null);
 const key=computed(()=>props.layer==='reality'?'primaryReality':'primaryTruth');
+function formPortrait(form:string,id:string){const a=normalizeAppearances(props.modelValue);a.formPortraits={...a.formPortraits,[form]:id};emit('update:modelValue',normalizeAppearances(a));}
 function primary(id:string){const a=normalizeAppearances(props.modelValue);a[key.value]=id;emit('update:modelValue',a);}
 function rename(id:string,label:string){const a=normalizeAppearances(props.modelValue);const row=a[props.layer].find(r=>r.mediaId===id);if(row){row.label=label.slice(0,100);emit('update:modelValue',a);}}
 function remove(id:string){
@@ -37,6 +38,7 @@ async function open(row:{src:string;label:string}){expanded.value=row;await next
     <summary><strong>{{title}}</strong><span>{{gallery.rows.length}}<template v-if="editable"> / {{MAX_APPEARANCES}}</template> image(s)</span></summary>
     <p v-if="editable">Ajoutez plusieurs looks et choisissez l’image principale. Les images de Vérité restent dans la partie Vérité de la fiche partagée avec votre MJ.</p>
     <p v-if="error" role="alert">{{error}}</p>
+    <div v-if="editable&&layer==='truth'&&forms" class="form-portraits"><label v-for="[form,label] in [['human','Humain révélé'],['animal','Forme animale'],['hybrid','Forme hybride']]" :key="form">Portrait · {{label}}<select :aria-label="'Portrait · '+label" :value="modelValue?.formPortraits?.[form as 'human'|'animal'|'hybrid']??''" @change="formPortrait(form!,($event.target as HTMLSelectElement).value)"><option value="">Image principale de Vérité</option><option v-for="row in gallery.rows" :key="row.id" :value="row.id">{{row.label}}</option></select></label></div>
     <div class="gallery-grid">
       <figure v-for="row in gallery.rows" :key="row.id">
         <button type="button" class="gallery-image" :aria-label="`Agrandir ${row.label}`" @click="open(row)"><img :src="row.src" :alt="row.label" loading="lazy" /></button>
@@ -49,5 +51,6 @@ async function open(row:{src:string;label:string}){expanded.value=row;await next
   </details>
 </template>
 <style scoped>
+.form-portraits{display:flex;gap:12px;flex-wrap:wrap}.form-portraits label{display:grid;gap:6px;min-width:0}.form-portraits select{max-width:100%;background:#08131f;color:inherit;padding:10px}
 .character-gallery{border:1px solid #30485d;border-radius:8px;padding:16px;margin-block:16px;color:#dbe9f7;min-width:0}.character-gallery summary{display:flex;justify-content:space-between;gap:12px;cursor:pointer;min-height:44px;align-items:center}.character-gallery summary:before{content:"▸"}.character-gallery[open]>summary:before{content:"▾"}.character-gallery h3{margin:0}.character-gallery p,.character-gallery small{color:#aac1d4;font-size:13px}.character-gallery>small{display:block;margin-top:8px}.gallery-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:16px;margin-block:16px}.gallery-grid figure{margin:0;min-width:0;max-width:360px}.gallery-image{width:100%;height:230px;padding:0!important;background:#08131f!important}.gallery-image img{width:100%;height:100%;object-fit:contain}.gallery-grid figcaption{display:grid;gap:6px;margin-top:8px;overflow-wrap:anywhere}.gallery-grid label{display:grid;gap:4px}.gallery-grid input{width:100%;box-sizing:border-box;min-width:0;padding:8px;background:#08131f;color:inherit;border:1px solid #3b586e;border-radius:4px}.gallery-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.character-gallery button{font:inherit;font-size:13px;min-height:44px;border:1px solid #3b586e;border-radius:6px;padding:8px 12px;background:#102336;color:inherit;cursor:pointer}.character-gallery button:disabled{opacity:.5;cursor:default}.character-gallery :focus-visible{outline:2px solid #b7efff;outline-offset:3px}.character-gallery dialog{max-width:94vw;max-height:94vh;background:#08131f;color:#dbe9f7;border:1px solid #3b586e;border-radius:8px}.character-gallery dialog::backdrop{background:#000b}.character-gallery dialog>img{display:block;max-width:85vw;max-height:75vh;object-fit:contain;margin:12px auto}.character-gallery dialog>button{display:block;margin-left:auto}
 </style>

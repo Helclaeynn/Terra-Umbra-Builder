@@ -21,7 +21,7 @@ function description(id:string){
 }
 </script>
 <template>
- <details class="doctrine-panel" data-hunter-doctrines>
+ <details v-if="state.nature==='humain'" class="doctrine-panel" data-hunter-doctrines>
   <summary><strong>Apprendre des doctrines de Chasse</strong><span>{{selected.length}} choisie(s)</span></summary>
   <p>Choisissez les doctrines apprises pendant vos aventures pour ouvrir leurs catalogues. Chaque talent coûte ses PTV et conserve ses prérequis. Votre Nature et vos bonus révélés restent ceux de votre personnage.</p>
   <label v-for="doctrine in options" :key="doctrine.id"><input type="checkbox" :value="doctrine.id" :checked="selected.includes(doctrine.id)" :disabled="state.nature==='humain'&&state.choices.hunterTradition===doctrine.id" @change="toggle(doctrine.id,($event.target as HTMLInputElement).checked)" /><span><strong>{{doctrine.name}}</strong><small>{{description(doctrine.id)}}</small></span></label>

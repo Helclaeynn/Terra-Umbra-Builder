@@ -388,6 +388,13 @@ try{
 }
 await page.getByRole("heading",{name:/V2 Smoke|Smoke/}).first().waitFor();
 
+await page.locator('.builder-nav').getByRole('button',{name:/Identité/}).click();
+await page.getByLabel('Nationalité',{exact:true}).fill('Française');
+await page.locator('.builder-nav').getByRole('button',{name:/Compétences/}).click();
+await page.getByLabel('Points de compétence restants',{exact:true}).waitFor();
+await page.evaluate(()=>window.scrollTo(0,document.documentElement.scrollHeight));
+if(!await page.getByLabel('Points de compétence restants',{exact:true}).evaluate(el=>{const r=el.getBoundingClientRect();return r.top>=0&&r.bottom<=innerHeight;}))throw new Error('Compteur de compétences absent pendant le défilement');
+await page.evaluate(()=>window.scrollTo(0,0));
 const referencesButton=page.getByRole("button",{name:/Références/});
 await referencesButton.waitFor({state:"visible",timeout:5000});
 await referencesButton.click();

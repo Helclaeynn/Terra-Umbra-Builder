@@ -51,6 +51,7 @@ const money=(value:number)=>`${value.toLocaleString("fr-FR")} $`;
         <p class="sheet-eyebrow">FICHE DU PERSONNAGE · {{ sheet.mode==='campaign' ? 'CAMPAGNE' : 'CRÉATION' }}</p>
         <h2>{{ sheet.name || 'Personnage sans nom' }}</h2>
         <p v-if="sheet.identity.alias" class="sheet-alias">« {{ sheet.identity.alias }} »</p>
+        <p v-if="sheet.identity.nationality">Nationalité : {{ sheet.identity.nationality }}</p>
         <p v-if="sheet.identity.occupation">{{ sheet.identity.occupation }}</p>
         <div class="sheet-tags">
           <span v-for="(value,index) in [sheet.origin,sheet.sphere,sheet.style].filter(Boolean)" :key="index">{{ value }}</span>

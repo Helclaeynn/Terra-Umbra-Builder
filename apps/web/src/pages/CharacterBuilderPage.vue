@@ -1648,6 +1648,7 @@ onBeforeUnmount(()=>{
         </a>
       </div>
 
+      <strong v-if="draft&&activeStep==='skills'" class="skill-budget-sticky" role="status" aria-label="Points de compétence restants">{{ freeSkillBudget - freeSkillPointsUsed }} points restants · {{ freeSkillPointsUsed }} / {{ freeSkillBudget }}</strong>
       <div class="top-actions">
         <span v-if="character" class="api-pill ok">v{{ character.version }}</span>
         <button class="ghost compact sheet-toggle" type="button" :disabled="!characterSheet" :aria-pressed="activeStep==='sheet'" @click="toggleCharacterSheet">
@@ -1881,6 +1882,10 @@ onBeforeUnmount(()=>{
                   Occupation
                   <input v-model="draft.identity.occupation" />
                   <small class="field-help">Ce que le personnage fait aujourd’hui ; la Sphère et le Style préciseront son milieu et sa pratique de départ.</small>
+                </label>
+                <label>
+                  Nationalité
+                  <input v-model="draft.identity.nationality" maxlength="120" />
                 </label>
                 <label>
                   Âge
@@ -2142,7 +2147,7 @@ onBeforeUnmount(()=>{
               <p class="eyebrow">05 · COMPÉTENCES</p>
               <h2>Compétences libres</h2>
             </div>
-            <span class="schema-badge">{{ freeSkillPointsUsed }} / {{ freeSkillBudget }}</span>
+            <span class="schema-badge" role="status">{{ freeSkillBudget - freeSkillPointsUsed }} points restants · {{ freeSkillPointsUsed }} / {{ freeSkillBudget }}</span>
           </div>
 
           <p class="builder-intro">
@@ -2402,7 +2407,7 @@ onBeforeUnmount(()=>{
             <NatureStartGuide :state="currentTruthState" />
             <template v-if="selectedTruthNature">
               <template v-if="activeStep === 'truth'">
-              <CharacterGallery v-if="character" v-model="draft.appearances" layer="truth" :character-id="character.id" editable />
+              <CharacterGallery v-if="character" v-model="draft.appearances" layer="truth" :character-id="character.id" :forms="['garou','khinae'].includes(String(draft.truth.nature))" editable />
               <section v-if="creationTruthChoices.length" class="truth-choice-section">
                 <div class="subsection-title">
                   <div>
@@ -3062,6 +3067,7 @@ onBeforeUnmount(()=>{
 .knowledge-item{padding:.65rem 0}
 .knowledge-item+.knowledge-item{border-top:1px solid rgba(255,255,255,.045)}
 .knowledge-item>p{margin:.3rem 0 0;color:#a1b5cc;font-size:.8125rem;line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.skill-budget-sticky{background:#101c2e;padding:10px;border:1px solid #36536b;border-radius:8px;font-size:13px;white-space:normal}
 .builder-topbar{position:sticky}
 .builder-topbar-start{display:flex;align-items:center;gap:1rem;min-width:0}
 .builder-compendium-return{display:inline-flex;align-items:center;min-height:34px;padding:.4rem .7rem;border-left:1px solid rgba(100,222,245,.2);color:#6fcff1;font-size:.8125rem;font-weight:700;text-decoration:none;letter-spacing:.03em}

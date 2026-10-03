@@ -163,7 +163,7 @@ export function projectCharacterPdf(input:PdfInput, available:ReadonlySet<string
     real(`neuro_${index+1}_programme`,item?.name??purchase.itemId,`Programme ${index+1}`);real(`neuro_${index+1}_effet`,item?.effect,`${item?.name??purchase.itemId} — effet du programme`);
     put(`reality.neuro_${index+1}_charge`,Boolean(purchase.loaded),'Programme chargé',false);
   }
-  add('Identité complémentaire',[data.identity.occupation?`Activité : ${data.identity.occupation}`:'',data.identity.age?`Âge : ${data.identity.age}`:'',data.identity.sex?`Sexe : ${data.identity.sex}`:'',data.identity.height?`Taille : ${data.identity.height}`:'',data.identity.weight?`Poids : ${data.identity.weight}`:''].filter(Boolean).join('\n'));
+  add('Identité complémentaire',[data.identity.nationality?`Nationalité : ${data.identity.nationality}`:'',data.identity.occupation?`Activité : ${data.identity.occupation}`:'',data.identity.age?`Âge : ${data.identity.age}`:'',data.identity.sex?`Sexe : ${data.identity.sex}`:'',data.identity.height?`Taille : ${data.identity.height}`:'',data.identity.weight?`Poids : ${data.identity.weight}`:''].filter(Boolean).join('\n'));
   add('Objectif',data.identity.objective);add('Notes du personnage',data.identity.notes);
 
   if(slug!=='realite'){
