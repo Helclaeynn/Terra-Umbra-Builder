@@ -78,15 +78,16 @@ PY
  exit "$status"
 }
 trap rollback EXIT
-# Apply the grouped additive schema atomically, with Edge constraints last.
+# Replay the established live schema, then apply the new schema atomically.
+docker compose exec -T -e PGOPTIONS='-c lock_timeout=10000 -c statement_timeout=60000' db sh -c 'psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -v ON_ERROR_STOP=1' < "$stage/infrastructure/migrations/20261003_campaign_live.sql"
 {
  printf 'BEGIN;\n'
- for migration in 20261003_campaign_live.sql 20261003_campaign_rounds.sql 20261003_live_sessions_edge.sql; do
+ for migration in 20261003_campaign_rounds.sql 20261003_live_sessions_edge.sql; do
   cat "$stage/infrastructure/migrations/$migration"
   printf '\n'
  done
  printf 'COMMIT;\n'
-} | docker compose exec -T -e PGOPTIONS='-c lock_timeout=10000 -c statement_timeout=60000' db sh -c 'psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -v ON_ERROR_STOP=1' 
+} | docker compose exec -T -e PGOPTIONS='-c lock_timeout=10000 -c statement_timeout=60000' db sh -c 'psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -v ON_ERROR_STOP=1'
 STAGE="$stage" ROOT="$root" python3 - <<'PY'
 import json,os,pathlib,shutil
 s=pathlib.Path(os.environ['STAGE']);r=pathlib.Path(os.environ['ROOT'])
