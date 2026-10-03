@@ -9,6 +9,7 @@ const summary=n=>({id:n.id,name:n.data.name,tierId:n.data.tierId,role:n.data.rol
 await page.route('**/api/**',async route=>{
  const req=route.request(),url=new URL(req.url()),path=url.pathname,method=req.method();let body={},status=200;
  if(path===`/api/campaigns/${cid}`)body={campaign:{id:cid,name:'Table des PNJ',description:'',gmName:'Morgan',ownerId:gid,canManage:role==='gm',membershipStatus:role==='gm'?null:'accepted',memberCount:0,archivedAt:null,version:1,gmNotes:''},members:[],userId:gid};
+ else if(path===`/api/campaigns/${cid}/play`&&method==='GET')body={characters:[],events:[]};
  else if(path==='/api/characters')body={characters:[]};
  else if(path.endsWith('/admissions'))body={canManage:role==='gm',rules:'',admissions:[]};
  else if(path.endsWith('/sessions')&&method==='GET')body={sessions:session?[session]:[],hasMore:false,calendarMailAvailable:false};
