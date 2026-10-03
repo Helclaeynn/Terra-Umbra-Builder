@@ -1,0 +1,47 @@
+import assert from 'node:assert/strict';
+import {randomUUID} from 'node:crypto';
+export async function checkCampaignLive({app,pool,call,player,other,manager,stranger,campaign,character}){
+ const endpoint=`/api/campaigns/${campaign}/play`,actions=endpoint+'/actions';
+ const snapshot=u=>call(u,'GET',endpoint);
+ const action=(u,b,status=200)=>call(u,'POST',actions,{requestId:randomUUID(),...b},status);
+ const latest=async id=>(await snapshot(manager)).combatants.find(c=>c.id===id);
+ const peer=await snapshot(other);assert.equal(peer.ownCharacterId,null);assert.equal(peer.canManage,false);
+ assert.ok(peer.events.some(e=>e.kind==='roll'));assert.ok(peer.events.every(e=>['roll','initiative'].includes(e.kind)));
+ assert.ok(peer.events.every(e=>!('bonuses' in e.payload)&&!('components' in e.payload)&&!('before' in e.payload)));
+ const gmLog=(await snapshot(manager)).events.find(e=>e.kind==='roll');assert.equal(gmLog.characterName,'CI Play');assert.equal(gmLog.playerName,'CI Play');assert.equal(gmLog.payload.components.attribute,4);
+ const portrait='data:image/png;base64,'+Buffer.from([137,80,78,71,13,10,26,10,0,0,0,0]).toString('base64');
+ const npcId=randomUUID(),creatureId=randomUUID();
+ await pool.query('INSERT INTO campaign_npcs(id,campaign_id,data) VALUES($1,$2,$3::jsonb)',[npcId,campaign,JSON.stringify({name:'Secret identity',secret:'SECRET NEVER PUBLIC',attributes:{vigueur:4,agilite:3},skills:{constitution:4,athletisme:3},portrait})]);
+ await pool.query('INSERT INTO campaign_bestiary(id,campaign_id,data) VALUES($1,$2,$3::jsonb)',[creatureId,campaign,JSON.stringify({name:'Loup',stats:{pv:20,initiative:7,actions:2},image:portrait,weaknesses:['SECRET WEAKNESS']})]);
+ const add={requestId:randomUUID(),action:'add',kind:'npc',sourceId:npcId,name:'Garde du portail',visible:false};
+ await action(other,add,404);await action(stranger,add,404);await action(manager,{...add,sourceId:randomUUID()},404);
+ await action(manager,add);assert.equal((await action(manager,add)).alreadyApplied,true);
+ assert.equal((await snapshot(manager)).combatants.length,1);assert.equal((await snapshot(other)).combatants.length,0);
+ const portraitPath=`${endpoint}/combatants/${add.requestId}/image`;
+ assert.equal((await app.inject({url:portraitPath,headers:{cookie:other.cookie}})).statusCode,404);
+ let actor=await latest(add.requestId);assert.equal(actor.pvMax,12);
+ await action(manager,{action:'settings',combatantId:actor.id,version:actor.version,name:actor.name,visible:true,pa:0});
+ actor=await latest(actor.id);const wound={requestId:randomUUID(),action:'damage',combatantId:actor.id,version:actor.version,amount:6};
+ await action(manager,wound);await action(manager,wound);await action(manager,{...wound,requestId:randomUUID()},409);
+ let publicActor=(await snapshot(other)).combatants[0];assert.equal(publicActor.health,'Blessé');assert.equal(publicActor.name,'Garde du portail');
+ for(const key of ['hp','pvMax','pa','initiative','data','sourceId','death','version'])assert.equal(key in publicActor,false,key);
+ assert.equal(JSON.stringify(await snapshot(other)).includes('SECRET'),false);
+ assert.equal((await app.inject({url:portraitPath,headers:{cookie:other.cookie}})).statusCode,200);
+ actor=await latest(actor.id);await action(manager,{action:'initiative',combatantId:actor.id,version:actor.version});actor=await latest(actor.id);const initiative=actor.initiative;
+ await action(manager,{action:'round',combatantId:actor.id,version:actor.version});actor=await latest(actor.id);assert.equal(actor.initiative,initiative);assert.equal(actor.round,2);assert.equal(actor.pa,actor.paPerRound);
+ const creature={requestId:randomUUID(),action:'add',kind:'creature',sourceId:creatureId,name:'Loup gris',visible:true};await action(manager,creature);
+ let wolf=await latest(creature.requestId);await action(manager,{action:'initiative',combatantId:wolf.id,version:wolf.version});wolf=await latest(wolf.id);assert.equal(wolf.paPerRound,2);
+ const gm=await snapshot(manager),ordered=gm.order.map(id=>[...gm.characters,...gm.combatants].find(c=>c.id===id)?.initiative??-Infinity);assert.deepEqual(ordered,[...ordered].sort((a,b)=>b-a));
+ await action(manager,{action:'damage',combatantId:wolf.id,version:wolf.version,amount:20});assert.equal((await snapshot(other)).combatants.find(c=>c.id===wolf.id).health,'Mort');
+ const message={requestId:randomUUID(),action:'message',text:'Voici le lieu de rendez-vous.',link:'/compendium?article=regles-sante-blessures-soins',image:portrait};
+ await action(player,message,404);await action(manager,{...message,link:'javascript:alert(1)'},400);
+ await action(manager,message);await action(manager,message);
+ let feed=await snapshot(other);assert.equal(feed.events.filter(e=>e.id===message.requestId).length,1);assert.equal(feed.events.find(e=>e.id===message.requestId).payload.text,message.text);
+ const imageUrl=`${endpoint}/messages/${message.requestId}/image`;assert.equal((await app.inject({url:imageUrl,headers:{cookie:other.cookie}})).statusCode,200);assert.equal((await app.inject({url:imageUrl,headers:{cookie:stranger.cookie}})).statusCode,404);
+ await action(manager,{action:'withdraw',eventId:message.requestId});assert.ok(!(await snapshot(other)).events.some(e=>e.id===message.requestId));assert.equal((await app.inject({url:imageUrl,headers:{cookie:other.cookie}})).statusCode,404);
+ // Revocation must also invalidate previously revealed images.
+ await pool.query("UPDATE campaign_members SET status='invited' WHERE campaign_id=$1 AND user_id=$2",[campaign,other.id]);await call(other,'GET',endpoint,undefined,404);assert.equal((await app.inject({url:portraitPath,headers:{cookie:other.cookie}})).statusCode,404);
+ await pool.query("UPDATE campaign_members SET status='accepted' WHERE campaign_id=$1 AND user_id=$2",[campaign,other.id]);
+ actor=await latest(actor.id);await action(manager,{action:'remove',combatantId:actor.id,version:actor.version});assert.ok(!(await snapshot(manager)).combatants.some(c=>c.id===actor.id));assert.equal((await app.inject({url:portraitPath,headers:{cookie:other.cookie}})).statusCode,404);
+ console.log('CAMPAIGN LIVE OK — public dice, detailed MJ log, hidden combatants, strict projections, initiative order, HP, creature PA, idempotence, image permissions, withdrawal and revocation.');
+}

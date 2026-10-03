@@ -26,6 +26,7 @@ const router=createRouter({
     { path:"/atlas", component:()=>import("./pages/AtlasPage.vue") },
     { path:"/", component:()=>import("./pages/CompendiumPage.vue") },
     { path:"/campaigns", component:()=>import("./pages/CampaignsPage.vue") },
+    { path:"/campaigns/:id/play", component:()=>import("./pages/CampaignPlayPage.vue") },
     { path:"/campaigns/:id", component:()=>import("./pages/CampaignsPage.vue") },
     { path:"/account", component:()=>import("./App.vue") },
     { path:"/characters/:id/history", component:()=>import("./pages/CharacterHistoryPage.vue") },
