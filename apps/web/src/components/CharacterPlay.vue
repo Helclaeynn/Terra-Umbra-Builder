@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {computed,onMounted,onUnmounted,ref} from 'vue';
+import {appearanceGallery} from '../../../api/src/character-appearances';
 import {api,ApiError} from '../lib/api';
 import {blankPlayState,playProfile,type PlayState} from '../../../api/src/rules/play-state';
 import type {CharacterDataV2} from '../types/character';
@@ -10,6 +11,7 @@ const state=ref<PlayState>(blankPlayState()),version=ref(0),loaded=ref(false),bu
 const events=ref<any[]>([]),lastRoll=ref<any>(null),amount=ref(1),days=ref(3),prolonged=ref(false);
 const bonusLabel=ref(''),bonusSkill=ref('athletisme'),bonusAmount=ref(1),bonusTruth=ref(false);
 const profile=computed(()=>playProfile(props.data,state.value));
+const portrait=computed(()=>(state.value.revelation==='r'?appearanceGallery(props.data.appearances,'truth').primary?.src:'')||appearanceGallery(props.data.appearances,'reality',props.data.identity).primary?.src||'');
 const stressNames=['Neutre (Normal)','Tendu','Paniqué'];
 const groups=computed(()=>profile.value.attributes.map(a=>({...a,skills:profile.value.skills.filter(s=>s.attribute===a.id)})));
 const endpoint=computed(()=>`/api/characters/${props.id}/play`);
@@ -47,7 +49,7 @@ onUnmounted(()=>{alive=false;clearInterval(timer);});
 </script>
 <template>
 <section class="play-panel" aria-label="Personnage en jeu">
-  <header><div><p class="eyebrow">EN JEU</p><h2>{{ sheet.name }}</h2></div><a class="ghost" :href="`/characters/${id}/play`" target="_blank" rel="noopener">Ouvrir dans un onglet dédié ↗</a></header>
+  <header><img v-if="portrait" :src="portrait" :alt="sheet.name" style="width:72px;height:96px;object-fit:cover;border-radius:6px" /><div><p class="eyebrow">EN JEU</p><h2>{{ sheet.name }}</h2></div><a class="ghost" :href="`/characters/${id}/play`" target="_blank" rel="noopener">Ouvrir dans un onglet dédié ↗</a></header>
   <p v-if="error" role="alert">{{ error }}</p><p v-if="notice" role="status">{{ notice }}</p>
   <p v-if="!loaded">Chargement de l’état en jeu…</p>
   <template v-else>
@@ -55,18 +57,18 @@ onUnmounted(()=>{alive=false;clearInterval(timer);});
     <fieldset :disabled="busy||!canEdit">
       <legend>États et ressources</legend>
       <div class="play-fields">
-        <label>Révélation<select v-model="state.revelation" @change="dirty=true"><option value="v">Voilé</option><option value="sr">Semi-révélé</option><option value="r">Révélé</option></select></label>
+        <label>Révélation<select v-model="state.revelation" @change="dirty=true;save()"><option value="v">Voilé</option><option value="sr">Semi-révélé</option><option value="r">Révélé</option></select></label>
         <label>Stress indépendant des blessures<select v-model.number="state.stress" @change="dirty=true"><option :value="0">Neutre (Normal)</option><option :value="1">Tendu</option><option :value="2">Paniqué</option></select></label>
         <label>PA restants<input type="number" min="0" :max="profile.hp<=0?1:5" v-model.number="state.pa" @input="dirty=true" /></label>
         <label>Round<input type="number" min="1" max="100000" v-model.number="state.round" @input="dirty=true" /></label>
       </div>
-      <label v-for="bonus in profile.attributeBonuses" :key="bonus.id" class="check"><input type="checkbox" :checked="bonus.enabled" @change="toggleAutomatic(bonus.id,($event.target as HTMLInputElement).checked)" />{{ bonus.label }} +{{ bonus.amount }}<em v-if="bonus.truth&&state.revelation!=='r'"> — Vérité inactive</em></label>
+      <label v-for="bonus in profile.attributeBonuses" :key="bonus.id" class="check"><input type="checkbox" :checked="bonus.enabled" :disabled="bonus.id.startsWith('nature-')" @change="toggleAutomatic(bonus.id,($event.target as HTMLInputElement).checked)" />{{ bonus.label }} +{{ bonus.amount }}<em v-if="bonus.truth&&state.revelation==='v'"> — Vérité inactive</em></label>
       <label v-for="bonus in profile.mechanics" :key="bonus.id" class="check"><input type="checkbox" :checked="bonus.enabled" @change="toggleAutomatic(bonus.id,($event.target as HTMLInputElement).checked)" />{{ bonus.label }}</label>
       <p>Le Stress effectif tient compte des blessures. Les bonus marqués Vérité sont désactivés tant que tu n’es pas Révélé.</p>
       <label class="check"><input type="checkbox" v-model="state.share" @change="dirty=true" /> Montrer mon portrait, mon nom, mon occupation, ma Sphère et mon état général aux joueurs de ma campagne.</label>
       <button :disabled="!dirty" @click="save">Enregistrer les états et bonus{{ dirty?' *':'' }}</button>
     </fieldset>
-    <fieldset :disabled="busy||!canEdit"><legend>Blessures, soins et combat</legend><div class="play-fields"><label>Nombre de PV<input v-model.number="amount" type="number" min="1" max="10000" /></label><button @click="perform('damage',{amount})">Subir les dégâts</button><button @click="perform('heal',{amount})">Recevoir les soins</button><button v-if="profile.hp<=0&&profile.hp>profile.derived.death&&!state.stabilized" @click="perform('stabilize')">Stabiliser après réussite du soin</button><button @click="perform('initiative')">◈ Nouveau combat : initiative</button><button :disabled="state.initiative===null" @click="perform('round')">Round suivant</button></div><p>L’initiative est conservée pendant tout le combat. Chaque nouveau round restitue les PA du combat, avec un plafond de 1 PA à 0 PV ou moins (Agonisant ou Stabilisé). Déduis les PA dépensés dans le compteur ; relance l’initiative au début du prochain combat.</p></fieldset>
+    <fieldset :disabled="busy||!canEdit"><legend>Blessures, soins et combat</legend><div class="play-fields"><label>PV à retirer (dégâts nets) ou soigner<input v-model.number="amount" type="number" min="1" max="10000" /></label><button @click="perform('damage',{amount})">Subir les dégâts</button><button @click="perform('heal',{amount})">Recevoir les soins</button><button v-if="profile.hp<=0&&profile.hp>profile.derived.death&&!state.stabilized" @click="perform('stabilize')">Stabiliser après réussite du soin</button><button @click="perform('initiative')">◈ Nouveau combat : initiative</button><button :disabled="state.initiative===null" @click="perform('round')">Round suivant</button></div><p>L’initiative est conservée pendant tout le combat. Chaque nouveau round restitue les PA du combat, avec un plafond de 1 PA à 0 PV ou moins (Agonisant ou Stabilisé). Déduis les PA dépensés dans le compteur ; relance l’initiative au début du prochain combat.</p></fieldset>
     <fieldset :disabled="busy||!canEdit"><legend>Récupération entre les scènes</legend><div class="play-fields"><label>Jours de repos<input v-model.number="days" type="number" min="1" max="365" /></label><label class="check"><input v-model="prolonged" type="checkbox" /> Soins prolongés</label><strong>{{ Math.max(0,Math.min(profile.derived.pvMax-profile.hp,days*(prolonged?profile.recovery.prolonged:profile.recovery.normal))) }} PV à récupérer</strong><button @click="perform('rest',{days,prolonged})">Appliquer ce repos</button></div><p>{{ profile.recovery.normal }} PV/jour · {{ profile.recovery.prolonged }} PV/jour avec soins prolongés. Les soins particuliers sont à appliquer avec « Recevoir les soins ».</p></fieldset>
     <details><summary>Configurer un bonus de pouvoir, d’augmentation ou de situation</summary><fieldset :disabled="busy||!canEdit"><legend>Bonus supplémentaire explicite</legend><p>Les bonus préparés apparaissent sous les compétences concernées. Ce réglage permet d’ajouter un effet particulier ou un ajustement de situation convenu avec le MJ.</p><div class="play-fields"><label>Source<select v-model="bonusLabel" @change="sourceChanged"><option value="">Choisir…</option><option v-for="s in sourceOptions" :key="s.name" :value="s.name">{{ s.name }}</option><option value="Situation (MJ)">Situation (MJ)</option></select></label><label>Compétence<select v-model="bonusSkill"><option v-for="s in profile.skills" :key="s.id" :value="s.id">{{ s.name }}</option></select></label><label>Bonus / malus<input type="number" min="-100" max="100" v-model.number="bonusAmount" /></label><label class="check"><input type="checkbox" v-model="bonusTruth" /> Vérité : Révélé seulement</label><button @click="addBonus">Ajouter</button></div></fieldset></details>
     <div v-if="lastRoll" :key="lastRoll.id" class="roll-result" role="status"><strong>{{ lastRoll.payload.label }}</strong><span v-for="(die,i) in lastRoll.payload.dice" :key="i" class="die" :style="{'animation-delay':`${Number(i)*.45}s`}">{{ die }}</span><span v-if="lastRoll.payload.exploded">Explosion !</span><strong>{{ lastRoll.payload.modifier }} + {{ lastRoll.payload.dice.join(' + ') }} = {{ lastRoll.payload.total }}</strong><strong v-if="lastRoll.payload.narrativeFailure" class="failure">Échec narratif, quel que soit le total.</strong></div>

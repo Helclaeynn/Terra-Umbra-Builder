@@ -34,6 +34,8 @@ try{
  state.hp=12;assert.equal(playProfile(data,state).health,'Indemne');state.hp=11;assert.equal(playProfile(data,state).health,'Légèrement blessé');state.hp=3;assert.equal(playProfile(data,state).health,'Gravement blessé');state.hp=0;assert.equal(playProfile(data,state).health,'Agonisant');state.stabilized=true;assert.equal(playProfile(data,state).health,'Stabilisé');state.stabilized=false;
  state.hp=6;assert.equal(playProfile(data,state).stress,1);state.hp=3;assert.equal(playProfile(data,state).stress,2);state.hp=12;state.stress=2;assert.equal(playProfile(data,state).stress,2);
  for(const stress of [0,1,2])for(let first=1;first<=10;first++){let count=0;const r=rollD10(stress,()=>++count===1?first:10);assert.equal(r.narrativeFailure,first<=stress+1);assert.equal(count,(first===10||stress===1&&first===9)?2:1);assert.ok(r.dice.length<=2);}
+ const revealData={...data,truth:{nature:'vampire',consciousness:'initie',choices:{}}};
+ for(const [revelation,vigor,will] of [['v',4,0],['sr',5,1],['r',6,1]]){const rp=playProfile(revealData,{...blankPlayState(),revelation,disabled:['nature-vigueur']});assert.equal(rp.attributes.find(a=>a.id==='vigueur').value,vigor);assert.equal(rp.attributes.find(a=>a.id==='volonte').value,(data.attributes.volonte??0)+will);}
  const campaign=randomUUID(),character=randomUUID();await pool.query('INSERT INTO campaigns(id,owner_id,name) VALUES($1,$2,$3)',[campaign,manager.id,'CI Play']);await pool.query('INSERT INTO characters(id,owner_id,name,data,campaign_id) VALUES($1,$2,$3,$4,$5)',[character,player.id,'CI Play',JSON.stringify(data),campaign]);
  await pool.query("INSERT INTO campaign_members(campaign_id,user_id,status,character_id,admission_status,approved_basis) SELECT $1,$2,'accepted',id,'approved',campaign_character_basis(data) FROM characters WHERE id=$3",[campaign,player.id,character]);await pool.query("INSERT INTO campaign_members(campaign_id,user_id,status) VALUES($1,$2,'accepted')",[campaign,other.id]);
  const path=`/api/characters/${character}/play`;
@@ -74,6 +76,16 @@ try{
  await call(other,'POST',`/api/campaigns/${campaign}/rewards`,gift,404);await call(manager,'POST',`/api/campaigns/${campaign}/rewards`,gift);assert.equal((await call(manager,'POST',`/api/campaigns/${campaign}/rewards`,gift)).alreadyApplied,true);
  const inventory=(await pool.query('SELECT data,version FROM characters WHERE id=$1',[character])).rows[0];assert.equal(inventory.version,2);assert.equal(inventory.data.reality.equipment.length,2);assert.ok(inventory.data.reality.equipment.every(i=>i.selectedPrice===0&&i.acquiredInCampaign));assert.equal((await call(manager,'GET',`/api/campaigns/${campaign}/rewards`)).rewards[0].equipment[0].quantity,2);
  await (await import('./check-campaign-live.mjs')).checkCampaignLive({app,pool,call,player,other,manager,stranger,campaign,character});
+ await (await import('./check-campaign-combat.mjs')).checkCampaignCombat({pool,call,player,other,manager,campaign,character});
+ // A truth portrait becomes visible only while actually Revealed, then is revoked.
+ let portraitState=await call(player,'GET',path);
+ portraitState=await call(player,'POST',path,{requestId:randomUUID(),version:portraitState.version,action:'save',state:{...portraitState.state,revelation:'r'}});
+ assert.equal((await call(other,'GET',`/api/campaigns/${campaign}/play`)).characters[0].portrait,`/api/character-media/${privateMedia}`);
+ assert.equal((await app.inject({url:`/api/character-media/${privateMedia}`,headers:{cookie:other.cookie}})).statusCode,200);
+ await call(player,'POST',path,{requestId:randomUUID(),version:portraitState.version,action:'save',state:{...portraitState.state,revelation:'sr'}});
+ assert.equal((await app.inject({url:`/api/character-media/${privateMedia}`,headers:{cookie:other.cookie}})).statusCode,404);
  await pool.query('DELETE FROM campaign_members WHERE campaign_id=$1 AND user_id=$2',[campaign,other.id]);await call(other,'GET',`/api/campaigns/${campaign}/play`,undefined,404);
  console.log('PLAY OK — dice, truth gating, injuries, recovery, server rolls, conflicts, replay safety, private projections, revoked access, migration replay and equipment-only rewards.');
 }finally{await app.close();await pool.query('DELETE FROM users WHERE id=ANY($1::uuid[])',[users]);if(embedded)await embedded.close();else await pool.end();}
+
+await import('./check-campaign-live-catalog.mjs');

@@ -31,16 +31,17 @@ export function playProfile(data:any,state:PlayState){
   const attributeBonuses:Array<{id:string;label:string;amount:number;attribute:string;truth:boolean;enabled:boolean}>=hunterMemory?[{id:'hunter-memory',label:'Mémoire du Chasseur · Volonté permanente',attribute:'volonte',amount:1,truth:false,enabled:!state.disabled.includes('hunter-memory')}]:[];
   const choicesTruth=data.truth?.choices??{};
   const nature=data.truth?.nature;
-  const table=({daemon:truthRevelationRules.daemonStats,angelus:truthRevelationRules.angelusStats,aseryn:truthRevelationRules.aserynStats,exile:truthRevelationRules.exileStats,extral:truthRevelationRules.extralStats} as Record<string,Record<string,{r:string}>>)[nature];
+  const table=({daemon:truthRevelationRules.daemonStats,angelus:truthRevelationRules.angelusStats,aseryn:truthRevelationRules.aserynStats,exile:truthRevelationRules.exileStats,extral:truthRevelationRules.extralStats} as Record<string,Record<string,{sr:string;r:string}>>)[nature];
   const key=({daemon:choicesTruth.divinity,angelus:choicesTruth.sephirah,aseryn:choicesTruth.origin,exile:choicesTruth.people,extral:choicesTruth.species} as Record<string,string>)[nature];
   // These are the canonical attribute tables, not arbitrary effect prose.
-  const natureStats=nature==='vampire'?'+2 Vigueur · +1 Volonté':nature==='mage'?'+1 Esprit · +2 Volonté':table?.[key]?.r??'';
+  const stage=state.revelation;
+  const natureStats=stage==='v'?'':nature==='vampire'?(stage==='sr'?'+1 Vigueur · +1 Volonté':'+2 Vigueur · +1 Volonté'):nature==='mage'?(stage==='sr'?'+1 Esprit · +1 Volonté':'+1 Esprit · +2 Volonté'):table?.[key]?.[stage]??'';
   if(data.truth?.consciousness!=='profane')for(const token of natureStats.split(' · ')){
     const match=/^\+(\d+) (Vigueur|Agilité|Esprit|Volonté|Charisme)$/.exec(token);if(!match)continue;
     const attribute=rules.attributes.find(a=>a.name===match[2])!.id,id='nature-'+attribute;
-    attributeBonuses.push({id,label:'Nature Révélée · '+match[2],attribute,amount:Number(match[1]),truth:true,enabled:!state.disabled.includes(id)});
+    attributeBonuses.push({id,label:(stage==='sr'?'Nature Semi-révélée · ':'Nature Révélée · ')+match[2],attribute,amount:Number(match[1]),truth:true,enabled:true});
   }
-  const attributes=rules.attributes.map(a=>({...a,value:n(data.attributes?.[a.id])+n(data.edgeAttributes?.[a.id])+n(p.attributeRanks?.[a.id])+attributeBonuses.filter(b=>b.attribute===a.id&&b.enabled&&(!b.truth||state.revelation==='r')).reduce((sum,b)=>sum+b.amount,0)}));
+  const attributes=rules.attributes.map(a=>({...a,value:n(data.attributes?.[a.id])+n(data.edgeAttributes?.[a.id])+n(p.attributeRanks?.[a.id])+attributeBonuses.filter(b=>b.attribute===a.id&&b.enabled&&(!b.truth||state.revelation!=='v')).reduce((sum,b)=>sum+b.amount,0)}));
   const raw=(id:string)=>((sphere?.fixedSkills as readonly string[]|undefined)?.includes(id)?1:0)+n(data.skills?.[id]?.style)+n(data.skills?.[id]?.free)+n(data.skills?.[id]?.edge)+n(p.skillRanks?.[id]);
   const attribute=(id:string)=>attributes.find(a=>a.id===id)?.value??0;
   const allTalents=[...Object.values(rules.talents.origin).flat(),...Object.values(rules.talents.sphere).flat(),...rules.talents.common,...rules.talents.expertise];

@@ -1,3 +1,4 @@
+import {registerCampaignCombatRoutes} from './campaign-combat.js';
 import {liveSnapshot,registerCampaignLiveRoutes} from './campaign-live.js';
 import { isDeepStrictEqual } from 'node:util';
 import { randomInt } from 'node:crypto';
@@ -21,6 +22,7 @@ async function characterAccess(db:Pick<PoolClient,'query'>,id:string,user:{id:st
 }
 export async function registerCharacterPlayRoutes(app:FastifyInstance){
   await registerCampaignLiveRoutes(app);
+  await registerCampaignCombatRoutes(app);
   app.get<{Params:{id:string}}>('/api/characters/:id/play',async(req,reply)=>{
     reply.header('Cache-Control','private, no-store');
     const user=await requireUser(req,reply);if(!user)return;
@@ -117,7 +119,7 @@ export async function registerCharacterPlayRoutes(app:FastifyInstance){
       const state:PlayState={...blankPlayState(),...c.state};
       if(!manager&&c.owner_id!==user.id&&!state.share)return [];
       const profile=playProfile(c.data,state),identity=c.data.identity??{};
-      const portrait=appearanceGallery(c.data.appearances,'reality',identity).primary?.src??'';
+      const portrait=(state.revelation==='r'?appearanceGallery(c.data.appearances,'truth').primary?.src:'')||appearanceGallery(c.data.appearances,'reality',identity).primary?.src||'';
       const publicFields={kind:'character',id:c.id,name:c.name,portrait,occupation:String(identity.occupation??''),sphere:rules.spheres[c.data.creation?.sphere as keyof typeof rules.spheres]?.name??'',health:profile.health};
       return [{...publicFields,...(manager||c.owner_id===user.id?{hp:profile.hp,pvMax:profile.derived.pvMax,pa:profile.pa,paPerRound:state.paPerRound,initiative:state.initiative,round:state.round,stress:profile.stress,revelation:state.revelation,canReadSheet:true}:{})}];
     });
