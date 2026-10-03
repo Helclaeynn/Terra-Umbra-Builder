@@ -27,7 +27,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          source=156dd91203b9eb8be5e9c11bb30aa7ea07377e95
+          source=296106ce3427a08d73d2cc150198ef76c3ac9107
           git merge-base --is-ancestor "$source" HEAD
           verified=false
           for attempt in $(seq 1 90); do
@@ -47,11 +47,11 @@ jobs:
           cd ../web
           npm ci
           npm run build
-      - name: Package application overlay and additive migration
+      - name: Package grouped application overlay and migrations
         run: |
           python3 - <<'PY'
           import json,pathlib,subprocess,tarfile
-          files=subprocess.check_output(['git','diff','--name-only','6f36b180fbc00f7785ee3a38609d895d8bafb623','156dd91203b9eb8be5e9c11bb30aa7ea07377e95'],text=True).splitlines()
+          files=subprocess.check_output(['git','diff','--name-only','6f36b180fbc00f7785ee3a38609d895d8bafb623','296106ce3427a08d73d2cc150198ef76c3ac9107'],text=True).splitlines()
           files=[p for p in files if p.startswith(('apps/','infrastructure/migrations/'))]
           pathlib.Path('payload-files.json').write_text(json.dumps(files))
           runtime=[p.replace('/src/','/dist/').removesuffix('.ts')+'.js' for p in files if p.startswith('apps/api/src/')]
