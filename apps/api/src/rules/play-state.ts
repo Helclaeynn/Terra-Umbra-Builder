@@ -6,8 +6,8 @@ import { contextualSkillBonuses } from './reality-conditional-bonuses.js';
 import { dailyRecovery, injuryStress } from './reality-talents-policy.js';
 import { characterDerivedStats } from './character-derived-stats.js';
 export type PlayBonus={id:string;label:string;skill:string;amount:number;truth:boolean;enabled:boolean};
-export type PlayState={hp:number|null;stress:0|1|2;revelation:'v'|'sr'|'r';pa:number;round:number;stabilized:boolean;share:boolean;disabled:string[];contexts:string[];bonuses:PlayBonus[]};
-export const blankPlayState=():PlayState=>({hp:null,stress:0,revelation:'v',pa:0,round:1,stabilized:false,share:false,disabled:[],contexts:[],bonuses:[]});
+export type PlayState={hp:number|null;stress:0|1|2;revelation:'v'|'sr'|'r';pa:number;round:number;initiative:number|null;paPerRound:number;stabilized:boolean;share:boolean;disabled:string[];contexts:string[];bonuses:PlayBonus[]};
+export const blankPlayState=():PlayState=>({hp:null,stress:0,revelation:'v',pa:0,round:1,initiative:null,paPerRound:0,stabilized:false,share:false,disabled:[],contexts:[],bonuses:[]});
 export function validatePlayState(v:any):v is PlayState {
   return !!v && (v.hp===null||Number.isSafeInteger(v.hp)&&Math.abs(v.hp)<=10000) && [0,1,2].includes(v.stress) && ['v','sr','r'].includes(v.revelation)
     && Number.isInteger(v.pa)&&v.pa>=0&&v.pa<=5 && Number.isInteger(v.round)&&v.round>=1&&v.round<=100000

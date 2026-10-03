@@ -41,7 +41,7 @@ try{
  let live=await call(player,'GET',path);const saved=await call(player,'POST',path,{requestId:randomUUID(),version:0,action:'save',state:{...live.state,share:true}});assert.equal(saved.version,1);
  await call(manager,'POST',path,{requestId:randomUUID(),version:1,action:'damage',amount:1},404);
  const damage={requestId:randomUUID(),version:1,action:'damage',amount:6};const damaged=await call(player,'POST',path,damage);assert.equal(damaged.profile.hp,6);assert.equal(damaged.profile.stress,1);assert.equal((await call(player,'POST',path,damage)).alreadyApplied,true);await call(player,'POST',path,{...damage,requestId:randomUUID()},409);
- const peer=await call(other,'GET',`/api/campaigns/${campaign}/play`);assert.equal(peer.characters[0].health,'Blessé');for(const key of ['hp','pvMax','pa','round','stress','revelation','data'])assert.equal(key in peer.characters[0],false);assert.equal(peer.events.length,0);
+ const peer=await call(other,'GET',`/api/campaigns/${campaign}/play`);assert.equal(peer.characters[0].health,'Blessé');for(const key of ['hp','pvMax','pa','paPerRound','initiative','round','stress','revelation','data'])assert.equal(key in peer.characters[0],false);assert.equal(peer.events.length,0);
  const publicMedia=randomUUID(),privateMedia=randomUUID();
  for(const id of [publicMedia,privateMedia])await pool.query('INSERT INTO character_media(id,owner_id,sha256,mime_type,content) VALUES($1,$2,$3,$4,$5)',[id,player.id,id.padEnd(64,'0'),'image/png',Buffer.from([137,80,78,71,13,10,26,10,0,0,0,0])]);
  data.appearances={reality:[{mediaId:publicMedia,label:'Public'}],truth:[{mediaId:privateMedia,label:'Secret'}],primaryReality:publicMedia,primaryTruth:privateMedia};
@@ -51,6 +51,23 @@ try{
  const mj=await call(manager,'GET',`/api/campaigns/${campaign}/play`);assert.equal(mj.characters[0].hp,6);assert.equal(mj.events.length,2);
  const rested=await call(player,'POST',path,{requestId:randomUUID(),version:2,action:'rest',days:3,prolonged:false});assert.equal(rested.profile.hp,12);assert.equal(rested.event.payload.recovered,6);
  const roll=await call(player,'POST',path,{requestId:randomUUID(),version:3,action:'roll',skill:'athletisme'});assert.equal(roll.event.payload.modifier,10);assert.equal(roll.event.payload.total,10+roll.event.payload.sum);
+ // Initiative and the PA budget persist throughout a combat, including reloads and injury.
+ await call(player,'POST',path,{requestId:randomUUID(),version:4,action:'round'},400);
+ let combat=await call(player,'POST',path,{requestId:randomUUID(),version:4,action:'initiative'});
+ const initiative=combat.state.initiative,paPerRound=combat.state.paPerRound;
+ assert.equal(initiative,combat.event.payload.total);assert.equal(combat.state.round,1);assert.ok(paPerRound>=1&&paPerRound<=3);
+ combat=await call(player,'POST',path,{requestId:randomUUID(),version:combat.version,action:'save',state:{...combat.state,pa:0,stress:2,initiative:999,paPerRound:5}});
+ assert.equal(combat.state.initiative,initiative);assert.equal(combat.state.paPerRound,paPerRound);
+ const next={requestId:randomUUID(),version:combat.version,action:'round'};
+ combat=await call(player,'POST',path,next);assert.equal(combat.state.round,2);assert.equal(combat.state.pa,paPerRound);assert.equal(combat.state.initiative,initiative);assert.equal(combat.event.payload.dice,undefined);
+ assert.equal((await call(player,'POST',path,next)).alreadyApplied,true);
+ const reloaded=await call(manager,'GET',path);assert.equal(reloaded.state.initiative,initiative);assert.equal(reloaded.state.paPerRound,paPerRound);
+ const group=await call(manager,'GET',`/api/campaigns/${campaign}/play`);assert.equal(group.characters[0].initiative,initiative);
+ combat=await call(player,'POST',path,{requestId:randomUUID(),version:combat.version,action:'damage',amount:12});
+ combat=await call(player,'POST',path,{requestId:randomUUID(),version:combat.version,action:'round'});assert.equal(combat.state.pa,1);assert.equal(combat.state.paPerRound,paPerRound);
+ combat=await call(player,'POST',path,{requestId:randomUUID(),version:combat.version,action:'heal',amount:12});
+ combat=await call(player,'POST',path,{requestId:randomUUID(),version:combat.version,action:'round'});assert.equal(combat.state.pa,paPerRound);
+ combat=await call(player,'POST',path,{requestId:randomUUID(),version:combat.version,action:'initiative'});assert.equal(combat.state.round,1);assert.equal(combat.state.initiative,combat.event.payload.total);
  const item=getRealityRules().equipment.find(i=>builderPurchaseAllowed(i)&&i.price>0&&!['monthly','annual','per_use'].includes(i.recurring));assert.ok(item);
  const gift={requestId:randomUUID(),reason:'Trouvaille',rewards:[{characterId:character,version:1,xp:0,ptv:0,money:0,renownDelta:0,corruptionDelta:0,corruptionSource:'',equipment:[{itemId:item.id,quantity:2}]}]};
  await call(other,'POST',`/api/campaigns/${campaign}/rewards`,gift,404);await call(manager,'POST',`/api/campaigns/${campaign}/rewards`,gift);assert.equal((await call(manager,'POST',`/api/campaigns/${campaign}/rewards`,gift)).alreadyApplied,true);

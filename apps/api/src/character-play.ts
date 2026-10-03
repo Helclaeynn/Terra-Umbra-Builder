@@ -24,7 +24,7 @@ export async function registerCharacterPlayRoutes(app:FastifyInstance){
     const user=await requireUser(req,reply);if(!user)return;
     const c=await characterAccess(pool,req.params.id,user);if(!c)return reply.code(404).send({error:'character_not_found'});
     const r=await pool.query('SELECT state,version FROM character_play_states WHERE character_id=$1',[c.id]);
-    const state:PlayState=r.rows[0]?.state??blankPlayState();
+    const state:PlayState={...blankPlayState(),...r.rows[0]?.state};
     const events=await pool.query('SELECT id,kind,payload,created_at AS "createdAt" FROM character_play_events WHERE character_id=$1 ORDER BY created_at DESC LIMIT 30',[c.id]);
     return {state,version:r.rows[0]?.version??0,profile:playProfile(c.data,state),canEdit:c.owner_id===user.id,events:events.rows};
   });
@@ -41,14 +41,14 @@ export async function registerCharacterPlayRoutes(app:FastifyInstance){
       const previous=await db.query('SELECT character_id,created_by,request_payload FROM character_play_events WHERE id=$1',[b.requestId]);
       if(previous.rows.length){if(previous.rows[0].character_id!==c.id||previous.rows[0].created_by!==user.id||!isDeepStrictEqual(previous.rows[0].request_payload,b))return await fail(409,'play_request_conflict');await db.query('COMMIT');return {ok:true,alreadyApplied:true};}
       const r=await db.query('SELECT state,version FROM character_play_states WHERE character_id=$1',[c.id]);
-      let state:PlayState=structuredClone(r.rows[0]?.state??blankPlayState());
+      let state:PlayState=structuredClone({...blankPlayState(),...r.rows[0]?.state});
       const version=r.rows[0]?.version??0;
       if(version!==b.version)return await fail(409,'play_version_conflict');
       let profile=playProfile(c.data,state);
       let payload:Record<string,unknown>={};
       if(b.action==='save'){
         if(!validatePlayState(b.state))return await fail(400,'invalid_play_state');
-        state=b.state;
+        state={...b.state,initiative:state.initiative,paPerRound:state.paPerRound};
         // HP changes use explicit logged actions; settings cannot silently heal.
         state.hp=r.rows[0]?.state.hp??null;
         state.stabilized=r.rows[0]?.state.stabilized??false;
@@ -72,18 +72,21 @@ export async function registerCharacterPlayRoutes(app:FastifyInstance){
         if(profile.hp>0||profile.hp<=profile.derived.death)return await fail(400,'cannot_stabilize');
         state.hp=0;state.stabilized=true;payload={label:'Stabilisé après un soin réussi'};
       }else if(b.action==='round'){
-        state.round++;state.pa=0;payload={label:'Nouveau round — initiative à lancer',round:state.round};
+        if(state.initiative===null)return await fail(400,'combat_not_started');
+        state.round++;state.pa=state.paPerRound;payload={label:'Nouveau round — PA restaurés',round:state.round,initiative:state.initiative,pa:playProfile(c.data,state).pa};
       }else{
         const skill=profile.skills.find(s=>s.id===b.skill);
         if(b.action==='roll'&&!skill)return await fail(400,'unknown_skill');
         if(profile.hp<=profile.derived.death)return await fail(400,'character_dead');
         const die=rollD10(profile.stress,()=>randomInt(1,11));
         const modifier=b.action==='initiative'?profile.derived.initiative:skill!.total;
-        payload={label:b.action==='initiative'?'Initiative':skill!.name,modifier,...die,total:modifier+die.sum,stress:profile.stress,revelation:state.revelation,
+        payload={label:b.action==='initiative'?'Nouveau combat · Initiative':skill!.name,modifier,...die,total:modifier+die.sum,stress:profile.stress,revelation:state.revelation,
           bonuses:b.action==='initiative'?[]:[...skill!.automatic.filter(x=>x.enabled),...skill!.contexts.filter(x=>x.enabled),...skill!.prepared.filter(x=>x.active),...skill!.extras]};
         if(b.action==='initiative'){
           const total=modifier+die.sum;
-          state.pa=die.dice[0]===1?1:total>=16?3:total>=11?2:1;
+          state.initiative=total;state.round=1;
+          state.paPerRound=die.dice[0]===1?1:total>=16?3:total>=11?2:1;
+          state.pa=state.paPerRound;
           if(profile.hp<=0)state.pa=Math.min(state.pa,1);
           payload.pa=state.pa;
         }
@@ -108,12 +111,12 @@ export async function registerCharacterPlayRoutes(app:FastifyInstance){
     const rows=await pool.query(`SELECT c.id,c.name,c.owner_id,c.data,s.state FROM campaign_members m JOIN characters c ON c.id=m.character_id AND c.owner_id=m.user_id AND c.campaign_id=m.campaign_id
       LEFT JOIN character_play_states s ON s.character_id=c.id WHERE m.campaign_id=$1 AND m.status='accepted' AND c.archived_at IS NULL`,[req.params.id]);
     const characters=rows.rows.flatMap(c=>{
-      const state:PlayState=c.state??blankPlayState();
+      const state:PlayState={...blankPlayState(),...c.state};
       if(!manager&&c.owner_id!==user.id&&!state.share)return [];
       const profile=playProfile(c.data,state),identity=c.data.identity??{};
       const portrait=appearanceGallery(c.data.appearances,'reality',identity).primary?.src??'';
       const publicFields={id:c.id,name:c.name,portrait,occupation:String(identity.occupation??''),sphere:rules.spheres[c.data.creation?.sphere as keyof typeof rules.spheres]?.name??'',health:profile.health};
-      return [{...publicFields,...(manager||c.owner_id===user.id?{hp:profile.hp,pvMax:profile.derived.pvMax,pa:profile.pa,round:state.round,stress:profile.stress,revelation:state.revelation,canReadSheet:true}:{})}];
+      return [{...publicFields,...(manager||c.owner_id===user.id?{hp:profile.hp,pvMax:profile.derived.pvMax,pa:profile.pa,paPerRound:state.paPerRound,initiative:state.initiative,round:state.round,stress:profile.stress,revelation:state.revelation,canReadSheet:true}:{})}];
     });
     const events=await pool.query(`SELECT e.id,e.kind,e.payload,e.created_at AS "createdAt",c.name AS "characterName" FROM character_play_events e
       JOIN characters c ON c.id=e.character_id JOIN campaign_members m ON m.character_id=c.id AND m.campaign_id=e.campaign_id AND m.user_id=c.owner_id
