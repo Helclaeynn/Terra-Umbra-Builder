@@ -19,6 +19,7 @@ await page.route('**/api/**',async route=>{
  if(path==='/api/campaigns'&&method==='GET')body={campaigns:deleted?[]:[campaign()],canCreate:role==='gm',userId:role==='gm'?gid:pid};
  else if(path==='/api/campaigns'&&method==='POST'){assert.equal(req.postDataJSON().name,'Nouvelle table');body={campaign:{id:cid}};code=201;}
  else if(path===`/api/campaigns/${cid}`&&method==='GET')body={campaign:campaign(),members:members(),userId:role==='gm'?gid:pid};
+ else if(path===`/api/campaigns/${cid}/play`&&method==='GET')body={characters:[],events:[]};
  else if(path===`/api/campaigns/${cid}`&&method==='PATCH'){
   if(conflict){code=409;body={error:'campaign_version_conflict'};}else{const b=req.postDataJSON();notes=b.gmNotes;archived=b.archived;version++;body={ok:true};}
  }
