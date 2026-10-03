@@ -85,7 +85,11 @@ assert.equal(characters.filter((article) => article.pnj?.completeness !== "portr
 const restoredWeapons = JSON.parse(await readFile("../../compendium/source/sharp-weapons-restoration-v1.json", "utf8"))
   .entries.filter((entry) => entry.disposition === "add");
 const equipment = fresh.articles.filter((article) => article.category === "Équipement & Objets");
-assert.equal(equipment.length, 697 + restoredWeapons.length);
+const approvedAidhEquipment = JSON.parse(await readFile("../../compendium/source/aidh-catalogue-revision-20261001.json", "utf8")).approvedEquipment;
+assert.equal(equipment.length, 697 + restoredWeapons.length + approvedAidhEquipment.length);
+for (const id of approvedAidhEquipment) {
+  assert.ok(equipment.some((article) => article.id === id), `${id}: approved AIDH equipment remains active`);
+}
 for (const entry of restoredWeapons) {
   assert.ok(equipment.some((article) => article.id === entry.articleId),
     `${entry.articleId}: restored weapon remains active`);
