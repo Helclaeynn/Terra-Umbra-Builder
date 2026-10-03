@@ -7,6 +7,7 @@ export async function checkCampaignCombat({pool,call,player,other,manager,campai
  assert.equal(damageCalculation({total:10,damage:30,bonusDamage:2,penetration:1},10,0,0).damage,0);
  assert.equal(damageCalculation({total:19,damage:3,bonusDamage:2,penetration:1,narrativeFailure:true},10,0,0).damage,0);
  const aug=combatEquipment({reality:{augmentations:[{itemId:'armure_dermique_g1',loaded:true}]}});assert.equal(aug[0].body,2);
+ const suit=combatEquipment({reality:{equipment:[{itemId:'armures-specialisees-bridgeelectrics-no-fire'}]}})[0];assert.equal(suit.reductions.balistique,1);assert.equal(suit.reductions.antichoc,3);assert.equal(suit.reductions.feu,3);assert.equal(suit.reductions.electricite,3);
  const eventId=randomUUID();await pool.query("INSERT INTO campaign_live_events(id,campaign_id,created_by,kind,payload,request_payload,public) VALUES($1,$2,$3,'roll',$4::jsonb,'{}',true)",[eventId,campaign,manager.id,JSON.stringify({label:'Attaque',characterName:'Garde',total:19,dice:[8],modifier:11,narrativeFailure:false})]);
  const attack={requestId:randomUUID(),action:'attack',eventId,targetId:character,damage:3,bonusDamage:2,penetration:1,damageType:'melee',surprise:false};
  await send(other,attack,403);await send(manager,attack);await send(manager,attack);await send(manager,{...attack,requestId:randomUUID()},409);
@@ -16,7 +17,7 @@ export async function checkCampaignCombat({pool,call,player,other,manager,campai
  const defense={requestId:randomUUID(),action:'defend',attackId:attack.requestId,active:true,bonus:0};await send(player,defense);await send(player,defense);
  const after=(await call(player,'GET',`/api/characters/${character}/play`)).state;assert.equal(after.pa,before.pa-1);
  await send(player,{...defense,requestId:randomUUID()},409);
- const resolve={requestId:randomUUID(),action:'resolve',attackId:attack.requestId,protectionIds:[],armor:4,extraArmor:0,extraReduction:2,defenseOverride:10};
+ const resolve={requestId:randomUUID(),action:'resolve',attackId:attack.requestId,protectionIds:[],material:true,armor:4,extraArmor:0,extraReduction:2,defenseOverride:10};
  const pending=(await call(manager,'GET',url)).pending[0],expected=damageCalculation(pending,pending.defense.narrativeFailure?10:pending.defense.total,4,2).damage;
  await send(manager,resolve);await send(manager,resolve);await send(manager,{...resolve,requestId:randomUUID()},409);
  const final=await call(player,'GET',`/api/characters/${character}/play`);assert.equal(final.profile.hp,Math.max(final.profile.derived.death,before.hp-expected));assert.equal((await call(player,'GET',url)).pending.length,0);

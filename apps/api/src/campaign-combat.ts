@@ -9,15 +9,17 @@ import {characterDerivedStats} from './rules/character-derived-stats.js';
 import {getRealityRules} from './rules/reality.js';
 const uuid=(v:any)=>typeof v==='string'&&/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(v);
 const integer=(v:any,min=0,max=100)=>Number.isSafeInteger(v)&&v>=min&&v<=max;
-const kinds=['melee','balistique','antichoc','feu','occulte','neuro'];
+const kinds=['melee','balistique','antichoc','feu','froid','electricite','chimique','occulte','neuro'];
 const norm=(s:string)=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
 export function combatEquipment(data:any,npc=false){
  const rules=getRealityRules(),catalog=[...rules.equipment,...rules.augmentations];
  const owned=npc?(data.equipmentIds??[]).map((itemId:string)=>({itemId})): [...(data.reality?.equipment??[]),...(data.reality?.augmentations??[]).filter((p:any)=>p.loaded!==false)];
  return owned.flatMap((p:any)=>{const item=catalog.find(x=>x.id===p.itemId||(x as any).compendiumId?.replace(/^equipement-\d+-/,'')===p.itemId);if(!item)return [];
   const text=item.effect+' '+Object.values(item.data??{}).join(' · '),n=norm(text),body=Number(/armure (?:corporelle|naturelle)\s*(\d+)/.exec(n)?.[1]??0),armor=Number(/armure\s+(\d+)/.exec(n)?.[1]??0);
-  const reductions=Object.fromEntries(kinds.map(k=>[k,Number(new RegExp('(?:reduction\\s+)?'+k+'\\s*[:+]?\\s*(\\d+)').exec(n)?.[1]??new RegExp('reduction\\s+(\\d+)\\s*\\['+k+'\\]').exec(n)?.[1]??0)]));
-  return body||armor||Object.values(reductions).some(Boolean)?[{id:p.uid??p.itemId,name:item.name,text,body,armor,reductions}]:[];
+  const aliases:Record<string,string>={melee:'(?:melee|mel\\.)',balistique:'(?:balistique|bal\\.)',antichoc:'(?:antichoc|ant\\.)'};
+  const reductions=Object.fromEntries(kinds.map(k=>{const direct=Number(new RegExp('(?:reduction\\s+)?'+(aliases[k]??k)+'\\s*[:+]?\\s*(\\d+)').exec(n)?.[1]??0);
+   const grouped=[...n.matchAll(/reduction\s+(\d+)\s*\[([^\]]+)\]/g)].filter(m=>m[2].split('/').map(t=>t.trim()).includes(k)).map(m=>Number(m[1]));return [k,Math.max(direct,0,...grouped)];}));
+  return body||armor||Object.values(reductions).some(Boolean)||/armure/i.test(item.category)?[{id:p.uid??p.itemId,name:item.name,text,body,armor,reductions}]:[];
  });
 }
 export function damageCalculation(a:any,defense:number,armor:number,reduction:number){
@@ -79,10 +81,10 @@ export async function registerCampaignCombatRoutes(app:FastifyInstance){
      if(b.active){t.pa--;await saveTarget(db,t);}
     }else{
      if(!d.rowCount)return await fail(400,'choose_defense');const defense=d.rows[0].payload;
-     if(!Array.isArray(b.protectionIds)||b.protectionIds.length>100||b.protectionIds.some((id:any)=>!t.protections.some((p:any)=>p.id===id))||!integer(b.extraArmor)||!integer(b.extraReduction)||!integer(b.armor,-0,100)||!integer(b.defenseOverride,0,1000))return await fail(400,'invalid_reduction');
+     if(typeof b.material!=='boolean'||!Array.isArray(b.protectionIds)||b.protectionIds.length>100||b.protectionIds.some((id:any)=>!t.protections.some((p:any)=>p.id===id))||!integer(b.extraArmor)||!integer(b.extraReduction)||!integer(b.armor,-0,100)||!integer(b.defenseOverride,0,1000))return await fail(400,'invalid_reduction');
      if(defense.narrativeFailure&&!access.manager)return await fail(400,'mj_defense_ruling_required');
      const selected=t.protections.filter((p:any)=>b.protectionIds.includes(p.id));
-     const material=['neuro','occulte'].includes(a.damageType)?0:b.armor+Math.max(0,...selected.map((p:any)=>p.armor))+Math.max(0,...selected.map((p:any)=>p.body))+b.extraArmor;
+     const material=!b.material?0:b.armor+Math.max(0,...selected.map((p:any)=>p.armor))+Math.max(0,...selected.map((p:any)=>p.body))+b.extraArmor;
      const reduction=b.extraReduction+(t.reductions?.[a.damageType]??0)+Math.max(0,...selected.map((p:any)=>p.reductions[a.damageType]??0));
      const calc=damageCalculation(a,defense.narrativeFailure?b.defenseOverride:defense.total,material,reduction),before=t.hp;
      t.hp=Math.max(t.death,t.hp-calc.damage);if(t.kind==='character'&&calc.damage>0)t.state.stabilized=false;t.pa=t.hp<=t.death?0:t.hp<=0?Math.min(t.pa,1):t.pa;
