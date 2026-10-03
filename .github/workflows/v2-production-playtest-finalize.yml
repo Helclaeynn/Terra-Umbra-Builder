@@ -1,0 +1,72 @@
+name: V2 production playtest final cleanup
+on:
+  push:
+    branches: [feature/tuc-web-v2]
+    paths: [.github/workflows/v2-production-playtest-finalize.yml]
+permissions:
+  contents: read
+concurrency:
+  group: tuc-v2-production
+  cancel-in-progress: false
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment: tuc-dev
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Remove only playtest transfer artifacts and failed candidate tags
+        env:
+          TUC_DEV_HOST: ${{ secrets.TUC_DEV_HOST }}
+          TUC_DEV_USER: ${{ secrets.TUC_DEV_USER }}
+          TUC_DEV_SSH_KEY: ${{ secrets.TUC_DEV_SSH_KEY }}
+        run: |
+          set -euo pipefail
+          install -m 700 -d ~/.ssh
+          trap 'rm -f ~/.ssh/tuc_prod' EXIT
+          printf '%s\n' "$TUC_DEV_SSH_KEY" > ~/.ssh/tuc_prod
+          chmod 600 ~/.ssh/tuc_prod
+          ssh-keyscan -H "$TUC_DEV_HOST" >> ~/.ssh/known_hosts
+          ssh -i ~/.ssh/tuc_prod -o IdentitiesOnly=yes "$TUC_DEV_USER@$TUC_DEV_HOST" 'python3 -' <<'PY'
+          import fcntl,json,os,pathlib,shutil,subprocess,urllib.request
+          root=pathlib.Path('/opt/terra-umbra');sha='6028e689681019bfd12fdb1a829993bd609a1b1d'
+          assert (root/'production-active').is_file()
+          lock=(root/'.production-release.lock').open('a');fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
+          assert (root/'.production-playtest-sha').read_text().strip()==sha
+          stage=root/'releases'/('playtest-'+sha)
+          def run(args):return subprocess.check_output(args,text=True).strip()
+          def running():
+            ids=run(['docker','ps','-aq']).split()
+            return {x['Id']:(x['Image'],x['State']['StartedAt'],x['State']['Status']) for x in json.loads(run(['docker','inspect',*ids]))}
+          def free():
+            s=os.statvfs(root);return s.f_bavail*s.f_frsize
+          before=free();containers=running();volumes=run(['docker','volume','ls','-q'])
+          protected={v[0] for v in containers.values()}
+          for service in ('api','web'):
+            image=(stage/('previous-'+service+'-image')).read_text().strip()
+            run(['docker','image','inspect',image]);protected.add(image)
+          for service in ('api','web'):
+            tag='tuc-v2-'+service+':playtest-0dd9ec64aa31'
+            rows=json.loads(run(['docker','image','inspect',tag]))
+            assert rows[0]['Id'] not in protected
+            run(['docker','image','rm','--no-prune',tag])
+          for revision in ('0dd9ec64aa31d5bfe72399223ebb5a6926fbfb2d',sha):
+            directory=root/'releases'/('playtest-'+revision)
+            assert directory.is_dir() and not directory.is_symlink() and (directory/'payload-files.json').is_file()
+            for name in ('playtest-release.tar.gz','api-overlay','web-overlay','apps/api/dist','apps/web/dist'):
+              p=directory/name
+              assert p.resolve().is_relative_to(directory.resolve()) and not p.is_symlink()
+              if p.is_dir():shutil.rmtree(p)
+              elif p.is_file():p.unlink()
+          print(run(['docker','builder','prune','--all','--force','--keep-storage','512MB']))
+          assert running()==containers
+          assert run(['docker','volume','ls','-q'])==volumes
+          for image in protected:run(['docker','image','inspect',image])
+          with urllib.request.urlopen('https://terra-umbra.fr/api/health',timeout=30) as response:assert response.status==200
+          (stage/'deployed.ok').write_text(sha+'\n')
+          after=free()
+          print(json.dumps({'status':'PLAYTEST FINAL CLEANUP VERIFIED','free_bytes':after,'reclaimed_bytes':after-before,'containers_unchanged':True,'rollback_images_preserved':True,'backups_preserved':True}))
+          print(run(['df','-h',str(root)]))
+          PY
