@@ -2,7 +2,7 @@ import {lockCombat,combatState,manageCombat,recordAction,maybeAdvanceCombat} fro
 import {weaponMechanics} from './rules/combat-damage.js';
 import {readFile} from 'node:fs/promises';
 import {resolve} from 'node:path';
-import {liveCatalog,repairedCombatantData} from './campaign-live-catalog.js';
+import {liveCatalog,repairedCombatantData,combatReference,capabilityRolls} from './campaign-live-catalog.js';
 import {BESTIARY_WEAPONS} from './campaign-bestiary-weapons.js';
 import type {FastifyInstance} from 'fastify';
 import type {PoolClient} from 'pg';
@@ -27,23 +27,24 @@ export function combatantHealth(c:any){return c.hp<=c.death?'Mort':c.hp<=0?'Agon
 // These options are computed from the saved combat snapshot, never from client scores.
 export function combatantRolls(c:any,allWeapons=false):any[]{
  if((c.source_kind??c.kind)==='creature')return [
+  ...capabilityRolls(c.data),
   ...(c.data.attacks??[]).map((a:any,i:number)=>({id:'attack:'+i,label:'Attaque · '+a.name,modifier:a.score,attack:Number.isFinite(a.damage)&&Number.isFinite(a.score),damage:a.damage,...weaponMechanics({range:a.range||'Contact',properties:a.properties??''}),...(['melee','ranged','fixed'].includes(a.attackMode)?{attackMode:a.attackMode}:{}),components:{profileScore:a.score,profileName:a.name,bonus:0}})),
   ...Object.entries({attack:'Attaque de base',perception:'Perception',mastery:'Maîtrise',physicalDefense:'Défense physique active',occultDefense:'Défense occulte active'}).filter(([k])=>Number.isSafeInteger(c.data.stats[k])).map(([k,label])=>({id:k,label,modifier:c.data.stats[k],attack:false,requiresWeapon:k==='attack',defense:k.endsWith('Defense'),components:{profileScore:c.data.stats[k],profileName:label,bonus:0}}))
  ];
- return ['reality',...(c.data.truth?['truth']:[])].flatMap(profile=>{
+ return [...capabilityRolls(c.data),...['reality',...(c.data.truth?['truth']:[])].flatMap(profile=>{
   const data=profile==='truth'?c.data.truth:c.data;
   const skillRolls=rules.skills.map(skill=>{const attribute=data.attributes?.[skill.attribute]??0,rank=data.skills?.[skill.id]??0,attack=['pugilat','melee','tir'].includes(skill.id);
    return {id:profile+':'+skill.id,label:(attack?'Attaque · ':'')+skill.name,profile:profile==='truth'||/verite|revele/.test(data.sourceSection??'')?'Révélé':'Réalité',modifier:attribute+rank,attack:skill.id==='pugilat',requiresWeapon:attack&&skill.id!=='pugilat',...(skill.id==='pugilat'?{damage:1,damageType:'antichoc',attackMode:'melee'}:{}),defense:skill.id==='esquive',components:{attributeName:rules.attributes.find(a=>a.id===skill.attribute)?.name,attribute,skillName:skill.name,rank,bonus:0}};
   });
   const weapons=BESTIARY_WEAPONS.filter(w=>allWeapons||(c.data.equipmentIds??[]).includes(w.id)).map(w=>{const skill=w.range==='Contact'?'melee':'tir',base=skillRolls.find(r=>r.id===profile+':'+skill)!;return {...base,id:profile+':weapon:'+w.id,label:'Attaque · '+w.name,group:w.group,weaponName:w.name,attack:true,requiresWeapon:false,damage:w.damage,...weaponMechanics(w)};});
   return [...weapons,...skillRolls];
- });
+ })];
 }
 const validRoll=(b:any)=>typeof b.label==='string'&&b.label.trim().length>0&&b.label.length<=120&&Number.isSafeInteger(b.bonus)&&Math.abs(b.bonus)<=100&&[0,1,2].includes(b.stress)&&typeof b.public==='boolean';
 export async function liveSnapshot(id:string,manager:boolean,sessionId:string|null=null,before:{at:string;id:string}|null=null){
  const result=await pool.query('SELECT * FROM campaign_live_combatants WHERE campaign_id=$1 AND NOT removed AND ($2::boolean OR visible) ORDER BY created_at,id',[id,manager]);
  await Promise.all(result.rows.map(async c=>{c.data=await repairedCombatantData(c);}));
- const combatants=result.rows.map(c=>({id:c.id,kind:c.source_kind,name:c.name,health:combatantHealth(c),portrait:c.data.portrait||c.data.image||c.data.sourcePortrait?`/api/campaigns/${id}/play/combatants/${c.id}/image`:'',...(manager?{rolls:combatantRolls(c),sourceId:c.source_id,sourceArticle:c.data.sourceArticle,sourceSection:c.data.sourceSection,hp:c.hp,pvMax:c.pv_max,death:c.death,initiative:c.initiative,initiativeBonus:c.initiative_bonus,pa:c.pa,paPerRound:c.pa_per_round,round:c.round,visible:c.visible,version:c.version}:{})}));
+ const combatants=result.rows.map(c=>({id:c.id,kind:c.source_kind,name:c.name,health:combatantHealth(c),portrait:c.data.portrait||c.data.image||c.data.sourcePortrait?`/api/campaigns/${id}/play/combatants/${c.id}/image`:'',...(manager?{rolls:combatantRolls(c),reference:combatReference(c.data),sourceId:c.source_id,sourceArticle:c.data.sourceArticle,sourceSection:c.data.sourceSection,hp:c.hp,pvMax:c.pv_max,death:c.death,initiative:c.initiative,initiativeBonus:c.initiative_bonus,pa:c.pa,paPerRound:c.pa_per_round,round:c.round,visible:c.visible,version:c.version}:{})}));
  const messages=await pool.query(`SELECT e.id,e.kind,e.payload,e.created_at::text AS "createdAt",u.display_name AS "playerName",e.image IS NOT NULL AS "hasImage" FROM campaign_live_events e JOIN users u ON u.id=e.created_by WHERE e.campaign_id=$1 AND e.live_session_id IS NOT DISTINCT FROM $3::uuid AND ($4::timestamptz IS NULL OR (e.created_at,e.id)<($4::timestamptz,$5::uuid)) AND NOT e.withdrawn AND ($2::boolean OR e.public) ORDER BY e.created_at DESC,e.id DESC LIMIT 101`,[id,manager,sessionId,before?.at??null,before?.id??null]);
  return {combatants,order:result.rows.map(c=>({id:c.id,initiative:c.initiative,pa:c.pa})),messages:messages.rows.map(e=>({...e,...(!manager?{payload:Object.fromEntries(Object.entries(e.payload).filter(([k])=>!['components','profile','before','after','armor','material','reduction','defense','penetration'].includes(k)))}:{}),...(e.hasImage?{image:`/api/campaigns/${id}/play/messages/${e.id}/image`}:{})}))};
 }
@@ -151,7 +152,7 @@ export async function registerCampaignLiveRoutes(app:FastifyInstance){
    if(category==='messages'){
     const r=await pool.query('SELECT image,mime FROM campaign_live_events WHERE campaign_id=$1 AND id=$2 AND NOT withdrawn AND ($3::boolean OR public)',[req.params.id,req.params.itemId,a.manager]);if(r.rows[0]?.image)pic={mime:r.rows[0].mime,buffer:r.rows[0].image};
    }else{
-    const r=await pool.query('SELECT data FROM campaign_live_combatants WHERE campaign_id=$1 AND id=$2 AND NOT removed AND ($3::boolean OR visible)',[req.params.id,req.params.itemId,a.manager]);const d=r.rows[0]?.data;pic=npcPortrait(d?.portrait||d?.image||'');if(!pic&&typeof d?.sourcePortrait==='string'){
+    const r=await pool.query('SELECT data,source_kind FROM campaign_live_combatants WHERE campaign_id=$1 AND id=$2 AND NOT removed AND ($3::boolean OR visible)',[req.params.id,req.params.itemId,a.manager]);const d=r.rows[0]?await repairedCombatantData(r.rows[0]):null;pic=npcPortrait(d?.portrait||d?.image||'');if(!pic&&typeof d?.sourcePortrait==='string'){
      const relative=d.sourcePortrait.replace(/^\/api\/compendium\/media\//,'');
      if(/^images\/[a-zA-Z0-9_./-]+\.(webp|png|jpg|jpeg)$/.test(relative)&&!relative.includes('..')){
       const root=process.env.COMPENDIUM_MEDIA_DIR??(process.env.NODE_ENV==='production'?'/app/compendium-media':resolve(process.cwd(),'../../compendium'));

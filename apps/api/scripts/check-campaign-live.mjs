@@ -67,6 +67,10 @@ export async function checkCampaignLive({app,pool,call,player,other,manager,stra
  const catalog=await call(manager,'GET',endpoint+'/catalog');const canonical=catalog.entries.find(e=>e.articleId==='bestiaire-v15-soldato');assert.ok(canonical);assert.ok(catalog.entries.every(e=>!e.data));
  const canonicalId=randomUUID();await action(manager,{requestId:canonicalId,action:'add',catalog:'compendium',kind:'creature',sourceId:canonical.id,name:'Homme de main',visible:true});
  const imported=await latest(canonicalId);assert.equal(imported.initiativeBonus,8);assert.equal(imported.rolls.find(r=>r.id==='attack:0').damage,11);
- const publicImported=(await snapshot(other)).combatants.find(c=>c.id===canonicalId);assert.ok(!('sourceArticle' in publicImported));assert.ok(!('rolls' in publicImported));
+ const publicImported=(await snapshot(other)).combatants.find(c=>c.id===canonicalId);assert.ok(!('sourceArticle' in publicImported));assert.ok(!('rolls' in publicImported));assert.ok(!('reference' in publicImported));assert.ok(imported.reference);
+ const diveId=randomUUID();await action(manager,{requestId:diveId,action:'add',catalog:'compendium',kind:'creature',sourceId:'bestiaire-v16-dive::creature',name:'Dive ancien',visible:true});
+ await pool.query("UPDATE campaign_live_combatants SET data=$2::jsonb,hp=17,pa=1,initiative=23 WHERE id=$1",[diveId,JSON.stringify({sourceArticle:'bestiaire-v16-dive',combatProfileVersion:2,stats:{attack:0},attacks:[]})]);
+ const dive=await latest(diveId);assert.equal(dive.hp,17);assert.equal(dive.pa,1);assert.equal(dive.initiative,23);assert.equal(dive.rolls.filter(r=>r.attack).length,2);assert.match(dive.reference.abilities.join(' '),/Mageius/);assert.equal((await app.inject({url:dive.portrait,headers:{cookie:other.cookie}})).statusCode,200);assert.ok(!JSON.stringify(await snapshot(other)).includes('Lien au Mageius'));
+
  console.log('CAMPAIGN LIVE OK — public dice, detailed MJ log, hidden combatants, strict projections, initiative order, HP, creature PA, idempotence, image permissions, withdrawal and revocation.');
 }
