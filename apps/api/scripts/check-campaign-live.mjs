@@ -1,4 +1,7 @@
 import assert from 'node:assert/strict';
+import {mkdtemp,writeFile,rm} from 'node:fs/promises';
+import {tmpdir} from 'node:os';
+import {join} from 'node:path';
 import {randomUUID} from 'node:crypto';
 export async function checkCampaignLive({app,pool,call,player,other,manager,stranger,campaign,character}){
  const endpoint=`/api/campaigns/${campaign}/play`,actions=endpoint+'/actions';
@@ -72,5 +75,15 @@ export async function checkCampaignLive({app,pool,call,player,other,manager,stra
  await pool.query("UPDATE campaign_live_combatants SET data=$2::jsonb,hp=17,pa=1,initiative=23 WHERE id=$1",[diveId,JSON.stringify({sourceArticle:'bestiaire-v16-dive',combatProfileVersion:2,stats:{attack:0},attacks:[]})]);
  const dive=await latest(diveId);assert.equal(dive.hp,17);assert.equal(dive.pa,1);assert.equal(dive.initiative,23);assert.equal(dive.rolls.filter(r=>r.attack).length,2);assert.match(dive.reference.abilities.join(' '),/Mageius/);assert.equal((await app.inject({url:dive.portrait,headers:{cookie:other.cookie}})).statusCode,200);assert.ok(!JSON.stringify(await snapshot(other)).includes('Lien au Mageius'));
 
+ const uploadDir=await mkdtemp(join(tmpdir(),'tuc-live-upload-')),previousUploadDir=process.env.COMPENDIUM_UPLOAD_DIR;process.env.COMPENDIUM_UPLOAD_DIR=uploadDir;
+ try{
+  const filename='bestiaire-v16-dive--page-1790930055570-3183bf3262.png',bytes=Buffer.from(portrait.split(',')[1],'base64');await writeFile(join(uploadDir,filename),bytes);
+  await pool.query("UPDATE campaign_live_combatants SET data=jsonb_set(jsonb_set(data,'{combatProfileVersion}','4'),'{sourcePortrait}',to_jsonb($2::text)) WHERE id=$1",[diveId,'/api/compendium/uploads/'+filename]);
+  for(const user of [manager,other]){const response=await app.inject({url:dive.portrait,headers:{cookie:user.cookie}});assert.equal(response.statusCode,200);assert.equal(response.headers['content-type'],'image/png');assert.deepEqual(response.rawPayload,bytes);}
+  assert.equal((await app.inject({url:dive.portrait,headers:{cookie:stranger.cookie}})).statusCode,404);
+  await pool.query('UPDATE campaign_live_combatants SET visible=false WHERE id=$1',[diveId]);assert.equal((await app.inject({url:dive.portrait,headers:{cookie:other.cookie}})).statusCode,404);
+  await pool.query("UPDATE campaign_live_combatants SET data=jsonb_set(data,'{sourcePortrait}',to_jsonb($2::text)) WHERE id=$1",[diveId,'/api/compendium/uploads/../secret.png']);assert.equal((await app.inject({url:dive.portrait,headers:{cookie:manager.cookie}})).statusCode,404);
+ }finally{if(previousUploadDir===undefined)delete process.env.COMPENDIUM_UPLOAD_DIR;else process.env.COMPENDIUM_UPLOAD_DIR=previousUploadDir;await rm(uploadDir,{recursive:true,force:true});}
+ console.log('UPLOADED PORTRAIT ROUTE OK — real bytes, MIME, participant visibility and path traversal');
  console.log('CAMPAIGN LIVE OK — public dice, detailed MJ log, hidden combatants, strict projections, initiative order, HP, creature PA, idempotence, image permissions, withdrawal and revocation.');
 }

@@ -137,6 +137,17 @@ try{
  for(const table of ['campaign_reward_grants','campaign_session_rewards']) {
   const result=await pool.query("SELECT 1 FROM information_schema.columns WHERE table_name=$1 AND column_name='edge'",[table]);assert.equal(result.rowCount,1,table);
  }
+ const {liveCatalog,repairedCombatantData}=await import('./dist/campaign-live-catalog.js');
+ const {readFile}=await import('node:fs/promises');const {resolve}=await import('node:path');
+ const canonical=(await liveCatalog()).find(p=>p.articleId==='bestiaire-v16-dive'&&p.kind==='creature');assert.ok(canonical?.data.sourcePortrait,'Dive canonical portrait');
+ const dives=await pool.query("SELECT source_kind,data FROM campaign_live_combatants WHERE NOT removed AND data->>'sourceArticle'='bestiaire-v16-dive'");
+ for(const row of [{source_kind:'creature',data:canonical.data},...dives.rows]){
+  const data=await repairedCombatantData(row),url=data.sourcePortrait;assert.ok(url,'Dive live portrait');
+  const upload=/^\/api\/compendium\/uploads\/([a-zA-Z0-9_.-]+\.(?:jpg|png|webp|gif))$/i.exec(url);
+  const relative=upload?.[1]??url.replace(/^\/api\/compendium\/media\//,'');assert.ok(!relative.includes('..'));
+  const root=upload?(process.env.COMPENDIUM_UPLOAD_DIR??'/app/editor-media'):(process.env.COMPENDIUM_MEDIA_DIR??'/app/compendium-media');const bytes=await readFile(resolve(root,relative));assert.ok(bytes.length>100);
+ }
+ console.log('DIVE LIVE PORTRAIT VERIFIED — canonical image and '+dives.rowCount+' existing participant(s), file bytes present');
  console.log('PLAYTEST LIVE MIGRATION VERIFIED — rounds, session archives and Edge');
 }finally{await pool.end();}
 NODE

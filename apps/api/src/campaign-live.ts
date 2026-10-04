@@ -153,10 +153,11 @@ export async function registerCampaignLiveRoutes(app:FastifyInstance){
     const r=await pool.query('SELECT image,mime FROM campaign_live_events WHERE campaign_id=$1 AND id=$2 AND NOT withdrawn AND ($3::boolean OR public)',[req.params.id,req.params.itemId,a.manager]);if(r.rows[0]?.image)pic={mime:r.rows[0].mime,buffer:r.rows[0].image};
    }else{
     const r=await pool.query('SELECT data,source_kind FROM campaign_live_combatants WHERE campaign_id=$1 AND id=$2 AND NOT removed AND ($3::boolean OR visible)',[req.params.id,req.params.itemId,a.manager]);const d=r.rows[0]?await repairedCombatantData(r.rows[0]):null;pic=npcPortrait(d?.portrait||d?.image||'');if(!pic&&typeof d?.sourcePortrait==='string'){
-     const relative=d.sourcePortrait.replace(/^\/api\/compendium\/media\//,'');
-     if(/^images\/[a-zA-Z0-9_./-]+\.(webp|png|jpg|jpeg)$/.test(relative)&&!relative.includes('..')){
-      const root=process.env.COMPENDIUM_MEDIA_DIR??(process.env.NODE_ENV==='production'?'/app/compendium-media':resolve(process.cwd(),'../../compendium'));
-      const buffer=await readFile(resolve(root,relative)).catch(()=>null);if(buffer)pic={buffer,mime:relative.endsWith('.webp')?'image/webp':relative.endsWith('.png')?'image/png':'image/jpeg'};
+     const upload=/^\/api\/compendium\/uploads\/([a-zA-Z0-9_.-]+\.(?:jpg|png|webp|gif))$/i.exec(d.sourcePortrait);
+     const relative=upload?.[1]??d.sourcePortrait.replace(/^\/api\/compendium\/media\//,'');
+     if((upload||/^images\/[a-zA-Z0-9_./-]+\.(webp|png|jpg|jpeg|gif)$/i.test(relative))&&!relative.includes('..')){
+      const root=upload?(process.env.COMPENDIUM_UPLOAD_DIR??(process.env.NODE_ENV==='production'?'/app/editor-media':resolve(process.cwd(),'../../.editor-media'))):(process.env.COMPENDIUM_MEDIA_DIR??(process.env.NODE_ENV==='production'?'/app/compendium-media':resolve(process.cwd(),'../../compendium')));
+      const buffer=await readFile(resolve(root,relative)).catch(()=>null);const ext=relative.split('.').at(-1)?.toLowerCase();if(buffer)pic={buffer,mime:ext==='webp'?'image/webp':ext==='png'?'image/png':ext==='gif'?'image/gif':'image/jpeg'};
      }
     }
    }
