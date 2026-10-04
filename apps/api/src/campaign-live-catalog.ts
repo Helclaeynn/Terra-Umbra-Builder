@@ -41,7 +41,7 @@ export function articleCombatProfiles(article:any){
   }
   if(rules.attributes.every(a=>Number.isInteger(attributes[a.id]))){
    const title=norm(section.id+' '+section.title),label=title.includes('verite')||title.includes('revele')?'Vérité / Révélé':'Réalité';
-   profiles.push({key:section.id,kind:'npc',name:article.title+' · '+label,data:{name:article.title,attributes,skills,armor,combatProfileVersion:3,...articleReference(article),equipmentIds:articleEquipment(article),sourceArticle:article.id,sourceSection:section.id,sourcePortrait:portrait(article)}});
+   profiles.push({key:section.id,kind:'npc',name:article.title+' · '+label,data:{name:article.title,attributes,skills,armor,combatProfileVersion:4,...articleReference(article),equipmentIds:articleEquipment(article),sourceArticle:article.id,sourceSection:section.id,sourcePortrait:portrait(article)}});
   }
  }
  if(/bestiaire/.test(norm(article.category)+' '+article.id)){
@@ -51,13 +51,13 @@ export function articleCombatProfiles(article:any){
   const stats={pv:read('pv'),initiative:read('initiative'),actions:read('actions'),physicalDefense:read('def physique'),occultDefense:read('def occulte'),armor:read('armure'),attack:read('attaque'),movement:read('mouvement'),perception:read('perception'),mastery:read('maitrise')};
   const attacks=text.split('\n').flatMap((line:string)=>{const m=/^ATTAQUE\s*[—:–]\s*(.+?)\s*[—:–]\s*1d10e?\s*\+\s*(\d+).*?DGT\s*(\d+)/i.exec(line);return m?[{name:m[1],score:Number(m[2]),damage:Number(m[3]),range:/Contact/i.test(line)?'Contact':(/Port[eé]e\s*([^•]+)/i.exec(line)?.[1]??''),properties:line}]:[];});
   const reductions=Object.fromEntries(['melee','balistique','antichoc','feu','neuro'].map(k=>[k,read(k)]));
-  if(stats.pv>0&&stats.actions>0&&stats.initiative>0){if(!stats.attack&&attacks.length)stats.attack=attacks[0].score;profiles.push({key:'creature',kind:'creature',name:article.title,data:{name:article.title,combatProfileVersion:3,...articleReference(article),stats,attacks,reductions,sourceArticle:article.id,sourcePortrait:portrait(article)}});}
+  if(stats.pv>0&&stats.actions>0&&stats.initiative>0){if(!stats.attack&&attacks.length)stats.attack=attacks[0].score;profiles.push({key:'creature',kind:'creature',name:article.title,data:{name:article.title,combatProfileVersion:4,...articleReference(article),stats,attacks,reductions,sourceArticle:article.id,sourcePortrait:portrait(article)}});}
  }
  const reality=profiles.find(p=>p.kind==='npc'&&!/verite|revele/.test(norm(p.key)));
  if(reality)for(const p of profiles)if(p.kind==='npc'&&p!==reality)p.data.skills={...reality.data.skills,...p.data.skills};
  return profiles;
 }
-function portrait(a:any){const all=(a.sections??[]).flatMap((s:any)=>s.blocks??[]),p=a.pnj?.portrait??a.image?.src??a.illustration?.src??all.find((b:any)=>b.type==='image')?.src;if(typeof p==='string'&&/^images\//.test(p))return '/api/compendium/media/'+p;return typeof p==='string'&&/^\/api\/compendium\/media\//.test(p)?p:'';}
+function portrait(a:any){const all=(a.sections??[]).flatMap((s:any)=>s.blocks??[]),p=a.pnj?.portrait??a.image?.src??a.illustration?.src??all.find((b:any)=>b.type==='image')?.src;if(typeof p==='string'&&/^images\//.test(p))return '/api/compendium/media/'+p;return typeof p==='string'&&/^\/api\/compendium\/(?:media|uploads)\//.test(p)?p:'';}
 function articleEquipment(article:any){
  const texts=(article.sections??[]).flatMap((s:any)=>(s.blocks??[]).filter((b:any)=>/equipement|armement/.test(norm(s.title+' '+s.id))||b.type==='table'&&/equipement|arme portee/.test(norm(b.rows?.[0]?.join(' ')))).map((b:any)=>norm(b.text??b.rows?.flat().join(' '))));
  return BESTIARY_WEAPONS.filter(w=>texts.some((t:string)=>t.includes(norm(w.name)))).map(w=>w.id);
@@ -69,7 +69,7 @@ export async function liveCatalog(){
 }
 /** Repair legacy canonical snapshots without touching current HP, PA or initiative. */
 export async function repairedCombatantData(c:any){
- if(!c.data?.sourceArticle||c.data.combatProfileVersion===3)return c.data;
+ if(!c.data?.sourceArticle||c.data.combatProfileVersion===4)return c.data;
  const row=(await liveCatalog()).find(p=>p.articleId===c.data.sourceArticle&&p.kind===c.source_kind&&(p.kind==='creature'||p.key===c.data.sourceSection));
  if(!row)return c.data;
  return {...c.data,...row.data,...(c.data.equipmentIds?.length?{equipmentIds:c.data.equipmentIds}:{})};
