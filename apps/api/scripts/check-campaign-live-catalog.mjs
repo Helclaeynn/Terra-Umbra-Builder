@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 process.env.DATABASE_URL ||= 'postgres://fixture:fixture@127.0.0.1:1/fixture';
 const {pool}=await import('../dist/db.js');pool.query=async()=>({rows:[],rowCount:0});
-const {liveCatalog,repairedCombatantData}=await import('../dist/campaign-live-catalog.js');
+const {liveCatalog,repairedCombatantData,articleCombatProfiles,capabilityRolls}=await import('../dist/campaign-live-catalog.js');
 const rows=await liveCatalog(),soldato=rows.find(r=>r.articleId==='bestiaire-v15-soldato');
 assert.equal(rows.filter(r=>r.kind==='creature').length,269,'All 269 bestiary entries with a combat profile; narrative relics have no invented stats');
 assert.ok(rows.filter(r=>r.kind==='npc').length>1000);
@@ -26,3 +26,7 @@ const choices=combatantRolls({source_kind:'npc',data:revealed.data},true);
 const gun=choices.find(o=>o.attack&&o.attackMode==='ranged');assert.ok(gun&&gun.damage>1);assert.equal(gun.modifier,40);assert.equal(gun.components.attribute,18);assert.equal(gun.components.rank,22);assert.equal(gun.profile,'Révélé');
 assert.equal(choices.find(o=>o.id==='reality:tir').attack,false,'An unarmed Tir roll is not an attack with invented damage');
 console.log('COMBAT CATALOG REGRESSIONS OK — Dive attacks and old snapshots, Veronica 18 + 22, inherited skills, MJ weapons, no fallback damage.');
+
+const staleV2=await repairedCombatantData({...legacy,data:{...legacy.data,combatProfileVersion:2}});assert.equal(staleV2.attacks.length,2);assert.match(staleV2.sourcePortrait,/dive/);assert.equal(staleV2.combatProfileVersion,3);assert.equal(staleV2.weaknesses.length,3);assert.equal(staleV2.abilities.length,4);assert.equal(capabilityRolls(staleV2).find(r=>/Mageius/.test(r.label)).modifier,14);
+const {getCompendiumQualityCorpus}=await import('../dist/compendium.js');const original=(await getCompendiumQualityCorpus()).articles.find(a=>a.id==='bestiaire-v16-dive');const edited=structuredClone(original);const dossier=edited.sections.find(s=>s.id==='dossier-mj');dossier.blocks=dossier.blocks.map(b=>b.text?.startsWith('ATTAQUE')?{type:'list',items:['• '+b.text.replace('Décharge du Mageius','[Décharge du Mageius](/compendium?article=mageius)')]}:b);assert.deepEqual(articleCombatProfiles(edited).find(r=>r.kind==='creature').data.attacks.map(a=>[a.score,a.damage]),[[15,8],[14,6]]);
+console.log('DIVE REPAIR OK — version 2, portrait, capabilities, weaknesses, bullet lists and linked attack labels.');
