@@ -27,7 +27,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          source=7af63f229b3ac7bf300aba34b2c1c149b810c0e3
+          source=984b954c103029f944a188e5933e6f7387f404f8
           git merge-base --is-ancestor "$source" HEAD
           verified=false
           for attempt in $(seq 1 90); do
@@ -51,7 +51,7 @@ jobs:
         run: |
           python3 - <<'PY'
           import json,pathlib,subprocess,tarfile
-          files=subprocess.check_output(['git','diff','--name-only','6f36b180fbc00f7785ee3a38609d895d8bafb623','7af63f229b3ac7bf300aba34b2c1c149b810c0e3'],text=True).splitlines()
+          files=subprocess.check_output(['git','diff','--name-only','6f36b180fbc00f7785ee3a38609d895d8bafb623','984b954c103029f944a188e5933e6f7387f404f8'],text=True).splitlines()
           files=[p for p in files if p.startswith(('apps/','infrastructure/migrations/'))]
           pathlib.Path('payload-files.json').write_text(json.dumps(files))
           runtime=[p.replace('/src/','/dist/').removesuffix('.ts')+'.js' for p in files if p.startswith('apps/api/src/')]
