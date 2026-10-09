@@ -25,8 +25,10 @@ Les interventions doivent précéder défense, résolution et annulation. Une se
 
 ## Sources et vérifications
 
-Sources : `rules/truth/exile-revision.ts` (Suture, Réfection, Rune), `catalog-exile.ts` (Ashorn), `catalog-garou.ts` et `runtime-structure.ts` (Gardien), `catalog-extral.ts` (AIDH), catalogue Aseryn chargé par `truth/rules.ts` (Caendis), `compendium/source/rules-diagrams-v1.json`, article `regles-resolution-des-tests` (DR).
+Sources : `rules/truth/exile-revision.ts` (Réfection, Rune), `catalog-exile.ts` (Suture, Ashorn), `catalog-garou.ts` et `runtime-structure.ts` (Gardien), `catalog-extral.ts` (AIDH), catalogue Aseryn chargé par `truth/rules.ts` (Caendis), `compendium/source/rules-diagrams-v1.json`, article `regles-resolution-des-tests` (DR).
 
 Exécution : `rules/targeted-powers.ts`, `campaign-targeted-powers.ts`, `campaign-combat.ts`, `live-effect-application.ts`. Contrôles : `scripts/check-targeted-powers.mjs` dans la suite API avec PostgreSQL embarqué et `tests/campaign-targeted-dom.mjs` dans la suite UI. Les tests couvrent notamment propriété, consentement, versions, rejeu, refus après mort, quota par bénéficiaire, sauvegarde falsifiée, rune consommée une fois, portée stricte, mauvaise cible, intervention tardive, bonus lié à l’agresseur et riposte sans PA restant.
 
 Restent à intégrer : sorts Mage sur cible/zone, illusions/domination, protections collectives et transferts, autres ripostes et interceptions, renvoi Neuro, Foudre/Paratonnerre, chaînes de réactions et conséquences narratives. Les montants et ressources de ces capacités ne doivent pas être confondus avec une résolution complète.
+
+Validation de livraison : commit `b2e9fe1f16ccf219b9e85c2d6eb9235117eddf90`, [CI complète réussie](https://github.com/Helclaeynn/Terra-Umbra-Builder/actions/runs/37940435998). API avec PostgreSQL, suite UI, dossiers PDF, recette Chrome et Compose réussis. Le panneau de soutien est vérifié au clavier, avec choix de cible, confirmation et Edge, à 1 440, 390 et 320 pixels, sans débordement horizontal. Le garde `production-active` a désactivé le déploiement ; aucun déploiement de production.
