@@ -12,6 +12,13 @@ import {dedicatedPowerIds} from '../dist/rules/live-mechanics.js';
 import {livePowerRegistry} from '../dist/rules/live-power-registry.js';
 import {truthWeaponProfiles} from '../dist/rules/live-truth-items.js';
 import {vampirePowerRules} from '../dist/rules/live-vampire.js';
+import {targetedRules,interpositionRules} from '../dist/rules/targeted-powers.js';
+const targetedCoverage=new Map([
+ ...targetedRules.map(r=>[r.id,{implemented:[r.context,`Coût ${r.cost} PA sous pression ; consentement du bénéficiaire ou application MJ ; mutation atomique et rejeu contrôlé.`],remaining:['Contact, blessure ordinaire ou support porté confirmé dans la fiction.']}]),
+ ...interpositionRules.filter(r=>!r.id.startsWith('trait:')).map(r=>[r.id,{implemented:[`Réaction avant défense/résolution ; 1 PA ; quota ${r.limit??'aucun'} ; portée ${r.range??'proximité physique confirmée'}.`,r.kind==='redirect'?'Changement de cible ; protections et défense du véritable intervenant.':'Jet Agilité + Esquive ; meilleure défense conservée pour le bénéficiaire.'],remaining:['Alliance, perception et trajectoire physiquement possibles confirmées ; une intervention par attaque.']}]),
+ ['riposte_du_gardien',{implemented:['Après interposition du Gardien : +3 au prochain jet d’attaque contre le même agresseur, jusqu’à la fin du round suivant ; consommation au jet.'],remaining:['Déplacement et interposition physiquement possibles confirmés.']}],
+ ['exile-riposte-d-ashorn',{implemented:['Après défense active réussie contre Mêlée/Pugilat : attaque normale immédiate contre l’agresseur à portée ; 0 PA supplémentaire ; 1/scène.'],remaining:['Portée réelle confirmée ; riposte à lancer avant résolution ou annulation de l’attaque initiale.']}]
+]);
 // A definition in a module is distinct from execution through a target resolver.
 const realityAudit=JSON.parse(await readFile('../../docs/operations/audit-reality-coverage-20261009.json','utf8'));
 const realityRows=new Map(realityAudit.entries.map(r=>[r.family+':'+r.id,r]));
@@ -67,11 +74,12 @@ for(const t of new Map(talents.map(t=>[t.id,t])).values()){
 for(const [nature,items] of Object.entries(truth.catalogs))for(const t of items){
  const rule=livePowerRegistry.find(p=>p.nature===nature&&p.id===t.id),v=nature==='vampire'?vampirePowerRules[t.id]:null;
  let coverage='texte / activation assistée',implemented=[],remaining=['Cible, contexte, opposition et conséquences particulières à résoudre explicitement.'];
- if(rule){coverage=rule.route==='external'?'définition contrôlée / résolution externe':rule.route==='passive'?'calcul passif ciblé':'action dédiée / calcul ciblé';implemented=[`Route ${rule.route} ; coût ${rule.cost} PA ; quota ${rule.limit??'aucun'} ; durée ${rule.duration}.`,...rule.effects.map(e=>`${e.kind} ${e.amount}${e.skills?' : '+e.skills.join(', '):''}.`)];remaining=[rule.notes,...(rule.context?[rule.context]:[])];}
+ if(targetedCoverage.has(t.id)){coverage='résolution ciblée / réaction serveur';({implemented,remaining}=targetedCoverage.get(t.id));}
+ else if(rule){coverage=rule.route==='external'?'définition contrôlée / résolution externe':rule.route==='passive'?'calcul passif ciblé':'action dédiée / calcul ciblé';implemented=[`Route ${rule.route} ; coût ${rule.cost} PA ; quota ${rule.limit??'aucun'} ; durée ${rule.duration}.`,...rule.effects.map(e=>`${e.kind} ${e.amount}${e.skills?' : '+e.skills.join(', '):''}.`)];remaining=[rule.notes,...(rule.context?[rule.context]:[])];}
  else if(dedicatedPowerIds.has(t.id)){coverage='action dédiée / quota serveur';implemented=['Défense spéciale, réparation nanitique ou récupération selon identifiant explicite.'];}
  else if(v){coverage=['vampire','defense','passive'].includes(v.route)?'ressource / action dédiée':'activation assistée / coût contrôlé';implemented=[`Route ${v.route} ; coût ${v.cost} PA ; quota ${v.limit??'aucun'} ; entretien ${v.maintenance??0} PA/round.`];}
  else if(['mage','daemon','angelus'].includes(nature)){coverage=nature==='mage'?'construction / ressource dédiée':'ressource / activation assistée';implemented=['Préparation et ressources de Nature via commandes dédiées ; le coût doit être fixe et défini pour être exécuté.'];remaining=['Le journal de préparation/activation ne résout pas automatiquement la cible, la zone, les soins/transferts ou les conséquences narratives.'];}
- add('Vérité · '+nature,t,coverage,{access:t.access??'R',implemented,remaining,audit:nature==='vampire'?'audit-vampire-20261009.md':['mage','daemon','angelus'].includes(nature)?'audit-nature-resources-20261009.md':'audit-truth-capabilities-20261009.md'});
+ add('Vérité · '+nature,t,coverage,{access:t.access??'R',implemented,remaining,audit:targetedCoverage.has(t.id)?'audit-targeted-reactions-20261009.md':nature==='vampire'?'audit-vampire-20261009.md':['mage','daemon','angelus'].includes(nature)?'audit-nature-resources-20261009.md':'audit-truth-capabilities-20261009.md'});
 }
 for(const [nature,n] of Object.entries(truth.structure.natures)){
  let flatIndex=0;
@@ -79,7 +87,8 @@ for(const [nature,n] of Object.entries(truth.structure.natures)){
  const addTrait=(t,selector,auditId,base)=>{
   const provenance=traitSource(nature,t,selector,base);
   traitSources.set(auditId,{...provenance,name:t.name,effect:t.effect});
-  add('Traits · '+nature,{...t,id:`trait:${flatIndex++}`},'trait conditionnel / calcul partiel',{...provenance,remaining:['Voir audit individuel des traits : attributs et profils corporels sont calculés ; un texte ne constitue pas une action automatique.'],audit:'audit-truth-items-20261009.md'});
+  const guardian=nature==='garou'&&t.name==='Gardien de la Meute';
+  add('Traits · '+nature,{...t,id:`trait:${flatIndex++}`},guardian?'réaction serveur / cible redirigée':'trait conditionnel / calcul partiel',{...provenance,...(guardian?{implemented:['Pelage Gris, Révélé ; réaction 1 PA avant défense ; allié à moins d’un Déplacement ; cible redirigée.']}:{}),remaining:guardian?['Alliance et trajectoire physiquement possibles confirmées ; une intervention par attaque.']:['Voir audit individuel des traits : attributs et profils corporels sont calculés ; un texte ne constitue pas une action automatique.'],audit:guardian?'audit-targeted-reactions-20261009.md':'audit-truth-items-20261009.md'});
  };
  for(const [i,t] of n.baseFreeTraits.entries())addTrait(t,`baseFreeTraits[${i}]`,`${nature}:base:${i}`,baseline.baseFreeTraits[i]);
  for(const [i,rule] of n.freeTraitRules.entries())for(const [j,t] of rule.traits.entries())addTrait(t,`freeTraitRules[${i}].traits[${j}]`,`${nature}:choice:${i}:${j}`,baseline.freeTraitRules[i]?.traits[j]);
@@ -90,6 +99,7 @@ for(const t of truthItemsAudit.freeTraits){
  assert.equal(t.name,provenance.name,`Trait audit identity mismatch: ${t.id}`);
  assert.equal(t.canonicalEffect,provenance.effect,`Trait audit effect mismatch: ${t.id}`);
  t.source=provenance.source;
+ if(t.nature==='garou'&&t.name==='Gardien de la Meute')Object.assign(t,{coverage:'Réaction dédiée',implemented:'Révélé, Pelage Gris : interposition 1 PA avant défense, portée strictement inférieure au Déplacement ; change la cible.',pending:'Alliance et trajectoire physiquement possibles confirmées ; une intervention par attaque.'});
  if(provenance.definitionSource)t.definitionSource=provenance.definitionSource;
 }
 assert.equal(truthItemsAudit.freeTraits.length,traitSources.size);

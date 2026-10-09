@@ -8,6 +8,7 @@ import PortraitZoom from '../components/PortraitZoom.vue';
 import CampaignLiveSessions from '../components/CampaignLiveSessions.vue';
 import CampaignRewards from '../components/CampaignRewards.vue';
 import CampaignEffects from '../components/CampaignEffects.vue';
+import CampaignTargetedPowers from '../components/CampaignTargetedPowers.vue';
 import CampaignCombat from '../components/CampaignCombat.vue';
 import CampaignCharacterPlay from '../components/CampaignCharacterPlay.vue';
 import CampaignNpcPreview from '../components/CampaignNpcPreview.vue';
@@ -87,6 +88,7 @@ onUnmounted(()=>{alive=false;++sourceGeneration;clearInterval(timer);window.remo
     </div>
    </section>
    <p v-if="actionError" role="alert">{{ actionError }} <button v-if="pending" :disabled="busy" @click="sendPending">Réessayer l’action</button></p><p v-if="notice" role="status">{{ notice }}</p>
+   <CampaignTargetedPowers :campaign-id="id" :room="room" @changed="load" />
    <CampaignEffects v-if="room.canManage" :campaign-id="id" :room="room" @changed="load" />
    <CampaignCombat v-if="room.combat?.active" ref="combatPanel" :campaign-id="id" :room="room" @changed="load" />
    <section class="active-sheet"><div class="sheet-heading"><h2>{{ chosen?.name??(room.canManage?'Choisis un participant':'Ta fiche en jeu') }}</h2><button v-if="room.ownCharacterId&&selected!==room.ownCharacterId" @click="selected=room.ownCharacterId">Revenir à mon personnage</button></div>

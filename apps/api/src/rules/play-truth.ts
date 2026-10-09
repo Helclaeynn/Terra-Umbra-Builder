@@ -15,7 +15,7 @@ export function liveBody(data:any,state:{revelation:string;form?:BodyForm;inWate
 }
 export function formAvailable(data:any,form:BodyForm){const t=liveTruthState(data);return ['garou','khinae'].includes(t.nature)&&khinaeBodyProfile(pkg,t,form).available;}
 export function usableKhinaeTalent(data:any,id:string){const t=liveTruthState(data);return khinaeUsableTalents(pkg,t).has((t.nature==='khinae'?'khinae_blood_':'')+id);}
-export const mechanicalPowerRoutes:Record<string,string>={'extral-reflexe-de-chasse':'defense','extral-reflexe-conditionne':'defense',vitesse_impossible:'defense',khinae_blood_vitesse_impossible:'defense','extral-cycle-de-reparation':'heal','extral-reserve-nanitique':'passive'};
+export const mechanicalPowerRoutes:Record<string,string>={'exile-suture':'targeted','exile-refection-vitale':'targeted','exile-rune-de-garde':'targeted','trait:gardien-de-la-meute':'reaction','aseryn_traditions_des_treize_caendis_le_protecteur_interposition':'reaction','extral-interposition-doctrinale':'reaction','riposte_du_gardien':'reaction','exile-riposte-d-ashorn':'reaction','extral-reflexe-de-chasse':'defense','extral-reflexe-conditionne':'defense',vitesse_impossible:'defense',khinae_blood_vitesse_impossible:'defense','extral-cycle-de-reparation':'heal','extral-reserve-nanitique':'passive'};
 const norm=(s:string)=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
 export function truthPowers(data:any){
  const t=liveTruthState(data);if(t.consciousness==='profane')return [];
