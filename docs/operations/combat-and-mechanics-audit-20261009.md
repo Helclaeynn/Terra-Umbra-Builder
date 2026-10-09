@@ -63,4 +63,4 @@ Compilation API et Web ; tests de table API avec base PostgreSQL embarquée isol
 
 La migration additive `20261009_combat_roster.sql` conserve les métadonnées de participation dans l’état de campagne. Elle est ajoutée au script de livraison. Appliquer les migrations avant de démarrer cette version de l’API. Les anciens participants reçoivent par défaut le statut présent, allié pour les PJ, neutre pour les autres.
 
-Le navigateur Chromium local est bloqué par les restrictions de sockets du conteneur ; le test navigateur a été préparé, mais sa validation visuelle reste à exécuter dans l’environnement CI compatible. Aucun déploiement de production effectué pour ce lot.
+Le navigateur Chromium local est bloqué par les restrictions de sockets du conteneur. La recette navigateur a ensuite réussi en CI : parcours MJ/joueurs et absence de débordement à 1440, 390 et 320 px. Le workflow [37919134328](https://github.com/Helclaeynn/Terra-Umbra-Builder/actions/runs/37919134328) est entièrement vert pour le code `fa2c70cfdd7ba3a8d32d3925de2f085de23438dc`. Aucun déploiement de production effectué pour ce lot.
