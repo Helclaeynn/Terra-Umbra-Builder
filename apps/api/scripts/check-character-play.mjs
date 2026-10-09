@@ -57,7 +57,7 @@ try{
  const rested=await call(player,'POST',path,{requestId:randomUUID(),version:2,action:'rest',days:3,prolonged:false});assert.equal(rested.profile.hp,12);assert.equal(rested.event.payload.recovered,6);
  const roll=await call(player,'POST',path,{requestId:randomUUID(),version:3,action:'roll',skill:'athletisme'});assert.equal(roll.event.payload.modifier,10);assert.equal(roll.event.payload.total,10+roll.event.payload.sum);
  // Standalone characters retain individual lifecycle controls; campaigns are MJ-only.
- await call(player,'POST',path,{requestId:randomUUID(),version:4,action:'initiative'},403);
+ await call(player,'POST',path,{requestId:randomUUID(),version:4,action:'initiative'},400);
  await pool.query('UPDATE characters SET campaign_id=NULL WHERE id=$1',[character]);
  // Initiative and the PA budget persist throughout a combat, including reloads and injury.
  await call(player,'POST',path,{requestId:randomUUID(),version:4,action:'round'},400);

@@ -7,6 +7,13 @@ import {BESTIARY_WEAPONS} from '../dist/campaign-bestiary-weapons.js';
 import {normalizeCharacterData} from '../dist/character-data.js';
 export async function checkTruthPlay({pool,app,call,player,other,manager,campaign,character}){
  const original=(await pool.query('SELECT data FROM characters WHERE id=$1',[character])).rows[0].data;
+ const extral={...original,truth:{nature:'extral',consciousness:'initie',choices:{species:'talass'},truthTalents:['extral-vision-des-fractures']}};
+ for(const revelation of ['v','sr','r']){
+  const state={...blankPlayState(),revelation,contexts:['extral-vision-des-fractures']};
+  const prepared=playProfile(extral,state).skills.find(s=>s.id==='perception').prepared.find(p=>p.id==='extral-vision-des-fractures');
+  assert.equal(prepared.active,revelation!=='v','canonical SR/R access for prepared truth bonus');
+  assert.equal(playProfile({...extral,truth:{...extral.truth,consciousness:'profane'}},state).skills.find(s=>s.id==='perception').prepared.find(p=>p.id==='extral-vision-des-fractures').active,false);
+ }
  const old=(await pool.query('SELECT state FROM character_play_states WHERE character_id=$1',[character])).rows[0].state;
  const data=structuredClone(original);data.truth={nature:'garou',consciousness:'initie',choices:{blood:'sang_predateur',pelage:'gris'},truthTalents:[]};
  data.identity.nationality='Française';assert.equal(normalizeCharacterData(data).identity.nationality,'Française');

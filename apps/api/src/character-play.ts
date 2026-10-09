@@ -1,6 +1,6 @@
 import {currentLiveSession,registerLiveSessionRoutes} from './campaign-live-sessions.js';
 import {edgeBalance,spendEdge,forcedDie,forcePastRoll,lethalEvent} from './character-edge.js';
-import {lockCombat,combatState,combatQueue,advanceCharacterRound,recordAction,maybeAdvanceCombat} from './campaign-rounds.js';
+import {lockCombat,combatState,participates,participantInfo,combatQueue,advanceCharacterRound,recordAction,maybeAdvanceCombat} from './campaign-rounds.js';
 import {truthPowers,powerAllowed,formAvailable,usableKhinaeTalent,liveBody} from './rules/play-truth.js';
 import {registerCampaignCombatRoutes} from './campaign-combat.js';
 import {liveSnapshot,registerCampaignLiveRoutes} from './campaign-live.js';
@@ -36,7 +36,7 @@ export async function registerCharacterPlayRoutes(app:FastifyInstance){
     const state:PlayState={...blankPlayState(),...r.rows[0]?.state};
     const events=await pool.query('SELECT id,kind,payload,created_at AS "createdAt" FROM character_play_events WHERE character_id=$1 ORDER BY created_at DESC LIMIT 30',[c.id]);
     const shared=await combatState(pool,c.campaign_id),profile=playProfile(c.data,state);
-    return {edge:await edgeBalance(pool,c.id,c.data),escapeEvent:profile.hp<=profile.derived.death?await lethalEvent(pool,c.id,profile.derived.death):null,combat:{active:shared.active,mode:shared.mode,round:shared.round,version:shared.version},campaignId:c.campaign_id,state,version:r.rows[0]?.version??0,profile,canEdit:c.owner_id===user.id,events:events.rows};
+    return {edge:await edgeBalance(pool,c.id,c.data),escapeEvent:profile.hp<=profile.derived.death?await lethalEvent(pool,c.id,profile.derived.death):null,combat:{active:shared.active,participating:participates(shared,c.id),mode:shared.mode,round:shared.round,version:shared.version},campaignId:c.campaign_id,state,version:r.rows[0]?.version??0,profile,canEdit:c.owner_id===user.id,events:events.rows};
   });
   app.post<{Params:{id:string};Body:any}>('/api/characters/:id/play',async(req,reply)=>{
     reply.header('Cache-Control','private, no-store');
@@ -58,7 +58,12 @@ export async function registerCharacterPlayRoutes(app:FastifyInstance){
       const version=r.rows[0]?.version??0;
       if(version!==b.version)return await fail(409,'play_version_conflict');
       const shared=await combatState(db,c.campaign_id);
-      if(c.campaign_id&&['initiative','round','end-combat'].includes(b.action))return await fail(403,'campaign_combat_mj_only');
+      if(c.campaign_id&&['round','end-combat'].includes(b.action))return await fail(403,'campaign_combat_mj_only');
+      if(c.campaign_id&&b.action==='initiative'){
+        if(!shared.active)return await fail(400,'combat_not_started');
+        if(!participates(shared,c.id))return await fail(400,'participant_out');
+        if(state.initiative!==null)return await fail(400,'initiative_already_rolled');
+      }
       const paBefore=state.pa;
       let profile=playProfile(c.data,state);
       let payload:Record<string,unknown>={};
@@ -157,12 +162,12 @@ export async function registerCharacterPlayRoutes(app:FastifyInstance){
         if(b.edge){const error=await spendEdge(db,c.id,c.data,b.requestId,'force');if(error)return await fail(400,error);}
         const die=b.edge?forcedDie():rollD10(profile.stress,()=>randomInt(1,11));
         const modifier=b.action==='initiative'?profile.derived.initiative:skill!.total;
-        payload={label:b.action==='initiative'?'Nouveau combat · Initiative':skill!.name,modifier,...die,total:modifier+die.sum,stress:profile.stress,revelation:state.revelation,
+        payload={label:b.action==='initiative'?'Initiative du combat':skill!.name,modifier,...die,total:modifier+die.sum,stress:profile.stress,revelation:state.revelation,
           components:b.action==='initiative'?null:{attribute:skill!.attributeValue,attributeName:rules.attributes.find(a=>a.id===skill!.attribute)?.name,rank:skill!.rank,skillName:skill!.name,bonus:skill!.bonus},
           bonuses:b.action==='initiative'?[]:[...skill!.automatic.filter(x=>x.enabled),...skill!.contexts.filter(x=>x.enabled),...skill!.prepared.filter(x=>x.active),...skill!.extras]};
         if(b.action==='initiative'){
           const total=modifier+die.sum;
-          state.initiative=total;state.round=1;
+          state.initiative=total;state.round=c.campaign_id?shared.round:1;
           state.paPerRound=die.dice[0]===1?1:total>=16?3:total>=11?2:1;
           state.pa=state.paPerRound+(liveBody(c.data,state)?.pace??0);state.formPaRound=0;
           if(profile.hp<=0)state.pa=Math.min(state.pa,1);
@@ -197,6 +202,7 @@ export async function registerCharacterPlayRoutes(app:FastifyInstance){
     const manager=access.rows[0].owner_id===user.id&&gm(user.role);
     const rows=await pool.query(`SELECT c.id,c.name,c.owner_id,c.data,c.version,s.state FROM campaign_members m JOIN characters c ON c.id=m.character_id AND c.owner_id=m.user_id AND c.campaign_id=m.campaign_id
       LEFT JOIN character_play_states s ON s.character_id=c.id WHERE m.campaign_id=$1 AND m.status='accepted' AND c.archived_at IS NULL`,[req.params.id]);
+    const shared=await combatState(pool,req.params.id);
     const orderActors:any[]=[];
     const characters=rows.rows.flatMap(c=>{
       const state:PlayState={...blankPlayState(),...c.state};
@@ -204,7 +210,7 @@ export async function registerCharacterPlayRoutes(app:FastifyInstance){
       const profile=playProfile(c.data,state),identity=c.data.identity??{};
       orderActors.push({id:c.id,pa:profile.pa,initiative:state.initiative});
       const portrait=playPortrait(c.data,state);
-      const publicFields={kind:'character',id:c.id,name:c.name,portrait,occupation:String(identity.occupation??''),sphere:rules.spheres[c.data.creation?.sphere as keyof typeof rules.spheres]?.name??'',health:profile.health};
+      const publicFields={...participantInfo(shared,{id:c.id,kind:'character'}),initiativePending:shared.active&&profile.hp>profile.derived.death&&state.initiative===null,kind:'character',id:c.id,name:c.name,portrait,occupation:String(identity.occupation??''),sphere:rules.spheres[c.data.creation?.sphere as keyof typeof rules.spheres]?.name??'',health:profile.health};
       return [{...publicFields,...(manager||c.owner_id===user.id?{sheetVersion:c.version,hp:profile.hp,pvMax:profile.derived.pvMax,pa:profile.pa,paPerRound:state.paPerRound,initiative:state.initiative,round:state.round,stress:profile.stress,revelation:state.revelation,canReadSheet:true}:{})}];
     });
     const events=await pool.query(`SELECT e.id,e.kind,e.payload,e.created_by,e.character_id AS "characterId",e.created_at::text AS "createdAt",c.name AS "characterName",u.display_name AS "playerName" FROM character_play_events e JOIN users u ON u.id=e.created_by
@@ -212,7 +218,7 @@ export async function registerCharacterPlayRoutes(app:FastifyInstance){
       WHERE e.campaign_id=$1 AND e.live_session_id IS NOT DISTINCT FROM $4::uuid AND ($5::timestamptz IS NULL OR (e.created_at,e.id)<($5::timestamptz,$6::uuid)) AND c.campaign_id=$1 AND m.status='accepted' AND c.archived_at IS NULL AND ($2::boolean OR c.owner_id=$3 OR e.kind IN ('roll','initiative','edge-force','edge-escape'))
       ORDER BY e.created_at DESC,e.id DESC LIMIT 101`,[req.params.id,manager,user.id,selectedSession,cursor?.[0]??null,cursor?.[1]??null]);
     const live=await liveSnapshot(req.params.id,manager,selectedSession,cursor?{at:cursor[0],id:cursor[1]}:null);
-    const shared=await combatState(pool,req.params.id);
+    live.combatants=live.combatants.map(c=>({...c,...participantInfo(shared,c),initiativePending:shared.active&&c.health!=='Mort'&&live.order.find(o=>o.id===c.id)?.initiative===null}));
     const queue=combatQueue([...orderActors,...live.order],shared);
     const order=queue.map(c=>c.id);
     const projected=events.rows.map(e=>({id:e.id,kind:e.kind,characterId:e.characterId,createdAt:e.createdAt,characterName:e.characterName,playerName:e.playerName,payload:manager||e.created_by===user.id?e.payload:{label:e.payload.label,dice:e.payload.dice,modifier:e.payload.modifier,total:e.payload.total,exploded:e.payload.exploded,narrativeFailure:e.payload.narrativeFailure,edgeForced:e.payload.edgeForced}}));

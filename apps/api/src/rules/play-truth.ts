@@ -24,7 +24,7 @@ export function truthPowers(data:any){
   const text=p.effectDetails||p.effect,activation=p.activation??'',access=p.access??'R';
   const costText=norm(activation+' '+text),costMatch=/(?:^|pour |reaction[ ·:]*)\s*(\d+)\s*pa\b/.exec(costText);
   const limit=/1\s*\/\s*round|une fois par round/.test(costText)?'round':/1\s*\/\s*scene|une fois par scene/.test(costText)?'scene':/1\s*\/\s*jour|une fois par jour/.test(costText)?'day':/1\s*\/\s*scenario|une fois par scenario/.test(costText)?'scenario':null;
-  const stage=/(?:^|\W)SR(?:\W|$)/.test(access)?'sr':/(?:^|\W)V(?:\W|$)/.test(access)&&!access.includes('R')?'v':'r';
+  const stage=/(?:^|\W)V(?:\W|$)/.test(access)?'v':/(?:^|\W)SR(?:\W|$)/.test(access)?'sr':'r';
   return {id:p.id,name:p.name,text,activation,access,cost:costMatch?Number(costMatch[1]):null,limit,stage};
  });
 }

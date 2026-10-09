@@ -1,4 +1,4 @@
-import {lockCombat,combatState,manageCombat,recordAction,maybeAdvanceCombat} from './campaign-rounds.js';
+import {participates,lockCombat,combatState,manageCombat,recordAction,maybeAdvanceCombat} from './campaign-rounds.js';
 import {weaponMechanics} from './rules/combat-damage.js';
 import {readFile} from 'node:fs/promises';
 import {resolve} from 'node:path';
@@ -59,7 +59,7 @@ export async function registerCampaignLiveRoutes(app:FastifyInstance){
  // All mutations are MJ-only, serialized and idempotent; duplicate retries never spend or heal twice.
  app.post<{Params:{id:string};Body:any}>('/api/campaigns/:id/play/actions',{bodyLimit:1024*1024},async(req,reply)=>{
   const user=await requireUser(req,reply);if(!user)return;
-  const b:any=req.body;if(!b||!validId(b.requestId)||!['combat-start','combat-stop','combat-round','combat-mode','message','withdraw','add','roll','gm-roll','random-player','settings','damage','heal','initiative','round','remove'].includes(b.action))return reply.code(400).send({error:'invalid_live_action'});
+  const b:any=req.body;if(!b||!validId(b.requestId)||!['combat-participant','combat-start','combat-stop','combat-round','combat-mode','message','withdraw','add','roll','gm-roll','random-player','settings','damage','heal','initiative','round','remove'].includes(b.action))return reply.code(400).send({error:'invalid_live_action'});
   const db=await pool.connect();
   try{
    await db.query('BEGIN');
@@ -73,7 +73,7 @@ export async function registerCampaignLiveRoutes(app:FastifyInstance){
    let payload:any={},publicEvent=false,image:Buffer|null=null,mime:string|null=null;
    if(b.action.startsWith('combat-')){
     const error=await manageCombat(db,req.params.id,user.id,b);if(error)return await fail(error==='combat_version_conflict'?409:400,error);
-    payload={label:({'combat-start':'Combat commencé · initiatives lancées','combat-stop':'Combat terminé','combat-round':'Round '+(await combatState(db,req.params.id)).round+' · MJ','combat-mode':'Mode de rounds : '+(b.mode==='automatic'?'automatique':'manuel')} as Record<string,string>)[b.action]};publicEvent=true;
+    payload={label:({'combat-participant':'Participation / camp mis à jour','combat-start':'Combat commencé · lancez votre initiative','combat-stop':'Combat terminé','combat-round':'Round '+(await combatState(db,req.params.id)).round+' · MJ','combat-mode':'Mode de rounds : '+(b.mode==='automatic'?'automatique':'manuel')} as Record<string,string>)[b.action]};publicEvent=true;
    }else if(b.action==='random-player'){
     if(typeof b.public!=='boolean')return await fail(400,'invalid_live_roll');
     const candidates=await db.query(`SELECT u.display_name,c.name FROM campaign_members m JOIN users u ON u.id=m.user_id AND u.is_active LEFT JOIN characters c ON c.id=m.character_id AND c.archived_at IS NULL WHERE m.campaign_id=$1 AND m.status='accepted' ORDER BY m.user_id`,[req.params.id]);
@@ -122,12 +122,14 @@ export async function registerCampaignLiveRoutes(app:FastifyInstance){
      const option=combatantRolls(c,true).find(o=>o.id===b.rollId);if(!option)return await fail(400,'invalid_live_roll');
      if(c.hp<=c.death)return await fail(400,'character_dead');
      if(c.hp<=0&&(option.attack||option.requiresWeapon||option.defense))return await fail(400,'character_agonizing');
-     if(b.paCost>0&&c.initiative===null)return await fail(400,'combat_not_started');
+     if(b.paCost>0&&(!shared.active||!participates(shared,c.id)||c.initiative===null))return await fail(400,'combat_not_started');
      if(c.pa<b.paCost)return await fail(400,'insufficient_pa');
      const stress=Math.max(b.stress,c.hp<=c.pv_max*.25?2:c.hp<=c.pv_max*.5?1:0) as 0|1|2;
      const die=rollD10(stress,()=>randomInt(1,11)),modifier=option.modifier+b.bonus;
      c.pa-=b.paCost;turnCost=option.defense?0:b.paCost;payload={...payload,label:b.label.trim(),modifier,...die,total:modifier+die.sum,stress,paCost:b.paCost,...(option.components?{components:{...option.components,bonus:b.bonus}}:{}),...(option.damage!==undefined?{damage:option.damage,penetration:option.penetration??0,damageType:option.damageType,attackMode:option.attackMode,weaponName:option.weaponName}:{})};publicEvent=c.visible&&b.public;
     }else if(b.action==='initiative'){
+     if(!shared.active)return await fail(400,'combat_not_started');
+     if(!participates(shared,c.id))return await fail(400,'participant_out');
      if(c.hp<=c.death)return await fail(400,'character_dead');
      const stress=c.hp<=c.pv_max*.25?2:c.hp<=c.pv_max*.5?1:0;
      const die=rollD10(stress,()=>randomInt(1,11));c.initiative=c.initiative_bonus+die.sum;c.round=shared.active?shared.round:1;

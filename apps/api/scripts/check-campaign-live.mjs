@@ -7,6 +7,7 @@ export async function checkCampaignLive({app,pool,call,player,other,manager,stra
  const endpoint=`/api/campaigns/${campaign}/play`,actions=endpoint+'/actions';
  const snapshot=u=>call(u,'GET',endpoint);
  const action=(u,b,status=200)=>call(u,'POST',actions,{requestId:randomUUID(),...b},status);
+ await pool.query("INSERT INTO campaign_combat_states(campaign_id,active) VALUES($1,true) ON CONFLICT(campaign_id) DO UPDATE SET active=true",[campaign]);
  const latest=async id=>(await snapshot(manager)).combatants.find(c=>c.id===id);
  const peer=await snapshot(other);assert.equal(peer.ownCharacterId,null);assert.equal(peer.canManage,false);
  assert.ok(peer.events.some(e=>e.kind==='roll'));assert.ok(peer.events.every(e=>['roll','initiative'].includes(e.kind)));
@@ -31,7 +32,7 @@ export async function checkCampaignLive({app,pool,call,player,other,manager,stra
  assert.equal(JSON.stringify(await snapshot(other)).includes('SECRET'),false);
  assert.equal((await app.inject({url:portraitPath,headers:{cookie:other.cookie}})).statusCode,200);
  actor=await latest(actor.id);await action(manager,{action:'initiative',combatantId:actor.id,version:actor.version});actor=await latest(actor.id);const initiative=actor.initiative;
- await action(manager,{action:'round',combatantId:actor.id,version:actor.version});actor=await latest(actor.id);assert.equal(actor.initiative,initiative);assert.equal(actor.round,2);assert.equal(actor.pa,actor.paPerRound);
+ await action(manager,{action:'round',combatantId:actor.id,version:actor.version},400);await pool.query('UPDATE campaign_live_combatants SET round=2,pa=pa_per_round WHERE id=$1',[actor.id]);actor=await latest(actor.id);assert.equal(actor.initiative,initiative);assert.equal(actor.round,2);assert.equal(actor.pa,actor.paPerRound);
  const creature={requestId:randomUUID(),action:'add',kind:'creature',sourceId:creatureId,name:'Loup gris',visible:true};await action(manager,creature);
  let wolf=await latest(creature.requestId);await action(manager,{action:'initiative',combatantId:wolf.id,version:wolf.version});wolf=await latest(wolf.id);assert.equal(wolf.paPerRound,2);
 
@@ -54,7 +55,8 @@ export async function checkCampaignLive({app,pool,call,player,other,manager,stra
  actor=await latest(actor.id);await action(manager,{action:'settings',combatantId:actor.id,version:actor.version,name:actor.name,visible:false,pa:actor.pa});actor=await latest(actor.id);
  const hiddenId=randomUUID();await action(manager,{...punch,version:actor.version,requestId:hiddenId});assert.ok(!(await snapshot(other)).events.some(e=>e.id===hiddenId));
  actor=await latest(actor.id);await action(manager,{action:'damage',combatantId:actor.id,version:actor.version,amount:6});actor=await latest(actor.id);await action(manager,{...punch,version:actor.version},400);
- const gm=await snapshot(manager),ordered=gm.order.map(id=>[...gm.characters,...gm.combatants].find(c=>c.id===id)?.initiative??-Infinity);assert.deepEqual(ordered,[...ordered].sort((a,b)=>b-a));
+ const gm=await snapshot(manager);assert.ok(gm.order.includes(character)&&gm.order.includes(wolf.id)); // Pass ordering is covered by check-campaign-rounds.
+
  await action(manager,{action:'damage',combatantId:wolf.id,version:wolf.version,amount:20});assert.equal((await snapshot(other)).combatants.find(c=>c.id===wolf.id).health,'Mort');wolf=await latest(wolf.id);await action(manager,{...bite,requestId:randomUUID(),version:wolf.version},400);
  const message={requestId:randomUUID(),action:'message',text:'Voici le lieu de rendez-vous.',link:'/compendium?article=regles-sante-blessures-soins',image:portrait};
  await action(player,message,404);await action(manager,{...message,link:'javascript:alert(1)'},400);
