@@ -9,13 +9,15 @@ export async function checkTruthPlay({pool,app,call,player,other,manager,campaig
  const original=(await pool.query('SELECT data FROM characters WHERE id=$1',[character])).rows[0].data;
  const extral={...original,truth:{nature:'extral',consciousness:'initie',choices:{species:'talass'},truthTalents:['extral-vision-des-fractures']}};
  for(const revelation of ['v','sr','r']){
-  const state={...blankPlayState(),revelation,contexts:['extral-vision-des-fractures']};
-  const prepared=playProfile(extral,state).skills.find(s=>s.id==='perception').prepared.find(p=>p.id==='extral-vision-des-fractures');
-  assert.equal(prepared.active,revelation!=='v','canonical SR/R access for prepared truth bonus');
-  assert.equal(playProfile({...extral,truth:{...extral.truth,consciousness:'profane'}},state).skills.find(s=>s.id==='perception').prepared.find(p=>p.id==='extral-vision-des-fractures').active,false);
+  const state={...blankPlayState(),revelation,contexts:['extral-vision-des-fractures'],registeredPowers:[{id:'extral-vision-des-fractures',skill:'perception',until:null,period:'test'}]};
+  const base=playProfile(extral,{...state,registeredPowers:[]}).skills.find(s=>s.id==='perception').total;
+  const profile=playProfile(extral,state).skills.find(s=>s.id==='perception');
+  assert.equal(profile.prepared.some(p=>p.id==='extral-vision-des-fractures'),false,'registered truth powers cannot bypass context/quotas through old prepared checkboxes');
+  assert.equal(profile.total,base+(revelation!=='v'?3:0),'canonical SR/R access for a registered next-test bonus');
+  assert.equal(playProfile({...extral,truth:{...extral.truth,consciousness:'profane'}},state).skills.find(s=>s.id==='perception').total,base);
  }
  const old=(await pool.query('SELECT state FROM character_play_states WHERE character_id=$1',[character])).rows[0].state;
- const data=structuredClone(original);data.truth={nature:'garou',consciousness:'initie',choices:{blood:'sang_predateur',pelage:'gris'},truthTalents:[]};
+ const data=structuredClone(original);data.truth={nature:'garou',consciousness:'initie',choices:{blood:'sang_naturel',pelage:'gris'},truthTalents:[]};
  data.identity.nationality='Française';assert.equal(normalizeCharacterData(data).identity.nationality,'Française');
  const media=randomUUID();await pool.query('INSERT INTO character_media(id,owner_id,sha256,mime_type,content) VALUES($1,$2,$3,$4,$5)',[media,player.id,media.padEnd(64,'0'),'image/png',Buffer.from([137,80,78,71,13,10,26,10,0,0,0,0])]);
  data.appearances.truth.push({mediaId:media,label:'Hybride'});data.appearances.formPortraits={hybrid:media};
@@ -49,12 +51,13 @@ export async function checkTruthPlay({pool,app,call,player,other,manager,campaig
  const base=live.profile.skills.find(s=>s.id==='furtivite').total;
  await act('power',{powerId:'faveur_de_la_nuit',enabled:true,paCost:0,duration:1,skill:'furtivite',amount:3,note:'Dans les ombres'});assert.equal(live.profile.skills.find(s=>s.id==='furtivite').total,base+3);
  await act('round');assert.equal(live.state.powers.length,0);assert.equal(live.profile.skills.find(s=>s.id==='furtivite').total,base);
- for(const nature of ['vampire','garou','khinae','mage','daemon','angelus','aseryn','exile','extral'])assert.ok(truthPowers({...data,truth:{nature,consciousness:'initie',choices:{},truthTalents:[truthCoreRules.catalogs[nature][0].id]}}).length,nature);
+ const natureChoices={vampire:{},garou:{blood:'sang_naturel',pelage:'gris'},khinae:{lineage:'canides_errants',variant:'coyote',blood:'sang_naturel'},mage:{},daemon:{divinity:'alabor',facet:'flots'},angelus:{},aseryn:{origin:'hyperboreen'},exile:{people:'elye'},extral:{species:'talass'}};
+ for(const nature of Object.keys(natureChoices))assert.ok(truthPowers({...data,truth:{nature,consciousness:'initie',choices:natureChoices[nature],truthTalents:[truthCoreRules.catalogs[nature][0].id]}}).length,nature);
  // Target-first player attacks expose only their inventory and reject forged equipment.
  const victim=randomUUID();await pool.query('INSERT INTO characters(id,owner_id,name,data,campaign_id) VALUES($1,$2,$3,$4::jsonb,$5)',[victim,other.id,'Cible CI',JSON.stringify(original),campaign]);await pool.query('UPDATE campaign_members SET character_id=$3 WHERE campaign_id=$1 AND user_id=$2',[campaign,other.id,victim]);
  data.reality.equipment=[{itemId:BESTIARY_WEAPONS[0].id,quantity:1}];await setData();
  const url=`/api/campaigns/${campaign}/combat`,room=await call(player,'GET',url),attacker=room.attackers.find(a=>a.id===character);
- assert.deepEqual(new Set(attacker.options.map(o=>o.id)),new Set(['unarmed',BESTIARY_WEAPONS[0].id]));
+ assert.deepEqual(new Set(attacker.options.map(o=>o.id)),new Set(['unarmed','vampire-predation',BESTIARY_WEAPONS[0].id]));
  const attack={requestId:randomUUID(),action:'launch',attackerId:character,targetId:victim,optionId:BESTIARY_WEAPONS[0].id,bonus:0,bonusDamage:0,surprise:false};
  await call(player,'POST',url,{...attack,requestId:randomUUID(),optionId:BESTIARY_WEAPONS[1].id},400);
  const pa=live.state.pa;await call(player,'POST',url,attack);await call(player,'POST',url,attack);assert.equal((await call(player,'GET',path)).state.pa,pa-1);

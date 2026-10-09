@@ -1,3 +1,11 @@
+import {freeTraitProfile} from './live-free-traits.js';
+import {vampireMaximum} from './live-vampire.js';
+import {registeredPowerIds,explicitPower} from './live-power-registry.js';
+import {activeAugmentationIds,extraRealityContexts,realityAugmentationBonuses,realityDailyRecovery} from './live-reality.js';
+import {natureAttributeModifiers,normalizedNatureResources,natureHpCeiling} from './live-nature-resources.js';
+import type {LiveEffect} from './live-effects.js';
+import {effectModifiers} from './live-effects.js';
+import {registeredSkillBonus,registeredBodyArmor,registeredNaturalDamage,type RegisteredActivePower} from './registered-power-state.js';
 import {liveBody,activeTruthPowers,truthPowers,powerAllowed,type BodyForm,type ActivePower} from './play-truth.js';
 import {truthRevelationRules} from './truth/revelation.js';
 import {extralPlayBonuses,exilePlayBonuses,augmentationPlayBonuses} from './play-bonuses.js';
@@ -7,11 +15,11 @@ import { contextualSkillBonuses } from './reality-conditional-bonuses.js';
 import { dailyRecovery, injuryStress } from './reality-talents-policy.js';
 import { characterDerivedStats } from './character-derived-stats.js';
 export type PlayBonus={id:string;label:string;skill:string;amount:number;truth:boolean;enabled:boolean};
-export type PlayState={unconscious?:boolean;swarmFunctional?:boolean;form?:BodyForm;inWater?:boolean;muePending?:number|null;mueCount?:number;mueBlocked?:boolean;formPaRound?:number;powers?:ActivePower[];powerUses?:Record<string,number>;hp:number|null;stress:0|1|2;revelation:'v'|'sr'|'r';pa:number;round:number;initiative:number|null;paPerRound:number;stabilized:boolean;share:boolean;disabled:string[];contexts:string[];bonuses:PlayBonus[]};
-export const blankPlayState=():PlayState=>({unconscious:false,swarmFunctional:true,form:'human',inWater:false,muePending:null,mueCount:0,mueBlocked:false,formPaRound:0,powers:[],powerUses:{},hp:null,stress:0,revelation:'v',pa:0,round:1,initiative:null,paPerRound:0,stabilized:false,share:true,disabled:[],contexts:[],bonuses:[]});
+export type PlayState={magazines?:Record<string,{remaining:number;capacity:number}>;ammoCount?:Record<string,number>;effects?:LiveEffect[];effectArmor?:number;activation?:number;activationOpen?:boolean;physicalPaSpent?:number;registeredPowers?:RegisteredActivePower[];vampire?:any;natureResources?:any;realityLive?:any;adrenaline?:any;augmentTemporaryStress?:number;neuroLoaded?:string[];neuroBurned?:string[];unconscious?:boolean;swarmFunctional?:boolean;form?:BodyForm;inWater?:boolean;muePending?:number|null;mueCount?:number;mueBlocked?:boolean;formPaRound?:number;powers?:ActivePower[];powerUses?:Record<string,number>;hp:number|null;stress:0|1|2;revelation:'v'|'sr'|'r';pa:number;round:number;initiative:number|null;paPerRound:number;stabilized:boolean;share:boolean;disabled:string[];contexts:string[];bonuses:PlayBonus[]};
+export const blankPlayState=():PlayState=>({effects:[],effectArmor:0,activation:0,activationOpen:false,registeredPowers:[],unconscious:false,swarmFunctional:true,form:'human',inWater:false,muePending:null,mueCount:0,mueBlocked:false,formPaRound:0,powers:[],powerUses:{},hp:null,stress:0,revelation:'v',pa:0,round:1,initiative:null,paPerRound:0,stabilized:false,share:true,disabled:[],contexts:[],bonuses:[]});
 export function validatePlayState(v:any):v is PlayState {
   return !!v && (v.unconscious===undefined||typeof v.unconscious==='boolean') && (v.swarmFunctional===undefined||typeof v.swarmFunctional==='boolean') && (v.hp===null||Number.isSafeInteger(v.hp)&&Math.abs(v.hp)<=10000) && [0,1,2].includes(v.stress) && ['v','sr','r'].includes(v.revelation)
-    && Number.isInteger(v.pa)&&v.pa>=0&&v.pa<=5 && Number.isInteger(v.round)&&v.round>=1&&v.round<=100000
+    && Number.isInteger(v.pa)&&v.pa>=0&&v.pa<=6 && Number.isInteger(v.round)&&v.round>=1&&v.round<=100000
     && typeof v.stabilized==='boolean'&&typeof v.share==='boolean'&&Array.isArray(v.disabled)&&v.disabled.length<=300&&v.disabled.every((id:any)=>typeof id==='string'&&id.length<=150)
     && Array.isArray(v.contexts)&&v.contexts.length<=300&&v.contexts.every((id:any)=>typeof id==='string'&&id.length<=150)
     && Array.isArray(v.bonuses)&&v.bonuses.length<=100&&new Set(v.bonuses.map((b:any)=>b?.id)).size===v.bonuses.length
@@ -42,7 +50,10 @@ export function playProfile(data:any,state:PlayState){
     const attribute=rules.attributes.find(a=>a.name===match[2])!.id,id='nature-'+attribute;
     attributeBonuses.push({id,label:(stage==='sr'?'Nature Semi-révélée · ':'Nature Révélée · ')+match[2],attribute,amount:Number(match[1]),truth:true,enabled:true});
   }
-  const body=liveBody(data,state);
+  for(const b of natureAttributeModifiers(data,state))attributeBonuses.push({id:'nature-active-'+b.attribute,label:b.label,attribute:b.attribute,amount:b.amount,truth:true,enabled:true});
+  const body=liveBody(data,state),freeTraits=freeTraitProfile(data,state);
+  const selfEffects=(state.effects??[]).map(e=>({...e,targetId:'self'}));
+  const effect=(scope:any,skill?:string)=>effectModifiers(selfEffects,'self',{scope,skill}).amount;
   if(body)for(const [attribute,amount] of [['vigueur',body.vigor],['agilite',body.agility]] as const)if(amount)attributeBonuses.push({id:'nature-form-'+attribute,label:'Forme '+body.form,attribute,amount,truth:true,enabled:true});
   const powers=activeTruthPowers(data,state),availablePowers=truthPowers(data);
   const attributes=rules.attributes.map(a=>({...a,value:n(data.attributes?.[a.id])+n(data.edgeAttributes?.[a.id])+n(p.attributeRanks?.[a.id])+attributeBonuses.filter(b=>b.attribute===a.id&&b.enabled&&(!b.truth||state.revelation!=='v')).reduce((sum,b)=>sum+b.amount,0)}));
@@ -58,30 +69,41 @@ export function playProfile(data:any,state:PlayState){
   ].filter(b=>implants.has(b.id)).map(b=>({...b,enabled:!state.disabled.includes(b.id)}));
   const skills=rules.skills.map(s=>{
     const automatic=talents.filter(t=>(skillMap as Record<string,string>)[t]===s.id).map(t=>({id:t,label:allTalents.find(x=>x.id===t)?.name??t,amount:1,enabled:!state.disabled.includes(t)}));
+    if(s.id==='athletisme'&&activeAugmentationIds(data,state).has('realignement_spinal'))automatic.push({id:'realignement_spinal',label:'Réalignement spinal',amount:1,enabled:true});
     const staticBonus=automatic.filter(b=>b.enabled).reduce((sum,b)=>sum+b.amount,0);
-    const contexts=contextualSkillBonuses(talents,choices,specs,skillMap,s.id,raw(s.id)+permanent(s.id)+staticBonus).map(c=>({...c,enabled:state.contexts.includes(c.id)}));
+    const contexts=[...new Map([...contextualSkillBonuses(talents,choices,specs,skillMap,s.id,raw(s.id)+permanent(s.id)+staticBonus),...extraRealityContexts(data,s.id,raw(s.id)+permanent(s.id)+staticBonus)].map(c=>[c.id,c])).values()].map(c=>({...c,enabled:state.contexts.includes(c.id)}));
     // Contexts are opt-in. Equivalent test bonuses take the best, not their sum.
     const contextual=Math.max(0,...contexts.filter(c=>c.enabled).map(c=>c.bonus));
     const extras=state.bonuses.filter(b=>b.skill===s.id&&b.enabled&&(!b.truth||state.revelation==='r'));
     const prepared=[
-      ...augmentationPlayBonuses.filter(b=>implants.has(b.id)&&b.skills.includes(s.id)).map(b=>({...b,truth:false})),
+      ...[...augmentationPlayBonuses,...realityAugmentationBonuses].filter(b=>b.id!=='realignement_spinal'&&implants.has(b.id)&&b.skills.includes(s.id)).map(b=>({...b,truth:false})),
       ...(data.truth?.nature==='extral'?extralPlayBonuses.map(b=>({...b,id:'extral-'+b.id})):data.truth?.nature==='exile'?exilePlayBonuses.filter(b=>b.id!=='exile-pas-leger'):[]).filter(b=>truthIds.has(b.id)&&b.skills.includes(s.id)).map(b=>({...b,truth:true}))
-    ].map(b=>({...b,enabled:state.contexts.includes(b.id),active:state.contexts.includes(b.id)&&(!b.truth||availablePowers.some(p=>p.id===b.id&&powerAllowed(p,state.revelation)))}));
+    ].filter(b=>!b.truth||explicitPower(b.id)?.nature!==data.truth?.nature).map(b=>({...b,enabled:state.contexts.includes(b.id),active:state.contexts.includes(b.id)&&(!b.truth||availablePowers.some(p=>p.id===b.id&&powerAllowed(p,state.revelation)))}));
     const preparedBonus=Math.max(0,...prepared.filter(b=>b.active).map(b=>b.bonus));
-    const powerBonus=Math.max(0,...powers.filter(p=>p.skill===s.id).map(p=>p.amount));
-    const bonus=Math.max(staticBonus,contextual,preparedBonus,powerBonus)+(s.id==='pugilat'?(body?.pugilat??0):0)+extras.reduce((sum,b)=>sum+b.amount,0);
+    const favor=normalizedNatureResources(state.natureResources).daemon.pendingFavor;
+    const favorBonus=data.truth?.nature==='daemon'&&data.truth?.consciousness!=='profane'&&state.revelation!=='v'&&favor?.skill===s.id?3:0;
+    const powerBonus=Math.max(favorBonus,registeredSkillBonus(data,state,s.id),0,...powers.filter(p=>p.skill===s.id).map(p=>p.amount));
+    const bonus=Math.max(staticBonus,contextual,preparedBonus,powerBonus)+(s.id==='pugilat'?(body?.pugilat??0):0)+extras.reduce((sum,b)=>sum+b.amount,0)+effect('skill',s.id)+effect(s.attribute==='esprit'?'intellectual':s.attribute==='volonte'?'mental':s.attribute==='charisme'?'social':'physical')+(state.contexts.includes('effect-visual')?effect('visual'):0);
     const rank=raw(s.id)+permanent(s.id);
     return {...s,rank,attributeValue:attribute(s.attribute),automatic,contexts,prepared,extras,bonus,total:attribute(s.attribute)+rank+bonus};
   });
   const derived=characterDerivedStats(attribute,id=>raw(id)+permanent(id),ids(data.disadvantages));
   if(implants.has('temps_de_reaction_surhumain')&&!state.disabled.includes('temps_de_reaction_surhumain'))derived.initiative+=2;
-  const recoveryMultiplier=state.swarmFunctional!==false&&data.truth?.nature==='extral'&&data.truth?.consciousness!=='profane'&&data.truth?.choices?.species==='homo_superior'&&truthIds.has('extral-cycle-de-reparation')?2:1;
-  const hp=Math.min(state.hp??derived.pvMax,derived.pvMax);
+  const recoveryMultiplier=(activeAugmentationIds(data,state).has('regeneration_passive')?2:1)*(state.swarmFunctional!==false&&data.truth?.nature==='extral'&&data.truth?.consciousness!=='profane'&&data.truth?.choices?.species==='homo_superior'&&truthIds.has('extral-cycle-de-reparation')?2:1);
+  derived.passiveDefense+=effect('defense-physical');derived.occultDefense+=freeTraits.occultDefense+effect('defense-occult');
+  const natureLive=normalizedNatureResources(state.natureResources);
+  const naturalDamage=Math.max(body?.damage??1,freeTraits.naturalDamage,registeredNaturalDamage(data,state));
+  const bodyArmor=Math.max(freeTraits.bodyArmor,body?.armor??0,registeredBodyArmor(data,state),data.truth?.nature==='daemon'&&state.revelation==='r'&&natureLive.daemon.formProperties.includes('armour')?3:0);
+  const neuroDefense=attribute('volonte')+raw('force_mentale')+permanent('force_mentale')+Math.max(activeAugmentationIds(data,state).has('defense_electronique_g1')?2:0,activeAugmentationIds(data,state).has('defense_electronique_g2')?1:0)+effect('defense-neuro');
+  const healingMaximum=natureHpCeiling(data,state,vampireMaximum(derived.pvMax,state));
+  const healthMaximum=data.truth?.nature==='angelus'?Math.max(0,derived.pvMax-natureLive.angelus.bladeHp):vampireMaximum(derived.pvMax,state);
+  const hp=Math.min(state.hp??healthMaximum,healingMaximum);
+  if(state.vampire?.stasis){derived.passiveDefense=0;derived.occultDefense=0;}
   const painReduction=Math.max(talents.includes('insensibilite_a_la_douleur')?1:0,...mechanics.filter(b=>b.enabled).map(b=>b.pain));
-  const stress=Math.max(state.stress,hp<=0?2:Math.max(0,injuryStress(hp,derived.pvMax,false)-painReduction)) as 0|1|2;
-  const health=hp<=derived.death?'Mort':hp<=0?(state.stabilized?'Stabilisé':'Agonisant'):hp<=derived.pvMax*.25?'Gravement blessé':hp<=derived.pvMax*.5?'Blessé':hp<derived.pvMax?'Légèrement blessé':'Indemne';
-  return {body,powers,attributes,attributeBonuses,mechanics,skills,derived,hp,stress,health,pa:hp<=derived.death?0:hp<=0?Math.min(state.pa,1):state.pa,
-    recovery:{normal:dailyRecovery(raw('constitution')+permanent('constitution'),false,talents.includes('sante_de_fer'))*recoveryMultiplier,prolonged:dailyRecovery(raw('constitution')+permanent('constitution'),true,talents.includes('sante_de_fer'))*recoveryMultiplier}};
+  const stress=Math.max(state.stress,hp<=0?2:Math.max(0,injuryStress(hp,healthMaximum,false)-painReduction)) as 0|1|2;
+  const health=hp<=derived.death?'Mort':hp<=0?(state.stabilized?'Stabilisé':'Agonisant'):hp<=healthMaximum*.25?'Gravement blessé':hp<=healthMaximum*.5?'Blessé':hp<healthMaximum?'Légèrement blessé':'Indemne';
+  return {freeTraits,naturalDamage,healthMaximum,healingMaximum,body,bodyArmor,neuroDefense,powers,attributes,attributeBonuses,mechanics,skills,derived,hp,stress,health,pa:hp<=derived.death?0:hp<=0?Math.min(state.pa,1):state.pa,
+    recovery:{normal:realityDailyRecovery(raw('constitution')+permanent('constitution'),false,talents.includes('sante_de_fer'),recoveryMultiplier),prolonged:realityDailyRecovery(raw('constitution')+permanent('constitution'),true,talents.includes('sante_de_fer'),recoveryMultiplier)}};
 }
 export function rollD10(stress:0|1|2,draw:()=>number){
   const first=draw(),explodes=first===10||stress===1&&first===9;

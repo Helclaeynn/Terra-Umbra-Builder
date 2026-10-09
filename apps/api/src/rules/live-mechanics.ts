@@ -1,3 +1,5 @@
+import {registeredTruthPowers,usableRegisteredPower} from './live-power-registry.js';
+import {vampireTalent,vampireDefensePower} from './live-vampire.js';
 import {truthCoreRules} from './truth/core-rules.js';
 import {liveTruthState,truthPowers,powerAllowed,usableKhinaeTalent,liveBody} from './play-truth.js';
 import type {PlayState} from './play-state.js';
@@ -21,9 +23,11 @@ export function usableLiveTalent(data:any,state:Pick<PlayState,'revelation'>,id:
 export const usageKey=(limit:string,id:string)=>`${limit}:${id}`;
 export const used=(state:PlayState,limit:string,id:string)=>(state.powerUses?.[usageKey(limit,id)]??0)>0;
 export function consumeUsage(state:PlayState,limit:string,id:string){state.powerUses??={};state.powerUses[usageKey(limit,id)]=(state.powerUses[usageKey(limit,id)]??0)+1;}
-export function defenseOptions(data:any,state:PlayState,attack:{damageType:string;surprise:boolean},canReact:boolean){
+export function defenseOptions(data:any,state:PlayState,attack:{damageType:string;surprise:boolean},canReact:boolean):any[]{
  if(['occulte','neuro'].includes(attack.damageType))return [];
- return defenseMechanics.filter(p=>p.nature===data.truth?.nature&&usableLiveTalent(data,state,p.id)).map(p=>({...p,used:used(state,p.limit,p.id),available:canReact&&!used(state,p.limit,p.id)&&(!attack.surprise||p.surprise)}));
+ const rows=registeredTruthPowers(data,state).filter(p=>p.route==='defense').map(p=>({...p,bonus:Math.max(0,...p.effects.filter(e=>e.kind==='skill').map(e=>e.amount)),available:canReact&&!p.used&&(!attack.surprise||p.surprise)}));
+ if(vampireTalent(data,state,'corps_de_brume'))rows.push({...vampireDefensePower,effects:[],route:'defense',duration:'test',context:'Cette attaque physique est perçue et la transformation en brume peut réellement la protéger.',notes:'Les attaques pouvant atteindre l’immatériel restent applicables.',used:false,available:canReact&&!attack.surprise});
+ return rows;
 }
 export function hourlyRecovery(data:any,state:PlayState){const body=liveBody(data,state);return body&&body.form!=='hybrid'?body.recovery:0;}
 export function naniteStatus(data:any,state:PlayState){

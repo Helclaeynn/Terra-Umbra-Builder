@@ -1,3 +1,5 @@
+import {vampirePowerRules} from './live-vampire.js';
+import {normalizeExileBuild} from './truth/exile-build.js';
 import {truthCoreRules} from './truth/core-rules.js';
 import {khinaeBodyProfile,khinaeUsableTalents} from './truth/khinae.js';
 import type {TruthRulesPackage,TruthState} from './truth/types.js';
@@ -19,14 +21,16 @@ export function truthPowers(data:any){
  const t=liveTruthState(data);if(t.consciousness==='profane')return [];
  const nature=pkg.structure.natures[t.nature];if(!nature)return [];
  const owned=new Set(t.truthTalents);
- const rows=(pkg.catalogs[t.nature]??[]).filter(p=>owned.has(p.id)&&(!p.prerequisite||owned.has(p.prerequisite)));
+ const validBlood=['garou','khinae'].includes(t.nature)?khinaeUsableTalents(pkg,t):null;
+ const learnedNetworks=new Set(normalizeExileBuild(t.choices.exileBuild).trainings.filter(p=>p.learned&&p.mentor.trim()&&p.conditions.trim()).map(p=>p.network));
+ const rows=(pkg.catalogs[t.nature]??[]).filter(p=>owned.has(p.id)&&(!p.prerequisite||owned.has(p.prerequisite))&&(!p.requiredTalentIds||p.requiredTalentIds.every(id=>owned.has(id)))&&(!p.anyRequiredTalentIds?.length||p.anyRequiredTalentIds.some(id=>owned.has(id)))&&(!p.when||Object.entries(p.when).every(([key,value])=>key==='network'&&t.nature==='exile'?(Array.isArray(value)?value.some(v=>learnedNetworks.has(v)||v===t.choices[key]):learnedNetworks.has(value)||value===t.choices[key]):Array.isArray(value)?value.includes(String(t.choices[key])):value===t.choices[key]))&&(!validBlood||validBlood.has(p.id)));
  const free=[...nature.baseFreeTraits,...nature.freeTraitRules.filter(r=>Object.entries(r.when).every(([key,value])=>Array.isArray(value)?value.includes(String(t.choices[key])):value===t.choices[key])).flatMap(r=>r.traits)];
  return [...rows,...free.map((p,i)=>({...p,id:'trait:'+norm(p.name).replace(/[^a-z0-9]+/g,'-'),activation:'',effectDetails:p.effect}))].map(p=>{
   const text=p.effectDetails||p.effect,activation=p.activation??'',access=p.access??'R';
   const costText=norm(activation+' '+text),costMatch=/(?:^|pour |reaction[ ·:]*)\s*(\d+)\s*pa\b/.exec(costText);
   const limit=/1\s*\/\s*round|une fois par round/.test(costText)?'round':/1\s*\/\s*scene|une fois par scene/.test(costText)?'scene':/1\s*\/\s*jour|une fois par jour/.test(costText)?'day':/1\s*\/\s*scenario|une fois par scenario/.test(costText)?'scenario':null;
   const stage=/(?:^|\W)V(?:\W|$)/.test(access)?'v':/(?:^|\W)SR(?:\W|$)/.test(access)?'sr':'r';
-  return {execution:mechanicalPowerRoutes[p.id]??'assisted',id:p.id,name:p.name,text,activation,access,cost:costMatch?Number(costMatch[1]):null,limit,stage};
+  return {execution:mechanicalPowerRoutes[p.id]??(t.nature==='vampire'&&vampirePowerRules[p.id]?.route==='vampire'?'vampire':['mage','daemon','angelus'].includes(t.nature)?'nature':'assisted'),id:p.id,name:p.name,text,activation,access,cost:t.nature==='vampire'&&vampirePowerRules[p.id]?vampirePowerRules[p.id].cost:costMatch?Number(costMatch[1]):null,limit:t.nature==='vampire'&&vampirePowerRules[p.id]?vampirePowerRules[p.id].limit??null:limit,stage};
  });
 }
 export function powerAllowed(power:{stage:string},revelation:string){return power.stage==='v'||power.stage==='sr'&&revelation!=='v'||revelation==='r';}
