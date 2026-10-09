@@ -1,6 +1,6 @@
 # Audit individuel des objets et traits gratuits de Vérité — 9 octobre 2026
 
-Le contrôle porte sur **231 entrées d’équipement et 273 traits gratuits**, lus dans le catalogue Vérité compilé. Le répertoire `.v2-rules-data` décrit le catalogue Réalité ; il ne constitue pas la source des objets de Vérité. Les descriptions complètes, accès et conditions sont conservés dans le JSON joint. Chaque trait utilise une identité composée Nature+index pour éviter les collisions entre `base:0` de différentes Natures.
+Le contrôle porte sur **231 entrées d’équipement et 273 traits gratuits**, lus dans le catalogue Vérité compilé. Le répertoire `.v2-rules-data` décrit le catalogue Réalité ; il ne constitue pas la source des objets de Vérité. Les descriptions complètes, accès et conditions sont conservés dans le JSON joint. Chaque trait utilise une identité composée Nature+index pour éviter les collisions entre `base:0` de différentes Natures. Son champ `source` indique le fichier versionné et le sélecteur de définition, avec `definitionSource` pour la définition d'origine d'un trait révisé ; les mêmes provenances figurent dans l'inventaire général.
 
 ## Ce qui est réellement calculé
 

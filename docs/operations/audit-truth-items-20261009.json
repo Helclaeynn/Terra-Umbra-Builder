@@ -4,7 +4,8 @@
   "sourceFiles": [
     "apps/api/src/rules/truth/rules.ts",
     "compendium/source/verite-catalog-v6.json.gz.b64",
-    ".v2-rules-data (Réalité seulement)"
+    "apps/api/src/rules/truth/runtime-structure.ts",
+    "apps/api/src/rules/truth/extral-build.ts"
   ],
   "sourceSha256": "4db36bc654ff65bc881d6095c70945663d0b852371b3af0feeb107ef1de7d736",
   "statusDefinitions": {
@@ -10357,7 +10358,7 @@
       "nature": "vampire",
       "name": "Âme condamnée",
       "access": "—",
-      "source": null,
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.vampire.baseFreeTraits[0]",
       "when": null,
       "coverage": "descriptif",
       "implemented": "Trait sélectionné selon choix de création, affiché dans les capacités ; aucun handler dédié.",
@@ -10370,7 +10371,7 @@
       "nature": "vampire",
       "name": "Petite immortalité",
       "access": "R",
-      "source": null,
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.vampire.baseFreeTraits[1]",
       "when": null,
       "coverage": "descriptif",
       "implemented": "Trait sélectionné selon choix de création, affiché dans les capacités ; aucun handler dédié.",
@@ -10383,7 +10384,7 @@
       "nature": "vampire",
       "name": "Physiologie maudite",
       "access": "R",
-      "source": null,
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.vampire.baseFreeTraits[2]",
       "when": null,
       "coverage": "descriptif",
       "implemented": "Trait affiché ; aucun bonus Constitution conditionnel maladie appliqué automatiquement.",
@@ -10396,7 +10397,7 @@
       "nature": "vampire",
       "name": "Sens prédateurs",
       "access": "SR",
-      "source": null,
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.vampire.baseFreeTraits[3]",
       "when": null,
       "coverage": "descriptif",
       "implemented": "Trait sélectionné selon choix de création, affiché dans les capacités ; aucun handler dédié.",
@@ -10409,7 +10410,7 @@
       "nature": "vampire",
       "name": "Prédation sanguine",
       "access": "R · 1 PA",
-      "source": null,
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.vampire.baseFreeTraits[4]",
       "when": null,
       "coverage": "calcule_partiel",
       "implemented": "Attaque Prédation via Pugilat et récupération bornée aux dégâts réellement commis/DR/PV prélevés.",
@@ -10422,7 +10423,7 @@
       "nature": "vampire",
       "name": "Effacement prédateur",
       "access": "R",
-      "source": null,
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.vampire.baseFreeTraits[5]",
       "when": null,
       "coverage": "descriptif",
       "implemented": "Trait sélectionné selon choix de création, affiché dans les capacités ; aucun handler dédié.",
@@ -10435,7 +10436,7 @@
       "nature": "vampire",
       "name": "Fascination vampirique",
       "access": "SR · 1 PA",
-      "source": null,
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.vampire.baseFreeTraits[6]",
       "when": null,
       "coverage": "descriptif",
       "implemented": "Trait sélectionné selon choix de création, affiché dans les capacités ; aucun handler dédié.",
@@ -10448,7 +10449,7 @@
       "nature": "vampire",
       "name": "Stase",
       "access": "R · 2 PA",
-      "source": null,
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.vampire.baseFreeTraits[7]",
       "when": null,
       "coverage": "calcule_partiel",
       "implemented": "Entrée/sortie de Stase, coût2PA en combat, inconscience/PA0, récupération horaire et plafond santé.",
@@ -10461,7 +10462,7 @@
       "nature": "vampire",
       "name": "Malédiction vampirique",
       "access": "R",
-      "source": null,
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.vampire.baseFreeTraits[8]",
       "when": null,
       "coverage": "descriptif",
       "implemented": "Trait sélectionné selon choix de création, affiché dans les capacités ; aucun handler dédié.",
@@ -10474,7 +10475,7 @@
       "nature": "vampire",
       "name": "Prédateur de guerre",
       "access": "R",
-      "source": "Empreinte gratuite de Cour",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.vampire.freeTraitRules[0].traits[0]",
       "when": {
         "court": "krovni_rytsari"
       },
@@ -10489,7 +10490,7 @@
       "nature": "vampire",
       "name": "Écho des Morts",
       "access": "R",
-      "source": "Empreinte gratuite de Cour",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.vampire.freeTraitRules[1].traits[0]",
       "when": {
         "court": "alghul_almalakiu"
       },
@@ -10504,7 +10505,7 @@
       "nature": "vampire",
       "name": "Enfant des Ténèbres",
       "access": "R · 1 PA",
-      "source": "Empreinte gratuite de Cour",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.vampire.freeTraitRules[2].traits[0]",
       "when": {
         "court": "oru_ayeraye"
       },
@@ -10519,7 +10520,7 @@
       "nature": "vampire",
       "name": "Cycle du Sang",
       "access": "R",
-      "source": "Empreinte gratuite de Cour",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.vampire.freeTraitRules[3].traits[0]",
       "when": {
         "court": "ihuito_meztzi"
       },
@@ -10534,7 +10535,7 @@
       "nature": "vampire",
       "name": "Équilibre dérobé",
       "access": "R",
-      "source": "Empreinte gratuite de Cour",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.vampire.freeTraitRules[4].traits[0]",
       "when": {
         "court": "shi_hun_zhe"
       },
@@ -10549,7 +10550,7 @@
       "nature": "garou",
       "name": "Âme du Cycle",
       "access": "—",
-      "source": null,
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.garou.baseFreeTraits[0]",
       "when": null,
       "coverage": "descriptif",
       "implemented": "Trait sélectionné selon choix de création, affiché dans les capacités ; aucun handler dédié.",
@@ -10562,7 +10563,7 @@
       "nature": "garou",
       "name": "Appel de la Meute",
       "access": "—",
-      "source": null,
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.garou.baseFreeTraits[1]",
       "when": null,
       "coverage": "descriptif",
       "implemented": "Trait sélectionné selon choix de création, affiché dans les capacités ; aucun handler dédié.",
@@ -10575,7 +10576,7 @@
       "nature": "garou",
       "name": "Hiérarchie instinctive",
       "access": "SR",
-      "source": null,
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.garou.baseFreeTraits[2]",
       "when": null,
       "coverage": "descriptif",
       "implemented": "Trait sélectionné selon choix de création, affiché dans les capacités ; aucun handler dédié.",
@@ -10588,7 +10589,7 @@
       "nature": "garou",
       "name": "Sens éveillés",
       "access": "SR",
-      "source": null,
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.garou.baseFreeTraits[3]",
       "when": null,
       "coverage": "descriptif",
       "implemented": "Trait sélectionné selon choix de création, affiché dans les capacités ; aucun handler dédié.",
@@ -10601,7 +10602,7 @@
       "nature": "garou",
       "name": "Bravoure lupine",
       "access": "SR",
-      "source": null,
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.garou.baseFreeTraits[4]",
       "when": null,
       "coverage": "descriptif",
       "implemented": "Trait sélectionné selon choix de création, affiché dans les capacités ; aucun handler dédié.",
@@ -10614,7 +10615,7 @@
       "nature": "garou",
       "name": "Régénération lente",
       "access": "R",
-      "source": null,
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.garou.baseFreeTraits[5]",
       "when": null,
       "coverage": "calcule_partiel",
       "implemented": "recover-hours : vivant, hors combat, humain révélé/animal, récupération horaire.",
@@ -10627,7 +10628,7 @@
       "nature": "garou",
       "name": "Gardien de la Meute",
       "access": "R · Réaction 1 PA",
-      "source": "Tradition gratuite de Pelage",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.garou.freeTraitRules[0].traits[0]",
       "when": {
         "pelage": "pelages_gris"
       },
@@ -10642,7 +10643,7 @@
       "nature": "garou",
       "name": "Territoire de la Meute",
       "access": "R",
-      "source": "Tradition gratuite de Pelage",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.garou.freeTraitRules[1].traits[0]",
       "when": {
         "pelage": "pelages_noirs"
       },
@@ -10657,7 +10658,7 @@
       "nature": "garou",
       "name": "Discipline de Fenrir",
       "access": "R",
-      "source": "Tradition gratuite de Pelage",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.garou.freeTraitRules[2].traits[0]",
       "when": {
         "pelage": "pelages_blancs"
       },
@@ -10672,7 +10673,7 @@
       "nature": "garou",
       "name": "Mue partielle",
       "access": "R · 1 PA",
-      "source": "Tradition gratuite de Pelage",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.garou.freeTraitRules[3].traits[0]",
       "when": {
         "pelage": "pelages_roux"
       },
@@ -10687,7 +10688,7 @@
       "nature": "garou",
       "name": "Accord des Kami",
       "access": "SR",
-      "source": "Tradition gratuite de Pelage",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.garou.freeTraitRules[4].traits[0]",
       "when": {
         "pelage": "pelages_bruns"
       },
@@ -10702,7 +10703,7 @@
       "nature": "garou",
       "name": "Trace dévorée",
       "access": "R",
-      "source": "Tradition gratuite de Pelage",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.garou.freeTraitRules[5].traits[0]",
       "when": {
         "pelage": "pelages_dores"
       },
@@ -10717,7 +10718,7 @@
       "nature": "garou",
       "name": "Corps Enchaîné",
       "access": "R",
-      "source": "Règle native du Sang vif",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.garou.freeTraitRules[6].traits[0]",
       "when": {
         "blood": "sang_enchaine"
       },
@@ -10732,7 +10733,7 @@
       "nature": "khinae",
       "name": "Âme du Cycle",
       "access": "—",
-      "source": null,
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.khinae.baseFreeTraits[0]",
       "when": null,
       "coverage": "descriptif",
       "implemented": "Trait sélectionné selon choix de création, affiché dans les capacités ; aucun handler dédié.",
@@ -10745,7 +10746,7 @@
       "nature": "khinae",
       "name": "Régénération lente",
       "access": "R · humain révélé / animal",
-      "source": null,
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.khinae.baseFreeTraits[1]",
       "when": null,
       "coverage": "calcule_partiel",
       "implemented": "recover-hours : 1PV/heure hors combat en humain révélé/animal vivant.",
@@ -10758,7 +10759,7 @@
       "nature": "khinae",
       "name": "Instinct de Lignée",
       "access": "SR/R",
-      "source": null,
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.khinae.baseFreeTraits[2]",
       "when": null,
       "coverage": "descriptif",
       "implemented": "Trait sélectionné selon choix de création, affiché dans les capacités ; aucun handler dédié.",
@@ -10771,7 +10772,7 @@
       "nature": "khinae",
       "name": "Corps de guerre",
       "access": "R · hybride",
-      "source": null,
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.khinae.baseFreeTraits[3]",
       "when": null,
       "coverage": "calcule_partiel",
       "implemented": "Hybride : Pugilat+3 et Régénération2PV début round si vivant et forme maintenue.",
@@ -10784,7 +10785,7 @@
       "nature": "khinae",
       "name": "Rythme Khinae",
       "access": "R · hybride",
-      "source": null,
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.khinae.baseFreeTraits[4]",
       "when": null,
       "coverage": "calcule_partiel",
       "implemented": "Bonus+1PA au round suivant la fin de la Mue, au-delà du maximum normal.",
@@ -10797,7 +10798,7 @@
       "nature": "khinae",
       "name": "Piste nomade",
       "access": "SR",
-      "source": "Signature gratuite de Lignée",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.khinae.freeTraitRules[0].traits[0]",
       "when": {
         "lineage": "canides_errants"
       },
@@ -10812,7 +10813,7 @@
       "nature": "khinae",
       "name": "Odeur mouvante",
       "access": "SR",
-      "source": "Signature gratuite de Lignée",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.khinae.freeTraitRules[1].traits[0]",
       "when": {
         "lineage": "renards"
       },
@@ -10827,7 +10828,7 @@
       "nature": "khinae",
       "name": "Silence du grand fauve",
       "access": "SR",
-      "source": "Signature gratuite de Lignée",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.khinae.freeTraitRules[2].traits[0]",
       "when": {
         "lineage": "grands_felins"
       },
@@ -10842,7 +10843,7 @@
       "nature": "khinae",
       "name": "Inoffensif par nature",
       "access": "SR",
-      "source": "Signature gratuite de Lignée",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.khinae.freeTraitRules[3].traits[0]",
       "when": {
         "lineage": "chats"
       },
@@ -10857,7 +10858,7 @@
       "nature": "khinae",
       "name": "Bond ailé",
       "access": "R · Animal/Hybride",
-      "source": "Signature gratuite de Lignée",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.khinae.freeTraitRules[4].traits[0]",
       "when": {
         "lineage": "rapaces"
       },
@@ -10872,7 +10873,7 @@
       "nature": "khinae",
       "name": "Sang qui refuse l’abysse",
       "access": "SR/R",
-      "source": "Signature gratuite de Lignée",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.khinae.freeTraitRules[5].traits[0]",
       "when": {
         "lineage": "requins"
       },
@@ -10887,7 +10888,7 @@
       "nature": "khinae",
       "name": "Corps ophidien",
       "access": "R · Animal/Hybride",
-      "source": "Signature gratuite de Lignée",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.khinae.freeTraitRules[6].traits[0]",
       "when": {
         "lineage": "serpents"
       },
@@ -10902,7 +10903,7 @@
       "nature": "khinae",
       "name": "Bande de ricanement",
       "access": "SR/R",
-      "source": "Signature gratuite de Lignée",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.khinae.freeTraitRules[7].traits[0]",
       "when": {
         "lineage": "boudas"
       },
@@ -10917,7 +10918,7 @@
       "nature": "khinae",
       "name": "Masse ursine",
       "access": "R · Hybride",
-      "source": "Signature gratuite de Lignée",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.khinae.freeTraitRules[8].traits[0]",
       "when": {
         "lineage": "berserkirs"
       },
@@ -10932,7 +10933,7 @@
       "nature": "khinae",
       "name": "Fossile de vase",
       "access": "R · Animal/Hybride",
-      "source": "Signature gratuite de Lignée",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.khinae.freeTraitRules[9].traits[0]",
       "when": {
         "lineage": "crocodiliens"
       },
@@ -10947,7 +10948,7 @@
       "nature": "khinae",
       "name": "Variante — Coyote",
       "access": "Gratuit",
-      "source": "Biologie Khinae",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.khinae.freeTraitRules[10].traits[0]",
       "when": {
         "lineage": "canides_errants",
         "variant": "coyote"
@@ -10963,7 +10964,7 @@
       "nature": "khinae",
       "name": "Variante — Chacal / Dhole",
       "access": "Gratuit",
-      "source": "Biologie Khinae",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.khinae.freeTraitRules[11].traits[0]",
       "when": {
         "lineage": "canides_errants",
         "variant": "chacal_dhole"
@@ -10979,7 +10980,7 @@
       "nature": "khinae",
       "name": "Variante — Lycaon",
       "access": "Gratuit",
-      "source": "Biologie Khinae",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.khinae.freeTraitRules[12].traits[0]",
       "when": {
         "lineage": "canides_errants",
         "variant": "lycaon"
@@ -10995,7 +10996,7 @@
       "nature": "khinae",
       "name": "Variante — Dingo",
       "access": "Gratuit",
-      "source": "Biologie Khinae",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.khinae.freeTraitRules[13].traits[0]",
       "when": {
         "lineage": "canides_errants",
         "variant": "dingo"
@@ -11011,7 +11012,7 @@
       "nature": "khinae",
       "name": "Variante — Roux",
       "access": "Gratuit",
-      "source": "Biologie Khinae",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.khinae.freeTraitRules[14].traits[0]",
       "when": {
         "lineage": "renards",
         "variant": "roux"
@@ -11027,7 +11028,7 @@
       "nature": "khinae",
       "name": "Variante — Fennec",
       "access": "Gratuit",
-      "source": "Biologie Khinae",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.khinae.freeTraitRules[15].traits[0]",
       "when": {
         "lineage": "renards",
         "variant": "fennec"
@@ -11043,7 +11044,7 @@
       "nature": "khinae",
       "name": "Variante — Arctique",
       "access": "Gratuit",
-      "source": "Biologie Khinae",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.khinae.freeTraitRules[16].traits[0]",
       "when": {
         "lineage": "renards",
         "variant": "arctique"
@@ -11059,7 +11060,7 @@
       "nature": "khinae",
       "name": "Variante — Gris / forestier",
       "access": "Gratuit",
-      "source": "Biologie Khinae",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.khinae.freeTraitRules[17].traits[0]",
       "when": {
         "lineage": "renards",
         "variant": "gris_forestier"
@@ -11075,7 +11076,7 @@
       "nature": "khinae",
       "name": "Variante — Tigre",
       "access": "Gratuit",
-      "source": "Biologie Khinae",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.khinae.freeTraitRules[18].traits[0]",
       "when": {
         "lineage": "grands_felins",
         "variant": "tigre"
@@ -11091,7 +11092,7 @@
       "nature": "khinae",
       "name": "Variante — Lion",
       "access": "Gratuit",
-      "source": "Biologie Khinae",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.khinae.freeTraitRules[19].traits[0]",
       "when": {
         "lineage": "grands_felins",
         "variant": "lion"
@@ -11107,7 +11108,7 @@
       "nature": "khinae",
       "name": "Variante — Panthère",
       "access": "Gratuit",
-      "source": "Biologie Khinae",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.khinae.freeTraitRules[20].traits[0]",
       "when": {
         "lineage": "grands_felins",
         "variant": "panthere"
@@ -11123,7 +11124,7 @@
       "nature": "khinae",
       "name": "Variante — Jaguar",
       "access": "Gratuit",
-      "source": "Biologie Khinae",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.khinae.freeTraitRules[21].traits[0]",
       "when": {
         "lineage": "grands_felins",
         "variant": "jaguar"
@@ -11139,7 +11140,7 @@
       "nature": "khinae",
       "name": "Variante — Puma",
       "access": "Gratuit",
-      "source": "Biologie Khinae",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.khinae.freeTraitRules[22].traits[0]",
       "when": {
         "lineage": "grands_felins",
         "variant": "puma"
@@ -11155,7 +11156,7 @@
       "nature": "khinae",
       "name": "Variante — Domestique",
       "access": "Gratuit",
-      "source": "Biologie Khinae",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.khinae.freeTraitRules[23].traits[0]",
       "when": {
         "lineage": "chats",
         "variant": "domestique"
@@ -11171,7 +11172,7 @@
       "nature": "khinae",
       "name": "Variante — Sauvage",
       "access": "Gratuit",
-      "source": "Biologie Khinae",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.khinae.freeTraitRules[24].traits[0]",
       "when": {
         "lineage": "chats",
         "variant": "sauvage"
@@ -11187,7 +11188,7 @@
       "nature": "khinae",
       "name": "Variante — Nocturne",
       "access": "Gratuit",
-      "source": "Biologie Khinae",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.khinae.freeTraitRules[25].traits[0]",
       "when": {
         "lineage": "chats",
         "variant": "nocturne"
@@ -11203,7 +11204,7 @@
       "nature": "khinae",
       "name": "Variante — Grimpeur",
       "access": "Gratuit",
-      "source": "Biologie Khinae",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.khinae.freeTraitRules[26].traits[0]",
       "when": {
         "lineage": "chats",
         "variant": "grimpeur"
@@ -11219,7 +11220,7 @@
       "nature": "khinae",
       "name": "Variante — Aigle",
       "access": "Gratuit",
-      "source": "Biologie Khinae",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.khinae.freeTraitRules[27].traits[0]",
       "when": {
         "lineage": "rapaces",
         "variant": "aigle"
@@ -11235,7 +11236,7 @@
       "nature": "khinae",
       "name": "Variante — Faucon",
       "access": "Gratuit",
-      "source": "Biologie Khinae",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.khinae.freeTraitRules[28].traits[0]",
       "when": {
         "lineage": "rapaces",
         "variant": "faucon"
@@ -11251,7 +11252,7 @@
       "nature": "khinae",
       "name": "Variante — Hibou",
       "access": "Gratuit",
-      "source": "Biologie Khinae",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.khinae.freeTraitRules[29].traits[0]",
       "when": {
         "lineage": "rapaces",
         "variant": "hibou"
@@ -11267,7 +11268,7 @@
       "nature": "khinae",
       "name": "Variante — Vautour",
       "access": "Gratuit",
-      "source": "Biologie Khinae",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.khinae.freeTraitRules[30].traits[0]",
       "when": {
         "lineage": "rapaces",
         "variant": "vautour"
@@ -11283,7 +11284,7 @@
       "nature": "khinae",
       "name": "Variante — Requin blanc",
       "access": "Gratuit",
-      "source": "Biologie Khinae",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.khinae.freeTraitRules[31].traits[0]",
       "when": {
         "lineage": "requins",
         "variant": "requin_blanc"
@@ -11299,7 +11300,7 @@
       "nature": "khinae",
       "name": "Variante — Bouledogue",
       "access": "Gratuit",
-      "source": "Biologie Khinae",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.khinae.freeTraitRules[32].traits[0]",
       "when": {
         "lineage": "requins",
         "variant": "bouledogue"
@@ -11315,7 +11316,7 @@
       "nature": "khinae",
       "name": "Variante — Requin tigre",
       "access": "Gratuit",
-      "source": "Biologie Khinae",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.khinae.freeTraitRules[33].traits[0]",
       "when": {
         "lineage": "requins",
         "variant": "requin_tigre"
@@ -11331,7 +11332,7 @@
       "nature": "khinae",
       "name": "Variante — Requin marteau",
       "access": "Gratuit",
-      "source": "Biologie Khinae",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.khinae.freeTraitRules[34].traits[0]",
       "when": {
         "lineage": "requins",
         "variant": "requin_marteau"
@@ -11347,7 +11348,7 @@
       "nature": "khinae",
       "name": "Variante — Requin baleine",
       "access": "Gratuit",
-      "source": "Biologie Khinae",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.khinae.freeTraitRules[35].traits[0]",
       "when": {
         "lineage": "requins",
         "variant": "requin_baleine"
@@ -11363,7 +11364,7 @@
       "nature": "khinae",
       "name": "Variante — Vipère — hémotoxique",
       "access": "Gratuit",
-      "source": "Biologie Khinae",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.khinae.freeTraitRules[36].traits[0]",
       "when": {
         "lineage": "serpents",
         "variant": "vipere"
@@ -11379,7 +11380,7 @@
       "nature": "khinae",
       "name": "Variante — Cobra — neurotoxique",
       "access": "Gratuit",
-      "source": "Biologie Khinae",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.khinae.freeTraitRules[37].traits[0]",
       "when": {
         "lineage": "serpents",
         "variant": "cobra"
@@ -11395,7 +11396,7 @@
       "nature": "khinae",
       "name": "Variante — Python / Boa — constricteur",
       "access": "Gratuit",
-      "source": "Biologie Khinae",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.khinae.freeTraitRules[38].traits[0]",
       "when": {
         "lineage": "serpents",
         "variant": "constricteur"
@@ -11411,7 +11412,7 @@
       "nature": "khinae",
       "name": "Variante — Couleuvre / petite lignée furtive",
       "access": "Gratuit",
-      "source": "Biologie Khinae",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.khinae.freeTraitRules[39].traits[0]",
       "when": {
         "lineage": "serpents",
         "variant": "furtif"
@@ -11427,7 +11428,7 @@
       "nature": "khinae",
       "name": "Variante — Hyène tachetée",
       "access": "Gratuit",
-      "source": "Biologie Khinae",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.khinae.freeTraitRules[40].traits[0]",
       "when": {
         "lineage": "boudas",
         "variant": "tachetee"
@@ -11443,7 +11444,7 @@
       "nature": "khinae",
       "name": "Variante — Hyène rayée",
       "access": "Gratuit",
-      "source": "Biologie Khinae",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.khinae.freeTraitRules[41].traits[0]",
       "when": {
         "lineage": "boudas",
         "variant": "rayee"
@@ -11459,7 +11460,7 @@
       "nature": "khinae",
       "name": "Variante — Hyène brune",
       "access": "Gratuit",
-      "source": "Biologie Khinae",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.khinae.freeTraitRules[42].traits[0]",
       "when": {
         "lineage": "boudas",
         "variant": "brune"
@@ -11475,7 +11476,7 @@
       "nature": "khinae",
       "name": "Variante — Brun / Grizzly",
       "access": "Gratuit",
-      "source": "Biologie Khinae",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.khinae.freeTraitRules[43].traits[0]",
       "when": {
         "lineage": "berserkirs",
         "variant": "brun_grizzly"
@@ -11491,7 +11492,7 @@
       "nature": "khinae",
       "name": "Variante — Polaire",
       "access": "Gratuit",
-      "source": "Biologie Khinae",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.khinae.freeTraitRules[44].traits[0]",
       "when": {
         "lineage": "berserkirs",
         "variant": "polaire"
@@ -11507,7 +11508,7 @@
       "nature": "khinae",
       "name": "Variante — Ours noir",
       "access": "Gratuit",
-      "source": "Biologie Khinae",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.khinae.freeTraitRules[45].traits[0]",
       "when": {
         "lineage": "berserkirs",
         "variant": "ours_noir"
@@ -11523,7 +11524,7 @@
       "nature": "khinae",
       "name": "Variante — Crocodile du Nil / marin",
       "access": "Gratuit",
-      "source": "Biologie Khinae",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.khinae.freeTraitRules[46].traits[0]",
       "when": {
         "lineage": "crocodiliens",
         "variant": "nil_marin"
@@ -11539,7 +11540,7 @@
       "nature": "khinae",
       "name": "Variante — Alligator",
       "access": "Gratuit",
-      "source": "Biologie Khinae",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.khinae.freeTraitRules[47].traits[0]",
       "when": {
         "lineage": "crocodiliens",
         "variant": "alligator"
@@ -11555,7 +11556,7 @@
       "nature": "khinae",
       "name": "Variante — Caïman",
       "access": "Gratuit",
-      "source": "Biologie Khinae",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.khinae.freeTraitRules[48].traits[0]",
       "when": {
         "lineage": "crocodiliens",
         "variant": "caiman"
@@ -11571,7 +11572,7 @@
       "nature": "khinae",
       "name": "Variante — Gavial",
       "access": "Gratuit",
-      "source": "Biologie Khinae",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.khinae.freeTraitRules[49].traits[0]",
       "when": {
         "lineage": "crocodiliens",
         "variant": "gavial"
@@ -11587,7 +11588,7 @@
       "nature": "mage",
       "name": "Vision à travers le Voile",
       "access": "SR/R",
-      "source": null,
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.mage.baseFreeTraits[0]",
       "when": null,
       "coverage": "descriptif",
       "implemented": "Trait sélectionné selon choix de création, affiché dans les capacités ; aucun handler dédié.",
@@ -11600,7 +11601,7 @@
       "nature": "mage",
       "name": "Perception magique",
       "access": "SR/R",
-      "source": null,
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.mage.baseFreeTraits[1]",
       "when": null,
       "coverage": "descriptif",
       "implemented": "Trait sélectionné selon choix de création, affiché dans les capacités ; aucun handler dédié.",
@@ -11613,7 +11614,7 @@
       "nature": "mage",
       "name": "Protection du Mageius",
       "access": "SR/R",
-      "source": null,
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.mage.baseFreeTraits[2]",
       "when": null,
       "coverage": "calcule_partiel",
       "implemented": "Protection du Mageius+3 Défense occulte SR/R, passive et active, initié.",
@@ -11626,7 +11627,7 @@
       "nature": "mage",
       "name": "Affinité dominante — Architétramancie",
       "access": "Gratuit",
-      "source": "Mageius",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.mage.freeTraitRules[0].traits[0]",
       "when": {
         "mageiusType": "kaharal",
         "dominantAffinity": "architetramancie"
@@ -11642,7 +11643,7 @@
       "nature": "mage",
       "name": "Affinité dominante — Morphomancie",
       "access": "Gratuit",
-      "source": "Mageius",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.mage.freeTraitRules[1].traits[0]",
       "when": {
         "mageiusType": "kaharal",
         "dominantAffinity": "morphomancie"
@@ -11658,7 +11659,7 @@
       "nature": "mage",
       "name": "Affinité dominante — Alchimie",
       "access": "Gratuit",
-      "source": "Mageius",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.mage.freeTraitRules[2].traits[0]",
       "when": {
         "mageiusType": "kaharal",
         "dominantAffinity": "alchimie"
@@ -11674,7 +11675,7 @@
       "nature": "mage",
       "name": "Affinité dominante — Photomancie",
       "access": "Gratuit",
-      "source": "Mageius",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.mage.freeTraitRules[3].traits[0]",
       "when": {
         "mageiusType": "meldir",
         "dominantAffinity": "photomancie"
@@ -11690,7 +11691,7 @@
       "nature": "mage",
       "name": "Affinité dominante — Acratomancie",
       "access": "Gratuit",
-      "source": "Mageius",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.mage.freeTraitRules[4].traits[0]",
       "when": {
         "mageiusType": "meldir",
         "dominantAffinity": "acratomancie"
@@ -11706,7 +11707,7 @@
       "nature": "mage",
       "name": "Affinité dominante — Médéomancie",
       "access": "Gratuit",
-      "source": "Mageius",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.mage.freeTraitRules[5].traits[0]",
       "when": {
         "mageiusType": "meldir",
         "dominantAffinity": "medeomancie"
@@ -11722,7 +11723,7 @@
       "nature": "mage",
       "name": "Affinité dominante — Télékinésie",
       "access": "Gratuit",
-      "source": "Mageius",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.mage.freeTraitRules[6].traits[0]",
       "when": {
         "mageiusType": "elinaeth",
         "dominantAffinity": "telekinesie"
@@ -11738,7 +11739,7 @@
       "nature": "mage",
       "name": "Affinité dominante — Divination",
       "access": "Gratuit",
-      "source": "Mageius",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.mage.freeTraitRules[7].traits[0]",
       "when": {
         "mageiusType": "elinaeth",
         "dominantAffinity": "divination"
@@ -11754,7 +11755,7 @@
       "nature": "mage",
       "name": "Affinité dominante — Chronomancie",
       "access": "Gratuit",
-      "source": "Mageius",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.mage.freeTraitRules[8].traits[0]",
       "when": {
         "mageiusType": "elinaeth",
         "dominantAffinity": "chronomancie"
@@ -11770,7 +11771,7 @@
       "nature": "mage",
       "name": "Affinité dominante — Spectromancie",
       "access": "Gratuit",
-      "source": "Mageius",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.mage.freeTraitRules[9].traits[0]",
       "when": {
         "mageiusType": "mestherak",
         "dominantAffinity": "spectromancie"
@@ -11786,7 +11787,7 @@
       "nature": "mage",
       "name": "Affinité dominante — Hématomancie",
       "access": "Gratuit",
-      "source": "Mageius",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.mage.freeTraitRules[10].traits[0]",
       "when": {
         "mageiusType": "mestherak",
         "dominantAffinity": "hematomancie"
@@ -11802,7 +11803,7 @@
       "nature": "mage",
       "name": "Affinité dominante — Nécromancie",
       "access": "Gratuit",
-      "source": "Mageius",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.mage.freeTraitRules[11].traits[0]",
       "when": {
         "mageiusType": "mestherak",
         "dominantAffinity": "necromancie"
@@ -11818,7 +11819,7 @@
       "nature": "mage",
       "name": "Affinité dominante — Skiamancie",
       "access": "Gratuit",
-      "source": "Mageius",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.mage.freeTraitRules[12].traits[0]",
       "when": {
         "mageiusType": "discella",
         "dominantAffinity": "skiamancie"
@@ -11834,7 +11835,7 @@
       "nature": "mage",
       "name": "Affinité dominante — Pseudomancie",
       "access": "Gratuit",
-      "source": "Mageius",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.mage.freeTraitRules[13].traits[0]",
       "when": {
         "mageiusType": "discella",
         "dominantAffinity": "pseudomancie"
@@ -11850,7 +11851,7 @@
       "nature": "mage",
       "name": "Affinité dominante — Pathomancie",
       "access": "Gratuit",
-      "source": "Mageius",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.mage.freeTraitRules[14].traits[0]",
       "when": {
         "mageiusType": "discella",
         "dominantAffinity": "pathomancie"
@@ -11866,7 +11867,7 @@
       "nature": "daemon",
       "name": "Âme élue",
       "access": "V/SR/R",
-      "source": null,
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.daemon.baseFreeTraits[0]",
       "when": null,
       "coverage": "descriptif",
       "implemented": "Trait sélectionné selon choix de création, affiché dans les capacités ; aucun handler dédié.",
@@ -11879,7 +11880,7 @@
       "nature": "daemon",
       "name": "Vision des âmes",
       "access": "SR/R",
-      "source": null,
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.daemon.baseFreeTraits[1]",
       "when": null,
       "coverage": "descriptif",
       "implemented": "Trait sélectionné selon choix de création, affiché dans les capacités ; aucun handler dédié.",
@@ -11892,7 +11893,7 @@
       "nature": "daemon",
       "name": "Assimilation des prières",
       "access": "SR/R",
-      "source": null,
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.daemon.baseFreeTraits[2]",
       "when": null,
       "coverage": "calcule_partiel",
       "implemented": "Faveur divine : lieu de Résonance déclaré, quota scène, compétence choisie, +3 au prochain test correspondant.",
@@ -11905,7 +11906,7 @@
       "nature": "daemon",
       "name": "Télépathie",
       "access": "SR/R",
-      "source": "Empreinte gratuite de Fonction",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.daemon.freeTraitRules[0].traits[0]",
       "when": {
         "function": "oracle"
       },
@@ -11920,7 +11921,7 @@
       "nature": "daemon",
       "name": "Affliction",
       "access": "R · 1 PA · contact",
-      "source": "Empreinte gratuite de Fonction",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.daemon.freeTraitRules[1].traits[0]",
       "when": {
         "function": "tourmenteur"
       },
@@ -11935,7 +11936,7 @@
       "nature": "daemon",
       "name": "Lame infernale",
       "access": "R · 1 PA",
-      "source": "Empreinte gratuite de Fonction",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.daemon.freeTraitRules[2].traits[0]",
       "when": {
         "function": "legionnaire"
       },
@@ -11950,7 +11951,7 @@
       "nature": "daemon",
       "name": "Corps des Profondeurs",
       "access": "R",
-      "source": "Empreinte gratuite de Divinité",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.daemon.freeTraitRules[3].traits[0]",
       "when": {
         "divinity": "alabor"
       },
@@ -11965,7 +11966,7 @@
       "nature": "daemon",
       "name": "Mémoire des Écrits",
       "access": "SR/R",
-      "source": "Empreinte gratuite de Divinité",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.daemon.freeTraitRules[4].traits[0]",
       "when": {
         "divinity": "astaroth"
       },
@@ -11980,7 +11981,7 @@
       "nature": "daemon",
       "name": "Feu de la Reine",
       "access": "R",
-      "source": "Empreinte gratuite de Divinité",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.daemon.freeTraitRules[5].traits[0]",
       "when": {
         "divinity": "belial"
       },
@@ -11995,7 +11996,7 @@
       "nature": "daemon",
       "name": "Rémanence nocturne",
       "access": "SR/R",
-      "source": "Empreinte gratuite de Divinité",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.daemon.freeTraitRules[6].traits[0]",
       "when": {
         "divinity": "diablo"
       },
@@ -12010,7 +12011,7 @@
       "nature": "daemon",
       "name": "Grâce de Lilith",
       "access": "SR/R",
-      "source": "Empreinte gratuite de Divinité",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.daemon.freeTraitRules[7].traits[0]",
       "when": {
         "divinity": "lilith"
       },
@@ -12025,7 +12026,7 @@
       "nature": "daemon",
       "name": "Permission de mourir",
       "access": "R",
-      "source": "Empreinte gratuite de Divinité",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.daemon.freeTraitRules[8].traits[0]",
       "when": {
         "divinity": "mammon"
       },
@@ -12040,7 +12041,7 @@
       "nature": "daemon",
       "name": "Spectre de Mageius",
       "access": "R",
-      "source": "Empreinte gratuite de Divinité",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.daemon.freeTraitRules[9].traits[0]",
       "when": {
         "divinity": "mephisto"
       },
@@ -12055,7 +12056,7 @@
       "nature": "daemon",
       "name": "Jugement",
       "access": "SR/R",
-      "source": "Empreinte gratuite de Divinité",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.daemon.freeTraitRules[10].traits[0]",
       "when": {
         "divinity": "satan"
       },
@@ -12070,7 +12071,7 @@
       "nature": "daemon",
       "name": "Radiance originelle",
       "access": "SR/R",
-      "source": "Empreinte gratuite de Divinité",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.daemon.freeTraitRules[11].traits[0]",
       "when": {
         "divinity": "lucifer"
       },
@@ -12085,7 +12086,7 @@
       "nature": "daemon",
       "name": "Vies offertes",
       "access": "SR/R",
-      "source": "Empreinte gratuite de Divinité",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.daemon.freeTraitRules[12].traits[0]",
       "when": {
         "divinity": "belzebuth"
       },
@@ -12100,7 +12101,7 @@
       "nature": "daemon",
       "name": "Souffle du Ciel",
       "access": "R",
-      "source": "Empreinte gratuite de Divinité",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.daemon.freeTraitRules[13].traits[0]",
       "when": {
         "divinity": "abigor"
       },
@@ -12115,7 +12116,7 @@
       "nature": "daemon",
       "name": "Instinct de Guerre",
       "access": "SR/R",
-      "source": "Empreinte gratuite de Divinité",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.daemon.freeTraitRules[14].traits[0]",
       "when": {
         "divinity": "baal"
       },
@@ -12130,7 +12131,7 @@
       "nature": "daemon",
       "name": "Forme spirituelle",
       "access": "R",
-      "source": "Empreinte gratuite de Divinité",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.daemon.freeTraitRules[15].traits[0]",
       "when": {
         "divinity": "morrighan"
       },
@@ -12145,7 +12146,7 @@
       "nature": "daemon",
       "name": "Faveur de Maisonnée — Vephar — Brumes",
       "access": "Gratuit",
-      "source": "Patron daemoniaque",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.daemon.freeTraitRules[16].traits[0]",
       "when": {
         "divinity": "alabor",
         "patron": "vephar"
@@ -12161,7 +12162,7 @@
       "nature": "daemon",
       "name": "Faveur de Maisonnée — Forneus — Vagues",
       "access": "Gratuit",
-      "source": "Patron daemoniaque",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.daemon.freeTraitRules[17].traits[0]",
       "when": {
         "divinity": "alabor",
         "patron": "forneus"
@@ -12177,7 +12178,7 @@
       "nature": "daemon",
       "name": "Faveur de Maisonnée — Zagan — Pression",
       "access": "Gratuit",
-      "source": "Patron daemoniaque",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.daemon.freeTraitRules[18].traits[0]",
       "when": {
         "divinity": "alabor",
         "patron": "zagan"
@@ -12193,7 +12194,7 @@
       "nature": "daemon",
       "name": "Faveur de Maisonnée — Shax — Pluie",
       "access": "Gratuit",
-      "source": "Patron daemoniaque",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.daemon.freeTraitRules[19].traits[0]",
       "when": {
         "divinity": "alabor",
         "patron": "shax"
@@ -12209,7 +12210,7 @@
       "nature": "daemon",
       "name": "Faveur de Maisonnée — Ardat-Lili — Arts",
       "access": "Gratuit",
-      "source": "Patron daemoniaque",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.daemon.freeTraitRules[20].traits[0]",
       "when": {
         "divinity": "astaroth",
         "patron": "ardat_lili"
@@ -12225,7 +12226,7 @@
       "nature": "daemon",
       "name": "Faveur de Maisonnée — Byleth — Inventivité",
       "access": "Gratuit",
-      "source": "Patron daemoniaque",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.daemon.freeTraitRules[21].traits[0]",
       "when": {
         "divinity": "astaroth",
         "patron": "byleth"
@@ -12241,7 +12242,7 @@
       "nature": "daemon",
       "name": "Faveur de Maisonnée — Asmodée — Mathématiques",
       "access": "Gratuit",
-      "source": "Patron daemoniaque",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.daemon.freeTraitRules[22].traits[0]",
       "when": {
         "divinity": "astaroth",
         "patron": "asmodee"
@@ -12257,7 +12258,7 @@
       "nature": "daemon",
       "name": "Faveur de Maisonnée — Morax — Médecine",
       "access": "Gratuit",
-      "source": "Patron daemoniaque",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.daemon.freeTraitRules[23].traits[0]",
       "when": {
         "divinity": "astaroth",
         "patron": "morax"
@@ -12273,7 +12274,7 @@
       "nature": "daemon",
       "name": "Faveur de Maisonnée — Alocer — Informatique",
       "access": "Gratuit",
-      "source": "Patron daemoniaque",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.daemon.freeTraitRules[24].traits[0]",
       "when": {
         "divinity": "astaroth",
         "patron": "alocer"
@@ -12289,7 +12290,7 @@
       "nature": "daemon",
       "name": "Faveur de Maisonnée — Marchosias — Victoire",
       "access": "Gratuit",
-      "source": "Patron daemoniaque",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.daemon.freeTraitRules[25].traits[0]",
       "when": {
         "divinity": "belial",
         "patron": "marchosias"
@@ -12305,7 +12306,7 @@
       "nature": "daemon",
       "name": "Faveur de Maisonnée — Demona — Destruction",
       "access": "Gratuit",
-      "source": "Patron daemoniaque",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.daemon.freeTraitRules[26].traits[0]",
       "when": {
         "divinity": "belial",
         "patron": "demona"
@@ -12321,7 +12322,7 @@
       "nature": "daemon",
       "name": "Faveur de Maisonnée — Xezbeth — Cauchemars",
       "access": "Gratuit",
-      "source": "Patron daemoniaque",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.daemon.freeTraitRules[27].traits[0]",
       "when": {
         "divinity": "diablo",
         "patron": "xezbeth"
@@ -12337,7 +12338,7 @@
       "nature": "daemon",
       "name": "Faveur de Maisonnée — Balam — Peur",
       "access": "Gratuit",
-      "source": "Patron daemoniaque",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.daemon.freeTraitRules[28].traits[0]",
       "when": {
         "divinity": "diablo",
         "patron": "balam"
@@ -12353,7 +12354,7 @@
       "nature": "daemon",
       "name": "Faveur de Maisonnée — Amon — Obscurité",
       "access": "Gratuit",
-      "source": "Patron daemoniaque",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.daemon.freeTraitRules[29].traits[0]",
       "when": {
         "divinity": "diablo",
         "patron": "amon"
@@ -12369,7 +12370,7 @@
       "nature": "daemon",
       "name": "Faveur de Maisonnée — Anammalech — Nuit",
       "access": "Gratuit",
-      "source": "Patron daemoniaque",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.daemon.freeTraitRules[30].traits[0]",
       "when": {
         "divinity": "diablo",
         "patron": "anammalech"
@@ -12385,7 +12386,7 @@
       "nature": "daemon",
       "name": "Faveur de Maisonnée — Meririm — Charme",
       "access": "Gratuit",
-      "source": "Patron daemoniaque",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.daemon.freeTraitRules[31].traits[0]",
       "when": {
         "divinity": "lilith",
         "patron": "meririm"
@@ -12401,7 +12402,7 @@
       "nature": "daemon",
       "name": "Faveur de Maisonnée — Babalon — Fertilité",
       "access": "Gratuit",
-      "source": "Patron daemoniaque",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.daemon.freeTraitRules[32].traits[0]",
       "when": {
         "divinity": "lilith",
         "patron": "babalon"
@@ -12417,7 +12418,7 @@
       "nature": "daemon",
       "name": "Faveur de Maisonnée — Gusoyn — Manipulation",
       "access": "Gratuit",
-      "source": "Patron daemoniaque",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.daemon.freeTraitRules[33].traits[0]",
       "when": {
         "divinity": "lilith",
         "patron": "gusoyn"
@@ -12433,7 +12434,7 @@
       "nature": "daemon",
       "name": "Faveur de Maisonnée — Sytry — Secrets féminins",
       "access": "Gratuit",
-      "source": "Patron daemoniaque",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.daemon.freeTraitRules[34].traits[0]",
       "when": {
         "divinity": "lilith",
         "patron": "sytry"
@@ -12449,7 +12450,7 @@
       "nature": "daemon",
       "name": "Faveur de Maisonnée — Alastor — Souffrance",
       "access": "Gratuit",
-      "source": "Patron daemoniaque",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.daemon.freeTraitRules[35].traits[0]",
       "when": {
         "divinity": "mammon",
         "patron": "alastor"
@@ -12465,7 +12466,7 @@
       "nature": "daemon",
       "name": "Faveur de Maisonnée — Abrahel — Âge",
       "access": "Gratuit",
-      "source": "Patron daemoniaque",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.daemon.freeTraitRules[36].traits[0]",
       "when": {
         "divinity": "mammon",
         "patron": "abrahel"
@@ -12481,7 +12482,7 @@
       "nature": "daemon",
       "name": "Faveur de Maisonnée — Apollyon — Destruction",
       "access": "Gratuit",
-      "source": "Patron daemoniaque",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.daemon.freeTraitRules[37].traits[0]",
       "when": {
         "divinity": "mammon",
         "patron": "apollyon"
@@ -12497,7 +12498,7 @@
       "nature": "daemon",
       "name": "Faveur de Maisonnée — Eurynome — Repos",
       "access": "Gratuit",
-      "source": "Patron daemoniaque",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.daemon.freeTraitRules[38].traits[0]",
       "when": {
         "divinity": "mammon",
         "patron": "eurynome"
@@ -12513,7 +12514,7 @@
       "nature": "daemon",
       "name": "Faveur de Maisonnée — Crocell — Parole",
       "access": "Gratuit",
-      "source": "Patron daemoniaque",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.daemon.freeTraitRules[39].traits[0]",
       "when": {
         "divinity": "mephisto",
         "patron": "crocell"
@@ -12529,7 +12530,7 @@
       "nature": "daemon",
       "name": "Faveur de Maisonnée — Abrasax — Magie",
       "access": "Gratuit",
-      "source": "Patron daemoniaque",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.daemon.freeTraitRules[40].traits[0]",
       "when": {
         "divinity": "mephisto",
         "patron": "abrasax"
@@ -12545,7 +12546,7 @@
       "nature": "daemon",
       "name": "Faveur de Maisonnée — Paimon — Mensonge",
       "access": "Gratuit",
-      "source": "Patron daemoniaque",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.daemon.freeTraitRules[41].traits[0]",
       "when": {
         "divinity": "mephisto",
         "patron": "paimon"
@@ -12561,7 +12562,7 @@
       "nature": "daemon",
       "name": "Faveur de Maisonnée — Vinea — Vérité",
       "access": "Gratuit",
-      "source": "Patron daemoniaque",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.daemon.freeTraitRules[42].traits[0]",
       "when": {
         "divinity": "mephisto",
         "patron": "vinea"
@@ -12577,7 +12578,7 @@
       "nature": "daemon",
       "name": "Faveur de Maisonnée — Samael — Sentence",
       "access": "Gratuit",
-      "source": "Patron daemoniaque",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.daemon.freeTraitRules[43].traits[0]",
       "when": {
         "divinity": "satan",
         "patron": "samael"
@@ -12593,7 +12594,7 @@
       "nature": "daemon",
       "name": "Faveur de Maisonnée — Cali — Vengeance",
       "access": "Gratuit",
-      "source": "Patron daemoniaque",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.daemon.freeTraitRules[44].traits[0]",
       "when": {
         "divinity": "satan",
         "patron": "cali"
@@ -12609,7 +12610,7 @@
       "nature": "daemon",
       "name": "Faveur de Maisonnée — Barbatos — Paix",
       "access": "Gratuit",
-      "source": "Patron daemoniaque",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.daemon.freeTraitRules[45].traits[0]",
       "when": {
         "divinity": "satan",
         "patron": "barbatos"
@@ -12625,7 +12626,7 @@
       "nature": "daemon",
       "name": "Faveur de Maisonnée — Acham — Jugement",
       "access": "Gratuit",
-      "source": "Patron daemoniaque",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.daemon.freeTraitRules[46].traits[0]",
       "when": {
         "divinity": "satan",
         "patron": "acham"
@@ -12641,7 +12642,7 @@
       "nature": "daemon",
       "name": "Faveur de Maisonnée — Adramalech — Rayonnement",
       "access": "Gratuit",
-      "source": "Patron daemoniaque",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.daemon.freeTraitRules[47].traits[0]",
       "when": {
         "divinity": "lucifer",
         "patron": "adramalech"
@@ -12657,7 +12658,7 @@
       "nature": "daemon",
       "name": "Faveur de Maisonnée — Abalim — Splendeur",
       "access": "Gratuit",
-      "source": "Patron daemoniaque",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.daemon.freeTraitRules[48].traits[0]",
       "when": {
         "divinity": "lucifer",
         "patron": "abalim"
@@ -12673,7 +12674,7 @@
       "nature": "daemon",
       "name": "Faveur de Maisonnée — Perséphone — Régénération",
       "access": "Gratuit",
-      "source": "Patron daemoniaque",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.daemon.freeTraitRules[49].traits[0]",
       "when": {
         "divinity": "belzebuth",
         "patron": "persephone"
@@ -12689,7 +12690,7 @@
       "nature": "daemon",
       "name": "Faveur de Maisonnée — Baphomet — Évolution",
       "access": "Gratuit",
-      "source": "Patron daemoniaque",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.daemon.freeTraitRules[50].traits[0]",
       "when": {
         "divinity": "belzebuth",
         "patron": "baphomet"
@@ -12705,7 +12706,7 @@
       "nature": "daemon",
       "name": "Faveur de Maisonnée — Astarté — Lune",
       "access": "Gratuit",
-      "source": "Patron daemoniaque",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.daemon.freeTraitRules[51].traits[0]",
       "when": {
         "divinity": "abigor",
         "patron": "astarte"
@@ -12721,7 +12722,7 @@
       "nature": "daemon",
       "name": "Faveur de Maisonnée — Furfur — Typhons",
       "access": "Gratuit",
-      "source": "Patron daemoniaque",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.daemon.freeTraitRules[52].traits[0]",
       "when": {
         "divinity": "abigor",
         "patron": "furfur"
@@ -12737,7 +12738,7 @@
       "nature": "daemon",
       "name": "Faveur de Maisonnée — Ereshkigal — Meurtre",
       "access": "Gratuit",
-      "source": "Patron daemoniaque",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.daemon.freeTraitRules[53].traits[0]",
       "when": {
         "divinity": "baal",
         "patron": "ereshkigal"
@@ -12753,7 +12754,7 @@
       "nature": "daemon",
       "name": "Faveur de Maisonnée — Leraje — Blessures",
       "access": "Gratuit",
-      "source": "Patron daemoniaque",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.daemon.freeTraitRules[54].traits[0]",
       "when": {
         "divinity": "baal",
         "patron": "leraje"
@@ -12769,7 +12770,7 @@
       "nature": "daemon",
       "name": "Faveur de Maisonnée — Focalor — Dignité",
       "access": "Gratuit",
-      "source": "Patron daemoniaque",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.daemon.freeTraitRules[55].traits[0]",
       "when": {
         "divinity": "baal",
         "patron": "focalor"
@@ -12785,7 +12786,7 @@
       "nature": "daemon",
       "name": "Faveur de Maisonnée — Nemain — Frénésie",
       "access": "Gratuit",
-      "source": "Patron daemoniaque",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.daemon.freeTraitRules[56].traits[0]",
       "when": {
         "divinity": "morrighan",
         "patron": "nemain"
@@ -12801,7 +12802,7 @@
       "nature": "daemon",
       "name": "Faveur de Maisonnée — Huginn — Pensée",
       "access": "Gratuit",
-      "source": "Patron daemoniaque",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.daemon.freeTraitRules[57].traits[0]",
       "when": {
         "divinity": "morrighan",
         "patron": "huginn"
@@ -12817,7 +12818,7 @@
       "nature": "daemon",
       "name": "Faveur de Maisonnée — Ibn al-Berih — Malheur",
       "access": "Gratuit",
-      "source": "Patron daemoniaque",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.daemon.freeTraitRules[58].traits[0]",
       "when": {
         "divinity": "morrighan",
         "patron": "ibn_al_berih"
@@ -12833,7 +12834,7 @@
       "nature": "daemon",
       "name": "Faveur de Maisonnée — Nankil’slas — Tromperie",
       "access": "Gratuit",
-      "source": "Patron daemoniaque",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.daemon.freeTraitRules[59].traits[0]",
       "when": {
         "divinity": "morrighan",
         "patron": "nankilslas"
@@ -12849,7 +12850,7 @@
       "nature": "daemon",
       "name": "Faveur de Maisonnée — Rhiannon — Colère",
       "access": "Gratuit",
-      "source": "Patron daemoniaque",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.daemon.freeTraitRules[60].traits[0]",
       "when": {
         "divinity": "morrighan",
         "patron": "rhiannon"
@@ -12865,7 +12866,7 @@
       "nature": "daemon",
       "name": "Faveur de Maisonnée — Cúchulainn — Courage",
       "access": "Gratuit",
-      "source": "Patron daemoniaque",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.daemon.freeTraitRules[61].traits[0]",
       "when": {
         "divinity": "morrighan",
         "patron": "cuchulainn"
@@ -12881,7 +12882,7 @@
       "nature": "angelus",
       "name": "Âme transcendée",
       "access": "V/SR/R",
-      "source": null,
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.angelus.baseFreeTraits[0]",
       "when": null,
       "coverage": "descriptif",
       "implemented": "Trait sélectionné selon choix de création, affiché dans les capacités ; aucun handler dédié.",
@@ -12894,7 +12895,7 @@
       "nature": "angelus",
       "name": "Yeux célestes",
       "access": "SR/R",
-      "source": null,
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.angelus.baseFreeTraits[1]",
       "when": null,
       "coverage": "calcule_partiel",
       "implemented": "Yeux célestes :1Aura, coût PA en combat, activation de scène.",
@@ -12907,7 +12908,7 @@
       "nature": "angelus",
       "name": "Ailes transcendées",
       "access": "R",
-      "source": null,
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.angelus.baseFreeTraits[2]",
       "when": null,
       "coverage": "calcule_partiel",
       "implemented": "Ailes transcendées :1PA+1Aura, +1Agilité en R ; impulsion suit son coût et multiplicateur mouvement.",
@@ -12920,7 +12921,7 @@
       "nature": "angelus",
       "name": "Télépathie céleste",
       "access": "SR/R · 1 PA · 1 Aura",
-      "source": "Pouvoir fondamental gratuit de Nature",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.angelus.freeTraitRules[0].traits[0]",
       "when": {
         "angelNature": "trone"
       },
@@ -12935,7 +12936,7 @@
       "nature": "angelus",
       "name": "Purification",
       "access": "SR/R · 1 PA",
-      "source": "Pouvoir fondamental gratuit de Nature",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.angelus.freeTraitRules[1].traits[0]",
       "when": {
         "angelNature": "vertu"
       },
@@ -12950,7 +12951,7 @@
       "nature": "angelus",
       "name": "Lame céleste",
       "access": "R · 1 PA",
-      "source": "Pouvoir fondamental gratuit de Nature",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.angelus.freeTraitRules[2].traits[0]",
       "when": {
         "angelNature": "domination"
       },
@@ -12965,7 +12966,7 @@
       "nature": "angelus",
       "name": "Nœud de conscience",
       "access": "SR/R · 1 PA · 1 Aura",
-      "source": "Don fondamental gratuit du Sephirah",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.angelus.freeTraitRules[3].traits[0]",
       "when": {
         "sephirah": "kether"
       },
@@ -12980,7 +12981,7 @@
       "nature": "angelus",
       "name": "Essence pure",
       "access": "Passif · SR/R",
-      "source": "Don fondamental gratuit du Sephirah",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.angelus.freeTraitRules[4].traits[0]",
       "when": {
         "sephirah": "hokhma"
       },
@@ -12995,7 +12996,7 @@
       "nature": "angelus",
       "name": "Schéma causal",
       "access": "SR/R · 1 PA · 1 Aura",
-      "source": "Don fondamental gratuit du Sephirah",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.angelus.freeTraitRules[5].traits[0]",
       "when": {
         "sephirah": "bina"
       },
@@ -13010,7 +13011,7 @@
       "nature": "angelus",
       "name": "Main miséricordieuse",
       "access": "SR/R · 1 PA · 1 Aura",
-      "source": "Don fondamental gratuit du Sephirah",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.angelus.freeTraitRules[6].traits[0]",
       "when": {
         "sephirah": "hesed"
       },
@@ -13025,7 +13026,7 @@
       "nature": "angelus",
       "name": "Impact de Gueburah",
       "access": "R",
-      "source": "Don fondamental gratuit du Sephirah",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.angelus.freeTraitRules[7].traits[0]",
       "when": {
         "sephirah": "gueburah"
       },
@@ -13040,7 +13041,7 @@
       "nature": "angelus",
       "name": "Dévotion céleste",
       "access": "Passif · V/SR/R",
-      "source": "Don fondamental gratuit du Sephirah",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.angelus.freeTraitRules[8].traits[0]",
       "when": {
         "sephirah": "tiphereth"
       },
@@ -13055,7 +13056,7 @@
       "nature": "angelus",
       "name": "Élan du succès",
       "access": "SR/R · 1/scène",
-      "source": "Don fondamental gratuit du Sephirah",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.angelus.freeTraitRules[9].traits[0]",
       "when": {
         "sephirah": "nesah"
       },
@@ -13070,7 +13071,7 @@
       "nature": "angelus",
       "name": "Illumination",
       "access": "SR/R · 1 PA · 1 Aura",
-      "source": "Don fondamental gratuit du Sephirah",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.angelus.freeTraitRules[10].traits[0]",
       "when": {
         "sephirah": "hod"
       },
@@ -13085,7 +13086,7 @@
       "nature": "angelus",
       "name": "Image pensée",
       "access": "SR/R · 1 PA · 1 Aura",
-      "source": "Don fondamental gratuit du Sephirah",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.angelus.freeTraitRules[11].traits[0]",
       "when": {
         "sephirah": "yessod"
       },
@@ -13100,7 +13101,7 @@
       "nature": "angelus",
       "name": "Ancrage du Royaume",
       "access": "SR/R · Réaction · 1 Aura",
-      "source": "Don fondamental gratuit du Sephirah",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.angelus.freeTraitRules[12].traits[0]",
       "when": {
         "sephirah": "malkhouth"
       },
@@ -13115,7 +13116,7 @@
       "nature": "angelus",
       "name": "Archange lié — Remiel",
       "access": "Gratuit",
-      "source": "Don archangélique",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.angelus.freeTraitRules[13].traits[0]",
       "when": {
         "sephirah": "kether",
         "archangel": "remiel"
@@ -13131,7 +13132,7 @@
       "nature": "angelus",
       "name": "Archange lié — Metatron",
       "access": "Gratuit",
-      "source": "Don archangélique",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.angelus.freeTraitRules[14].traits[0]",
       "when": {
         "sephirah": "kether",
         "archangel": "metatron"
@@ -13147,7 +13148,7 @@
       "nature": "angelus",
       "name": "Archange lié — Gabrielle",
       "access": "Gratuit",
-      "source": "Don archangélique",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.angelus.freeTraitRules[15].traits[0]",
       "when": {
         "sephirah": "hokhma",
         "archangel": "gabrielle"
@@ -13163,7 +13164,7 @@
       "nature": "angelus",
       "name": "Archange lié — Manakielle",
       "access": "Gratuit",
-      "source": "Don archangélique",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.angelus.freeTraitRules[16].traits[0]",
       "when": {
         "sephirah": "hokhma",
         "archangel": "manakielle"
@@ -13179,7 +13180,7 @@
       "nature": "angelus",
       "name": "Archange lié — Barachiel",
       "access": "Gratuit",
-      "source": "Don archangélique",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.angelus.freeTraitRules[17].traits[0]",
       "when": {
         "sephirah": "bina",
         "archangel": "barachiel"
@@ -13195,7 +13196,7 @@
       "nature": "angelus",
       "name": "Archange lié — Razielle",
       "access": "Gratuit",
-      "source": "Don archangélique",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.angelus.freeTraitRules[18].traits[0]",
       "when": {
         "sephirah": "bina",
         "archangel": "razielle"
@@ -13211,7 +13212,7 @@
       "nature": "angelus",
       "name": "Archange lié — Raphael",
       "access": "Gratuit",
-      "source": "Don archangélique",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.angelus.freeTraitRules[19].traits[0]",
       "when": {
         "sephirah": "hesed",
         "archangel": "raphael"
@@ -13227,7 +13228,7 @@
       "nature": "angelus",
       "name": "Archange lié — Tsadqiel",
       "access": "Gratuit",
-      "source": "Don archangélique",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.angelus.freeTraitRules[20].traits[0]",
       "when": {
         "sephirah": "hesed",
         "archangel": "tsadqiel"
@@ -13243,7 +13244,7 @@
       "nature": "angelus",
       "name": "Archange lié — Michel",
       "access": "Gratuit",
-      "source": "Don archangélique",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.angelus.freeTraitRules[21].traits[0]",
       "when": {
         "sephirah": "gueburah",
         "archangel": "michel"
@@ -13259,7 +13260,7 @@
       "nature": "angelus",
       "name": "Archange lié — Selaphielle",
       "access": "Gratuit",
-      "source": "Don archangélique",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.angelus.freeTraitRules[22].traits[0]",
       "when": {
         "sephirah": "gueburah",
         "archangel": "selaphielle"
@@ -13275,7 +13276,7 @@
       "nature": "angelus",
       "name": "Archange lié — Zophielle",
       "access": "Gratuit",
-      "source": "Don archangélique",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.angelus.freeTraitRules[23].traits[0]",
       "when": {
         "sephirah": "tiphereth",
         "archangel": "zophielle"
@@ -13291,7 +13292,7 @@
       "nature": "angelus",
       "name": "Archange lié — Sachielle",
       "access": "Gratuit",
-      "source": "Don archangélique",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.angelus.freeTraitRules[24].traits[0]",
       "when": {
         "sephirah": "tiphereth",
         "archangel": "sachielle"
@@ -13307,7 +13308,7 @@
       "nature": "angelus",
       "name": "Archange lié — Azazel",
       "access": "Gratuit",
-      "source": "Don archangélique",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.angelus.freeTraitRules[25].traits[0]",
       "when": {
         "sephirah": "nesah",
         "archangel": "azazel"
@@ -13323,7 +13324,7 @@
       "nature": "angelus",
       "name": "Archange lié — Hanaelle",
       "access": "Gratuit",
-      "source": "Don archangélique",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.angelus.freeTraitRules[26].traits[0]",
       "when": {
         "sephirah": "nesah",
         "archangel": "hanaelle"
@@ -13339,7 +13340,7 @@
       "nature": "angelus",
       "name": "Archange lié — Urielle",
       "access": "Gratuit",
-      "source": "Don archangélique",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.angelus.freeTraitRules[27].traits[0]",
       "when": {
         "sephirah": "hod",
         "archangel": "urielle"
@@ -13355,7 +13356,7 @@
       "nature": "angelus",
       "name": "Archange lié — Sandalphon",
       "access": "Gratuit",
-      "source": "Don archangélique",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.angelus.freeTraitRules[28].traits[0]",
       "when": {
         "sephirah": "hod",
         "archangel": "sandalphon"
@@ -13371,7 +13372,7 @@
       "nature": "angelus",
       "name": "Archange lié — Camaelle",
       "access": "Gratuit",
-      "source": "Don archangélique",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.angelus.freeTraitRules[29].traits[0]",
       "when": {
         "sephirah": "yessod",
         "archangel": "camaelle"
@@ -13387,7 +13388,7 @@
       "nature": "angelus",
       "name": "Archange lié — Mebahel",
       "access": "Gratuit",
-      "source": "Don archangélique",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.angelus.freeTraitRules[30].traits[0]",
       "when": {
         "sephirah": "yessod",
         "archangel": "mebahel"
@@ -13403,7 +13404,7 @@
       "nature": "angelus",
       "name": "Archange lié — Azrael",
       "access": "Gratuit",
-      "source": "Don archangélique",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.angelus.freeTraitRules[31].traits[0]",
       "when": {
         "sephirah": "malkhouth",
         "archangel": "azrael"
@@ -13419,7 +13420,7 @@
       "nature": "angelus",
       "name": "Archange lié — Muriel",
       "access": "Gratuit",
-      "source": "Don archangélique",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.angelus.freeTraitRules[32].traits[0]",
       "when": {
         "sephirah": "malkhouth",
         "archangel": "muriel"
@@ -13435,7 +13436,7 @@
       "nature": "angelus",
       "name": "Séraphin patron — Purim — Jugement dernier",
       "access": "Gratuit",
-      "source": "Faveur séraphique",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.angelus.freeTraitRules[33].traits[0]",
       "when": {
         "sephirah": "kether",
         "archangel": "remiel",
@@ -13452,7 +13453,7 @@
       "nature": "angelus",
       "name": "Séraphin patron — Ochotiel — Pesanteur",
       "access": "Gratuit",
-      "source": "Faveur séraphique",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.angelus.freeTraitRules[34].traits[0]",
       "when": {
         "sephirah": "kether",
         "archangel": "remiel",
@@ -13469,7 +13470,7 @@
       "nature": "angelus",
       "name": "Séraphin patron — Aralim — Construction",
       "access": "Gratuit",
-      "source": "Faveur séraphique",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.angelus.freeTraitRules[35].traits[0]",
       "when": {
         "sephirah": "kether",
         "archangel": "metatron",
@@ -13486,7 +13487,7 @@
       "nature": "angelus",
       "name": "Séraphin patron — Belohim — Volonté",
       "access": "Gratuit",
-      "source": "Faveur séraphique",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.angelus.freeTraitRules[36].traits[0]",
       "when": {
         "sephirah": "hokhma",
         "archangel": "gabrielle",
@@ -13503,7 +13504,7 @@
       "nature": "angelus",
       "name": "Séraphin patron — Arathim — Loi",
       "access": "Gratuit",
-      "source": "Faveur séraphique",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.angelus.freeTraitRules[37].traits[0]",
       "when": {
         "sephirah": "hokhma",
         "archangel": "gabrielle",
@@ -13520,7 +13521,7 @@
       "nature": "angelus",
       "name": "Séraphin patron — Siloelle — Énergie",
       "access": "Gratuit",
-      "source": "Faveur séraphique",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.angelus.freeTraitRules[38].traits[0]",
       "when": {
         "sephirah": "hokhma",
         "archangel": "manakielle",
@@ -13537,7 +13538,7 @@
       "nature": "angelus",
       "name": "Séraphin patron — Assim — Planification",
       "access": "Gratuit",
-      "source": "Faveur séraphique",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.angelus.freeTraitRules[39].traits[0]",
       "when": {
         "sephirah": "bina",
         "archangel": "barachiel",
@@ -13554,7 +13555,7 @@
       "nature": "angelus",
       "name": "Séraphin patron — Razael — Sagesse",
       "access": "Gratuit",
-      "source": "Faveur séraphique",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.angelus.freeTraitRules[40].traits[0]",
       "when": {
         "sephirah": "bina",
         "archangel": "barachiel",
@@ -13571,7 +13572,7 @@
       "nature": "angelus",
       "name": "Séraphin patron — Jessim — Mystique",
       "access": "Gratuit",
-      "source": "Faveur séraphique",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.angelus.freeTraitRules[41].traits[0]",
       "when": {
         "sephirah": "bina",
         "archangel": "razielle",
@@ -13588,7 +13589,7 @@
       "nature": "angelus",
       "name": "Séraphin patron — Hazel — Sel / Larmes",
       "access": "Gratuit",
-      "source": "Faveur séraphique",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.angelus.freeTraitRules[42].traits[0]",
       "when": {
         "sephirah": "hesed",
         "archangel": "raphael",
@@ -13605,7 +13606,7 @@
       "nature": "angelus",
       "name": "Séraphin patron — Sobronielle — Créativité",
       "access": "Gratuit",
-      "source": "Faveur séraphique",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.angelus.freeTraitRules[43].traits[0]",
       "when": {
         "sephirah": "hesed",
         "archangel": "raphael",
@@ -13622,7 +13623,7 @@
       "nature": "angelus",
       "name": "Séraphin patron — Rubiel — Pureté",
       "access": "Gratuit",
-      "source": "Faveur séraphique",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.angelus.freeTraitRules[44].traits[0]",
       "when": {
         "sephirah": "hesed",
         "archangel": "tsadqiel",
@@ -13639,7 +13640,7 @@
       "nature": "angelus",
       "name": "Séraphin patron — Esdrael — Sang",
       "access": "Gratuit",
-      "source": "Faveur séraphique",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.angelus.freeTraitRules[45].traits[0]",
       "when": {
         "sephirah": "gueburah",
         "archangel": "michel",
@@ -13656,7 +13657,7 @@
       "nature": "angelus",
       "name": "Séraphin patron — Graphiel — Épée de Dieu",
       "access": "Gratuit",
-      "source": "Faveur séraphique",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.angelus.freeTraitRules[46].traits[0]",
       "when": {
         "sephirah": "gueburah",
         "archangel": "michel",
@@ -13673,7 +13674,7 @@
       "nature": "angelus",
       "name": "Séraphin patron — Bethel — Métal",
       "access": "Gratuit",
-      "source": "Faveur séraphique",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.angelus.freeTraitRules[47].traits[0]",
       "when": {
         "sephirah": "gueburah",
         "archangel": "selaphielle",
@@ -13690,7 +13691,7 @@
       "nature": "angelus",
       "name": "Séraphin patron — Georah — Passion",
       "access": "Gratuit",
-      "source": "Faveur séraphique",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.angelus.freeTraitRules[48].traits[0]",
       "when": {
         "sephirah": "tiphereth",
         "archangel": "zophielle",
@@ -13707,7 +13708,7 @@
       "nature": "angelus",
       "name": "Séraphin patron — Thirielle — Charme",
       "access": "Gratuit",
-      "source": "Faveur séraphique",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.angelus.freeTraitRules[49].traits[0]",
       "when": {
         "sephirah": "tiphereth",
         "archangel": "zophielle",
@@ -13724,7 +13725,7 @@
       "nature": "angelus",
       "name": "Séraphin patron — Chiloel — Résignation",
       "access": "Gratuit",
-      "source": "Faveur séraphique",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.angelus.freeTraitRules[50].traits[0]",
       "when": {
         "sephirah": "tiphereth",
         "archangel": "sachielle",
@@ -13741,7 +13742,7 @@
       "nature": "angelus",
       "name": "Séraphin patron — Nehemiel — Haine",
       "access": "Gratuit",
-      "source": "Faveur séraphique",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.angelus.freeTraitRules[51].traits[0]",
       "when": {
         "sephirah": "nesah",
         "archangel": "azazel",
@@ -13758,7 +13759,7 @@
       "nature": "angelus",
       "name": "Séraphin patron — Hassiel — Défense",
       "access": "Gratuit",
-      "source": "Faveur séraphique",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.angelus.freeTraitRules[52].traits[0]",
       "when": {
         "sephirah": "nesah",
         "archangel": "azazel",
@@ -13775,7 +13776,7 @@
       "nature": "angelus",
       "name": "Séraphin patron — Phanaelle — Prudence",
       "access": "Gratuit",
-      "source": "Faveur séraphique",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.angelus.freeTraitRules[53].traits[0]",
       "when": {
         "sephirah": "nesah",
         "archangel": "hanaelle",
@@ -13792,7 +13793,7 @@
       "nature": "angelus",
       "name": "Séraphin patron — Danael — Flammes",
       "access": "Gratuit",
-      "source": "Faveur séraphique",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.angelus.freeTraitRules[54].traits[0]",
       "when": {
         "sephirah": "hod",
         "archangel": "urielle",
@@ -13809,7 +13810,7 @@
       "nature": "angelus",
       "name": "Séraphin patron — Agriel — Lumière céleste",
       "access": "Gratuit",
-      "source": "Faveur séraphique",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.angelus.freeTraitRules[55].traits[0]",
       "when": {
         "sephirah": "hod",
         "archangel": "urielle",
@@ -13826,7 +13827,7 @@
       "nature": "angelus",
       "name": "Séraphin patron — Pergamin — Persévérance",
       "access": "Gratuit",
-      "source": "Faveur séraphique",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.angelus.freeTraitRules[56].traits[0]",
       "when": {
         "sephirah": "hod",
         "archangel": "sandalphon",
@@ -13843,7 +13844,7 @@
       "nature": "angelus",
       "name": "Séraphin patron — Jachim — Orage",
       "access": "Gratuit",
-      "source": "Faveur séraphique",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.angelus.freeTraitRules[57].traits[0]",
       "when": {
         "sephirah": "yessod",
         "archangel": "camaelle",
@@ -13860,7 +13861,7 @@
       "nature": "angelus",
       "name": "Séraphin patron — Sabbathiel — Colère",
       "access": "Gratuit",
-      "source": "Faveur séraphique",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.angelus.freeTraitRules[58].traits[0]",
       "when": {
         "sephirah": "yessod",
         "archangel": "camaelle",
@@ -13877,7 +13878,7 @@
       "nature": "angelus",
       "name": "Séraphin patron — Henael — Avertissement",
       "access": "Gratuit",
-      "source": "Faveur séraphique",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.angelus.freeTraitRules[59].traits[0]",
       "when": {
         "sephirah": "yessod",
         "archangel": "mebahel",
@@ -13894,7 +13895,7 @@
       "nature": "angelus",
       "name": "Séraphin patron — Barabbiel — Âmes",
       "access": "Gratuit",
-      "source": "Faveur séraphique",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.angelus.freeTraitRules[60].traits[0]",
       "when": {
         "sephirah": "malkhouth",
         "archangel": "azrael",
@@ -13911,7 +13912,7 @@
       "nature": "angelus",
       "name": "Séraphin patron — Pithormim — Clé des Enfers",
       "access": "Gratuit",
-      "source": "Faveur séraphique",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.angelus.freeTraitRules[61].traits[0]",
       "when": {
         "sephirah": "malkhouth",
         "archangel": "azrael",
@@ -13928,7 +13929,7 @@
       "nature": "angelus",
       "name": "Séraphin patron — Osael — Colère",
       "access": "Gratuit",
-      "source": "Faveur séraphique",
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.angelus.freeTraitRules[62].traits[0]",
       "when": {
         "sephirah": "malkhouth",
         "archangel": "muriel",
@@ -13945,7 +13946,7 @@
       "nature": "aseryn",
       "name": "Accelyr",
       "access": "V/SR/R",
-      "source": null,
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.aseryn.baseFreeTraits[0]",
       "when": null,
       "coverage": "descriptif",
       "implemented": "Trait sélectionné selon choix de création, affiché dans les capacités ; aucun handler dédié.",
@@ -13958,7 +13959,7 @@
       "nature": "aseryn",
       "name": "Physiologie aseryne",
       "access": "V/SR/R",
-      "source": null,
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.aseryn.baseFreeTraits[1]",
       "when": null,
       "coverage": "descriptif",
       "implemented": "Trait sélectionné selon choix de création, affiché dans les capacités ; aucun handler dédié.",
@@ -13971,7 +13972,7 @@
       "nature": "aseryn",
       "name": "Sens électromagnétique",
       "access": "SR/R",
-      "source": null,
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.aseryn.baseFreeTraits[2]",
       "when": null,
       "coverage": "descriptif",
       "implemented": "Trait sélectionné selon choix de création, affiché dans les capacités ; aucun handler dédié.",
@@ -13984,7 +13985,7 @@
       "nature": "exile",
       "name": "Ambidextrie naturelle",
       "access": null,
-      "source": null,
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.exile.freeTraitRules[0].traits[0]",
       "when": {
         "people": "elye"
       },
@@ -13999,7 +14000,7 @@
       "nature": "exile",
       "name": "Affinité elfique à la Magie",
       "access": null,
-      "source": null,
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.exile.freeTraitRules[0].traits[1]",
       "when": {
         "people": "elye"
       },
@@ -14014,7 +14015,7 @@
       "nature": "exile",
       "name": "Longévité",
       "access": null,
-      "source": null,
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.exile.freeTraitRules[0].traits[2]",
       "when": {
         "people": "elye"
       },
@@ -14029,7 +14030,7 @@
       "nature": "exile",
       "name": "Sens magnétique",
       "access": null,
-      "source": null,
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.exile.freeTraitRules[1].traits[0]",
       "when": {
         "people": "whurten"
       },
@@ -14044,7 +14045,7 @@
       "nature": "exile",
       "name": "Ouïe ashyll",
       "access": null,
-      "source": null,
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.exile.freeTraitRules[2].traits[0]",
       "when": {
         "people": "ashyll"
       },
@@ -14059,7 +14060,7 @@
       "nature": "exile",
       "name": "Petite morphologie",
       "access": null,
-      "source": null,
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.exile.freeTraitRules[2].traits[1]",
       "when": {
         "people": "ashyll"
       },
@@ -14074,7 +14075,7 @@
       "nature": "exile",
       "name": "Ailes sombres",
       "access": null,
-      "source": null,
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.exile.freeTraitRules[3].traits[0]",
       "when": {
         "people": "azmenorien"
       },
@@ -14089,7 +14090,7 @@
       "nature": "exile",
       "name": "Don magique azménorien",
       "access": null,
-      "source": null,
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.exile.freeTraitRules[3].traits[1]",
       "when": {
         "people": "azmenorien"
       },
@@ -14104,7 +14105,7 @@
       "nature": "extral",
       "name": "Anatomie segmentaire",
       "access": null,
-      "source": null,
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.extral.freeTraitRules[0].traits[0]",
       "when": {
         "species": "talass"
       },
@@ -14119,14 +14120,15 @@
       "nature": "extral",
       "name": "Bond talass",
       "access": null,
-      "source": null,
+      "source": "apps/api/src/rules/truth/extral-build.ts#innate[\"Bond talass\"]",
       "when": {
         "species": "talass"
       },
       "coverage": "descriptif",
       "implemented": "Trait sélectionné selon choix de création, affiché dans les capacités ; aucun handler dédié.",
       "pending": "Condition, consentement, perception et conséquence déterminés à partir du texte canonique ; jet libre/effet MJ possible sans automatisation propre.",
-      "canonicalEffect": "Bonds sans élan et changements d’appui biologiques, dans les limites de l’endurance ; les Talents améliorent les manœuvres difficiles."
+      "canonicalEffect": "Bonds sans élan et changements d’appui biologiques, dans les limites de l’endurance ; les Talents améliorent les manœuvres difficiles.",
+      "definitionSource": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.extral.freeTraitRules[0].traits[1]"
     },
     {
       "index": 245,
@@ -14134,7 +14136,7 @@
       "nature": "extral",
       "name": "Adhérence naturelle",
       "access": null,
-      "source": null,
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.extral.freeTraitRules[0].traits[2]",
       "when": {
         "species": "talass"
       },
@@ -14149,14 +14151,15 @@
       "nature": "extral",
       "name": "Soie conductrice",
       "access": null,
-      "source": null,
+      "source": "apps/api/src/rules/truth/extral-build.ts#innate[\"Soie conductrice\"]",
       "when": {
         "species": "talass"
       },
       "coverage": "descriptif",
       "implemented": "Trait sélectionné selon choix de création, affiché dans les capacités ; aucun handler dédié.",
       "pending": "Condition, consentement, perception et conséquence déterminés à partir du texte canonique ; jet libre/effet MJ possible sans automatisation propre.",
-      "canonicalEffect": "Soie physiologique transportant un courant ou un Talwa compatible ; Relais conducteur améliore la portée maîtrisée et ne fait pas payer la conductivité de base."
+      "canonicalEffect": "Soie physiologique transportant un courant ou un Talwa compatible ; Relais conducteur améliore la portée maîtrisée et ne fait pas payer la conductivité de base.",
+      "definitionSource": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.extral.freeTraitRules[0].traits[3]"
     },
     {
       "index": 247,
@@ -14164,14 +14167,15 @@
       "nature": "extral",
       "name": "Affinité Talwa’Etax",
       "access": null,
-      "source": null,
+      "source": "apps/api/src/rules/truth/extral-build.ts#innate[\"Affinité Talwa’Etax\"]",
       "when": {
         "species": "talass"
       },
       "coverage": "descriptif",
       "implemented": "Trait sélectionné selon choix de création, affiché dans les capacités ; aucun handler dédié.",
       "pending": "Condition, consentement, perception et conséquence déterminés à partir du texte canonique ; jet libre/effet MJ possible sans automatisation propre.",
-      "canonicalEffect": "Substrat psychique naturel : scan, télépathie et télékinésie ; les Talents précisent les développements contrôlés, leur portée et leurs coûts."
+      "canonicalEffect": "Substrat psychique naturel : scan, télépathie et télékinésie ; les Talents précisent les développements contrôlés, leur portée et leurs coûts.",
+      "definitionSource": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.extral.freeTraitRules[0].traits[4]"
     },
     {
       "index": 248,
@@ -14179,7 +14183,7 @@
       "nature": "extral",
       "name": "Perception des fractures",
       "access": "SR/R",
-      "source": null,
+      "source": "apps/api/src/rules/truth/extral-build.ts#applyExtralStructure (id=\"free-extral-talass-fractures\")",
       "when": {
         "species": "talass"
       },
@@ -14194,7 +14198,7 @@
       "nature": "extral",
       "name": "Cuirasse mo’senne",
       "access": null,
-      "source": null,
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.extral.freeTraitRules[1].traits[0]",
       "when": {
         "species": "mosen"
       },
@@ -14209,7 +14213,7 @@
       "nature": "extral",
       "name": "Griffes et dentition",
       "access": null,
-      "source": null,
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.extral.freeTraitRules[1].traits[1]",
       "when": {
         "species": "mosen"
       },
@@ -14224,7 +14228,7 @@
       "nature": "extral",
       "name": "Digestion absolue",
       "access": null,
-      "source": null,
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.extral.freeTraitRules[1].traits[2]",
       "when": {
         "species": "mosen"
       },
@@ -14239,7 +14243,7 @@
       "nature": "extral",
       "name": "Thermotolérance",
       "access": null,
-      "source": null,
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.extral.freeTraitRules[1].traits[3]",
       "when": {
         "species": "mosen"
       },
@@ -14254,7 +14258,7 @@
       "nature": "extral",
       "name": "Tardollas",
       "access": null,
-      "source": null,
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.extral.freeTraitRules[2].traits[0]",
       "when": {
         "species": "baseanh"
       },
@@ -14269,7 +14273,7 @@
       "nature": "extral",
       "name": "Quatre bras",
       "access": null,
-      "source": null,
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.extral.freeTraitRules[2].traits[1]",
       "when": {
         "species": "baseanh"
       },
@@ -14284,7 +14288,7 @@
       "nature": "extral",
       "name": "Immunité adaptative",
       "access": null,
-      "source": null,
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.extral.freeTraitRules[2].traits[2]",
       "when": {
         "species": "baseanh"
       },
@@ -14299,7 +14303,7 @@
       "nature": "extral",
       "name": "Stabilité manuelle",
       "access": null,
-      "source": null,
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.extral.freeTraitRules[2].traits[3]",
       "when": {
         "species": "baseanh"
       },
@@ -14314,7 +14318,7 @@
       "nature": "extral",
       "name": "Amphibie",
       "access": null,
-      "source": null,
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.extral.freeTraitRules[3].traits[0]",
       "when": {
         "species": "rocreen"
       },
@@ -14329,7 +14333,7 @@
       "nature": "extral",
       "name": "Noyau rocréen",
       "access": null,
-      "source": null,
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.extral.freeTraitRules[3].traits[1]",
       "when": {
         "species": "rocreen"
       },
@@ -14344,7 +14348,7 @@
       "nature": "extral",
       "name": "Quadrimanie rocréenne",
       "access": null,
-      "source": null,
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.extral.freeTraitRules[3].traits[2]",
       "when": {
         "species": "rocreen"
       },
@@ -14359,14 +14363,15 @@
       "nature": "extral",
       "name": "Résonance psychique",
       "access": null,
-      "source": null,
+      "source": "apps/api/src/rules/truth/extral-build.ts#innate[\"Résonance psychique\"]",
       "when": {
         "species": "rocreen"
       },
       "coverage": "descriptif",
       "implemented": "Trait sélectionné selon choix de création, affiché dans les capacités ; aucun handler dédié.",
       "pending": "Condition, consentement, perception et conséquence déterminés à partir du texte canonique ; jet libre/effet MJ possible sans automatisation propre.",
-      "canonicalEffect": "Communication et perceptions partagées entre Rocréens et partenaires télépathiquement compatibles proches ; Lien de banc ouvre une exception aux partenaires non télépathes."
+      "canonicalEffect": "Communication et perceptions partagées entre Rocréens et partenaires télépathiquement compatibles proches ; Lien de banc ouvre une exception aux partenaires non télépathes.",
+      "definitionSource": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.extral.freeTraitRules[3].traits[3]"
     },
     {
       "index": 261,
@@ -14374,7 +14379,7 @@
       "nature": "extral",
       "name": "Amphibie thalsios",
       "access": null,
-      "source": null,
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.extral.freeTraitRules[4].traits[0]",
       "when": {
         "species": "thalsios"
       },
@@ -14389,7 +14394,7 @@
       "nature": "extral",
       "name": "Charpente cartilagineuse",
       "access": null,
-      "source": null,
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.extral.freeTraitRules[4].traits[1]",
       "when": {
         "species": "thalsios"
       },
@@ -14404,14 +14409,15 @@
       "nature": "extral",
       "name": "Toucher thalsios",
       "access": null,
-      "source": null,
+      "source": "apps/api/src/rules/truth/extral-build.ts#innate[\"Toucher thalsios\"]",
       "when": {
         "species": "thalsios"
       },
       "coverage": "descriptif",
       "implemented": "Trait sélectionné selon choix de création, affiché dans les capacités ; aucun handler dédié.",
       "pending": "Condition, consentement, perception et conséquence déterminés à partir du texte canonique ; jet libre/effet MJ possible sans automatisation propre.",
-      "canonicalEffect": "Perçoit naturellement les vibrations et variations de pression. Les Thalsios acclimatés à la Terre sentent les fluctuations locales de l’Hologramme, sans identification automatique ; les Talents améliorent leur interprétation."
+      "canonicalEffect": "Perçoit naturellement les vibrations et variations de pression. Les Thalsios acclimatés à la Terre sentent les fluctuations locales de l’Hologramme, sans identification automatique ; les Talents améliorent leur interprétation.",
+      "definitionSource": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.extral.freeTraitRules[4].traits[2]"
     },
     {
       "index": 264,
@@ -14419,7 +14425,7 @@
       "nature": "extral",
       "name": "Essaim nanitique AIDH",
       "access": null,
-      "source": null,
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.extral.freeTraitRules[5].traits[0]",
       "when": {
         "species": "homo_superior"
       },
@@ -14434,7 +14440,7 @@
       "nature": "extral",
       "name": "Homéostasie assistée",
       "access": null,
-      "source": null,
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.extral.freeTraitRules[5].traits[1]",
       "when": {
         "species": "homo_superior"
       },
@@ -14449,7 +14455,7 @@
       "nature": "extral",
       "name": "Hémostase nanitique",
       "access": null,
-      "source": null,
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.extral.freeTraitRules[5].traits[2]",
       "when": {
         "species": "homo_superior"
       },
@@ -14464,7 +14470,7 @@
       "nature": "extral",
       "name": "Organisme optimisé",
       "access": null,
-      "source": null,
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.extral.freeTraitRules[5].traits[3]",
       "when": {
         "species": "homo_superior"
       },
@@ -14479,7 +14485,7 @@
       "nature": "extral",
       "name": "Métabolisme de campagne",
       "access": null,
-      "source": null,
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.extral.freeTraitRules[5].traits[4]",
       "when": {
         "species": "homo_superior"
       },
@@ -14494,7 +14500,7 @@
       "nature": "extral",
       "name": "Patchs tatoués AIDH",
       "access": null,
-      "source": null,
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.extral.freeTraitRules[5].traits[5]",
       "when": {
         "species": "homo_superior"
       },
@@ -14509,7 +14515,7 @@
       "nature": "extral",
       "name": "Gabarit Ad’rak",
       "access": null,
-      "source": null,
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.extral.freeTraitRules[6].traits[0]",
       "when": {
         "species": "adrak"
       },
@@ -14524,7 +14530,7 @@
       "nature": "extral",
       "name": "Force Ad’rak",
       "access": null,
-      "source": null,
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.extral.freeTraitRules[6].traits[1]",
       "when": {
         "species": "adrak"
       },
@@ -14539,7 +14545,7 @@
       "nature": "extral",
       "name": "Pugilat Ad’rak",
       "access": null,
-      "source": null,
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.extral.freeTraitRules[6].traits[2]",
       "when": {
         "species": "adrak"
       },
@@ -14554,7 +14560,7 @@
       "nature": "extral",
       "name": "Compatibilité terrestre",
       "access": null,
-      "source": null,
+      "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.extral.freeTraitRules[6].traits[3]",
       "when": {
         "species": "adrak"
       },
