@@ -1,6 +1,6 @@
-# Audit complet des mécaniques — 9 octobre 2026
+# Audit complet des mécaniques — actualisé le 10 octobre 2026
 
-Le lot ajoute des commandes réelles aux ressources de Nature, aux capacités individuelles, au Neuro et aux effets ciblés. Les comptes, coûts, durées, quotas et mutations de PV sont vérifiés côté serveur. Les autres pouvoirs dont le résultat dépend d’une cible, du terrain ou d’une décision narrative restent assistés : une activation journalisée ne vaut pas résolution automatique.
+Les procédures finies les plus importantes sont désormais reliées à des commandes réelles : ressources de Nature, capacités personnelles, Neuro, effets sur de vraies cibles, variantes électriques, Frénésie, contraintes de PA et charges d’équipement. Le serveur contrôle coûts, durée, quota et mutations ; la table décide les conditions fictionnelles. Une préparation ou activation journalisée ne signifie pas que chaque conséquence narrative est automatisée. Le [complément mécaniques et UX](audit-gameplay-and-ux-20261010.md) détaille le nouveau lot et son reste réel.
 
 ## Périmètre et sources
 
@@ -8,7 +8,7 @@ Le lot ajoute des commandes réelles aux ressources de Nature, aux capacités in
 
 Sources : catalogues chargés par `truth/rules.ts`, révisions approuvées par Nature, règles de création et catalogue Réalité. Les textes complets sont conservés et confrontés aux commandes effectives. Les changements stockés uniquement dans le Compendium de production n’ont pas été comparés à cette copie versionnée.
 
-L’[inventaire JSON exhaustif](live-mechanics-inventory.json) donne une ligne par entrée, sa source, sa couverture et ses limites. Les 635 entrées de Réalité et les 273 traits indiquent le fichier versionné et le sélecteur de leur définition ; `definitionSource` conserve la définition d’origine lorsque le texte est révisé. Les autres sources restent les identifiants d’articles du Compendium. Parmi les 367 équipements de Réalité, **190 sont suivis uniquement en inventaire, acquisition, attribution et affichage**, sans calcul mécanique ; 177 disposent d’un calcul ciblé, qui ne résout pas toutes leurs propriétés. Reproduction depuis `apps/api` : `npm run build`, puis `node scripts/audit-live-mechanics.mjs`. Les rapports individuels détaillent chaque famille :
+L’[inventaire JSON exhaustif](live-mechanics-inventory.json) donne une ligne par entrée, sa source, sa couverture et ses limites. Les 635 entrées de Réalité et les 273 traits indiquent le fichier versionné et le sélecteur de leur définition ; `definitionSource` conserve la définition d’origine lorsque le texte est révisé. Les autres sources restent les identifiants d’articles du Compendium. Parmi les 367 équipements de Réalité, **189 sont suivis uniquement en inventaire, acquisition, attribution et affichage**, sans calcul mécanique ; 178 disposent d’un calcul ciblé, qui ne résout pas toutes leurs propriétés. Reproduction depuis `apps/api` : `npm run build`, puis `node scripts/audit-live-mechanics.mjs`. Les rapports individuels détaillent chaque famille :
 
 | Famille | Rapport détaillé | Résultat principal du lot |
 | --- | --- | --- |
@@ -17,7 +17,9 @@ L’[inventaire JSON exhaustif](live-mechanics-inventory.json) donne une ligne p
 | Vampire | [71 talents et traits](audit-vampire-20261009.md) | Stase, prédation, Dernier Sommeil, ressources de Sang/Cour, entretien |
 | Mage, Daemon, Angelus | [Ressources et constructions](audit-nature-resources-20261009.md) | Préparations, jets, Tension/Revers, Spectres, Faveur, Aura, Égide, Lame |
 | Soutiens ciblés et réactions | [Huit capacités reliées au serveur](audit-targeted-reactions-20261009.md) | Suture, Réfection, Rune, Gardien, Caendis, AIDH et ripostes |
-| Foudre et Paratonnerre | [Résolution électrique](audit-lightning-20261009.md) | Foudre standard, protection électrique, diversion personnelle et Edge avant/après |
+| Foudre et Paratonnerre | [Variantes électriques](audit-lightning-variants-20261009.md) | Dix profils d’attaque, zones/cibles explicites, Arc à ≤3 m, effets existants, Trace/Fin et Paratonnerre personnel ou allié à ≤5 m |
+| Actions, Frénésie et peur | [Restrictions d’action](audit-action-restrictions-20261009.md) | Crête : PA physique réservé ; Entre deux états : interdictions réelles ; Impulsion, peur d’origine connue et Furie de survie |
+| Résolutions occultes et consommables | [Complément du 10 octobre](audit-gameplay-and-ux-20261010.md) | Consentement/défense propriétaire, source réellement libérée, effets/maintien ciblés, charges Ablatif/runiques et régimes d’arme |
 | Effets sur PJ et PNJ | [Suivi des effets](audit-effects-20261009.md) | Horloges par round/activation/scène, ticks, cumul, traitement, huit presets |
 | Objets de Vérité et traits gratuits | [Objets et traits](audit-truth-items-20261009.md) | Profils explicites distincts des descriptions et exceptions à arbitrer |
 
@@ -34,25 +36,31 @@ L’[inventaire JSON exhaustif](live-mechanics-inventory.json) donne une ligne p
 
 - **Soutiens et réactions** : Suture, Réfection vitale et Rune de Garde ont une cible réelle, une demande privée acceptée par le bénéficiaire ou le MJ, et des quotas côté bénéficiaire. Gardien de la Meute et Caendis redirigent l’attaque ; l’interposition AIDH relève sa défense. Riposte du Gardien suit le même agresseur ; Ashorn ouvre une attaque normale sans PA supplémentaire après une défense active réussie. Les conditions de contact, portée et intervention sont confirmées dans la fiction.
 
-Le panneau personnel est repliable et regroupe ces commandes. Le panneau MJ permet le suivi ciblé des PJ/PNJ. Le combat conserve initiative, ordre des passes, choix direct de cible, défenses et résolution ; l’initiative reste fixe pour tout le combat.
+- **Résolutions occultes** : le MJ reprend une préparation réellement libérée et son jet source ; chaque cible a son opposition, son consentement allié ou sa défense choisie, puis une fonction principale finie. Dégâts occultes sans paliers de Tir, soins plafonnés et effets liés au maintien ; Injonction, Décret, Souveraineté de Belial et Fantasmagorie suivent leur condition particulière. Aucune fonction narrative n’est devinée depuis un nom de Talent.
+- **Restrictions et Frénésie** : Crête ne fournit qu’un point physique admissible, pas un PA libre ; Entre deux états bloque les attaques/manipulations et sa sortie hors fenêtre. La Frénésie conserve origine, cause, Impulsion et peur, applique le bonus exact et protège le PA dû à l’Impulsion. Furie de survie suit des pertes réelles, jamais un changement de maximum.
+- **Charges d’équipement** : armures Ablatif et plaques ont un compteur matériel persistant, y compris sur PNJ équipé ; Brigandine et Jeton possédés ont leurs conditions et consommation distinctes. Les régimes Atomus/Custodian/Duplex persistent et paient le changement prévu ; seules les réserves réellement déclarées sont débitées. Helios suit son refroidissement précis.
+- **Trace et Fin** : les pertes réelles Silence empêchent leur régénération surnaturelle dans les commandes branchées jusqu’à fin de scène. Un impact mortel avec Fin véritable requiert la confirmation MJ du Fléau, de sa vulnérabilité et des conditions de destruction ; l’état final empêche les échappatoires automatiques et se restaure uniquement par Grâce MJ explicite. Aucune vulnérabilité de Fléau majeur n’est devinée par le moteur.
+
+Le panneau personnel présente quatre rubriques — Jets, États & PV, Pouvoirs, Équipement — et place Repos, Mes règles et Historique dans Plus. Compétences, objets et textes se recherchent ou se déplient à la demande ; PV/PA/Révélation et résultat restent accessibles pendant le scroll. Le journal et les outils MJ commencent repliés ; le dernier résultat et la révélation récente restent visibles. L’en-tête distingue Exploration/Combat et présente les actions du MJ. Le combat conserve initiative, ordre des passes, cible directe, défenses et résolution ; l’initiative reste fixe pour tout le combat.
 
 ## Limites restantes, identifiées après intégration
 
 | Domaine | Ce qui reste assisté ou à intégrer | Conséquence pratique |
 | --- | --- | --- |
-| Cibles, oppositions, zones et support | Sorts, illusions, domination, autres soins/transferts et protections de groupe | Préparation/coût suivis ; MJ résout la cible et applique l’effet ciblé approprié |
-| Réactions complexes | Autres ripostes/interpositions, chaînes de réactions, renvoi Neuro, interceptions, variantes de Foudre et zones électriques | Seules les réactions explicitement intégrées exécutent une riposte ou un changement de cible |
-| Restrictions de PA | Crête de Mo’senine et autres PA réservés à une famille d’action | Crête reste une définition externe, non activable comme PA libre |
-| Semi-immatérialité | Entre-deux-états impose aussi des interdictions physiques | Route externe : aucun bonus personnel activable sans suivi de ces restrictions |
-| Frénésie et peur | Entrées/sorties, Impulsion, résistance et déclencheurs exacts | Aucun déclenchement déduit d’un simple changement de maximum de PV |
-| Blessures spéciales | Anatomie, PV non régénérables par source, saturation des soins, faiblesse surnaturelle | Montants suivis par le MJ ; les soins ordinaires ne prouvent pas la résolution de ces exceptions |
-| Horloges et maintien complexes | Début/fin d’activation validés explicitement par le MJ, préparation interrompue par événement, concentration adverse, changement de scène | Commandes de fin explicites ; aucune horloge réelle ne fait avancer la fiction |
-| Charges et consommables particuliers | Ablatif, verrouillage/surchauffe, modes de rafale, consommations de rites, charges runiques | Pas de nombre de projectiles ou d’effet créé à partir d’un nom ; règles individuelles à appliquer |
-| Corps et possessions narratifs | Forme animale vampire, arme hématique détaillée, compagnons, véhicule, installation, territoire | Le suivi de ressource ne crée pas automatiquement un profil complet |
-| Autres quotas par bénéficiaire | Autres effets interpersonnels | Réfection vitale et Rune de Garde sont désormais suivies côté serveur ; les autres règles exigent encore un suivi dédié |
-| Corruption | Dons/Rites/Faveurs, Souillure, admission, liens et Test de Bascule | Acquisition/récompenses suivies ; résolution narrative et procédures spécifiques encore nécessaires |
-| Monde et perception | Réseaux, contrats, mémoire, immunités conditionnelles, sens, contraintes morphologiques | Texte complet accessible ; pas de succès, objet, information ou permission fabriqué par le calcul |
-| Compendium en production | Modifications non versionnées en base | Audit limité aux règles sources de cette branche |
+| Constructions occultes | Polymorphie, transfert d’âme, prophétie, constructions programmées et fonctions complexes | Coût et cible peuvent être suivis ; le MJ définit l’effet réellement permis, sans profil généré automatiquement |
+| Foudre : circuits, perception et blessures | Conduction/Décharge technique, discrétion, reconstitution fictionnelle et vulnérabilité de Fléau | Circuits et perception restent narratifs ; Trace suit les pertes Silence et régénérations branchées, Fin demande les conditions réelles de destruction ; aucune ontologie universelle des blessures/enveloppes |
+| Autres réactions complexes | Réactions non spécifiquement branchées, renvoi Neuro et chaînes | Une chaîne ne découle pas d’une activation ; seules les fenêtres dédiées sont exécutées |
+| Blessures spéciales | Anatomie, membre absent, PV non régénérables par source, saturation des soins, exception vitale | Aucun soin ordinaire ou Grâce MJ ne prouve la résolution de ces exceptions |
+| Horloges complexes | Début/fin d’activation et changement de scène fictionnels ; interruption événementielle | Les événements pertinents sont déclarés ; aucun temps réel ne fait avancer la fiction |
+| Autres charges et équipements | Surchauffe hors Helios, relation arme/munition, consommations de rites, slots et verrou matériel | Débit réel lorsqu’il est défini ; aucune quantité, autorisation ou propriété créée depuis un nom |
+| Corps et possessions narratifs | Compagnons, véhicule, installation, territoire, formes libres | Le suivi d’une ressource ne crée pas un profil complet |
+| Autres quotas par bénéficiaire | Effets interpersonnels non explicitement suivis | Les soutiens dédiés ont leurs quotas ; les autres ne sont pas assimilés à ces mêmes procédures |
+| Corruption | Dons/Rites/Faveurs, Souillure, liens et Test de Bascule | Acquisition/récompenses suivies ; procédures et conséquences propres encore nécessaires |
+| Monde et perception | Réseaux, contrats, mémoire, immunités, sens, contraintes morphologiques | Règles accessibles ; aucune information, permission ou réussite fictive produite par le calcul |
+| Contradictions de texte | Viser/Verrouillage et Raven Volto Réalité/Vérité | Décision auteur nécessaire avant harmonisation automatique |
+| Corpus en production | Modifications Compendium non versionnées en base | Audit limité aux règles sources de cette branche |
+
+Les Plaques ablatives sont le nouvel équipement qui quitte la couverture uniquement d’inventaire : le compte passe de 190 à 189, sans changer les 367 équipements ni le total de 2 553. Les [limites par entrée](live-mechanics-inventory.json) et le [complément détaillé](audit-gameplay-and-ux-20261010.md) distinguent le calcul, les confirmations et les parties descriptives.
 
 ## Vérification, confidentialité et livraison
 
@@ -60,12 +68,12 @@ Les suites couvrent les fonctions pures, les routes avec PostgreSQL embarqué is
 
 Le MJ de la campagne peut suivre les mécaniques complètes ; un lecteur de fiche sans cette autorité ne gagne aucun droit de mutation. Les autres joueurs reçoivent portrait, identité publique, camp et état de blessure. Les PV numériques, réserves, talents, effets privés et ressources de Vérité ne sont pas ajoutés à leur projection publique. Les événements techniques détaillés sont réservés au propriétaire et au MJ.
 
-Les nouveaux états sont dans les JSON de jeu et conservent des valeurs par défaut pour les anciennes fiches. Ce lot utilise les migrations additives déjà prévues dans la branche ; il ne réinitialise ni les personnages ni les séances. Validation locale réussie : compilations API/Web, suite API complète avec PostgreSQL embarqué, tests de règles, suite DOM complète et vérification du diff. La recette navigateur du lot précédent a réussi sur le commit `3ba7098da87c90511fc65e76644c196332e04ddb`, exécution CI `37932064645`. Aucun déploiement de production n’est effectué dans ce lot.
+Les nouveaux états sont dans les JSON de jeu et conservent des valeurs par défaut pour les anciennes fiches. Ce lot utilise les migrations additives déjà prévues dans la branche ; il ne réinitialise ni les personnages ni les séances. Les lots précédents ont réussi leurs compilations API/Web, suite API complète avec PostgreSQL embarqué, règles, DOM et vérification du diff. Les nouvelles suites ciblées contrôlent notamment contraintes de PA, Frénésie, consentement/oppositions occultes, charges PJ/PNJ, modes et riposte à zéro PA ; la preuve CI de ce complément est à ajouter après sa publication. La recette navigateur du lot précédent a réussi sur le commit `3ba7098da87c90511fc65e76644c196332e04ddb`, exécution CI `37932064645`. Aucun déploiement de production n’est effectué dans ce lot.
 
 Le complément de soutiens/réactions ajoute les tests API de consentement, rejeu, confidentialité des PV, quotas reçus, portées, fenêtres de réaction et riposte à zéro PA, ainsi qu’un panneau repliable et des tests DOM. Voir le rapport ciblé pour les conditions et limites exactes.
 
 La recette de ce complément a réussi sur `b2e9fe1f16ccf219b9e85c2d6eb9235117eddf90`, [CI `37940435998`](https://github.com/Helclaeynn/Terra-Umbra-Builder/actions/runs/37940435998) : API/PostgreSQL, UI, PDF, Chrome à 1 440/390/320 pixels et Compose. Le déploiement a été désactivé par le garde du serveur de production.
 
-Le complément [Foudre/Paratonnerre](audit-lightning-20261009.md) ajoute deux résolutions dédiées sans changer le total canonique : attaque de Foudre standard à 20 m, marge + DGT 7, protections réellement électriques, réaction personnelle à 1 PA et 1/round, Edge avant/après. Les variantes, zones et effets sur circuits restent assistés.
+Le lot historique [Foudre/Paratonnerre](audit-lightning-20261009.md) avait connecté les deux procédures de base. Le complément actuel suit la révision Aseryn finale : Paratonnerre protège aussi un allié à ≤5 m ; l’ancienne limitation au seul personnage est corrigée. Trait du Silence utilise également son coût final révisé de 1 PA. Les variantes, effets et blessures Silence sont détaillés dans le [nouvel audit électrique](audit-lightning-variants-20261009.md) ; circuits, perception et conditions narratives de destruction restent distingués des résolutions calculées.
 
-Ce complément est validé sur `b817dc100d420f09bfa608e2fdce5d923e5ce30c`, [CI 37991948220](https://github.com/Helclaeynn/Terra-Umbra-Builder/actions/runs/37991948220) : API/PostgreSQL, UI, PDF, Chrome à 1 440/390/320 pixels et Compose. Le miroir officiel ECR débloque le téléchargement de PostgreSQL pour les tests. Le garde du serveur de production a désactivé le déploiement.
+Le complément historique Foudre/Paratonnerre est validé sur `b817dc100d420f09bfa608e2fdce5d923e5ce30c`, [CI 37991948220](https://github.com/Helclaeynn/Terra-Umbra-Builder/actions/runs/37991948220) : API/PostgreSQL, UI, PDF, Chrome à 1 440/390/320 pixels et Compose. Le miroir officiel ECR débloque le téléchargement de PostgreSQL pour les tests. Le garde du serveur de production a désactivé le déploiement. Cette preuve ne concerne pas encore le présent lot de variantes, charges, Frénésie, résolutions occultes et UX.

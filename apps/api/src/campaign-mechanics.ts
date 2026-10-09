@@ -1,3 +1,5 @@
+import {frenzyActionCheck,recordFrenzyAction} from './rules/live-frenzy.js';
+import {resetRestrictedActivationWindow,spendRestrictedPA} from './rules/live-action-restrictions.js';
 import type {FastifyInstance} from 'fastify';
 import {randomUUID} from 'node:crypto';
 import {isDeepStrictEqual} from 'node:util';
@@ -67,7 +69,7 @@ export async function registerCampaignMechanicsRoutes(app:FastifyInstance){
       const pa=source.isPc?profile!.pa:source.row.pa,initiative=source.isPc?source.state.initiative:source.row.initiative;
       if(initiative===null||!participates(shared,source.row.id)||pa<preset.paCost)return await fail(400,'insufficient_pa');
       const physical=canSpendPhysicalPA(source.isPc?source.state.effects??[]:source.state.liveEffects??[],source.row.id,{...source.state,round},preset.paCost);if(!physical.available)return await fail(400,'physical_pa_limit');source.state.physicalPaSpent=physical.nextSpent;
-      if(source.isPc)source.state.pa=pa-preset.paCost;else source.row.pa-=preset.paCost;actionCost=preset.paCost;
+      if(!source.isPc)source.state.pa=source.row.pa;try{frenzyActionCheck(source.state,preset.paCost,b,{manager:true});spendRestrictedPA(source.state,preset.paCost,'other');recordFrenzyAction(source.state,preset.paCost,b,{manager:true});}catch(e){return await fail(400,(e as Error).message);}if(!source.isPc)source.row.pa=source.state.pa;actionCost=preset.paCost;
      }
     }
     try{const next=addLiveEffect(effects,createLiveEffect(draft,{id:randomUUID(),round,targetActivation:state.activation??0}));if(isPc)state.effects=next;else state.liveEffects=next;}catch(e){return await fail(400,(e as Error).message);}
@@ -80,7 +82,7 @@ export async function registerCampaignMechanicsRoutes(app:FastifyInstance){
     if(b.treatment!==undefined&&typeof b.treatment!=='boolean')return await fail(400,'invalid_effect_treatment');
     if(treatment){
      if(!['maitre_des_lames','extral-jet-d-encre'].includes(effect.ruleId))return await fail(400,'effect_requires_manager_ruling');
-     if(shared.active){const hp=isPc?playProfile(row.data,state).hp:row.hp,pa=isPc?state.pa:row.pa,initiative=isPc?state.initiative:row.initiative;if(hp<=0||state.unconscious||initiative===null||pa<1||!participates(shared,row.id))return await fail(400,'insufficient_pa');const physical=canSpendPhysicalPA(effects,row.id,{...state,round},1);if(!physical.available)return await fail(400,'physical_pa_limit');state.physicalPaSpent=physical.nextSpent;if(isPc)state.pa--;else row.pa--;actionCost=1;}
+     if(shared.active){const hp=isPc?playProfile(row.data,state).hp:row.hp,pa=isPc?state.pa:row.pa,initiative=isPc?state.initiative:row.initiative;if(hp<=0||state.unconscious||initiative===null||pa<1||!participates(shared,row.id))return await fail(400,'insufficient_pa');const physical=canSpendPhysicalPA(effects,row.id,{...state,round},1);if(!physical.available)return await fail(400,'physical_pa_limit');state.physicalPaSpent=physical.nextSpent;if(!isPc)state.pa=row.pa;try{frenzyActionCheck(state,1,b,{manager:true});spendRestrictedPA(state,1,'physical-effort');recordFrenzyAction(state,1,b,{manager:true});}catch(e){return await fail(400,(e as Error).message);}if(!isPc)row.pa=state.pa;actionCost=1;}
     }
     if(isPc)state.effects=removeLiveEffect(effects,b.effectId);else state.liveEffects=removeLiveEffect(effects,b.effectId);payload={...payload,effectId:b.effectId,treatment,paSpent:actionCost,ruling:!treatment?'Retrait arbitré par le MJ':null};
    }else if(b.action==='effect-armor'){
@@ -88,7 +90,7 @@ export async function registerCampaignMechanicsRoutes(app:FastifyInstance){
    }else{
     if(!shared.active)return await fail(400,'combat_not_started');
     const start=b.action==='activation-start';if(start===!!state.activationOpen)return await fail(400,'activation_phase_conflict');
-    if(start){state.activation=(state.activation??0)+1;state.physicalPaSpent=0;}state.activationOpen=start;
+    if(start){resetRestrictedActivationWindow(state);state.activation=(state.activation??0)+1;state.physicalPaSpent=0;}state.activationOpen=start;
     const event={phase:b.action as 'activation-start'|'activation-end',round,actorId:row.id,activation:state.activation??0};
     const result=isPc?applyCharacterEffectTick(row.data,state,event):applyNpcEffectTick(row,event);payload={...payload,label:start?'Début d’activation':'Fin d’activation',...result,activation:state.activation};
    }

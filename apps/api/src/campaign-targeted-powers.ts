@@ -1,3 +1,6 @@
+import {frenzyActionCheck,recordFrenzyAction} from './rules/live-frenzy.js';
+import {spendRestrictedPA} from './rules/live-action-restrictions.js';
+import {recoverLightningWounds} from './rules/lightning-wounds.js';
 import type {FastifyInstance} from 'fastify';
 import {randomUUID,randomInt} from 'node:crypto';
 import {isDeepStrictEqual} from 'node:util';
@@ -20,7 +23,7 @@ export async function registerCampaignTargetedPowerRoutes(app:FastifyInstance){
   if(!uuid(req.params.id))return reply.code(404).send({error:'campaign_not_found'});
   const access=await member(pool,req.params.id,user);if(!access)return reply.code(404).send({error:'campaign_not_found'});
   const ids=await pool.query(`SELECT c.id FROM characters c JOIN campaign_members m ON m.character_id=c.id AND m.user_id=c.owner_id AND m.campaign_id=c.campaign_id AND m.status='accepted' WHERE c.campaign_id=$1 AND c.archived_at IS NULL AND ($3::boolean OR c.owner_id=$2)`,[req.params.id,user.id,access.manager]);
-  const sources=[];for(const {id} of ids.rows){const actor=await target(pool,req.params.id,id);if(actor)sources.push({id,name:actor.name,version:actor.version,edge:await edgeBalance(pool,id,actor.data),powers:targetedOptions(actor.data,actor.state)});}
+  const sources=[];for(const {id} of ids.rows){const actor=await target(pool,req.params.id,id);if(actor)sources.push({id,name:actor.name,version:actor.version,frenzy:playProfile(actor.data,actor.state).frenzy,edge:await edgeBalance(pool,id,actor.data),powers:targetedOptions(actor.data,actor.state)});}
   const offers=[];for(const e of (await pool.query(pendingSql,[req.params.id])).rows){
    const s=await target(pool,req.params.id,e.payload.sourceId),t=await target(pool,req.params.id,e.payload.targetId);if(!s||!t||!access.manager&&s.owner_id!==user.id&&t.owner_id!==user.id)continue;
    offers.push({id:e.id,sourceName:s.name,targetName:t.name,powerName:e.payload.powerName,canAccept:!!access.manager||t.owner_id===user.id,canCancel:!!access.manager||s.owner_id===user.id||t.owner_id===user.id});
@@ -71,10 +74,10 @@ export async function registerCampaignTargetedPowerRoutes(app:FastifyInstance){
    }
    // A player cannot mutate another owner's fiche: the owner accepts, or the MJ applies it.
    if(b.action==='request'&&!access.manager&&beneficiary.owner_id!==user.id){
-    const payload={sourceId:source.id,targetId:beneficiary.id,sourceVersion:source.version,targetVersion:beneficiary.version,powerId:rule.id,powerName:rule.name,contextConfirmed:true,inscriptionConfirmed:input.inscriptionConfirmed===true,edge:input.edge===true};
+    const payload={sourceId:source.id,targetId:beneficiary.id,sourceVersion:source.version,targetVersion:beneficiary.version,powerId:rule.id,powerName:rule.name,contextConfirmed:true,inscriptionConfirmed:input.inscriptionConfirmed===true,edge:input.edge===true,pursuesImpulse:input.pursuesImpulse===true};
     await db.query("INSERT INTO campaign_live_events(id,campaign_id,created_by,kind,payload,request_payload,public) VALUES($1,$2,$3,'targeted-offer',$4::jsonb,$5::jsonb,false)",[b.requestId,req.params.id,user.id,JSON.stringify(payload),JSON.stringify(b)]);await db.query('COMMIT');return {ok:true,pendingAcceptance:true};
    }
-   if(shared.active)source.pa-=rule.cost;
+   if(shared.active){try{frenzyActionCheck(source.state,rule.cost,input,{manager:access.manager});recordFrenzyAction(source.state,rule.cost,input,{manager:access.manager});spendRestrictedPA(source.state,rule.cost,'occult');source.pa=source.state.pa;}catch(e){return await fail(400,(e as Error).message);}}
    const before=beneficiary.hp;let result:any={};
    if(rule.id==='exile-suture'){
     if(beneficiary.hp<=0)targetState.stabilized=true;
@@ -84,7 +87,7 @@ export async function registerCampaignTargetedPowerRoutes(app:FastifyInstance){
     const profile=playProfile(source.data,source.state),skill=profile.skills.find(s=>s.id==='maitrise_spirituelle')!,die=input.edge?forcedDie():rollD10(profile.stress,()=>randomInt(1,11)),test=healingTest(skill.total+die.sum,die.narrativeFailure);
     result={...die,total:skill.total+die.sum,modifier:skill.total,components:{attribute:skill.attributeValue,rank:skill.rank,bonus:skill.bonus,skillName:skill.name},...test};
     consumeRegisteredTest(source.data,source.state,skill.id);consumeNatureTest(source.data,source.state,skill.id);
-    if(test.success){const maximum=beneficiary.kind==='character'?playProfile(beneficiary.data,targetState).healingMaximum:beneficiary.pv_max,extra=beneficiary.kind==='character'?reserveHealing(beneficiary.data,targetState,before,maximum,test.healing):0;beneficiary.hp=Math.min(maximum,before+test.healing+extra);targetState.powerUses??={};targetState.powerUses[targetUsageKey(rule.id)]=1;result.reserveBonus=extra;result.recovered=beneficiary.hp-before;}
+    if(test.success){const maximum=beneficiary.kind==='character'?playProfile(beneficiary.data,targetState).healingMaximum:beneficiary.pv_max,extra=beneficiary.kind==='character'?reserveHealing(beneficiary.data,targetState,before,maximum,test.healing):0;beneficiary.hp=Math.min(maximum,before+test.healing+extra);recoverLightningWounds(targetState,before,beneficiary.hp);targetState.powerUses??={};targetState.powerUses[targetUsageKey(rule.id)]=1;result.reserveBonus=extra;result.recovered=beneficiary.hp-before;}
    }else{
     targetState.targeted={...targetState.targeted,guard:{sourceId:source.id}};targetState.powerUses??={};targetState.powerUses[targetUsageKey(rule.id)]=1;result={reduction:6};
    }

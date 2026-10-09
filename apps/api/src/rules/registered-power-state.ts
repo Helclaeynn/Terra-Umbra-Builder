@@ -6,7 +6,8 @@ export function registeredEffects(data:any,state:State):Array<RegisteredPowerEff
  for(const rule of registeredTruthPowers(data,state)){
   if(rule.route==='passive'&&!rule.context)result.push(...rule.effects.map(e=>({...e,id:rule.id,name:rule.name})));
   const active=state.registeredPowers?.find(p=>p.id===rule.id&&(p.until===null||p.until>=state.round));
-  if(active)result.push(...rule.effects.filter(e=>e.kind!=='pa').map(e=>({...e,...(active.skill&&e.kind==='skill'?{skills:[active.skill]}:{}),id:rule.id,name:rule.name})));
+  // Restricted states have their own action/defense guards, never a generic skill bonus.
+  if(active&&rule.route!=='restricted')result.push(...rule.effects.filter(e=>e.kind!=='pa').map(e=>({...e,...(active.skill&&e.kind==='skill'?{skills:[active.skill]}:{}),id:rule.id,name:rule.name})));
  }
  return result;
 }

@@ -9,7 +9,7 @@ import type {TruthTalent,TruthNature} from './truth/types.js';
 const pkg=truthCoreRules as unknown as {structure:{natures:Record<string,TruthNature>};catalogs:Record<string,TruthTalent[]>};
 const cap='capacites_et_talents_communs_talents_communs_';
 export const natureResourceIds={equilibrium:cap+'equilibrage_du_flux',discharge:cap+'decharge_controlee',boost:'nature_commune_pouvoirs_angeliques_talents_communs_recharge_fulgurante',egide:'nature_commune_pouvoirs_angeliques_talents_communs_egide_renforcee',offering:'les_dix_sephiroth_tiph_ereth_la_beaute_facette_sacrifice_offrande',resonance:'daemon_clean_talents_communs_de_nature_resonance_profonde'} as const;
-export type NatureSpell={affinity:string;amplitude:'mineure'|'significative'|'majeure'|'cataclysmique';range:'contact'|'will'|'sight';channel:number;opposed:boolean;urgent:boolean;contextDifficult:boolean;forceAmplitude:boolean;forceMastery:boolean;note:string};
+export type NatureSpell={intent?:'hostile'|'support'|'narrative';affinity:string;amplitude:'mineure'|'significative'|'majeure'|'cataclysmique';range:'contact'|'will'|'sight';channel:number;opposed:boolean;urgent:boolean;contextDifficult:boolean;forceAmplitude:boolean;forceMastery:boolean;note:string};
 export type SpellPlan=NatureSpell&{name:string;mastery:number;owned:boolean;difficulty:number;pa:number;tension:number;damage:number;automatic:boolean;forced:boolean;mandatoryChannel:number};
 export type NatureResources={
  mage:{tension:number;lastAffinity:string;dormant:boolean;pendingBacklash:number|null;blockedUntilRound:number|null;preparation:(SpellPlan&{paid:number;startedRound:number})|null;maintained:string[];usedRound:number|null};
@@ -50,6 +50,7 @@ export function mageSpellPlan(data:any,state:NatureLiveState,raw:unknown):SpellP
  if(t.nature!=='mage'||t.consciousness==='profane'||!a)fail('nature_spell_unavailable');
  const resources=normalizedNatureResources(state.natureResources);
  if(state.revelation==='v'||resources.mage.dormant||resources.mage.pendingBacklash!==null||state.unconscious||(resources.mage.blockedUntilRound!==null&&state.round<=resources.mage.blockedUntilRound))fail('mageius_unavailable');
+ if(r.intent!==undefined&&!['hostile','support','narrative'].includes(r.intent))fail('invalid_spell_intent');
  const amplitude=mageAmplitudes.findIndex(x=>x.id===r.amplitude);
  if(amplitude<0||!['contact','will','sight'].includes(r.range)||!Number.isSafeInteger(r.channel)||r.channel<0||r.channel>100)fail('invalid_spell');
  const forceAmplitude=r.forceAmplitude===true,forceMastery=r.forceMastery===true,forced=forceAmplitude||forceMastery;
@@ -63,8 +64,8 @@ export function mageSpellPlan(data:any,state:NatureLiveState,raw:unknown):SpellP
  const mandatoryChannel=Math.max(0,adjusted-4);
  if(r.channel<mandatoryChannel)fail('mandatory_channel_missing');
  const difficulty=difficultyScale[Math.max(0,Math.min(4,adjusted-r.channel))];
- const automatic=difference>=2&&r.opposed===false&&r.urgent===false&&r.contextDifficult===false;
- return {affinity:a.id,name:a.name,amplitude:r.amplitude,range:r.range,channel:r.channel,opposed:r.opposed!==false,urgent:r.urgent!==false,contextDifficult:r.contextDifficult!==false,forceAmplitude,forceMastery,note:typeof r.note==='string'?r.note.slice(0,1200):'',mastery:Math.min(3,(a.owned?a.mastery:0)+(forceMastery?1:0)),owned:a.owned,difficulty,pa:amplitude+1+r.channel,tension:amplitude+1,damage:(amplitude+1)*6,automatic,forced,mandatoryChannel};
+ const automatic=difference>=2&&r.intent!=='hostile'&&r.opposed===false&&r.urgent===false&&r.contextDifficult===false;
+ return {intent:r.intent??'narrative',affinity:a.id,name:a.name,amplitude:r.amplitude,range:r.range,channel:r.channel,opposed:r.opposed!==false||r.intent==='hostile',urgent:r.urgent!==false,contextDifficult:r.contextDifficult!==false,forceAmplitude,forceMastery,note:typeof r.note==='string'?r.note.slice(0,1200):'',mastery:Math.min(3,(a.owned?a.mastery:0)+(forceMastery?1:0)),owned:a.owned,difficulty,pa:amplitude+1+r.channel,tension:amplitude+1,damage:(amplitude+1)*6,automatic,forced,mandatoryChannel};
 }
 export function daemonSpectra(data:any){
  const t=liveTruthState(data),b=normalizeDaemonBuild(t.choices.daemonBuild),all=natureAffinities(data);if(t.nature!=='daemon'||t.consciousness==='profane'||t.choices.divinity!=='mephisto')return [];

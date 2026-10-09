@@ -5,7 +5,7 @@ import {normalizeExtralBuild,extralNetworkAccess} from './truth/extral-build.js'
 import {terraUmbraCreationRules} from './terra-umbra-creation.js';
 
 /** Reviewed identifiers and values only. Effect prose is displayed, never interpreted. */
-export type RegisteredPowerRoute='activate'|'roll'|'attack'|'defense'|'damage'|'heal'|'passive'|'external';
+export type RegisteredPowerRoute='activate'|'roll'|'attack'|'defense'|'damage'|'heal'|'passive'|'external'|'restricted';
 export type RegisteredPowerLimit='round'|'scene'|'day'|'scenario'|null;
 export type RegisteredPowerDuration='test'|'scene'|'scenario'|number;
 export type RegisteredPowerEffect={
@@ -71,8 +71,8 @@ add('extral',{id:'extral-muscle-tasse',route:'passive',cost:0,limit:null,duratio
 damage('extral','extral-angle-de-cuirasse',2,'round','Coup physique perçu sur une zone effectivement cuirassée.');
 pa('extral','extral-surcadence-somatique',4,'Au début de votre activation, essaim Homo Superior fonctionnel.');
 pa('extral','extral-crete-de-mosenine',4,'Au début du round ; PA réservé au Déplacement, Pugilat, Mêlée, Défense active ou effort physique significatif.');
-list[list.length-1].route='external';
-list[list.length-1].notes+=' Procédure ciblée requise : le PA physique et la fenêtre de début de round ne sont pas encore contrôlés ensemble. Ce registre interdit donc une activation libre de ce gain.';
+list[list.length-1].route='restricted';
+list[list.length-1].notes+=' Commande dédiée : début du round vérifié côté serveur ; PA suivi séparément et interdit au Tir, Neurocombat ou action occulte.';
 add('extral',{id:'extral-impact-titanesque',route:'attack',cost:0,limit:'scene',duration:'test',effects:[{kind:'damage',amount:4,mode:'bonus',skills:['pugilat','melee'],stacking:'named',target:'self'}],context:'Déclaration avant une attaque de Pugilat ou de Mêlée entièrement consacrée à la puissance.',notes:'Attaque normalement payée ; +4 DGT seulement en réussite ; aucune baisse de Défense ni Altération automatiquement inventée.'});
 defense('extral','extral-reflexe-de-chasse',0,0,'round',false);
 defense('extral','extral-reflexe-conditionne',0,3,'scene',true);
@@ -132,7 +132,7 @@ armor('exile','exile-peau-epaisse',1,0);
 add('exile',{id:'exile-mains-de-guerre',route:'passive',cost:0,limit:null,duration:'scene',effects:[{kind:'damage',amount:3,mode:'replace',skills:['pugilat'],stacking:'body',target:'self'}],context:'Pugilat naturel, sans autre arme.',notes:'DGT de base 3 au lieu de 1, jamais +3 ajouté.'});
 add('exile',{id:'exile-force-de-rupture',route:'attack',cost:0,limit:null,duration:'test',effects:[{kind:'piercing',amount:2,target:'self'}],context:'Attaque volontaire d’un objet, porte, structure ou véhicule immobilisé ; jamais armure portée par une créature.',notes:'Ignore 2 Protection matérielle applicable ; aucune hausse du DGT.'});
 defense('exile','exile-chair-intermittente',1,3,'scene',false,'Attaque purement physique, sans effet surnaturel ou biphysique.');
-add('exile',{id:'exile-entre-deux-etats',route:'external',cost:1,limit:'scene',duration:'scene',effects:[skill(3,['esquive'])],context:'État semi-immatériel : aucune attaque physique ni manipulation lourde tant qu’il dure ; défense contre le purement physique uniquement.',notes:'Procédure ciblée nécessaire : l’interdiction d’attaque et de manipulation, la défense uniquement physique et l’abandon au début d’activation doivent être suivis ensemble. Ce registre ne permet pas une activation libre du seul bonus. La Défense reste payante. Pas d’invulnérabilité ni passage dimensionnel.'});
+add('exile',{id:'exile-entre-deux-etats',route:'restricted',cost:1,limit:'scene',duration:'scene',effects:[skill(3,['esquive'])],context:'État semi-immatériel : aucune attaque physique ni manipulation lourde tant qu’il dure ; défense contre le purement physique uniquement.',notes:'Commande dédiée : +3 uniquement à une Défense active purement physique ; attaque physique/manipulation lourde interdites ; sortie au début d’activation et matériellement possible. La Défense reste payante. Pas d’invulnérabilité ni passage dimensionnel.'});
 
 for(const [id,skills,context] of [
  ['exile-endurance-obstinee',['constitution'],'Endurance corporelle : fatigue, manque de sommeil, marche forcée, froid ou effort prolongé ; pas un effet surnaturel ciblé.'],
