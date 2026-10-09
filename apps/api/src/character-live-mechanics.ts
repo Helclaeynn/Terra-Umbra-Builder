@@ -1,5 +1,5 @@
 import {getRealityRules} from './rules/reality.js';
-import {activateAdrenaline,configureNeuroLoad,reloadWeapon,configureWeaponMagazine} from './rules/live-reality.js';
+import {activateAdrenaline,configureNeuroLoad,rebootNeuro,reloadWeapon,configureWeaponMagazine} from './rules/live-reality.js';
 import {randomInt} from 'node:crypto';
 import {applyVampireAction,vampireMaximum} from './rules/live-vampire.js';
 import {applyNatureResourceAction,natureHpCeiling,consumeNatureTest} from './rules/live-nature-resources.js';
@@ -22,6 +22,7 @@ export function applyExtendedPlayAction(data:any,original:PlayState,input:any,ct
  if(die){consumeNatureTest(data,state,rollSkill);consumeRegisteredTest(data,state,rollSkill);}
  }else if(input.action==='power-activate')payload=activateRegisteredPower(data,state,input,{fighting:ctx.fighting,participating:ctx.participating,hp:profile.hp});
  else if(input.action==='reality-adrenaline'){if(!ctx.fighting||!ctx.participating)throw new Error('participant_out');const result=activateAdrenaline(data,state,input.implantId);if(result.error)throw new Error(result.error);payload=result.payload!;}
+ else if(input.action==='reality-neuro-reboot'){const result=rebootNeuro(data,state,{inCombat:ctx.fighting,safeRestart:input.safeRestart});if(result.error)throw new Error(result.error);payload=result.payload!;}
  else if(input.action==='reality-neuro-load'){if(ctx.fighting&&!ctx.participating)throw new Error('participant_out');const result=configureNeuroLoad(data,state,getRealityRules(),input.programs,ctx.fighting);if(result.error)throw new Error(result.error);payload=result.payload!;}
  else if(input.action==='reality-reload'||input.action==='reality-magazine'){if(ctx.fighting&&!ctx.participating)throw new Error('participant_out');const result=input.action==='reality-reload'?reloadWeapon(data,state,getRealityRules(),input,{inCombat:ctx.fighting}):configureWeaponMagazine(data,state,getRealityRules(),input,{inCombat:ctx.fighting,manager:ctx.manager});if(result.error)throw new Error(result.error);payload=result.payload!;}
  else if(input.action==='power-stop'){

@@ -59,4 +59,29 @@ export async function checkRealityCombat({pool,call,player,manager,campaign,char
   await pool.query('DELETE FROM campaign_live_combatants WHERE id=$1',[npcId]);
  }
  console.log('REALITY COMBAT API OK — passive Neuro cannot borrow active program bonus, active Force Mentale includes talent bonus, ammunition launch replay and empty charge refusal');
+ await checkNeuroRestart({pool,call,player,peer:manager});
+}
+
+export async function checkNeuroRestart({pool,call,player,peer}){
+ const character=randomUUID(),url=`/api/characters/${character}/play`,data=build();
+ data.skills.neurodive={style:4};data.reality.augmentations=[{itemId:'cablage_neuronal_g1'}];data.reality.equipment=[{uid:'lost',itemId:'castland',quantity:0,loaded:false},{uid:'fresh',itemId:'mywall',quantity:1,loaded:false}];
+ const saved={...state(),neuroBurned:['lost'],neuroLoaded:[]};
+ try{
+  await pool.query('INSERT INTO characters(id,owner_id,name,data) VALUES($1,$2,$3,$4::jsonb)',[character,player.id,'Neuro restart test',JSON.stringify(data)]);
+  await pool.query('INSERT INTO character_play_states(character_id,version,state) VALUES($1,1,$2::jsonb)',[character,JSON.stringify(saved)]);
+  const read=()=>call(player,'GET',url),send=(input,status=200,user=player)=>call(user,'POST',url,{requestId:randomUUID(),...input},status);
+  let current=await read();
+  await send({version:current.version,action:'reality-neuro-reboot',safeRestart:true},404,peer);
+  let rejected=await send({version:current.version,action:'reality-neuro-reboot',safeRestart:true},400);assert.equal(rejected.error,'neuro_restart_outside_combat');assert.deepEqual((await read()).state.neuroBurned,['lost']);
+  // A settings save cannot forge slot restoration or load the destroyed copy.
+  await send({version:current.version,action:'save',state:{...current.state,neuroBurned:[],neuroLoaded:['lost']}});current=await read();assert.deepEqual(current.state.neuroBurned,['lost']);assert.deepEqual(current.state.neuroLoaded,[]);
+  await pool.query('UPDATE character_play_states SET state=$2::jsonb WHERE character_id=$1',[character,JSON.stringify({...current.state,initiative:null,pa:0,paPerRound:0})]);current=await read();
+  rejected=await send({version:current.version,action:'reality-neuro-reboot',safeRestart:false},400);assert.equal(rejected.error,'neuro_safe_restart_required');assert.deepEqual((await read()).state.neuroBurned,['lost']);
+  const restart={requestId:randomUUID(),version:current.version,action:'reality-neuro-reboot',safeRestart:true};await send(restart);await send(restart);
+  const final=await read();assert.deepEqual(final.state.neuroBurned,[]);assert.deepEqual(final.state.neuroLoaded,[]);assert.equal(final.state.pa,0);assert.equal(final.profile.reality.neuro.availableCapacity,2);
+  const inventory=(await pool.query('SELECT data FROM characters WHERE id=$1',[character])).rows[0].data.reality.equipment;assert.equal(inventory.find(p=>p.uid==='lost').quantity,0,'No inventory or licence restitution by reboot');
+  rejected=await send({version:final.version,action:'reality-neuro-load',programs:['lost']},400);assert.equal(rejected.error,'neuro_program_unavailable');
+  await send({version:final.version,action:'reality-neuro-load',programs:['fresh']});assert.deepEqual((await read()).state.neuroLoaded,['fresh']);
+ }finally{await pool.query('DELETE FROM characters WHERE id=$1',[character]);}
+ console.log('NEURO RESTART API OK — owner and peer permissions, out-of-combat confirmed restart, protected burned slots, replay, no lost-copy resurrection and subsequent valid loading');
 }

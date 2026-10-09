@@ -20,13 +20,13 @@ const dom=new JSDOM('<div id="app"></div>',{url:'https://test.invalid',runScript
 let edge=5,version=0,events=[],lastRequest,drop=false,managerRole=false;const requests=[];w.setInterval=fn=>{w.poll=fn;return 1;};w.clearInterval=()=>{};
 w.fetch=async(url,options={})=>{
  const b=options.body?JSON.parse(options.body):null;let body;
- if(!b)body={edge,state:w.live,version,events,profile:w.profile(),canManageMechanics:managerRole};
+ if(!b)body={edge,state:w.live,version,events,profile:{...w.profile(),reality:w.serverReality??null},canManageMechanics:managerRole};
  else{
   requests.push(b);
   if(lastRequest?.requestId===b.requestId){assert.deepEqual(b,lastRequest);body={ok:true,alreadyApplied:true};}
   else{lastRequest=b;assert.equal(b.version,version);version++;if(b.action==='save')w.live=b.state;
    const payload=b.action==='roll'?{label:'Athlétisme',modifier:w.profile().skills.find(s=>s.id==='athletisme').total,dice:[10,4],sum:14,total:w.profile().skills.find(s=>s.id==='athletisme').total+14,exploded:true,narrativeFailure:false}:{label:'Enregistré'};
-   const event={id:b.requestId,kind:b.action,payload,createdAt:'2026-10-03T12:00:00Z'};events.unshift(event);body={state:w.live,version,profile:w.profile(),event};
+   const event={id:b.requestId,kind:b.action,payload,createdAt:'2026-10-03T12:00:00Z'};events.unshift(event);body={state:w.live,version,profile:{...w.profile(),reality:w.serverReality??null},event};
    if(drop){drop=false;throw new Error('Response lost');}
   }
  }
@@ -51,4 +51,6 @@ const statesTab=[...d.querySelectorAll('.play-tabs button')].find(b=>b.textConte
 managerRole=true;w.ownerEdits.value=false;w.live.revelation='r';w.data.truth={nature:'daemon',consciousness:'initie',choices:{divinity:'lilith',function:'oracle'},truthTalents:[]};await w.poll();await until(()=>d.querySelector('.manager-resource-settings'));
 assert.ok(d.querySelector('.manager-play-notice'));assert.ok(d.querySelector('[aria-label="Lancer le d10 pour Athlétisme"]').disabled);const managerCheck=d.querySelector('.manager-resource-settings input[type=checkbox]');managerCheck.click();await until(()=>requests.at(-1).action==='nature-settings');assert.equal(requests.at(-1).resonancePlace,true);await until(()=>!d.querySelector('.manager-resource-settings').disabled);
 managerRole=false;await w.poll();await until(()=>!d.querySelector('.manager-resource-settings'));assert.ok([...d.querySelectorAll('.live-mechanics button')].every(b=>b.matches(':disabled')));
+// Dedicated Neuro reboot commands retain the same idempotency identity after a lost response.
+w.ownerEdits.value=true;w.data.truth={nature:'humain'};w.live.initiative=null;w.live.neuroBurned=['sacrificed-copy'];w.serverReality={neuro:{owned:[],loaded:[],capacity:2,availableCapacity:1}};await w.poll();await until(()=>d.querySelector('.neuro-reboot'));const reboot=d.querySelector('.neuro-reboot');reboot.querySelector('input[type=checkbox]').click();await wait();const rebootButton=[...reboot.querySelectorAll('button')].find(b=>b.textContent.includes('Redémarrer le Neuro'));drop=true;rebootButton.click();await until(()=>d.querySelector('[role=alert]'));const failedReboot=requests.at(-1);assert.equal(failedReboot.action,'reality-neuro-reboot');assert.equal(failedReboot.safeRestart,true);rebootButton.click();await until(()=>!d.querySelector('[role=alert]'));assert.equal(requests.at(-1).requestId,failedReboot.requestId);assert.deepEqual(requests.at(-1),failedReboot);
 assert.deepEqual(errors,[]);w.stop();w.close();console.log('PLAY DOM OK — precalculated totals, prepared augmentation toggle, automatic save before roll, explosion rendering, retry identity and no Vue errors.');
