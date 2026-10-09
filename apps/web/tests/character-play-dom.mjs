@@ -7,20 +7,20 @@ import {parse,compileScript} from '@vue/compiler-sfc';
 import {JSDOM,VirtualConsole} from 'jsdom';
 const root=fileURLToPath(new URL('../',import.meta.url));
 const bundle=await build({stdin:{resolveDir:root,loader:'ts',contents:`
- import {createApp,h,reactive} from 'vue';
+ import {createApp,h,reactive,ref} from 'vue';
  import CharacterPlay from './src/components/CharacterPlay.vue';
  import {blankPlayState,playProfile} from '../api/src/rules/play-state';
- const data=reactive({attributes:{vigueur:4,agilite:3},skills:{athletisme:{style:6},constitution:{style:4}},creation:{},truth:{nature:'humain'},talents:{},reality:{augmentations:[{itemId:'realignement_spinal'}]},progression:{}});window.data=data;
+ const data=reactive({attributes:{vigueur:4,agilite:3},skills:{athletisme:{style:6},constitution:{style:4}},creation:{},truth:{nature:'humain'},talents:{},reality:{augmentations:[{itemId:'augmentation-v9-main-gecko-g2'}]},progression:{}});window.data=data;window.ownerEdits=ref(true);
  window.live=blankPlayState();window.profile=()=>playProfile(data,window.live);
- const app=createApp({render:()=>h(CharacterPlay,{id:'11111111-1111-4111-8111-111111111111',data,sheet:{name:'Nikos',realityTalents:[],truthTalents:[],inventory:[]},canEdit:true})});
+ const app=createApp({render:()=>h(CharacterPlay,{id:'11111111-1111-4111-8111-111111111111',data,sheet:{name:'Nikos',realityTalents:[],truthTalents:[],inventory:[]},canEdit:window.ownerEdits.value})});
  app.mount('#app');window.stop=()=>app.unmount();
 `},bundle:true,write:false,format:'iife',platform:'browser',define:{'process.env.NODE_ENV':'"test"',__VUE_OPTIONS_API__:'true',__VUE_PROD_DEVTOOLS__:'false'},plugins:[{name:'vue',setup(b){b.onLoad({filter:/\.vue$/},async({path:filename})=>{const {descriptor}=parse(await readFile(filename,'utf8'));return {contents:compileScript(descriptor,{id:'play-test',inlineTemplate:true}).content,loader:'ts',resolveDir:path.dirname(filename)};});}}]});
 const errors=[],vc=new VirtualConsole();vc.on('jsdomError',e=>errors.push(e.message));
-const dom=new JSDOM('<div id="app"></div>',{url:'https://test.invalid',runScripts:'outside-only',virtualConsole:vc});const w=dom.window,d=w.document;w.Headers=Headers;
-let edge=5,version=0,events=[],lastRequest,drop=false;const requests=[];
+const dom=new JSDOM('<div id="app"></div>',{url:'https://test.invalid',runScripts:'outside-only',pretendToBeVisual:true,virtualConsole:vc});const w=dom.window,d=w.document;w.Headers=Headers;
+let edge=5,version=0,events=[],lastRequest,drop=false,managerRole=false;const requests=[];w.setInterval=fn=>{w.poll=fn;return 1;};w.clearInterval=()=>{};
 w.fetch=async(url,options={})=>{
  const b=options.body?JSON.parse(options.body):null;let body;
- if(!b)body={edge,state:w.live,version,events};
+ if(!b)body={edge,state:w.live,version,events,profile:w.profile(),canManageMechanics:managerRole};
  else{
   requests.push(b);
   if(lastRequest?.requestId===b.requestId){assert.deepEqual(b,lastRequest);body={ok:true,alreadyApplied:true};}
@@ -36,8 +36,8 @@ const wait=()=>new Promise(r=>setTimeout(r,5));async function until(fn){for(let 
 w.eval(bundle.outputFiles[0].text);await until(()=>d.querySelector('[aria-label="Lancer le d10 pour Athlétisme"]'));
 const athletics=()=>[...d.querySelectorAll('.skill-roll')].find(e=>e.querySelector('strong').textContent==='Athlétisme');
 assert.match(athletics().textContent,/4 \+ 6 = 10/);
-const spinal=[...athletics().querySelectorAll('label')].find(e=>e.textContent.includes('Réalignement spinal'));assert.ok(spinal);spinal.querySelector('input').click();await wait();assert.match(athletics().textContent,/4 \+ 6\s*\+ 1 = 11/);
-d.querySelector('[aria-label="Lancer le d10 pour Athlétisme"]').click();await until(()=>d.querySelectorAll('.die').length===2);assert.deepEqual(requests.map(r=>r.action),['save','roll']);assert.match(d.querySelector('.roll-result').textContent,/11 \+ 10 \+ 4 = 25/);
+const spinal=[...athletics().querySelectorAll('label')].find(e=>e.textContent.includes('Main Gecko'));assert.ok(spinal);spinal.querySelector('input').click();await wait();assert.match(athletics().textContent,/4 \+ 6\s*\+ 2 = 12/);
+d.querySelector('[aria-label="Lancer le d10 pour Athlétisme"]').click();await until(()=>d.querySelectorAll('.die').length===2);assert.deepEqual(requests.map(r=>r.action),['save','roll']);assert.match(d.querySelector('.roll-result').textContent,/12 \+ 10 \+ 4 = 26/);
 // A lost response can be safely retried from the same button.
 drop=true;d.querySelector('[aria-label="Lancer le d10 pour Athlétisme"]').click();await until(()=>d.querySelector('[role=alert]'));const lost=requests.at(-1).requestId;d.querySelector('[aria-label="Lancer le d10 pour Athlétisme"]').click();await until(()=>!d.querySelector('[role=alert]'));assert.equal(requests.at(-1).requestId,lost);
 w.data.truth={nature:'garou',consciousness:'initie',choices:{},truthTalents:[]};await wait();
@@ -47,4 +47,8 @@ const jetsTab=[...d.querySelectorAll('.play-tabs button')].find(b=>b.textContent
 const search=d.querySelector('.skill-tools input[type=search]');search.value='athletisme';search.dispatchEvent(new w.Event('input',{bubbles:true}));await wait();assert.equal(d.querySelectorAll('.skill-roll').length,1);
 const edgeToggle=d.querySelector('.skill-tools input[type=checkbox]');assert.equal(edgeToggle.disabled,false);edgeToggle.click();await wait();d.querySelector('[aria-label="Lancer le d10 pour Athlétisme"]').click();await until(()=>requests.at(-1).edge===true);await until(()=>!d.querySelector('[aria-label="Lancer le d10 pour Athlétisme"]').disabled);
 const statesTab=[...d.querySelectorAll('.play-tabs button')].find(b=>b.textContent==='États & PV');statesTab.click();await wait();assert.equal(statesTab.getAttribute('aria-pressed'),'true');assert.equal(d.querySelector('.skill-tools').style.display,'none');
+// The campaign MJ can invoke dedicated resource commands, while regular player editing stays disabled.
+managerRole=true;w.ownerEdits.value=false;w.live.revelation='r';w.data.truth={nature:'daemon',consciousness:'initie',choices:{divinity:'lilith',function:'oracle'},truthTalents:[]};await w.poll();await until(()=>d.querySelector('.manager-resource-settings'));
+assert.ok(d.querySelector('.manager-play-notice'));assert.ok(d.querySelector('[aria-label="Lancer le d10 pour Athlétisme"]').disabled);const managerCheck=d.querySelector('.manager-resource-settings input[type=checkbox]');managerCheck.click();await until(()=>requests.at(-1).action==='nature-settings');assert.equal(requests.at(-1).resonancePlace,true);await until(()=>!d.querySelector('.manager-resource-settings').disabled);
+managerRole=false;await w.poll();await until(()=>!d.querySelector('.manager-resource-settings'));assert.ok([...d.querySelectorAll('.live-mechanics button')].every(b=>b.matches(':disabled')));
 assert.deepEqual(errors,[]);w.stop();w.close();console.log('PLAY DOM OK — precalculated totals, prepared augmentation toggle, automatic save before roll, explosion rendering, retry identity and no Vue errors.');

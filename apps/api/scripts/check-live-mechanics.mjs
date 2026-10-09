@@ -15,11 +15,11 @@ export async function checkLiveMechanics({pool,call,player,character}){
  resetLivePeriod(state,'scenario');assert.deepEqual(state.powerUses,{});
  assert.equal(reserveHealing(data,state,12,12,0),0);assert.deepEqual(state.powerUses,{});
  assert.equal(reserveHealing(data,state,2,12,2),3);assert.equal(reserveHealing(data,state,2,12,2),0);
- const mosen={...data,truth:{...data.truth,choices:{species:'mosen'},truthTalents:['extral-reflexe-de-chasse']}};
+ const mosen={...data,truth:{...data.truth,choices:{species:'mosen'},truthTalents:['extral-poussee-hormonale','extral-reflexe-de-chasse']}};
  state.revelation='v';assert.equal(defenseOptions(mosen,state,{damageType:'physique',surprise:false},true).length,0);
  state.revelation='r';assert.equal(defenseOptions(mosen,state,{damageType:'physique',surprise:true},true)[0].available,false);
  assert.equal(defenseOptions(mosen,state,{damageType:'physique',surprise:false},true)[0].available,true);
- const garou={...data,truth:{nature:'garou',consciousness:'initie',choices:{blood:'sang_predateur',pelage:'gris'},truthTalents:[]}};
+ const garou={...data,truth:{nature:'garou',consciousness:'initie',choices:{blood:'sang_naturel',pelage:'gris'},truthTalents:[]}};
  assert.equal(hourlyRecovery(garou,{...blankPlayState(),revelation:'v'}),0);
  assert.equal(hourlyRecovery(garou,{...blankPlayState(),revelation:'r'}),1);
  assert.equal(hourlyRecovery(garou,{...blankPlayState(),revelation:'r',form:'hybrid'}),0);

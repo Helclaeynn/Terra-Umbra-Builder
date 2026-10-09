@@ -1,5 +1,5 @@
 import type {TruthState,TruthRulesPackage,TruthTalent} from './types.js';
-const norm=(s:string)=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[’']/g,' ').toLowerCase();
+const norm=(s:string)=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[’'—–-]/g,' ').replace(/\s+/g,' ').toLowerCase();
 export const isKhinae=(s:TruthState)=>s.nature==='garou'||s.nature==='khinae';
 export function khinaeAwakening(id:string){const a=id.startsWith('khinae_awaken_')?id.slice(14).split('__'):[];return a.length===2?{from:a[0]!,blood:a[1]!}:null;}
 export function khinaeBloodOptions(pkg:TruthRulesPackage,s:TruthState){return pkg.structure.natures[s.nature]?.choices.find(c=>c.key==='blood')?.options??[];}

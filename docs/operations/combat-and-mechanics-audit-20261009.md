@@ -1,5 +1,7 @@
 # Table de jeu : combat dédié et audit des mécaniques — 9 octobre 2026
 
+> Historique du premier lot. Pour la couverture actuelle après intégration des ressources et effets, consulter [l’audit complet](full-game-mechanics-audit-20261009.md). Les limites décrites ci-dessous correspondent à l’état de ce premier lot.
+
 ## Parcours livré dans le code
 
 Le MJ ouvre le combat depuis le haut de la table. Tous les clients passent en mode combat au prochain rafraîchissement (3 secondes). Chaque PJ lance sa propre initiative ; le MJ lance celles des PNJ/créatures depuis leur carte. Une initiative ne peut être relancée dans le même combat, même après un retrait puis un retour. Arrêter le combat rétablit la vue d’exploration.
