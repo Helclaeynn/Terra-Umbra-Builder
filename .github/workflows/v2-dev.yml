@@ -38,7 +38,8 @@ jobs:
     runs-on: ubuntu-latest
     services:
       postgres:
-        image: postgres:16-alpine
+        # Official Docker image mirror avoids Docker Hub's shared-runner pull quota.
+        image: public.ecr.aws/docker/library/postgres:16-alpine
         env:
           POSTGRES_USER: tuc
           POSTGRES_PASSWORD: ci-only-placeholder
