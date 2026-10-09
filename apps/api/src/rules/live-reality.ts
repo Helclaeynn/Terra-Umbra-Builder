@@ -153,6 +153,21 @@ export function neuroSacrifice(data:any,state:RealityLiveState,catalog:LiveReali
  for(const selectedProgram of selected){const purchase=data.reality.equipment.find((x:any)=>(x.uid??x.itemId)===(selectedProgram.uid??selectedProgram.itemId));purchase.quantity=Math.max(0,(Number.isSafeInteger(purchase.quantity)?purchase.quantity:1)-1);purchase.loaded=false;}
  return {payload:{label:'Neuroprogrammes sacrifiés',programs:selected.map((p:any)=>({uid:p.uid??p.itemId,name:p.item.name})),reduction:3*selected.length}};
 }
+/** A safe restart after pressure ends restores slots, never local copies or
+ * licences destroyed by sacrifice. Loading fresh copies remains a separate act. */
+export function rebootNeuro(data:any,state:RealityLiveState,ctx:{inCombat:boolean;safeRestart?:unknown}){
+ if(ctx.inCombat)return {error:'neuro_restart_outside_combat'};
+ if(ctx.safeRestart!==true)return {error:'neuro_safe_restart_required'};
+ if(state.unconscious||state.hp!==undefined&&state.hp!==null&&state.hp<=0)return {error:'actor_unavailable'};
+ // Eligibility depends on explicit interface IDs and permanent rank, not on a
+ // program's lore or on whether an unburned local copy remains available.
+ const profile=loadedNeuroPrograms(data,state,{equipment:[],augmentations:[]});
+ if(!profile.eligible)return {error:'neuro_unavailable'};
+ const restored=new Set(state.neuroBurned??[]).size;
+ const unloaded=state.neuroLoaded??(data.reality?.equipment??[]).filter((p:any)=>p.quantity!==0&&p.loaded===true).map((p:any)=>p.uid??p.itemId);
+ state.neuroBurned=[];state.neuroLoaded=[];
+ return {payload:{label:'Redémarrage sûr du système Neuro',slotsRestored:restored,unloaded,paCost:0,copiesRestored:0}};
+}
 
 type ChargedWeapon={inventoryUID?:string;capacity?:number|null;properties?:string};
 const validCharge=(value:unknown,maximum=10000):value is number=>Number.isSafeInteger(value)&&Number(value)>=0&&Number(value)<=maximum;
