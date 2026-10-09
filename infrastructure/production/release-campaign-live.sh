@@ -82,7 +82,7 @@ trap rollback EXIT
 docker compose exec -T -e PGOPTIONS='-c lock_timeout=10000 -c statement_timeout=60000' db sh -c 'psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -v ON_ERROR_STOP=1' < "$stage/infrastructure/migrations/20261003_campaign_live.sql"
 {
  printf 'BEGIN;\n'
- for migration in 20261003_campaign_rounds.sql 20261003_live_sessions_edge.sql; do
+ for migration in 20261003_campaign_rounds.sql 20261003_live_sessions_edge.sql 20261009_combat_roster.sql; do
   cat "$stage/infrastructure/migrations/$migration"
   printf '\n'
  done

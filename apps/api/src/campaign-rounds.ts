@@ -1,13 +1,15 @@
-import {randomInt,randomUUID} from 'node:crypto';
-import {blankPlayState,playProfile,rollD10,type PlayState} from './rules/play-state.js';
+import {randomUUID} from 'node:crypto';
+import {blankPlayState,playProfile,type PlayState} from './rules/play-state.js';
 import {liveBody} from './rules/play-truth.js';
 
 type Db={query:(...args:any[])=>Promise<any>};
-export const emptyCombat=()=>({active:false,mode:'manual',round:1,turns:{} as Record<string,number>,version:0});
+export const emptyCombat=()=>({active:false,mode:'manual',round:1,turns:{} as Record<string,number>,participants:{} as Record<string,{participating:boolean;side:string}>,version:0});
 // All live mutations acquire this lock BEFORE any participant lock.
 export async function lockCombat(db:Db,id:string|null){if(id)await db.query('SELECT pg_advisory_xact_lock(hashtext($1))',['campaign-combat:'+id]);}
-export async function combatState(db:Db,id:string|null){if(!id)return emptyCombat();return (await db.query('SELECT active,mode,round,turns,version FROM campaign_combat_states WHERE campaign_id=$1',[id])).rows[0]??emptyCombat();}
-async function writeCombat(db:Db,id:string,s:any){await db.query(`INSERT INTO campaign_combat_states(campaign_id,active,mode,round,turns,version) VALUES($1,$2,$3,$4,$5::jsonb,$6) ON CONFLICT(campaign_id) DO UPDATE SET active=EXCLUDED.active,mode=EXCLUDED.mode,round=EXCLUDED.round,turns=EXCLUDED.turns,version=EXCLUDED.version`,[id,s.active,s.mode,s.round,JSON.stringify(s.turns),s.version+1]);}
+export async function combatState(db:Db,id:string|null){if(!id)return emptyCombat();return (await db.query('SELECT active,mode,round,turns,participants,version FROM campaign_combat_states WHERE campaign_id=$1',[id])).rows[0]??emptyCombat();}
+async function writeCombat(db:Db,id:string,s:any){await db.query(`INSERT INTO campaign_combat_states(campaign_id,active,mode,round,turns,version,participants) VALUES($1,$2,$3,$4,$5::jsonb,$6,$7::jsonb) ON CONFLICT(campaign_id) DO UPDATE SET active=EXCLUDED.active,mode=EXCLUDED.mode,round=EXCLUDED.round,turns=EXCLUDED.turns,version=EXCLUDED.version,participants=EXCLUDED.participants`,[id,s.active,s.mode,s.round,JSON.stringify(s.turns),s.version+1,JSON.stringify(s.participants)]);}
+export const participates=(s:any,id:string)=>s.participants?.[id]?.participating!==false;
+export const participantInfo=(s:any,c:any)=>({participating:participates(s,c.id),side:s.participants?.[c.id]?.side??(c.kind==='character'?'ally':'neutral')});
 export async function combatActors(db:Db,id:string){
  const pcs=await db.query(`SELECT c.id,c.name,c.owner_id,c.data,s.state FROM characters c JOIN campaign_members m ON m.character_id=c.id AND m.user_id=c.owner_id AND m.campaign_id=c.campaign_id AND m.status='accepted' LEFT JOIN character_play_states s ON s.character_id=c.id WHERE c.campaign_id=$1 AND c.archived_at IS NULL ORDER BY c.id`,[id]);
  const actors=pcs.rows.map((c:any)=>{const state={...blankPlayState(),...c.state},p=playProfile(c.data,state);return {...c,state,kind:'character',visible:state.share,pa:p.pa,initiative:state.initiative,hp:p.hp,death:p.derived.death,profile:p};});
@@ -30,7 +32,7 @@ async function saveActor(db:Db,c:any){
 async function log(db:Db,id:string,user:string,kind:string,payload:any,visible=true){await db.query(`INSERT INTO campaign_live_events(id,campaign_id,created_by,kind,payload,request_payload,public) VALUES($1,$2,$3,$4,$5::jsonb,'{}'::jsonb,$6)`,[randomUUID(),id,user,kind,JSON.stringify(payload),visible]);}
 export async function nextCombatRound(db:Db,id:string,user:string,s:any,actors:any[],automatic=false){
  s.round++;s.turns={};
- for(const c of actors){if(c.initiative===null)continue;
+ for(const c of actors){if(c.initiative===null||!participates(s,c.id))continue;
   if(c.kind==='character'){c.state.round=s.round-1;advanceCharacterRound(c.data,c.state);}
   else{c.round=s.round;c.pa=c.hp<=c.death?0:c.hp<=0?Math.min(c.pa_per_round,1):c.pa_per_round;}
   await saveActor(db,c);
@@ -41,6 +43,14 @@ export async function nextCombatRound(db:Db,id:string,user:string,s:any,actors:a
 export async function manageCombat(db:Db,id:string,user:string,b:any){
  const s=await combatState(db,id);
  if(b.version!==s.version)return 'combat_version_conflict';
+ if(b.action==='combat-participant'){
+  const actor=(await combatActors(db,id)).find(c=>c.id===b.actorId);
+  if(!actor)return 'participant_not_found';
+  if(typeof b.participating!=='boolean'||!['ally','enemy','neutral'].includes(b.side))return 'invalid_participant';
+  if(s.active&&participates(s,actor.id)!==b.participating&&await pendingAttacks(db,id))return 'pending_attacks';
+  s.participants[actor.id]={participating:b.participating,side:b.side};
+  await writeCombat(db,id,s);return null;
+ }
  if(b.action==='combat-mode'){
   if(!['manual','automatic'].includes(b.mode))return 'invalid_combat_mode';s.mode=b.mode;await writeCombat(db,id,s);return null;
  }
@@ -48,17 +58,14 @@ export async function manageCombat(db:Db,id:string,user:string,b:any){
  if(b.action!=='combat-start'&&!s.active)return 'combat_not_started';
  if(await pendingAttacks(db,id))return 'pending_attacks';
  const actors=await combatActors(db,id);
- if(b.action==='combat-round'){await nextCombatRound(db,id,user,s,actors);return null;}
+ if(b.action==='combat-round'){if(actors.some(c=>c.visible&&participates(s,c.id)&&c.hp>c.death&&c.initiative===null))return 'initiatives_pending';await nextCombatRound(db,id,user,s,actors);return null;}
  s.active=b.action==='combat-start';s.round=1;s.turns={};
  for(const c of actors){
   if(s.active){
-   if(c.hp<=c.death)continue;
-   const stress=c.kind==='character'?c.profile.stress:c.hp<=c.pv_max*.25?2:c.hp<=c.pv_max*.5?1:0;
-   const die=rollD10(stress,()=>randomInt(1,11)),modifier=c.kind==='character'?c.profile.derived.initiative:c.initiative_bonus,total=modifier+die.sum;
-   const base=c.kind==='creature'?Math.max(1,Math.min(20,c.data.stats.actions??1)):die.dice[0]===1?1:total>=16?3:total>=11?2:1;
-   if(c.kind==='character'){Object.assign(c.state,{initiative:total,round:1,paPerRound:base,pa:base+(liveBody(c.data,c.state)?.pace??0),formPaRound:0});if(c.state.muePending)c.state.muePending=2;c.state.pa=playProfile(c.data,c.state).pa;}
-   else{Object.assign(c,{initiative:total,round:1,pa_per_round:base,pa:c.hp<=0?Math.min(base,1):base});}
-   await log(db,id,user,'initiative',{label:'Initiative',characterName:c.name,characterId:c.kind==='character'?c.id:null,modifier,...die,total,stress},c.visible);
+   if(c.kind==='character'){
+    Object.assign(c.state,{initiative:null,round:1,paPerRound:0,pa:0,formPaRound:0});
+    if(c.state.muePending)c.state.muePending=2;
+   }else Object.assign(c,{initiative:null,round:1,pa_per_round:0,pa:0});
   }else if(c.kind==='character'){
    Object.assign(c.state,{initiative:null,pa:0,paPerRound:0,powers:[],mueBlocked:false});
    c.state.powerUses=Object.fromEntries(Object.entries(c.state.powerUses??{}).filter(([k])=>!k.startsWith('scene:')&&!k.startsWith('round:')));
@@ -74,11 +81,11 @@ export async function recordAction(db:Db,id:string|null,actor:string,cost:number
 }
 export async function maybeAdvanceCombat(db:Db,id:string|null,user:string){
  if(!id)return;const s=await combatState(db,id);if(!s.active||s.mode!=='automatic')return;
- const actors=await combatActors(db,id),visible=actors.filter(c=>c.visible&&c.initiative!==null&&c.hp>c.death);
- if(!visible.length||visible.some(c=>c.pa>0)||await pendingAttacks(db,id))return;
+ const actors=await combatActors(db,id),visible=actors.filter(c=>c.visible&&participates(s,c.id)&&c.hp>c.death);
+ if(!visible.length||visible.some(c=>c.initiative===null||c.pa>0)||await pendingAttacks(db,id))return;
  await nextCombatRound(db,id,user,s,actors,true);
 }
 export function combatQueue(actors:any[],s:any){
- return actors.map(c=>({id:c.id,initiative:c.initiative,pass:s.active&&c.initiative!==null&&c.pa>0?(s.turns[c.id]??0)+1:null}))
+ return actors.map(c=>({id:c.id,initiative:c.initiative,pass:s.active&&participates(s,c.id)&&c.initiative!==null&&c.pa>0?(s.turns[c.id]??0)+1:null}))
  .sort((a,b)=>(s.active?(a.pass??Infinity)-(b.pass??Infinity):0)||(b.initiative??-Infinity)-(a.initiative??-Infinity)||a.id.localeCompare(b.id));
 }

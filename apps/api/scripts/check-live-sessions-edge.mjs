@@ -56,6 +56,7 @@ export async function checkLiveSessionsEdge({pool,call,player,other,manager,camp
  await pool.query("UPDATE character_play_states SET state=state||$2::jsonb WHERE character_id=$1",[character,JSON.stringify({hp:null,pa:3,initiative:18,round:1,paPerRound:3})]);
  const npc=(await pool.query('SELECT id FROM campaign_live_combatants WHERE campaign_id=$1 AND visible AND NOT removed LIMIT 1',[campaign])).rows[0].id;
  await pool.query('UPDATE campaign_live_combatants SET pa=3,initiative=30 WHERE id=$1',[npc]);
+ await pool.query("UPDATE campaign_combat_states SET active=true,mode='manual' WHERE campaign_id=$1",[campaign]);
  const combat=`/api/campaigns/${campaign}/combat`,beforeAttack=(await call(player,'GET',cp)).edge;
  const attack={requestId:randomUUID(),action:'launch',attackerId:character,targetId:npc,optionId:'unarmed',bonus:0,bonusDamage:0,surprise:false,edge:true};
  await call(player,'POST',combat,attack);await call(player,'POST',combat,attack);

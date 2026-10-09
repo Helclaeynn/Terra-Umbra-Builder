@@ -1,5 +1,5 @@
 import {edgeBalance,spendEdge,forcedDie} from './character-edge.js';
-import {lockCombat,recordAction,maybeAdvanceCombat} from './campaign-rounds.js';
+import {combatState,participates,lockCombat,recordAction,maybeAdvanceCombat} from './campaign-rounds.js';
 import {repairedCombatantData} from './campaign-live-catalog.js';
 import {damageCalculation,weaponMechanics} from './rules/combat-damage.js';
 export {damageCalculation} from './rules/combat-damage.js';
@@ -58,14 +58,15 @@ async function saveTarget(db:any,t:any){
 export async function registerCampaignCombatRoutes(app:FastifyInstance){
  app.get<{Params:{id:string}}>('/api/campaigns/:id/combat',async(req,reply)=>{
   reply.header('Cache-Control','private, no-store');const user=await requireUser(req,reply);if(!user)return;if(!uuid(req.params.id))return reply.code(404).send({error:'campaign_not_found'});const access=await member(pool,req.params.id,user);if(!access)return reply.code(404).send({error:'campaign_not_found'});
+  const shared=await combatState(pool,req.params.id);
   const rows=await pool.query(`SELECT id,payload FROM campaign_live_events WHERE campaign_id=$1 AND kind='attack' AND NOT EXISTS(SELECT 1 FROM campaign_live_events done WHERE done.campaign_id=$1 AND done.kind IN ('resolve','cancel') AND done.payload->>'attackId'=campaign_live_events.id::text) ORDER BY created_at`,[req.params.id]);
   const pending=[];for(const e of rows.rows){const t=await target(pool,req.params.id,e.payload.targetId);if(!t||!access.manager&&t.owner_id!==user.id)continue;
    const defense=await pool.query("SELECT payload FROM campaign_live_events WHERE campaign_id=$1 AND kind='defend' AND payload->>'attackId'=$2 ORDER BY created_at LIMIT 1",[req.params.id,e.id]);
-   pending.push({id:e.id,...e.payload,...(!access.manager&&!e.payload.public?{attacker:'Attaquant non révélé'}:{}),target:{id:t.id,name:t.name,edge:t.kind==='character'?await edgeBalance(pool,t.id,t.data):null,defense:t.defense,occultDefense:t.occultDefense,armor:t.armor,bodyArmor:t.bodyArmor??0,reductions:t.reductions??{},protections:t.protections,pa:t.pa,hp:t.hp,canDefend:t.hp>0&&t.pa>0&&t.initiative!==null},defense: defense.rows[0]?.payload??null});
+   pending.push({id:e.id,...e.payload,...(!access.manager&&!e.payload.public?{attacker:'Attaquant non révélé'}:{}),target:{id:t.id,name:t.name,edge:t.kind==='character'?await edgeBalance(pool,t.id,t.data):null,defense:t.defense,occultDefense:t.occultDefense,armor:t.armor,bodyArmor:t.bodyArmor??0,reductions:t.reductions??{},protections:t.protections,pa:t.pa,hp:t.hp,canDefend:shared.active&&participates(shared,t.id)&&t.hp>0&&t.pa>0&&t.initiative!==null},defense: defense.rows[0]?.payload??null});
   }
   const characterIds=await pool.query(`SELECT c.id FROM characters c JOIN campaign_members m ON m.character_id=c.id AND m.user_id=c.owner_id AND m.campaign_id=c.campaign_id AND m.status='accepted' WHERE c.campaign_id=$1 AND c.archived_at IS NULL AND ($3::boolean OR c.owner_id=$2)`,[req.params.id,user.id,access.manager]);
   const npcIds=access.manager?await pool.query('SELECT id FROM campaign_live_combatants WHERE campaign_id=$1 AND NOT removed',[req.params.id]):{rows:[]};
-  const attackers=[];for(const row of [...characterIds.rows,...npcIds.rows]){const t=await target(pool,req.params.id,row.id);if(t)attackers.push({id:t.id,name:t.name,edge:t.kind==='character'?await edgeBalance(pool,t.id,t.data):null,options:attackOptions(t,access.manager)});}
+  const attackers=[];for(const row of [...characterIds.rows,...npcIds.rows]){const t=await target(pool,req.params.id,row.id);if(t&&participates(shared,t.id))attackers.push({id:t.id,name:t.name,ready:shared.active&&t.initiative!==null&&t.pa>0&&t.hp>0&&!t.state?.muePending,initiativePending:t.initiative===null,pa:t.pa,edge:t.kind==='character'?await edgeBalance(pool,t.id,t.data):null,options:attackOptions(t,access.manager)});}
   return {pending,attackers,canManage:access.manager,...(access.manager?{weapons:[...BESTIARY_WEAPONS].sort((a,b)=>a.group.localeCompare(b.group,'fr')||a.name.localeCompare(b.name,'fr'))}:{})};
  });
  app.post<{Params:{id:string};Body:any}>('/api/campaigns/:id/combat',async(req,reply)=>{
@@ -74,6 +75,9 @@ export async function registerCampaignCombatRoutes(app:FastifyInstance){
    const access=await member(db,req.params.id,user);if(!access)return await fail(404,'campaign_not_found');
    await lockCombat(db,req.params.id);
    await db.query('SELECT pg_advisory_xact_lock(hashtext($1))',[b.requestId]);const previous=await db.query('SELECT campaign_id,created_by,request_payload FROM campaign_live_events WHERE id=$1',[b.requestId]);if(previous.rowCount){if(previous.rows[0].campaign_id!==req.params.id||previous.rows[0].created_by!==user.id||!isDeepStrictEqual(previous.rows[0].request_payload,b))return await fail(409,'combat_request_conflict');await db.query('COMMIT');return {ok:true,alreadyApplied:true};}
+   const shared=await combatState(db,req.params.id);
+   if(['launch','attack','spend'].includes(b.action)&&!shared.active)return await fail(400,'combat_not_started');
+   if(['launch','spend'].includes(b.action)&&!participates(shared,b.attackerId??b.actorId))return await fail(400,'participant_out');
    let payload:any,publicEvent=false;
    if(b.action==='grace'){
     if(!access.manager)return await fail(403,'mj_only');
@@ -127,7 +131,7 @@ export async function registerCampaignCombatRoutes(app:FastifyInstance){
     if(b.action==='cancel'){if(!access.manager)return await fail(403,'mj_only');payload.label='Attaque annulée';}
     else if(b.action==='defend'){
      if(d.rowCount)return await fail(409,'defense_already_chosen');if(typeof b.active!=='boolean'||!integer(b.bonus,-100))return await fail(400,'invalid_defense');
-     if(b.active&&(a.surprise||t.hp<=0||t.pa<1||t.initiative===null||a.narrativeFailure))return await fail(400,'active_defense_unavailable');
+     if(b.active&&(!shared.active||!participates(shared,t.id)||a.surprise||t.hp<=0||t.pa<1||t.initiative===null||a.narrativeFailure))return await fail(400,'active_defense_unavailable');
      if(b.edge!==undefined&&typeof b.edge!=='boolean')return await fail(400,'invalid_edge');
      if(b.edge){if(!b.active||t.kind!=='character')return await fail(400,'edge_players_only');const error=await spendEdge(db,t.id,t.data,b.requestId,'force');if(error)return await fail(400,error);}
      const base=['occulte','neuro'].includes(a.damageType)?t.occultDefense:t.defense,die=b.active?(b.edge?forcedDie():rollD10(t.stress,()=>randomInt(1,11))):null;
