@@ -67,3 +67,5 @@ Le complément de soutiens/réactions ajoute les tests API de consentement, reje
 La recette de ce complément a réussi sur `b2e9fe1f16ccf219b9e85c2d6eb9235117eddf90`, [CI `37940435998`](https://github.com/Helclaeynn/Terra-Umbra-Builder/actions/runs/37940435998) : API/PostgreSQL, UI, PDF, Chrome à 1 440/390/320 pixels et Compose. Le déploiement a été désactivé par le garde du serveur de production.
 
 Le complément [Foudre/Paratonnerre](audit-lightning-20261009.md) ajoute deux résolutions dédiées sans changer le total canonique : attaque de Foudre standard à 20 m, marge + DGT 7, protections réellement électriques, réaction personnelle à 1 PA et 1/round, Edge avant/après. Les variantes, zones et effets sur circuits restent assistés.
+
+Ce complément est validé sur `b817dc100d420f09bfa608e2fdce5d923e5ce30c`, [CI 37991948220](https://github.com/Helclaeynn/Terra-Umbra-Builder/actions/runs/37991948220) : API/PostgreSQL, UI, PDF, Chrome à 1 440/390/320 pixels et Compose. Le miroir officiel ECR débloque le téléchargement de PostgreSQL pour les tests. Le garde du serveur de production a désactivé le déploiement.

@@ -35,3 +35,9 @@ Exécution : `rules/lightning.ts`, `rules/combat-damage.ts`, `campaign-combat.ts
 Les attaques du personnage utilisent le journal existant et les projections publiques existantes. Les détails privés de Paratonnerre et la destination de la décharge ne sont pas ajoutés au journal public des autres joueurs. Le MJ conserve le résultat complet et les PV ; le propriétaire dispose de sa réaction détaillée. Les tests API et DOM couvrent les permissions, prérequis, Révélation, portée, protection électrique, rejeu, horloges, Edge avant/après et conservation de la Rune après diversion. La recette Chrome ajoute les commandes de Foudre et Paratonnerre à 1 440, 390 et 320 pixels.
 
 Restent assistés : Conduction sur circuit, Décharge maîtrisée, Foudre originelle et ses enseignements, Déferlement originel, Brise-magie, Arc en chaîne, Orage aseryn, Noire-Foudre, Foudre vaporeuse et Foudre du Silence. Les effets électriques hors d’une attaque enregistrée, les dégâts de zone et les capacités narratives de PNJ n’ont pas un nouveau moteur universel. Le MJ peut toujours diriger un jet existant vers une cible avec le régime Foudre et le vecteur Électricité.
+
+## Validation et livraison
+
+Implémentation : `096d14632ea2c057d45868f7835102c5c0e00a32`. Validation complète sur `b817dc100d420f09bfa608e2fdce5d923e5ce30c`, [CI 37991948220](https://github.com/Helclaeynn/Terra-Umbra-Builder/actions/runs/37991948220) : API/PostgreSQL, suites UI et PDF, parcours Chrome à 1 440/390/320 pixels, Compose. Les logs confirment les tests LIGHTNING PURE, API et DOM et la diversion personnelle à chaque largeur. La base PostgreSQL temporaire des tests utilise le miroir officiel ECR après deux refus de téléchargement pour quota Docker Hub.
+
+Publié sur `feature/tuc-web-v2`. Le garde `production-active` a désactivé le déploiement sur le serveur de production. Aucun personnage, inventaire ou état de séance de production n’a été modifié par cette livraison.
