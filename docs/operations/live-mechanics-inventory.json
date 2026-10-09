@@ -28,8 +28,9 @@
     "Vérité · garou": {
       "total": 68,
       "coverage": {
-        "texte / activation assistée": 55,
+        "texte / activation assistée": 54,
         "action dédiée / calcul ciblé": 12,
+        "résolution ciblée / réaction serveur": 1,
         "définition contrôlée / résolution externe": 1
       }
     },
@@ -62,16 +63,18 @@
     "Vérité · aseryn": {
       "total": 100,
       "coverage": {
-        "texte / activation assistée": 89,
-        "action dédiée / calcul ciblé": 11
+        "texte / activation assistée": 88,
+        "action dédiée / calcul ciblé": 11,
+        "résolution ciblée / réaction serveur": 1
       }
     },
     "Vérité · exile": {
       "total": 184,
       "coverage": {
-        "texte / activation assistée": 146,
+        "texte / activation assistée": 142,
         "action dédiée / calcul ciblé": 35,
         "calcul passif ciblé": 2,
+        "résolution ciblée / réaction serveur": 4,
         "définition contrôlée / résolution externe": 1
       }
     },
@@ -79,9 +82,10 @@
       "total": 162,
       "coverage": {
         "action dédiée / calcul ciblé": 30,
-        "texte / activation assistée": 126,
+        "texte / activation assistée": 125,
         "définition contrôlée / résolution externe": 1,
-        "calcul passif ciblé": 5
+        "calcul passif ciblé": 5,
+        "résolution ciblée / réaction serveur": 1
       }
     },
     "Traits · vampire": {
@@ -93,7 +97,8 @@
     "Traits · garou": {
       "total": 13,
       "coverage": {
-        "trait conditionnel / calcul partiel": 13
+        "trait conditionnel / calcul partiel": 12,
+        "réaction serveur / cible redirigée": 1
       }
     },
     "Traits · khinae": {
@@ -6987,13 +6992,15 @@
       "name": "Riposte du Gardien",
       "source": "regles-verite-v7-garou-nature-formes-frenesie-pelages",
       "canonicalEffect": "Après s’être interposé, +3 à sa prochaine attaque contre l’agresseur avant la fin du round suivant.\nRespecter le délai jusqu’à la fin du round suivant et la cible : l’agresseur de l’interposition. Le PA d’attaque reste normal.",
-      "coverage": "texte / activation assistée",
+      "coverage": "résolution ciblée / réaction serveur",
       "access": "R",
-      "implemented": [],
-      "remaining": [
-        "Cible, contexte, opposition et conséquences particulières à résoudre explicitement."
+      "implemented": [
+        "Après interposition du Gardien : +3 au prochain jet d’attaque contre le même agresseur, jusqu’à la fin du round suivant ; consommation au jet."
       ],
-      "audit": "audit-truth-capabilities-20261009.md"
+      "remaining": [
+        "Déplacement et interposition physiquement possibles confirmés."
+      ],
+      "audit": "audit-targeted-reactions-20261009.md"
     },
     {
       "family": "Vérité · garou",
@@ -13679,13 +13686,16 @@
       "name": "Interposition",
       "source": "regles-verite-v7-aseryn-treize-dratyn-conseil-foudre",
       "canonicalEffect": "Réaction — 1 PA Lorsqu'un allié situé à 2 m maximum est directement ciblé par une attaque physique, Caendis peut se déplacer dans la trajectoire si cela est matériellement possible et devenir la cible de l'attaque.",
-      "coverage": "texte / activation assistée",
+      "coverage": "résolution ciblée / réaction serveur",
       "access": "",
-      "implemented": [],
-      "remaining": [
-        "Cible, contexte, opposition et conséquences particulières à résoudre explicitement."
+      "implemented": [
+        "Réaction avant défense/résolution ; 1 PA ; quota aucun ; portée 2.",
+        "Changement de cible ; protections et défense du véritable intervenant."
       ],
-      "audit": "audit-truth-capabilities-20261009.md"
+      "remaining": [
+        "Alliance, perception et trajectoire physiquement possibles confirmées ; une intervention par attaque."
+      ],
+      "audit": "audit-targeted-reactions-20261009.md"
     },
     {
       "family": "Vérité · aseryn",
@@ -15792,13 +15802,16 @@
       "name": "Suture",
       "source": "regles-verite-v7-exiles-silcenters-hds-croix-runes-reseaux-hordes-technomagie",
       "canonicalEffect": "Au contact d'une creature vivante, stabilisez automatiquement une hémorragie ou une blessure qui pourrait être stabilisee par des soins physiques ordinaires. Sur un Agonisant, le Talent le Stabilise si rien ne rend la stabilisation impossible.",
-      "coverage": "texte / activation assistée",
+      "coverage": "résolution ciblée / réaction serveur",
       "access": "R",
-      "implemented": [],
-      "remaining": [
-        "Cible, contexte, opposition et conséquences particulières à résoudre explicitement."
+      "implemented": [
+        "Au contact d’une créature vivante ; la blessure peut être stabilisée par des soins physiques ordinaires.",
+        "Coût 1 PA sous pression ; consentement du bénéficiaire ou application MJ ; mutation atomique et rejeu contrôlé."
       ],
-      "audit": "audit-truth-capabilities-20261009.md"
+      "remaining": [
+        "Contact, blessure ordinaire ou support porté confirmé dans la fiction."
+      ],
+      "audit": "audit-targeted-reactions-20261009.md"
     },
     {
       "family": "Vérité · exile",
@@ -15820,13 +15833,16 @@
       "name": "Réfection vitale",
       "source": "regles-verite-v7-exiles-silcenters-hds-croix-runes-reseaux-hordes-technomagie",
       "canonicalEffect": "Pour 1 PA au contact, Volonté + Maîtrise spirituelle difficulté 18 rend 4 + DR PV, sans dépasser le maximum. Une même cible ne peut en bénéficier qu’une fois par scénario.\nProposition de nouvelle limite par cible/scénario, inspirée de l’arbitrage sur les nanites ; un autre lanceur ou un rechargement de page ne doit pas renouveler ce même soin sur la cible.\nLe suivi est porté par le bénéficiaire, indépendamment du lanceur ; aucune recharge au combat suivant, au rechargement de page ou à une transition V/SR/R.",
-      "coverage": "texte / activation assistée",
+      "coverage": "résolution ciblée / réaction serveur",
       "access": "R",
-      "implemented": [],
-      "remaining": [
-        "Cible, contexte, opposition et conséquences particulières à résoudre explicitement."
+      "implemented": [
+        "Au contact ; les blessures sont régénérables. Difficulté 18, soin de 4 + DR, une réussite par bénéficiaire et scénario.",
+        "Coût 1 PA sous pression ; consentement du bénéficiaire ou application MJ ; mutation atomique et rejeu contrôlé."
       ],
-      "audit": "audit-truth-capabilities-20261009.md"
+      "remaining": [
+        "Contact, blessure ordinaire ou support porté confirmé dans la fiction."
+      ],
+      "audit": "audit-targeted-reactions-20261009.md"
     },
     {
       "family": "Vérité · exile",
@@ -16140,13 +16156,16 @@
       "name": "Rune de Garde",
       "source": "regles-verite-v7-exiles-silcenters-hds-croix-runes-reseaux-hordes-technomagie",
       "canonicalEffect": "La Rune réduit de 6 les dégâts de la première atteinte surnaturelle subie, minimum 0, puis s’éteint. Un bénéficiaire ne peut recevoir cette protection qu’une fois par scénario, même après réinscription.\nInscription normale de dix minutes ; une Rune de Garde active par runiste. La protection n’est pas remise à zéro par une nouvelle scène ou un nouveau support.\nRunes : dix minutes d’inscription ordinaire ; une seule inscription active de chaque type par runiste. Durée du scénario, sauf Phrase durable ; une Phrase brève reste limitée à la scène. La Rune de Garde consommée ne se recharge jamais par changement de support ou d’auteur.\nLe suivi est porté par le bénéficiaire : nouveau lanceur, nouveau combat, réinscription, sauvegarde et changement V/SR/R ne renouvellent pas cette protection.",
-      "coverage": "texte / activation assistée",
+      "coverage": "résolution ciblée / réaction serveur",
       "access": "R",
-      "implemented": [],
-      "remaining": [
-        "Cible, contexte, opposition et conséquences particulières à résoudre explicitement."
+      "implemented": [
+        "Dix minutes d’inscription achevées, sur un support réellement porté par le bénéficiaire. Une rune active par runiste ; une protection par bénéficiaire et scénario.",
+        "Coût 0 PA sous pression ; consentement du bénéficiaire ou application MJ ; mutation atomique et rejeu contrôlé."
       ],
-      "audit": "audit-truth-capabilities-20261009.md"
+      "remaining": [
+        "Contact, blessure ordinaire ou support porté confirmé dans la fiction."
+      ],
+      "audit": "audit-targeted-reactions-20261009.md"
     },
     {
       "family": "Vérité · exile",
@@ -16724,13 +16743,15 @@
       "name": "Riposte d’Ashorn",
       "source": "regles-verite-v7-exiles-silcenters-hds-croix-runes-reseaux-hordes-technomagie",
       "canonicalEffect": "Après avoir reussi une Défense active contre une attaque de Melee ou de Pugilat, effectuez immédiatement une attaque normale de Melee ou de Pugilat contre l'attaquant sans PA supplémentaire, s'il est a portée.",
-      "coverage": "texte / activation assistée",
+      "coverage": "résolution ciblée / réaction serveur",
       "access": "V/SR/R",
-      "implemented": [],
-      "remaining": [
-        "Cible, contexte, opposition et conséquences particulières à résoudre explicitement."
+      "implemented": [
+        "Après défense active réussie contre Mêlée/Pugilat : attaque normale immédiate contre l’agresseur à portée ; 0 PA supplémentaire ; 1/scène."
       ],
-      "audit": "audit-truth-capabilities-20261009.md"
+      "remaining": [
+        "Portée réelle confirmée ; riposte à lancer avant résolution ou annulation de l’attaque initiale."
+      ],
+      "audit": "audit-targeted-reactions-20261009.md"
     },
     {
       "family": "Vérité · exile",
@@ -19615,13 +19636,16 @@
       "name": "Interposition doctrinale",
       "source": "regles-verite-v7-extrals-organisations-aidh-homo-superior-adrak",
       "canonicalEffect": "Quand un allié proche est ciblé par une attaque que le personnage perçoit et contre laquelle il peut physiquement intervenir, celui-ci effectue Agilité + Esquive + 1d10e. L’attaque doit dépasser la meilleure Défense entre celle de la cible et celle obtenue par l’intervenant. La fiction détermine s’il dévie, tire l’allié ou s’interpose ; aucune impossibilité physique n’est créée.",
-      "coverage": "texte / activation assistée",
+      "coverage": "résolution ciblée / réaction serveur",
       "access": "V/SR/R",
-      "implemented": [],
-      "remaining": [
-        "Cible, contexte, opposition et conséquences particulières à résoudre explicitement."
+      "implemented": [
+        "Réaction avant défense/résolution ; 1 PA ; quota round ; portée proximité physique confirmée.",
+        "Jet Agilité + Esquive ; meilleure défense conservée pour le bénéficiaire."
       ],
-      "audit": "audit-truth-capabilities-20261009.md"
+      "remaining": [
+        "Alliance, perception et trajectoire physiquement possibles confirmées ; une intervention par attaque."
+      ],
+      "audit": "audit-targeted-reactions-20261009.md"
     },
     {
       "family": "Vérité · extral",
@@ -19953,11 +19977,14 @@
       "name": "Gardien de la Meute",
       "source": "apps/api/src/rules/truth/runtime-structure.ts#truthRuntimeStructure.natures.garou.freeTraitRules[0].traits[0]",
       "canonicalEffect": "Lorsqu’un allié situé à moins d’un Déplacement est ciblé par une attaque physique et que l’interposition est possible, le Gris peut immédiatement se déplacer jusqu’à lui et devenir la cible de l’attaque.",
-      "coverage": "trait conditionnel / calcul partiel",
-      "remaining": [
-        "Voir audit individuel des traits : attributs et profils corporels sont calculés ; un texte ne constitue pas une action automatique."
+      "coverage": "réaction serveur / cible redirigée",
+      "implemented": [
+        "Pelage Gris, Révélé ; réaction 1 PA avant défense ; allié à moins d’un Déplacement ; cible redirigée."
       ],
-      "audit": "audit-truth-items-20261009.md"
+      "remaining": [
+        "Alliance et trajectoire physiquement possibles confirmées ; une intervention par attaque."
+      ],
+      "audit": "audit-targeted-reactions-20261009.md"
     },
     {
       "family": "Traits · garou",

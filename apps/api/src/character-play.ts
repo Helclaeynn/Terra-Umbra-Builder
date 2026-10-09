@@ -5,6 +5,7 @@ import {finishAdrenaline} from './rules/live-reality.js';
 import {consumeNatureTest} from './rules/live-nature-resources.js';
 import {liveRealityProfile} from './rules/live-reality.js';
 import {getRealityRules} from './rules/reality.js';
+import {registerCampaignTargetedPowerRoutes} from './campaign-targeted-powers.js';
 import {registerCampaignMechanicsRoutes} from './campaign-mechanics.js';
 import {isExtendedPlayAction,extendedPlayActions} from './rules/extended-actions.js';
 import {applyExtendedPlayAction,liveHealingMaximum} from './character-live-mechanics.js';
@@ -42,6 +43,7 @@ export async function registerCharacterPlayRoutes(app:FastifyInstance){
   await registerLiveSessionRoutes(app);
   await registerCampaignCombatRoutes(app);
   await registerCampaignMechanicsRoutes(app);
+  await registerCampaignTargetedPowerRoutes(app);
   app.get<{Params:{id:string}}>('/api/characters/:id/play',async(req,reply)=>{
     reply.header('Cache-Control','private, no-store');
     const user=await requireUser(req,reply);if(!user)return;
@@ -98,7 +100,7 @@ export async function registerCharacterPlayRoutes(app:FastifyInstance){
         payload={label:'Échapper au Destin · survit à la conséquence mortelle',referenceId:reference,before:profile.hp,after:state.hp};
       }else if(b.action==='save'){
         if(!validatePlayState(b.state))return await fail(400,'invalid_play_state');
-        state={...b.state,effects:state.effects,effectArmor:state.effectArmor,activation:state.activation,activationOpen:state.activationOpen,physicalPaSpent:state.physicalPaSpent,registeredPowers:state.registeredPowers,vampire:state.vampire,natureResources:state.natureResources,realityLive:state.realityLive,neuroLoaded:state.neuroLoaded,neuroBurned:state.neuroBurned,magazines:state.magazines,ammoCount:state.ammoCount,adrenaline:state.adrenaline,augmentTemporaryStress:state.augmentTemporaryStress,unconscious:b.state.unconscious??state.unconscious??false,swarmFunctional:b.state.swarmFunctional??state.swarmFunctional??true,...(c.campaign_id?{round:state.round}:{}),initiative:state.initiative,paPerRound:state.paPerRound,form:state.form,inWater:b.state.inWater===true,muePending:state.muePending,mueCount:state.mueCount,mueBlocked:state.mueBlocked,formPaRound:state.formPaRound,powers:state.powers,powerUses:state.powerUses};
+        state={...b.state,targeted:state.targeted,effects:state.effects,effectArmor:state.effectArmor,activation:state.activation,activationOpen:state.activationOpen,physicalPaSpent:state.physicalPaSpent,registeredPowers:state.registeredPowers,vampire:state.vampire,natureResources:state.natureResources,realityLive:state.realityLive,neuroLoaded:state.neuroLoaded,neuroBurned:state.neuroBurned,magazines:state.magazines,ammoCount:state.ammoCount,adrenaline:state.adrenaline,augmentTemporaryStress:state.augmentTemporaryStress,unconscious:b.state.unconscious??state.unconscious??false,swarmFunctional:b.state.swarmFunctional??state.swarmFunctional??true,...(c.campaign_id?{round:state.round}:{}),initiative:state.initiative,paPerRound:state.paPerRound,form:state.form,inWater:b.state.inWater===true,muePending:state.muePending,mueCount:state.mueCount,mueBlocked:state.mueBlocked,formPaRound:state.formPaRound,powers:state.powers,powerUses:state.powerUses};
         if(state.vampire?.stasis)state.unconscious=true;
         if(state.revelation!=='r'){state.form='human';state.muePending=null;}
         state.powers=(state.powers??[]).filter(p=>{const rule=truthPowers(c.data).find(r=>r.id===p.id);return rule&&powerAllowed(rule,state.revelation);});

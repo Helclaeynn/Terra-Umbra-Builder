@@ -1,4 +1,5 @@
 import {canSpendPhysicalPA} from './rules/live-effects.js';
+import {interpositionOptions,interpositionCheck,guardianBonus,ashornAvailable,consumeGuard} from './rules/targeted-powers.js';
 import {liveRealityProfile,realityProtection,realityWeaponProfile,realityNaturalWeapons,permitsSurprisedDefense,neuroSacrifice,weaponMagazine,consumeWeaponCharge} from './rules/live-reality.js';
 import {registeredTruthPowers} from './rules/live-power-registry.js';
 import {registeredReaction,spendRegisteredUsage,consumeRegisteredTest} from './rules/registered-power-state.js';
@@ -34,10 +35,10 @@ export function combatEquipment(data:any,npc=false){
  const owned=npc?(data.equipmentIds??[]).map((itemId:string)=>({itemId})): [...(data.reality?.equipment??[]),...(data.reality?.augmentations??[]).filter((p:any)=>p.loaded!==false)];
  return [...owned.filter((p:any)=>p.quantity!==0).flatMap((p:any)=>{const item=catalog.find(x=>x.id===p.itemId||(x as any).compendiumId?.replace(/^equipement-\d+-/,'')===p.itemId);if(!item)return [];const protection=realityProtection(item);return protection.body||protection.armor||Object.values(protection.reductions).some(Boolean)||Object.values(protection.additive).some(Boolean)||/armure/i.test(item.category)?[{id:p.uid??p.itemId,itemId:item.id,name:item.name,...protection}]:[];}),...(!npc?truthItemProtections(data):[])];
 }
-async function member(db:any,campaign:string,user:any){
+export async function member(db:any,campaign:string,user:any){
  const r=await db.query(`SELECT c.owner_id=$2 AND u.role IN ('gm','editor','admin') AS manager FROM campaigns c JOIN users u ON u.id=$2 AND u.is_active WHERE c.id=$1 AND c.archived_at IS NULL AND (c.owner_id=$2 OR EXISTS(SELECT 1 FROM campaign_members m WHERE m.campaign_id=c.id AND m.user_id=$2 AND m.status='accepted'))`,[campaign,user.id]);return r.rows[0];
 }
-async function target(db:any,campaign:string,id:string,lock=false){
+export async function target(db:any,campaign:string,id:string,lock=false){
  const n=await db.query(`SELECT * FROM campaign_live_combatants WHERE campaign_id=$1 AND id=$2 AND NOT removed ${lock?'FOR UPDATE':''}`,[campaign,id]);
  if(n.rowCount){const c=n.rows[0];c.data=await repairedCombatantData(c);const d=c.source_kind==='npc'?characterDerivedStats(k=>c.data.attributes?.[k]??0,k=>c.data.skills?.[k]??0,[]):null;
   const actor={...c,kind:c.source_kind},physical=d?.passiveDefense??c.data.stats.physicalDefense??0,occult=d?.occultDefense??c.data.stats.occultDefense??0;
@@ -96,7 +97,7 @@ export function combatAttackOptions(t:any,manager=false){
  }).sort((a,b)=>a.label.localeCompare(b.label,'fr'));
 }
 const attackOptions=combatAttackOptions;
-async function saveTarget(db:any,t:any){
+export async function saveTarget(db:any,t:any){
  if(t.kind==='character'){t.state.hp=t.hp;t.state.pa=t.pa;await db.query(`INSERT INTO character_play_states(character_id,version,state) VALUES($1,$2,$3::jsonb) ON CONFLICT(character_id) DO UPDATE SET version=EXCLUDED.version,state=EXCLUDED.state,updated_at=now()`,[t.id,t.version+1,JSON.stringify(t.state)]);}
  else await db.query('UPDATE campaign_live_combatants SET hp=$2,pa=$3,data=$4::jsonb,version=version+1 WHERE id=$1',[t.id,t.hp,t.pa,JSON.stringify(t.data)]);
 }
@@ -105,19 +106,29 @@ export async function registerCampaignCombatRoutes(app:FastifyInstance){
   reply.header('Cache-Control','private, no-store');const user=await requireUser(req,reply);if(!user)return;if(!uuid(req.params.id))return reply.code(404).send({error:'campaign_not_found'});const access=await member(pool,req.params.id,user);if(!access)return reply.code(404).send({error:'campaign_not_found'});
   const shared=await combatState(pool,req.params.id);
   const rows=await pool.query(`SELECT id,payload FROM campaign_live_events WHERE campaign_id=$1 AND kind='attack' AND NOT EXISTS(SELECT 1 FROM campaign_live_events done WHERE done.campaign_id=$1 AND done.kind IN ('resolve','cancel') AND done.payload->>'attackId'=campaign_live_events.id::text) ORDER BY created_at`,[req.params.id]);
-  const pending=[];for(const e of rows.rows){const t=await target(pool,req.params.id,e.payload.targetId);if(!t||!access.manager&&t.owner_id!==user.id)continue;
+  const owned=await pool.query(`SELECT c.id FROM characters c JOIN campaign_members m ON m.character_id=c.id AND m.user_id=c.owner_id AND m.campaign_id=c.campaign_id AND m.status='accepted' WHERE c.campaign_id=$1 AND c.archived_at IS NULL AND ($3::boolean OR c.owner_id=$2)`,[req.params.id,user.id,access.manager]);
+  const reactors=[];for(const {id} of owned.rows){const actor=await target(pool,req.params.id,id);if(actor&&participates(shared,id)){const options=interpositionOptions(actor.data,actor.state);if(options.length)reactors.push({...actor,reactionOptions:options});}}
+  const pending=[],reactable=[],counterAttacks=[];for(const e of rows.rows){const t=await target(pool,req.params.id,e.payload.targetId);if(!t)continue;
+   const reacted=(e.payload.reactions??[]).length>0,chosenDefense=await pool.query("SELECT id FROM campaign_live_events WHERE campaign_id=$1 AND kind='defend' AND payload->>'attackId'=$2",[req.params.id,e.id]);
+   if(shared.active&&!reacted&&!chosenDefense.rowCount&&!e.payload.narrativeFailure&&!e.payload.surprise&&(access.manager||t.visible)){
+    const choices=reactors.filter(a=>a.id!==t.id&&a.id!==e.payload.attackerId&&a.hp>0&&a.pa>0&&a.initiative!==null&&!a.state.unconscious&&!a.state.muePending).flatMap(a=>a.reactionOptions.filter((o:any)=>!o.used&&(o.kind==='defense'||!['neuro','occulte'].includes(e.payload.damageType))).map((o:any)=>({...o,actorId:a.id,actorName:a.name,version:a.version,movement:playProfile(a.data,a.state).derived.movement})));
+    if(choices.length)reactable.push({id:e.id,targetId:t.id,targetName:t.name,attacker:e.payload.public||access.manager?e.payload.attacker:'Attaquant non révélé',options:choices});
+   }
+   if(!access.manager&&t.owner_id!==user.id)continue;
    const defense=await pool.query("SELECT payload FROM campaign_live_events WHERE campaign_id=$1 AND kind='defend' AND payload->>'attackId'=$2 ORDER BY created_at LIMIT 1",[req.params.id,e.id]);
    const canReact=shared.active&&participates(shared,t.id)&&t.hp>0&&!t.state?.unconscious&&t.initiative!==null&&!e.payload.narrativeFailure;
    const specialDefenses=t.kind==='character'?defenseOptions(t.data,t.state,e.payload,canReact):[];
-   pending.push({id:e.id,...e.payload,...(!access.manager&&!e.payload.public?{attacker:'Attaquant non révélé'}:{}),target:{id:t.id,name:t.name,edge:t.kind==='character'?await edgeBalance(pool,t.id,t.data):null,defense:t.defense,occultDefense:t.occultDefense,armor:t.armor,bodyArmor:t.bodyArmor??0,reductions:t.reductions??{},protections:t.protections,pa:t.pa,hp:t.hp,canSurprised:t.canSurprised??false,neuroDefense:t.neuroDefense??t.occultDefense,neuroPrograms:t.reality?.neuroDefense??[],neuroSacrificePrograms:t.reality?.neuro.loaded.map((p:any)=>({id:p.uid??p.itemId,label:p.item.name}))??[],aura:t.kind==='character'&&t.data.truth?.nature==='angelus'?{aura:t.aura.aura,egidePerAura:t.aura.egidePerAura}:null,damagePowers:t.kind==='character'?registeredTruthPowers(t.data,t.state).filter(p=>p.route==='damage'):[],specialDefenses,canDefend:canReact&&t.pa>0},defense: defense.rows[0]?.payload??null});
+   const defensePayload=defense.rows[0]?.payload??null;
+   if(canReact&&t.kind==='character'&&e.payload.attackerId&&ashornAvailable(t.data,t.state,e.payload,defensePayload)){const enemy=await target(pool,req.params.id,e.payload.attackerId);if(enemy&&(access.manager||enemy.visible))counterAttacks.push({attackId:e.id,actorId:t.id,actorName:t.name,targetId:enemy.id,targetName:enemy.name,options:attackOptions(t,false).filter((o:any)=>['melee','pugilat'].includes(o.skill)&&o.attackMode==='melee')});}
+   pending.push({id:e.id,...e.payload,...(!access.manager&&!e.payload.public?{attacker:'Attaquant non révélé'}:{}),target:{id:t.id,name:t.name,edge:t.kind==='character'?await edgeBalance(pool,t.id,t.data):null,guard:!!(t.state??t.data).targeted?.guard,defense:t.defense,occultDefense:t.occultDefense,armor:t.armor,bodyArmor:t.bodyArmor??0,reductions:t.reductions??{},protections:t.protections,pa:t.pa,hp:t.hp,canSurprised:t.canSurprised??false,neuroDefense:t.neuroDefense??t.occultDefense,neuroPrograms:t.reality?.neuroDefense??[],neuroSacrificePrograms:t.reality?.neuro.loaded.map((p:any)=>({id:p.uid??p.itemId,label:p.item.name}))??[],aura:t.kind==='character'&&t.data.truth?.nature==='angelus'?{aura:t.aura.aura,egidePerAura:t.aura.egidePerAura}:null,damagePowers:t.kind==='character'?registeredTruthPowers(t.data,t.state).filter(p=>p.route==='damage'):[],specialDefenses,canDefend:canReact&&t.pa>0},defense:defensePayload});
   }
   const characterIds=await pool.query(`SELECT c.id FROM characters c JOIN campaign_members m ON m.character_id=c.id AND m.user_id=c.owner_id AND m.campaign_id=c.campaign_id AND m.status='accepted' WHERE c.campaign_id=$1 AND c.archived_at IS NULL AND ($3::boolean OR c.owner_id=$2)`,[req.params.id,user.id,access.manager]);
   const npcIds=access.manager?await pool.query('SELECT id FROM campaign_live_combatants WHERE campaign_id=$1 AND NOT removed',[req.params.id]):{rows:[]};
   const attackers=[];for(const row of [...characterIds.rows,...npcIds.rows]){const t=await target(pool,req.params.id,row.id);if(t&&participates(shared,t.id))attackers.push({id:t.id,name:t.name,ready:shared.active&&t.initiative!==null&&t.pa>0&&t.hp>0&&!t.state?.unconscious&&!t.state?.muePending,initiativePending:t.initiative===null,pa:t.pa,edge:t.kind==='character'?await edgeBalance(pool,t.id,t.data):null,powers:t.kind==='character'?registeredTruthPowers(t.data,t.state).filter(p=>p.route==='attack'):[],options:attackOptions(t,access.manager)});}
-  return {pending,attackers,canManage:access.manager,...(access.manager?{weapons:[...BESTIARY_WEAPONS].sort((a,b)=>a.group.localeCompare(b.group,'fr')||a.name.localeCompare(b.name,'fr'))}:{})};
+  return {pending,reactable,counterAttacks,attackers,canManage:access.manager,...(access.manager?{weapons:[...BESTIARY_WEAPONS].sort((a,b)=>a.group.localeCompare(b.group,'fr')||a.name.localeCompare(b.name,'fr'))}:{})};
  });
  app.post<{Params:{id:string};Body:any}>('/api/campaigns/:id/combat',async(req,reply)=>{
-  reply.header('Cache-Control','private, no-store');const user=await requireUser(req,reply);if(!user)return;const b:any=req.body;if(!uuid(req.params.id)||!b||!uuid(b.requestId)||!['grace','spend','launch','attack','defend','resolve','cancel'].includes(b.action))return reply.code(400).send({error:'invalid_combat_action'});
+  reply.header('Cache-Control','private, no-store');const user=await requireUser(req,reply);if(!user)return;const b:any=req.body;if(!uuid(req.params.id)||!b||!uuid(b.requestId)||!['grace','spend','launch','attack','defend','resolve','cancel','react'].includes(b.action))return reply.code(400).send({error:'invalid_combat_action'});
   const db=await pool.connect();try{await db.query('BEGIN');const fail=async(code:number,error:string)=>{await db.query('ROLLBACK');return reply.code(code).send({error});};
    const access=await member(db,req.params.id,user);if(!access)return await fail(404,'campaign_not_found');
    await lockCombat(db,req.params.id);
@@ -143,6 +154,35 @@ export async function registerCampaignCombatRoutes(app:FastifyInstance){
     if(actor.kind==='character'&&b.physical!==false){const physical=canSpendPhysicalPA(actor.state.effects??[],actor.id,actor.state,1);if(!physical.available)return await fail(400,'physical_pa_limited');actor.state.physicalPaSpent=physical.nextSpent;}
     actor.pa--;await saveTarget(db,actor);await recordAction(db,req.params.id,actor.id,1);
     payload={label:'Action effectuée · 1 PA',characterName:actor.name};publicEvent=!!actor.visible;
+   }else if(b.action==='react'){
+    if(!shared.active||!uuid(b.attackId)||!uuid(b.actorId)||!Number.isSafeInteger(b.actorVersion)||!uuid(b.expectedTargetId)||typeof b.powerId!=='string')return await fail(400,'invalid_reaction');
+    const r=await db.query("SELECT payload FROM campaign_live_events WHERE id=$1 AND campaign_id=$2 AND kind='attack' FOR UPDATE",[b.attackId,req.params.id]);if(!r.rowCount)return await fail(404,'attack_not_found');const a=r.rows[0].payload;
+    if(a.targetId!==b.expectedTargetId||(a.reactions??[]).length)return await fail(409,'reaction_window_changed');
+    if((await db.query("SELECT id FROM campaign_live_events WHERE campaign_id=$1 AND kind IN ('defend','resolve','cancel') AND payload->>'attackId'=$2",[req.params.id,b.attackId])).rowCount)return await fail(409,'reaction_window_closed');
+    const actor=await target(db,req.params.id,b.actorId,true),victim=await target(db,req.params.id,a.targetId);
+    if(!actor||actor.kind!=='character'||!victim||actor.id===victim.id||actor.id===a.attackerId||!access.manager&&(actor.owner_id!==user.id||!victim.visible))return await fail(404,'target_not_found');
+    if(actor.version!==b.actorVersion)return await fail(409,'reaction_state_changed');
+    if(!participates(shared,actor.id))return await fail(400,'participant_out');
+    const rule=interpositionOptions(actor.data,actor.state).find(p=>p.id===b.powerId);if(!rule)return await fail(400,'reaction_unavailable');
+    const movement=playProfile(actor.data,actor.state).derived.movement;
+    try{interpositionCheck(rule,{...actor,movement},a,b);}catch(e){return await fail(400,(e as Error).message);}
+    const physical=canSpendPhysicalPA(actor.state.effects??[],actor.id,actor.state,1);if(!physical.available)return await fail(400,'physical_pa_limited');actor.state.physicalPaSpent=physical.nextSpent;
+    actor.pa--;if(rule.limit)consumeUsage(actor.state,rule.limit,rule.id);
+    let die:any=null,total:number|null=null;
+    if(rule.kind==='redirect'){
+     a.originalTargetId??=a.targetId;a.targetId=actor.id;
+     if(uuid(a.attackerId)&&rule.id==='trait:gardien-de-la-meute'&&guardianBonus(actor.data,{...actor.state,targeted:{guardian:{targetId:a.attackerId,until:shared.round+1}}},a.attackerId)>0)actor.state.targeted={...actor.state.targeted,guardian:{targetId:a.attackerId,until:shared.round+1}};
+     a.public=!!a.public&&actor.visible;
+    }else{
+     if(b.edge!==undefined&&typeof b.edge!=='boolean')return await fail(400,'invalid_edge');
+     if(b.edge){const error=await spendEdge(db,actor.id,actor.data,b.requestId,'force');if(error)return await fail(400,error);}
+     die=b.edge?forcedDie():rollD10(actor.stress,()=>randomInt(1,11));total=actor.activeDefense+die.sum;
+     if(!die.narrativeFailure)a.reactionDefense=total;
+     consumeRegisteredTest(actor.data,actor.state,'esquive');consumeNatureTest(actor.data,actor.state,'esquive');
+    }
+    a.reactions=[{actorId:actor.id,powerId:rule.id,kind:rule.kind,...(total!==null?{total,narrativeFailure:die.narrativeFailure}:{})}];
+    await db.query('UPDATE campaign_live_events SET payload=$2::jsonb,public=$3 WHERE id=$1',[b.attackId,JSON.stringify(a),!!a.public]);await saveTarget(db,actor);
+    payload={label:rule.name,attackId:b.attackId,characterName:actor.name,actorId:actor.id,targetId:a.targetId,originalTargetId:victim.id,paCost:1,...(die?{...die,modifier:actor.activeDefense,total}:{})};
    }else if(b.action==='launch'){
     if(!uuid(b.attackerId)||!uuid(b.targetId)||b.attackerId===b.targetId||typeof b.optionId!=='string'||!integer(b.bonus,-100)||!integer(b.bonusDamage,-100)||typeof b.surprise!=='boolean')return await fail(400,'invalid_attack');
     // Serialize launches per campaign before acquiring two participant locks.
@@ -153,19 +193,30 @@ export async function registerCampaignCombatRoutes(app:FastifyInstance){
     if(option.requiresAdjudication){if(!access.manager||b.contextConfirmed!==true||!kinds.includes(b.damageType))return await fail(400,'truth_weapon_ruling_required');option.damageType=b.damageType;}
     if(option.modeChangeCost&&(!access.manager||b.contextConfirmed!==true))return await fail(400,'weapon_mode_ruling_required');
     if(option.condition&&b.contextConfirmed!==true)return await fail(400,'power_context_required');
-    if(source.state?.unconscious||source.hp<=0||source.pa<1||source.initiative===null||source.state?.muePending)return await fail(400,'attack_unavailable');
+    let riposte=false;
+    if(b.riposteAttackId!==undefined){
+     if(!uuid(b.riposteAttackId)||source.kind!=='character'||b.inReach!==true||b.powerId||b.surprise||!['melee','pugilat'].includes(option.skill)||option.attackMode!=='melee')return await fail(400,'invalid_riposte');
+     const original=(await db.query("SELECT payload FROM campaign_live_events WHERE id=$1 AND campaign_id=$2 AND kind='attack'",[b.riposteAttackId,req.params.id])).rows[0]?.payload;
+     const defense=(await db.query("SELECT payload FROM campaign_live_events WHERE campaign_id=$1 AND kind='defend' AND payload->>'attackId'=$2",[req.params.id,b.riposteAttackId])).rows[0]?.payload;
+     const closed=await db.query("SELECT id FROM campaign_live_events WHERE campaign_id=$1 AND kind IN ('resolve','cancel') AND payload->>'attackId'=$2",[req.params.id,b.riposteAttackId]);
+     if(!original||original.targetId!==source.id||original.attackerId!==victim.id||closed.rowCount||!ashornAvailable(source.data,source.state,original,defense))return await fail(400,'riposte_unavailable');
+     consumeUsage(source.state,'scene','exile-riposte-d-ashorn');riposte=true;
+    }
+    if(source.state?.unconscious||source.hp<=0||!riposte&&source.pa<1||source.initiative===null||source.state?.muePending)return await fail(400,'attack_unavailable');
     if(source.kind==='character'){const ammunition=consumeWeaponCharge(source.state,option);if(ammunition.error)return await fail(400,ammunition.error);}
-    if(option.damageType!=='neuro'&&option.damageType!=='occulte'){const state=source.kind==='character'?source.state:source.data,physical=canSpendPhysicalPA(state.effects??state.liveEffects??[],source.id,{...state,round:source.state?.round??source.round},1);if(!physical.available)return await fail(400,'physical_pa_limited');state.physicalPaSpent=physical.nextSpent;}
+    if(!riposte&&option.damageType!=='neuro'&&option.damageType!=='occulte'){const state=source.kind==='character'?source.state:source.data,physical=canSpendPhysicalPA(state.effects??state.liveEffects??[],source.id,{...state,round:source.state?.round??source.round},1);if(!physical.available)return await fail(400,'physical_pa_limited');state.physicalPaSpent=physical.nextSpent;}
     const eventId=randomUUID();
     if(b.edge!==undefined&&typeof b.edge!=='boolean')return await fail(400,'invalid_edge');
     if(b.edge){if(source.kind!=='character')return await fail(400,'edge_players_only');const error=await spendEdge(db,source.id,source.data,eventId,'force');if(error)return await fail(400,error);}
     let powerEffects:any[]=[];if(b.powerId){if(source.kind!=='character')return await fail(400,'power_unavailable');try{const p=registeredReaction(source.data,source.state,b.powerId,'attack',b,option.skill??(option.attackMode==='ranged'?'tir':option.id==='unarmed'?'pugilat':'melee'));powerEffects=p.effects;spendRegisteredUsage(source.state,b.powerId);}catch(e){return await fail(400,(e as Error).message);}}
-    const die=b.edge?forcedDie():rollD10(source.stress,()=>randomInt(1,11)),modifier=option.modifier+b.bonus;
-    const roll={label:'Attaque · '+option.label,characterName:source.name,characterId:source.kind==='character'?source.id:null,...die,modifier,total:modifier+die.sum,damage:option.damage,weaponName:option.weaponName??option.label,attackMode:option.attackMode,components:option.components?{...option.components,bonus:(option.components.bonus??0)+b.bonus}:undefined,targetName:victim.visible?victim.name:'Cible non révélée',bonus:b.bonus};
+    const guardian=source.kind==='character'?guardianBonus(source.data,source.state,victim.id):0;
+    const die=b.edge?forcedDie():rollD10(source.stress,()=>randomInt(1,11)),modifier=option.modifier+b.bonus+guardian;
+    const roll={label:'Attaque · '+option.label,characterName:source.name,characterId:source.kind==='character'?source.id:null,...die,modifier,total:modifier+die.sum,damage:option.damage,weaponName:option.weaponName??option.label,attackMode:option.attackMode,components:option.components?{...option.components,bonus:(option.components.bonus??0)+b.bonus+guardian,guardian}:undefined,targetName:victim.visible?victim.name:'Cible non révélée',bonus:b.bonus};
     const visible=!!source.visible&&!!victim.visible;
     await db.query("INSERT INTO campaign_live_events(id,campaign_id,created_by,kind,payload,request_payload,public) VALUES($1,$2,$3,'roll',$4::jsonb,$5::jsonb,$6)",[eventId,req.params.id,user.id,JSON.stringify(roll),JSON.stringify(b),visible]);
-    source.pa--;if(source.kind==='character'){const skill=option.skill??(option.damageType==='neuro'?'neurodive':option.attackMode==='ranged'?'tir':option.id==='unarmed'||option.predation?'pugilat':'melee');consumeRegisteredTest(source.data,source.state,skill);consumeNatureTest(source.data,source.state,skill);}await saveTarget(db,source);await recordAction(db,req.params.id,source.id,1);
-    payload={label:'Attaque à résoudre',eventId,targetId:victim.id,attacker:source.name,characterId:source.kind==='character'?source.id:null,total:roll.total,narrativeFailure:die.narrativeFailure,attackerId:source.id,predation:!!option.predation,damage:option.damage,bonusDamage:b.bonusDamage+combatEffect(source,'damage')+powerEffects.filter(e=>e.kind==='damage').reduce((n,e)=>n+e.amount,0),penetration:option.penetration+Math.max(0,...powerEffects.filter(e=>e.kind==='piercing').map(e=>e.amount)),damageType:option.damageType,attackMode:option.attackMode,weaponRuling:option.requiresAdjudication?{vector:option.damageType,confirmedBy:user.id,notes:option.notes}:null,modeRuling:option.modeChangeCost?{mode:option.mode,changeCost:option.modeChangeCost,confirmedBy:user.id}:null,surprise:b.surprise,public:visible};
+    if(!riposte)source.pa--;if(guardian)delete source.state.targeted.guardian;
+    if(source.kind==='character'){const skill=option.skill??(option.damageType==='neuro'?'neurodive':option.attackMode==='ranged'?'tir':option.id==='unarmed'||option.predation?'pugilat':'melee');consumeRegisteredTest(source.data,source.state,skill);consumeNatureTest(source.data,source.state,skill);}await saveTarget(db,source);if(!riposte)await recordAction(db,req.params.id,source.id,1);
+    payload={label:'Attaque à résoudre',eventId,riposteAttackId:b.riposteAttackId??null,guardianBonus:guardian,targetId:victim.id,attacker:source.name,characterId:source.kind==='character'?source.id:null,total:roll.total,narrativeFailure:die.narrativeFailure,attackerId:source.id,predation:!!option.predation,damage:option.damage,bonusDamage:b.bonusDamage+combatEffect(source,'damage')+powerEffects.filter(e=>e.kind==='damage').reduce((n,e)=>n+e.amount,0),penetration:option.penetration+Math.max(0,...powerEffects.filter(e=>e.kind==='piercing').map(e=>e.amount)),damageType:option.damageType,attackMode:option.attackMode,weaponRuling:option.requiresAdjudication?{vector:option.damageType,confirmedBy:user.id,notes:option.notes}:null,modeRuling:option.modeChangeCost?{mode:option.mode,changeCost:option.modeChangeCost,confirmedBy:user.id}:null,surprise:b.surprise,public:visible};
    }else if(b.action==='attack'){
     if(!access.manager)return await fail(403,'mj_only');
     if(b.attackMode!==undefined&&!['melee','ranged','fixed','margin'].includes(b.attackMode))return await fail(400,'invalid_attack');
@@ -210,14 +261,17 @@ export async function registerCampaignCombatRoutes(app:FastifyInstance){
      let powerReduction=0;if(b.damagePowerId){if(t.kind!=='character'||['neuro','occulte'].includes(a.damageType))return await fail(400,'power_unavailable');try{const p=registeredReaction(t.data,t.state,b.damagePowerId,'damage',b);powerReduction=Math.max(0,...p.effects.filter(e=>e.kind==='reduction').map(e=>e.amount));spendRegisteredUsage(t.state,b.damagePowerId);}catch(e){return await fail(400,(e as Error).message);}}
      let sacrificeReduction=0;if(b.sacrificePrograms?.length){if(t.kind!=='character'||a.damageType!=='neuro')return await fail(400,'invalid_neuro_sacrifice');const sacrificed=neuroSacrifice(t.data,t.state,getRealityRules(),b.sacrificePrograms);if(sacrificed.error)return await fail(400,sacrificed.error);sacrificeReduction=sacrificed.payload!.reduction;await db.query('UPDATE characters SET data=$2::jsonb,version=version+1 WHERE id=$1',[t.id,JSON.stringify(t.data)]);}
      const reduction=Math.max(0,powerReduction+sacrificeReduction+b.extraReduction+combatEffect(t,'reduction')+(t.reductions?.[a.damageType]??0)+Math.max(0,...selected.map((p:any)=>p.reductions[a.damageType]??0))+[...new Map(selected.map((p:any)=>[p.itemId??p.id,p])).values()].reduce((n:number,p:any)=>n+(p.additive?.[a.damageType]??0),0));
-     const calc=damageCalculation(a,defense.narrativeFailure?b.defenseOverride:defense.total,material,reduction),before=t.hp;
+     if(b.supernaturalConfirmed!==undefined&&(typeof b.supernaturalConfirmed!=='boolean'||b.supernaturalConfirmed&&!access.manager))return await fail(403,'supernatural_ruling_mj_only');
+     const defenseTotal=Math.max(defense.narrativeFailure?b.defenseOverride:defense.total,a.reactionDefense??0);
+     const calc=damageCalculation(a,defenseTotal,material,reduction),before=t.hp;
+     const guardReduction=consumeGuard(t.kind==='character'?t.state:t.data,calc.hit,a.damageType==='occulte'||b.supernaturalConfirmed===true);calc.reduction+=guardReduction;calc.damage=Math.max(0,calc.damage-guardReduction);
      let auraReduction=0;if(b.auraSpend){if(t.kind!=='character'||a.damageType!=='occulte')return await fail(400,'egide_not_applicable');try{const r=applyNatureResourceAction(t.data,t.state,{action:'nature-angelus-egide',amount:b.auraSpend},{inCombat:shared.active,hp:t.hp,death:t.death,spiritualDamage:true,damage:calc.damage,permanentFortitude:playProfile(t.data,t.state).skills.find(s=>s.id==='force_mentale')!.rank});t.state=r.state;auraReduction=r.payload.damageReduction as number;t.pa=t.state.pa;}catch(e){return await fail(400,(e as Error).message);}calc.damage-=auraReduction;}
      t.hp=Math.max(t.death,t.hp-calc.damage);if(t.kind==='character'&&calc.damage>0){t.state.stabilized=false;if(t.data.truth?.nature==='vampire'){const saved=applyVampireLastSleep(t.data,{...t.state,hp:before},t.hp,t.death,b.bodySurvivable!==false);if(!('error'in saved)){t.state=saved.state;t.hp=saved.state.hp??t.hp;if(saved.payload.saved===true)t.pa=saved.state.pa;payload.lastSleep=saved.payload.saved===true;}}}t.pa=t.hp<=t.death?0:t.hp<=0?Math.min(t.pa,1):t.pa;
      if(a.predation&&a.attackerId){const predator=await target(db,req.params.id,a.attackerId,true);if(predator?.kind==='character'){const r=applyVampirePredation(predator.data,predator.state,{actualLoss:Math.max(0,before-t.hp),dr:Math.min(5,Math.floor(calc.margin/3)),success:calc.hit},predator.basePvMax??predator.pv_max);if(!('error'in r)){predator.state=r.state;predator.hp=r.state.hp??predator.hp;await saveTarget(db,predator);await db.query('INSERT INTO character_play_events(id,character_id,campaign_id,created_by,kind,payload,request_payload) VALUES($1,$2,$3,$4,$5,$6::jsonb,$7::jsonb)',[randomUUID(),predator.id,req.params.id,user.id,'vampire-predation-heal',JSON.stringify(r.payload),'{}']);payload.predation=true;}}}
-     await saveTarget(db,t);payload={...payload,powerReduction,sacrificeReduction,auraReduction,hitZone:b.hitZone??null,label:'Résolution d’attaque',...calc,before,after:t.hp,attackTotal:a.total,defenseTotal:defense.narrativeFailure?b.defenseOverride:defense.total,defenseDice:defense.dice??[],active:defense.active,defenseNarrativeFailure:!!defense.narrativeFailure};publicEvent=a.public&&t.visible;
+     await saveTarget(db,t);payload={...payload,powerReduction,sacrificeReduction,auraReduction,guardReduction,hitZone:b.hitZone??null,label:'Résolution d’attaque',...calc,before,after:t.hp,attackTotal:a.total,defenseTotal,defenseDice:defense.dice??[],active:defense.active,defenseNarrativeFailure:!!defense.narrativeFailure};publicEvent=a.public&&t.visible;
     }
    }
-   await db.query('INSERT INTO campaign_live_events(id,campaign_id,created_by,kind,payload,request_payload,public) VALUES($1,$2,$3,$4,$5::jsonb,$6::jsonb,$7)',[b.requestId,req.params.id,user.id,b.action==='launch'?'attack':b.action,JSON.stringify(payload),JSON.stringify(b),publicEvent]);if(b.action!=='grace')await maybeAdvanceCombat(db,req.params.id,user.id);await db.query('COMMIT');return {ok:true};
+   await db.query('INSERT INTO campaign_live_events(id,campaign_id,created_by,kind,payload,request_payload,public) VALUES($1,$2,$3,$4,$5::jsonb,$6::jsonb,$7)',[b.requestId,req.params.id,user.id,b.action==='launch'?'attack':b.action,JSON.stringify(payload),JSON.stringify(b),publicEvent]);if(b.action!=='grace')await maybeAdvanceCombat(db,req.params.id,user.id);await db.query('COMMIT');return {ok:true,...(b.action==='react'?{result:payload}:{})};
   }catch(e){await db.query('ROLLBACK').catch(()=>{});throw e;}finally{db.release();}
  });
 }

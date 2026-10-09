@@ -41,5 +41,6 @@ export function reserveHealing(data:any,state:PlayState,hp:number,maximum:number
 }
 export function resetLivePeriod(state:PlayState,period:'scene'|'scenario'){
  state.powers=[];state.mueBlocked=false;
+ state.targeted=period==='scenario'?{}:{...state.targeted};delete state.targeted.guardian;
  state.powerUses=Object.fromEntries(Object.entries(state.powerUses??{}).filter(([k])=>period==='scene'&&!k.startsWith('scene:')&&!k.startsWith('round:')));
 }

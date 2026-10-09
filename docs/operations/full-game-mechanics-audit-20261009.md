@@ -1,6 +1,6 @@
 # Audit complet des mécaniques — 9 octobre 2026
 
-Le lot ajoute des commandes réelles aux ressources de Nature, aux capacités individuelles, au Neuro et aux effets ciblés. Les comptes, coûts, durées, quotas et mutations de PV sont vérifiés côté serveur. Les pouvoirs dont le résultat dépend d’une cible, du terrain ou d’une décision narrative restent assistés : une activation journalisée ne vaut pas résolution automatique.
+Le lot ajoute des commandes réelles aux ressources de Nature, aux capacités individuelles, au Neuro et aux effets ciblés. Les comptes, coûts, durées, quotas et mutations de PV sont vérifiés côté serveur. Les autres pouvoirs dont le résultat dépend d’une cible, du terrain ou d’une décision narrative restent assistés : une activation journalisée ne vaut pas résolution automatique.
 
 ## Périmètre et sources
 
@@ -16,6 +16,7 @@ L’[inventaire JSON exhaustif](live-mechanics-inventory.json) donne une ligne p
 | Garou, Khinae, Extral, Exilé, Aseryn, humain et Corruption | [1 075 capacités](audit-truth-capabilities-20261009.md) | Registre explicite de 110 définitions, activation, réactions, quotas, prérequis |
 | Vampire | [71 talents et traits](audit-vampire-20261009.md) | Stase, prédation, Dernier Sommeil, ressources de Sang/Cour, entretien |
 | Mage, Daemon, Angelus | [Ressources et constructions](audit-nature-resources-20261009.md) | Préparations, jets, Tension/Revers, Spectres, Faveur, Aura, Égide, Lame |
+| Soutiens ciblés et réactions | [Huit capacités reliées au serveur](audit-targeted-reactions-20261009.md) | Suture, Réfection, Rune, Gardien, Caendis, AIDH et ripostes |
 | Effets sur PJ et PNJ | [Suivi des effets](audit-effects-20261009.md) | Horloges par round/activation/scène, ticks, cumul, traitement, huit presets |
 | Objets de Vérité et traits gratuits | [Objets et traits](audit-truth-items-20261009.md) | Profils explicites distincts des descriptions et exceptions à arbitrer |
 
@@ -30,14 +31,16 @@ L’[inventaire JSON exhaustif](live-mechanics-inventory.json) donne une ligne p
 - **Équipement** : propriétés numériques explicites, portée, Perforant, DGT fixes/Vigueur, Armure corporelle, armure portée et réductions par vecteur. Un chargeur est suivi par exemplaire ; tirer consomme une charge, recharger coûte 1 PA sous pression. Une réserve déclarée est décrémentée ; une réserve inconnue exige la confirmation de munitions réelles. Les profils inconnus restent visibles dans leurs règles.
 - **Effets ciblés** : le MJ choisit source et cible, règle canonique ou effet arbitré, montant, échéance et horloge. Les ticks de dégâts/soins sont appliqués une fois, aux bornes prévues ; les effets ont un journal. Les venins à activation ne sont pas convertis arbitrairement en rounds. Cobra limite les dépenses physiques de la prochaine activation, en conservant les possibilités mentales/sociales. Compression/nettoyage paient leur action.
 
+- **Soutiens et réactions** : Suture, Réfection vitale et Rune de Garde ont une cible réelle, une demande privée acceptée par le bénéficiaire ou le MJ, et des quotas côté bénéficiaire. Gardien de la Meute et Caendis redirigent l’attaque ; l’interposition AIDH relève sa défense. Riposte du Gardien suit le même agresseur ; Ashorn ouvre une attaque normale sans PA supplémentaire après une défense active réussie. Les conditions de contact, portée et intervention sont confirmées dans la fiction.
+
 Le panneau personnel est repliable et regroupe ces commandes. Le panneau MJ permet le suivi ciblé des PJ/PNJ. Le combat conserve initiative, ordre des passes, choix direct de cible, défenses et résolution ; l’initiative reste fixe pour tout le combat.
 
 ## Limites restantes, identifiées après intégration
 
 | Domaine | Ce qui reste assisté ou à intégrer | Conséquence pratique |
 | --- | --- | --- |
-| Cibles, oppositions, zones et support | Sorts, illusions, domination, soins/transferts et protections de groupe | Préparation/coût suivis ; MJ résout la cible et applique l’effet ciblé approprié |
-| Réactions complexes | Riposte, interposition, renvoi Neuro, interceptions, déplacement déclenché, Foudre/Paratonnerre | Un bouton de défense n’exécute pas une seconde attaque ni un changement de cible |
+| Cibles, oppositions, zones et support | Sorts, illusions, domination, autres soins/transferts et protections de groupe | Préparation/coût suivis ; MJ résout la cible et applique l’effet ciblé approprié |
+| Réactions complexes | Autres ripostes/interpositions, chaînes de réactions, renvoi Neuro, interceptions, Foudre/Paratonnerre | Seules les réactions explicitement intégrées exécutent une riposte ou un changement de cible |
 | Restrictions de PA | Crête de Mo’senine et autres PA réservés à une famille d’action | Crête reste une définition externe, non activable comme PA libre |
 | Semi-immatérialité | Entre-deux-états impose aussi des interdictions physiques | Route externe : aucun bonus personnel activable sans suivi de ces restrictions |
 | Frénésie et peur | Entrées/sorties, Impulsion, résistance et déclencheurs exacts | Aucun déclenchement déduit d’un simple changement de maximum de PV |
@@ -45,7 +48,7 @@ Le panneau personnel est repliable et regroupe ces commandes. Le panneau MJ perm
 | Horloges et maintien complexes | Début/fin d’activation validés explicitement par le MJ, préparation interrompue par événement, concentration adverse, changement de scène | Commandes de fin explicites ; aucune horloge réelle ne fait avancer la fiction |
 | Charges et consommables particuliers | Ablatif, verrouillage/surchauffe, modes de rafale, consommations de rites, charges runiques | Pas de nombre de projectiles ou d’effet créé à partir d’un nom ; règles individuelles à appliquer |
 | Corps et possessions narratifs | Forme animale vampire, arme hématique détaillée, compagnons, véhicule, installation, territoire | Le suivi de ressource ne crée pas automatiquement un profil complet |
-| Quotas par bénéficiaire | Réfection vitale, Rune de Garde et effets interpersonnels | Pas de recharge implicite par un autre lanceur ou une nouvelle scène |
+| Autres quotas par bénéficiaire | Autres effets interpersonnels | Réfection vitale et Rune de Garde sont désormais suivies côté serveur ; les autres règles exigent encore un suivi dédié |
 | Corruption | Dons/Rites/Faveurs, Souillure, admission, liens et Test de Bascule | Acquisition/récompenses suivies ; résolution narrative et procédures spécifiques encore nécessaires |
 | Monde et perception | Réseaux, contrats, mémoire, immunités conditionnelles, sens, contraintes morphologiques | Texte complet accessible ; pas de succès, objet, information ou permission fabriqué par le calcul |
 | Compendium en production | Modifications non versionnées en base | Audit limité aux règles sources de cette branche |
@@ -56,4 +59,6 @@ Les suites couvrent les fonctions pures, les routes avec PostgreSQL embarqué is
 
 Le MJ de la campagne peut suivre les mécaniques complètes ; un lecteur de fiche sans cette autorité ne gagne aucun droit de mutation. Les autres joueurs reçoivent portrait, identité publique, camp et état de blessure. Les PV numériques, réserves, talents, effets privés et ressources de Vérité ne sont pas ajoutés à leur projection publique. Les événements techniques détaillés sont réservés au propriétaire et au MJ.
 
-Les nouveaux états sont dans les JSON de jeu et conservent des valeurs par défaut pour les anciennes fiches. Ce lot utilise les migrations additives déjà prévues dans la branche ; il ne réinitialise ni les personnages ni les séances. Validation locale réussie : compilations API/Web, suite API complète avec PostgreSQL embarqué, tests de règles, suite DOM complète et vérification du diff. La recette navigateur V2 a réussi sur le commit `3ba7098da87c90511fc65e76644c196332e04ddb`, exécution CI `37932064645`. Aucun déploiement de production n’est effectué dans ce lot.
+Les nouveaux états sont dans les JSON de jeu et conservent des valeurs par défaut pour les anciennes fiches. Ce lot utilise les migrations additives déjà prévues dans la branche ; il ne réinitialise ni les personnages ni les séances. Validation locale réussie : compilations API/Web, suite API complète avec PostgreSQL embarqué, tests de règles, suite DOM complète et vérification du diff. La recette navigateur du lot précédent a réussi sur le commit `3ba7098da87c90511fc65e76644c196332e04ddb`, exécution CI `37932064645`. Aucun déploiement de production n’est effectué dans ce lot.
+
+Le complément de soutiens/réactions ajoute les tests API de consentement, rejeu, confidentialité des PV, quotas reçus, portées, fenêtres de réaction et riposte à zéro PA, ainsi qu’un panneau repliable et des tests DOM. Voir le rapport ciblé pour les conditions et limites exactes.

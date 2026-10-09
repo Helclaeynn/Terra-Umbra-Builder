@@ -10632,9 +10632,9 @@
       "when": {
         "pelage": "pelages_gris"
       },
-      "coverage": "descriptif",
-      "implemented": "Trait sélectionné selon choix de création, affiché dans les capacités ; aucun handler dédié.",
-      "pending": "Condition, consentement, perception et conséquence déterminés à partir du texte canonique ; jet libre/effet MJ possible sans automatisation propre.",
+      "coverage": "Réaction dédiée",
+      "implemented": "Révélé, Pelage Gris : interposition 1 PA avant défense, portée strictement inférieure au Déplacement ; change la cible.",
+      "pending": "Alliance et trajectoire physiquement possibles confirmées ; une intervention par attaque.",
       "canonicalEffect": "Lorsqu’un allié situé à moins d’un Déplacement est ciblé par une attaque physique et que l’interposition est possible, le Gris peut immédiatement se déplacer jusqu’à lui et devenir la cible de l’attaque."
     },
     {
