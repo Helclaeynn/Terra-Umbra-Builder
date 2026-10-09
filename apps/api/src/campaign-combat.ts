@@ -1,4 +1,5 @@
 import {canSpendPhysicalPA} from './rules/live-effects.js';
+import {lightningAttack,lightningAccess,lightningRange,lightningIds,paratonnerreTest} from './rules/lightning.js';
 import {interpositionOptions,interpositionCheck,guardianBonus,ashornAvailable,consumeGuard} from './rules/targeted-powers.js';
 import {liveRealityProfile,realityProtection,realityWeaponProfile,realityNaturalWeapons,permitsSurprisedDefense,neuroSacrifice,weaponMagazine,consumeWeaponCharge} from './rules/live-reality.js';
 import {registeredTruthPowers} from './rules/live-power-registry.js';
@@ -7,7 +8,7 @@ import {applyVampirePredation,applyVampireLastSleep,vampireStatus,vampireDefense
 import {natureResourceProfile,applyNatureResourceAction,normalizedNatureResources,consumeNatureTest} from './rules/live-nature-resources.js';
 import {effectModifiers} from './rules/live-effects.js';
 import {defenseOptions,consumeUsage} from './rules/live-mechanics.js';
-import {edgeBalance,spendEdge,forcedDie} from './character-edge.js';
+import {edgeBalance,spendEdge,forcedDie,forcePastRoll} from './character-edge.js';
 import {combatState,participates,lockCombat,recordAction,maybeAdvanceCombat} from './campaign-rounds.js';
 import {repairedCombatantData} from './campaign-live-catalog.js';
 import {damageCalculation,weaponMechanics} from './rules/combat-damage.js';
@@ -49,7 +50,7 @@ export async function target(db:any,campaign:string,id:string,lock=false){
  const actor={...c,kind:'character',state},reality=liveRealityProfile(c.data,state,getRealityRules()),fortitude=profile.skills.find(s=>s.id==='force_mentale')!,defenseless=state.vampire?.stasis===true;
  return {...actor,defenseless,version:r.rows[0]?.version??0,hp:profile.hp,pv_max:profile.healthMaximum,basePvMax:profile.derived.pvMax,death:profile.derived.death,pa:profile.pa,initiative:state.initiative,defense:defenseless?0:profile.derived.passiveDefense,occultDefense:defenseless?0:profile.derived.occultDefense,activeOccultDefense:defenseless?0:fortitude.total+profile.freeTraits.occultDefense+combatEffect(actor,'defense-occult'),armor:0,bodyArmor:profile.bodyArmor,neuroDefense:defenseless?0:profile.neuroDefense,activeNeuroDefense:defenseless?0:fortitude.total+reality.neuroDefenseBonus+combatEffect(actor,'defense-neuro'),activeDefense:defenseless?0:profile.skills.find(s=>s.id==='esquive')!.total+combatEffect(actor,'defense-physical'),canSurprised:permitsSurprisedDefense(c.data),reality,aura:natureResourceProfile(c.data,state,fortitude.rank).angelus,protections:combatEquipment(c.data),stress:profile.stress,visible:state.share};
 }
-const rulesAttribute=(skill:string)=>skill==='neurodive'?'Volonté':['melee','pugilat'].includes(skill)?'Vigueur':'Agilité';
+const rulesAttribute=(skill:string)=>['neurodive','maitrise_spirituelle'].includes(skill)?'Volonté':['melee','pugilat'].includes(skill)?'Vigueur':'Agilité';
 export function characterAttacks(data:any,state:any,allWeapons=false){
  const profile=playProfile(data,state),catalog=getRealityRules(),equipment=catalog.equipment;
  const purchases=(data.reality?.equipment??[]).filter((p:any)=>p.quantity!==0);
@@ -75,6 +76,7 @@ export function characterAttacks(data:any,state:any,allWeapons=false){
  const resources=normalizedNatureResources(state.natureResources),revealed=data.truth?.consciousness!=='profane'&&state.revelation==='r';
  const readiness=new Set(['verite-25-pistolet-aidh-2e-generation','verite-25-fusil-aidh-1re-generation','verite-26-defensor','verite-26-praetor-c-14','verite-26-cerberus-hmg-3','verite-26-ward-m-6','verite-26-breacher-b-9','verite-26-fulgur-eb-7']);
  const truthWeapons:any[]=truthItemWeapons(data).map(w=>prepare({...w,weaponName:w.label,notes:w.notes,condition:readiness.has(w.sourceId)||w.requiresAdjudication||w.modeChangeCost?w.notes:undefined},w.attackSkill));
+ const foudre=lightningAttack(data,state);if(foudre)truthWeapons.push(prepare(foudre));
  if(data.truth?.nature==='daemon'&&revealed&&resources.daemon.formProperties.includes('weapon'))truthWeapons.push(prepare({id:'daemon-form-weapon',label:'Arme de Forme daemoniaque',group:'Vérité',damage:7,penetration:0,attackMode:'melee',damageType:'melee'},'melee'));
  if(data.truth?.nature==='angelus'&&revealed&&resources.angelus.bladeHp>0){
   const mode=normalizeAngelusBuild(data.truth?.choices?.angelusBuild).bladeForm;
@@ -110,17 +112,18 @@ export async function registerCampaignCombatRoutes(app:FastifyInstance){
   const reactors=[];for(const {id} of owned.rows){const actor=await target(pool,req.params.id,id);if(actor&&participates(shared,id)){const options=interpositionOptions(actor.data,actor.state);if(options.length)reactors.push({...actor,reactionOptions:options});}}
   const pending=[],reactable=[],counterAttacks=[];for(const e of rows.rows){const t=await target(pool,req.params.id,e.payload.targetId);if(!t)continue;
    const reacted=(e.payload.reactions??[]).length>0,chosenDefense=await pool.query("SELECT id FROM campaign_live_events WHERE campaign_id=$1 AND kind='defend' AND payload->>'attackId'=$2",[req.params.id,e.id]);
-   if(shared.active&&!reacted&&!chosenDefense.rowCount&&!e.payload.narrativeFailure&&!e.payload.surprise&&(access.manager||t.visible)){
+   if(shared.active&&!reacted&&!e.payload.electricDiversion&&!chosenDefense.rowCount&&!e.payload.narrativeFailure&&!e.payload.surprise&&(access.manager||t.visible)){
     const choices=reactors.filter(a=>a.id!==t.id&&a.id!==e.payload.attackerId&&a.hp>0&&a.pa>0&&a.initiative!==null&&!a.state.unconscious&&!a.state.muePending).flatMap(a=>a.reactionOptions.filter((o:any)=>!o.used&&(o.kind==='defense'||!['neuro','occulte'].includes(e.payload.damageType))).map((o:any)=>({...o,actorId:a.id,actorName:a.name,version:a.version,movement:playProfile(a.data,a.state).derived.movement})));
     if(choices.length)reactable.push({id:e.id,targetId:t.id,targetName:t.name,attacker:e.payload.public||access.manager?e.payload.attacker:'Attaquant non révélé',options:choices});
    }
    if(!access.manager&&t.owner_id!==user.id)continue;
    const defense=await pool.query("SELECT payload FROM campaign_live_events WHERE campaign_id=$1 AND kind='defend' AND payload->>'attackId'=$2 ORDER BY created_at LIMIT 1",[req.params.id,e.id]);
    const canReact=shared.active&&participates(shared,t.id)&&t.hp>0&&!t.state?.unconscious&&t.initiative!==null&&!e.payload.narrativeFailure;
-   const specialDefenses=t.kind==='character'?defenseOptions(t.data,t.state,e.payload,canReact):[];
-   const defensePayload=defense.rows[0]?.payload??null;
+   const specialDefenses=t.kind==='character'&&e.payload.attackMode!=='foudre'?defenseOptions(t.data,t.state,e.payload,canReact):[];
+   const lightning=t.kind==='character'?lightningAccess(t.data,t.state):null,paratonnerre=lightning?.paratonnerre?{available:canReact&&t.pa>0&&!e.payload.surprise&&e.payload.damageType==='electricite'&&!defense.rowCount&&!lightning.paratonnerreUsed&&!e.payload.electricDiversion&&!(e.payload.reactions??[]).length,used:lightning.paratonnerreUsed}:null;
+   const defensePayload=defense.rows[0]?.payload??(e.payload.electricDiversion?.success?{label:'Décharge détournée par Paratonnerre',active:false,total:t.defense,modifier:t.defense,narrativeFailure:false}:null);
    if(canReact&&t.kind==='character'&&e.payload.attackerId&&ashornAvailable(t.data,t.state,e.payload,defensePayload)){const enemy=await target(pool,req.params.id,e.payload.attackerId);if(enemy&&(access.manager||enemy.visible))counterAttacks.push({attackId:e.id,actorId:t.id,actorName:t.name,targetId:enemy.id,targetName:enemy.name,options:attackOptions(t,false).filter((o:any)=>['melee','pugilat'].includes(o.skill)&&o.attackMode==='melee')});}
-   pending.push({id:e.id,...e.payload,...(!access.manager&&!e.payload.public?{attacker:'Attaquant non révélé'}:{}),target:{id:t.id,name:t.name,edge:t.kind==='character'?await edgeBalance(pool,t.id,t.data):null,guard:!!(t.state??t.data).targeted?.guard,defense:t.defense,occultDefense:t.occultDefense,armor:t.armor,bodyArmor:t.bodyArmor??0,reductions:t.reductions??{},protections:t.protections,pa:t.pa,hp:t.hp,canSurprised:t.canSurprised??false,neuroDefense:t.neuroDefense??t.occultDefense,neuroPrograms:t.reality?.neuroDefense??[],neuroSacrificePrograms:t.reality?.neuro.loaded.map((p:any)=>({id:p.uid??p.itemId,label:p.item.name}))??[],aura:t.kind==='character'&&t.data.truth?.nature==='angelus'?{aura:t.aura.aura,egidePerAura:t.aura.egidePerAura}:null,damagePowers:t.kind==='character'?registeredTruthPowers(t.data,t.state).filter(p=>p.route==='damage'):[],specialDefenses,canDefend:canReact&&t.pa>0},defense:defensePayload});
+   pending.push({id:e.id,...e.payload,...(!access.manager&&!e.payload.public?{attacker:'Attaquant non révélé'}:{}),target:{id:t.id,name:t.name,version:t.version,paratonnerre,edge:t.kind==='character'?await edgeBalance(pool,t.id,t.data):null,guard:!!(t.state??t.data).targeted?.guard,defense:t.defense,occultDefense:t.occultDefense,armor:t.armor,bodyArmor:t.bodyArmor??0,reductions:t.reductions??{},protections:t.protections,pa:t.pa,hp:t.hp,canSurprised:t.canSurprised??false,neuroDefense:t.neuroDefense??t.occultDefense,neuroPrograms:t.reality?.neuroDefense??[],neuroSacrificePrograms:t.reality?.neuro.loaded.map((p:any)=>({id:p.uid??p.itemId,label:p.item.name}))??[],aura:t.kind==='character'&&t.data.truth?.nature==='angelus'?{aura:t.aura.aura,egidePerAura:t.aura.egidePerAura}:null,damagePowers:t.kind==='character'&&e.payload.attackMode!=='foudre'?registeredTruthPowers(t.data,t.state).filter(p=>p.route==='damage'):[],specialDefenses,canDefend:canReact&&t.pa>0},defense:defensePayload});
   }
   const characterIds=await pool.query(`SELECT c.id FROM characters c JOIN campaign_members m ON m.character_id=c.id AND m.user_id=c.owner_id AND m.campaign_id=c.campaign_id AND m.status='accepted' WHERE c.campaign_id=$1 AND c.archived_at IS NULL AND ($3::boolean OR c.owner_id=$2)`,[req.params.id,user.id,access.manager]);
   const npcIds=access.manager?await pool.query('SELECT id FROM campaign_live_combatants WHERE campaign_id=$1 AND NOT removed',[req.params.id]):{rows:[]};
@@ -128,7 +131,7 @@ export async function registerCampaignCombatRoutes(app:FastifyInstance){
   return {pending,reactable,counterAttacks,attackers,canManage:access.manager,...(access.manager?{weapons:[...BESTIARY_WEAPONS].sort((a,b)=>a.group.localeCompare(b.group,'fr')||a.name.localeCompare(b.name,'fr'))}:{})};
  });
  app.post<{Params:{id:string};Body:any}>('/api/campaigns/:id/combat',async(req,reply)=>{
-  reply.header('Cache-Control','private, no-store');const user=await requireUser(req,reply);if(!user)return;const b:any=req.body;if(!uuid(req.params.id)||!b||!uuid(b.requestId)||!['grace','spend','launch','attack','defend','resolve','cancel','react'].includes(b.action))return reply.code(400).send({error:'invalid_combat_action'});
+  reply.header('Cache-Control','private, no-store');const user=await requireUser(req,reply);if(!user)return;const b:any=req.body;if(!uuid(req.params.id)||!b||!uuid(b.requestId)||!['grace','spend','launch','attack','defend','resolve','cancel','react','paratonnerre','paratonnerre-force'].includes(b.action))return reply.code(400).send({error:'invalid_combat_action'});
   const db=await pool.connect();try{await db.query('BEGIN');const fail=async(code:number,error:string)=>{await db.query('ROLLBACK');return reply.code(code).send({error});};
    const access=await member(db,req.params.id,user);if(!access)return await fail(404,'campaign_not_found');
    await lockCombat(db,req.params.id);
@@ -157,7 +160,7 @@ export async function registerCampaignCombatRoutes(app:FastifyInstance){
    }else if(b.action==='react'){
     if(!shared.active||!uuid(b.attackId)||!uuid(b.actorId)||!Number.isSafeInteger(b.actorVersion)||!uuid(b.expectedTargetId)||typeof b.powerId!=='string')return await fail(400,'invalid_reaction');
     const r=await db.query("SELECT payload FROM campaign_live_events WHERE id=$1 AND campaign_id=$2 AND kind='attack' FOR UPDATE",[b.attackId,req.params.id]);if(!r.rowCount)return await fail(404,'attack_not_found');const a=r.rows[0].payload;
-    if(a.targetId!==b.expectedTargetId||(a.reactions??[]).length)return await fail(409,'reaction_window_changed');
+    if(a.targetId!==b.expectedTargetId||(a.reactions??[]).length||a.electricDiversion)return await fail(409,'reaction_window_changed');
     if((await db.query("SELECT id FROM campaign_live_events WHERE campaign_id=$1 AND kind IN ('defend','resolve','cancel') AND payload->>'attackId'=$2",[req.params.id,b.attackId])).rowCount)return await fail(409,'reaction_window_closed');
     const actor=await target(db,req.params.id,b.actorId,true),victim=await target(db,req.params.id,a.targetId);
     if(!actor||actor.kind!=='character'||!victim||actor.id===victim.id||actor.id===a.attackerId||!access.manager&&(actor.owner_id!==user.id||!victim.visible))return await fail(404,'target_not_found');
@@ -190,6 +193,7 @@ export async function registerCampaignCombatRoutes(app:FastifyInstance){
     const source=await target(db,req.params.id,b.attackerId,true),victim=await target(db,req.params.id,b.targetId);
     if(!source||!victim||!access.manager&&(source.owner_id!==user.id||!victim.visible))return await fail(404,'attack_not_found');
     const selectedOption=attackOptions(source,access.manager).find((r:any)=>r.id===b.optionId);if(!selectedOption)return await fail(400,'weapon_not_owned');const option={...selectedOption};
+    if(option.attackMode==='foudre'){try{lightningRange(b);}catch(e){return await fail(400,(e as Error).message);}}
     if(option.requiresAdjudication){if(!access.manager||b.contextConfirmed!==true||!kinds.includes(b.damageType))return await fail(400,'truth_weapon_ruling_required');option.damageType=b.damageType;}
     if(option.modeChangeCost&&(!access.manager||b.contextConfirmed!==true))return await fail(400,'weapon_mode_ruling_required');
     if(option.condition&&b.contextConfirmed!==true)return await fail(400,'power_context_required');
@@ -204,7 +208,7 @@ export async function registerCampaignCombatRoutes(app:FastifyInstance){
     }
     if(source.state?.unconscious||source.hp<=0||!riposte&&source.pa<1||source.initiative===null||source.state?.muePending)return await fail(400,'attack_unavailable');
     if(source.kind==='character'){const ammunition=consumeWeaponCharge(source.state,option);if(ammunition.error)return await fail(400,ammunition.error);}
-    if(!riposte&&option.damageType!=='neuro'&&option.damageType!=='occulte'){const state=source.kind==='character'?source.state:source.data,physical=canSpendPhysicalPA(state.effects??state.liveEffects??[],source.id,{...state,round:source.state?.round??source.round},1);if(!physical.available)return await fail(400,'physical_pa_limited');state.physicalPaSpent=physical.nextSpent;}
+    if(!riposte&&option.attackMode!=='foudre'&&option.damageType!=='neuro'&&option.damageType!=='occulte'){const state=source.kind==='character'?source.state:source.data,physical=canSpendPhysicalPA(state.effects??state.liveEffects??[],source.id,{...state,round:source.state?.round??source.round},1);if(!physical.available)return await fail(400,'physical_pa_limited');state.physicalPaSpent=physical.nextSpent;}
     const eventId=randomUUID();
     if(b.edge!==undefined&&typeof b.edge!=='boolean')return await fail(400,'invalid_edge');
     if(b.edge){if(source.kind!=='character')return await fail(400,'edge_players_only');const error=await spendEdge(db,source.id,source.data,eventId,'force');if(error)return await fail(400,error);}
@@ -216,10 +220,11 @@ export async function registerCampaignCombatRoutes(app:FastifyInstance){
     await db.query("INSERT INTO campaign_live_events(id,campaign_id,created_by,kind,payload,request_payload,public) VALUES($1,$2,$3,'roll',$4::jsonb,$5::jsonb,$6)",[eventId,req.params.id,user.id,JSON.stringify(roll),JSON.stringify(b),visible]);
     if(!riposte)source.pa--;if(guardian)delete source.state.targeted.guardian;
     if(source.kind==='character'){const skill=option.skill??(option.damageType==='neuro'?'neurodive':option.attackMode==='ranged'?'tir':option.id==='unarmed'||option.predation?'pugilat':'melee');consumeRegisteredTest(source.data,source.state,skill);consumeNatureTest(source.data,source.state,skill);}await saveTarget(db,source);if(!riposte)await recordAction(db,req.params.id,source.id,1);
-    payload={label:'Attaque à résoudre',eventId,riposteAttackId:b.riposteAttackId??null,guardianBonus:guardian,targetId:victim.id,attacker:source.name,characterId:source.kind==='character'?source.id:null,total:roll.total,narrativeFailure:die.narrativeFailure,attackerId:source.id,predation:!!option.predation,damage:option.damage,bonusDamage:b.bonusDamage+combatEffect(source,'damage')+powerEffects.filter(e=>e.kind==='damage').reduce((n,e)=>n+e.amount,0),penetration:option.penetration+Math.max(0,...powerEffects.filter(e=>e.kind==='piercing').map(e=>e.amount)),damageType:option.damageType,attackMode:option.attackMode,weaponRuling:option.requiresAdjudication?{vector:option.damageType,confirmedBy:user.id,notes:option.notes}:null,modeRuling:option.modeChangeCost?{mode:option.mode,changeCost:option.modeChangeCost,confirmedBy:user.id}:null,surprise:b.surprise,public:visible};
+    payload={label:'Attaque à résoudre',eventId,riposteAttackId:b.riposteAttackId??null,guardianBonus:guardian,targetId:victim.id,attacker:source.name,characterId:source.kind==='character'?source.id:null,total:roll.total,narrativeFailure:die.narrativeFailure,attackerId:source.id,predation:!!option.predation,damage:option.damage,bonusDamage:b.bonusDamage+combatEffect(source,'damage')+powerEffects.filter(e=>e.kind==='damage').reduce((n,e)=>n+e.amount,0),penetration:option.penetration+Math.max(0,...powerEffects.filter(e=>e.kind==='piercing').map(e=>e.amount)),damageType:option.damageType,attackMode:option.attackMode,...(option.attackMode==='foudre'?{distance:b.distance,supernatural:true}:{}),weaponRuling:option.requiresAdjudication?{vector:option.damageType,confirmedBy:user.id,notes:option.notes}:null,modeRuling:option.modeChangeCost?{mode:option.mode,changeCost:option.modeChangeCost,confirmedBy:user.id}:null,surprise:b.surprise,public:visible};
    }else if(b.action==='attack'){
     if(!access.manager)return await fail(403,'mj_only');
-    if(b.attackMode!==undefined&&!['melee','ranged','fixed','margin'].includes(b.attackMode))return await fail(400,'invalid_attack');
+    if(b.attackMode!==undefined&&!['melee','ranged','fixed','margin','foudre'].includes(b.attackMode))return await fail(400,'invalid_attack');
+    if(b.attackMode==='foudre'&&b.damageType!=='electricite')return await fail(400,'invalid_foudre_vector');
     if(!uuid(b.eventId)||!uuid(b.targetId)||!integer(b.damage)||!integer(b.bonusDamage,-100)||!integer(b.penetration)||!kinds.includes(b.damageType)||typeof b.surprise!=='boolean')return await fail(400,'invalid_attack');
     const r=await db.query(`SELECT payload,public FROM campaign_live_events WHERE id=$1 AND campaign_id=$2 AND kind IN ('roll','gm-roll') UNION ALL SELECT e.payload||jsonb_build_object('characterName',c.name),true AS public FROM character_play_events e JOIN characters c ON c.id=e.character_id WHERE e.id=$1 AND e.campaign_id=$2 AND c.campaign_id=$2 AND e.kind='roll'`,[b.eventId,req.params.id]);
     if(!r.rowCount||!Number.isSafeInteger(r.rows[0].payload.total)||!await target(db,req.params.id,b.targetId))return await fail(404,'attack_not_found');
@@ -234,44 +239,66 @@ export async function registerCampaignCombatRoutes(app:FastifyInstance){
     const d=await db.query("SELECT payload FROM campaign_live_events WHERE campaign_id=$1 AND kind='defend' AND payload->>'attackId'=$2",[req.params.id,b.attackId]);
     payload={attackId:b.attackId,targetId:t.id,characterName:t.name};
     if(b.action==='cancel'){if(!access.manager)return await fail(403,'mj_only');payload.label='Attaque annulée';}
-    else if(b.action==='defend'){
-     if(d.rowCount)return await fail(409,'defense_already_chosen');if(typeof b.active!=='boolean'||!integer(b.bonus,-100))return await fail(400,'invalid_defense');
+    else if(b.action==='paratonnerre'||b.action==='paratonnerre-force'){
+     if(!shared.active||!participates(shared,t.id)||t.kind!=='character'||!Number.isSafeInteger(b.actorVersion)||t.version!==b.actorVersion)return await fail(409,'paratonnerre_state_changed');
+     if(d.rowCount)return await fail(409,'reaction_window_closed');
+     if(b.action==='paratonnerre-force'){
+      if(!a.electricDiversion?.eventId)return await fail(400,'paratonnerre_unavailable');
+      const result=await forcePastRoll(db,t,t.state,a.electricDiversion.eventId);if(result.error)return await fail(400,result.error);payload={...payload,...result.payload};await saveTarget(db,t);
+     }else{
+      const access=lightningAccess(t.data,t.state);
+      if(a.electricDiversion||(a.reactions??[]).length||a.damageType!=='electricite'||a.narrativeFailure||a.surprise||!access.paratonnerre||access.paratonnerreUsed||t.hp<=0||t.state.unconscious||t.state.muePending||t.initiative===null||t.pa<1)return await fail(400,'paratonnerre_unavailable');
+      if(b.contextConfirmed!==true||b.safeDestinationConfirmed!==true||typeof b.destination!=='string'||!b.destination.trim()||b.destination.length>200)return await fail(400,'paratonnerre_destination_required');
+      if(b.edge!==undefined&&typeof b.edge!=='boolean')return await fail(400,'invalid_edge');
+      if(b.edge){const error=await spendEdge(db,t.id,t.data,b.requestId,'force');if(error)return await fail(400,error);}
+      const skill=playProfile(t.data,t.state).skills.find(s=>s.id==='maitrise_spirituelle')!,die=b.edge?forcedDie():rollD10(t.stress,()=>randomInt(1,11)),total=skill.total+die.sum,success=paratonnerreTest(total,die.narrativeFailure,a.total);
+      a.electricDiversion={eventId:b.requestId,actorId:t.id,...die,modifier:skill.total,total,success,edgeForced:!!b.edge};
+      await db.query('UPDATE campaign_live_events SET payload=$2::jsonb WHERE id=$1',[b.attackId,JSON.stringify(a)]);
+      t.pa--;consumeUsage(t.state,'round',lightningIds.paratonnerre);consumeRegisteredTest(t.data,t.state,skill.id);consumeNatureTest(t.data,t.state,skill.id);await saveTarget(db,t);
+      payload={...payload,characterId:t.id,label:'Paratonnerre',...die,modifier:skill.total,total,success,opposition:a.total,paCost:1,destination:b.destination.trim(),components:{attributeName:'Volonté',attribute:skill.attributeValue,skillName:skill.name,rank:skill.rank,bonus:skill.bonus}};
+     }
+    }else if(b.action==='defend'){
+     if(d.rowCount||a.electricDiversion?.success)return await fail(409,'defense_already_chosen');if(typeof b.active!=='boolean'||!integer(b.bonus,-100))return await fail(400,'invalid_defense');
      if(b.defensePowerId!==undefined&&(typeof b.defensePowerId!=='string'||b.defensePowerId.length>150))return await fail(400,'invalid_defense');
      const canReact=shared.active&&participates(shared,t.id)&&t.hp>0&&!t.state?.unconscious&&t.initiative!==null&&!a.narrativeFailure;
-     const special=b.defensePowerId&&t.kind==='character'?defenseOptions(t.data,t.state,a,canReact).find(p=>p.id===b.defensePowerId):null;
+     const special=b.defensePowerId&&t.kind==='character'&&a.attackMode!=='foudre'?defenseOptions(t.data,t.state,a,canReact).find(p=>p.id===b.defensePowerId):null;
      if(b.defensePowerId&&(!b.active||!special?.available))return await fail(400,'defense_power_unavailable');
      const paCost=b.active?(special?.cost??1):0;
      if(special?.context&&b.contextConfirmed!==true)return await fail(400,'power_context_required');
      const neuroProgram=a.damageType==='neuro'&&b.active?t.reality?.neuroDefense.find((p:any)=>p.id===b.neuroProgramId):null;if(a.damageType==='neuro'&&b.active&&!neuroProgram)return await fail(400,'neuro_defense_program_required');
-     const specialBonus=Math.max(b.active?(special?.bonus??0):0,b.active&&a.damageType==='neuro'?(neuroProgram?.bonus??0):0,t.kind==='character'?vampireDefenseBonus(t.data,t.state,a):0);
+     const specialBonus=Math.max(b.active?(special?.bonus??0):0,b.active&&a.damageType==='neuro'?(neuroProgram?.bonus??0):0,t.kind==='character'&&!(a.attackMode==='foudre'&&b.defenseKind==='occult')?vampireDefenseBonus(t.data,t.state,a):0);
      if(b.active&&(!canReact||a.surprise&&!special?.surprise&&!t.canSurprised||t.pa<paCost))return await fail(400,'active_defense_unavailable');
      if(b.edge!==undefined&&typeof b.edge!=='boolean')return await fail(400,'invalid_edge');
      if(b.edge){if(!b.active||t.kind!=='character')return await fail(400,'edge_players_only');const error=await spendEdge(db,t.id,t.data,b.requestId,'force');if(error)return await fail(400,error);}
-     const base=a.damageType==='neuro'?(b.active?t.activeNeuroDefense??t.neuroDefense??t.occultDefense:t.neuroDefense??t.occultDefense):a.damageType==='occulte'?(b.active?t.activeOccultDefense??t.occultDefense:t.occultDefense):(b.active?t.activeDefense??t.defense:t.defense),die=b.active?(b.edge?forcedDie():rollD10(t.stress,()=>randomInt(1,11))):null;
+     if(a.attackMode==='foudre'&&(!['physical','occult'].includes(b.defenseKind)||b.contextConfirmed!==true))return await fail(400,'foudre_defense_required');
+     const base=a.attackMode==='foudre'?(b.defenseKind==='occult'?(b.active?t.activeOccultDefense:t.occultDefense):(b.active?t.activeDefense:t.defense)):a.damageType==='neuro'?(b.active?t.activeNeuroDefense??t.neuroDefense??t.occultDefense:t.neuroDefense??t.occultDefense):a.damageType==='occulte'?(b.active?t.activeOccultDefense??t.occultDefense:t.occultDefense):(b.active?t.activeDefense??t.defense:t.defense),die=b.active?(b.edge?forcedDie():rollD10(t.stress,()=>randomInt(1,11))):null;
      const bonus=t.defenseless?0:b.bonus;
-     payload={...payload,characterId:t.kind==='character'?t.id:null,label:b.active?'Défense active':'Défense passive',active:b.active,modifier:base+bonus+specialBonus,...die,total:base+bonus+specialBonus+(die?.sum??0),paCost,defensePowerId:special?.id??null,defensePowerName:special?.name??null,components:{defense:base,bonus,specialBonus}};
-     if(b.active){if(!['neuro','occulte'].includes(a.damageType)){const state=t.kind==='character'?t.state:t.data,physical=canSpendPhysicalPA(state.effects??state.liveEffects??[],t.id,{...state,round:t.state?.round??t.round},paCost);if(!physical.available)return await fail(400,'physical_pa_limited');state.physicalPaSpent=physical.nextSpent;}t.pa-=paCost;if(special?.limit)consumeUsage(t.state,special.limit,special.id);if(t.kind==='character'){const skill=['neuro','occulte'].includes(a.damageType)?'force_mentale':'esquive';consumeRegisteredTest(t.data,t.state,skill);consumeNatureTest(t.data,t.state,skill);}await saveTarget(db,t);}
+     payload={...payload,characterId:t.kind==='character'?t.id:null,label:b.active?'Défense active':'Défense passive',active:b.active,modifier:base+bonus+specialBonus,...die,total:base+bonus+specialBonus+(die?.sum??0),paCost,...(a.attackMode==='foudre'?{defenseKind:b.defenseKind}:{}),defensePowerId:special?.id??null,defensePowerName:special?.name??null,components:{defense:base,bonus,specialBonus}};
+     if(b.active){if((a.attackMode==='foudre'?b.defenseKind==='physical':!['neuro','occulte'].includes(a.damageType))){const state=t.kind==='character'?t.state:t.data,physical=canSpendPhysicalPA(state.effects??state.liveEffects??[],t.id,{...state,round:t.state?.round??t.round},paCost);if(!physical.available)return await fail(400,'physical_pa_limited');state.physicalPaSpent=physical.nextSpent;}t.pa-=paCost;if(special?.limit)consumeUsage(t.state,special.limit,special.id);if(t.kind==='character'){const skill=(a.attackMode==='foudre'?b.defenseKind==='occult':['neuro','occulte'].includes(a.damageType))?'force_mentale':'esquive';consumeRegisteredTest(t.data,t.state,skill);consumeNatureTest(t.data,t.state,skill);}await saveTarget(db,t);}
     }else{
-     if(!d.rowCount)return await fail(400,'choose_defense');const defense=d.rows[0].payload;
+     if(!d.rowCount&&!a.electricDiversion?.success)return await fail(400,'choose_defense');const defense=d.rows[0]?.payload??{total:t.defense,active:false,narrativeFailure:false};
      if(typeof b.material!=='boolean'||!Array.isArray(b.protectionIds)||b.protectionIds.length>100||b.protectionIds.some((id:any)=>!t.protections.some((p:any)=>p.id===id))||!integer(b.extraArmor)||!integer(b.extraReduction)||!integer(b.armor,-0,100)||!integer(b.defenseOverride,0,1000))return await fail(400,'invalid_reduction');
      if(b.hitZone!==undefined&&(typeof b.hitZone!=='string'||!b.hitZone.trim()||b.hitZone.length>100))return await fail(400,'invalid_hit_zone');
      if(defense.narrativeFailure&&!access.manager)return await fail(400,'mj_defense_ruling_required');
      const selected=t.protections.filter((p:any)=>b.protectionIds.includes(p.id));
-     const material=a.damageType==='neuro'||!b.material?0:Math.max(0,b.armor+Math.max(0,...selected.map((p:any)=>p.armor))+Math.max(t.bodyArmor??0,...selected.map((p:any)=>p.body))+b.extraArmor+combatArmorModifier(t,b.hitZone));
-     let powerReduction=0;if(b.damagePowerId){if(t.kind!=='character'||['neuro','occulte'].includes(a.damageType))return await fail(400,'power_unavailable');try{const p=registeredReaction(t.data,t.state,b.damagePowerId,'damage',b);powerReduction=Math.max(0,...p.effects.filter(e=>e.kind==='reduction').map(e=>e.amount));spendRegisteredUsage(t.state,b.damagePowerId);}catch(e){return await fail(400,(e as Error).message);}}
+     const foudre=a.attackMode==='foudre';
+     if(foudre&&b.extraReduction>0&&(!access.manager||b.electricProtectionConfirmed!==true||typeof b.electricProtectionNote!=='string'||!b.electricProtectionNote.trim()||b.electricProtectionNote.length>200))return await fail(403,'electric_protection_ruling_required');
+     const material=foudre||a.damageType==='neuro'||!b.material?0:Math.max(0,b.armor+Math.max(0,...selected.map((p:any)=>p.armor))+Math.max(t.bodyArmor??0,...selected.map((p:any)=>p.body))+b.extraArmor+combatArmorModifier(t,b.hitZone));
+     let powerReduction=0;if(b.damagePowerId){if(t.kind!=='character'||foudre||['neuro','occulte'].includes(a.damageType))return await fail(400,'power_unavailable');try{const p=registeredReaction(t.data,t.state,b.damagePowerId,'damage',b);powerReduction=Math.max(0,...p.effects.filter(e=>e.kind==='reduction').map(e=>e.amount));spendRegisteredUsage(t.state,b.damagePowerId);}catch(e){return await fail(400,(e as Error).message);}}
      let sacrificeReduction=0;if(b.sacrificePrograms?.length){if(t.kind!=='character'||a.damageType!=='neuro')return await fail(400,'invalid_neuro_sacrifice');const sacrificed=neuroSacrifice(t.data,t.state,getRealityRules(),b.sacrificePrograms);if(sacrificed.error)return await fail(400,sacrificed.error);sacrificeReduction=sacrificed.payload!.reduction;await db.query('UPDATE characters SET data=$2::jsonb,version=version+1 WHERE id=$1',[t.id,JSON.stringify(t.data)]);}
-     const reduction=Math.max(0,powerReduction+sacrificeReduction+b.extraReduction+combatEffect(t,'reduction')+(t.reductions?.[a.damageType]??0)+Math.max(0,...selected.map((p:any)=>p.reductions[a.damageType]??0))+[...new Map(selected.map((p:any)=>[p.itemId??p.id,p])).values()].reduce((n:number,p:any)=>n+(p.additive?.[a.damageType]??0),0));
+     const reduction=Math.max(0,powerReduction+sacrificeReduction+b.extraReduction+(foudre?0:combatEffect(t,'reduction'))+(t.reductions?.[a.damageType]??0)+Math.max(0,...selected.map((p:any)=>p.reductions[a.damageType]??0))+[...new Map(selected.map((p:any)=>[p.itemId??p.id,p])).values()].reduce((n:number,p:any)=>n+(p.additive?.[a.damageType]??0),0));
      if(b.supernaturalConfirmed!==undefined&&(typeof b.supernaturalConfirmed!=='boolean'||b.supernaturalConfirmed&&!access.manager))return await fail(403,'supernatural_ruling_mj_only');
      const defenseTotal=Math.max(defense.narrativeFailure?b.defenseOverride:defense.total,a.reactionDefense??0);
      const calc=damageCalculation(a,defenseTotal,material,reduction),before=t.hp;
-     const guardReduction=consumeGuard(t.kind==='character'?t.state:t.data,calc.hit,a.damageType==='occulte'||b.supernaturalConfirmed===true);calc.reduction+=guardReduction;calc.damage=Math.max(0,calc.damage-guardReduction);
+     if(a.electricDiversion?.success){calc.hit=false;calc.damage=0;calc.alteration=false;}
+     const guardReduction=consumeGuard(t.kind==='character'?t.state:t.data,calc.hit,foudre||a.damageType==='occulte'||b.supernaturalConfirmed===true);calc.reduction+=guardReduction;calc.damage=Math.max(0,calc.damage-guardReduction);
      let auraReduction=0;if(b.auraSpend){if(t.kind!=='character'||a.damageType!=='occulte')return await fail(400,'egide_not_applicable');try{const r=applyNatureResourceAction(t.data,t.state,{action:'nature-angelus-egide',amount:b.auraSpend},{inCombat:shared.active,hp:t.hp,death:t.death,spiritualDamage:true,damage:calc.damage,permanentFortitude:playProfile(t.data,t.state).skills.find(s=>s.id==='force_mentale')!.rank});t.state=r.state;auraReduction=r.payload.damageReduction as number;t.pa=t.state.pa;}catch(e){return await fail(400,(e as Error).message);}calc.damage-=auraReduction;}
      t.hp=Math.max(t.death,t.hp-calc.damage);if(t.kind==='character'&&calc.damage>0){t.state.stabilized=false;if(t.data.truth?.nature==='vampire'){const saved=applyVampireLastSleep(t.data,{...t.state,hp:before},t.hp,t.death,b.bodySurvivable!==false);if(!('error'in saved)){t.state=saved.state;t.hp=saved.state.hp??t.hp;if(saved.payload.saved===true)t.pa=saved.state.pa;payload.lastSleep=saved.payload.saved===true;}}}t.pa=t.hp<=t.death?0:t.hp<=0?Math.min(t.pa,1):t.pa;
      if(a.predation&&a.attackerId){const predator=await target(db,req.params.id,a.attackerId,true);if(predator?.kind==='character'){const r=applyVampirePredation(predator.data,predator.state,{actualLoss:Math.max(0,before-t.hp),dr:Math.min(5,Math.floor(calc.margin/3)),success:calc.hit},predator.basePvMax??predator.pv_max);if(!('error'in r)){predator.state=r.state;predator.hp=r.state.hp??predator.hp;await saveTarget(db,predator);await db.query('INSERT INTO character_play_events(id,character_id,campaign_id,created_by,kind,payload,request_payload) VALUES($1,$2,$3,$4,$5,$6::jsonb,$7::jsonb)',[randomUUID(),predator.id,req.params.id,user.id,'vampire-predation-heal',JSON.stringify(r.payload),'{}']);payload.predation=true;}}}
-     await saveTarget(db,t);payload={...payload,powerReduction,sacrificeReduction,auraReduction,guardReduction,hitZone:b.hitZone??null,label:'Résolution d’attaque',...calc,before,after:t.hp,attackTotal:a.total,defenseTotal,defenseDice:defense.dice??[],active:defense.active,defenseNarrativeFailure:!!defense.narrativeFailure};publicEvent=a.public&&t.visible;
+     await saveTarget(db,t);payload={...payload,...(foudre&&b.extraReduction>0?{electricProtectionNote:b.electricProtectionNote.trim()}:{}),diverted:!!a.electricDiversion?.success,powerReduction,sacrificeReduction,auraReduction,guardReduction,hitZone:b.hitZone??null,label:'Résolution d’attaque',...calc,before,after:t.hp,attackTotal:a.total,defenseTotal,defenseDice:defense.dice??[],active:defense.active,defenseNarrativeFailure:!!defense.narrativeFailure};publicEvent=a.public&&t.visible;
     }
    }
-   await db.query('INSERT INTO campaign_live_events(id,campaign_id,created_by,kind,payload,request_payload,public) VALUES($1,$2,$3,$4,$5::jsonb,$6::jsonb,$7)',[b.requestId,req.params.id,user.id,b.action==='launch'?'attack':b.action,JSON.stringify(payload),JSON.stringify(b),publicEvent]);if(b.action!=='grace')await maybeAdvanceCombat(db,req.params.id,user.id);await db.query('COMMIT');return {ok:true,...(b.action==='react'?{result:payload}:{})};
+   await db.query('INSERT INTO campaign_live_events(id,campaign_id,created_by,kind,payload,request_payload,public) VALUES($1,$2,$3,$4,$5::jsonb,$6::jsonb,$7)',[b.requestId,req.params.id,user.id,b.action==='launch'?'attack':b.action,JSON.stringify(payload),JSON.stringify(b),publicEvent]);if(b.action!=='grace')await maybeAdvanceCombat(db,req.params.id,user.id);await db.query('COMMIT');return {ok:true,...(['react','paratonnerre','paratonnerre-force'].includes(b.action)?{result:payload}:{})};
   }catch(e){await db.query('ROLLBACK').catch(()=>{});throw e;}finally{db.release();}
  });
 }

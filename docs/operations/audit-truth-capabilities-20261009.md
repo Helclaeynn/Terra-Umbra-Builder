@@ -15,6 +15,8 @@ Cet inventaire est exhaustif sur son périmètre. Chaque Talent et capacité de 
 
 Les [soutiens et réactions intégrés](audit-targeted-reactions-20261009.md) exécutent désormais Suture, Réfection, Rune, Gardien, Caendis, AIDH et les ripostes du Gardien/Ashorn. Le tableau des définitions au registre ne compte pas ces routes dédiées comme de nouvelles entrées du registre.
 
+[Foudre aseryne et Paratonnerre](audit-lightning-20261009.md) disposent désormais de leur résolution électrique et de leur opposition personnelle. Les variantes, rebonds et zones ne sont pas automatiquement exécutés.
+
 ## Points exigeant encore un arbitrage ou une procédure ciblée
 
 | Mécanique | Contrôle nécessaire | Effet interdit par défaut |
@@ -26,7 +28,7 @@ Les [soutiens et réactions intégrés](audit-targeted-reactions-20261009.md) ex
 | Griffe d’entrave / Trace du Néant / Plaie consacrée | Dégâts effectivement infligés et PV temporairement non régénérables ; source/expiration | Suppression de tous les soins ou suspension permanente |
 | Peur / domination / illusions | Opposition, cible compatible, protections et nouveaux tests de libération | Réussite forcée ou obéissance déduite du seul bouton |
 | Réfection vitale / Rune de Garde — contrôle intégré | Limite serveur par scénario portée par le bénéficiaire, indépendamment du lanceur | Recharge par autre auteur, réinscription, nouvelle scène ou nouveau combat |
-| Foudre / Paratonnerre | Jet de Foudre, défense/protection pertinentes, conducteur/zone sûre et moment de réaction | Esquive ordinaire substituée au Jet de Foudre, réflexion gratuite |
+| Foudre standard / Paratonnerre — intégrés ; variantes assistées | Jet de Foudre, défense/protection pertinentes, conducteur/zone sûre et moment de réaction | Esquive ordinaire substituée au Jet de Foudre, réflexion gratuite |
 | Nucléomancie | Vecteur thermique/radiologique, armure réellement adaptée et Souillure physique | Armure matérielle générique bloquant toutes les radiations |
 | Pacte / Miette / Vol de secret | Capacité exacte réellement acquise et observée, coûts/conditions et borne du profil | Copie libre de tous les pouvoirs de la source |
 | Technomagie / réseaux / sabotage | Objet, matériaux, autorité, moyens, circuit et temps de préparation existants | Objet, argent, énergie ou institution créés par déclaration |
@@ -773,9 +775,9 @@ Total supplémentaire : **110 traits gratuits** sur ces six familles, distincts 
 | aseryn_traditions_des_treize_theana_la_guerisseuse_geste_salvateur | Geste salvateur | Texte / commande assistée | Accès non renseigné ; aucun coût/délai structuré ; effets narratifs/ciblés à arbitrer, aucune valeur inventée | regles-verite-v7-aseryn-treize-dratyn-conseil-foudre |
 | aseryn_traditions_des_treize_theana_la_guerisseuse_l_impossible_reste_possible | L’impossible reste possible | Texte / commande assistée | Accès non renseigné ; aucun coût/délai structuré ; effets narratifs/ciblés à arbitrer, aucune valeur inventée | regles-verite-v7-aseryn-treize-dratyn-conseil-foudre |
 | aseryn_dratyn_la_maitresse_de_la_foudre_talents_communs_de_dratyn_conduction | Conduction | Texte / commande assistée | Accès SR/R ; aucun coût/délai structuré ; effets narratifs/ciblés à arbitrer, aucune valeur inventée | regles-verite-v7-aseryn-treize-dratyn-conseil-foudre |
-| aseryn_dratyn_la_maitresse_de_la_foudre_talents_communs_de_dratyn_foudre_aseryne | Foudre aseryne | Texte / commande assistée | Accès R ; aucun coût/délai structuré ; effets narratifs/ciblés à arbitrer, aucune valeur inventée | regles-verite-v7-aseryn-treize-dratyn-conseil-foudre |
+| aseryn_dratyn_la_maitresse_de_la_foudre_talents_communs_de_dratyn_foudre_aseryne | Foudre aseryne | Résolution électrique / opposition serveur | R ; Conduction possédée ; 1 PA ; portée 20 m ; Volonté + Maîtrise spirituelle ; marge + DGT 7 ; protection électrique pertinente, sans Armure ordinaire ni paliers de Tir | regles-verite-v7-aseryn-treize-dratyn-conseil-foudre |
 | aseryn_dratyn_la_maitresse_de_la_foudre_talents_communs_de_dratyn_decharge_maitrisee | Décharge maîtrisée | Texte / commande assistée | Accès R ; aucun coût/délai structuré ; effets narratifs/ciblés à arbitrer, aucune valeur inventée | regles-verite-v7-aseryn-treize-dratyn-conseil-foudre |
-| aseryn_dratyn_la_maitresse_de_la_foudre_talents_communs_de_dratyn_paratonnerre | Paratonnerre | Texte / commande assistée | Accès SR/R ; Réaction · 1 PA · 1/round ; effets narratifs/ciblés à arbitrer, aucune valeur inventée | regles-verite-v7-aseryn-treize-dratyn-conseil-foudre |
+| aseryn_dratyn_la_maitresse_de_la_foudre_talents_communs_de_dratyn_paratonnerre | Paratonnerre | Résolution électrique / opposition serveur | SR/R ; prérequis possédés ; 1 PA, 1/round ; Jet de Foudre opposé ; annule les dégâts personnels ; conducteur/zone valide confirmé ; Edge avant/après | regles-verite-v7-aseryn-treize-dratyn-conseil-foudre |
 | aseryn_dratyn_la_maitresse_de_la_foudre_talents_communs_de_dratyn_arc_en_chaine | Arc en chaîne | Texte / commande assistée | Accès R ; aucun coût/délai structuré ; effets narratifs/ciblés à arbitrer, aucune valeur inventée | regles-verite-v7-aseryn-treize-dratyn-conseil-foudre |
 | aseryn_dratyn_la_maitresse_de_la_foudre_talents_communs_de_dratyn_orage_aseryn | Orage aseryn | Texte / commande assistée | Accès R ; aucun coût/délai structuré ; effets narratifs/ciblés à arbitrer, aucune valeur inventée | regles-verite-v7-aseryn-treize-dratyn-conseil-foudre |
 | aseryn_dratyn_la_maitresse_de_la_foudre_specialisation_de_foudre_createur_foudre_originelle_foudre_originelle | Foudre originelle | Texte / commande assistée | Accès R ; aucun coût/délai structuré ; effets narratifs/ciblés à arbitrer, aucune valeur inventée | regles-verite-v7-aseryn-treize-dratyn-conseil-foudre |

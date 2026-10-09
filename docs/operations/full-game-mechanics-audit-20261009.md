@@ -17,6 +17,7 @@ L’[inventaire JSON exhaustif](live-mechanics-inventory.json) donne une ligne p
 | Vampire | [71 talents et traits](audit-vampire-20261009.md) | Stase, prédation, Dernier Sommeil, ressources de Sang/Cour, entretien |
 | Mage, Daemon, Angelus | [Ressources et constructions](audit-nature-resources-20261009.md) | Préparations, jets, Tension/Revers, Spectres, Faveur, Aura, Égide, Lame |
 | Soutiens ciblés et réactions | [Huit capacités reliées au serveur](audit-targeted-reactions-20261009.md) | Suture, Réfection, Rune, Gardien, Caendis, AIDH et ripostes |
+| Foudre et Paratonnerre | [Résolution électrique](audit-lightning-20261009.md) | Foudre standard, protection électrique, diversion personnelle et Edge avant/après |
 | Effets sur PJ et PNJ | [Suivi des effets](audit-effects-20261009.md) | Horloges par round/activation/scène, ticks, cumul, traitement, huit presets |
 | Objets de Vérité et traits gratuits | [Objets et traits](audit-truth-items-20261009.md) | Profils explicites distincts des descriptions et exceptions à arbitrer |
 
@@ -40,7 +41,7 @@ Le panneau personnel est repliable et regroupe ces commandes. Le panneau MJ perm
 | Domaine | Ce qui reste assisté ou à intégrer | Conséquence pratique |
 | --- | --- | --- |
 | Cibles, oppositions, zones et support | Sorts, illusions, domination, autres soins/transferts et protections de groupe | Préparation/coût suivis ; MJ résout la cible et applique l’effet ciblé approprié |
-| Réactions complexes | Autres ripostes/interpositions, chaînes de réactions, renvoi Neuro, interceptions, Foudre/Paratonnerre | Seules les réactions explicitement intégrées exécutent une riposte ou un changement de cible |
+| Réactions complexes | Autres ripostes/interpositions, chaînes de réactions, renvoi Neuro, interceptions, variantes de Foudre et zones électriques | Seules les réactions explicitement intégrées exécutent une riposte ou un changement de cible |
 | Restrictions de PA | Crête de Mo’senine et autres PA réservés à une famille d’action | Crête reste une définition externe, non activable comme PA libre |
 | Semi-immatérialité | Entre-deux-états impose aussi des interdictions physiques | Route externe : aucun bonus personnel activable sans suivi de ces restrictions |
 | Frénésie et peur | Entrées/sorties, Impulsion, résistance et déclencheurs exacts | Aucun déclenchement déduit d’un simple changement de maximum de PV |
@@ -64,3 +65,5 @@ Les nouveaux états sont dans les JSON de jeu et conservent des valeurs par déf
 Le complément de soutiens/réactions ajoute les tests API de consentement, rejeu, confidentialité des PV, quotas reçus, portées, fenêtres de réaction et riposte à zéro PA, ainsi qu’un panneau repliable et des tests DOM. Voir le rapport ciblé pour les conditions et limites exactes.
 
 La recette de ce complément a réussi sur `b2e9fe1f16ccf219b9e85c2d6eb9235117eddf90`, [CI `37940435998`](https://github.com/Helclaeynn/Terra-Umbra-Builder/actions/runs/37940435998) : API/PostgreSQL, UI, PDF, Chrome à 1 440/390/320 pixels et Compose. Le déploiement a été désactivé par le garde du serveur de production.
+
+Le complément [Foudre/Paratonnerre](audit-lightning-20261009.md) ajoute deux résolutions dédiées sans changer le total canonique : attaque de Foudre standard à 20 m, marge + DGT 7, protections réellement électriques, réaction personnelle à 1 PA et 1/round, Edge avant/après. Les variantes, zones et effets sur circuits restent assistés.

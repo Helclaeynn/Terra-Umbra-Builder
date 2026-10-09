@@ -12,8 +12,11 @@ import {dedicatedPowerIds} from '../dist/rules/live-mechanics.js';
 import {livePowerRegistry} from '../dist/rules/live-power-registry.js';
 import {truthWeaponProfiles} from '../dist/rules/live-truth-items.js';
 import {vampirePowerRules} from '../dist/rules/live-vampire.js';
+import {lightningIds} from '../dist/rules/lightning.js';
 import {targetedRules,interpositionRules} from '../dist/rules/targeted-powers.js';
+const lightningCoverage=new Map([[lightningIds.foudre,{implemented:['R et Conduction possédée ; 1 PA ; Volonté + Maîtrise spirituelle ; cible à 20 m maximum ; marge + DGT 7 moins protection électrique, sans paliers de Tir ni Armure ordinaire.'],remaining:['Distance, trajectoire et défense pertinente confirmées avec le MJ ; protection sans valeur électrique explicite arbitrée par le MJ ; variantes/zones assistées.']}],[lightningIds.paratonnerre,{implemented:['SR/R et prérequis possédés ; réaction personnelle 1 PA, 1/round avant défense ; Jet de Foudre opposé ; dégâts annulés en réussite ; Edge avant/après avec rejeu contrôlé.'],remaining:['Conducteur ou zone valide proche confirmé ; ne protège pas automatiquement un allié et ne renvoie pas la décharge ; pas de chaîne d’interceptions.']}]]);
 const targetedCoverage=new Map([
+ ...lightningCoverage,
  ...targetedRules.map(r=>[r.id,{implemented:[r.context,`Coût ${r.cost} PA sous pression ; consentement du bénéficiaire ou application MJ ; mutation atomique et rejeu contrôlé.`],remaining:['Contact, blessure ordinaire ou support porté confirmé dans la fiction.']}]),
  ...interpositionRules.filter(r=>!r.id.startsWith('trait:')).map(r=>[r.id,{implemented:[`Réaction avant défense/résolution ; 1 PA ; quota ${r.limit??'aucun'} ; portée ${r.range??'proximité physique confirmée'}.`,r.kind==='redirect'?'Changement de cible ; protections et défense du véritable intervenant.':'Jet Agilité + Esquive ; meilleure défense conservée pour le bénéficiaire.'],remaining:['Alliance, perception et trajectoire physiquement possibles confirmées ; une intervention par attaque.']}]),
  ['riposte_du_gardien',{implemented:['Après interposition du Gardien : +3 au prochain jet d’attaque contre le même agresseur, jusqu’à la fin du round suivant ; consommation au jet.'],remaining:['Déplacement et interposition physiquement possibles confirmés.']}],
@@ -79,7 +82,7 @@ for(const [nature,items] of Object.entries(truth.catalogs))for(const t of items)
  else if(dedicatedPowerIds.has(t.id)){coverage='action dédiée / quota serveur';implemented=['Défense spéciale, réparation nanitique ou récupération selon identifiant explicite.'];}
  else if(v){coverage=['vampire','defense','passive'].includes(v.route)?'ressource / action dédiée':'activation assistée / coût contrôlé';implemented=[`Route ${v.route} ; coût ${v.cost} PA ; quota ${v.limit??'aucun'} ; entretien ${v.maintenance??0} PA/round.`];}
  else if(['mage','daemon','angelus'].includes(nature)){coverage=nature==='mage'?'construction / ressource dédiée':'ressource / activation assistée';implemented=['Préparation et ressources de Nature via commandes dédiées ; le coût doit être fixe et défini pour être exécuté.'];remaining=['Le journal de préparation/activation ne résout pas automatiquement la cible, la zone, les soins/transferts ou les conséquences narratives.'];}
- add('Vérité · '+nature,t,coverage,{access:t.access??'R',implemented,remaining,audit:targetedCoverage.has(t.id)?'audit-targeted-reactions-20261009.md':nature==='vampire'?'audit-vampire-20261009.md':['mage','daemon','angelus'].includes(nature)?'audit-nature-resources-20261009.md':'audit-truth-capabilities-20261009.md'});
+ add('Vérité · '+nature,t,coverage,{access:t.access??'R',implemented,remaining,audit:lightningCoverage.has(t.id)?'audit-lightning-20261009.md':targetedCoverage.has(t.id)?'audit-targeted-reactions-20261009.md':nature==='vampire'?'audit-vampire-20261009.md':['mage','daemon','angelus'].includes(nature)?'audit-nature-resources-20261009.md':'audit-truth-capabilities-20261009.md'});
 }
 for(const [nature,n] of Object.entries(truth.structure.natures)){
  let flatIndex=0;

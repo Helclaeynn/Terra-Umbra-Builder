@@ -63,9 +63,9 @@
     "Vérité · aseryn": {
       "total": 100,
       "coverage": {
-        "texte / activation assistée": 88,
+        "texte / activation assistée": 86,
         "action dédiée / calcul ciblé": 11,
-        "résolution ciblée / réaction serveur": 1
+        "résolution ciblée / réaction serveur": 3
       }
     },
     "Vérité · exile": {
@@ -14159,13 +14159,15 @@
       "name": "Foudre aseryne",
       "source": "regles-verite-v7-aseryn-treize-dratyn-conseil-foudre",
       "canonicalEffect": "Prérequis : Conduction | R — 1 PA L'Aseryn peut générer et projeter sa propre Foudre. Il gagne l'attaque de Foudre standard, DGT 7, selon les règles communes ci-dessus.",
-      "coverage": "texte / activation assistée",
+      "coverage": "résolution ciblée / réaction serveur",
       "access": "R",
-      "implemented": [],
-      "remaining": [
-        "Cible, contexte, opposition et conséquences particulières à résoudre explicitement."
+      "implemented": [
+        "R et Conduction possédée ; 1 PA ; Volonté + Maîtrise spirituelle ; cible à 20 m maximum ; marge + DGT 7 moins protection électrique, sans paliers de Tir ni Armure ordinaire."
       ],
-      "audit": "audit-truth-capabilities-20261009.md"
+      "remaining": [
+        "Distance, trajectoire et défense pertinente confirmées avec le MJ ; protection sans valeur électrique explicite arbitrée par le MJ ; variantes/zones assistées."
+      ],
+      "audit": "audit-lightning-20261009.md"
     },
     {
       "family": "Vérité · aseryn",
@@ -14187,13 +14189,15 @@
       "name": "Paratonnerre",
       "source": "regles-verite-v7-aseryn-treize-dratyn-conseil-foudre",
       "canonicalEffect": "Une fois par round, pour 1 PA en Réaction, opposez votre Jet de Foudre à une décharge électrique visant vous-même ou un allié situé à 5 m maximum. En réussite, détournez-la vers un conducteur ou une zone sûre accessible, sans la renvoyer gratuitement sur un adversaire.\n\nL’intervention est annoncée avant résolution ; on ne relance pas rétroactivement une défense déjà ratée. Une zone ne perd que l’exposition de la cible effectivement protégée, pas tous ses effets sur les autres.",
-      "coverage": "texte / activation assistée",
+      "coverage": "résolution ciblée / réaction serveur",
       "access": "SR/R",
-      "implemented": [],
-      "remaining": [
-        "Cible, contexte, opposition et conséquences particulières à résoudre explicitement."
+      "implemented": [
+        "SR/R et prérequis possédés ; réaction personnelle 1 PA, 1/round avant défense ; Jet de Foudre opposé ; dégâts annulés en réussite ; Edge avant/après avec rejeu contrôlé."
       ],
-      "audit": "audit-truth-capabilities-20261009.md"
+      "remaining": [
+        "Conducteur ou zone valide proche confirmé ; ne protège pas automatiquement un allié et ne renvoie pas la décharge ; pas de chaîne d’interceptions."
+      ],
+      "audit": "audit-lightning-20261009.md"
     },
     {
       "family": "Vérité · aseryn",
