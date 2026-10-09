@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import {randomUUID} from 'node:crypto';
 import {blankCharacterData} from '../dist/character-data.js';
 import {blankPlayState} from '../dist/rules/play-state.js';
+import {enterFrenzy} from '../dist/rules/live-frenzy.js';
 export async function checkCampaignMechanics({pool,call,player,other,manager}){
  const campaign=randomUUID(),source=randomUUID(),target=randomUUID();
  const sourceData=blankCharacterData('Source mechanics');sourceData.attributes.vigueur=4;sourceData.skills.constitution={style:4,free:0,edge:0};sourceData.creation.sphere='';sourceData.truth={nature:'extral',consciousness:'initie',choices:{species:'rocreen'},truthTalents:[]};
@@ -46,6 +47,20 @@ export async function checkCampaignMechanics({pool,call,player,other,manager}){
   await act('effect-add',{preset:'extral-venin-rocreen',sourceId:source,proof,sourceActionId:randomUUID()},400);
   const attackId=randomUUID();await pool.query("INSERT INTO campaign_live_events(id,campaign_id,created_by,kind,payload,request_payload,public) VALUES($1,$2,$3,'attack',$4::jsonb,$5::jsonb,false)",[attackId,campaign,manager.id,JSON.stringify({targetId:target}),JSON.stringify({action:'launch',attackerId:source,targetId:target})]);await pool.query("INSERT INTO campaign_live_events(id,campaign_id,created_by,kind,payload,request_payload,public) VALUES($1,$2,$3,'cancel',$4::jsonb,'{}'::jsonb,false)",[randomUUID(),campaign,manager.id,JSON.stringify({attackId})]);
   await act('effect-add',{preset:'extral-venin-rocreen',sourceId:source,proof,sourceActionId:attackId});assert.equal((await get(source)).state.pa,0,'verified attack PA is not paid twice');assert.equal((await get(source)).state.powerUses['scene:extral-venin-rocreen'],1);
+
+  // A paid effect uses the source's last PA; failed declarations roll back both the effect and its quota.
+  for(const effect of [...live.state.effects])await act('effect-remove',{effectId:effect.id});
+  const frenzySource=await get(source);frenzySource.state.pa=1;frenzySource.state.powerUses={};
+  enterFrenzy(sourceData,frenzySource.state,{origin:'supernatural',sourceId:'CI source',cause:'Situation réelle',impulse:'Protéger la cible',contextConfirmed:true},{manager:true,fighting:true,participating:true,hp:frenzySource.profile.hp});
+  await pool.query('UPDATE character_play_states SET state=$2::jsonb WHERE character_id=$1',[source,JSON.stringify(frenzySource.state)]);
+  const rejected=await act('effect-add',{preset:'extral-venin-rocreen',sourceId:source,proof},400);assert.equal(rejected.r.error,'frenzy_impulse_pa_required');assert.equal(live.state.effects.length,0);assert.equal((await get(source)).state.pa,1);assert.equal((await get(source)).state.powerUses['scene:extral-venin-rocreen'],undefined);
+  const pursuing=await act('effect-add',{preset:'extral-venin-rocreen',sourceId:source,proof,pursuesImpulse:true,contextConfirmed:true});let sourceAfter=await get(source);assert.equal(sourceAfter.state.pa,0);assert.equal(sourceAfter.state.frenzy.impulseSpentRound,sourceAfter.state.round);assert.equal((await call(manager,'POST',endpoint,pursuing.body)).alreadyApplied,true);assert.equal((await get(source)).state.pa,0);
+  // Treatment is another paid action; only the authorized MJ can record an impossible impulse for this round.
+  await act('effect-add',{preset:'maitre_des_lames',sourceId:source,proof});const frenzyWound=live.state.effects.find(effect=>effect.ruleId==='maitre_des_lames');assert.ok(frenzyWound);
+  const frenzyTarget=await get(target);frenzyTarget.state.pa=1;enterFrenzy(targetData,frenzyTarget.state,{origin:'supernatural',sourceId:'CI target',cause:'Blessures réelles',impulse:'Protéger le groupe',contextConfirmed:true},{manager:true,fighting:true,participating:true,hp:frenzyTarget.profile.hp});
+  await pool.query('UPDATE character_play_states SET state=$2::jsonb WHERE character_id=$1',[target,JSON.stringify(frenzyTarget.state)]);live=await get(target);
+  const rejectedTreatment=await act('effect-remove',{effectId:frenzyWound.id,treatment:true},400);assert.equal(rejectedTreatment.r.error,'frenzy_impulse_pa_required');assert.equal((await get(target)).state.pa,1);assert.ok((await get(target)).state.effects.some(effect=>effect.id===frenzyWound.id));
+  const impossible=await act('effect-remove',{effectId:frenzyWound.id,treatment:true,impulseImpossibleConfirmed:true});assert.equal(live.state.pa,0);assert.equal(live.state.frenzy.impulseImpossibleRound,live.state.round);assert.equal((await call(manager,'POST',endpoint,impossible.body)).alreadyApplied,true);assert.equal((await get(target)).state.pa,0);
  }finally{await pool.query('DELETE FROM campaigns WHERE id=$1',[campaign]);await pool.query('DELETE FROM characters WHERE id=ANY($1::uuid[])',[[source,target]]);}
- console.log('CAMPAIGN MECHANICS OK — manager authority, verified sources, atomic PA/quotas, protected effects/clocks, treatment cost, private owner logs, character/NPC ticks and replay.');
+ console.log('CAMPAIGN MECHANICS OK — manager authority, verified sources, atomic PA/quotas, protected effects/clocks, treatment cost, private owner logs, character/NPC ticks, last-PA impulse preservation with atomic rollback, confirmed pursuit/manager impossibility and replay.');
 }

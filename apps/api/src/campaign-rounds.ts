@@ -1,3 +1,8 @@
+import {pendingOccultResolution} from './rules/occult-pending.js';
+import {finishLightningWoundsScene} from './rules/lightning-wounds.js';
+import {pruneOccultMaintenance} from './campaign-occult-resolutions.js';
+import {finishLightningEffectScene,rebaseLightningEffectChanges} from './rules/lightning-effects-state.js';
+import {advanceFrenzyRound,rebaseFrenzyRound,resetFrenzyScene} from './rules/live-frenzy.js';
 import {advanceAdrenaline,limitAdrenalinePa,finishAdrenaline} from './rules/live-reality.js';
 import {nextVampireRound,resetVampirePeriod,vampirePowerRules} from './rules/live-vampire.js';
 import {resetNaturePeriod,normalizedNatureResources} from './rules/live-nature-resources.js';
@@ -22,9 +27,9 @@ export async function combatActors(db:Db,id:string){
  const npcs=await db.query('SELECT * FROM campaign_live_combatants WHERE campaign_id=$1 AND NOT removed ORDER BY id',[id]);
  return [...actors,...npcs.rows.map((c:any)=>({...c,kind:c.source_kind}))];
 }
-export async function pendingAttacks(db:Db,id:string){return !!(await db.query(`SELECT id FROM campaign_live_events e WHERE campaign_id=$1 AND kind='attack' AND NOT EXISTS(SELECT 1 FROM campaign_live_events done WHERE done.campaign_id=$1 AND done.kind IN ('resolve','cancel') AND done.payload->>'attackId'=e.id::text) LIMIT 1`,[id])).rowCount;}
+export async function pendingAttacks(db:Db,id:string){return !!(await db.query(`SELECT id FROM campaign_live_events e WHERE campaign_id=$1 AND kind='attack' AND NOT EXISTS(SELECT 1 FROM campaign_live_events done WHERE done.campaign_id=$1 AND done.kind IN ('resolve','cancel') AND done.payload->>'attackId'=e.id::text) LIMIT 1`,[id])).rowCount||await pendingOccultResolution(db,id);}
 export function advanceCharacterRound(data:any,state:PlayState){
- const ended=applyCharacterEffectTick(data,state,{phase:'round-end',round:state.round});state.round++;
+ const ended=applyCharacterEffectTick(data,state,{phase:'round-end',round:state.round});state.round++;advanceFrenzyRound(state);
  Object.assign(state,nextVampireRound(state));advanceAdrenaline(state);
  const started=applyCharacterEffectTick(data,state,{phase:'round-start',round:state.round});
  state.powerUses=Object.fromEntries(Object.entries(state.powerUses??{}).filter(([k])=>!k.startsWith('round:')));
@@ -51,7 +56,7 @@ export async function nextCombatRound(db:Db,id:string,user:string,s:any,actors:a
   else{const ended=applyNpcEffectTick(c,{phase:'round-end',round:c.round});c.round=s.round;const started=applyNpcEffectTick(c,{phase:'round-start',round:c.round});if(ended.applications.length||started.applications.length||ended.expired.length||started.expired.length)await log(db,id,user,'effect-tick',{label:'Effets · '+c.name,targetId:c.id,applications:[...ended.applications,...started.applications],expired:[...ended.expired,...started.expired]},false);c.pa=c.hp<=c.death?0:c.hp<=0?Math.min(c.pa_per_round,1):c.pa_per_round;}
   await saveActor(db,c);
  }
- await writeCombat(db,id,s);
+ await writeCombat(db,id,s);await pruneOccultMaintenance(db,id);
  if(automatic)await log(db,id,user,'combat-round',{label:`Round ${s.round} · automatique`,round:s.round});
 }
 export async function manageCombat(db:Db,id:string,user:string,b:any){
@@ -59,9 +64,9 @@ export async function manageCombat(db:Db,id:string,user:string,b:any){
  if(b.version!==s.version)return 'combat_version_conflict';
  if(['combat-scene','combat-scenario'].includes(b.action)){
   if(s.active||await pendingAttacks(db,id))return 'finish_combat_first';
-  for(const actor of await combatActors(db,id))if(actor.kind==='character'){resetLivePeriod(actor.state,b.action==='combat-scene'?'scene':'scenario');Object.assign(actor.state,resetVampirePeriod(actor.state));resetNaturePeriod(actor.state,b.action==='combat-scene'?'scene':'scenario');actor.state.effects=finishEffectsScene(actor.state.effects??[]);actor.state.registeredPowers=(actor.state.registeredPowers??[]).filter((p:any)=>b.action==='combat-scene'&&p.period==='scenario');await saveActor(db,actor);}
-  for(const actor of await combatActors(db,id))if(actor.kind!=='character'){actor.data.liveEffects=finishEffectsScene(actor.data.liveEffects??[]);if(actor.data.targeted)delete actor.data.targeted.guardian;if(b.action==='combat-scenario'){actor.data.targeted={};actor.data.powerUses=Object.fromEntries(Object.entries(actor.data.powerUses??{}).filter(([k])=>!k.startsWith('scenario:received:')));}await saveActor(db,actor);}
-  await writeCombat(db,id,s);return null;
+  for(const actor of await combatActors(db,id))if(actor.kind==='character'){finishLightningEffectScene(actor.state);finishLightningWoundsScene(actor.state);actor.state.lightningErosion={};resetFrenzyScene(actor.state);resetLivePeriod(actor.state,b.action==='combat-scene'?'scene':'scenario');Object.assign(actor.state,resetVampirePeriod(actor.state));resetNaturePeriod(actor.state,b.action==='combat-scene'?'scene':'scenario');actor.state.effects=finishEffectsScene(actor.state.effects??[]);actor.state.registeredPowers=(actor.state.registeredPowers??[]).filter((p:any)=>b.action==='combat-scene'&&p.period==='scenario');await saveActor(db,actor);}
+  for(const actor of await combatActors(db,id))if(actor.kind!=='character'){finishLightningEffectScene(actor.data,true);finishLightningWoundsScene(actor.data);actor.data.lightningErosion={};actor.data.liveEffects=finishEffectsScene(actor.data.liveEffects??[]);if(actor.data.targeted)delete actor.data.targeted.guardian;if(b.action==='combat-scenario'){actor.data.targeted={};actor.data.powerUses=Object.fromEntries(Object.entries(actor.data.powerUses??{}).filter(([k])=>!k.startsWith('scenario:received:')));}await saveActor(db,actor);}
+  await writeCombat(db,id,s);await pruneOccultMaintenance(db,id);return null;
  }
  if(b.action==='combat-participant'){
   const actor=(await combatActors(db,id)).find(c=>c.id===b.actorId);
@@ -69,10 +74,10 @@ export async function manageCombat(db:Db,id:string,user:string,b:any){
   if(typeof b.participating!=='boolean'||!['ally','enemy','neutral'].includes(b.side))return 'invalid_participant';
   if(s.active&&participates(s,actor.id)!==b.participating&&await pendingAttacks(db,id))return 'pending_attacks';
   s.participants[actor.id]={participating:b.participating,side:b.side};
-  await writeCombat(db,id,s);return null;
+  await writeCombat(db,id,s);await pruneOccultMaintenance(db,id);return null;
  }
  if(b.action==='combat-mode'){
-  if(!['manual','automatic'].includes(b.mode))return 'invalid_combat_mode';s.mode=b.mode;await writeCombat(db,id,s);return null;
+  if(!['manual','automatic'].includes(b.mode))return 'invalid_combat_mode';s.mode=b.mode;await writeCombat(db,id,s);await pruneOccultMaintenance(db,id);return null;
  }
  if(b.action==='combat-start'&&s.active)return 'combat_already_started';
  if(b.action!=='combat-start'&&!s.active)return 'combat_not_started';
@@ -85,10 +90,10 @@ export async function manageCombat(db:Db,id:string,user:string,b:any){
    if(c.kind==='character'){
     const resources=normalizedNatureResources(c.state.natureResources);resources.mage.usedRound=null;resources.mage.blockedUntilRound=null;resources.mage.preparation=null;resources.powerPreparation=null;c.state.natureResources=resources;
     if(c.state.targeted)delete c.state.targeted.guardian;
-    c.state.effects=rebaseLiveEffects(c.state.effects??[],{round:c.state.round,targetActivation:c.state.activation??0},{round:1,targetActivation:c.state.activation??0});c.state.registeredPowers=(c.state.registeredPowers??[]).filter((p:any)=>['scene','scenario'].includes(p.period));
-    Object.assign(c.state,{initiative:null,round:1,paPerRound:0,pa:0,formPaRound:0});
+    rebaseLightningEffectChanges(c.state,{round:c.state.round,targetActivation:c.state.activation??0},{round:1,targetActivation:c.state.activation??0});c.state.effects=rebaseLiveEffects(c.state.effects??[],{round:c.state.round,targetActivation:c.state.activation??0},{round:1,targetActivation:c.state.activation??0});c.state.registeredPowers=(c.state.registeredPowers??[]).filter((p:any)=>['scene','scenario'].includes(p.period));
+    rebaseFrenzyRound(c.state,c.state.round,1);c.state.itemResources={...c.state.itemResources,cooling:{},modeChanged:{}};Object.assign(c.state,{initiative:null,round:1,paPerRound:0,pa:0,formPaRound:0});
     if(c.state.muePending)c.state.muePending=2;
-   }else{c.data.liveEffects=rebaseLiveEffects(c.data.liveEffects??[],{round:c.round,targetActivation:c.data.activation??0},{round:1,targetActivation:c.data.activation??0});Object.assign(c,{initiative:null,round:1,pa_per_round:0,pa:0});}
+   }else{rebaseLightningEffectChanges(c.data,{round:c.round,targetActivation:c.data.activation??0},{round:1,targetActivation:c.data.activation??0});c.data.liveEffects=rebaseLiveEffects(c.data.liveEffects??[],{round:c.round,targetActivation:c.data.activation??0},{round:1,targetActivation:c.data.activation??0});Object.assign(c,{initiative:null,round:1,pa_per_round:0,pa:0});}
   }else if(c.kind==='character'){
    const resources=normalizedNatureResources(c.state.natureResources);resources.mage.preparation=null;resources.mage.maintained=[];resources.mage.blockedUntilRound=null;resources.powerPreparation=null;c.state.natureResources=resources;if(c.state.vampire)c.state.vampire.cycleUntilRound=null;
    if(c.state.targeted)delete c.state.targeted.guardian;
@@ -97,7 +102,7 @@ export async function manageCombat(db:Db,id:string,user:string,b:any){
   }else Object.assign(c,{initiative:null,pa:0,pa_per_round:0});
   await saveActor(db,c);
  }
- await writeCombat(db,id,s);return null;
+ await writeCombat(db,id,s);await pruneOccultMaintenance(db,id);return null;
 }
 // Actions move an actor to its next pass. Reactions consume future PA, not a turn.
 export async function recordAction(db:Db,id:string|null,actor:string,cost:number){

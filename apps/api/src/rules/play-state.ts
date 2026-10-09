@@ -1,3 +1,5 @@
+import {lightningWoundProfile} from './lightning-wounds.js';
+import {frenzyTestBonus,psychologicalStress,frenzyProfile} from './live-frenzy.js';
 import {freeTraitProfile} from './live-free-traits.js';
 import {vampireMaximum} from './live-vampire.js';
 import {registeredPowerIds,explicitPower} from './live-power-registry.js';
@@ -15,7 +17,7 @@ import { contextualSkillBonuses } from './reality-conditional-bonuses.js';
 import { dailyRecovery, injuryStress } from './reality-talents-policy.js';
 import { characterDerivedStats } from './character-derived-stats.js';
 export type PlayBonus={id:string;label:string;skill:string;amount:number;truth:boolean;enabled:boolean};
-export type PlayState={targeted?:{guard?:{sourceId:string};guardian?:{targetId:string;until:number}};magazines?:Record<string,{remaining:number;capacity:number}>;ammoCount?:Record<string,number>;effects?:LiveEffect[];effectArmor?:number;activation?:number;activationOpen?:boolean;physicalPaSpent?:number;registeredPowers?:RegisteredActivePower[];vampire?:any;natureResources?:any;realityLive?:any;adrenaline?:any;augmentTemporaryStress?:number;neuroLoaded?:string[];neuroBurned?:string[];unconscious?:boolean;swarmFunctional?:boolean;form?:BodyForm;inWater?:boolean;muePending?:number|null;mueCount?:number;mueBlocked?:boolean;formPaRound?:number;powers?:ActivePower[];powerUses?:Record<string,number>;hp:number|null;stress:0|1|2;revelation:'v'|'sr'|'r';pa:number;round:number;initiative:number|null;paPerRound:number;stabilized:boolean;share:boolean;disabled:string[];contexts:string[];bonuses:PlayBonus[]};
+export type PlayState={lightningWounds?:any;itemResources?:any;lightningErosion?:any;lightningEffectChanges?:any;frenzy?:any;fear?:any;survivalFury?:any;targeted?:{guard?:{sourceId:string};guardian?:{targetId:string;until:number}};magazines?:Record<string,{remaining:number;capacity:number}>;ammoCount?:Record<string,number>;effects?:LiveEffect[];effectArmor?:number;activation?:number;activationOpen?:boolean;physicalPaSpent?:number;registeredPowers?:RegisteredActivePower[];vampire?:any;natureResources?:any;realityLive?:any;adrenaline?:any;augmentTemporaryStress?:number;neuroLoaded?:string[];neuroBurned?:string[];unconscious?:boolean;swarmFunctional?:boolean;form?:BodyForm;inWater?:boolean;muePending?:number|null;mueCount?:number;mueBlocked?:boolean;formPaRound?:number;powers?:ActivePower[];powerUses?:Record<string,number>;hp:number|null;stress:0|1|2;revelation:'v'|'sr'|'r';pa:number;round:number;initiative:number|null;paPerRound:number;stabilized:boolean;share:boolean;disabled:string[];contexts:string[];bonuses:PlayBonus[]};
 export const blankPlayState=():PlayState=>({effects:[],effectArmor:0,activation:0,activationOpen:false,registeredPowers:[],unconscious:false,swarmFunctional:true,form:'human',inWater:false,muePending:null,mueCount:0,mueBlocked:false,formPaRound:0,powers:[],powerUses:{},hp:null,stress:0,revelation:'v',pa:0,round:1,initiative:null,paPerRound:0,stabilized:false,share:true,disabled:[],contexts:[],bonuses:[]});
 export function validatePlayState(v:any):v is PlayState {
   return !!v && (v.unconscious===undefined||typeof v.unconscious==='boolean') && (v.swarmFunctional===undefined||typeof v.swarmFunctional==='boolean') && (v.hp===null||Number.isSafeInteger(v.hp)&&Math.abs(v.hp)<=10000) && [0,1,2].includes(v.stress) && ['v','sr','r'].includes(v.revelation)
@@ -82,7 +84,7 @@ export function playProfile(data:any,state:PlayState){
     const preparedBonus=Math.max(0,...prepared.filter(b=>b.active).map(b=>b.bonus));
     const favor=normalizedNatureResources(state.natureResources).daemon.pendingFavor;
     const favorBonus=data.truth?.nature==='daemon'&&data.truth?.consciousness!=='profane'&&state.revelation!=='v'&&favor?.skill===s.id?3:0;
-    const powerBonus=Math.max(favorBonus,registeredSkillBonus(data,state,s.id),0,...powers.filter(p=>p.skill===s.id).map(p=>p.amount));
+    const powerBonus=Math.max(frenzyTestBonus(data,state,s.id),favorBonus,registeredSkillBonus(data,state,s.id),0,...powers.filter(p=>p.skill===s.id).map(p=>p.amount));
     const bonus=Math.max(staticBonus,contextual,preparedBonus,powerBonus)+(s.id==='pugilat'?(body?.pugilat??0):0)+extras.reduce((sum,b)=>sum+b.amount,0)+effect('skill',s.id)+effect(s.attribute==='esprit'?'intellectual':s.attribute==='volonte'?'mental':s.attribute==='charisme'?'social':'physical')+(state.contexts.includes('effect-visual')?effect('visual'):0);
     const rank=raw(s.id)+permanent(s.id);
     return {...s,rank,attributeValue:attribute(s.attribute),automatic,contexts,prepared,extras,bonus,total:attribute(s.attribute)+rank+bonus};
@@ -100,9 +102,9 @@ export function playProfile(data:any,state:PlayState){
   const hp=Math.min(state.hp??healthMaximum,healingMaximum);
   if(state.vampire?.stasis){derived.passiveDefense=0;derived.occultDefense=0;}
   const painReduction=Math.max(talents.includes('insensibilite_a_la_douleur')?1:0,...mechanics.filter(b=>b.enabled).map(b=>b.pain));
-  const stress=Math.max(state.stress,hp<=0?2:Math.max(0,injuryStress(hp,healthMaximum,false)-painReduction)) as 0|1|2;
+  const stress=Math.max(psychologicalStress(state),hp<=0?2:Math.max(0,injuryStress(hp,healthMaximum,false)-painReduction)) as 0|1|2;
   const health=hp<=derived.death?'Mort':hp<=0?(state.stabilized?'Stabilisé':'Agonisant'):hp<=healthMaximum*.25?'Gravement blessé':hp<=healthMaximum*.5?'Blessé':hp<healthMaximum?'Légèrement blessé':'Indemne';
-  return {freeTraits,naturalDamage,healthMaximum,healingMaximum,body,bodyArmor,neuroDefense,powers,attributes,attributeBonuses,mechanics,skills,derived,hp,stress,health,pa:hp<=derived.death?0:hp<=0?Math.min(state.pa,1):state.pa,
+  return {lightningWounds:lightningWoundProfile(state),frenzy:frenzyProfile(data,state),freeTraits,naturalDamage,healthMaximum,healingMaximum,body,bodyArmor,neuroDefense,powers,attributes,attributeBonuses,mechanics,skills,derived,hp,stress,health,pa:hp<=derived.death?0:hp<=0?Math.min(state.pa,1):state.pa,
     recovery:{normal:realityDailyRecovery(raw('constitution')+permanent('constitution'),false,talents.includes('sante_de_fer'),recoveryMultiplier),prolonged:realityDailyRecovery(raw('constitution')+permanent('constitution'),true,talents.includes('sante_de_fer'),recoveryMultiplier)}};
 }
 export function rollD10(stress:0|1|2,draw:()=>number){

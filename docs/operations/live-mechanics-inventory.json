@@ -1,7 +1,7 @@
 {
-  "date": "2026-10-09",
+  "date": "2026-10-10",
   "scope": "Toutes les entrées des catalogues canoniques versionnés ; audit technique individuel complémentaire, sans prétendre automatiser tout le texte. Exclut les modifications conservées uniquement en base de production.",
-  "supplemental": "135 identifiants Mage générés, constructions typées et deux développements du second Spectre : audit-nature-resources-20261009.md.",
+  "supplemental": "135 identifiants Mage générés, constructions typées et deux développements du second Spectre : audit-nature-resources-20261009.md ; procédures de cible, Frénésie, charges et UX : audit-gameplay-and-ux-20261010.md.",
   "total": 2553,
   "summary": {
     "Réalité · talents": {
@@ -28,8 +28,9 @@
     "Vérité · garou": {
       "total": 68,
       "coverage": {
-        "texte / activation assistée": 54,
+        "texte / activation assistée": 51,
         "action dédiée / calcul ciblé": 12,
+        "action dédiée / contraintes serveur": 3,
         "résolution ciblée / réaction serveur": 1,
         "définition contrôlée / résolution externe": 1
       }
@@ -37,9 +38,10 @@
     "Vérité · khinae": {
       "total": 68,
       "coverage": {
-        "texte / activation assistée": 59,
+        "texte / activation assistée": 57,
         "action dédiée / calcul ciblé": 8,
-        "définition contrôlée / résolution externe": 1
+        "définition contrôlée / résolution externe": 1,
+        "action dédiée / contraintes serveur": 2
       }
     },
     "Vérité · mage": {
@@ -51,7 +53,9 @@
     "Vérité · daemon": {
       "total": 142,
       "coverage": {
-        "ressource / activation assistée": 142
+        "ressource / activation assistée": 137,
+        "résolution ciblée / opposition assistée": 4,
+        "action dédiée / contraintes serveur": 1
       }
     },
     "Vérité · angelus": {
@@ -63,9 +67,13 @@
     "Vérité · aseryn": {
       "total": 100,
       "coverage": {
-        "texte / activation assistée": 86,
+        "texte / activation assistée": 69,
         "action dédiée / calcul ciblé": 11,
-        "résolution ciblée / réaction serveur": 3
+        "résolution ciblée / réaction serveur": 16,
+        "métadonnées / arbitrage MJ": 1,
+        "calcul passif ciblé / confirmation MJ": 1,
+        "blessures ciblées / régénération contrôlée": 1,
+        "destruction ciblée / confirmation MJ": 1
       }
     },
     "Vérité · exile": {
@@ -75,7 +83,7 @@
         "action dédiée / calcul ciblé": 35,
         "calcul passif ciblé": 2,
         "résolution ciblée / réaction serveur": 4,
-        "définition contrôlée / résolution externe": 1
+        "action dédiée / contraintes serveur": 1
       }
     },
     "Vérité · extral": {
@@ -83,7 +91,7 @@
       "coverage": {
         "action dédiée / calcul ciblé": 30,
         "texte / activation assistée": 125,
-        "définition contrôlée / résolution externe": 1,
+        "action dédiée / contraintes serveur": 1,
         "calcul passif ciblé": 5,
         "résolution ciblée / réaction serveur": 1
       }
@@ -152,15 +160,16 @@
     "Vérité · objets": {
       "total": 231,
       "coverage": {
-        "inventaire / arbitrage MJ": 164,
-        "profil explicite / exceptions assistées": 67
+        "inventaire / arbitrage MJ": 162,
+        "profil explicite / exceptions assistées": 63,
+        "ressource finie / résolution ciblée": 6
       }
     },
     "Réalité · équipement": {
       "total": 367,
       "coverage": {
-        "calcul ciblé / contexte": 177,
-        "inventaire / arbitrage MJ": 190
+        "calcul ciblé / contexte": 178,
+        "inventaire / arbitrage MJ": 189
       }
     },
     "Réalité · augmentations": {
@@ -6932,13 +6941,15 @@
       "name": "Furie de survie",
       "source": "regles-verite-v7-garou-nature-formes-frenesie-pelages",
       "canonicalEffect": "La première fois dans la scène que le Garou passe sous 50 % PV, puis sous 25 % PV, il gagne +3 à son prochain test physique avant la fin du round suivant. Se soigner puis repasser le même seuil ne redéclenche pas l’effet.\nSuivre séparément les seuils 50 % et 25 % pour la scène. Une modification du maximum de PV par changement de forme ne doit pas simuler une nouvelle blessure ; +3 au prochain test physique dans la fenêtre prévue, non cumulable avec une circonstance équivalente.",
-      "coverage": "texte / activation assistée",
+      "coverage": "action dédiée / contraintes serveur",
       "access": "R",
-      "implemented": [],
-      "remaining": [
-        "Cible, contexte, opposition et conséquences particulières à résoudre explicitement."
+      "implemented": [
+        "Traversée réelle sous 50% puis 25% des PV, une fois par seuil/scène ; +3 au prochain test physique avant fin du round suivant ; pas de déclencheur par simple forme/maximum."
       ],
-      "audit": "audit-truth-capabilities-20261009.md"
+      "remaining": [
+        "Cause, Impulsion, obstacle reconnu et origine de la peur explicitement déclarés ; au moins un PA réellement consacré à l’Impulsion si possible ; aucune attaque ou cible forcée automatiquement."
+      ],
+      "audit": "audit-action-restrictions-20261009.md"
     },
     {
       "family": "Vérité · garou",
@@ -7702,13 +7713,15 @@
       "name": "Fureur croissante",
       "source": "regles-verite-v7-garou-sangs-vifs",
       "canonicalEffect": "Entre volontairement en Frénésie. Tant qu’elle se poursuit sans interruption : +1 aux tests physiques par round, jusqu’à +3.\nAfficher +1 au premier round de Frénésie, +2 au suivant, +3 ensuite ; remise à zéro si elle s’interrompt. Le coût d’Impulsion et le malus de concentration demeurent sans Rage lucide ; pas de cumul automatique de Furies équivalentes.",
-      "coverage": "texte / activation assistée",
+      "coverage": "action dédiée / contraintes serveur",
       "access": "R — 1 PA",
-      "implemented": [],
-      "remaining": [
-        "Cible, contexte, opposition et conséquences particulières à résoudre explicitement."
+      "implemented": [
+        "Entrée volontaire contrôlée, 1 PA sous pression ; +1/+2/+3 physique par rounds réellement écoulés ; interruption et nouvelle entrée suivies."
       ],
-      "audit": "audit-truth-capabilities-20261009.md"
+      "remaining": [
+        "Cause, Impulsion, obstacle reconnu et origine de la peur explicitement déclarés ; au moins un PA réellement consacré à l’Impulsion si possible ; aucune attaque ou cible forcée automatiquement."
+      ],
+      "audit": "audit-action-restrictions-20261009.md"
     },
     {
       "family": "Vérité · garou",
@@ -7716,13 +7729,15 @@
       "name": "Rage lucide",
       "source": "regles-verite-v7-garou-sangs-vifs",
       "canonicalEffect": "En Frénésie volontaire, reconnaissez toujours vos proches réellement liés et ignorez le −3 aux actions exigeant calme et concentration. L’obligation de consacrer au moins 1 PA par round à l’Impulsion demeure ; les non-Loups conservent leur propre logique d’attachement.\nLa reconnaissance empêche de les traiter automatiquement comme ennemis sous le seul effet de cette Frénésie, pas de supprimer tout conflit volontaire. Ne fonctionne pas comme immunité générale à la domination.",
-      "coverage": "texte / activation assistée",
+      "coverage": "action dédiée / contraintes serveur",
       "access": "R",
-      "implemented": [],
-      "remaining": [
-        "Cible, contexte, opposition et conséquences particulières à résoudre explicitement."
+      "implemented": [
+        "Frénésie volontaire réellement active : ignore le −3 de concentration et conserve la reconnaissance des proches ; ne dispense pas de l’Impulsion."
       ],
-      "audit": "audit-truth-capabilities-20261009.md"
+      "remaining": [
+        "Cause, Impulsion, obstacle reconnu et origine de la peur explicitement déclarés ; au moins un PA réellement consacré à l’Impulsion si possible ; aucune attaque ou cible forcée automatiquement."
+      ],
+      "audit": "audit-action-restrictions-20261009.md"
     },
     {
       "family": "Vérité · garou",
@@ -8688,13 +8703,15 @@
       "name": "Fureur croissante",
       "source": "regles-verite-v7-khinae-moteur-lignees",
       "canonicalEffect": "Entre volontairement en Frénésie. Tant qu’elle se poursuit sans interruption : +1 aux tests physiques par round, jusqu’à +3.\nAfficher +1 au premier round de Frénésie, +2 au suivant, +3 ensuite ; remise à zéro si elle s’interrompt. Le coût d’Impulsion et le malus de concentration demeurent sans Rage lucide ; pas de cumul automatique de Furies équivalentes.",
-      "coverage": "texte / activation assistée",
+      "coverage": "action dédiée / contraintes serveur",
       "access": "R — 1 PA",
-      "implemented": [],
-      "remaining": [
-        "Cible, contexte, opposition et conséquences particulières à résoudre explicitement."
+      "implemented": [
+        "Entrée volontaire contrôlée, 1 PA sous pression ; +1/+2/+3 physique par rounds réellement écoulés ; interruption et nouvelle entrée suivies."
       ],
-      "audit": "audit-truth-capabilities-20261009.md"
+      "remaining": [
+        "Cause, Impulsion, obstacle reconnu et origine de la peur explicitement déclarés ; au moins un PA réellement consacré à l’Impulsion si possible ; aucune attaque ou cible forcée automatiquement."
+      ],
+      "audit": "audit-action-restrictions-20261009.md"
     },
     {
       "family": "Vérité · khinae",
@@ -8702,13 +8719,15 @@
       "name": "Rage lucide",
       "source": "regles-verite-v7-khinae-moteur-lignees",
       "canonicalEffect": "En Frénésie volontaire, reconnaissez toujours vos proches réellement liés et ignorez le −3 aux actions exigeant calme et concentration. L’obligation de consacrer au moins 1 PA par round à l’Impulsion demeure ; les non-Loups conservent leur propre logique d’attachement.\nLa reconnaissance empêche de les traiter automatiquement comme ennemis sous le seul effet de cette Frénésie, pas de supprimer tout conflit volontaire. Ne fonctionne pas comme immunité générale à la domination.",
-      "coverage": "texte / activation assistée",
+      "coverage": "action dédiée / contraintes serveur",
       "access": "R",
-      "implemented": [],
-      "remaining": [
-        "Cible, contexte, opposition et conséquences particulières à résoudre explicitement."
+      "implemented": [
+        "Frénésie volontaire réellement active : ignore le −3 de concentration et conserve la reconnaissance des proches ; ne dispense pas de l’Impulsion."
       ],
-      "audit": "audit-truth-capabilities-20261009.md"
+      "remaining": [
+        "Cause, Impulsion, obstacle reconnu et origine de la peur explicitement déclarés ; au moins un PA réellement consacré à l’Impulsion si possible ; aucune attaque ou cible forcée automatiquement."
+      ],
+      "audit": "audit-action-restrictions-20261009.md"
     },
     {
       "family": "Vérité · khinae",
@@ -9386,15 +9405,16 @@
       "name": "Injonction souveraine",
       "source": "regles-verite-v7-daemon-nature-fonctions-divinites-facettes",
       "canonicalEffect": "Charisme + Autorité + 1d10e contre Défense occulte. Un ordre simple et compréhensible force la prochaine action disponible de la cible : « Arrête », « Lâche », « Recule », etc. Pas d’acte manifestement suicidaire ou de mutilation majeure.",
-      "coverage": "ressource / activation assistée",
+      "coverage": "résolution ciblée / opposition assistée",
       "access": "SR/R — 1 PA",
       "implemented": [
-        "Préparation et ressources de Nature via commandes dédiées ; le coût doit être fixe et défini pour être exécuté."
+        "Libération réelle puis opposition Autorité / Défense occulte ; condition ciblée avec durée canonique ; Souveraineté admet plusieurs cibles à 15 m, Décret ouvre la résistance prévue contre une violation réelle.",
+        "Consentement allié ou choix de défense propriétaire/MJ ; source, jet, versions, coûts déjà payés et rejeu vérifiés."
       ],
       "remaining": [
-        "Le journal de préparation/activation ne résout pas automatiquement la cible, la zone, les soins/transferts ou les conséquences narratives."
+        "Ordre/illusion, perception, légitimité narrative et effets réellement possibles arbitrés ; aucune prise de contrôle ou exécution automatique de la fiction."
       ],
-      "audit": "audit-nature-resources-20261009.md"
+      "audit": "audit-gameplay-and-ux-20261010.md"
     },
     {
       "family": "Vérité · daemon",
@@ -9402,15 +9422,16 @@
       "name": "Décret royal",
       "source": "regles-verite-v7-daemon-nature-fonctions-divinites-facettes",
       "canonicalEffect": "Imposer un interdit simple jusqu’à la fin de la scène. À chaque tentative directe de violation, la cible peut refaire une Défense occulte active sans coût de PA ; une réussite brise définitivement le Décret.",
-      "coverage": "ressource / activation assistée",
+      "coverage": "résolution ciblée / opposition assistée",
       "access": "SR/R — 1 PA — prérequis Injonction souveraine",
       "implemented": [
-        "Préparation et ressources de Nature via commandes dédiées ; le coût doit être fixe et défini pour être exécuté."
+        "Libération réelle puis opposition Autorité / Défense occulte ; condition ciblée avec durée canonique ; Souveraineté admet plusieurs cibles à 15 m, Décret ouvre la résistance prévue contre une violation réelle.",
+        "Consentement allié ou choix de défense propriétaire/MJ ; source, jet, versions, coûts déjà payés et rejeu vérifiés."
       ],
       "remaining": [
-        "Le journal de préparation/activation ne résout pas automatiquement la cible, la zone, les soins/transferts ou les conséquences narratives."
+        "Ordre/illusion, perception, légitimité narrative et effets réellement possibles arbitrés ; aucune prise de contrôle ou exécution automatique de la fiction."
       ],
-      "audit": "audit-nature-resources-20261009.md"
+      "audit": "audit-gameplay-and-ux-20261010.md"
     },
     {
       "family": "Vérité · daemon",
@@ -9418,15 +9439,16 @@
       "name": "Souveraineté de Belial",
       "source": "regles-verite-v7-daemon-nature-fonctions-divinites-facettes",
       "canonicalEffect": "Donner une même Injonction souveraine à toutes les créatures choisies dans un rayon de 15 m capables d’entendre et comprendre. Un seul jet de Charisme + Autorité ; chaque cible oppose sa Défense occulte.",
-      "coverage": "ressource / activation assistée",
+      "coverage": "résolution ciblée / opposition assistée",
       "access": "R — 2 PA — 1/scène",
       "implemented": [
-        "Préparation et ressources de Nature via commandes dédiées ; le coût doit être fixe et défini pour être exécuté."
+        "Libération réelle puis opposition Autorité / Défense occulte ; condition ciblée avec durée canonique ; Souveraineté admet plusieurs cibles à 15 m, Décret ouvre la résistance prévue contre une violation réelle.",
+        "Consentement allié ou choix de défense propriétaire/MJ ; source, jet, versions, coûts déjà payés et rejeu vérifiés."
       ],
       "remaining": [
-        "Le journal de préparation/activation ne résout pas automatiquement la cible, la zone, les soins/transferts ou les conséquences narratives."
+        "Ordre/illusion, perception, légitimité narrative et effets réellement possibles arbitrés ; aucune prise de contrôle ou exécution automatique de la fiction."
       ],
-      "audit": "audit-nature-resources-20261009.md"
+      "audit": "audit-gameplay-and-ux-20261010.md"
     },
     {
       "family": "Vérité · daemon",
@@ -10778,15 +10800,15 @@
       "name": "Fureur de la Corneille",
       "source": "regles-verite-v7-daemon-nature-fonctions-divinites-facettes",
       "canonicalEffect": "En Frénésie volontaire, votre bonus aux tests physiques passe de +1 à +3. Les règles d’Impulsion et la perte de contrôle restent applicables, sans PA supplémentaire ni cumul avec un autre bonus équivalent de Frénésie.\n\nLe +3 est un bonus conditionnel aux tests physiques en Frénésie, pas une hausse des Attributs ou des PV maximum.",
-      "coverage": "ressource / activation assistée",
+      "coverage": "action dédiée / contraintes serveur",
       "access": "R",
       "implemented": [
-        "Préparation et ressources de Nature via commandes dédiées ; le coût doit être fixe et défini pour être exécuté."
+        "Frénésie volontaire Morrighan Révélé ; +3 physique sans PA supplémentaire ; cause et Impulsion enregistrées."
       ],
       "remaining": [
-        "Le journal de préparation/activation ne résout pas automatiquement la cible, la zone, les soins/transferts ou les conséquences narratives."
+        "Cause, Impulsion, obstacle reconnu et origine de la peur explicitement déclarés ; au moins un PA réellement consacré à l’Impulsion si possible ; aucune attaque ou cible forcée automatiquement."
       ],
-      "audit": "audit-nature-resources-20261009.md"
+      "audit": "audit-action-restrictions-20261009.md"
     },
     {
       "family": "Vérité · daemon",
@@ -11018,15 +11040,16 @@
       "name": "Fantasmagorie",
       "source": "regles-verite-v7-daemon-nature-fonctions-divinites-facettes",
       "canonicalEffect": "1 PA. Imposer une perception illusoire simple et multisensorielle à une cible. Volonté + Maîtrise spirituelle contre Défense occulte. L’illusion est mentale et n’est normalement pas filmée.",
-      "coverage": "ressource / activation assistée",
+      "coverage": "résolution ciblée / opposition assistée",
       "access": "SR/R",
       "implemented": [
-        "Préparation et ressources de Nature via commandes dédiées ; le coût doit être fixe et défini pour être exécuté."
+        "Libération réelle puis opposition Maîtrise spirituelle / Défense occulte ; condition narrative finie avec durée explicite décidée par le MJ.",
+        "Consentement allié ou choix de défense propriétaire/MJ ; source, jet, versions, coûts déjà payés et rejeu vérifiés."
       ],
       "remaining": [
-        "Le journal de préparation/activation ne résout pas automatiquement la cible, la zone, les soins/transferts ou les conséquences narratives."
+        "Ordre/illusion, perception, légitimité narrative et effets réellement possibles arbitrés ; aucune prise de contrôle ou exécution automatique de la fiction."
       ],
-      "audit": "audit-nature-resources-20261009.md"
+      "audit": "audit-gameplay-and-ux-20261010.md"
     },
     {
       "family": "Vérité · daemon",
@@ -14165,9 +14188,9 @@
         "R et Conduction possédée ; 1 PA ; Volonté + Maîtrise spirituelle ; cible à 20 m maximum ; marge + DGT 7 moins protection électrique, sans paliers de Tir ni Armure ordinaire."
       ],
       "remaining": [
-        "Distance, trajectoire et défense pertinente confirmées avec le MJ ; protection sans valeur électrique explicite arbitrée par le MJ ; variantes/zones assistées."
+        "Distance, trajectoire et défense pertinente confirmées avec le MJ ; protection sans valeur électrique explicite arbitrée par le MJ."
       ],
-      "audit": "audit-lightning-20261009.md"
+      "audit": "audit-lightning-variants-20261009.md"
     },
     {
       "family": "Vérité · aseryn",
@@ -14192,12 +14215,12 @@
       "coverage": "résolution ciblée / réaction serveur",
       "access": "SR/R",
       "implemented": [
-        "SR/R et prérequis possédés ; réaction personnelle 1 PA, 1/round avant défense ; Jet de Foudre opposé ; dégâts annulés en réussite ; Edge avant/après avec rejeu contrôlé."
+        "SR/R et prérequis possédés ; réaction 1 PA, 1/round avant défense ; personnel ou un allié à 5 m maximum selon la révision Aseryn finale ; Jet de Foudre opposé ; dégâts annulés en réussite ; Edge avant/après avec rejeu contrôlé."
       ],
       "remaining": [
-        "Conducteur ou zone valide proche confirmé ; ne protège pas automatiquement un allié et ne renvoie pas la décharge ; pas de chaîne d’interceptions."
+        "Conducteur ou zone valide proche, alliance et perception confirmés ; ne renvoie pas la décharge offensivement ; une seule intervention, pas de chaîne."
       ],
-      "audit": "audit-lightning-20261009.md"
+      "audit": "audit-lightning-variants-20261009.md"
     },
     {
       "family": "Vérité · aseryn",
@@ -14205,13 +14228,15 @@
       "name": "Arc en chaîne",
       "source": "regles-verite-v7-aseryn-treize-dratyn-conseil-foudre",
       "canonicalEffect": "Prérequis : Foudre aseryne | R — 1/Scène Après un Jet de Foudre réussi contre une cible, une seconde cible située à 3 m maximum de la première peut être frappée par le même résultat. Elle se défend normalement. La seconde décharge est DGT 5. Un seul rebond.",
-      "coverage": "texte / activation assistée",
+      "coverage": "résolution ciblée / réaction serveur",
       "access": "R",
-      "implemented": [],
-      "remaining": [
-        "Cible, contexte, opposition et conséquences particulières à résoudre explicitement."
+      "implemented": [
+        "Après impact électrique réel : un seul rebond sur une autre cible à 3 m maximum ; même résultat offensif, DGT 5, défense normale ; 1/scène, fenêtre et rejeu contrôlés."
       ],
-      "audit": "audit-truth-capabilities-20261009.md"
+      "remaining": [
+        "Proximité, trajectoire et conducteur réels confirmés ; aucune chaîne automatique."
+      ],
+      "audit": "audit-lightning-variants-20261009.md"
     },
     {
       "family": "Vérité · aseryn",
@@ -14219,13 +14244,16 @@
       "name": "Orage aseryn",
       "source": "regles-verite-v7-aseryn-treize-dratyn-conseil-foudre",
       "canonicalEffect": "Prérequis : Foudre aseryne | R — 2 PA — 1/Scène L'Aseryn libère une décharge dans une zone de 3 m de rayon à portée. Un seul Jet de Foudre est comparé individuellement à la Défense de chaque cible. DGT 7.",
-      "coverage": "texte / activation assistée",
+      "coverage": "résolution ciblée / réaction serveur",
       "access": "R",
-      "implemented": [],
-      "remaining": [
-        "Cible, contexte, opposition et conséquences particulières à résoudre explicitement."
+      "implemented": [
+        "Attaque ciblée : 2 PA ; marge + DGT 7 ; portée 20 m ; prérequis et Révélation vérifiés côté serveur.",
+        "Zone de rayon 3 m, cibles réelles sélectionnées et centre à 20 m."
       ],
-      "audit": "audit-truth-capabilities-20261009.md"
+      "remaining": [
+        "Enseignement, perception, trajectoire et protections pertinentes confirmés ; discrétion, classifications occultes et vulnérabilité spirituelle restent arbitrées."
+      ],
+      "audit": "audit-lightning-variants-20261009.md"
     },
     {
       "family": "Vérité · aseryn",
@@ -14233,13 +14261,16 @@
       "name": "Foudre originelle",
       "source": "regles-verite-v7-aseryn-treize-dratyn-conseil-foudre",
       "canonicalEffect": "Prérequis : Foudre aseryne + enseignement du Créateur | R Lorsque le personnage le souhaite, ses attaques de Foudre deviennent originelles : DGT 9. La magie active et ses constructions deviennent des cibles valides : mur magique, manifestation élémentaire maintenue, familier constitué de magie, protection de Mageius, etc.",
-      "coverage": "texte / activation assistée",
+      "coverage": "résolution ciblée / réaction serveur",
       "access": "R",
-      "implemented": [],
-      "remaining": [
-        "Cible, contexte, opposition et conséquences particulières à résoudre explicitement."
+      "implemented": [
+        "Attaque ciblée : 1 PA ; marge + DGT 9 ; portée 20 m ; prérequis et Révélation vérifiés côté serveur.",
+        "Enseignement créateur réellement acquis confirmé."
       ],
-      "audit": "audit-truth-capabilities-20261009.md"
+      "remaining": [
+        "Enseignement, perception, trajectoire et protections pertinentes confirmés ; discrétion, classifications occultes et vulnérabilité spirituelle restent arbitrées."
+      ],
+      "audit": "audit-lightning-variants-20261009.md"
     },
     {
       "family": "Vérité · aseryn",
@@ -14247,13 +14278,15 @@
       "name": "Brise-magie",
       "source": "regles-verite-v7-aseryn-treize-dratyn-conseil-foudre",
       "canonicalEffect": "Prérequis : Foudre originelle | R — 1 PA L'Aseryn vise directement un effet magique actif. Effectuez un Jet de Foudre contre son résultat de lancement s'il est connu, sinon contre une difficulté 15 / 18 / 21 / 25 selon sa puissance. En réussite, un effet temporaire ou maintenu est détruit. Un enchantement permanent, un lieu magique ou un artefact majeur n'est au mieux neutralisé pour la scène que si sa nature permet réellement une interruption.",
-      "coverage": "texte / activation assistée",
+      "coverage": "résolution ciblée / réaction serveur",
       "access": "R",
-      "implemented": [],
-      "remaining": [
-        "Cible, contexte, opposition et conséquences particulières à résoudre explicitement."
+      "implemented": [
+        "Résolution contre un effet PJ/PNJ réellement suivi : opposition à sa Puissance, évolution/destruction/suspension selon sa classification canonique ; versions et source contrôlées."
       ],
-      "audit": "audit-truth-capabilities-20261009.md"
+      "remaining": [
+        "Classification temporaire, maintenue, durable ou interruptible et Puissance décidées par le MJ ; pas de Souillure/Corruption effacée automatiquement ni de transformation arbitraire d’un texte en effet."
+      ],
+      "audit": "audit-lightning-variants-20261009.md"
     },
     {
       "family": "Vérité · aseryn",
@@ -14261,13 +14294,16 @@
       "name": "Déferlement originel",
       "source": "regles-verite-v7-aseryn-treize-dratyn-conseil-foudre",
       "canonicalEffect": "Prérequis : Brise-magie | R — 2 PA — 1/Scène Une attaque de Foudre originelle passe à DGT 13. Les Protections d'origine magique ne réduisent pas ses dégâts. Si la cible est elle-même une manifestation magique, le résultat du Jet peut également servir à la briser selon Brise-magie, sans second jet.",
-      "coverage": "texte / activation assistée",
+      "coverage": "résolution ciblée / réaction serveur",
       "access": "R",
-      "implemented": [],
-      "remaining": [
-        "Cible, contexte, opposition et conséquences particulières à résoudre explicitement."
+      "implemented": [
+        "Attaque ciblée : 2 PA ; marge + DGT 13 ; portée 20 m ; prérequis et Révélation vérifiés côté serveur.",
+        "1/scène ; part magique de la protection électrique identifiée par le MJ, seule cette part est ignorée."
       ],
-      "audit": "audit-truth-capabilities-20261009.md"
+      "remaining": [
+        "Enseignement, perception, trajectoire et protections pertinentes confirmés ; discrétion, classifications occultes et vulnérabilité spirituelle restent arbitrées."
+      ],
+      "audit": "audit-lightning-variants-20261009.md"
     },
     {
       "family": "Vérité · aseryn",
@@ -14275,13 +14311,16 @@
       "name": "Noire-Foudre",
       "source": "regles-verite-v7-aseryn-treize-dratyn-conseil-foudre",
       "canonicalEffect": "Prérequis : Foudre aseryne + enseignement de l’Esprit | R La décharge devient presque invisible et ne révèle pas automatiquement la position de son utilisateur par un éclair lumineux. Elle peut affecter normalement les esprits, Ombres et créatures immatérielles ; contre une cible purement immatérielle, utilisez sa Défense occulte et sa Protection occulte plutôt que l'armure physique.",
-      "coverage": "texte / activation assistée",
+      "coverage": "résolution ciblée / réaction serveur",
       "access": "R",
-      "implemented": [],
-      "remaining": [
-        "Cible, contexte, opposition et conséquences particulières à résoudre explicitement."
+      "implemented": [
+        "Attaque ciblée : 1 PA ; marge + DGT 7 ; portée 20 m ; prérequis et Révélation vérifiés côté serveur.",
+        "Enseignement spirituel confirmé ; discrétion descriptive."
       ],
-      "audit": "audit-truth-capabilities-20261009.md"
+      "remaining": [
+        "Enseignement, perception, trajectoire et protections pertinentes confirmés ; discrétion, classifications occultes et vulnérabilité spirituelle restent arbitrées."
+      ],
+      "audit": "audit-lightning-variants-20261009.md"
     },
     {
       "family": "Vérité · aseryn",
@@ -14289,13 +14328,15 @@
       "name": "Atteindre l’immatériel",
       "source": "regles-verite-v7-aseryn-treize-dratyn-conseil-foudre",
       "canonicalEffect": "La Noire-Foudre peut traverser les obstacles purement matériels, même un couvert total, pour atteindre une cible immatérielle réellement perçue à portée normale. Les protections spirituelles ou spécialement adaptées restent applicables.\n\nPas de tir aveugle, de nouvelle détection ni d’allongement automatique des 20 m de portée.",
-      "coverage": "texte / activation assistée",
+      "coverage": "métadonnées / arbitrage MJ",
       "access": "R",
-      "implemented": [],
-      "remaining": [
-        "Cible, contexte, opposition et conséquences particulières à résoudre explicitement."
+      "implemented": [
+        "Pré-requis et Révélation vérifiés ; les attaques de spécialisation Esprit portent la métadonnée de traversée des obstacles matériels."
       ],
-      "audit": "audit-truth-capabilities-20261009.md"
+      "remaining": [
+        "Terrain, couvert, cible immatérielle réellement perçue et trajectoire restent confirmés ; aucun moteur de visibilité ou détection automatique."
+      ],
+      "audit": "audit-lightning-variants-20261009.md"
     },
     {
       "family": "Vérité · aseryn",
@@ -14303,13 +14344,16 @@
       "name": "Fulguration spirituelle",
       "source": "regles-verite-v7-aseryn-treize-dratyn-conseil-foudre",
       "canonicalEffect": "Prérequis : Noire-Foudre | R — 1/Scène L'Aseryn peut viser la composante immatérielle d'un être seulement lorsque celle-ci est réellement exposée ou activement engagée : possession, projection astrale, forme spirituelle, pouvoir mental maintenu ou phénomène comparable. L'attaque est alors opposée à la Défense occulte et ignore les Protections purement matérielles. Les dégâts restent des PV normaux.",
-      "coverage": "texte / activation assistée",
+      "coverage": "résolution ciblée / réaction serveur",
       "access": "R",
-      "implemented": [],
-      "remaining": [
-        "Cible, contexte, opposition et conséquences particulières à résoudre explicitement."
+      "implemented": [
+        "Attaque ciblée : 1 PA ; marge + DGT 7 ; portée 20 m ; prérequis et Révélation vérifiés côté serveur.",
+        "1/scène ; composante immatérielle exposée et perçue, arbitrage MJ."
       ],
-      "audit": "audit-truth-capabilities-20261009.md"
+      "remaining": [
+        "Enseignement, perception, trajectoire et protections pertinentes confirmés ; discrétion, classifications occultes et vulnérabilité spirituelle restent arbitrées."
+      ],
+      "audit": "audit-lightning-variants-20261009.md"
     },
     {
       "family": "Vérité · aseryn",
@@ -14317,13 +14361,16 @@
       "name": "Éclipse noire",
       "source": "regles-verite-v7-aseryn-treize-dratyn-conseil-foudre",
       "canonicalEffect": "Pour 2 PA, une fois par scène, ciblez jusqu’à trois créatures immatérielles ou effets métaphysiques temporaires réellement perçus à portée. Un même Jet de Foudre est comparé à chaque Défense ou Puissance : les créatures subissent DGT 9 et les effets temporaires vaincus sont dissipés.\n\nChaque cible occupe un emplacement. Aucun cumul de dégâts et de suppression de l’existence sur une créature : elle conserve ses PV. Les protections spirituelles pertinentes s’appliquent ; les composantes d’un être incarné doivent être effectivement exposées selon Fulguration spirituelle.",
-      "coverage": "texte / activation assistée",
+      "coverage": "résolution ciblée / réaction serveur",
       "access": "R",
-      "implemented": [],
-      "remaining": [
-        "Cible, contexte, opposition et conséquences particulières à résoudre explicitement."
+      "implemented": [
+        "Attaque ciblée : 2 PA ; marge + DGT 9 ; portée 20 m ; prérequis et Révélation vérifiés côté serveur.",
+        "1/scène ; jusqu’à trois cibles immatérielles réellement perçues ; chemin distinct contre un effet métaphysique temporaire réellement suivi."
       ],
-      "audit": "audit-truth-capabilities-20261009.md"
+      "remaining": [
+        "Enseignement, perception, trajectoire et protections pertinentes confirmés ; discrétion, classifications occultes et vulnérabilité spirituelle restent arbitrées."
+      ],
+      "audit": "audit-lightning-variants-20261009.md"
     },
     {
       "family": "Vérité · aseryn",
@@ -14331,13 +14378,16 @@
       "name": "Foudre vaporeuse",
       "source": "regles-verite-v7-aseryn-treize-dratyn-conseil-foudre",
       "canonicalEffect": "En sacrifiant 2 points de dégâts d’un coup réussi avant réduction, diminuez de 2, sans passer sous 0, une Armure ou Protection matérielle directement touchée jusqu’à la fin de la scène. Une même couche ne subit cet effet qu’une fois ; Ruine des protections remplace −2 par −3, sans addition.\n\nRuine conserve l’ouverture aux protections surnaturelles immatérielles. L’armure attaquée peut être érodée même si elle ne protégeait pas de la Foudre : l’intérêt peut être d’aider les autres attaquants.",
-      "coverage": "texte / activation assistée",
+      "coverage": "résolution ciblée / réaction serveur",
       "access": "R",
-      "implemented": [],
-      "remaining": [
-        "Cible, contexte, opposition et conséquences particulières à résoudre explicitement."
+      "implemented": [
+        "Attaque ciblée : 1 PA ; marge + DGT 7 ; portée 20 m ; prérequis et Révélation vérifiés côté serveur.",
+        "Érosion d’une couche directement touchée par sacrifice de 2 DGT, décision MJ et état persistant."
       ],
-      "audit": "audit-truth-capabilities-20261009.md"
+      "remaining": [
+        "Enseignement, perception, trajectoire et protections pertinentes confirmés ; discrétion, classifications occultes et vulnérabilité spirituelle restent arbitrées."
+      ],
+      "audit": "audit-lightning-variants-20261009.md"
     },
     {
       "family": "Vérité · aseryn",
@@ -14345,13 +14395,15 @@
       "name": "Éroder l’affliction",
       "source": "regles-verite-v7-aseryn-treize-dratyn-conseil-foudre",
       "canonicalEffect": "Pour 1 PA, un Jet de Foudre réussi contre une affliction occulte active atténue ses effets pour la scène : malus réduit de 3 et difficulté de résistance abaissée d’un niveau lorsqu’ils existent. Cela ne retire aucun point de Corruption et ne supprime ni Nature ni lien fondamental.\n\nLa jauge de Corruption reste inchangée.\n\nJet de Foudre contre le résultat d’origine de l’affliction, ou contre 15 / 18 / 21 / 25 selon sa puissance. L’effet n’est pas nécessairement guéri.",
-      "coverage": "texte / activation assistée",
+      "coverage": "résolution ciblée / réaction serveur",
       "access": "R",
-      "implemented": [],
-      "remaining": [
-        "Cible, contexte, opposition et conséquences particulières à résoudre explicitement."
+      "implemented": [
+        "Résolution contre un effet PJ/PNJ réellement suivi : opposition à sa Puissance, évolution/destruction/suspension selon sa classification canonique ; versions et source contrôlées."
       ],
-      "audit": "audit-truth-capabilities-20261009.md"
+      "remaining": [
+        "Classification temporaire, maintenue, durable ou interruptible et Puissance décidées par le MJ ; pas de Souillure/Corruption effacée automatiquement ni de transformation arbitraire d’un texte en effet."
+      ],
+      "audit": "audit-lightning-variants-20261009.md"
     },
     {
       "family": "Vérité · aseryn",
@@ -14359,13 +14411,15 @@
       "name": "Ruine des protections",
       "source": "regles-verite-v7-aseryn-treize-dratyn-conseil-foudre",
       "canonicalEffect": "Prérequis : Foudre vaporeuse | R La réduction de Protection de Foudre vaporeuse passe de -2 à -3 et peut affecter une Protection issue d'un pouvoir surnaturel même sans matérialité physique.",
-      "coverage": "texte / activation assistée",
+      "coverage": "calcul passif ciblé / confirmation MJ",
       "access": "R",
-      "implemented": [],
-      "remaining": [
-        "Cible, contexte, opposition et conséquences particulières à résoudre explicitement."
+      "implemented": [
+        "Foudre vaporeuse disponible et couche réellement touchée : sacrifice de 2 DGT ; érosion −3 au lieu de −2, y compris une protection surnaturelle sans matérialité ; une fois par couche/scène."
       ],
-      "audit": "audit-truth-capabilities-20261009.md"
+      "remaining": [
+        "Couche, valeur de Protection, matérialité et contact direct confirmés par le MJ ; pas de bonus universel contre toute défense."
+      ],
+      "audit": "audit-lightning-variants-20261009.md"
     },
     {
       "family": "Vérité · aseryn",
@@ -14373,13 +14427,15 @@
       "name": "Réduire en poussière",
       "source": "regles-verite-v7-aseryn-treize-dratyn-conseil-foudre",
       "canonicalEffect": "Après un Jet de Foudre réussi contre la Puissance d’un effet occulte actif, une fois par scène, détruisez cet effet s’il est temporaire ou suspendez-le pour la scène s’il est durable et interruptible. Une créature dotée de PV, sa Nature et les liens fondamentaux ne sont pas des effets supprimables de cette manière.\n\nAucune réussite gratuite : le jet et son coût normal doivent être résolus. Ne modifie pas la jauge de Corruption.\n\nLes effets primordiaux ou explicitement indestructibles restent hors de portée.",
-      "coverage": "texte / activation assistée",
+      "coverage": "résolution ciblée / réaction serveur",
       "access": "R",
-      "implemented": [],
-      "remaining": [
-        "Cible, contexte, opposition et conséquences particulières à résoudre explicitement."
+      "implemented": [
+        "Résolution contre un effet PJ/PNJ réellement suivi : opposition à sa Puissance, évolution/destruction/suspension selon sa classification canonique ; versions et source contrôlées."
       ],
-      "audit": "audit-truth-capabilities-20261009.md"
+      "remaining": [
+        "Classification temporaire, maintenue, durable ou interruptible et Puissance décidées par le MJ ; pas de Souillure/Corruption effacée automatiquement ni de transformation arbitraire d’un texte en effet."
+      ],
+      "audit": "audit-lightning-variants-20261009.md"
     },
     {
       "family": "Vérité · aseryn",
@@ -14387,13 +14443,16 @@
       "name": "Foudre du Silence",
       "source": "regles-verite-v7-aseryn-treize-dratyn-conseil-foudre",
       "canonicalEffect": "Prérequis : Foudre aseryne + enseignement de la Fin | R La décharge ne produit pratiquement ni tonnerre ni crépitement. DGT 7. Hors attaque, l'Aseryn peut appliquer son effet d'effacement avec une extrême précision pour graver, sectionner ou supprimer de très petites quantités de matière sans ravager ce qui les entoure, lorsque la fiction le permet.",
-      "coverage": "texte / activation assistée",
+      "coverage": "résolution ciblée / réaction serveur",
       "access": "R",
-      "implemented": [],
-      "remaining": [
-        "Cible, contexte, opposition et conséquences particulières à résoudre explicitement."
+      "implemented": [
+        "Attaque ciblée : 1 PA ; marge + DGT 7 ; portée 20 m ; prérequis et Révélation vérifiés côté serveur.",
+        "Enseignement de la Fin confirmé ; discrétion descriptive ; blessures Trace/Fin traitées si ces passifs sont réellement disponibles."
       ],
-      "audit": "audit-truth-capabilities-20261009.md"
+      "remaining": [
+        "Enseignement, perception, trajectoire et protections pertinentes confirmés ; discrétion, classifications occultes et vulnérabilité spirituelle restent arbitrées."
+      ],
+      "audit": "audit-lightning-variants-20261009.md"
     },
     {
       "family": "Vérité · aseryn",
@@ -14401,13 +14460,15 @@
       "name": "Trace du Néant",
       "source": "regles-verite-v7-aseryn-treize-dratyn-conseil-foudre",
       "canonicalEffect": "Prérequis : Foudre du Silence | R Les dégâts infligés par la Foudre du Silence ne peuvent pas être récupérés par une Régénération surnaturelle avant la fin de la scène. Contre un Fléau ou une engeance directement issue d'un Fléau, cette propriété affecte réellement les mécanismes qui lui permettent de persister.",
-      "coverage": "texte / activation assistée",
+      "coverage": "blessures ciblées / régénération contrôlée",
       "access": "R",
-      "implemented": [],
-      "remaining": [
-        "Cible, contexte, opposition et conséquences particulières à résoudre explicitement."
+      "implemented": [
+        "Pertes réelles dues à la Foudre du Silence suivies sur PJ/PNJ jusqu’à fin de scène ; plafond de régénération surnaturelle abaissé sans retirer des PV déjà présents ; soins externes/récupération ordinaire peuvent réduire la trace."
       ],
-      "audit": "audit-truth-capabilities-20261009.md"
+      "remaining": [
+        "Le suivi concerne les commandes Garou, nanitiques, Vampire et les effets déclarés comme régénération ; anatomie, reconstitution fictionnelle et sources non représentées restent à arbitrer."
+      ],
+      "audit": "audit-lightning-variants-20261009.md"
     },
     {
       "family": "Vérité · aseryn",
@@ -14415,13 +14476,16 @@
       "name": "Trait du Silence",
       "source": "regles-verite-v7-aseryn-treize-dratyn-conseil-foudre",
       "canonicalEffect": "Pour 1 PA, une fois par scène, projetez un Trait du Silence de DGT 9 divisant par deux la Protection électrique applicable, arrondie à l’inférieur. La précision permet d’atteindre un composant lorsque la marge et la situation l’autorisent, jamais d’effacer automatiquement un organe.",
-      "coverage": "texte / activation assistée",
+      "coverage": "résolution ciblée / réaction serveur",
       "access": "R",
-      "implemented": [],
-      "remaining": [
-        "Cible, contexte, opposition et conséquences particulières à résoudre explicitement."
+      "implemented": [
+        "Attaque ciblée : 1 PA ; marge + DGT 9 ; portée 20 m ; prérequis et Révélation vérifiés côté serveur.",
+        "1/scène ; protection électrique divisée par deux ; coût final révisé de 1 PA ; blessures Trace/Fin traitées si disponibles."
       ],
-      "audit": "audit-truth-capabilities-20261009.md"
+      "remaining": [
+        "Enseignement, perception, trajectoire et protections pertinentes confirmés ; discrétion, classifications occultes et vulnérabilité spirituelle restent arbitrées."
+      ],
+      "audit": "audit-lightning-variants-20261009.md"
     },
     {
       "family": "Vérité · aseryn",
@@ -14429,13 +14493,15 @@
       "name": "Fin véritable",
       "source": "regles-verite-v7-aseryn-treize-dratyn-conseil-foudre",
       "canonicalEffect": "Prérequis : Trace du Néant + Trait du Silence | R — Passif Lorsqu'un Fléau ou une de ses engeances subit de la Foudre du Silence et remplit les conditions qui permettraient réellement sa destruction, ses mécanismes habituels de régénération, reconstitution, retour depuis des restes, transfert dans une autre enveloppe ou survie par simple persistance surnaturelle ne suffisent pas automatiquement à l'en sauver. Le Talent ne contourne jamais les conditions narratives nécessaires pour rendre un Fléau majeur vulnérable.",
-      "coverage": "texte / activation assistée",
+      "coverage": "destruction ciblée / confirmation MJ",
       "access": "R",
-      "implemented": [],
-      "remaining": [
-        "Cible, contexte, opposition et conséquences particulières à résoudre explicitement."
+      "implemented": [
+        "Sur impact Silence réellement mortel : confirmation MJ du Fléau/engeance, vulnérabilité et conditions de destruction ; état final persistant empêchant survie et régénération automatiques ; Grâce MJ explicite."
       ],
-      "audit": "audit-truth-capabilities-20261009.md"
+      "remaining": [
+        "Aucune vulnérabilité spirituelle déduite automatiquement ; un Fléau majeur ne devient pas destructible par seul jet, nom ou case de Talent."
+      ],
+      "audit": "audit-lightning-variants-20261009.md"
     },
     {
       "family": "Vérité · aseryn",
@@ -16086,17 +16152,15 @@
       "name": "Entre deux états",
       "source": "regles-verite-v7-exiles-silcenters-hds-croix-runes-reseaux-hordes-technomagie",
       "canonicalEffect": "Pour 1 PA, une fois par scène, restez semi-immatériel jusqu’à la fin de la scène : traversez personnes et obstacles minces pendant vos déplacements et gagnez +3 à vos Défenses actives contre le purement physique. Tant que l’état dure, aucune attaque physique ou manipulation lourde ; vous pouvez y mettre fin au début de votre activation.\nLa Défense reste payante ; ni invulnérabilité, ni franchissement illimité de matière, ni passage à travers une barrière dimensionnelle. Une sortie doit être physiquement possible.",
-      "coverage": "définition contrôlée / résolution externe",
+      "coverage": "action dédiée / contraintes serveur",
       "access": "R",
       "implemented": [
-        "Route external ; coût 1 PA ; quota scene ; durée scene.",
-        "skill 3 : esquive."
+        "1 PA sous pression, 1/scène ; interdit attaques physiques et manipulations lourdes ; +3 uniquement à Défense active contre le purement physique ; sortie dédiée au début d’activation."
       ],
       "remaining": [
-        "Procédure ciblée nécessaire : l’interdiction d’attaque et de manipulation, la défense uniquement physique et l’abandon au début d’activation doivent être suivis ensemble. Ce registre ne permet pas une activation libre du seul bonus. La Défense reste payante. Pas d’invulnérabilité ni passage dimensionnel.",
-        "État semi-immatériel : aucune attaque physique ni manipulation lourde tant qu’il dure ; défense contre le purement physique uniquement."
+        "Passage et sortie matériellement possibles confirmés ; aucune Défense passive ou protection universelle."
       ],
-      "audit": "audit-truth-capabilities-20261009.md"
+      "audit": "audit-action-restrictions-20261009.md"
     },
     {
       "family": "Vérité · exile",
@@ -17557,17 +17621,15 @@
       "name": "Crête de Mosenine",
       "source": "regles-verite-v7-extrals-profils-physiologies",
       "canonicalEffect": "Une fois par scène, au début d’un round et sans PA d’activation, gagnez 1 PA réservé au Déplacement, Pugilat, Mêlée, à la Défense active ou à un effort physique significatif. Les autres techniques de Mosenine restent disponibles ensuite ; les gains directs de PA ne se cumulent pas.",
-      "coverage": "définition contrôlée / résolution externe",
+      "coverage": "action dédiée / contraintes serveur",
       "access": "R",
       "implemented": [
-        "Route external ; coût 0 PA ; quota scene ; durée 1.",
-        "pa 1."
+        "Début de round et 1/scène : +1 PA physique réservé, plafond 4, aucun cumul avec autre gain direct ; contrôle serveur des dépenses admissibles."
       ],
       "remaining": [
-        "Gain pour le round uniquement, sans modifier Initiative ni renouveler de quota ; ne se cumule pas avec un autre gain direct de PA. Procédure ciblée requise : le PA physique et la fenêtre de début de round ne sont pas encore contrôlés ensemble. Ce registre interdit donc une activation libre de ce gain.",
-        "Au début du round ; PA réservé au Déplacement, Pugilat, Mêlée, Défense active ou effort physique significatif."
+        "Début de round réel et contexte confirmés ; pas de Tir, Magie, Neuro ou PA par round supplémentaire."
       ],
-      "audit": "audit-truth-capabilities-20261009.md"
+      "audit": "audit-action-restrictions-20261009.md"
     },
     {
       "family": "Vérité · extral",
@@ -25793,7 +25855,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -25813,7 +25875,7 @@
         "Phoenix PCK-08 « Feather » : DGT 4, Perforant 1, melee"
       ],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -25833,7 +25895,7 @@
         "Phoenix BA-037 « Sun Axe » : DGT 7, Perforant 1, melee"
       ],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -25853,7 +25915,7 @@
         "Raven CL-038 « Claymore » : DGT 8, Perforant 0, melee"
       ],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -25873,7 +25935,7 @@
         "Raven SP-016 « Raven Spear » : DGT 6, Perforant 1, melee"
       ],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -25893,7 +25955,7 @@
         "Phoenix PW-026 « Vampire Killer » : DGT 7, Perforant 1, melee"
       ],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -25913,7 +25975,7 @@
         "Raven MC-025 « Hitman » : DGT 5, Perforant 2, melee"
       ],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -25933,7 +25995,7 @@
         "Owl LC-014 « Chasseur » : DGT 7, Perforant 1, balistique"
       ],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -25953,7 +26015,7 @@
         "Raven HT-014 « Immobilisateur » : DGT 6, Perforant 0, electricite"
       ],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -25971,7 +26033,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -25989,7 +26051,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -26007,7 +26069,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -26025,7 +26087,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -26043,7 +26105,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -26061,7 +26123,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -26079,7 +26141,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -26097,7 +26159,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -26115,7 +26177,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -26133,7 +26195,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -26151,7 +26213,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -26169,7 +26231,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -26187,7 +26249,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -26205,7 +26267,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -26223,7 +26285,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -26241,7 +26303,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -26259,7 +26321,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -26277,7 +26339,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -26295,7 +26357,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -26313,7 +26375,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -26331,7 +26393,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -26349,7 +26411,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -26367,7 +26429,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -26385,7 +26447,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -26403,7 +26465,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -26421,7 +26483,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -26439,7 +26501,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -26457,7 +26519,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -26475,7 +26537,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -26493,7 +26555,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -26511,7 +26573,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -26529,7 +26591,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -26595,7 +26657,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -26617,7 +26679,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -26647,7 +26709,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -26681,7 +26743,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -26717,7 +26779,7 @@
         "Marteau de Scellement : DGT 7, Perforant 0, melee"
       ],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -26744,12 +26806,14 @@
           "value": "La première source de dégâts surnaturels du scénario est réduite de 3, minimum 0, puis la charge runique s’éteint."
         }
       ],
-      "coverage": "inventaire / arbitrage MJ",
-      "implemented": [],
-      "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+      "coverage": "ressource finie / résolution ciblée",
+      "implemented": [
+        "Armure matérielle 2 proposée parmi les objets possédés ; Rune −3 sur la première source surnaturelle positive d’une attaque contre laquelle la Brigandine est réellement sélectionnée ; charge par scénario."
       ],
-      "audit": "audit-truth-items-20261009.md"
+      "remaining": [
+        "Port et compatibilité confirmés ; sources sans sélection de protection portée restent arbitrées."
+      ],
+      "audit": "audit-gameplay-and-ux-20261010.md"
     },
     {
       "family": "Vérité · objets",
@@ -26777,7 +26841,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -26807,7 +26871,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -26829,7 +26893,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -26851,7 +26915,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -26873,7 +26937,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -26892,12 +26956,14 @@
           "value": "750 $"
         }
       ],
-      "coverage": "inventaire / arbitrage MJ",
-      "implemented": [],
-      "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+      "coverage": "ressource finie / résolution ciblée",
+      "implemented": [
+        "Réaction contre dommages surnaturels positifs : −2, 1 PA ordinaire payé ; copie possédée détruite une seule fois et non recréée par scène/scénario."
       ],
-      "audit": "audit-truth-items-20261009.md"
+      "remaining": [
+        "Réaction possible, perception et portée réelles ; une copie supplémentaire doit être réellement acquise."
+      ],
+      "audit": "audit-gameplay-and-ux-20261010.md"
     },
     {
       "family": "Vérité · objets",
@@ -26925,7 +26991,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -26955,7 +27021,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -26989,7 +27055,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -27019,7 +27085,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -27049,7 +27115,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -27079,7 +27145,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -27113,7 +27179,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -27147,7 +27213,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -27181,7 +27247,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -27215,7 +27281,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -27249,7 +27315,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -27283,7 +27349,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -27317,7 +27383,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -27347,7 +27413,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -27377,7 +27443,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -27409,7 +27475,7 @@
         "Jadehook : DGT 6, Perforant 0, balistique"
       ],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -27441,7 +27507,7 @@
         "Black Nail : DGT 4, Perforant 0, melee"
       ],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -27471,7 +27537,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -27501,7 +27567,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -27525,7 +27591,7 @@
         "Épée nibelungen runique-ready : DGT 6, Perforant 0, melee"
       ],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -27549,7 +27615,7 @@
         "Hache de clan runique-ready : DGT 7, Perforant 0, melee"
       ],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -27571,7 +27637,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -27593,7 +27659,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -27615,7 +27681,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -27637,7 +27703,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -27659,7 +27725,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -27681,7 +27747,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -27703,7 +27769,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -27725,7 +27791,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -27747,7 +27813,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -27769,7 +27835,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -27799,7 +27865,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -27821,7 +27887,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -27845,7 +27911,7 @@
         "Pistolet laser : DGT 5, Perforant 0, vecteur à arbitrer"
       ],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -27869,7 +27935,7 @@
         "Pistolet laser lourd : DGT 6, Perforant 0, vecteur à arbitrer"
       ],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -27893,7 +27959,7 @@
         "Fusil laser : DGT 7, Perforant 0, vecteur à arbitrer"
       ],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -27917,7 +27983,7 @@
         "Fusil laser de précision : DGT 8, Perforant 0, vecteur à arbitrer"
       ],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -27941,7 +28007,7 @@
         "Pistolet à ions : DGT 4, Perforant 0, vecteur à arbitrer"
       ],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -27965,7 +28031,7 @@
         "Fusil à ions : DGT 6, Perforant 0, vecteur à arbitrer"
       ],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -27989,7 +28055,7 @@
         "Pistolet à plasma : DGT 7, Perforant 0, vecteur à arbitrer"
       ],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -28013,7 +28079,7 @@
         "Fusil à plasma : DGT 9, Perforant 1, vecteur à arbitrer"
       ],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -28037,7 +28103,7 @@
         "Sniper plasma : DGT 9, Perforant 2, vecteur à arbitrer"
       ],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -28061,7 +28127,7 @@
         "Grenade plasma : DGT 10, Perforant 0, vecteur à arbitrer"
       ],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -28085,7 +28151,7 @@
         "Fusil projectile galactique : DGT 7, Perforant 1, balistique"
       ],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -28109,7 +28175,7 @@
         "Sniper projectile galactique : DGT 9, Perforant 1, balistique"
       ],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -28144,15 +28210,16 @@
           "value": "Adaptée Thalsios ; une version terrestre correctement reconfigurée existe sur le marché Shaediri."
         }
       ],
-      "coverage": "profil explicite / exceptions assistées",
+      "coverage": "ressource finie / résolution ciblée",
       "implemented": [
         "Blaster Atomus · rafale : DGT 7, Perforant 0, vecteur à arbitrer",
-        "Blaster Atomus · concentré : DGT 9, Perforant 1, vecteur à arbitrer"
+        "Blaster Atomus · concentré : DGT 9, Perforant 1, vecteur à arbitrer",
+        "Mode rafale/concentré conservé ; changement gratuit une fois par activation serveur ; aucun tir supplémentaire gratuit."
       ],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Vecteur énergétique et morphologie arbitrés ; lancement MJ confirmé ; munitions de rafale/suppression ne sont pas déduites du nombre d’impacts."
       ],
-      "audit": "audit-truth-items-20261009.md"
+      "audit": "audit-gameplay-and-ux-20261010.md"
     },
     {
       "family": "Vérité · objets",
@@ -28180,7 +28247,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -28204,7 +28271,7 @@
         "Karpan Trius : DGT 5, Perforant 0, balistique"
       ],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -28228,7 +28295,7 @@
         "Vultar Trius : DGT 5, Perforant 0, vecteur à arbitrer"
       ],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -28252,7 +28319,7 @@
         "Lantarksan Trius : DGT 7, Perforant 0, vecteur à arbitrer"
       ],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -28288,7 +28355,7 @@
         "GO-02 : DGT 6, Perforant 0, vecteur à arbitrer"
       ],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -28322,7 +28389,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -28356,7 +28423,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -28380,7 +28447,7 @@
         "Pistolet plasma Sérys : DGT 7, Perforant 0, vecteur à arbitrer"
       ],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -28404,7 +28471,7 @@
         "Fusil plasma Sérys : DGT 9, Perforant 1, vecteur à arbitrer"
       ],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -28428,7 +28495,7 @@
         "Répétiteur Sérys : DGT 8, Perforant 0, vecteur à arbitrer"
       ],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -28452,7 +28519,7 @@
         "Sniper Sérys : DGT 10, Perforant 2, vecteur à arbitrer"
       ],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -28476,7 +28543,7 @@
         "Mitrailleuse Sérys : DGT 10, Perforant 1, vecteur à arbitrer"
       ],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -28500,7 +28567,7 @@
         "Lance-plasma Sérys : DGT 9, Perforant 0, vecteur à arbitrer"
       ],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -28524,7 +28591,7 @@
         "Lance-roquette Sérys : DGT 12, Perforant 2, vecteur à arbitrer"
       ],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -28560,7 +28627,7 @@
         "Sellecion 12 : DGT 10, Perforant 1, vecteur à arbitrer"
       ],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -28596,7 +28663,7 @@
         "TK X : DGT 8, Perforant 0, vecteur à arbitrer"
       ],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -28633,7 +28700,7 @@
         "Tanax Alpha · perturbation : DGT 5, Perforant 0, vecteur à arbitrer"
       ],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -28665,7 +28732,7 @@
         "Pistolet AIDH — 2e génération : DGT 7, Perforant 1, balistique"
       ],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -28702,7 +28769,7 @@
         "Fusil AIDH — 1re génération · perforant : DGT 10, Perforant 2, balistique"
       ],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -28764,7 +28831,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -28788,7 +28855,7 @@
         "Couteau de survie vibrant : DGT 4, Perforant 1, melee"
       ],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -28812,7 +28879,7 @@
         "Dague mono-filament : DGT 5, Perforant 3, melee"
       ],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -28836,7 +28903,7 @@
         "Spectrale S40 : DGT 6, Perforant 0, melee"
       ],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -28860,7 +28927,7 @@
         "Hache mono-filament : DGT 7, Perforant 3, melee"
       ],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -28884,7 +28951,7 @@
         "LC-108X : DGT 7, Perforant 0, melee"
       ],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -28906,7 +28973,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -28928,7 +28995,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -28950,7 +29017,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -28972,7 +29039,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -28994,7 +29061,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -29016,7 +29083,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -29038,7 +29105,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -29056,7 +29123,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -29094,7 +29161,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -29132,7 +29199,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -29170,7 +29237,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -29208,7 +29275,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -29246,7 +29313,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -29284,7 +29351,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -29322,7 +29389,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -29360,7 +29427,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -29398,7 +29465,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -29440,7 +29507,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -29478,7 +29545,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -29516,7 +29583,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -29556,7 +29623,7 @@
         "Defensor : DGT 14, Perforant 2, balistique"
       ],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -29596,7 +29663,7 @@
         "Praetor C-14 : DGT 14, Perforant 1, balistique"
       ],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -29635,15 +29702,16 @@
           "value": "Le mode perforant n’ajoute pas une seconde Altération."
         }
       ],
-      "coverage": "profil explicite / exceptions assistées",
+      "coverage": "ressource finie / résolution ciblée",
       "implemented": [
         "Custodian AR-9 · standard : DGT 16, Perforant 2, balistique",
-        "Custodian AR-9 · perforant : DGT 17, Perforant 3, balistique"
+        "Custodian AR-9 · perforant : DGT 17, Perforant 3, balistique",
+        "Mode standard/perforant persistant ; changement 1 PA sous pression en plus de l’attaque ; autorisation réelle confirmée ; réserve seulement si déclarée."
       ],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Le perforant consomme davantage de matière : nombre réel déclaré, aucun multiplicateur universel inventé ; signature AIDH et suppression sont contextuelles."
       ],
-      "audit": "audit-truth-items-20261009.md"
+      "audit": "audit-gameplay-and-ux-20261010.md"
     },
     {
       "family": "Vérité · objets",
@@ -29686,7 +29754,7 @@
         "Long Watch SR-6 · subsonique : DGT 16, Perforant 3, balistique"
       ],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -29730,7 +29798,7 @@
         "Cerberus HMG-3 : DGT 17, Perforant 2, balistique"
       ],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -29765,14 +29833,15 @@
           "value": "charge énergétique scellée ; pas de réserve de projectiles"
         }
       ],
-      "coverage": "profil explicite / exceptions assistées",
+      "coverage": "ressource finie / résolution ciblée",
       "implemented": [
-        "Helios PR-8 : DGT 18, Perforant 2, vecteur à arbitrer"
+        "Helios PR-8 : DGT 18, Perforant 2, vecteur à arbitrer",
+        "Usage intensif déclaré interdit un autre usage intensif jusqu’à la prochaine activation ; tir ordinaire conservé ; nouvel affrontement ne prolonge pas un refroidissement passé."
       ],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Vecteur Plasma et qualification de l’usage intensif arbitrés ; aucun dégât de feu périodique créé gratuitement."
       ],
-      "audit": "audit-truth-items-20261009.md"
+      "audit": "audit-gameplay-and-ux-20261010.md"
     },
     {
       "family": "Vérité · objets",
@@ -29810,7 +29879,7 @@
         "Prometheus PX-2 : DGT 17, Perforant 0, vecteur à arbitrer"
       ],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -29851,7 +29920,7 @@
         "Null Lance IE-4 · faible : DGT 8, Perforant 1, vecteur à arbitrer"
       ],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -29891,7 +29960,7 @@
         "Judicator RL-5 : DGT 20, Perforant 3, vecteur à arbitrer"
       ],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -29935,7 +30004,7 @@
         "Blackstar GR-1 : DGT 18, Perforant 2, vecteur à arbitrer"
       ],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -29975,7 +30044,7 @@
         "Ward M-6 : DGT 6, Perforant 3, melee"
       ],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -30015,7 +30084,7 @@
         "Breacher B-9 : DGT 9, Perforant 3, melee"
       ],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -30053,7 +30122,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -30095,7 +30164,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -30141,7 +30210,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -30183,7 +30252,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -30221,7 +30290,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -30259,7 +30328,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -30297,7 +30366,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -30335,7 +30404,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -30373,7 +30442,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -30411,7 +30480,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -30449,7 +30518,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -30487,7 +30556,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -30525,7 +30594,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -30563,7 +30632,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -30601,7 +30670,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -30639,7 +30708,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -30677,7 +30746,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -30715,7 +30784,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -30753,7 +30822,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -30791,7 +30860,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -30825,7 +30894,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -30849,7 +30918,7 @@
         "Croc de la Faim : DGT 4, Perforant 0, melee"
       ],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -30871,7 +30940,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -30893,7 +30962,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -30917,7 +30986,7 @@
         "Extracteur entropique VHD-4 : DGT 10, Perforant 0, vecteur à arbitrer"
       ],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -30939,7 +31008,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -30961,7 +31030,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -30983,7 +31052,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -31007,7 +31076,7 @@
         "Lame de l’Interstice : DGT 5, Perforant 0, melee"
       ],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -31029,7 +31098,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -31051,7 +31120,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -31073,7 +31142,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -31097,7 +31166,7 @@
         "Gantelet de Fusion VAG-9 : DGT 4, Perforant 0, melee"
       ],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -31119,7 +31188,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -31143,7 +31212,7 @@
         "Scalpel du Prisme : DGT 3, Perforant 0, melee"
       ],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -31165,7 +31234,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -31187,7 +31256,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -31211,7 +31280,7 @@
         "Dissecteur SHR-11 : DGT 11, Perforant 0, vecteur à arbitrer"
       ],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -31233,7 +31302,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -31255,7 +31324,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -31277,7 +31346,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -31299,7 +31368,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -31321,7 +31390,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -31343,7 +31412,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -31365,7 +31434,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -31387,7 +31456,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -31409,7 +31478,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -31431,7 +31500,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -31453,7 +31522,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -31475,7 +31544,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -31497,7 +31566,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -31519,7 +31588,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -31541,7 +31610,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -31563,7 +31632,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -31585,7 +31654,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -31607,7 +31676,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -31629,7 +31698,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -31651,7 +31720,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -31673,7 +31742,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -31695,7 +31764,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -31717,7 +31786,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -31739,7 +31808,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -31761,7 +31830,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -31783,7 +31852,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -31805,7 +31874,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -31827,7 +31896,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -31849,7 +31918,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -31899,7 +31968,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -31965,7 +32034,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -32007,7 +32076,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -32045,7 +32114,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -32087,7 +32156,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -32121,7 +32190,7 @@
       "coverage": "inventaire / arbitrage MJ",
       "implemented": [],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -32169,7 +32238,7 @@
         "Fulgur EB-7 : DGT 8, Perforant 3, melee"
       ],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Profils à vecteur inconnu : résolution assistée. Autres ressources, rites, véhicules et exceptions à consulter individuellement."
       ],
       "audit": "audit-truth-items-20261009.md"
     },
@@ -32216,15 +32285,16 @@
           "value": "Modèle et profil validés par l’auteur le 1er octobre 2026, à partir des références visuelles AIDH. Ajout au catalogue postérieur au Livre V V6."
         }
       ],
-      "coverage": "profil explicite / exceptions assistées",
+      "coverage": "ressource finie / résolution ciblée",
       "implemented": [
         "Duplex AR-12 · assaut : DGT 16, Perforant 2, balistique",
-        "Duplex AR-12 · dispersion : DGT 15, Perforant 1, balistique"
+        "Duplex AR-12 · dispersion : DGT 15, Perforant 1, balistique",
+        "Mode assaut/dispersion persistant ; changement 1 PA sous pression ; dispersion une seule cible, consomme exactement 3 unités de réserve déclarée ; rejeu atomique avec le PA."
       ],
       "remaining": [
-        "Profils à vecteur inconnu ou régime payant non suivi : résolution assistée. Ressources, charges runiques, véhicules et exceptions à consulter individuellement."
+        "Aucune réserve initiale de 1 500 inventée à partir d’une estimation ; verrou AIDH, port et compatibilité confirmés."
       ],
-      "audit": "audit-truth-items-20261009.md"
+      "audit": "audit-gameplay-and-ux-20261010.md"
     },
     {
       "family": "Réalité · équipement",
@@ -33847,13 +33917,14 @@
       "coverage": "calcul ciblé / contexte",
       "implemented": [
         "Inventaire / acquisition / attribution MJ et affichage du profil canonique.",
-        "Protection selon vecteur et couches distinctes ; seuls renforts explicites s’ajoutent."
+        "Protection selon vecteur et couches distinctes ; seuls renforts explicites s’ajoutent.",
+        "Charges Ablatif par exemplaire/UID ; un impact applicable consomme une charge, même sans PV perdus ; bonus typé disparaît à zéro, autres couches conservées."
       ],
       "manual": [],
       "remaining": [
-        "Ablatif 4 impacts : compteur matériel non remis à zéro par combat/scène."
+        "Port effectif, compatibilité et montage confirmés ; remplacement/recharge réellement disponible, réservé au MJ en combat ; aucune remise à zéro par round, scène ou scénario."
       ],
-      "audit": "audit-reality-20261009.md"
+      "audit": "audit-gameplay-and-ux-20261010.md"
     },
     {
       "family": "Réalité · équipement",
@@ -33864,13 +33935,14 @@
       "coverage": "calcul ciblé / contexte",
       "implemented": [
         "Inventaire / acquisition / attribution MJ et affichage du profil canonique.",
-        "Protection selon vecteur et couches distinctes ; seuls renforts explicites s’ajoutent."
+        "Protection selon vecteur et couches distinctes ; seuls renforts explicites s’ajoutent.",
+        "Charges Ablatif par exemplaire/UID ; un impact applicable consomme une charge, même sans PV perdus ; bonus typé disparaît à zéro, autres couches conservées."
       ],
       "manual": [],
       "remaining": [
-        "Ablatif 2 impacts : compteur matériel non remis à zéro par combat/scène."
+        "Port effectif, compatibilité et montage confirmés ; remplacement/recharge réellement disponible, réservé au MJ en combat ; aucune remise à zéro par round, scène ou scénario."
       ],
-      "audit": "audit-reality-20261009.md"
+      "audit": "audit-gameplay-and-ux-20261010.md"
     },
     {
       "family": "Réalité · équipement",
@@ -33881,13 +33953,14 @@
       "coverage": "calcul ciblé / contexte",
       "implemented": [
         "Inventaire / acquisition / attribution MJ et affichage du profil canonique.",
-        "Protection selon vecteur et couches distinctes ; seuls renforts explicites s’ajoutent."
+        "Protection selon vecteur et couches distinctes ; seuls renforts explicites s’ajoutent.",
+        "Charges Ablatif par exemplaire/UID ; un impact applicable consomme une charge, même sans PV perdus ; bonus typé disparaît à zéro, autres couches conservées."
       ],
       "manual": [],
       "remaining": [
-        "Ablatif 4 impacts : compteur matériel non remis à zéro par combat/scène."
+        "Port effectif, compatibilité et montage confirmés ; remplacement/recharge réellement disponible, réservé au MJ en combat ; aucune remise à zéro par round, scène ou scénario."
       ],
-      "audit": "audit-reality-20261009.md"
+      "audit": "audit-gameplay-and-ux-20261010.md"
     },
     {
       "family": "Réalité · équipement",
@@ -33898,13 +33971,14 @@
       "coverage": "calcul ciblé / contexte",
       "implemented": [
         "Inventaire / acquisition / attribution MJ et affichage du profil canonique.",
-        "Protection selon vecteur et couches distinctes ; seuls renforts explicites s’ajoutent."
+        "Protection selon vecteur et couches distinctes ; seuls renforts explicites s’ajoutent.",
+        "Charges Ablatif par exemplaire/UID ; un impact applicable consomme une charge, même sans PV perdus ; bonus typé disparaît à zéro, autres couches conservées."
       ],
       "manual": [],
       "remaining": [
-        "Ablatif 4 impacts : compteur matériel non remis à zéro par combat/scène."
+        "Port effectif, compatibilité et montage confirmés ; remplacement/recharge réellement disponible, réservé au MJ en combat ; aucune remise à zéro par round, scène ou scénario."
       ],
-      "audit": "audit-reality-20261009.md"
+      "audit": "audit-gameplay-and-ux-20261010.md"
     },
     {
       "family": "Réalité · équipement",
@@ -34314,17 +34388,18 @@
       "name": "Plaques ablatives",
       "source": "compendium/source/current-equipment-catalog-v1.json#catalog.entries[113]",
       "canonicalEffect": "Ablatif 2 : +1 protection sur les 2 premiers impacts applicables.",
-      "coverage": "inventaire / arbitrage MJ",
+      "coverage": "calcul ciblé / contexte",
       "implemented": [
-        "Inventaire / acquisition / attribution MJ et affichage du profil canonique."
+        "Inventaire / acquisition / attribution MJ et affichage du profil canonique.",
+        "Plaques réellement montées sur une armure sélectionnée : +1 pendant deux impacts matériels applicables ; pas de cumul de modules identiques."
       ],
       "manual": [
         "Usage réel selon description ; pas de bonus, attaque ou PV inventés pour un objet non profilé."
       ],
       "remaining": [
-        "Ablatif 2 impacts : compteur matériel non remis à zéro par combat/scène."
+        "Port effectif, compatibilité et montage confirmés ; remplacement/recharge réellement disponible, réservé au MJ en combat ; aucune remise à zéro par round, scène ou scénario."
       ],
-      "audit": "audit-reality-20261009.md"
+      "audit": "audit-gameplay-and-ux-20261010.md"
     },
     {
       "family": "Réalité · équipement",

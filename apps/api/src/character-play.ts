@@ -1,3 +1,10 @@
+import {supernaturalHealingMaximum,recoverLightningWounds,finishLightningWoundsScene} from './rules/lightning-wounds.js';
+import {registerCampaignLightningEffectRoutes} from './campaign-lightning-effects.js';
+import {finishLightningEffectScene,rebaseLightningEffectChanges} from './rules/lightning-effects-state.js';
+import {registerCampaignOccultResolutionRoutes,pruneOccultMaintenance} from './campaign-occult-resolutions.js';
+import {resetFrenzyScene,frenzyDedicatedIds,recordSurvivalFuryDamage,consumeSurvivalFury,frenzyConcentrationPenalty,frenzyActionCheck,recordFrenzyAction} from './rules/live-frenzy.js';
+import {liveItemResourceProfile} from './rules/live-item-resources.js';
+import {actionRestrictionsProfile,restrictedActionCheck,markRestrictedRoundAction} from './rules/live-action-restrictions.js';
 import {vampirePowerRules,prepareVampireBlood,vampireBloodTalent,resetVampirePeriod,applyVampireLastSleep} from './rules/live-vampire.js';
 import {resetNaturePeriod,normalizedNatureResources} from './rules/live-nature-resources.js';
 import {finishEffectsScene,rebaseLiveEffects} from './rules/live-effects.js';
@@ -44,6 +51,8 @@ export async function registerCharacterPlayRoutes(app:FastifyInstance){
   await registerCampaignCombatRoutes(app);
   await registerCampaignMechanicsRoutes(app);
   await registerCampaignTargetedPowerRoutes(app);
+  await registerCampaignOccultResolutionRoutes(app);
+  await registerCampaignLightningEffectRoutes(app);
   app.get<{Params:{id:string}}>('/api/characters/:id/play',async(req,reply)=>{
     reply.header('Cache-Control','private, no-store');
     const user=await requireUser(req,reply);if(!user)return;
@@ -53,7 +62,7 @@ export async function registerCharacterPlayRoutes(app:FastifyInstance){
     const events=await pool.query('SELECT id,kind,payload,created_at AS "createdAt" FROM character_play_events WHERE character_id=$1 ORDER BY created_at DESC LIMIT 30',[c.id]);
     const shared=await combatState(pool,c.campaign_id),profile=playProfile(c.data,state);
     const canManageMechanics=!!c.campaign_id&&gm(user.role)&&!!(await pool.query('SELECT id FROM campaigns WHERE id=$1 AND owner_id=$2 AND archived_at IS NULL',[c.campaign_id,user.id])).rowCount;
-    return {canManageMechanics,edge:await edgeBalance(pool,c.id,c.data),escapeEvent:profile.hp<=profile.derived.death?await lethalEvent(pool,c.id,profile.derived.death):null,combat:{active:shared.active,participating:participates(shared,c.id),mode:shared.mode,round:shared.round,version:shared.version},campaignId:c.campaign_id,state,version:r.rows[0]?.version??0,profile:{...profile,reality:liveRealityProfile(c.data,state,getRealityRules())},canEdit:c.owner_id===user.id,events:events.rows};
+    return {canManageMechanics,edge:await edgeBalance(pool,c.id,c.data),escapeEvent:profile.hp<=profile.derived.death?await lethalEvent(pool,c.id,profile.derived.death):null,combat:{active:shared.active,participating:participates(shared,c.id),mode:shared.mode,round:shared.round,version:shared.version},campaignId:c.campaign_id,state,version:r.rows[0]?.version??0,profile:{...profile,actionRestrictions:actionRestrictionsProfile(state),itemResources:liveItemResourceProfile(c.data,state,getRealityRules()),reality:liveRealityProfile(c.data,state,getRealityRules())},canEdit:c.owner_id===user.id,events:events.rows};
   });
   app.post<{Params:{id:string};Body:any}>('/api/characters/:id/play',async(req,reply)=>{
     reply.header('Cache-Control','private, no-store');
@@ -84,11 +93,11 @@ export async function registerCharacterPlayRoutes(app:FastifyInstance){
         if(state.initiative!==null)return await fail(400,'initiative_already_rolled');
       }
       if(state.vampire?.stasis&&!['save','scene','scenario','end-combat','round','damage','heal','edge-escape'].includes(b.action)&&!b.action.startsWith('vampire-'))return await fail(400,'stasis_required_to_end');
-      const paBefore=state.pa;
+      const paBefore=state.pa,restrictionBefore=structuredClone(state);
       let profile=playProfile(c.data,state);
       let payload:Record<string,unknown>={};
       if(isExtendedPlayAction(b.action)){
-        try{const result=applyExtendedPlayAction(c.data,state,b,{fighting:shared.active||!c.campaign_id&&state.initiative!==null,participating:participates(shared,c.id),manager:manages,actorId:c.id});state=result.state;payload=result.payload;}catch(e){return await fail(400,(e as Error).message);}
+        try{const result=applyExtendedPlayAction(c.data,state,b,{fighting:shared.active||!c.campaign_id&&state.initiative!==null,participating:participates(shared,c.id),manager:manages,actorId:c.id,atRoundStart:!Object.values(shared.turns??{}).some((n:any)=>n>0)});state=result.state;payload=result.payload;}catch(e){return await fail(400,(e as Error).message);}
       }else if(b.action==='edge-force'){
         if(!uuid.test(b.eventId??''))return await fail(400,'edge_roll_unavailable');
         const result=await forcePastRoll(db,c,state,b.eventId);if(result.error)return await fail(400,result.error);payload=result.payload!;
@@ -100,7 +109,7 @@ export async function registerCharacterPlayRoutes(app:FastifyInstance){
         payload={label:'Échapper au Destin · survit à la conséquence mortelle',referenceId:reference,before:profile.hp,after:state.hp};
       }else if(b.action==='save'){
         if(!validatePlayState(b.state))return await fail(400,'invalid_play_state');
-        state={...b.state,targeted:state.targeted,effects:state.effects,effectArmor:state.effectArmor,activation:state.activation,activationOpen:state.activationOpen,physicalPaSpent:state.physicalPaSpent,registeredPowers:state.registeredPowers,vampire:state.vampire,natureResources:state.natureResources,realityLive:state.realityLive,neuroLoaded:state.neuroLoaded,neuroBurned:state.neuroBurned,magazines:state.magazines,ammoCount:state.ammoCount,adrenaline:state.adrenaline,augmentTemporaryStress:state.augmentTemporaryStress,unconscious:b.state.unconscious??state.unconscious??false,swarmFunctional:b.state.swarmFunctional??state.swarmFunctional??true,...(c.campaign_id?{round:state.round}:{}),initiative:state.initiative,paPerRound:state.paPerRound,form:state.form,inWater:b.state.inWater===true,muePending:state.muePending,mueCount:state.mueCount,mueBlocked:state.mueBlocked,formPaRound:state.formPaRound,powers:state.powers,powerUses:state.powerUses};
+        state={...b.state,targeted:state.targeted,lightningWounds:state.lightningWounds,itemResources:state.itemResources,lightningEffectChanges:state.lightningEffectChanges,lightningErosion:state.lightningErosion,frenzy:state.frenzy,fear:state.fear,survivalFury:state.survivalFury,effects:state.effects,effectArmor:state.effectArmor,activation:state.activation,activationOpen:state.activationOpen,physicalPaSpent:state.physicalPaSpent,registeredPowers:state.registeredPowers,vampire:state.vampire,natureResources:state.natureResources,realityLive:state.realityLive,neuroLoaded:state.neuroLoaded,neuroBurned:state.neuroBurned,magazines:state.magazines,ammoCount:state.ammoCount,adrenaline:state.adrenaline,augmentTemporaryStress:state.augmentTemporaryStress,unconscious:b.state.unconscious??state.unconscious??false,swarmFunctional:b.state.swarmFunctional??state.swarmFunctional??true,...(c.campaign_id?{round:state.round}:{}),initiative:state.initiative,paPerRound:state.paPerRound,form:state.form,inWater:b.state.inWater===true,muePending:state.muePending,mueCount:state.mueCount,mueBlocked:state.mueBlocked,formPaRound:state.formPaRound,powers:state.powers,powerUses:state.powerUses};
         if(state.vampire?.stasis)state.unconscious=true;
         if(state.revelation!=='r'){state.form='human';state.muePending=null;}
         state.powers=(state.powers??[]).filter(p=>{const rule=truthPowers(c.data).find(r=>r.id===p.id);return rule&&powerAllowed(rule,state.revelation);});
@@ -135,7 +144,7 @@ export async function registerCharacterPlayRoutes(app:FastifyInstance){
           payload={label:b.form==='animal'?'Transformation animale':'Retour à la forme humaine révélée'};
         }
       }else if(b.action==='power'){
-        if(b.enabled!==false&&(dedicatedPowerIds.has(b.powerId)||explicitPower(b.powerId)?.nature===c.data.truth?.nature))return await fail(400,'use_dedicated_action');
+        if(b.enabled!==false&&(frenzyDedicatedIds.has(b.powerId)||dedicatedPowerIds.has(b.powerId)||explicitPower(b.powerId)?.nature===c.data.truth?.nature))return await fail(400,'use_dedicated_action');
         const rule=truthPowers(c.data).find(p=>p.id===b.powerId);if(!rule)return await fail(400,'power_unavailable');if(b.enabled!==false&&rule.execution!=='assisted')return await fail(400,'use_dedicated_action');
         state.powers??=[];state.powerUses??={};
         if(b.enabled===false){state.powers=state.powers.filter(p=>p.id!==rule.id);payload={label:'Fin de capacité · '+rule.name};}
@@ -157,13 +166,13 @@ export async function registerCharacterPlayRoutes(app:FastifyInstance){
           const resources=normalizedNatureResources(state.natureResources);resources.mage.preparation=null;resources.mage.maintained=[];resources.mage.blockedUntilRound=null;resources.powerPreparation=null;state.natureResources=resources;if(state.vampire)state.vampire.cycleUntilRound=null;
           finishAdrenaline(state);state.registeredPowers=(state.registeredPowers??[]).filter(p=>['scene','scenario'].includes(p.period));state.powers=[];state.initiative=null;state.pa=0;state.paPerRound=0;
           state.powerUses=Object.fromEntries(Object.entries(state.powerUses??{}).filter(([k])=>!k.startsWith('round:')));
-        }else{resetLivePeriod(state,b.action);Object.assign(state,resetVampirePeriod(state));resetNaturePeriod(state,b.action);state.effects=finishEffectsScene(state.effects??[]);state.registeredPowers=(state.registeredPowers??[]).filter(p=>b.action==='scene'&&p.period==='scenario');}
+        }else{finishLightningEffectScene(state);finishLightningWoundsScene(state);state.lightningErosion={};resetFrenzyScene(state);resetLivePeriod(state,b.action);Object.assign(state,resetVampirePeriod(state));resetNaturePeriod(state,b.action);state.effects=finishEffectsScene(state.effects??[]);state.registeredPowers=(state.registeredPowers??[]).filter(p=>b.action==='scene'&&p.period==='scenario');}
         payload={label:b.action==='scene'?'Nouvelle scène · usages de scène renouvelés':b.action==='scenario'?'Nouveau scénario · usages renouvelés':'Combat terminé'};
       }else if(b.action==='recover-hours'){
         const rate=hourlyRecovery(c.data,state);
         if(shared.active||state.initiative!==null||!rate||state.muePending||profile.hp<=profile.derived.death)return await fail(400,'hourly_recovery_unavailable');
         if(!Number.isInteger(b.hours)||b.hours<1||b.hours>8760||b.regenerable!==true)return await fail(400,'invalid_hourly_recovery');
-        state.hp=Math.min(liveHealingMaximum(c.data,state,profile.derived.pvMax),profile.hp+rate*b.hours);
+        state.hp=Math.min(supernaturalHealingMaximum(state,liveHealingMaximum(c.data,state,profile.derived.pvMax),profile.hp),profile.hp+rate*b.hours);
         if(state.hp>0)state.stabilized=false;
         payload={label:'Récupération surnaturelle hors combat',hours:b.hours,rate,recovered:state.hp-profile.hp,before:profile.hp,after:state.hp};
       }else if(b.action==='nanite-cycle'){
@@ -174,12 +183,12 @@ export async function registerCharacterPlayRoutes(app:FastifyInstance){
         const fighting=shared.active||!c.campaign_id&&state.initiative!==null;
         if(fighting&&(state.initiative===null||!participates(shared,c.id)||profile.pa<1))return await fail(400,'insufficient_pa');
         if(fighting)state.pa--;
-        consumeUsage(state,'scenario',cycleId);state.hp=Math.min(profile.derived.pvMax,profile.hp+6);
+        consumeUsage(state,'scenario',cycleId);state.hp=Math.min(supernaturalHealingMaximum(state,profile.derived.pvMax,profile.hp),profile.hp+6);
         payload={label:'Cycle de réparation · 1/scénario',recovered:state.hp-profile.hp,before:profile.hp,after:state.hp,paCost:fighting?1:0,powerId:cycleId};
       }else if(b.action==='regenerate'){
         const body=liveBody(c.data,state);if(!body?.regeneration||profile.hp<=profile.derived.death)return await fail(400,'regeneration_unavailable');
         state.powerUses??={};if(state.powerUses['round:regeneration'])return await fail(400,'power_already_used');
-        state.powerUses['round:regeneration']=1;state.hp=Math.min(liveHealingMaximum(c.data,state,profile.derived.pvMax),profile.hp+body.regeneration);
+        state.powerUses['round:regeneration']=1;state.hp=Math.min(supernaturalHealingMaximum(state,liveHealingMaximum(c.data,state,profile.derived.pvMax),profile.hp),profile.hp+body.regeneration);
         payload={label:'Régénération hybride · blessures régénérables',recovered:state.hp-profile.hp};
       }else if(b.action==='damage'||b.action==='heal'){
         if(!Number.isInteger(b.amount)||b.amount<1||b.amount>10000)return await fail(400,'invalid_play_amount');
@@ -189,13 +198,14 @@ export async function registerCharacterPlayRoutes(app:FastifyInstance){
         state.hp=Math.max(profile.derived.death,Math.min(liveHealingMaximum(c.data,state,profile.derived.pvMax),profile.hp+(b.action==='heal'?baseHeal+reserve:-b.amount)));
         payload={reserveBonus:reserve};if(b.action==='damage'&&c.data.truth?.nature==='vampire'){const saved=applyVampireLastSleep(c.data,{...state,hp:profile.hp},state.hp,profile.derived.death,b.bodySurvivable!==false);if(!('error'in saved)){state=saved.state;payload.lastSleep=saved.payload;}}
         if(b.action==='damage'||(state.hp??profile.hp)>0)state.stabilized=false;
+        if(b.action==='heal')recoverLightningWounds(state,profile.hp,state.hp??profile.hp);if(b.action==='damage')payload.survivalFury=recordSurvivalFuryDamage(c.data,state,{beforeHp:profile.hp,afterHp:state.hp??profile.hp,maximum:profile.healthMaximum,realDamage:true});
         payload={...payload,label:b.action==='heal'?'Soin':'Dégâts',before:profile.hp,after:state.hp};
       }else if(b.action==='rest'){
         if(!Number.isInteger(b.days)||b.days<1||b.days>365||typeof b.prolonged!=='boolean')return await fail(400,'invalid_play_rest');
         if(profile.hp<=0)return await fail(400,'rest_requires_positive_hp');
         const recovered=b.days*(b.prolonged?profile.recovery.prolonged:profile.recovery.normal);
         state.hp=Math.min(liveHealingMaximum(c.data,state,profile.derived.pvMax),profile.hp+recovered);
-        state.mueCount=0;state.mueBlocked=false;state.powerUses=Object.fromEntries(Object.entries(state.powerUses??{}).filter(([k])=>!k.startsWith('day:')));
+        recoverLightningWounds(state,profile.hp,state.hp??profile.hp);state.mueCount=0;state.mueBlocked=false;state.powerUses=Object.fromEntries(Object.entries(state.powerUses??{}).filter(([k])=>!k.startsWith('day:')));
         payload={label:'Repos',days:b.days,prolonged:b.prolonged,recovered:state.hp-profile.hp};
       }else if(b.action==='stabilize'){
         if(profile.hp>0||profile.hp<=profile.derived.death)return await fail(400,'cannot_stabilize');
@@ -211,13 +221,13 @@ export async function registerCharacterPlayRoutes(app:FastifyInstance){
         if(b.edge!==undefined&&typeof b.edge!=='boolean')return await fail(400,'invalid_edge');
         if(b.edge){const error=await spendEdge(db,c.id,c.data,b.requestId,'force');if(error)return await fail(400,error);}
         const die=b.edge?forcedDie():rollD10(profile.stress,()=>randomInt(1,11));
-        const modifier=b.action==='initiative'?profile.derived.initiative:skill!.total;
+        const modifier=b.action==='initiative'?profile.derived.initiative:skill!.total+frenzyConcentrationPenalty(state,b.requiresCalm===true,c.data);
         payload={label:b.action==='initiative'?'Initiative du combat':skill!.name,modifier,...die,total:modifier+die.sum,stress:profile.stress,revelation:state.revelation,
-          components:b.action==='initiative'?null:{attribute:skill!.attributeValue,attributeName:rules.attributes.find(a=>a.id===skill!.attribute)?.name,rank:skill!.rank,skillName:skill!.name,bonus:skill!.bonus},
+          components:b.action==='initiative'?null:{attribute:skill!.attributeValue,attributeName:rules.attributes.find(a=>a.id===skill!.attribute)?.name,rank:skill!.rank,skillName:skill!.name,bonus:skill!.bonus+frenzyConcentrationPenalty(state,b.requiresCalm===true,c.data),concentrationPenalty:frenzyConcentrationPenalty(state,b.requiresCalm===true,c.data)},
           bonuses:b.action==='initiative'?[]:[...skill!.automatic.filter(x=>x.enabled),...skill!.contexts.filter(x=>x.enabled),...skill!.prepared.filter(x=>x.active),...skill!.extras]};
-        if(b.action==='roll'){consumeRegisteredTest(c.data,state,skill!.id);consumeNatureTest(c.data,state,skill!.id);}
+        if(b.action==='roll'){consumeRegisteredTest(c.data,state,skill!.id);consumeNatureTest(c.data,state,skill!.id);consumeSurvivalFury(c.data,state,skill!.id);}
         if(b.action==='initiative'){
-          const total=modifier+die.sum;state.effects=rebaseLiveEffects(state.effects??[],{round:state.round,targetActivation:state.activation??0},{round:1,targetActivation:state.activation??0});
+          const total=modifier+die.sum;rebaseLightningEffectChanges(state,{round:state.round,targetActivation:state.activation??0},{round:1,targetActivation:state.activation??0});state.effects=rebaseLiveEffects(state.effects??[],{round:state.round,targetActivation:state.activation??0},{round:1,targetActivation:state.activation??0});
           state.initiative=total;if(!c.campaign_id){const resources=normalizedNatureResources(state.natureResources);resources.mage.usedRound=null;resources.mage.blockedUntilRound=null;state.natureResources=resources;}state.round=c.campaign_id?shared.round:1;
           state.paPerRound=die.dice[0]===1?1:total>=16?3:total>=11?2:1;
           state.pa=state.paPerRound+(liveBody(c.data,state)?.pace??0);state.formPaRound=0;
@@ -225,6 +235,7 @@ export async function registerCharacterPlayRoutes(app:FastifyInstance){
           payload.pa=state.pa;
         }
       }
+      const paidCost=Math.max(0,paBefore-state.pa);if(paidCost&&(isExtendedPlayAction(b.action)||['form','power','nanite-cycle'].includes(b.action))&&!b.action.startsWith('restricted-')){try{restrictedActionCheck(restrictionBefore,'other',paidCost);frenzyActionCheck(restrictionBefore,paidCost,b,{manager:manages});recordFrenzyAction(state,paidCost,b,{manager:manages});markRestrictedRoundAction(state);}catch(e){return await fail(400,(e as Error).message);}}
       profile=playProfile(c.data,state);
       state.pa=profile.pa;
       if(state.hp!==null)state.hp=Math.max(profile.derived.death,Math.min(liveHealingMaximum(c.data,state,profile.derived.pvMax),state.hp));
@@ -232,11 +243,12 @@ export async function registerCharacterPlayRoutes(app:FastifyInstance){
         ON CONFLICT(character_id) DO UPDATE SET state=EXCLUDED.state,version=EXCLUDED.version,updated_at=now()`,[c.id,version+1,JSON.stringify(state)]);
       await db.query('INSERT INTO character_play_events(id,character_id,campaign_id,created_by,kind,payload,request_payload) VALUES($1,$2,$3,$4,$5,$6::jsonb,$7::jsonb)',[b.requestId,c.id,c.campaign_id,user.id,b.action,JSON.stringify(payload),JSON.stringify(b)]);
       if(isExtendedPlayAction(b.action)||['save','form','power','nanite-cycle'].includes(b.action))await recordAction(db,c.campaign_id,c.id,Math.max(0,paBefore-state.pa));
+      await pruneOccultMaintenance(db,c.campaign_id);
       await maybeAdvanceCombat(db,c.campaign_id,user.id);
       const updated=await db.query('SELECT state,version FROM character_play_states WHERE character_id=$1',[c.id]);
       state=updated.rows[0].state;profile=playProfile(c.data,state);
       await db.query('COMMIT');
-      return {ok:true,state,version:updated.rows[0].version,profile:{...profile,reality:liveRealityProfile(c.data,state,getRealityRules())},event:{id:b.requestId,kind:b.action,payload,createdAt:new Date().toISOString()}};
+      return {ok:true,state,version:updated.rows[0].version,profile:{...profile,actionRestrictions:actionRestrictionsProfile(state),itemResources:liveItemResourceProfile(c.data,state,getRealityRules()),reality:liveRealityProfile(c.data,state,getRealityRules())},event:{id:b.requestId,kind:b.action,payload,createdAt:new Date().toISOString()}};
     }catch(error){await db.query('ROLLBACK').catch(()=>{});throw error;}finally{db.release();}
   });
   app.get<{Params:{id:string};Querystring:{session?:string;before?:string}}>('/api/campaigns/:id/play',async(req,reply)=>{
@@ -263,7 +275,7 @@ export async function registerCharacterPlayRoutes(app:FastifyInstance){
       orderActors.push({id:c.id,pa:profile.pa,initiative:state.initiative});
       const portrait=playPortrait(c.data,state);
       const publicFields={...participantInfo(shared,{id:c.id,kind:'character'}),initiativePending:shared.active&&profile.hp>profile.derived.death&&state.initiative===null,kind:'character',id:c.id,name:c.name,portrait,occupation:String(identity.occupation??''),sphere:rules.spheres[c.data.creation?.sphere as keyof typeof rules.spheres]?.name??'',health:profile.health};
-      return [{...publicFields,...(manager||c.owner_id===user.id?{sheetVersion:c.version,hp:profile.hp,pvMax:profile.healthMaximum,pa:profile.pa,paPerRound:state.paPerRound,initiative:state.initiative,round:state.round,stress:profile.stress,revelation:state.revelation,canReadSheet:true}:{})}];
+      return [{...publicFields,...(manager||c.owner_id===user.id?{sheetVersion:c.version,frenzy:profile.frenzy,hp:profile.hp,pvMax:profile.healthMaximum,pa:profile.pa,paPerRound:state.paPerRound,initiative:state.initiative,round:state.round,stress:profile.stress,revelation:state.revelation,canReadSheet:true}:{})}];
     });
     const events=await pool.query(`SELECT e.id,e.kind,e.payload,e.created_by,e.character_id AS "characterId",c.owner_id AS "ownerId",e.created_at::text AS "createdAt",c.name AS "characterName",u.display_name AS "playerName" FROM character_play_events e JOIN users u ON u.id=e.created_by
       JOIN characters c ON c.id=e.character_id JOIN campaign_members m ON m.character_id=c.id AND m.campaign_id=e.campaign_id AND m.user_id=c.owner_id

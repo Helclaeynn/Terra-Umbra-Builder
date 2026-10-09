@@ -5,7 +5,10 @@
     "apps/api/src/rules/truth/rules.ts",
     "compendium/source/verite-catalog-v6.json.gz.b64",
     "apps/api/src/rules/truth/runtime-structure.ts",
-    "apps/api/src/rules/truth/extral-build.ts"
+    "apps/api/src/rules/truth/extral-build.ts",
+    "apps/api/src/rules/live-item-resources.ts",
+    "apps/api/src/rules/live-action-restrictions.ts",
+    "apps/api/src/rules/live-frenzy.ts"
   ],
   "sourceSha256": "4db36bc654ff65bc881d6095c70945663d0b852371b3af0feeb107ef1de7d736",
   "statusDefinitions": {
@@ -23,8 +26,8 @@
     "protectionProfiles": 9,
     "equipmentCoverage": {
       "reference": 11,
-      "calcule_partiel": 46,
-      "descriptif": 136,
+      "calcule_partiel": 47,
+      "descriptif": 135,
       "arbitrage_mj": 8,
       "profil_assiste": 30
     },
@@ -1761,11 +1764,14 @@
       "section": "Armement runique whurten",
       "catalogueStatus": "catalogue",
       "coverage": "calcule_partiel",
-      "implemented": "Choix de protection possédée : Armure matérielle 2, sans Réduction additionnelle ni Armure corporelle.",
-      "pending": "Armure matérielle 2. La Rune de Garde, charge unique de −3 aux premiers dégâts surnaturels du scénario, se traite séparément. Le port effectif, la compatibilité et la charge spéciale se décident séparément.",
+      "implemented": "Armure matérielle 2 proposée parmi les objets possédés ; Rune −3 sur la première source surnaturelle positive d’une attaque contre laquelle la Brigandine est réellement sélectionnée ; charge par scénario.",
+      "pending": "Port et compatibilité confirmés ; sources sans sélection de protection portée restent arbitrées.",
       "bindings": [
         "live-truth-items.truthItemProtections",
-        "campaign-combat.combatEquipment"
+        "campaign-combat.combatEquipment",
+        "live-item-resources",
+        "campaign-combat",
+        "character-live-mechanics"
       ],
       "canonical": {
         "id": "verite-24-brigandine-de-garde",
@@ -2015,10 +2021,14 @@
       "chapter": "24",
       "section": "Munitions et charges runiques",
       "catalogueStatus": "catalogue",
-      "coverage": "descriptif",
-      "implemented": "Inventaire possédé et fiche descriptive ; aucun handler propre à cet objet.",
-      "pending": "Réaction −2 dégâts surnaturels, usage unique : inventaire et coût non consommés automatiquement.",
-      "bindings": [],
+      "coverage": "calcule_partiel",
+      "implemented": "Réaction contre dommages surnaturels positifs : −2, 1 PA ordinaire payé ; copie possédée détruite une seule fois et non recréée par scène/scénario.",
+      "pending": "Réaction possible, perception et portée réelles ; une copie supplémentaire doit être réellement acquise.",
+      "bindings": [
+        "live-item-resources",
+        "campaign-combat",
+        "character-live-mechanics"
+      ],
       "canonical": {
         "id": "verite-24-jeton-de-garde",
         "name": "Jeton de Garde",
@@ -4009,11 +4019,14 @@
       "section": "Armes Thalsios",
       "catalogueStatus": "catalogue",
       "coverage": "profil_assiste",
-      "implemented": "rafale: DGT 7, Perforant 0, tir, portée 70 m, vecteur non automatisé ; concentre: DGT 9, Perforant 1, tir, portée 90 m, vecteur non automatisé",
-      "pending": "Mode rafale, suppression compatible ; générateur/vector à arbitrer. Tir unitaire, changement gratuit 1/activation ; vérifier morphologie. Possession ne suffit pas à résoudre habilitation, ressources, changement de régime ni cible de zone. Le lancement est réservé au MJ après choix explicite du vecteur et confirmation du contexte ; aucun joueur ne peut imposer sa propre conversion en Balistique.",
+      "implemented": "Blaster Atomus · rafale : DGT 7, Perforant 0, vecteur à arbitrer Blaster Atomus · concentré : DGT 9, Perforant 1, vecteur à arbitrer Mode rafale/concentré conservé ; changement gratuit une fois par activation serveur ; aucun tir supplémentaire gratuit.",
+      "pending": "Vecteur énergétique et morphologie arbitrés ; lancement MJ confirmé ; munitions de rafale/suppression ne sont pas déduites du nombre d’impacts.",
       "bindings": [
         "live-truth-items.truthItemWeapons",
-        "campaign-combat.characterAttacks"
+        "campaign-combat.characterAttacks",
+        "live-item-resources",
+        "campaign-combat",
+        "character-live-mechanics"
       ],
       "canonical": {
         "id": "verite-25-blaster-atomus",
@@ -6286,11 +6299,14 @@
       "section": "Arsenal AIDH moderne",
       "catalogueStatus": "catalogue",
       "coverage": "calcule_partiel",
-      "implemented": "standard: DGT 16, Perforant 2, tir, portée 100 m, vecteur balistique ; perforant: DGT 17, Perforant 3, tir, portée 90 m, vecteur balistique",
-      "pending": "Verrou AIDH, automatique/suppression ; régime conservé. Verrou AIDH, tir unique, changement 1 PA ; pas de deuxième Altération. Possession ne suffit pas à résoudre habilitation, ressources, changement de régime ni cible de zone.",
+      "implemented": "Custodian AR-9 · standard : DGT 16, Perforant 2, balistique Custodian AR-9 · perforant : DGT 17, Perforant 3, balistique Mode standard/perforant persistant ; changement 1 PA sous pression en plus de l’attaque ; autorisation réelle confirmée ; réserve seulement si déclarée.",
+      "pending": "Le perforant consomme davantage de matière : nombre réel déclaré, aucun multiplicateur universel inventé ; signature AIDH et suppression sont contextuelles.",
       "bindings": [
         "live-truth-items.truthItemWeapons",
-        "campaign-combat.characterAttacks"
+        "campaign-combat.characterAttacks",
+        "live-item-resources",
+        "campaign-combat",
+        "character-live-mechanics"
       ],
       "canonical": {
         "id": "verite-26-custodian-ar-9",
@@ -6469,11 +6485,14 @@
       "section": "Arsenal AIDH moderne",
       "catalogueStatus": "catalogue",
       "coverage": "profil_assiste",
-      "implemented": "profil: DGT 18, Perforant 2, tir, portée 100 m, vecteur non automatisé",
-      "pending": "Plasma, Incendiaire ; refroidissement après usage intensif jusqu’à prochaine activation ; vecteur à arbitrer. Possession ne suffit pas à résoudre habilitation, ressources, changement de régime ni cible de zone. Le lancement est réservé au MJ après choix explicite du vecteur et confirmation du contexte ; aucun joueur ne peut imposer sa propre conversion en Balistique.",
+      "implemented": "Helios PR-8 : DGT 18, Perforant 2, vecteur à arbitrer Usage intensif déclaré interdit un autre usage intensif jusqu’à la prochaine activation ; tir ordinaire conservé ; nouvel affrontement ne prolonge pas un refroidissement passé.",
+      "pending": "Vecteur Plasma et qualification de l’usage intensif arbitrés ; aucun dégât de feu périodique créé gratuitement.",
       "bindings": [
         "live-truth-items.truthItemWeapons",
-        "campaign-combat.characterAttacks"
+        "campaign-combat.characterAttacks",
+        "live-item-resources",
+        "campaign-combat",
+        "character-live-mechanics"
       ],
       "canonical": {
         "id": "verite-26-helios-pr-8",
@@ -10290,11 +10309,14 @@
       "section": "Arsenal AIDH moderne",
       "catalogueStatus": "catalogue",
       "coverage": "calcule_partiel",
-      "implemented": "assaut: DGT 16, Perforant 2, tir, portée 70 m, vecteur balistique ; dispersion: DGT 15, Perforant 1, tir, portée 20 m, vecteur balistique",
-      "pending": "Verrou AIDH, automatique ; régime conservé ; matière 1 500 tirs. Verrou AIDH, tir unique une cible ; changement 1 PA, consomme 3 unités ; aucune zone automatique. Possession ne suffit pas à résoudre habilitation, ressources, changement de régime ni cible de zone.",
+      "implemented": "Duplex AR-12 · assaut : DGT 16, Perforant 2, balistique Duplex AR-12 · dispersion : DGT 15, Perforant 1, balistique Mode assaut/dispersion persistant ; changement 1 PA sous pression ; dispersion une seule cible, consomme exactement 3 unités de réserve déclarée ; rejeu atomique avec le PA.",
+      "pending": "Aucune réserve initiale de 1 500 inventée à partir d’une estimation ; verrou AIDH, port et compatibilité confirmés.",
       "bindings": [
         "live-truth-items.truthItemWeapons",
-        "campaign-combat.characterAttacks"
+        "campaign-combat.characterAttacks",
+        "live-item-resources",
+        "campaign-combat",
+        "character-live-mechanics"
       ],
       "canonical": {
         "id": "verite-26-duplex-ar-12",

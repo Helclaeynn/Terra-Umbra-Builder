@@ -1,12 +1,12 @@
 import assert from 'node:assert/strict';
 process.env.DATABASE_URL??='postgresql://test:test@127.0.0.1:1/unused';
 const {advanceCharacterRound}=await import('../dist/campaign-rounds.js');
-const {applyCharacterEffectTick}=await import('../dist/live-effect-application.js');
+const {applyCharacterEffectTick,applyNpcEffectTick}=await import('../dist/live-effect-application.js');
 const {blankPlayState,playProfile}=await import('../dist/rules/play-state.js');
 const {createLiveEffect}=await import('../dist/rules/live-effects.js');
 const {blankNatureResources}=await import('../dist/rules/live-nature-resources.js');
 const data={attributes:{vigueur:5,agilite:3,volonte:4},skills:{constitution:{free:2}},truth:{nature:'vampire',consciousness:'initie',choices:{blood:'sang_ecarlate',court:'ihuito_meztzi'},truthTalents:['stase_profonde','dernier_sommeil']}};
-const effect=(ruleId,kind='damage',amount=2)=>createLiveEffect({name:ruleId,sourceId:'source',targetId:'actor',ruleId,kind,scope:'condition',amount,stackKey:ruleId,stackMode:'exclusive',duration:{unit:'manual'},period:'round-end',...(kind==='damage'?{armorMode:'ignore'}:{}),delay:0},{id:ruleId,round:1,targetActivation:0});
+const effect=(ruleId,kind='damage',amount=2,healingKind)=>createLiveEffect({name:ruleId,sourceId:'source',targetId:'actor',ruleId,kind,scope:'condition',amount,stackKey:ruleId,stackMode:'exclusive',duration:{unit:'manual'},period:'round-end',...(kind==='damage'?{armorMode:'ignore'}:{}),...(healingKind?{healingKind}:{}),delay:0},{id:ruleId,round:1,targetActivation:0});
 let state={...blankPlayState(),revelation:'r',hp:4,effects:[effect('maitre_des_lames')],vampire:{stasis:true},unconscious:true};
 let tick=applyCharacterEffectTick(data,state,{phase:'round-end',round:1});assert.equal(state.hp,4);assert.equal(tick.applications[0].suspended,'stase');
 state.effects=[effect('khinae-serpent-vipere')];tick=applyCharacterEffectTick(data,state,{phase:'round-end',round:1});assert.equal(state.hp,2,'Stase does not cancel poison or external wounds');
@@ -19,4 +19,13 @@ const ceiling=playProfile(angelus,state).healingMaximum;applyCharacterEffectTick
 const garou={...data,truth:{nature:'garou',consciousness:'initie',choices:{blood:'sang_naturel',pelage:'gris'},truthTalents:[]}};
 state={...blankPlayState(),revelation:'r',hp:8,muePending:2,initiative:20,paPerRound:3,effects:[effect('wound','damage',2)]};const before=playProfile(garou,state);advanceCharacterRound(garou,state);const after=playProfile(garou,state);assert.equal(state.form,'hybrid');assert.equal(after.derived.pvMax-after.hp,before.derived.pvMax-before.hp+2,'Mue preserves new periodic wounds');
 state={...blankPlayState(),revelation:'r',hp:1,muePending:2,initiative:20,paPerRound:3,effects:[effect('fatal','damage',100)]};advanceCharacterRound(garou,state);assert.equal(state.form,'human');assert.equal(state.muePending,null);assert.equal(playProfile(garou,state).health,'Mort');assert.equal(state.pa,0,'Pending Mue never resurrects a dead character');
-console.log('EFFECT APPLICATION OK — stasis pauses ordinary bleeding only, fatal periodic Last Sleep, single scenario quota, healing reservations, Mue wound preservation and no resurrection');
+// Trace blocks explicitly declared regeneration, while ordinary/external healing removes the actual wound ledger.
+const human={attributes:{vigueur:4,agilite:3},skills:{constitution:{style:4}},truth:{nature:'humain'}};
+state={...blankPlayState(),hp:4,pa:1,lightningWounds:{blocked:5},effects:[effect('declared-regeneration','healing',9,'regeneration')]};const maximum=playProfile(human,state).healingMaximum;
+applyCharacterEffectTick(human,state,{phase:'round-end',round:1});assert.equal(state.hp,maximum-5);assert.equal(state.lightningWounds.blocked,5);assert.equal(state.pa,1,'An automatic recovery never spends the action reserved for an impulse.');
+state={...blankPlayState(),hp:4,lightningWounds:{blocked:5},effects:[effect('declared-external','healing',4,'external')]};applyCharacterEffectTick(human,state,{phase:'round-end',round:1});assert.equal(state.hp,8);assert.equal(state.lightningWounds.blocked,1);
+state={...blankPlayState(),hp:4,lightningWounds:{blocked:5},effects:[effect('legacy-healing','healing',4)]};applyCharacterEffectTick(human,state,{phase:'round-end',round:1});assert.equal(state.hp,8,'A generic legacy heal is never guessed to be regeneration.');assert.equal(state.lightningWounds.blocked,1);
+state={...blankPlayState(),hp:10,lightningWounds:{blocked:5},effects:[effect('regeneration-at-floor','healing',2,'regeneration')]};applyCharacterEffectTick(human,state,{phase:'round-end',round:1});assert.equal(state.hp,10,'Blocking regeneration never reduces existing PV.');
+state={...blankPlayState(),revelation:'r',hp:1,lightningWounds:{blocked:1,final:{sourceId:'source',eventId:'final-attack',note:'Destruction confirmée'}},effects:[effect('periodic-fatal-final','damage',100)]};applyCharacterEffectTick(data,state,{phase:'round-end',round:1});assert.equal(state.hp,death,'Fin véritable prevents automatic Last Sleep.');assert.equal(state.powerUses['scenario:dernier_sommeil'],undefined);
+const npc={id:'actor',hp:4,pv_max:12,death:0,pa:1,data:{lightningWounds:{blocked:5},liveEffects:[effect('npc-regeneration','healing',9,'regeneration')]}};applyNpcEffectTick(npc,{phase:'round-end',round:1});assert.equal(npc.hp,7);assert.equal(npc.data.lightningWounds.blocked,5);npc.data.liveEffects=[effect('npc-external','healing',3,'external')];applyNpcEffectTick(npc,{phase:'round-end',round:1});assert.equal(npc.hp,10);assert.equal(npc.data.lightningWounds.blocked,2);
+console.log('EFFECT APPLICATION OK — stasis pauses ordinary bleeding only, fatal periodic Last Sleep, single scenario quota, healing reservations, Mue wound preservation, declared regeneration versus genuine healing for PCs/NPCs, protected Trace wounds and no resurrection');

@@ -5,7 +5,7 @@ export type EffectPhase = 'round-start'|'round-end'|'activation-start'|'activati
 export type EffectDuration = {unit:'round'|'activation';value:number}|{unit:'scene'|'manual';value?:never};
 export type LiveEffectDraft = {
  name:string;sourceId:string;targetId:string;ruleId?:string;kind:'modifier'|'damage'|'healing'|'condition';scope:EffectScope;skill?:string;zone?:string;amount:number;
- stackKey:string;stackMode:'exclusive'|'best'|'sum';duration:EffectDuration;startDelay?:{unit:'round'|'activation';value:number};period?:EffectPhase;delay?:number;ticks?:number;armorMode?:'normal'|'ignore';damageType?:'physique'|'neuro'|'occulte';
+ stackKey:string;stackMode:'exclusive'|'best'|'sum';duration:EffectDuration;startDelay?:{unit:'round'|'activation';value:number};period?:EffectPhase;delay?:number;ticks?:number;armorMode?:'normal'|'ignore';damageType?:'physique'|'neuro'|'occulte';healingKind?:'regeneration'|'external';
 };
 export type LiveEffect = Omit<LiveEffectDraft,'duration'|'delay'|'ticks'|'startDelay'> & {
  id:string;startsAt:{unit:'round'|'activation';at:number}|null;expires:{unit:EffectDuration['unit'];at:number|null};createdRound:number;createdActivation:number;
@@ -13,12 +13,12 @@ export type LiveEffect = Omit<LiveEffectDraft,'duration'|'delay'|'ticks'|'startD
 };
 export type EffectClock = {round:number;targetActivation:number};
 export type EffectEvent = {phase:EffectPhase;round:number;actorId?:string;activation?:number};
-export type EffectApplication = {effectId:string;name:string;sourceId:string;targetId:string;kind:'damage'|'healing';amount:number;armorMode:'normal'|'ignore';damageType:'physique'|'neuro'|'occulte'};
+export type EffectApplication = {effectId:string;name:string;sourceId:string;targetId:string;kind:'damage'|'healing';amount:number;armorMode:'normal'|'ignore';damageType:'physique'|'neuro'|'occulte';healingKind?:'regeneration'|'external'};
 const phases:EffectPhase[]=['round-start','round-end','activation-start','activation-end'];
 const token=(v:unknown,max=150):v is string=>typeof v==='string'&&v.length>0&&v.length<=max&&!/[\u0000-\u001f\u007f]/.test(v);
 const integer=(v:unknown,min:number,max:number):v is number=>typeof v==='number'&&Number.isSafeInteger(v)&&v>=min&&v<=max;
 function allowedKeys(v:any,keys:string[]){return v&&typeof v==='object'&&!Array.isArray(v)&&Object.keys(v).every(k=>keys.includes(k));}
-const draftKeys=['name','sourceId','targetId','ruleId','kind','scope','skill','zone','amount','stackKey','stackMode','duration','startDelay','period','delay','ticks','armorMode','damageType'];
+const draftKeys=['name','sourceId','targetId','ruleId','kind','scope','skill','zone','amount','stackKey','stackMode','duration','startDelay','period','delay','ticks','armorMode','damageType','healingKind'];
 /** Invalid and unknown keys are rejected rather than silently becoming executable parameters. */
 export function validateEffectDraft(v:unknown):v is LiveEffectDraft {
  const e=v as any;
@@ -37,6 +37,7 @@ export function validateEffectDraft(v:unknown):v is LiveEffectDraft {
  else if(e.delay!==undefined||e.ticks!==undefined)return false;
  if(e.armorMode!==undefined&&!['normal','ignore'].includes(e.armorMode)||e.damageType!==undefined&&!['physique','neuro','occulte'].includes(e.damageType))return false;
  if(e.kind!=='damage'&&(e.armorMode!==undefined||e.damageType!==undefined))return false;
+ if(e.healingKind!==undefined&&(e.kind!=='healing'||!['regeneration','external'].includes(e.healingKind)))return false;
  return true;
 }
 export function createLiveEffect(draft:LiveEffectDraft,clock:EffectClock&{id:string}):LiveEffect {
@@ -112,7 +113,7 @@ export function tickLiveEffects(effects:readonly LiveEffect[],event:EffectEvent)
  for(const saved of effects){const e=structuredClone(saved);if(event.round<e.createdRound){out.push(e);continue;}if(expiredBefore(e,event)){expired.push(e.id);continue;}
   const activation=event.phase.startsWith('activation'),counter=activation?event.activation!:event.round,key=activation?'lastActivationTick':'lastRoundTick';
   const eligible=e.period===event.phase&&(!activation||event.actorId===e.targetId)&&counter>=(e.nextTick??Infinity)&&counter>(e[key]??-1);
-  if(eligible&&(e.kind==='damage'||e.kind==='healing')){applications.push({effectId:e.id,name:e.name,sourceId:e.sourceId,targetId:e.targetId,kind:e.kind,amount:e.amount,armorMode:e.armorMode??'normal',damageType:e.damageType??'physique'});e[key]=counter;e.nextTick=counter+1;if(e.remainingTicks!==null)e.remainingTicks--;}
+  if(eligible&&(e.kind==='damage'||e.kind==='healing')){applications.push({effectId:e.id,name:e.name,sourceId:e.sourceId,targetId:e.targetId,kind:e.kind,amount:e.amount,armorMode:e.armorMode??'normal',damageType:e.damageType??'physique',...(e.kind==='healing'&&e.healingKind?{healingKind:e.healingKind}:{})});e[key]=counter;e.nextTick=counter+1;if(e.remainingTicks!==null)e.remainingTicks--;}
   if(e.remainingTicks===0||expiresOn(e,event))expired.push(e.id);else out.push(e);
  }
  return {effects:out,applications,expired};

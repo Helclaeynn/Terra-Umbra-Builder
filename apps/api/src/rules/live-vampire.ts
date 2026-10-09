@@ -1,3 +1,4 @@
+import {supernaturalHealingMaximum,lightningAutomaticSurvivalAllowed} from './lightning-wounds.js';
 import type {PlayState} from './play-state.js';
 import {truthCoreRules} from './truth/core-rules.js';
 import {liveTruthState} from './play-truth.js';
@@ -66,6 +67,7 @@ export function applyVampireAction(data:any,original:VampireState,action:Vampire
  }
  if(action.action==='vampire-anchor-restore'){
   if(!ctx.manager)return failed('mj_only');if(ctx.inCombat)return failed('finish_combat_first');
+  if(!lightningAutomaticSurvivalAllowed(state))return failed('foudre_final_destruction');
   if(!v.anchor||hp>ctx.death)return failed('no_death_anchor');
   if(action.hours<24||!Number.isSafeInteger(action.hours)||action.bodyRepairable!==true||action.practitioner!==true)return failed('ritual_conditions_required');
   v.anchor=false;v.stasis=true;state.hp=1;state.stabilized=true;state.unconscious=true;state.pa=0;
@@ -85,7 +87,7 @@ export function applyVampireAction(data:any,original:VampireState,action:Vampire
   if(ctx.inCombat||state.initiative!==null)return failed('finish_combat_first');
   if(!v.stasis)return failed('stasis_required');
   if(!Number.isSafeInteger(action.hours)||action.hours<1||action.hours>8760||action.regenerable!==true)return failed('regenerable_hours_required');
-  const rate=vampireStatus(data,state).stasisRate,maximum=vampireMaximum(ctx.maximum,state);
+  const rate=vampireStatus(data,state).stasisRate,maximum=supernaturalHealingMaximum(state,vampireMaximum(ctx.maximum,state),hp);
   state.hp=Math.min(maximum,hp+rate*action.hours);state.stabilized=true;
   return {state,payload:{label:'Récupération en Stase',hours:action.hours,rate,recovered:state.hp-hp,hpBefore:hp,hpAfter:state.hp}};
  }
@@ -136,7 +138,7 @@ export function applyVampirePredation(data:any,original:VampireState,result:Pred
  if(!Number.isSafeInteger(result.actualLoss)||result.actualLoss<0||!Number.isSafeInteger(result.dr)||result.dr<0||result.dr>5)return failed('invalid_predation');
  if(!result.success||result.actualLoss===0)return {state,payload:{label:'Prédation sans vitalité prélevée',recovered:0,actualLoss:result.actualLoss,dr:result.dr}};
  const base=result.source!=='drain'&&vampireTalent(data,state,'regeneration_de_sang')?2:1;
- const possible=Math.min(base+result.dr,result.actualLoss,Math.max(0,vampireMaximum(maximum,state)-hp));
+ const possible=Math.min(base+result.dr,result.actualLoss,Math.max(0,supernaturalHealingMaximum(state,vampireMaximum(maximum,state),hp)-hp));
  if(result.exalt){
   if(!vampireTalent(data,state,'sang_exalte'))return failed('power_unavailable');
   if(v.exaltedBlood)return failed('exalted_blood_already_pending');
@@ -149,7 +151,7 @@ export function applyVampirePredation(data:any,original:VampireState,result:Pred
 export function applyVampireLastSleep(data:any,original:VampireState,after:number,death:number,bodySurvivable:boolean):VampireResult{
  const state=copy(original),before=state.hp;state.hp=after;
  if(before===null)return failed('resolved_hp_required');
- if(before<=death||after>death||!bodySurvivable||!vampireTalent(data,state,'dernier_sommeil')||usage(state,'scenario','dernier_sommeil'))return {state,payload:{saved:false,hpAfter:after}};
+ if(!lightningAutomaticSurvivalAllowed(state)||before<=death||after>death||!bodySurvivable||!vampireTalent(data,state,'dernier_sommeil')||usage(state,'scenario','dernier_sommeil'))return {state,payload:{saved:false,hpAfter:after}};
  consume(state,'scenario','dernier_sommeil');state.hp=death+1;state.pa=0;state.stabilized=true;state.unconscious=true;state.vampire!.stasis=true;
  return {state,payload:{label:'Dernier sommeil · Stase de survie',saved:true,hpBefore:before,hpAfter:state.hp,powerId:'dernier_sommeil'}};
 }

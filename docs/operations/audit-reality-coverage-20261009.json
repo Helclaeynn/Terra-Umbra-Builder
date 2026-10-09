@@ -3926,11 +3926,12 @@
       "source": "compendium/source/current-equipment-catalog-v1.json#catalog.entries[83]",
       "implemented": [
         "Inventaire / acquisition / attribution MJ et affichage du profil canonique.",
-        "Protection selon vecteur et couches distinctes ; seuls renforts explicites s’ajoutent."
+        "Protection selon vecteur et couches distinctes ; seuls renforts explicites s’ajoutent.",
+        "Charges Ablatif par exemplaire/UID ; un impact applicable consomme une charge, même sans PV perdus ; bonus typé disparaît à zéro, autres couches conservées."
       ],
       "manual": [],
       "pending": [
-        "Ablatif 4 impacts : compteur matériel non remis à zéro par combat/scène."
+        "Port effectif, compatibilité et montage confirmés ; remplacement/recharge réellement disponible, réservé au MJ en combat ; aucune remise à zéro par round, scène ou scénario."
       ],
       "coverage": "calcul ciblé / contexte"
     },
@@ -3947,11 +3948,12 @@
       "source": "compendium/source/current-equipment-catalog-v1.json#catalog.entries[84]",
       "implemented": [
         "Inventaire / acquisition / attribution MJ et affichage du profil canonique.",
-        "Protection selon vecteur et couches distinctes ; seuls renforts explicites s’ajoutent."
+        "Protection selon vecteur et couches distinctes ; seuls renforts explicites s’ajoutent.",
+        "Charges Ablatif par exemplaire/UID ; un impact applicable consomme une charge, même sans PV perdus ; bonus typé disparaît à zéro, autres couches conservées."
       ],
       "manual": [],
       "pending": [
-        "Ablatif 2 impacts : compteur matériel non remis à zéro par combat/scène."
+        "Port effectif, compatibilité et montage confirmés ; remplacement/recharge réellement disponible, réservé au MJ en combat ; aucune remise à zéro par round, scène ou scénario."
       ],
       "coverage": "calcul ciblé / contexte"
     },
@@ -3968,11 +3970,12 @@
       "source": "compendium/source/current-equipment-catalog-v1.json#catalog.entries[85]",
       "implemented": [
         "Inventaire / acquisition / attribution MJ et affichage du profil canonique.",
-        "Protection selon vecteur et couches distinctes ; seuls renforts explicites s’ajoutent."
+        "Protection selon vecteur et couches distinctes ; seuls renforts explicites s’ajoutent.",
+        "Charges Ablatif par exemplaire/UID ; un impact applicable consomme une charge, même sans PV perdus ; bonus typé disparaît à zéro, autres couches conservées."
       ],
       "manual": [],
       "pending": [
-        "Ablatif 4 impacts : compteur matériel non remis à zéro par combat/scène."
+        "Port effectif, compatibilité et montage confirmés ; remplacement/recharge réellement disponible, réservé au MJ en combat ; aucune remise à zéro par round, scène ou scénario."
       ],
       "coverage": "calcul ciblé / contexte"
     },
@@ -3989,11 +3992,12 @@
       "source": "compendium/source/current-equipment-catalog-v1.json#catalog.entries[86]",
       "implemented": [
         "Inventaire / acquisition / attribution MJ et affichage du profil canonique.",
-        "Protection selon vecteur et couches distinctes ; seuls renforts explicites s’ajoutent."
+        "Protection selon vecteur et couches distinctes ; seuls renforts explicites s’ajoutent.",
+        "Charges Ablatif par exemplaire/UID ; un impact applicable consomme une charge, même sans PV perdus ; bonus typé disparaît à zéro, autres couches conservées."
       ],
       "manual": [],
       "pending": [
-        "Ablatif 4 impacts : compteur matériel non remis à zéro par combat/scène."
+        "Port effectif, compatibilité et montage confirmés ; remplacement/recharge réellement disponible, réservé au MJ en combat ; aucune remise à zéro par round, scène ou scénario."
       ],
       "coverage": "calcul ciblé / contexte"
     },
@@ -4527,15 +4531,16 @@
       },
       "source": "compendium/source/current-equipment-catalog-v1.json#catalog.entries[113]",
       "implemented": [
-        "Inventaire / acquisition / attribution MJ et affichage du profil canonique."
+        "Inventaire / acquisition / attribution MJ et affichage du profil canonique.",
+        "Plaques réellement montées sur une armure sélectionnée : +1 pendant deux impacts matériels applicables ; pas de cumul de modules identiques."
       ],
       "manual": [
         "Usage réel selon description ; pas de bonus, attaque ou PV inventés pour un objet non profilé."
       ],
       "pending": [
-        "Ablatif 2 impacts : compteur matériel non remis à zéro par combat/scène."
+        "Port effectif, compatibilité et montage confirmés ; remplacement/recharge réellement disponible, réservé au MJ en combat ; aucune remise à zéro par round, scène ou scénario."
       ],
-      "coverage": "inventaire / arbitrage MJ"
+      "coverage": "calcul ciblé / contexte"
     },
     {
       "family": "equipment",
