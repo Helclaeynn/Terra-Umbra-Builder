@@ -1,3 +1,4 @@
+import {hourlyRecovery,naniteStatus,cycleId,consumeUsage,reserveHealing,dedicatedPowerIds,resetLivePeriod} from './rules/live-mechanics.js';
 import {currentLiveSession,registerLiveSessionRoutes} from './campaign-live-sessions.js';
 import {edgeBalance,spendEdge,forcedDie,forcePastRoll,lethalEvent} from './character-edge.js';
 import {lockCombat,combatState,participates,participantInfo,combatQueue,advanceCharacterRound,recordAction,maybeAdvanceCombat} from './campaign-rounds.js';
@@ -42,7 +43,7 @@ export async function registerCharacterPlayRoutes(app:FastifyInstance){
     reply.header('Cache-Control','private, no-store');
     const user=await requireUser(req,reply);if(!user)return;
     const b:any=req.body;
-    if(!b||!uuid.test(b.requestId??'')||!Number.isInteger(b.version)||b.version<0||!['edge-force','edge-escape','save','damage','heal','rest','roll','initiative','round','stabilize','form','power','scene','end-combat','regenerate'].includes(b.action))return reply.code(400).send({error:'invalid_play_action'});
+    if(!b||!uuid.test(b.requestId??'')||!Number.isInteger(b.version)||b.version<0||!['recover-hours','nanite-cycle','scenario','edge-force','edge-escape','save','damage','heal','rest','roll','initiative','round','stabilize','form','power','scene','end-combat','regenerate'].includes(b.action))return reply.code(400).send({error:'invalid_play_action'});
     const db=await pool.connect();
     try{
       await db.query('BEGIN');
@@ -58,7 +59,7 @@ export async function registerCharacterPlayRoutes(app:FastifyInstance){
       const version=r.rows[0]?.version??0;
       if(version!==b.version)return await fail(409,'play_version_conflict');
       const shared=await combatState(db,c.campaign_id);
-      if(c.campaign_id&&['round','end-combat'].includes(b.action))return await fail(403,'campaign_combat_mj_only');
+      if(c.campaign_id&&['round','end-combat','scene','scenario'].includes(b.action))return await fail(403,'campaign_combat_mj_only');
       if(c.campaign_id&&b.action==='initiative'){
         if(!shared.active)return await fail(400,'combat_not_started');
         if(!participates(shared,c.id))return await fail(400,'participant_out');
@@ -78,7 +79,7 @@ export async function registerCharacterPlayRoutes(app:FastifyInstance){
         payload={label:'Échapper au Destin · survit à la conséquence mortelle',referenceId:reference,before:profile.hp,after:state.hp};
       }else if(b.action==='save'){
         if(!validatePlayState(b.state))return await fail(400,'invalid_play_state');
-        state={...b.state,...(c.campaign_id?{round:state.round}:{}),initiative:state.initiative,paPerRound:state.paPerRound,form:state.form,inWater:b.state.inWater===true,muePending:state.muePending,mueCount:state.mueCount,mueBlocked:state.mueBlocked,formPaRound:state.formPaRound,powers:state.powers,powerUses:state.powerUses};
+        state={...b.state,unconscious:b.state.unconscious??state.unconscious??false,swarmFunctional:b.state.swarmFunctional??state.swarmFunctional??true,...(c.campaign_id?{round:state.round}:{}),initiative:state.initiative,paPerRound:state.paPerRound,form:state.form,inWater:b.state.inWater===true,muePending:state.muePending,mueCount:state.mueCount,mueBlocked:state.mueBlocked,formPaRound:state.formPaRound,powers:state.powers,powerUses:state.powerUses};
         if(state.revelation!=='r'){state.form='human';state.muePending=null;}
         state.powers=(state.powers??[]).filter(p=>{const rule=truthPowers(c.data).find(r=>r.id===p.id);return rule&&powerAllowed(rule,state.revelation);});
         // HP changes use explicit logged actions; settings cannot silently heal.
@@ -89,7 +90,7 @@ export async function registerCharacterPlayRoutes(app:FastifyInstance){
         if(state.hp!==null&&previousProfile.hp>0)state.hp=Math.max(profile.derived.death,previousProfile.hp+profile.derived.pvMax-previousProfile.derived.pvMax);
         payload={label:'État en jeu mis à jour'};
       }else if(b.action==='form'){
-        if(!['human','animal','hybrid'].includes(b.form)||!formAvailable(c.data,b.form)||state.muePending!==null&&state.muePending!==undefined||profile.hp<=0)return await fail(400,'form_unavailable');
+        if(state.unconscious||!['human','animal','hybrid'].includes(b.form)||!formAvailable(c.data,b.form)||state.muePending!==null&&state.muePending!==undefined||profile.hp<=0)return await fail(400,'form_unavailable');
         if(b.form===(state.form??'human')&&state.revelation==='r')return await fail(400,'form_already_active');
         const before=profile;
         if(b.form==='hybrid'){
@@ -112,11 +113,12 @@ export async function registerCharacterPlayRoutes(app:FastifyInstance){
           payload={label:b.form==='animal'?'Transformation animale':'Retour à la forme humaine révélée'};
         }
       }else if(b.action==='power'){
+        if(b.enabled!==false&&dedicatedPowerIds.has(b.powerId))return await fail(400,'use_dedicated_action');
         const rule=truthPowers(c.data).find(p=>p.id===b.powerId);if(!rule)return await fail(400,'power_unavailable');
         state.powers??=[];state.powerUses??={};
         if(b.enabled===false){state.powers=state.powers.filter(p=>p.id!==rule.id);payload={label:'Fin de capacité · '+rule.name};}
         else{
-          if(!powerAllowed(rule,state.revelation)||profile.hp<=0||state.powers.some(p=>p.id===rule.id))return await fail(400,'power_unavailable');
+          if(state.unconscious||!powerAllowed(rule,state.revelation)||profile.hp<=0||state.powers.some(p=>p.id===rule.id))return await fail(400,'power_unavailable');
           if(!Number.isInteger(b.paCost)||b.paCost<0||b.paCost>20||!Number.isInteger(b.duration)||b.duration<0||b.duration>1000||!Number.isInteger(b.amount)||Math.abs(b.amount)>100||typeof b.note!=='string'||b.note.length>500||typeof b.skill!=='string'||b.skill!==''&&!rules.skills.some(s=>s.id===b.skill))return await fail(400,'invalid_power');
           const cost=rule.cost??b.paCost,key=rule.limit+':'+rule.id;
           if(rule.limit&&(state.powerUses[key]??0)>0)return await fail(400,'power_already_used');
@@ -126,10 +128,30 @@ export async function registerCharacterPlayRoutes(app:FastifyInstance){
           state.powers.push({id:rule.id,until:b.duration?state.round+b.duration-1:null,skill:b.skill,amount:b.amount,note:b.note});
           payload={label:'Activation · '+rule.name,paCost:cost,duration:b.duration,skill:b.skill,bonus:b.amount,note:b.note};
         }
-      }else if(b.action==='scene'||b.action==='end-combat'){
-        state.powers=[];state.mueBlocked=false;state.powerUses=Object.fromEntries(Object.entries(state.powerUses??{}).filter(([k])=>!k.startsWith('scene:')&&!k.startsWith('round:')));
-        if(b.action==='end-combat'){state.initiative=null;state.pa=0;state.paPerRound=0;}
-        payload={label:b.action==='scene'?'Nouvelle scène · effets terminés':'Combat terminé'};
+      }else if(b.action==='scene'||b.action==='scenario'||b.action==='end-combat'){
+        if(b.action!=='end-combat'&&state.initiative!==null)return await fail(400,'finish_combat_first');
+        if(b.action==='end-combat'){
+          state.powers=[];state.initiative=null;state.pa=0;state.paPerRound=0;
+          state.powerUses=Object.fromEntries(Object.entries(state.powerUses??{}).filter(([k])=>!k.startsWith('round:')));
+        }else resetLivePeriod(state,b.action);
+        payload={label:b.action==='scene'?'Nouvelle scène · usages de scène renouvelés':b.action==='scenario'?'Nouveau scénario · usages renouvelés':'Combat terminé'};
+      }else if(b.action==='recover-hours'){
+        const rate=hourlyRecovery(c.data,state);
+        if(shared.active||state.initiative!==null||!rate||state.muePending||profile.hp<=profile.derived.death)return await fail(400,'hourly_recovery_unavailable');
+        if(!Number.isInteger(b.hours)||b.hours<1||b.hours>8760||b.regenerable!==true)return await fail(400,'invalid_hourly_recovery');
+        state.hp=Math.min(profile.derived.pvMax,profile.hp+rate*b.hours);
+        if(state.hp>0)state.stabilized=false;
+        payload={label:'Récupération surnaturelle hors combat',hours:b.hours,rate,recovered:state.hp-profile.hp,before:profile.hp,after:state.hp};
+      }else if(b.action==='nanite-cycle'){
+        const nanites=naniteStatus(c.data,state);
+        if(!nanites.cycle||!nanites.functional||state.unconscious||profile.hp<=0||state.muePending)return await fail(400,'nanite_cycle_unavailable');
+        if(nanites.cycleUsed)return await fail(400,'power_already_used');
+        if(profile.hp>=profile.derived.pvMax)return await fail(400,'no_wounds');
+        const fighting=shared.active||!c.campaign_id&&state.initiative!==null;
+        if(fighting&&(state.initiative===null||!participates(shared,c.id)||profile.pa<1))return await fail(400,'insufficient_pa');
+        if(fighting)state.pa--;
+        consumeUsage(state,'scenario',cycleId);state.hp=Math.min(profile.derived.pvMax,profile.hp+6);
+        payload={label:'Cycle de réparation · 1/scénario',recovered:state.hp-profile.hp,before:profile.hp,after:state.hp,paCost:fighting?1:0,powerId:cycleId};
       }else if(b.action==='regenerate'){
         const body=liveBody(c.data,state);if(!body?.regeneration||profile.hp<=profile.derived.death)return await fail(400,'regeneration_unavailable');
         state.powerUses??={};if(state.powerUses['round:regeneration'])return await fail(400,'power_already_used');
@@ -138,15 +160,18 @@ export async function registerCharacterPlayRoutes(app:FastifyInstance){
       }else if(b.action==='damage'||b.action==='heal'){
         if(!Number.isInteger(b.amount)||b.amount<1||b.amount>10000)return await fail(400,'invalid_play_amount');
         if(profile.hp<=profile.derived.death&&b.action==='heal')return await fail(400,'character_dead');
-        state.hp=Math.max(profile.derived.death,Math.min(profile.derived.pvMax,profile.hp+(b.action==='heal'?b.amount:-b.amount)));
+        const baseHeal=b.action==='heal'?Math.min(b.amount,Math.max(0,profile.derived.pvMax-profile.hp)):0;
+        const reserve=reserveHealing(c.data,state,profile.hp,profile.derived.pvMax,baseHeal);
+        state.hp=Math.max(profile.derived.death,Math.min(profile.derived.pvMax,profile.hp+(b.action==='heal'?baseHeal+reserve:-b.amount)));
+        payload={reserveBonus:reserve};
         if(b.action==='damage'||state.hp>0)state.stabilized=false;
-        payload={label:b.action==='heal'?'Soin':'Dégâts',before:profile.hp,after:state.hp};
+        payload={...payload,label:b.action==='heal'?'Soin':'Dégâts',before:profile.hp,after:state.hp};
       }else if(b.action==='rest'){
         if(!Number.isInteger(b.days)||b.days<1||b.days>365||typeof b.prolonged!=='boolean')return await fail(400,'invalid_play_rest');
         if(profile.hp<=0)return await fail(400,'rest_requires_positive_hp');
         const recovered=b.days*(b.prolonged?profile.recovery.prolonged:profile.recovery.normal);
         state.hp=Math.min(profile.derived.pvMax,profile.hp+recovered);
-        state.mueCount=0;state.mueBlocked=false;state.powerUses=Object.fromEntries(Object.entries(state.powerUses??{}).filter(([k])=>k.startsWith('scenario:')));
+        state.mueCount=0;state.mueBlocked=false;state.powerUses=Object.fromEntries(Object.entries(state.powerUses??{}).filter(([k])=>!k.startsWith('day:')));
         payload={label:'Repos',days:b.days,prolonged:b.prolonged,recovered:state.hp-profile.hp};
       }else if(b.action==='stabilize'){
         if(profile.hp>0||profile.hp<=profile.derived.death)return await fail(400,'cannot_stabilize');
@@ -179,7 +204,7 @@ export async function registerCharacterPlayRoutes(app:FastifyInstance){
       await db.query(`INSERT INTO character_play_states(character_id,version,state) VALUES($1,$2,$3::jsonb)
         ON CONFLICT(character_id) DO UPDATE SET state=EXCLUDED.state,version=EXCLUDED.version,updated_at=now()`,[c.id,version+1,JSON.stringify(state)]);
       await db.query('INSERT INTO character_play_events(id,character_id,campaign_id,created_by,kind,payload,request_payload) VALUES($1,$2,$3,$4,$5,$6::jsonb,$7::jsonb)',[b.requestId,c.id,c.campaign_id,user.id,b.action,JSON.stringify(payload),JSON.stringify(b)]);
-      if(['save','form','power'].includes(b.action))await recordAction(db,c.campaign_id,c.id,Math.max(0,paBefore-state.pa));
+      if(['save','form','power','nanite-cycle'].includes(b.action))await recordAction(db,c.campaign_id,c.id,Math.max(0,paBefore-state.pa));
       await maybeAdvanceCombat(db,c.campaign_id,user.id);
       const updated=await db.query('SELECT state,version FROM character_play_states WHERE character_id=$1',[c.id]);
       state=updated.rows[0].state;profile=playProfile(c.data,state);

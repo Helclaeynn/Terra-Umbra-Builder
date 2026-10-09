@@ -7,10 +7,10 @@ import { contextualSkillBonuses } from './reality-conditional-bonuses.js';
 import { dailyRecovery, injuryStress } from './reality-talents-policy.js';
 import { characterDerivedStats } from './character-derived-stats.js';
 export type PlayBonus={id:string;label:string;skill:string;amount:number;truth:boolean;enabled:boolean};
-export type PlayState={form?:BodyForm;inWater?:boolean;muePending?:number|null;mueCount?:number;mueBlocked?:boolean;formPaRound?:number;powers?:ActivePower[];powerUses?:Record<string,number>;hp:number|null;stress:0|1|2;revelation:'v'|'sr'|'r';pa:number;round:number;initiative:number|null;paPerRound:number;stabilized:boolean;share:boolean;disabled:string[];contexts:string[];bonuses:PlayBonus[]};
-export const blankPlayState=():PlayState=>({form:'human',inWater:false,muePending:null,mueCount:0,mueBlocked:false,formPaRound:0,powers:[],powerUses:{},hp:null,stress:0,revelation:'v',pa:0,round:1,initiative:null,paPerRound:0,stabilized:false,share:true,disabled:[],contexts:[],bonuses:[]});
+export type PlayState={unconscious?:boolean;swarmFunctional?:boolean;form?:BodyForm;inWater?:boolean;muePending?:number|null;mueCount?:number;mueBlocked?:boolean;formPaRound?:number;powers?:ActivePower[];powerUses?:Record<string,number>;hp:number|null;stress:0|1|2;revelation:'v'|'sr'|'r';pa:number;round:number;initiative:number|null;paPerRound:number;stabilized:boolean;share:boolean;disabled:string[];contexts:string[];bonuses:PlayBonus[]};
+export const blankPlayState=():PlayState=>({unconscious:false,swarmFunctional:true,form:'human',inWater:false,muePending:null,mueCount:0,mueBlocked:false,formPaRound:0,powers:[],powerUses:{},hp:null,stress:0,revelation:'v',pa:0,round:1,initiative:null,paPerRound:0,stabilized:false,share:true,disabled:[],contexts:[],bonuses:[]});
 export function validatePlayState(v:any):v is PlayState {
-  return !!v && (v.hp===null||Number.isSafeInteger(v.hp)&&Math.abs(v.hp)<=10000) && [0,1,2].includes(v.stress) && ['v','sr','r'].includes(v.revelation)
+  return !!v && (v.unconscious===undefined||typeof v.unconscious==='boolean') && (v.swarmFunctional===undefined||typeof v.swarmFunctional==='boolean') && (v.hp===null||Number.isSafeInteger(v.hp)&&Math.abs(v.hp)<=10000) && [0,1,2].includes(v.stress) && ['v','sr','r'].includes(v.revelation)
     && Number.isInteger(v.pa)&&v.pa>=0&&v.pa<=5 && Number.isInteger(v.round)&&v.round>=1&&v.round<=100000
     && typeof v.stabilized==='boolean'&&typeof v.share==='boolean'&&Array.isArray(v.disabled)&&v.disabled.length<=300&&v.disabled.every((id:any)=>typeof id==='string'&&id.length<=150)
     && Array.isArray(v.contexts)&&v.contexts.length<=300&&v.contexts.every((id:any)=>typeof id==='string'&&id.length<=150)
@@ -75,7 +75,7 @@ export function playProfile(data:any,state:PlayState){
   });
   const derived=characterDerivedStats(attribute,id=>raw(id)+permanent(id),ids(data.disadvantages));
   if(implants.has('temps_de_reaction_surhumain')&&!state.disabled.includes('temps_de_reaction_surhumain'))derived.initiative+=2;
-  const recoveryMultiplier=data.truth?.nature==='extral'&&data.truth?.consciousness!=='profane'&&data.truth?.choices?.species==='homo_superior'&&truthIds.has('extral-cycle-de-reparation')?2:1;
+  const recoveryMultiplier=state.swarmFunctional!==false&&data.truth?.nature==='extral'&&data.truth?.consciousness!=='profane'&&data.truth?.choices?.species==='homo_superior'&&truthIds.has('extral-cycle-de-reparation')?2:1;
   const hp=Math.min(state.hp??derived.pvMax,derived.pvMax);
   const painReduction=Math.max(talents.includes('insensibilite_a_la_douleur')?1:0,...mechanics.filter(b=>b.enabled).map(b=>b.pain));
   const stress=Math.max(state.stress,hp<=0?2:Math.max(0,injuryStress(hp,derived.pvMax,false)-painReduction)) as 0|1|2;

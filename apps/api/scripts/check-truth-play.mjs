@@ -34,7 +34,12 @@ export async function checkTruthPlay({pool,app,call,player,other,manager,campaig
  assert.equal((await app.inject({url:`/api/character-media/${media}`,headers:{cookie:other.cookie}})).statusCode,404);
  await act('form',{form:'hybrid'},400);
  await act('form',{form:'hybrid',exhaustion:'narrative-failure'});assert.equal(live.state.mueBlocked,true);await act('form',{form:'hybrid',exhaustion:'success'},400);
- await act('scene');assert.equal(live.state.mueCount,2);assert.equal(live.state.mueBlocked,false);
+ await act('scene',{},403);
+ const roomPath=`/api/campaigns/${campaign}/play`;
+ const manage=async action=>{const r=await call(manager,'GET',roomPath);return call(manager,'POST',roomPath+'/actions',{requestId:randomUUID(),version:r.combat.version,action});};
+ await manage('combat-stop');await manage('combat-scene');
+ live=await call(player,'GET',path);assert.equal(live.state.mueCount,2);assert.equal(live.state.mueBlocked,false);
+ await manage('combat-start');live=await call(player,'GET',path);await act('initiative');
  // Saved settings cannot forge a form, active powers or usage counters.
  await act('save',{state:{...live.state,form:'hybrid',powers:[{id:'forged',until:null,skill:'pugilat',amount:99,note:''}],mueCount:0}});assert.equal(live.state.form,'human');assert.equal(live.state.powers.length,0);assert.equal(live.state.mueCount,2);
  data.truth={nature:'vampire',consciousness:'initie',choices:{},truthTalents:['faveur_de_la_nuit']};await setData();
