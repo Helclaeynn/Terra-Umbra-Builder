@@ -6,7 +6,6 @@ export const extralPlayBonuses:ReadonlyArray<{id:string;skills:string[];bonus:nu
  {id:'lecture-vibratoire',skills:['perception'],bonus:3,label:'R · vibrations faibles à 10 m'},
  {id:'branchies-barometriques',skills:['perception'],bonus:3,label:'R · présence hors champ visuel à 5 m'},
  {id:'resonance-holographique',skills:['perception'],bonus:3,label:'R · interprétation d’une fluctuation du Voile'},
- {id:'reflexe-conditionne',skills:['esquive'],bonus:3,label:'Défense active gratuite · 1/scène, même Surpris'},
  {id:'ancrage-de-masse',skills:['athletisme'],bonus:3,label:'SR/R · résister à une poussée ou projection physique'},
  {id:'saisie-ecrasante',skills:['pugilat','athletisme'],bonus:3,label:'SR/R · maintenir une prise sur une cible plus petite'},
  {id:'declassement-fonctionnel',skills:['technologie','mecanique'],bonus:3,label:'CTU · préserver une fonction en sacrifiant une autre'},

@@ -64,3 +64,13 @@ Compilation API et Web ; tests de table API avec base PostgreSQL embarquée isol
 La migration additive `20261009_combat_roster.sql` conserve les métadonnées de participation dans l’état de campagne. Elle est ajoutée au script de livraison. Appliquer les migrations avant de démarrer cette version de l’API. Les anciens participants reçoivent par défaut le statut présent, allié pour les PJ, neutre pour les autres.
 
 Le navigateur Chromium local est bloqué par les restrictions de sockets du conteneur. La recette navigateur a ensuite réussi en CI : parcours MJ/joueurs et absence de débordement à 1440, 390 et 320 px. Le workflow [37919134328](https://github.com/Helclaeynn/Terra-Umbra-Builder/actions/runs/37919134328) est entièrement vert pour le code `fa2c70cfdd7ba3a8d32d3925de2f085de23438dc`. Aucun déploiement de production effectué pour ce lot.
+
+## Lot suivant : défenses et récupération de Vérité
+
+Implémentation explicite de Réflexe de chasse (0 PA, 1/round, sans surprise), Réflexe conditionné (0 PA, +3, 1/scène, surprise autorisée) et Vitesse impossible Garou/Khinae (0 PA, 1/round, surprise autorisée). Le serveur vérifie possession, espèce/Sang, prérequis disponibles, révélation, aptitude à réagir et quota. Ces capacités passent par le choix de défense ; elles ne sont plus des bonus génériques à cocher.
+
+Cycle de réparation soigne jusqu’à 6 PV, coûte 1 PA en combat et consomme son usage par scénario. Réserve nanitique ajoute jusqu’à 3 PV au premier soin externe effectif ; repos, régénération, grâce et Cycle ne la déclenchent pas. Inconscience et essaim non fonctionnel sont explicitement réglables. La récupération horaire Garou/Khinae est proposée hors combat en forme humaine/animale révélée, après confirmation que les blessures sont régénérables. Le temps déclaré reste sous arbitrage de la table ; ne pas compter deux fois la même période avec le repos quotidien.
+
+Les usages par scène/scénario persistent à la fin d’un combat. Le MJ dispose de commandes distinctes hors combat pour changer de scène ou de scénario ; le changement de séance n’effectue pas ces remises à zéro. Le repos renouvelle seulement les usages quotidiens. Les autres exceptions, ressources sanguines, effets périodiques et capacités spécifiques restent dans la suite d’intégration ci-dessus.
+
+Validation de ce lot : compilations API/Web, suite API avec PostgreSQL embarqué et tests DOM. La recette navigateur CI citée plus haut concerne uniquement le lot précédent.

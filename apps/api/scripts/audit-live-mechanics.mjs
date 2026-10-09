@@ -4,6 +4,7 @@ import {terraUmbraCreationRules as reality} from '../dist/rules/terra-umbra-crea
 import {terraUmbraRealitySkillTalentMap as skillMap,terraUmbraTalentChoiceSpecs as specs} from '../dist/rules/terra-umbra-creation-lore.js';
 import {getRealityRules} from '../dist/rules/reality.js';
 import {augmentationPlayBonuses,extralPlayBonuses,exilePlayBonuses} from '../dist/rules/play-bonuses.js';
+import {dedicatedPowerIds} from '../dist/rules/live-mechanics.js';
 import {BESTIARY_WEAPONS} from '../dist/campaign-bestiary-weapons.js';
 process.env.DATABASE_URL ||= 'postgres://audit:unused@localhost/audit_no_connection';
 const {combatEquipment}=await import('../dist/campaign-combat.js');
@@ -14,7 +15,7 @@ const talents=[...Object.values(reality.talents.origin).flat(),...Object.values(
 for(const t of new Map(talents.map(t=>[t.id,t])).values())add('Réalité · talents',t,skillMap[t.id]||specs[t.id]?'calcul ciblé + texte':'texte / contexte MJ','Acquisition dans le builder ; consulter play-state.ts, reality-conditional-bonuses.ts et reality-talents-policy.ts pour les effets de test, soins et économie. Aucun effet narratif déduit automatiquement.');
 for(const [nature,items] of Object.entries(truth.catalogs))for(const t of items){
  const prepared=(nature==='extral'?extralPlayBonuses.map(b=>({...b,id:'extral-'+b.id})):nature==='exile'?exilePlayBonuses.filter(b=>b.id!=='exile-pas-leger'):[]).some(b=>b.id===t.id);
- add('Vérité · '+nature,t,prepared?'bonus conditionnel préparé + activation assistée':'activation assistée / texte',`Accès ${t.access??'R'} ; propriété et prérequis, PA explicites, durée et compteur d’usage simples. Cibles, ressources, exceptions et conséquences du texte à arbitrer. L’activation générique ne prouve pas l’automatisation de l’effet.`);
+ add('Vérité · '+nature,t,dedicatedPowerIds.has(t.id)?'action dédiée + quota serveur':prepared?'bonus conditionnel préparé + activation assistée':'activation assistée / texte',`Accès ${t.access??'R'} ; propriété et prérequis, PA explicites, durée et compteur d’usage simples. Cibles, ressources, exceptions et conséquences du texte à arbitrer. L’activation générique ne prouve pas l’automatisation de l’effet.`);
 }
 for(const [nature,n] of Object.entries(truth.structure.natures))for(const [i,t] of [...n.baseFreeTraits,...n.freeTraitRules.flatMap(r=>r.traits)].entries())add('Traits · '+nature,{...t,id:`trait:${i}`},'texte / activation assistée','Traits conditionnés par les choix du personnage ; corps et attributs traités séparément dans play-truth.ts et revelation.ts.');
 for(const t of truth.corruption.talents)add('Vérité · corruption',t,'texte / arbitrage MJ','Acquisition et corruption suivies dans le builder/récompenses ; activation des Dons/Rites/Faveurs et conséquences non automatisées.');

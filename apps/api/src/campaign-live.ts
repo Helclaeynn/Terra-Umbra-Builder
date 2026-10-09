@@ -59,7 +59,7 @@ export async function registerCampaignLiveRoutes(app:FastifyInstance){
  // All mutations are MJ-only, serialized and idempotent; duplicate retries never spend or heal twice.
  app.post<{Params:{id:string};Body:any}>('/api/campaigns/:id/play/actions',{bodyLimit:1024*1024},async(req,reply)=>{
   const user=await requireUser(req,reply);if(!user)return;
-  const b:any=req.body;if(!b||!validId(b.requestId)||!['combat-participant','combat-start','combat-stop','combat-round','combat-mode','message','withdraw','add','roll','gm-roll','random-player','settings','damage','heal','initiative','round','remove'].includes(b.action))return reply.code(400).send({error:'invalid_live_action'});
+  const b:any=req.body;if(!b||!validId(b.requestId)||!['combat-scene','combat-scenario','combat-participant','combat-start','combat-stop','combat-round','combat-mode','message','withdraw','add','roll','gm-roll','random-player','settings','damage','heal','initiative','round','remove'].includes(b.action))return reply.code(400).send({error:'invalid_live_action'});
   const db=await pool.connect();
   try{
    await db.query('BEGIN');
@@ -73,7 +73,7 @@ export async function registerCampaignLiveRoutes(app:FastifyInstance){
    let payload:any={},publicEvent=false,image:Buffer|null=null,mime:string|null=null;
    if(b.action.startsWith('combat-')){
     const error=await manageCombat(db,req.params.id,user.id,b);if(error)return await fail(error==='combat_version_conflict'?409:400,error);
-    payload={label:({'combat-participant':'Participation / camp mis à jour','combat-start':'Combat commencé · lancez votre initiative','combat-stop':'Combat terminé','combat-round':'Round '+(await combatState(db,req.params.id)).round+' · MJ','combat-mode':'Mode de rounds : '+(b.mode==='automatic'?'automatique':'manuel')} as Record<string,string>)[b.action]};publicEvent=true;
+    payload={label:({'combat-scene':'Nouvelle scène · usages de scène renouvelés','combat-scenario':'Nouveau scénario · usages renouvelés','combat-participant':'Participation / camp mis à jour','combat-start':'Combat commencé · lancez votre initiative','combat-stop':'Combat terminé','combat-round':'Round '+(await combatState(db,req.params.id)).round+' · MJ','combat-mode':'Mode de rounds : '+(b.mode==='automatic'?'automatique':'manuel')} as Record<string,string>)[b.action]};publicEvent=true;
    }else if(b.action==='random-player'){
     if(typeof b.public!=='boolean')return await fail(400,'invalid_live_roll');
     const candidates=await db.query(`SELECT u.display_name,c.name FROM campaign_members m JOIN users u ON u.id=m.user_id AND u.is_active LEFT JOIN characters c ON c.id=m.character_id AND c.archived_at IS NULL WHERE m.campaign_id=$1 AND m.status='accepted' ORDER BY m.user_id`,[req.params.id]);

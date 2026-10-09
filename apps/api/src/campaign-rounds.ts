@@ -1,3 +1,4 @@
+import {resetLivePeriod} from './rules/live-mechanics.js';
 import {randomUUID} from 'node:crypto';
 import {blankPlayState,playProfile,type PlayState} from './rules/play-state.js';
 import {liveBody} from './rules/play-truth.js';
@@ -43,6 +44,11 @@ export async function nextCombatRound(db:Db,id:string,user:string,s:any,actors:a
 export async function manageCombat(db:Db,id:string,user:string,b:any){
  const s=await combatState(db,id);
  if(b.version!==s.version)return 'combat_version_conflict';
+ if(['combat-scene','combat-scenario'].includes(b.action)){
+  if(s.active||await pendingAttacks(db,id))return 'finish_combat_first';
+  for(const actor of await combatActors(db,id))if(actor.kind==='character'){resetLivePeriod(actor.state,b.action==='combat-scene'?'scene':'scenario');await saveActor(db,actor);}
+  await writeCombat(db,id,s);return null;
+ }
  if(b.action==='combat-participant'){
   const actor=(await combatActors(db,id)).find(c=>c.id===b.actorId);
   if(!actor)return 'participant_not_found';
@@ -67,8 +73,8 @@ export async function manageCombat(db:Db,id:string,user:string,b:any){
     if(c.state.muePending)c.state.muePending=2;
    }else Object.assign(c,{initiative:null,round:1,pa_per_round:0,pa:0});
   }else if(c.kind==='character'){
-   Object.assign(c.state,{initiative:null,pa:0,paPerRound:0,powers:[],mueBlocked:false});
-   c.state.powerUses=Object.fromEntries(Object.entries(c.state.powerUses??{}).filter(([k])=>!k.startsWith('scene:')&&!k.startsWith('round:')));
+   Object.assign(c.state,{initiative:null,pa:0,paPerRound:0,powers:[]});
+   c.state.powerUses=Object.fromEntries(Object.entries(c.state.powerUses??{}).filter(([k])=>!k.startsWith('round:')));
   }else Object.assign(c,{initiative:null,pa:0,pa_per_round:0});
   await saveActor(db,c);
  }

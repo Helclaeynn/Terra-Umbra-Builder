@@ -255,13 +255,15 @@
     "Vérité · garou": {
       "total": 68,
       "coverage": {
-        "activation assistée / texte": 68
+        "activation assistée / texte": 67,
+        "action dédiée + quota serveur": 1
       }
     },
     "Vérité · khinae": {
       "total": 68,
       "coverage": {
-        "activation assistée / texte": 68
+        "activation assistée / texte": 67,
+        "action dédiée + quota serveur": 1
       }
     },
     "Vérité · mage": {
@@ -298,8 +300,9 @@
     "Vérité · extral": {
       "total": 162,
       "coverage": {
-        "bonus conditionnel préparé + activation assistée": 18,
-        "activation assistée / texte": 144
+        "bonus conditionnel préparé + activation assistée": 17,
+        "activation assistée / texte": 141,
+        "action dédiée + quota serveur": 4
       }
     },
     "Traits · vampire": {
@@ -4549,7 +4552,7 @@
       "id": "vitesse_impossible",
       "name": "Vitesse impossible",
       "source": "regles-verite-v7-garou-sangs-vifs",
-      "coverage": "activation assistée / texte",
+      "coverage": "action dédiée + quota serveur",
       "note": 7
     },
     {
@@ -5093,7 +5096,7 @@
       "id": "khinae_blood_vitesse_impossible",
       "name": "Vitesse impossible",
       "source": "regles-verite-v7-khinae-moteur-lignees",
-      "coverage": "activation assistée / texte",
+      "coverage": "action dédiée + quota serveur",
       "note": 7
     },
     {
@@ -9669,7 +9672,7 @@
       "id": "extral-reflexe-de-chasse",
       "name": "Réflexe de chasse",
       "source": "regles-verite-v7-extrals-profils-physiologies",
-      "coverage": "activation assistée / texte",
+      "coverage": "action dédiée + quota serveur",
       "note": 79
     },
     {
@@ -10093,7 +10096,7 @@
       "id": "extral-reserve-nanitique",
       "name": "Réserve nanitique",
       "source": "regles-verite-v7-extrals-organisations-aidh-homo-superior-adrak",
-      "coverage": "activation assistée / texte",
+      "coverage": "action dédiée + quota serveur",
       "note": 152
     },
     {
@@ -10109,7 +10112,7 @@
       "id": "extral-cycle-de-reparation",
       "name": "Cycle de réparation",
       "source": "regles-verite-v7-extrals-organisations-aidh-homo-superior-adrak",
-      "coverage": "activation assistée / texte",
+      "coverage": "action dédiée + quota serveur",
       "note": 152
     },
     {
@@ -10157,7 +10160,7 @@
       "id": "extral-reflexe-conditionne",
       "name": "Réflexe conditionné",
       "source": "regles-verite-v7-extrals-organisations-aidh-homo-superior-adrak",
-      "coverage": "bonus conditionnel préparé + activation assistée",
+      "coverage": "action dédiée + quota serveur",
       "note": 152
     },
     {
