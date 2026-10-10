@@ -112,6 +112,7 @@ try{
  await import('./check-live-frenzy.mjs');
  await (await import('./check-live-item-resources.mjs')).checkLiveItemResourcesHTTP({pool,call,player,other,manager});
  await (await import('./check-occult-resolutions.mjs')).checkOccultResolutions({pool,call,player,other,manager});
+ await (await import('./check-occult-edge.mjs')).checkOccultEdge({pool,call,player,other,manager});
  await pool.query('DELETE FROM campaign_members WHERE campaign_id=$1 AND user_id=$2',[campaign,other.id]);await call(other,'GET',`/api/campaigns/${campaign}/play`,undefined,404);
  console.log('PLAY OK — dice, truth gating, injuries, recovery, server rolls, conflicts, replay safety, private projections, revoked access, migration replay and equipment-only rewards.');
 }finally{await app.close();await pool.query('DELETE FROM users WHERE id=ANY($1::uuid[])',[users]);if(embedded)await embedded.close();else await pool.end();}

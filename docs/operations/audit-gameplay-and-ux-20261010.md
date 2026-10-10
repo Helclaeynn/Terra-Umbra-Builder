@@ -16,6 +16,7 @@ Ce lot relie les procédures finies qui restaient les plus gênantes en partie :
 | Effet allié | Demande puis réponse du propriétaire | Consentement lié à la source et à la cible ; soin plafonné ou effet fini, versions et rejeu | Quantité de soin réellement prévue, conditions et durée de l’effet ; pas de valeur universelle inventée |
 | Belial et Fantasmagorie | Libération puis résolution ciblée | Autorité/occult pour les ordres, Maîtrise/occult pour l’illusion ; conditions et échéances ; résistance prévue au Décret | Interprétation de l’ordre ou illusion ; durée explicite de Fantasmagorie ; aucune décision narrative automatique |
 | Concentration | Maintien lié à la résolution | Maintien Mage 1 PA par round ; disparition des effets liés après arrêt, KO, Dormance ou perte du maintien | Existence réelle de la concentration et événement qui l’interrompt |
+| Edge occulte | Libération Mage/Spectre, défense active et résistance au Décret | Avant ou après le jet : contribution du dé remplacée par 20, un Edge, bonus originaux conservés, aucun PA supplémentaire ; résultat et réussite recalculés dans une fenêtre bornée | Le résultat doit encore pouvoir être changé avant sa conséquence ; Edge n’annule pas la Tension ni un Revers inévitable |
 | Crête de Mosenine | Activation dédiée au début de round | +1 PA réservé aux actions physiques admissibles, plafond 4 ; pas de cumul de gains directs | Début de round et conditions de la capacité |
 | Entre deux états | Activation/sortie dédiées et contrôle des actions | Interdit attaques physiques/manipulations lourdes ; +3 seulement à la Défense active purement physique ; sortie au début d’activation | Passage et sortie matériellement possibles ; aucune invulnérabilité universelle |
 | Frénésie | Entrée, résistance, sortie, Impulsion et peur | Origine/cause explicites, bonus croissant ou fixe, DD canonique, PA consacré à l’Impulsion, effet temporaire d’un obstacle reconnu | Cause, proche reconnu, Impulsion réalisable et disparition de la cause ; pas de cible imposée automatiquement |
@@ -32,6 +33,8 @@ Une sauvegarde de réglages ne réécrit pas ces compteurs. Les actions vérifie
 Injonction souveraine, Décret royal, Souveraineté de Belial et Fantasmagorie disposent d’identifiants canoniques spécifiques. Les autres sorts/Spectres utilisent une **construction arbitrée**, après une préparation réellement libérée. Le moteur ne choisit pas un effet arbitraire à partir du nom d’une Affinité : le MJ définit une fonction principale applicable, puis le serveur traite ses cibles et états.
 
 Un bonus ou soin allié demande le consentement du propriétaire. Une cible hostile choisit sa défense passive ou active avec le MJ ; la défense active ordinaire paie son PA. Le maintien est lié aux identifiants exacts des effets créés sur les cibles, de sorte qu’interrompre le sort ne laisse pas un bonus devenu permanent.
+
+L’Edge est raccordé avant et après les jets des libérations Mage/Spectre, des défenses actives de ce parcours et des résistances au Décret. Après le jet, le même bonus est conservé ; la source, l’acteur, sa version et les frontières de séance/scène/combat/round doivent rester valides. Une libération cesse d’être modifiable après une autre action, une proposition à la cible, une opposition, une résolution ou un classement. Le Décret utilise son opposition d’origine et ne retire que la condition exacte si le jet forcé réussit. Une réponse réseau rejouée ne paie pas deux fois. Les résultats automatiques n’ont pas de dé ni de dépense d’Edge ; la Volonté supérieure ne peut pas être réparée après sa catastrophe inévitable.
 
 ### Équipement : portée exacte
 
@@ -62,6 +65,7 @@ Cette passe est une base de recette UX. Elle n’atteste pas encore que la densi
 
 | Domaine | Partie encore arbitrée ou non branchée |
 |---|---|
+| Sources occultes PNJ | Les effets et jets libres du MJ restent assistés lorsque le PNJ ne possède pas de préparation structurée ; son texte ne crée pas de compétence ou de coût manquant |
 | Conduction et Décharge | Circuit réellement alimenté, lien maintenu, détection/localisation et décharge technique ; pas de réseau électrique déduit automatiquement |
 | Trace du Néant / Fin véritable | Les pertes Silence et les commandes de régénération branchées sont suivies ; reconstitution, enveloppes et persistance fictionnelles non représentées demandent encore un arbitrage. La vulnérabilité spirituelle et les conditions de destruction ne se calculent pas automatiquement |
 | Atteindre l’immatériel / discrétion de Foudre | Métadonnées et confirmation de trajectoire ; perception du terrain et des observateurs restent narratives |
@@ -80,6 +84,10 @@ L’inventaire conserve **122 talents de Réalité, 1 187 talents de Vérité, 2
 
 Suites ajoutées : `check-action-restrictions.mjs`, `check-live-frenzy.mjs`, `check-remaining-actions-integration.mjs`, `check-live-item-resources.mjs`, `check-occult-resolutions.mjs`, compléments électriques dont `check-lightning-wounds.mjs`, et tests DOM/navigateur de l’UX. Le test d’équipement vérifie aussi la riposte Ashorn à zéro PA avec une arme de Vérité : la préparation de ses ressources ne lui impose pas un PA supplémentaire.
 
-Les vérifications locales individuelles réussies sont consignées pendant l’intégration. La preuve de CI du lot complet doit être ajoutée après publication et exécution des contrôles. Les anciens liens de CI présents dans l’audit principal attestent leurs lots historiques, pas automatiquement ce complément. Aucun déploiement de production n’est inclus.
+Le complément Edge ajoute `check-occult-edge.mjs` et étend les tests Nature, oppositions et interfaces. Les compilations API/Web, la suite API complète avec PostgreSQL embarqué, la suite complète d’interface Vue et le contrôle du diff ont réussi localement. La preuve CI ci-dessous concerne le lot publié avant ce dernier raccord ; sa CI de publication reste à confirmer séparément.
 
-Références : [inventaire complet](live-mechanics-inventory.json), [restrictions et Frénésie](audit-action-restrictions-20261009.md), [variantes électriques](audit-lightning-variants-20261009.md), [audit principal](full-game-mechanics-audit-20261009.md).
+Le lot complet a été validé sur le commit `bb221daeb24c4412f6c78dd6c4df9d754968172c` : [CI TUC Web V2 dev 38025766135](https://github.com/Helclaeynn/Terra-Umbra-Builder/actions/runs/38025766135). Les contrôles API/PostgreSQL, règles, comportements Vue, dossiers PDF, navigateur ordinateur/mobile (1440/390/320 px) et Compose ont réussi. Le premier passage avait révélé un défaut du test d’équipement : il supposait une fiche repliée après changement de largeur, alors que l’interface conserve son état. Le test corrigé vérifie cette persistance et la fermeture au clavier.
+
+Le garde de déploiement a confirmé « Production host protected » ; envoi, migration, déploiement et nettoyage distant ont tous été ignorés. Aucun déploiement de production n’est inclus. Les anciens liens de CI présents dans l’audit principal attestent leurs lots historiques, pas automatiquement ce complément.
+
+Références : [inventaire complet](live-mechanics-inventory.json), [restrictions et Frénésie](audit-action-restrictions-20261009.md), [variantes électriques](audit-lightning-variants-20261009.md), [résolutions occultes](audit-occult-resolution-20261009.md), [audit principal](full-game-mechanics-audit-20261009.md).
