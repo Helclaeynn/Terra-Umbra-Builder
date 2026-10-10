@@ -9,8 +9,9 @@ import {applyNatureResourceAction,natureHpCeiling,consumeNatureTest} from './rul
 import {activateRegisteredPower,consumeRegisteredTest} from './rules/registered-power-state.js';
 import {removeLiveEffect} from './rules/live-effects.js';
 import {playProfile,rollD10,type PlayState} from './rules/play-state.js';
+import {forcedDie} from './character-edge.js';
 export function liveHealingMaximum(data:any,state:PlayState,maximum:number){return natureHpCeiling(data,state,vampireMaximum(maximum,state));}
-export function applyExtendedPlayAction(data:any,original:PlayState,input:any,ctx:{fighting:boolean;participating:boolean;manager:boolean;actorId:string;atRoundStart?:boolean}){
+export function applyExtendedPlayAction(data:any,original:PlayState,input:any,ctx:{fighting:boolean;participating:boolean;manager:boolean;actorId:string;atRoundStart?:boolean;edgeForced?:boolean}){
  let state=structuredClone(original),profile=playProfile(data,state),payload:Record<string,any>={};
  if(input.action==='fear-set')payload=setLiveFear(state,input,{manager:ctx.manager});
  else if(input.action==='frenzy-enter')payload=enterFrenzy(data,state,input,{...ctx,hp:profile.hp});
@@ -26,7 +27,9 @@ export function applyExtendedPlayAction(data:any,original:PlayState,input:any,ct
   if(ctx.fighting&&!ctx.participating)throw new Error('participant_out');
   if(input.action==='nature-angelus-egide')throw new Error('use_attack_resolution');
   const rollSkill=input.action==='nature-mage-backlash'?'force_mentale':'maitrise_spirituelle';
-  const needsRoll=['nature-mage-release','nature-mage-backlash','nature-mage-discharge','nature-daemon-spectrum-release'].includes(input.action),die=needsRoll?rollD10(profile.stress,()=>randomInt(1,11)):null;
+  const release=['nature-mage-release','nature-daemon-spectrum-release'].includes(input.action),automatic=input.action==='nature-mage-release'&&state.natureResources?.mage?.preparation?.automatic===true;
+  if(ctx.edgeForced&&(!release||automatic))throw new Error('edge_roll_unavailable');
+  const needsRoll=!automatic&&['nature-mage-release','nature-mage-backlash','nature-mage-discharge','nature-daemon-spectrum-release'].includes(input.action),die=needsRoll?(ctx.edgeForced?forcedDie():rollD10(profile.stress,()=>randomInt(1,11))):null;
   const skill=profile.skills.find(s=>s.id===rollSkill),concentrationPenalty=frenzyConcentrationPenalty(state,['nature-mage-release','nature-daemon-spectrum-release'].includes(input.action),data),modifier=skill!.total+concentrationPenalty;
   const result=applyNatureResourceAction(data,state,input,{inCombat:ctx.fighting,manager:ctx.manager,hp:profile.hp,pvMax:profile.derived.pvMax,death:profile.derived.death,permanentFortitude:profile.skills.find(s=>s.id==='force_mentale')?.rank??0,rollResult:die?modifier+die.sum:undefined,narrativeFailure:die?.narrativeFailure});
   state=result.state;payload={...result.payload,...(die?{...die,modifier,total:modifier+die.sum,components:{attribute:skill!.attributeValue,rank:skill!.rank,bonus:skill!.bonus+concentrationPenalty,skillName:skill!.name,concentrationPenalty}}:{})};

@@ -9,7 +9,7 @@ Cette passe relie les libérations déjà payées à de vraies mutations de PV e
 | Sort Mage / Spectre de Méphisto offensif | Un jet de lancement conservé ; défense individuelle ; dégâts = marge + bonus d’Amplitude 6/12/18/24 − protection ; aucun palier de Tir. | Fonction annoncée, cibles et étendue compatibles avec l’Affinité, protection réellement applicable. |
 | Soin externe | PV effectivement rendus, plafond de soin réel, refus de résurrection et de destruction finale ; blessures de Trace du Néant effectivement soignées débloquées. | Un effet de soin réellement justifié et sa quantité, sans inventer un barème universel. |
 | Modificateur ou condition libre | Une fonction principale, provenance, portée mécanique et durée finie ; les modificateurs alimentent les profils existants. | Justification du bonus/malus et de sa durée par le sort ou pouvoir utilisé. |
-| Maintien Mage | 1 PA par round ultérieur ; durée prolongée ; une seule dépense par round ; disparition de toutes les cibles lorsque la concentration cesse, le lanceur devient incapable ou disparaît de la campagne. | Déterminer si le phénomène exige réellement un flux continu. |
+| Maintien Mage | 1 PA par round ultérieur ; durée prolongée ; une seule dépense par round ; retrait de tous les effets liés sur les cibles lorsque la concentration cesse, le lanceur devient incapable ou disparaît de la campagne. | Déterminer si le phénomène exige réellement un flux continu. |
 
 Les coûts, quotas, prérequis, Aura, préparation, Tension et Revers restent ceux de l’activation existante. La résolution ne les paie pas une seconde fois. Un jet séparé de pouvoir doit provenir du même personnage, de la compétence prescrite et d’un événement postérieur à la libération. Un jet déjà résolu ne sert pas à une deuxième activation.
 
@@ -29,7 +29,7 @@ Ces conditions n’automatisent ni les décisions de la victime, ni un acte suic
 - Seul le MJ de la campagne arbitre les conséquences. Le propriétaire peut choisir sa défense, consentir à un effet allié ou interrompre son propre maintien.
 - Un soutien à un autre PJ exige un accord de son propriétaire. L’offre privée contient son personnage et la description proposée ; l’accord référence l’offre effectivement affichée et la même description doit être utilisée à la résolution.
 - Les autres joueurs ne reçoivent ni les jets source privés, ni les PV ou paramètres de leurs voisins.
-- Les défenses actives coûtent 1 PA sous pression ; elles respectent les réserves physiques et l’impulsion de Frénésie. Une réaction ne consomme pas une passe d’action ordinaire.
+- Les défenses actives ordinaires coûtent 1 PA sous pression ; elles respectent les réserves physiques et l’impulsion de Frénésie. La résistance à une violation du Décret reste gratuite. Une réaction ne consomme pas une passe d’action ordinaire.
 - Requêtes rejouées strictement identiques : aucune deuxième mutation. Une cible modifiée impose une nouvelle lecture de sa version.
 
 ## Rounds et séances
@@ -52,4 +52,10 @@ Le polymorphisme, transfert d’âme, prophétie, comportement d’une construct
 
 Ce parcours prend comme sources les libérations et activations des personnages, dont les jets et dépenses sont déjà protégés par le serveur. Les pouvoirs occultes libres d’un PNJ sans cette préparation structurée restent dans les outils d’effets et de jets assistés du MJ ; aucune compétence ou dépense manquante n’est fabriquée depuis sa prose.
 
-La libération Mage/Spectre fige déjà réussite intrinsèque, Tension et Revers. Forcer ce résultat avec Edge **après** la libération demanderait de recomposer ces conséquences ; ce parcours n’est pas implémenté ici. L’éventuel Edge avant lancement appartient au gestionnaire de jets du lot global. Après une résolution, le résultat source doit rester figé.
+## Edge avant et après le jet
+
+Les libérations Mage/Spectre, les défenses actives de ce parcours et la résistance au Décret proposent Edge avant le jet, puis après tant que sa fenêtre reste ouverte. Un Edge remplace la contribution du dé par 20, sans recalculer le bonus déjà utilisé ni payer de PA supplémentaire. Une défense passive et un autosuccès n’ont aucun dé à forcer. Une préparation invalide ou un solde insuffisant ne persiste aucune mutation ; les requêtes identiques rejouées ne dépensent rien une seconde fois.
+
+Après une libération, total, échec narratif et réussite intrinsèque sont recalculés. La Tension, l’alternance d’Affinité et les Revers dépendent de la préparation : ils restent dus, indépendamment du dé. La Volonté supérieure n’offre pas de réparation après sa catastrophe inévitable. La fenêtre exige la même version de jeu, séance, scène, combat et round ; une action suivante, une proposition à la cible, une opposition, un classement ou une résolution la ferme. Le bouton privé ne s’affiche plus quand cette fenêtre est fermée.
+
+Après une défense, la source doit être encore non résolue et la version du défenseur intacte. Après une résistance échouée au Décret, seule la condition exacte encore active peut être retirée si le nouveau total atteint l’opposition d’origine ; une résistance suivante ferme l’ancien résultat. Un Décret peut rester actif entre séances, mais un résultat d’une séance clôturée ne peut plus être modifié. Les résultats et les boutons Edge restent privés au propriétaire ; le MJ conserve son accès aux sources, résultats et paramètres complets des fiches.

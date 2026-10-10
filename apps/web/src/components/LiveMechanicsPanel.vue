@@ -10,7 +10,7 @@ import {truthPowers,powerAllowed} from '../../../api/src/rules/play-truth';
 import {frenzyPowerIds} from '../../../api/src/rules/live-frenzy';
 import {registeredTruthPowers,explicitPower,type RegisteredPowerRule} from '../../../api/src/rules/live-power-registry';
 
-const props=defineProps<{data:CharacterDataV2;state:PlayState;profile:any;canEdit:boolean;busy:boolean;inCombat:boolean;manager?:boolean;section?:'all'|'truth'|'equipment'|'effects'}>();
+const props=defineProps<{data:CharacterDataV2;state:PlayState;profile:any;canEdit:boolean;busy:boolean;inCombat:boolean;edge?:number;manager?:boolean;section?:'all'|'truth'|'equipment'|'effects'}>();
 const emit=defineEmits<{action:[action:string,payload:Record<string,unknown>]}>();
 const blocked=computed(()=>props.busy||!props.canEdit);
 const showTruth=computed(()=>!props.section||props.section==='all'||props.section==='truth');
@@ -39,6 +39,7 @@ const limitNames:Record<string,string>={round:'1/round',scene:'1/scène',day:'1/
 function registeredEffect(e:any){const name=({skill:'aux tests concernés',damage:'aux dégâts',armor:'Armure',reduction:'Réduction',healing:'PV',pa:'PA',piercing:'Pénétration'} as Record<string,string>)[e.kind]??e.kind;return `${e.mode==='replace'?'Valeur ':e.amount>=0?'+':''}${e.amount} ${name}`;}
 const mageAffinity=ref(''),mageAmplitude=ref('mineure'),mageRange=ref('contact'),mageChannel=ref(0),mageInvest=ref(1);
 const mageIntent=ref('narrative'),mageOpposed=ref(false),mageUrgent=ref(false),mageDifficult=ref(false),mageForceAmplitude=ref(false),mageForceMastery=ref(false),mageNote=ref('');
+const spellEdge=ref(false);
 watch(mageIntent,intent=>{if(intent==='hostile')mageOpposed.value=true;});
 const powerInvest=ref(1),favorNote=ref(''),favorSkill=ref('athletisme'),bladeSacrifice=ref(1);
 const powerPreparation=computed(()=>resources.value.resources.powerPreparation);
@@ -65,6 +66,9 @@ const angelus=computed<any>(()=>resources.value.nature==='angelus'&&resources.va
 const daemon=computed<any>(()=>resources.value.nature==='daemon'&&resources.value.enabled?(resources.value as any).daemon:null);
 watch(()=>angelus.value?.aura,value=>{manualAura.value=value??0;},{immediate:true});
 const spellCaster=computed<any>(()=>mage.value||(daemon.value?.spectra?.length?{...resources.value.resources.mage,affinities:daemon.value.spectra,canCast:props.state.revelation==='r'&&!props.state.unconscious}:null));
+const canForceSpell=computed(()=>!!spellCaster.value?.preparation&&!spellCaster.value.preparation.automatic&&spellCaster.value.preparation.paid>=spellCaster.value.preparation.pa&&(props.edge??0)>0);
+watch(()=>JSON.stringify(spellCaster.value?.preparation??null),()=>{spellEdge.value=false;});
+watch(()=>props.edge,value=>{if(!value)spellEdge.value=false;});
 const naturePowers=computed<any[]>(()=>((resources.value as any).powers??[]).filter((p:any)=>!registered.value.some(r=>r.id===p.id)));
 const naturePowerId=ref('');
 const chosenNaturePower=computed(()=>naturePowers.value.find(p=>p.id===naturePowerId.value));
@@ -76,6 +80,7 @@ function act(action:string,payload:Record<string,unknown>={}){if(!blocked.value)
 const spellDraft=computed(()=>({intent:mageIntent.value,affinity:mageAffinity.value,amplitude:mageAmplitude.value,range:mageRange.value,channel:mageChannel.value,opposed:mageOpposed.value,urgent:mageUrgent.value,contextDifficult:mageDifficult.value,forceAmplitude:!!mage.value&&mageForceAmplitude.value,forceMastery:!!mage.value&&mageForceMastery.value,note:mageNote.value.trim()}));
 const spellPreview=computed<{plan:ReturnType<typeof mageSpellPlan>|null;error:string}>(()=>{if(!spellCaster.value||!mageAffinity.value)return {plan:null,error:''};try{return {plan:(mage.value?mageSpellPlan:daemonSpectrumPlan)(props.data,props.state,spellDraft.value),error:''};}catch(cause){const code=cause instanceof Error?cause.message:'';return {plan:null,error:({spectrum_unavailable:'Ce Spectre exige l’état Révélé et une Affinité possédée.',spectrum_cannot_force:'Les Spectres ne permettent pas de forcer la Maîtrise ou l’Amplitude.',mageius_unavailable:'Mageius indisponible dans cet état.',spell_amplitude_unavailable:'Cette Amplitude dépasse la maîtrise disponible.',force_requires_owned_affinity:'Il faut posséder cette Affinité pour forcer sa Maîtrise ou son Amplitude.',invalid_superior_will:'Forcer exige le palier immédiatement supérieur à votre maîtrise.',mandatory_channel_missing:'Une canalisation supplémentaire est requise pour cette difficulté.',invalid_spell:'Vérifie la portée, l’Amplitude et la canalisation.'} as Record<string,string>)[code]??'Ce sort demande une vérification de ses conditions.'};}});
 function spellAction(action:string,payload:Record<string,unknown>={}){act(`nature-${mage.value?'mage':'daemon-spectrum'}-${action}`,payload);}
+function releaseSpell(){spellAction('release',spellEdge.value&&canForceSpell.value?{edge:true}:{});}
 function beginSpell(){if(spellPreview.value.plan)spellAction('begin',{spell:spellDraft.value,invest:mageInvest.value});}
 const itemResources=computed(()=>props.profile.itemResources);
 const ablativeItemId=ref(''),replacementAvailable=ref(false),truthReserveId=ref(''),truthReserveRemaining=ref(0),safeExitConfirmed=ref(false);
@@ -121,7 +126,8 @@ const visible=computed(()=>showTruth.value&&(mage.value||angelus.value||daemon.v
           <p class="preparation-status"><strong>Sort en préparation</strong><span>{{spellCaster.preparation.name}} · {{spellCaster.preparation.note}}</span></p>
           <p>{{spellCaster.preparation.paid}} / {{spellCaster.preparation.pa}} PA investis · difficulté {{spellCaster.preparation.difficulty}}<template v-if="mage"> · +{{spellCaster.preparation.tension}} Tension</template>.</p>
           <label>PA supplémentaires à investir<input v-model.number="mageInvest" type="number" min="1" max="20" /></label>
-          <div class="button-row"><button @click="spellAction('invest',{amount:mageInvest})">Investir les PA</button><button :disabled="spellCaster.preparation.paid<spellCaster.preparation.pa" @click="spellAction('release')">Lancer le sort préparé</button><button class="secondary" @click="spellAction('cancel')">Abandonner le sort</button></div>
+          <label v-if="!spellCaster.preparation.automatic" class="check spell-edge"><input v-model="spellEdge" type="checkbox" :disabled="!canForceSpell" /> Forcer le Destin · 1 Edge ({{edge??0}} disponible{{edge===1?'':'s'}}) · 10 + 10</label><p v-else class="availability-note">Réussite automatique · aucun dé ni Edge à dépenser.</p>
+          <div class="button-row"><button @click="spellAction('invest',{amount:mageInvest})">Investir les PA</button><button :disabled="spellCaster.preparation.paid<spellCaster.preparation.pa" @click="releaseSpell">Lancer le sort préparé</button><button class="secondary" @click="spellAction('cancel')">Abandonner le sort</button></div>
         </template>
         <form v-else @submit.prevent="beginSpell">
           <div class="input-grid"><label>Effet à résoudre<select v-model="mageIntent" aria-label="Intention du sort"><option value="narrative">Effet narratif</option><option value="support">Soutien / aide</option><option value="hostile">Effet hostile à résoudre</option></select></label><label>Affinité du sort<select v-model="mageAffinity" aria-label="Affinité du sort"><option v-for="a in affinities" :key="a.id" :value="a.id">{{a.name}}{{a.owned?' · maîtrisée':' · improvisation Initiale / Mineure'}}</option></select></label><label>Amplitude<select v-model="mageAmplitude" aria-label="Amplitude du sort"><option v-for="[id,label] in amplitudes" :key="id" :value="id">{{label}}</option></select></label><label>Portée<select v-model="mageRange"><option value="contact">Contact</option><option value="will">Portée de Volonté</option><option value="sight">Vue</option></select></label><label>Canalisation · PA supplémentaires<input v-model.number="mageChannel" type="number" min="0" max="100" /></label><label>PA investis au départ<input v-model.number="mageInvest" type="number" min="0" max="20" /></label></div>

@@ -20,7 +20,7 @@ import {registeredPowerIds,explicitPower} from './rules/live-power-registry.js';
 import {consumeRegisteredTest} from './rules/registered-power-state.js';
 import {hourlyRecovery,naniteStatus,cycleId,consumeUsage,reserveHealing,dedicatedPowerIds,resetLivePeriod} from './rules/live-mechanics.js';
 import {currentLiveSession,registerLiveSessionRoutes} from './campaign-live-sessions.js';
-import {edgeBalance,spendEdge,forcedDie,forcePastRoll,lethalEvent} from './character-edge.js';
+import {edgeBalance,spendEdge,forcedDie,forcePastRoll,lethalEvent,spellEdgeWindowOpen} from './character-edge.js';
 import {lockCombat,combatState,participates,participantInfo,combatQueue,advanceCharacterRound,recordAction,maybeAdvanceCombat} from './campaign-rounds.js';
 import {truthPowers,powerAllowed,formAvailable,usableKhinaeTalent,liveBody} from './rules/play-truth.js';
 import {registerCampaignCombatRoutes} from './campaign-combat.js';
@@ -59,10 +59,11 @@ export async function registerCharacterPlayRoutes(app:FastifyInstance){
     const c=await characterAccess(pool,req.params.id,user);if(!c)return reply.code(404).send({error:'character_not_found'});
     const r=await pool.query('SELECT state,version FROM character_play_states WHERE character_id=$1',[c.id]);
     const state:PlayState={...blankPlayState(),...r.rows[0]?.state};
-    const events=await pool.query('SELECT id,kind,payload,created_at AS "createdAt" FROM character_play_events WHERE character_id=$1 ORDER BY created_at DESC LIMIT 30',[c.id]);
+    const events=await pool.query('SELECT id,kind,payload,request_payload,created_at AS "createdAt" FROM character_play_events WHERE character_id=$1 ORDER BY created_at DESC LIMIT 30',[c.id]);
+    const projectedEvents=await Promise.all(events.rows.map(async e=>({id:e.id,kind:e.kind,payload:e.payload,createdAt:e.createdAt,...(['nature-mage-release','nature-daemon-spectrum-release'].includes(e.kind)?{edgeAvailable:await spellEdgeWindowOpen(pool,c,e,r.rows[0]?.version??0)}:{})})));
     const shared=await combatState(pool,c.campaign_id),profile=playProfile(c.data,state);
     const canManageMechanics=!!c.campaign_id&&gm(user.role)&&!!(await pool.query('SELECT id FROM campaigns WHERE id=$1 AND owner_id=$2 AND archived_at IS NULL',[c.campaign_id,user.id])).rowCount;
-    return {canManageMechanics,edge:await edgeBalance(pool,c.id,c.data),escapeEvent:profile.hp<=profile.derived.death?await lethalEvent(pool,c.id,profile.derived.death):null,combat:{active:shared.active,participating:participates(shared,c.id),mode:shared.mode,round:shared.round,version:shared.version},campaignId:c.campaign_id,state,version:r.rows[0]?.version??0,profile:{...profile,actionRestrictions:actionRestrictionsProfile(state),itemResources:liveItemResourceProfile(c.data,state,getRealityRules()),reality:liveRealityProfile(c.data,state,getRealityRules())},canEdit:c.owner_id===user.id,events:events.rows};
+    return {canManageMechanics,edge:await edgeBalance(pool,c.id,c.data),escapeEvent:profile.hp<=profile.derived.death?await lethalEvent(pool,c.id,profile.derived.death):null,combat:{active:shared.active,participating:participates(shared,c.id),mode:shared.mode,round:shared.round,version:shared.version},campaignId:c.campaign_id,state,version:r.rows[0]?.version??0,profile:{...profile,actionRestrictions:actionRestrictionsProfile(state),itemResources:liveItemResourceProfile(c.data,state,getRealityRules()),reality:liveRealityProfile(c.data,state,getRealityRules())},canEdit:c.owner_id===user.id,events:projectedEvents};
   });
   app.post<{Params:{id:string};Body:any}>('/api/characters/:id/play',async(req,reply)=>{
     reply.header('Cache-Control','private, no-store');
@@ -97,7 +98,11 @@ export async function registerCharacterPlayRoutes(app:FastifyInstance){
       let profile=playProfile(c.data,state);
       let payload:Record<string,unknown>={};
       if(isExtendedPlayAction(b.action)){
-        try{const result=applyExtendedPlayAction(c.data,state,b,{fighting:shared.active||!c.campaign_id&&state.initiative!==null,participating:participates(shared,c.id),manager:manages,actorId:c.id,atRoundStart:!Object.values(shared.turns??{}).some((n:any)=>n>0)});state=result.state;payload=result.payload;}catch(e){return await fail(400,(e as Error).message);}
+        if(b.edge!==undefined&&typeof b.edge!=='boolean')return await fail(400,'invalid_edge');
+        if(b.edge&&!['nature-mage-release','nature-daemon-spectrum-release'].includes(b.action))return await fail(400,'edge_roll_unavailable');
+        try{const result=applyExtendedPlayAction(c.data,state,b,{fighting:shared.active||!c.campaign_id&&state.initiative!==null,participating:participates(shared,c.id),manager:manages,actorId:c.id,atRoundStart:!Object.values(shared.turns??{}).some((n:any)=>n>0),edgeForced:b.edge===true});state=result.state;payload=result.payload;}catch(e){return await fail(400,(e as Error).message);}
+        // A valid release is computed first; preparation errors and automatic successes never spend Edge.
+        if(b.edge){const error=await spendEdge(db,c.id,c.data,b.requestId,'force');if(error)return await fail(400,error);}
       }else if(b.action==='edge-force'){
         if(!uuid.test(b.eventId??''))return await fail(400,'edge_roll_unavailable');
         const result=await forcePastRoll(db,c,state,b.eventId);if(result.error)return await fail(400,result.error);payload=result.payload!;
