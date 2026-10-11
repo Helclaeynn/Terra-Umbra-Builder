@@ -279,7 +279,7 @@ export async function registerCharacterPlayRoutes(app:FastifyInstance){
       const profile=playProfile(c.data,state),identity=c.data.identity??{};
       orderActors.push({id:c.id,pa:profile.pa,initiative:state.initiative});
       const portrait=playPortrait(c.data,state);
-      const publicFields={...participantInfo(shared,{id:c.id,kind:'character'}),initiativePending:shared.active&&profile.hp>profile.derived.death&&state.initiative===null,kind:'character',id:c.id,name:c.name,portrait,occupation:String(identity.occupation??''),sphere:rules.spheres[c.data.creation?.sphere as keyof typeof rules.spheres]?.name??'',health:profile.health};
+      const publicFields={...participantInfo(shared,{id:c.id,kind:'character'}),initiativePending:shared.active&&profile.hp>profile.derived.death&&state.initiative===null,kind:'character',id:c.id,name:c.name,portrait,occupation:String(identity.occupation??''),publicDescription:typeof identity.publicDescription==='string'?identity.publicDescription.slice(0,2000):'',sphere:rules.spheres[c.data.creation?.sphere as keyof typeof rules.spheres]?.name??'',health:profile.health};
       return [{...publicFields,...(manager||c.owner_id===user.id?{sheetVersion:c.version,frenzy:profile.frenzy,hp:profile.hp,pvMax:profile.healthMaximum,pa:profile.pa,paPerRound:state.paPerRound,initiative:state.initiative,round:state.round,stress:profile.stress,revelation:state.revelation,canReadSheet:true}:{})}];
     });
     const events=await pool.query(`SELECT e.id,e.kind,e.payload,e.created_by,e.character_id AS "characterId",c.owner_id AS "ownerId",e.created_at::text AS "createdAt",c.name AS "characterName",u.display_name AS "playerName" FROM character_play_events e JOIN users u ON u.id=e.created_by
