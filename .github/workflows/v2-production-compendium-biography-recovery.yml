@@ -1,0 +1,51 @@
+name: V2 production published biography recovery
+on:
+  push:
+    branches: [feature/tuc-web-v2]
+    paths: [.github/workflows/v2-production-compendium-biography-recovery.yml]
+permissions:
+  contents: read
+concurrency:
+  group: tuc-v2-production
+  cancel-in-progress: false
+jobs:
+  recover:
+    runs-on: ubuntu-latest
+    environment: tuc-dev
+    timeout-minutes: 20
+    env:
+      TUC_DEV_HOST: ${{ secrets.TUC_DEV_HOST }}
+      TUC_DEV_USER: ${{ secrets.TUC_DEV_USER }}
+      TUC_DEV_SSH_KEY: ${{ secrets.TUC_DEV_SSH_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Prepare rule fixtures
+        run: |
+          mkdir -p .v2-rules-data/lore
+          cp compendium/source/current-equipment-catalog-v1.json .v2-rules-data/
+          cp compendium/source/reality-lore-v3-*.json .v2-rules-data/lore/
+          cp character-builder/rulesets/terra-umbra/reality/augmentations.json.gz.b64 .v2-rules-data/
+          cp character-builder/rulesets/terra-umbra/reality/safe/neuroprograms.part01.b64 character-builder/rulesets/terra-umbra/reality/safe/vehicles.part01.b64 .v2-rules-data/
+      - name: Verify published biography and private information
+        working-directory: apps/api
+        env:
+          DATABASE_URL: postgres://audit:audit@127.0.0.1:1/audit
+        run: |
+          npm ci
+          npm run build
+          node scripts/check-published-pnj-biography.mjs
+          node scripts/check-published-pnj-image-edit.mjs
+          node scripts/check-pnj-private-search.mjs
+      - name: Back up and apply targeted production repair
+        shell: bash
+        run: |
+          set -euo pipefail
+          install -m 700 -d ~/.ssh
+          trap 'rm -f ~/.ssh/tuc_prod' EXIT
+          printf '%s\n' "$TUC_DEV_SSH_KEY" > ~/.ssh/tuc_prod
+          chmod 600 ~/.ssh/tuc_prod
+          ssh-keyscan -T 10 -H "$TUC_DEV_HOST" >> ~/.ssh/known_hosts
+          ssh -i ~/.ssh/tuc_prod -o BatchMode=yes -o IdentitiesOnly=yes -o ConnectTimeout=15 "$TUC_DEV_USER@$TUC_DEV_HOST" "bash -s -- '$GITHUB_SHA'" < infrastructure/production/recover-published-biography.sh
