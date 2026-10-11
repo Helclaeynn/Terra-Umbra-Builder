@@ -1,5 +1,11 @@
 # Complément de mécaniques et première passe UX — 10 octobre 2026
 
+**Mise à jour du 11 octobre :** ce lot est désormais déployé en production.
+La [release vérifiée](live-table-release-20261011.md) conserve le Compendium
+édité en production et documente sauvegarde, migration, contrôle en lecture
+seule des fiches/campagnes actives et validation HTTPS. Les mentions de
+déploiement ignoré ci-dessous décrivent les exécutions historiques de CI.
+
 Ce lot relie les procédures finies qui restaient les plus gênantes en partie : variantes électriques, effets occultes sur de vraies cibles, contraintes d’action, Frénésie et charges d’équipement. Il commence aussi à réduire la quantité d’informations affichée simultanément. L’inventaire conserve **2 553 entrées sources**, sans assimiler ce nombre à des pouvoirs entièrement automatisés.
 
 ## Procédures exécutées
