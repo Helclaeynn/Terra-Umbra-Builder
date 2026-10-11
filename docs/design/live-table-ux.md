@@ -30,3 +30,8 @@ et personnage, puis Chrome à 1440, 390 et 320 pixels (modales clavier, conserva
 cible/brouillon, défense active, Foudre/Paratonnerre, consentement, permissions et
 absence de débordement). Cette proposition attend une recette de présentation
 avec l'utilisateur ; aucune publication production n'est incluse dans ce lot.
+
+Complément du 12 octobre : les [vues joueur](player-views/README.md) couvrent
+exploration, combat, jet, attaque, défense, pouvoirs, sac, soins et inspection
+publique d'un autre participant. L'attaque joueur met désormais arme et cible
+au premier plan ; la fiche propre est conservée pendant une inspection publique.
