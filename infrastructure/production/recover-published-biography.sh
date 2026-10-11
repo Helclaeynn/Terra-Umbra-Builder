@@ -35,7 +35,9 @@ ARG BASE
 FROM ${BASE}
 COPY --chown=node:node --chmod=755 compendium-pnj-repairs.js /app/dist/compendium-pnj-repairs.js
 DOCKER
-docker build --pull=false --build-arg "BASE=$previous" -t "tuc-v2-api:biography-${sha:0:12}" "$stage/overlay" </dev/null
+base="tuc-v2-api:before-biography-${sha:0:12}"
+docker tag "$previous" "$base"
+docker build --pull=false --build-arg "BASE=$base" -t "tuc-v2-api:biography-${sha:0:12}" "$stage/overlay" </dev/null
 docker run --rm --network none --entrypoint node "tuc-v2-api:biography-${sha:0:12}" --input-type=module -e "import {applyCompendiumPnjRepairs} from './dist/compendium-pnj-repairs.js'; if(typeof applyCompendiumPnjRepairs !== 'function') process.exit(1);"
 bash production/backup.sh </dev/null
 snapshot_edits() {

@@ -1,4 +1,5 @@
 name: V2 production published biography recovery
+# Local image tag retry; no production containers were changed by the first attempt.
 on:
   push:
     branches: [feature/tuc-web-v2]
