@@ -158,6 +158,10 @@ function repairFinalPnjSurfaces(byId: Map<string, A>) {
   for (const id of fragmented) {
     const article = byId.get(id);
     const section = (article?.sections ?? []).find((item) => item.id === "crawlers-v2-realite");
+    // Une page publiée peut avoir remplacé les sections importées de Word.
+    // Ne pas recréer l'ancienne biographie ni bloquer tout le corpus pour elle.
+    // Les sources statiques conservent leur contrôle strict.
+    if (!section && article?.__wikiPublishedEdit === true) continue;
     if (!section) throw new Error(`Biographie fragmentée introuvable : ${id}`);
     const joined: J[] = [];
     for (const block of section.blocks ?? []) {
