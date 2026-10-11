@@ -9,21 +9,22 @@ import {hourlyRecovery,naniteStatus} from '../../../api/src/rules/live-mechanics
 import {natureResourceProfile} from '../../../api/src/rules/live-nature-resources';
 import {vampireStatus} from '../../../api/src/rules/live-vampire';
 import {frenzyDedicatedIds} from '../../../api/src/rules/live-frenzy';
-import {computed,onMounted,onUnmounted,ref} from 'vue';
+import {computed,onMounted,onUnmounted,ref,watch} from 'vue';
 import {playPortrait} from '../../../api/src/character-appearances';
 import {truthPowers,powerAllowed,formAvailable} from '../../../api/src/rules/play-truth';
 import {api,ApiError} from '../lib/api';
 import {blankPlayState,playProfile,type PlayState} from '../../../api/src/rules/play-state';
 import type {CharacterDataV2} from '../types/character';
 import type {CharacterSheet} from '../lib/character-sheet';
-const emit=defineEmits<{ready:[];changed:[]}>();
-const props=defineProps<{id:string;data:CharacterDataV2;sheet:CharacterSheet;canEdit:boolean;combatMode?:boolean}>();
+const emit=defineEmits<{ready:[];changed:[];navigate:[tab:string]}>();
+const props=defineProps<{id:string;data:CharacterDataV2;sheet:CharacterSheet;canEdit:boolean;combatMode?:boolean;focusTab?:string;compact?:boolean}>();
 const state=ref<PlayState>(blankPlayState()),version=ref(0),loaded=ref(false),busy=ref(false),error=ref(''),notice=ref(''),dirty=ref(false);
 const tab=ref('jets'),skillQuery=ref(''),edge=ref(0),useEdge=ref(false),escapeEvent=ref<string|null>(null);
 const tabs=[['jets','Jets'],['states','États & PV'],['truth','Pouvoirs'],['equipment','Équipement']];
 const extraTabs=[['rest','Repos'],['rules','Mes règles'],['history','Historique']];
 const moreOpen=ref(false),expandedGroups=ref(['vigueur']),equipmentQuery=ref('');
-function selectTab(key:string){tab.value=key;moreOpen.value=false;}
+function selectTab(key:string){tab.value=key;moreOpen.value=false;emit('navigate',key);}
+watch(()=>props.focusTab,key=>{if(key)selectTab(key);},{immediate:true});
 function rememberGroup(event:Event,id:string){if(skillQuery.value)return;const open=(event.target as HTMLDetailsElement).open;expandedGroups.value=open?[...new Set([...expandedGroups.value,id])]:expandedGroups.value.filter(key=>key!==id);}
 const clean=(s:string)=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase('fr');
 const campaignId=ref<string|null>(null),combat=ref<any>(null);
@@ -105,7 +106,7 @@ onMounted(()=>{void load();timer=setInterval(()=>{if(document.visibilityState===
 onUnmounted(()=>{alive=false;clearInterval(timer);});
 </script>
 <template>
-<section class="play-panel" aria-label="Personnage en jeu">
+<section class="play-panel" :class="{'compact-play':compact}" aria-label="Personnage en jeu">
   <header><img v-if="portrait" :src="portrait" :alt="sheet.name" style="width:72px;height:96px;object-fit:cover;border-radius:6px" /><div><p class="eyebrow">EN JEU</p><h2>{{ sheet.name }}</h2></div><a class="ghost" :href="`/characters/${id}/play`" target="_blank" rel="noopener">Ouvrir dans un onglet dédié ↗</a></header>
   <p v-if="error" role="alert">{{ error }}</p><p v-if="notice" role="status">{{ notice }}</p>
   <p v-if="!loaded">Chargement de l’état en jeu…</p>
@@ -189,3 +190,5 @@ onUnmounted(()=>{alive=false;clearInterval(timer);});
 @media(max-width:600px){.play-panel{padding:12px;gap:12px}.play-panel fieldset{padding:10px}.play-dock{padding:8px;top:var(--play-dock-offset,4px)}.play-vitals{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px}.combat-vitals{grid-column:1/-1;display:flex;justify-content:space-between;gap:10px}.play-vitals strong{font-size:.95rem}.play-vitals .health-shortcut{padding:4px}.play-tabs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.play-more{grid-column:1/-1;justify-self:end}.play-panel header .ghost{font-size:.85rem}.rule-card summary{flex-wrap:wrap;gap:6px}}
 @media(max-width:400px){.skill-line{grid-template-columns:minmax(0,1fr) auto;gap:6px}.skill-line>strong{grid-column:1}.skill-line>span{grid-column:1}.skill-line>button{grid-column:2;grid-row:1/3}.roll-detail-label{width:100%;margin:0}.roll-breakdown{gap:8px}.play-panel header img{width:48px!important;height:64px!important}}
 </style>
+
+<style scoped>.compact-play>header{display:none}.compact-play .play-tabs{display:flex;justify-content:flex-end}.compact-play .play-tabs>button{display:none}.compact-play .play-dock{position:static}.compact-play{border:0;padding:0}.compact-play .play-fields{gap:10px}</style>

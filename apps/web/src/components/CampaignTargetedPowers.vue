@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import {computed,onMounted,onUnmounted,ref,watch} from 'vue';
 import {api,ApiError} from '../lib/api';
-const props=defineProps<{campaignId:string;room:any}>(),emit=defineEmits<{changed:[]}>();
+const props=defineProps<{campaignId:string;room:any}>(),emit=defineEmits<{changed:[];attention:[count:number]}>();
 const endpoint=`/api/campaigns/${props.campaignId}/targeted-powers`;
 const open=ref(false),snapshot=ref<any>(null),sourceId=ref(''),targetId=ref(''),powerId=ref('');
 const confirmed=ref(false),inscribed=ref(false),pursuesImpulse=ref(false),edge=ref(false),busy=ref(false),error=ref(''),loadError=ref(''),notice=ref(''),pending=ref<any>(null);
 let loading=false,alive=true,timer:ReturnType<typeof setInterval>|undefined;
 const attention=computed(()=>(snapshot.value?.offers??[]).filter((offer:any)=>offer.canAccept).length);
+watch(attention,count=>emit('attention',count),{immediate:true});
 const sources=computed(()=>(snapshot.value?.sources??[]).filter((s:any)=>s.powers.length));
 const source=computed(()=>sources.value.find((s:any)=>s.id===sourceId.value));
 const power=computed(()=>source.value?.powers.find((p:any)=>p.id===powerId.value));

@@ -7,8 +7,8 @@ import {ensureTruthRulesPackage,type TruthRulesPackage} from '../lib/truth';
 import type {RealityRulesPackage} from '../lib/reality';
 import CharacterPlay from './CharacterPlay.vue';
 import CharacterSummary from './builder/CharacterSummary.vue';
-const emit=defineEmits<{changed:[]}>();
-const props=defineProps<{characterId:string;campaignId:string;sheetVersion?:number;combatMode?:boolean}>();
+const emit=defineEmits<{changed:[];navigate:[tab:string]}>();
+const props=defineProps<{characterId:string;campaignId:string;sheetVersion?:number;combatMode?:boolean;focusTab?:string;compact?:boolean}>();
 const character=shallowRef<Character|null>(null),core=shallowRef<SheetCore|null>(null),truth=shallowRef<TruthRulesPackage|null>(null),reality=shallowRef<RealityRulesPackage|null>(null),canEdit=ref(false),error=ref('');
 let alive=true;const controller=new AbortController();
 const sheet=computed(()=>character.value&&core.value&&truth.value&&reality.value?buildCharacterSheet(character.value.data,core.value,truth.value,reality.value,true,character.value.name):null);
@@ -16,5 +16,5 @@ onMounted(async()=>{try{const options={signal:controller.signal};const [r,c,t,e]
 watch(()=>props.sheetVersion,async()=>{if(!character.value)return;try{const r=await api<{character:Character;canEdit:boolean}>(`/api/characters/${props.characterId}/sheet`,{signal:controller.signal});if(alive){character.value=r.character;canEdit.value=r.canEdit;}}catch{if(alive)error.value='Impossible d’actualiser la fiche après sa modification.';}});
 onUnmounted(()=>{alive=false;controller.abort();});
 </script>
-<template><section class="character-at-table"><p v-if="error" role="alert">{{ error }}</p><template v-else-if="sheet&&character"><CharacterPlay :id="characterId" :data="character.data" :sheet="sheet" :can-edit="canEdit" :combat-mode="combatMode" @changed="emit('changed')" /><details class="full-character-sheet"><summary>Fiche complète de {{ character.name }}</summary><a :href="`/characters/${characterId}/play?campaign=${campaignId}`" target="_blank" rel="noopener">Ouvrir la fiche dans un nouvel onglet ↗</a><CharacterSummary :sheet="sheet" /></details></template><p v-else role="status">Chargement de la fiche en jeu…</p></section></template>
+<template><section class="character-at-table"><p v-if="error" role="alert">{{ error }}</p><template v-else-if="sheet&&character"><CharacterPlay :id="characterId" :data="character.data" :sheet="sheet" :can-edit="canEdit" :combat-mode="combatMode" :focus-tab="focusTab" :compact="compact" @changed="emit('changed')" @navigate="emit('navigate',$event)" /><details class="full-character-sheet"><summary>Fiche complète de {{ character.name }}</summary><a :href="`/characters/${characterId}/play?campaign=${campaignId}`" target="_blank" rel="noopener">Ouvrir la fiche dans un nouvel onglet ↗</a><CharacterSummary :sheet="sheet" /></details></template><p v-else role="status">Chargement de la fiche en jeu…</p></section></template>
 <style scoped>.character-at-table{min-width:0}.full-character-sheet>a{display:inline-block;padding:12px;color:#b7efff}.character-at-table summary{padding:16px;cursor:pointer}</style>
