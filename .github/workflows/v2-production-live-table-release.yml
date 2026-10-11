@@ -1,0 +1,65 @@
+name: V2 production live table mechanics and UX release
+on:
+  push:
+    branches: [feature/tuc-web-v2]
+    paths: [.github/workflows/v2-production-live-table-release.yml]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: tuc-v2-production
+  cancel-in-progress: false
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    environment: tuc-dev
+    timeout-minutes: 25
+    env:
+      TUC_DEV_HOST: ${{ secrets.TUC_DEV_HOST }}
+      TUC_DEV_USER: ${{ secrets.TUC_DEV_USER }}
+      TUC_DEV_SSH_KEY: ${{ secrets.TUC_DEV_SSH_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 5
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Require fully validated gameplay source
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          source=7d12bbc4f4757afb1117437989d262861bfd2708
+          git merge-base --is-ancestor "$source" HEAD
+          test -z "$(git diff "$source" HEAD -- apps compendium character-builder infrastructure/migrations)"
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/38173490433" --jq 'select(.head_sha == "7d12bbc4f4757afb1117437989d262861bfd2708" and .conclusion == "success") | .id' | grep -q 38173490433
+      - name: Compile validated application and package gameplay overlay
+        run: |
+          set -euo pipefail
+          cd apps/api
+          npm ci
+          npm run build
+          cd ../web
+          npm ci
+          npm run build
+          cd ../..
+          python3 infrastructure/production/package-live-release.py
+      - name: Back up, validate existing campaigns and deploy production
+        shell: bash
+        run: |
+          set -euo pipefail
+          install -m 700 -d ~/.ssh
+          trap 'rm -f ~/.ssh/tuc_prod' EXIT
+          printf '%s\n' "$TUC_DEV_SSH_KEY" > ~/.ssh/tuc_prod
+          chmod 600 ~/.ssh/tuc_prod
+          ssh-keyscan -T 10 -H "$TUC_DEV_HOST" >> ~/.ssh/known_hosts
+          SSH="ssh -i ~/.ssh/tuc_prod -o BatchMode=yes -o IdentitiesOnly=yes -o ConnectTimeout=15"
+          $SSH "$TUC_DEV_USER@$TUC_DEV_HOST" 'test -f /opt/terra-umbra/production-active'
+          $SSH "$TUC_DEV_USER@$TUC_DEV_HOST" 'bash -s' < infrastructure/production/cleanup-playtest-cache.sh
+          stage="/opt/terra-umbra/releases/live-table-$GITHUB_SHA"
+          $SSH "$TUC_DEV_USER@$TUC_DEV_HOST" "mkdir -m 700 -p '$stage'"
+          rsync -az -e "$SSH" /tmp/live-table-release.tar.gz "$TUC_DEV_USER@$TUC_DEV_HOST:$stage/"
+          $SSH "$TUC_DEV_USER@$TUC_DEV_HOST" "tar -xzf '$stage/live-table-release.tar.gz' -C '$stage'"
+          $SSH "$TUC_DEV_USER@$TUC_DEV_HOST" "bash -s -- '$GITHUB_SHA'" < infrastructure/production/release-live-table.sh
