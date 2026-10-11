@@ -13,12 +13,12 @@ en production. Le scénario de génération est `live-table-player-views.mjs`.
 | [Combat](03-combat.png) | Ordre des passes, PV/PA personnels, état restreint des autres participants |
 | [Attaque](04-attaque.png) | Arme possédée et cible d'abord ; filtres, bonus et situation repliés ; calcul détaillé |
 | [Pouvoirs](05-pouvoirs.png) | Exemple de Garou : Révélation, forme et commandes de transformation |
-| [Inventaire](06-inventaire.png) | Objets possédés, filtre, détail ouvert, train de vie et possessions |
+| [Inventaire](06-inventaire.png) | Objets possédés, filtre, détail ouvert, liens Compendium et aperçu illustré au survol / clavier / bouton tactile |
 | [État et soins](07-soins.png) | PV, soins, Stress, conscience et réglages personnels |
 | [Défense](08-defense.png) | Attaque reçue et choix de défense du personnage ciblé |
 | [Mobile 390 px](09-mobile-390.png) | Table et barre d'actions personnelle sans débordement horizontal |
 | [Mobile 320 px](09-mobile-320.png) | Même parcours sur un petit écran |
-| [Autre joueur](10-autre-joueur.png) | Nom, occupation, Sphère et blessure ; aucun PV exact ni commande privée |
+| [Autre joueur](10-autre-joueur.png) | Portrait agrandi et zoomable, nom, occupation, Sphère, blessure et description publique facultative ; aucun PV exact ni commande privée |
 
 Deux ajustements découlent de cette recette : le formulaire d'attaque joueur
 met l'arme et la cible au premier plan, et les autres portraits indiquent
@@ -32,3 +32,12 @@ de la recherche personnelle après inspection d'un tiers ; contrôles de largeur
 à 390 et 320 pixels. Le scénario est exécuté dans la recette Chrome de CI.
 Les suites de combat et de table existantes vérifient également les calculs et
 requêtes inchangés. Cette proposition n'est pas déployée en production.
+
+Le builder propose désormais « Ce que les autres voient / savent » (facultatif,
+2 000 caractères), également consultable dans la fiche complète du propriétaire
+et du MJ. Ce texte seul est projeté avec les informations publiques ;
+les notes / background et objectifs restent privés. L’inventaire intégral reste
+réservé au propriétaire et au MJ. Les objets liés au Compendium ouvrent leur
+fiche dans un nouvel onglet et chargent une illustration à la demande, via
+l’API filtrée selon les droits de la personne connectée. Aucune image n’est
+inventée lorsqu’un article n’en possède pas.

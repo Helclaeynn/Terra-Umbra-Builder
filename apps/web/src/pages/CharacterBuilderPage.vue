@@ -1915,6 +1915,11 @@ onBeforeUnmount(()=>{
 
               <div class="narrative-grid">
                 <label>
+                  Ce que les autres voient / savent (facultatif)
+                  <textarea v-model="draft.identity.publicDescription" rows="4" maxlength="2000"></textarea>
+                  <small class="field-help">Visible par les autres joueurs dans la table en jeu : apparence, attitude, faits connus ou possessions visibles. Gardez vos secrets dans les notes / background.</small>
+                </label>
+                <label>
                   Concept
                   <textarea v-model="draft.identity.concept" rows="3"></textarea>
                   <small class="field-help">Une phrase qui résume l’idée du personnage : rôle, tempérament, contradiction ou image forte.</small>

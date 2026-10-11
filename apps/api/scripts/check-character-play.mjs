@@ -20,7 +20,7 @@ const {registerCampaignSessionRoutes}=await import('../dist/campaign-sessions.js
 const {registerCharacterPlayRoutes}=await import('../dist/character-play.js');
 const {registerCampaignRewardRoutes}=await import('../dist/campaign-rewards.js');
 const {registerCharacterMediaRoutes}=await import('../dist/character-media.js');
-const {blankCharacterData}=await import('../dist/character-data.js');
+const {blankCharacterData,normalizeCharacterData}=await import('../dist/character-data.js');
 const {getRealityRules}=await import('../dist/rules/reality.js');
 const {builderPurchaseAllowed}=await import('../dist/rules/builder-equipment-policy.js');
 const app=Fastify();await registerCharacterPlayRoutes(app);await registerCampaignSessionRoutes(app);await registerCampaignRewardRoutes(app);await registerCharacterMediaRoutes(app);
@@ -30,6 +30,7 @@ async function call(user,method,url,payload,status=200){const r=await app.inject
 try{
  const player=await account('player'),other=await account('player'),manager=await account('gm'),stranger=await account('gm');
  const data=blankCharacterData('CI Play');data.attributes.vigueur=4;data.skills.athletisme={style:6,free:0,edge:0};data.skills.constitution={style:4,free:0,edge:0};data.creation.sphere='';
+ data.identity.publicDescription='Une veste de terrain.\nUn visage connu des docks.';data.identity.notes='Secret privé du personnage';data.identity.objective='Objectif privé';assert.equal(normalizeCharacterData(data,'CI').identity.publicDescription,data.identity.publicDescription);assert.equal(normalizeCharacterData({identity:{publicDescription:'x'.repeat(2100)}},'CI').identity.publicDescription.length,2000);assert.equal(normalizeCharacterData({identity:{publicDescription:123}},'CI').identity.publicDescription,'');
  const state=blankPlayState();assert.equal(playProfile(data,state).skills.find(s=>s.id==='athletisme').total,10);
  state.bonuses=[{id:'power',label:'Pouvoir',skill:'athletisme',amount:3,truth:true,enabled:true}];
  for(const revelation of ['v','sr','r']){state.revelation=revelation;assert.equal(playProfile(data,state).skills.find(s=>s.id==='athletisme').total,revelation==='r'?13:10);}
@@ -42,7 +43,7 @@ try{
  await pool.query("INSERT INTO campaign_members(campaign_id,user_id,status,character_id,admission_status,approved_basis) SELECT $1,$2,'accepted',id,'approved',campaign_character_basis(data) FROM characters WHERE id=$3",[campaign,player.id,character]);await pool.query("INSERT INTO campaign_members(campaign_id,user_id,status) VALUES($1,$2,'accepted')",[campaign,other.id]);
  const path=`/api/characters/${character}/play`;
  await call(null,'GET',path,undefined,401);await call(other,'GET',path,undefined,404);await call(stranger,'GET',path,undefined,404);assert.equal((await call(manager,'GET',path)).canEdit,false);
- assert.equal((await call(player,'GET',path)).state.share,true);assert.equal((await call(other,'GET',`/api/campaigns/${campaign}/play`)).characters.length,1);
+ assert.equal((await call(player,'GET',path)).state.share,true);const publicRoom=await call(other,'GET',`/api/campaigns/${campaign}/play`);assert.equal(publicRoom.characters.length,1);assert.equal(publicRoom.characters[0].publicDescription,data.identity.publicDescription);assert.ok(!JSON.stringify(publicRoom).includes('Secret privé'));assert.ok(!JSON.stringify(publicRoom).includes('Objectif privé'));assert.equal(publicRoom.characters[0].hp,undefined);
  let live=await call(player,'GET',path);const saved=await call(player,'POST',path,{requestId:randomUUID(),version:0,action:'save',state:{...live.state,share:true}});assert.equal(saved.version,1);
  await call(manager,'POST',path,{requestId:randomUUID(),version:1,action:'damage',amount:1},404);
  const damage={requestId:randomUUID(),version:1,action:'damage',amount:6};const damaged=await call(player,'POST',path,damage);assert.equal(damaged.profile.hp,6);assert.equal(damaged.profile.stress,1);assert.equal((await call(player,'POST',path,damage)).alreadyApplied,true);await call(player,'POST',path,{...damage,requestId:randomUUID()},409);

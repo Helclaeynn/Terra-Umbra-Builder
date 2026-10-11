@@ -53,7 +53,9 @@ assert.equal(d.querySelector('[data-nature-guide] a').getAttribute('target'),'_b
 d.querySelector('[data-nature-guide] summary').click();await wait(0);assert.equal(save().disabled,true,'Opening a reminder does not edit the character');
 step('Identité').click();await until(()=>alias());
 const helpers=w.draftHelpers;assert.equal(helpers.builderDraftFingerprint(stored.data),helpers.builderDraftFingerprint(jsonb(stored.data)),'JSONB order is irrelevant');
+const publicText=[...d.querySelectorAll('label')].find(el=>el.textContent.includes('Ce que les autres voient / savent'))?.querySelector('textarea');assert.ok(publicText,'Optional public description is available in the builder');assert.equal(publicText.maxLength,2000);publicText.value='Veste sombre.\nConnue dans les docks.';publicText.dispatchEvent(new w.Event('input',{bubbles:true}));
 edit('Recorded alias');await until(()=>!save().disabled);save().click();await until(()=>stored.version===5&&save()?.disabled&&save()?.textContent.trim()==='Enregistré','Save must end clean after the reactive flush');
+assert.equal(stored.data.identity.publicDescription,'Veste sombre.\nConnue dans les docks.','Public text persists through the ordinary character save');
 const unloaded=new w.Event('beforeunload',{cancelable:true});w.dispatchEvent(unloaded);assert.equal(unloaded.defaultPrevented,false,'No false native dialog after save');account().click();await until(()=>d.querySelector('.account-grid'));assert.equal(confirms,0,'Saved return to account has no dialogs');
 // Repeated builder/progression mounts must not leave stale guards behind.
 for(let n=0;n<6;n++){
