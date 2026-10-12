@@ -1,3 +1,4 @@
+import {APPROVED_PNJ_ALIASES} from "../dist/compendium-pnj-approved-merges.js";
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {resolve} from 'node:path';
@@ -33,6 +34,7 @@ const byId=new Map(corpus.articles.map(a=>[a.id,a]));
 const app=Fastify();await registerCompendiumRoutes(app);
 const publicText=JSON.stringify(corpus.publicArticles);
 for(const item of manifest.items){
+ if(APPROVED_PNJ_ALIASES[item.id]){const merged=byId.get(APPROVED_PNJ_ALIASES[item.id]);assert.ok(merged);assert.ok([merged.image,...(merged.gallery??[])].some(media=>media?.src===item.src));continue;}
  const a=byId.get(item.id);assert.ok(a,item.id);
  assert.equal(a.image?.src,item.src,item.id);
  assert.equal(a.pnj?.portrait,item.src,item.id);
@@ -49,6 +51,7 @@ for(const item of new Map(manifest.items.map(x=>[x.src,x])).values()){
  if(item.visibility==='public')assert.equal(res.headers['content-type'],'image/webp');
 }
 for(const entry of manifest.articles){
+ if(APPROVED_PNJ_ALIASES[entry.id]){assert.ok(!byId.has(entry.id));assert.ok(byId.has(APPROVED_PNJ_ALIASES[entry.id]));continue;}
  const a=byId.get(entry.id);assert.equal(a.title,entry.name);
  assert.equal(a.pnj.completeness,'portrait_only');
  for(const k of ['nature','organisation','statut','age','origine'])assert.equal(a.pnj[k],'',entry.id+' '+k);

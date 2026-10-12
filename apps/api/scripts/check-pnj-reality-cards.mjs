@@ -5,7 +5,7 @@ pg.Pool.prototype.query = async () => ({ rows: [], rowCount: 0 });
 const { getCompendiumQualityCorpus } = await import("../dist/compendium.js");
 const corpus = await getCompendiumQualityCorpus();
 const active = corpus.articles.filter((article) => article.category === "Personnages");
-assert.equal(active.length, 918);
+assert.equal(active.length, 917);
 const article = (id, publicView = false) =>
   (publicView ? corpus.publicArticles : corpus.articles).find((item) => item.id === id);
 const rows = (id) => article(id).sections[0].blocks[0].rows;
