@@ -49,6 +49,8 @@ export function applyApprovedPnjMerges(byId:Map<string,Article>):void{
       const noteId='merged-karamov-source-discrepancy';
       if(!merged.sections.some((s:any)=>s.id===noteId))merged.sections.push({id:noteId,title:'Écart entre les sources · MJ',level:2,audience:'mj',blocks:[{type:'p',text:'La source Crawlers indique 69 ans ; la fiche Fléaux indique 59 ans. Les deux mentions sont conservées pour arbitrage éditorial. Le profil principal reste celui de la fiche Fléaux.'}]});
     }
+    const profile=merged.sections.find((section:any)=>section.id==='profil-statistique');
+    if(profile)merged.sections=[...merged.sections.filter((section:any)=>section!==profile),profile];
     byId.set(id,merged);byId.delete(alias);
   }
 }

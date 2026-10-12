@@ -1,3 +1,4 @@
+import {APPROVED_PNJ_ALIASES,approvedAliasArticle} from "../dist/compendium-pnj-approved-merges.js";
 import assert from 'node:assert/strict';
 import { resolve } from 'node:path';
 
@@ -15,7 +16,9 @@ const { articles, publicArticles } = await getCompendiumQualityCorpus();
 const { REVIEWED_CATALOGUE_BATCH_01_LINKS, REVIEWED_CATALOGUE_BATCH_01_TAGS } =
   await import('../dist/compendium-reviewed-catalogue-batch-01.js');
 const byId = new Map(articles.map(article => [article.id, article]));
+for(const [alias,id] of Object.entries(APPROVED_PNJ_ALIASES)){const article=byId.get(id);if(article)byId.set(alias,approvedAliasArticle(article,alias));}
 const publicById = new Map(publicArticles.map(article => [article.id, article]));
+for(const [alias,id] of Object.entries(APPROVED_PNJ_ALIASES)){const article=publicById.get(id);if(article)publicById.set(alias,approvedAliasArticle(article,alias));}
 const unapplied = [];
 for (const entry of REVIEWED_CATALOGUE_BATCH_01_LINKS) {
   const source = byId.get(entry.articleId);
