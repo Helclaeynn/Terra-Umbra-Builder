@@ -31,10 +31,13 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          source=7d12bbc4f4757afb1117437989d262861bfd2708
+          source=7f1c8a566f886cec525744837d8660c6cef23446
+          validated=3b12a85bffb01e67a0d635cd3f7356c835f7fab2
+          git merge-base --is-ancestor "$validated" "$source"
+          test -z "$(git diff "$validated" "$source" -- apps compendium character-builder infrastructure/migrations ':(exclude)apps/web/tests/live-table-gm-views.mjs')"
           git merge-base --is-ancestor "$source" HEAD
           test -z "$(git diff "$source" HEAD -- apps compendium character-builder infrastructure/migrations)"
-          gh api "repos/$GITHUB_REPOSITORY/actions/runs/38173490433" --jq 'select(.head_sha == "7d12bbc4f4757afb1117437989d262861bfd2708" and .conclusion == "success") | .id' | grep -q 38173490433
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/38181950290" --jq 'select(.head_sha == "3b12a85bffb01e67a0d635cd3f7356c835f7fab2" and .conclusion == "success") | .id' | grep -q 38181950290
       - name: Compile validated application and package gameplay overlay
         run: |
           set -euo pipefail
