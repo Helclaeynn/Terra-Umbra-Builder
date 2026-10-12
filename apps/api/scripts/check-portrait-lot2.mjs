@@ -1,3 +1,4 @@
+import {APPROVED_PNJ_ALIASES} from "../dist/compendium-pnj-approved-merges.js";
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {resolve} from 'node:path';
@@ -26,12 +27,12 @@ const publicById = new Map(corpus.publicArticles.map(article => [article.id, art
 const newIds = new Set(newPages.map(entry => entry.id));
 assert.equal(newIds.size, newPages.length);
 for (const item of items) {
-  assert.ok(byId.has(item.id), `Missing active PNJ: ${item.id}`);
+  assert.ok(byId.has(APPROVED_PNJ_ALIASES[item.id]??item.id), `Missing active PNJ: ${item.id}`);
   const bytes = await readFile(resolve(mediaDir, item.src));
   assert.ok(bytes.length > 5000, item.src);
   assert.equal(bytes.subarray(0, 4).toString('ascii'), 'RIFF', item.src);
   assert.equal(bytes.subarray(8, 12).toString('ascii'), 'WEBP', item.src);
-  const article = byId.get(item.id);
+  const article = byId.get(APPROVED_PNJ_ALIASES[item.id]??item.id);
   const images = [article.image?.src, article.illustration?.src, article.pnj?.portrait,
     ...(article.gallery ?? []).map(media => media.src)];
   if (/^images\/portraits\/lot-[34]\//.test(article.image?.src ?? '')) {
@@ -56,6 +57,7 @@ for (const item of items) {
   }
 }
 for (const entry of newPages) {
+  if(APPROVED_PNJ_ALIASES[entry.id]){assert.ok(byId.has(APPROVED_PNJ_ALIASES[entry.id]));assert.ok(!byId.has(entry.id));continue;}
   const article = byId.get(entry.id);
   assert.equal(article.pnj?.completeness, 'portrait_only', entry.id);
   assert.ok(article.sections?.find(section => section.id === 'profil-statistique'), entry.id);

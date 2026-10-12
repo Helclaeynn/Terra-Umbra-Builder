@@ -1,3 +1,4 @@
+import {APPROVED_PNJ_ALIASES,applyApprovedPnjMerges,approvedAliasArticle} from "./compendium-pnj-approved-merges.js";
 import {restoreArmorProperties} from './compendium-armor-properties.js';
 import { applyReviewedLoreTaxonomy } from "./compendium-reviewed-lore-taxonomy.js";
 import { applyBestiaryBalance, BESTIARY_BALANCE_VERSION } from "./compendium-bestiary-balance.js";
@@ -441,6 +442,7 @@ const RELIGION_ARCHIVE_ID_REMAP: Record<string, string> = {
 };
 const activeReligionPnjId = (id: string) => RELIGION_ARCHIVE_ID_REMAP[id] ?? id;
 const MERGED_PNJ_ALIAS_IDS: Record<string, string> = {
+  ...APPROVED_PNJ_ALIASES,
   "pnj-crawlers-antisysteme-p52-ciara-macfarlane": "pnj-religions-ciara-mcfarlane"
 };
 const PROTECTED_REBUILD_CATEGORIES = new Set(["Équipement & Objets", "Bestiaire"]);
@@ -4043,6 +4045,8 @@ async function loadCorpus(): Promise<Corpus> {
   for (const article of byId.values()) {
     applyPortraitOverrides(article, overrideByArticle.get(article.id) ?? []);
   }
+  applyApprovedPnjMerges(byId);
+  for(const alias of Object.keys(APPROVED_PNJ_ALIASES))navigation.delete(alias);
   const articles = [...byId.values()].sort(compareArticles);
   const publicArticles = articles.filter((article) => !isMjOnlyArticle(article)).map((article) => { const publicArticle=articleForAudience(article,false); publicArticle.__searchText=norm(flattenText(publicArticle)); return publicArticle; });
   const publicById = new Map(publicArticles.map((article) => [article.id, article]));
@@ -4407,9 +4411,10 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
     const user = await currentUser(request);
     const includeMj = canReadMj(user?.role);
     const canonicalId = MERGED_PNJ_ALIAS_IDS[id] ?? id;
-    const article = includeMj
+    const resolved = includeMj
       ? corpus.byId.get(PROTECTED_ARTICLE_SOURCE_IDS[canonicalId] ?? canonicalId)
       : corpus.publicById.get(PROTECTED_ARTICLE_PUBLIC_IDS[canonicalId] ?? canonicalId);
+    const article = resolved ? approvedAliasArticle(resolved,id) : undefined;
     if (!article) return reply.code(404).send({ error: "compendium_article_not_found" });
 
     const sectionId = String(request.query.section ?? "").trim();
@@ -5097,7 +5102,8 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
     const user = await requireEditor(request, reply);
     if (!user) return;
 
-    const id = request.params.id.trim();
+    const requestedId = request.params.id.trim();
+    const id = APPROVED_PNJ_ALIASES[requestedId] ?? requestedId;
     const corpus = await getCorpus();
     const article = await editorCurrentArticle(id, corpus);
     const base = await editorBaseFor(id, corpus);
@@ -5142,7 +5148,8 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
     const user = await requireEditor(request, reply);
     if (!user) return;
 
-    const id = request.params.id.trim();
+    const requestedId = request.params.id.trim();
+    const id = APPROVED_PNJ_ALIASES[requestedId] ?? requestedId;
     const corpus = await getCorpus();
     const current = await editorCurrentArticle(id, corpus);
     const base = await editorBaseFor(id, corpus);
@@ -5177,7 +5184,8 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
     const user = await requireEditor(request, reply);
     if (!user) return;
 
-    const id = request.params.id.trim();
+    const requestedId = request.params.id.trim();
+    const id = APPROVED_PNJ_ALIASES[requestedId] ?? requestedId;
     const corpus = await getCorpus();
     if (!(await editorBaseFor(id, corpus))) {
       return reply.code(404).send({ error: "compendium_article_not_found" });
@@ -5200,7 +5208,8 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
     const user = await requireEditor(request, reply);
     if (!user) return;
 
-    const id = request.params.id.trim();
+    const requestedId = request.params.id.trim();
+    const id = APPROVED_PNJ_ALIASES[requestedId] ?? requestedId;
     const corpus = await getCorpus();
     const base = await editorBaseFor(id, corpus);
     if (!base) return reply.code(404).send({ error: "compendium_article_not_found" });
@@ -5290,9 +5299,10 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
     const user = await currentUser(request);
     const includeMj = canReadMj(user?.role);
     const canonicalId = MERGED_PNJ_ALIAS_IDS[id] ?? id;
-    const article = includeMj
+    const resolved = includeMj
       ? corpus.byId.get(PROTECTED_ARTICLE_SOURCE_IDS[canonicalId] ?? canonicalId)
       : corpus.publicById.get(PROTECTED_ARTICLE_PUBLIC_IDS[canonicalId] ?? canonicalId);
+    const article = resolved ? approvedAliasArticle(resolved,id) : undefined;
     if (!article) {
       return reply.code(404).send({ error: "compendium_article_not_found" });
     }

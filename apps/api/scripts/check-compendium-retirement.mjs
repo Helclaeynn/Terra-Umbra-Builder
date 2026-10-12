@@ -1,3 +1,4 @@
+import {APPROVED_PNJ_ALIASES} from "../dist/compendium-pnj-approved-merges.js";
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import fastify from "fastify";
@@ -76,12 +77,13 @@ const portraitOnly = JSON.parse(await readFile("../../compendium/source/portrait
 const refreshedPortraits = JSON.parse(await readFile("../../compendium/source/portrait-refresh-20260926.json", "utf8")).articles;
 const hunterPortraits = JSON.parse(await readFile("../../compendium/source/portrait-refresh-chasseurs-20260926.json", "utf8")).articles;
 const portraitPageIds = new Set([...portraitOnly, ...refreshedPortraits, ...hunterPortraits].map(article => article.id));
+for(const alias of Object.keys(APPROVED_PNJ_ALIASES))portraitPageIds.delete(alias);
 for (const id of portraitPageIds) {
   assert.ok(characters.some(article => article.id === id && article.pnj?.completeness === "portrait_only"),
     `${id}: portrait-only character remains active`);
 }
-assert.equal(characters.length, 918 + portraitPageIds.size);
-assert.equal(characters.filter((article) => article.pnj?.completeness !== "portrait_only").length, 918);
+assert.equal(characters.length, 917 + portraitPageIds.size);
+assert.equal(characters.filter((article) => article.pnj?.completeness !== "portrait_only").length, 917);
 const restoredWeapons = JSON.parse(await readFile("../../compendium/source/sharp-weapons-restoration-v1.json", "utf8"))
   .entries.filter((entry) => entry.disposition === "add");
 const equipment = fresh.articles.filter((article) => article.category === "Équipement & Objets");

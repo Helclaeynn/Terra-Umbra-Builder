@@ -80,7 +80,9 @@ jobs:
         working-directory: apps/api
         env:
           DATABASE_URL: postgres://audit:audit@127.0.0.1:1/audit
-        run: node scripts/check-published-pnj-biography.mjs
+        run: |
+          node scripts/check-published-pnj-biography.mjs
+          node scripts/check-approved-pnj-merges.mjs
 
       - name: Check reviewed Compendium links and privacy
         working-directory: apps/api
