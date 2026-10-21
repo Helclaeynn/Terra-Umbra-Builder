@@ -57,6 +57,7 @@ async function run(printing:boolean){
       <button type="button" class="ghost" :disabled="busy||!input" @click="run(false)">Exporter la fiche de personnage en PDF</button>
       <button type="button" class="ghost" :disabled="busy||!input" @click="run(true)">Imprimer la fiche de personnage</button>
     </div>
+    <p>Pack de Nature : fiche pages 1-4, BG optionnel pages 5-6, aide pages 7-8. Recto-verso : bord long.</p>
     <p v-if="notice" role="status" aria-live="polite">{{ notice }}</p>
     <p v-if="error" role="alert">{{ error }}</p>
     <a v-if="downloadUrl" :href="downloadUrl" :download="downloadName">Télécharger le dernier PDF préparé</a>
