@@ -1,8 +1,10 @@
-# Tension du Voile — proposition de règle (v1, à valider par l'auteur)
+# Relation au Voile — proposition de règle (v1, à valider par l'auteur)
+
+Anciennement « Tension du Voile » (nom des fiches papier de l'auteur).
 
 Rédigée le 29 octobre 2026 à partir du principe donné par l'auteur (aucun texte complet n'existe). Branchée sur les règles existantes : états V/SR/R et correction des souvenirs (Socle Vérité, chapitre 5), Ombremonde « hors de la traduction » et fissures dans les lieux peu observés (Bestiaire V17, Secrets majeurs), et surtout **« La Relation au Voile »** du livre Vérité V6 (relation favorable / répressive ; « plus l'événement est massif, répété, public et difficile à traduire, plus cette cohérence coûte » ; aux extrêmes « Rupture et Éjection » vers l'Ombremonde). La jauge chiffre cette Relation.
 
-Nom définitif à choisir (le nom de travail reste « Tension du Voile ») : « Tension » est déjà la jauge du Mageius, « Tendu » un état de Stress, « Rupture » un stade de la Corruption ; « Faveur », « Ancrage » et « Résonance » sont déjà des termes de règles.
+**Nom retenu par l'auteur : Relation au Voile** (terme du livre Vérité V6). « Tension du Voile » est abandonné : « Tension » est déjà la jauge du Mageius.
 
 ## La jauge (décision de l'auteur, v1)
 
@@ -60,7 +62,7 @@ Le joueur peut dépenser des points positifs pour une faveur dont le coût ne d�
 
 ## Questions à valider
 
-1. Nom définitif.
+1. ~~Nom~~ → Relation au Voile.
 2. Défaillances et faveurs « dépensées » (la jauge revient vers 0), ou simples effets d'état sans dépense ?
 3. Jauge individuelle ou commune au groupe ?
 4. Les Humains conscients et les Chasseurs ont-ils une jauge ?
