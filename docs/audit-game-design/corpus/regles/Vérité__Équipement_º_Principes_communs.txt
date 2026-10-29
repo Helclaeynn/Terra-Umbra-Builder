@@ -1,0 +1,71 @@
+==== [Vérité — Équipement › Principes communs] Propriétés, accès, confinement & compatibilités (regles-verite-v7-equipement-proprietes-acquisition)
+### Objet réel, disponibilité réelle, acquisition fictionnelle
+2
+p
+Tous les catalogues de Vérité suivent la même loi : les réseaux ouvrent des voies d’accès, ils ne créent pas la marchandise. Un Talent, une habilitation ou des PTV ne donnent jamais automatiquement un objet. Prix, dette, relation, commande, mission, vol ou autorisation restent des éléments de fiction réels.
+p
+L’équipement de Chasse ne remplace pas le catalogue d’armement de Réalité. Lorsqu’un objet terrestre existe déjà, son profil profane et son prix de base restent ceux du catalogue unifié ; Vérité n’ajoute que les propriétés surnaturelles, usages de Chasse, statuts ou modifications explicitement indiqués.
+### Propriétés communes
+2
+table
+Propriété
+Règle
+Perforant X
+Ignore X points d’Armure matérielle seulement.
+Sacré
+Consécration réelle ; n’agit que sur vulnérabilités et Talents qui la reconnaissent.
+Angélique
+Sacré céleste ; divin lorsque la règle concernée le prévoit.
+Solaire
+Effet surnaturel de Soleil ; des UV ordinaires ne sont pas le Soleil.
+Incendiaire
+Feu ; une Altération appropriée peut Enflammer.
+EMP / Ion
+Affecte les systèmes technologiques exposés, pas la magie, l’âme ou une biologie purement organique.
+Invariant
+Résiste aux corrections ordinaires ; ne voit jamais plus que le capteur auquel il est relié.
+Calibré
+Préparé contre une signature connue ; jamais universel.
+Surchauffe
+Impose un refroidissement après usage intensif selon le profil.
+Verrouillé
+Exige une autorisation biologique, psychique, nanitique ou cryptographique.
+### Équipement de Chasse
+2
+p
+L’arsenal de Chasse combine armes profanes adaptées, munitions spécialisées, matériel rituel, capture physique, confinement, investigation et prototypes Raven. Une faiblesse n’existe que si la cible la possède réellement : l’argent, le fer froid, le Sacré ou le Solaire ne deviennent jamais des bonus génériques contre « le surnaturel ».
+p
+Les dispositifs de contention doivent correspondre au mécanisme réellement identifié. Une cage calibrée contre l’immatérialité n’arrête pas par principe une téléportation, une extraction technologique ou une magie sans rapport. Cette logique de diagnostic reste centrale dans tout l’équipement spécialisé.
+### Marché de Vérité des Exilés
+2
+p
+Jadecenters et Palameta alimentent un marché noir magique ; les [ateliers whurtens](/compendium?article=regles-verite-v7-exiles-silcenters-hds-croix-runes-reseaux-hordes-technomagie#wiki-section-whurtens) fournissent runes, supports et réparations ; les [réseaux azménoriens](/compendium?article=regles-verite-v7-exiles-silcenters-hds-croix-runes-reseaux-hordes-technomagie#wiki-section-azmenoriens) produisent des prototypes technomagiques ; loges et marchés occultes font circuler consommables et reliques mineures. Les grandes pièces antiques restent hors catalogue.
+table
+Rareté
+Disponibilité typique
+Ordre de prix terrestre
+V0 — courant
+Composant, support, arme ordinaire adaptée
+100 à 2 000 $
+V1 — spécialisé
+Rune chargée, capteur occulte simple, arme préparée
+2 000 à 10 000 $
+V2 — rare
+Objet runique durable, technomagie portable
+10 000 à 50 000 $
+V3 — prototype
+Arsenal de Rupture, installations de contention
+50 000 à 150 000 $
+V4 — exceptionnel
+Prototype majeur, pièce antique, commande politiquement sensible
+Prix + dette + scénario
+### Technologie AIDH & Cohérence
+2
+p
+Le matériel [AIDH](/compendium?article=verite-humanite-galactique-aidh#wiki-section-dossier-aidh) générique est robuste, verrouillé, réparable avec les bonnes infrastructures et pensé pour fonctionner en réseau. L’intégration nanitique peut rendre une interface fluide sans créer de bonus gratuit de Compétence. Un capteur générique ne voit jamais automatiquement [la Vérité d’une cible Voilée](/compendium?article=regles-verite-v7-voile-continuite-objets-reseaux-interfaces#wiki-section-5-hologramme-voile-semi-revelation-et-revelation).
+p
+Les appareils conçus pour Terra Umbra — invariants, capteurs de cohérence, ancrages, fenêtres d’observation, optiques de Vérité, quarantaine et anti-possession — soutiennent des fonctions précises. Ils ne remplacent pas les Talents de Cohérence et n’éteignent jamais l’Hologramme par simple présence.
+### Ce qui reste hors catalogue
+2
+p
+Armes de Merlin, Excalibur/Ymir, reliques divines majeures, objets cosmologiques, Portails des Mondes, composants structurants de l’Hologramme, artefacts personnels de figures légendaires et prototypes uniques de PNJ restent des objets de campagne. Ils ne possèdent ni prix ni niveau de rareté standard.

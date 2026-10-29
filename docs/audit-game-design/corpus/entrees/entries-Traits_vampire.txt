@@ -1,0 +1,14 @@
+#1 Âme condamnée [] {trait conditionnel / calcul partiel} :: À la mort véritable, l’âme vampirique ne rejoint pas le Cycle : elle finit dans le Néant.
+#2 Petite immortalité [] {trait conditionnel / calcul partiel} :: Le véritable corps ne vieillit pas tant que sa Nature est régulièrement Révélée.
+#3 Physiologie maudite [] {trait conditionnel / calcul partiel} :: +3 Constitution contre les maladies ordinaires ; peut ralentir ou interrompre ses fonctions vitales.
+#4 Sens prédateurs [] {trait conditionnel / calcul partiel} :: Vision claire dans l’obscurité naturelle et perception fine du sang frais.
+#5 Prédation sanguine [] {trait conditionnel / calcul partiel} :: Prédation par Pugilat ; une réussite peut rendre des PV selon le DR et la vitalité réellement prélevée.
+#6 Effacement prédateur [] {trait conditionnel / calcul partiel} :: Peut tenter de se dissimuler dans des ombres suffisantes.
+#7 Fascination vampirique [] {trait conditionnel / calcul partiel} :: Charisme + Diplomatie contre Volonté + Force Mentale pour imposer l’attention.
+#8 Stase [] {trait conditionnel / calcul partiel} :: Le Vampire devient inerte ; la dégradation naturelle et les hémorragies s’interrompent.
+#9 Malédiction vampirique [] {trait conditionnel / calcul partiel} :: La Révélation expose la corruption à ses contre-forces, notamment le Soleil Ennemi.
+#10 Prédateur de guerre [] {trait conditionnel / calcul partiel} :: Tant qu’il n’est pas Surpris, le Vampire gagne +3 à sa Défense passive et active contre les attaques physiques.
+#11 Écho des Morts [] {trait conditionnel / calcul partiel} :: En touchant un cadavre ou une quantité significative de sang, le Vampire perçoit des traces utiles laissées par la mort : cause probable, violence, émotion finale, présence marquante, etc.
+#12 Enfant des Ténèbres [] {trait conditionnel / calcul partiel} :: Dans une zone suffisamment obscure, le Vampire fait un avec l’ombre. Tant que l’effet s’applique, il n’est pas vu et ne peut être directement ciblé ; ce n’est pas un Couvert matériel et aucun capteur profane ne le contourne.
+#13 Cycle du Sang [] {trait conditionnel / calcul partiel} :: Une fois par scène, après une Prédation sanguine réussie, le prochain Talent de Sang utilisé avant la fin du round coûte 1 PA de moins, minimum 0.
+#14 Équilibre dérobé [] {trait conditionnel / calcul partiel} :: Après s’être nourri, une fois par scène, le Vampire peut consumer le Hun/Yang absorbé pour obtenir une résistance contre une faiblesse ou un effet surnaturel auquel sa Nature ne lui permettrait normalement pas de résister.

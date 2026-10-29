@@ -1,0 +1,1175 @@
+==== [Vérité — Natures & capacités › Mages] Moteur de magie — Maîtrise, Amplitude & lancement (regles-verite-v7-mage-maitrise-amplitude-lancement)
+### Architecture du Mage
+2
+p
+Le Mage est un humain lié à un [Mageius](/compendium?article=regles-verite-v7-mage-tension-revers-echos-oeuvres#wiki-section-tension-revers-et-dormance), structure magique quasi autonome servant de conduit entre sa volonté et la Magie. Un Mageius peut théoriquement apprendre à exploiter les quinze domaines de la Roue, mais son Type détermine ses affinités naturelles et les chemins de progression les plus faciles. Affinité = ce que je peux manipuler. Maîtrise = à quel point je peux le manipuler avec finesse. Amplitude = à quelle échelle je peux l’imposer au monde.
+p
+• Nature Mage: Vision du Voile, Perception magique, Protection du Mageius, Défense occulte et capacité innée de Volonté supérieure.
+list
+p
+• Type de Mageius: Kaharal, Meldir, Elinaeth, Mestherak ou Discella.
+list
+p
+• Affinité dominante: première langue magique du Mage, plus naturellement résonnante.
+list
+p
+• Maîtrise : Initiale → Affinée → Supérieure → Magistrale. Elle donne des permissions qualitatives, pas un simple bonus chiffré.
+list
+p
+• Amplitude : Mineure → Significative → Majeure → Cataclysmique. Mythique reste hors progression PJ.
+list
+p
+• Techniques: usages particuliers appris; elles n’annulent jamais les limites générales sans le dire explicitement.
+list
+p
+• Œuvre personnelle: sort signature inventé par un Mage arrivé à maturité magique.
+list
+p
+• Magie familiale: Œuvre personnelle transmise et devenue tradition.
+list
+p
+• Écho du Mageius: technique laissée par un ancien porteur dans la mémoire du Mageius.
+list
+### États de Révélation
+2
+p
+tech
+Voilé (V)
+Aspect : Humain ordinaire sous l’Hologramme.
+Modifications : Aucune modification.
+Accès magique : Pas de lancement direct par le Mageius.
+p
+tech
+Semi-Révélé (SR)
+Aspect : Toujours physiquement humain ; le Mageius affleure.
+Modifications : +1 Esprit, +1 Volonté.
+Accès magique : Vision du Voile, Perception magique, Protection du Mageius.
+Amplitude maximale : Mineure.
+p
+tech
+Révélé (R)
+Aspect : Peut rester parfaitement humain d’apparence ; le Mageius est pleinement ouvert.
+Modifications : +1 Esprit, +2 Volonté (remplace les bonus SR).
+Accès magique : Toute Affinité, Maîtrise et Amplitude réellement acquises.
+p
+La Révélation d’un Mage n’est pas forcément spectaculaire. Un Mage peut donc rester Révélé très longtemps s’il accepte les risques sociaux et métaphysiques liés au Voile. Certains Mages très anciens ou arrogants n’éprouvent aucune raison de refermer leur Mageius tant que personne ne peut les contraindre à le faire.
+p
+Passer V → SR → R suit les règles générales de Révélation de TUC : 1 PA sous pression, sans jet sauf opposition active. Un passage direct V → R est possible. Le marqueur d’état reste externe à la fiche.
+### Mageius et Roue magique
+2
+p
+Les quinze domaines sont répartis en cinq groupes naturels. Le Type du Mageius ne rend pas les autres domaines impossibles : il détermine le point d’entrée du Mage dans la Roue et le coût de la traversée vers des familles magiques étrangères.
+p
+tech
+Kaharal
+Nature : Matière, forme, monde physique
+Affinités natives : Architétramancie
+p
+list
+• Morphomancie
+p
+list
+• Alchimie
+p
+tech
+Meldir
+Nature : Ordre, restauration, lumière
+Affinités natives : Photomancie
+p
+list
+• Acratomancie
+p
+list
+• Médéomancie
+p
+tech
+Elinaeth
+Nature : Forces, information, continuum
+Affinités natives : Télékinésie
+p
+list
+• Divination
+p
+list
+• Chronomancie
+p
+tech
+Mestherak
+Nature : Âme, mort, essence vitale
+Affinités natives : Spectromancie
+p
+list
+• Hématomancie
+p
+list
+• Nécromancie
+p
+tech
+Discella
+Nature : Ombre, illusion, malédiction
+Affinités natives : Skiamancie
+p
+list
+• Pseudomancie
+p
+list
+• Pathomancie
+p
+tech
+Roue : Kaharal ↔ Meldir ↔ Elinaeth ↔ Mestherak ↔ Discella ↔ Kaharal
+p
+Un Kaharal reste un Kaharal même s’il apprend la Chronomancie. Il n’a pas changé de Mageius : il a appris à faire résonner son Mageius avec une portion éloignée de la Roue.
+### Progression par Points de Vérité
+2
+### Affinité dominante
+3
+p
+À l’éveil, le Mage choisit une Affinité native de son Mageius. Elle commence gratuitement à Maîtrise Initiale / Amplitude Mineure.
+p
+Résonance dominante — 1 fois par scène, le Mage peut relancer le 1d10e d’un sort de son Affinité dominante et conserver le second résultat.
+### Maîtrise
+3
+p
+{{Talents|group=mage:progression-par-points-de-verite-maitrise}}
+p
+Les coûts sont cumulatifs: atteindre Magistrale depuis Initiale représente 1 + 2 + 3 = 6 PTV.
+### Amplitude
+3
+p
+{{Talents|group=mage:progression-par-points-de-verite-amplitude}}
+p
+Les coûts sont cumulatifs: atteindre Cataclysmique depuis Mineure représente 1 + 2 + 3 = 6 PTV.
+### Affinités supplémentaires
+3
+p
+tech
+Une Affinité non éveillée n'interdit pas de tenter un sort : le Mageius peut improviser dans ce domaine en Maîtrise Initiale / Amplitude Mineure uniquement. La difficulté intrinsèque augmente d'un niveau sur l'échelle 12 → 15 → 18 → 21 → 25 (Mineure 15 → 18 avant les autres ajustements). Au-delà de 25, appliquer la Canalisation obligatoire. Pour dépasser ces limites, il faut éveiller l'Affinité selon les règles ci-dessous.
+image
+images/rules/regles-mage-affinite-v1.svg
+images/rules/regles-mage-affinite-v1-mobile.svg
+Une Affinité non éveillée permet une improvisation en Maîtrise Initiale et Amplitude Mineure avec un niveau de difficulté en plus, par exemple 15 devient 18. Pour progresser dans cette Affinité, il faut ensuite l’éveiller par les dépenses et prérequis prévus.
+rule-diagram
+p
+Éveiller une deuxième Affinité native coûte 1 PTV et exige d’avoir déjà progressé au moins une fois dans la première Affinité. Éveiller la troisième coûte également 1 PTV et exige une nouvelle progression dans une Affinité native.
+p
+Accord adjacent — 3 PTV: prérequis, au moins une Affinité native à Maîtrise Supérieure. Le Mage ouvre une Affinité d’un Mageius adjacent en Initiale / Mineure. Les deux autres domaines de ce Type peuvent ensuite être éveillés pour 1 PTV chacun, avec la même logique de progression.
+p
+Traversée de la Roue — 2 PTV: prérequis, avoir établi un Accord avec le Mageius intermédiaire. Le Mage ouvre une Affinité du Type éloigné en Initiale / Mineure. Ainsi, atteindre une première Affinité à deux segments de son Mageius natal coûte 5 PTV au total.
+p
+Il n’existe pas de limite théorique au nombre d’Affinités qu’un Mage peut apprendre. En pratique, Maîtrise, Amplitude, Techniques et traversées coûtent suffisamment de PTV pour qu’un PJ se spécialise naturellement; les monstres de plusieurs millénaires peuvent, eux, avoir parcouru une grande partie de la Roue.
+### Construire et lancer un sort
+2
+p
+tech
+Jet de magie : Volonté + Maîtrise spirituelle + 1d10e
+image
+images/rules/regles-lancer-sort-v3.svg
+images/rules/regles-lancer-sort-v3-mobile.svg
+Construire puis lancer un sort : Définir — Intention, Affinité, Essence et Polarité ; Vérifier — Affinité éveillée ou improvisation limitée ; Maîtrise, cible et Amplitude ; Résoudre — Coût, portée, jet, défense et Tension. Sans Affinité éveillée : effet Initial / Mineur et +1 niveau de difficulté.
+rule-diagram
+p
+Le Mage ne choisit pas un sort dans une liste. Il décrit ce qu’il veut imposer à la Réalité puis fixe les paramètres suivants : Affinité → intention/Essence → Polarité → Amplitude → portée. La Maîtrise doit rendre l’effet concevable ; l’Amplitude doit rendre son échelle possible. Une Affinité non éveillée reste utilisable pour improviser un effet Initial / Mineur avec +1 niveau de difficulté ; elle ne donne pas accès aux Maîtrises et Amplitudes supérieures.
+### Essence
+3
+table
+Essence
+Fonction
+Destructive
+Endommager, briser, consumer.
+Reconstructive
+Réparer, guérir, restaurer.
+Créative
+Façonner, produire ou ajouter une fonction.
+Invocative
+Faire venir une entité ou chose qui préexiste ailleurs.
+Restrictive
+Neutraliser, diminuer ou empêcher une fonction.
+Invasive
+Créer un flux, transfert ou influence entre le Mage et une cible.
+p
+L’Essence sert à clarifier l’intention ; elle n’ajoute pas à elle seule un modificateur mathématique.
+### Polarité
+3
+table
+Polarité
+Cible
+Endo
+Le Mage lui-même.
+Exo
+Une cible identifiée.
+Stato
+Un lieu, un point ou une zone indépendamment de ce qui s’y trouve.
+### Difficulté, PA et Tension par Amplitude
+3
+p
+Insignifiante Difficulté de base: Automatique hors pression
+tech
+image
+images/rules/regles-mage-amplitude-v1.svg
+images/rules/regles-mage-amplitude-v1-mobile.svg
+L’Amplitude utilisée fixe difficulté, PA et Tension. Chaque palier possédé en plus réduit la difficulté d’un niveau sans réduire les PA ni la Tension. Deux paliers d’avance rendent l’effet automatique seulement sans opposition, urgence ni difficulté réelle.
+rule-diagram
+p
+list
+• PA de base: 0 / 1 si enjeu tactique Tension à la libération: +0
+p
+Mineure Difficulté de base: 15
+tech
+p
+list
+• PA de base: 1 Tension à la libération: +1
+p
+Significative Difficulté de base: 18
+tech
+p
+list
+• PA de base: 2 Tension à la libération: +2
+p
+Majeure Difficulté de base: 21
+tech
+p
+list
+• PA de base: 3 Tension à la libération: +3
+p
+Cataclysmique Difficulté de base: 25
+tech
+p
+list
+• PA de base: 4 Tension à la libération: +4
+p
+Mythique Difficulté de base: Inaccessible aux PJ
+tech
+p
+list
+• PA de base: — Tension à la libération: —
+p
+La difficulté dépend de l’Amplitude réellement utilisée, pas du maximum possédé. Pour chaque palier d’Amplitude possédé au-dessus de l’effet utilisé, la difficulté descend d’un niveau sur l’échelle 25 → 21 → 18 → 15 → 12. Si le Mage possède au moins deux paliers d’avance, l’effet devient automatique uniquement lorsqu’il n’existe ni opposition, ni urgence, ni difficulté réelle de contexte.
+### Portée
+3
+table
+Portée
+Règle
+Endo / Contact
+Difficulté −1 niveau.
+Portée de Volonté
+Volonté × 5 mètres ; difficulté normale.
+À vue
+Difficulté +1 niveau.
+Hors vue / éloignée
+Nécessite un lien, un ancrage, un rituel, une Technique, un Écho ou une Magie personnelle qui l’autorise.
+image
+images/rules/regles-mage-portee-v1.svg
+images/rules/regles-mage-portee-v1-mobile.svg
+Endo ou contact réduit la difficulté d’un niveau ; Volonté fois cinq mètres la laisse normale ; à vue ajoute un niveau. Hors vue exige une permission spéciale. Chaque niveau au-dessus de 25 impose au moins un PA de Canalisation.
+rule-diagram
+p
+Une difficulté ne dépasse pas 25. Si la portée ou un autre facteur devrait la pousser au-delà, chaque niveau excédentaire impose au moins 1 PA de Canalisation avant même que le sort puisse être tenté. Cette Canalisation obligatoire ramène d’abord le sort à 25.
+### Principe de désignation et rôle des Savoirs
+2
+p
+La magie n’agit pas sur les mots employés par le joueur. Elle agit sur ce que le Mage est réellement capable d’identifier.
+p
+Pour manipuler quelque chose, le Mage doit pouvoir se représenter et désigner sa cible de façon suffisante. Voir une personne permet de viser cette personne ; voir sa main permet de viser cette main ; voir du sang exposé permet de viser ce sang. En revanche, connaître le mot « cervelet » ne permet pas de sélectionner automatiquement un cervelet caché derrière un crâne.
+p
+list
+• Visibilité : voir directement une cible ou une partie de cible est la méthode la plus simple de désignation.
+p
+list
+• Connaissance : une cible technique, anatomique, chimique, historique ou symbolique exige que le Mage comprenne réellement ce qu’il cherche à manipuler.
+p
+list
+• Localisation : même connue, une structure invisible doit pouvoir être localisée par un moyen crédible : perception spécialisée, connaissance clinique précise, retour magique, imagerie, lien, Sceau, Technique ou Magie personnelle.
+p
+list
+• Compétences profanes : Savoirs, Soin, Perception, Investigation, Langages & Argot ou autres Compétences pertinentes peuvent servir de permission fictionnelle. On ne fait un jet séparé que lorsque l’expertise elle-même est incertaine et importante.
+p
+tech
+Maîtrise magique = « est-ce que je sais modeler cet effet ? »
+Savoir profane = « est-ce que je comprends suffisamment ce que j’essaie de modeler ? »
+p
+Cette règle empêche les exécutions absurdes par simple formulation (« je pince son artériole cérébrale ») tout en récompensant les Mages cultivés. Un chirurgien Morphomancien, un chimiste Alchimiste ou un historien Divinateur deviennent terrifiants précisément parce qu’ils savent de quoi ils parlent.
+### Défenses et dégâts magiques
+2
+### Défense occulte
+3
+p
+tech
+Défense occulte passive : Volonté + Force Mentale
+p
+tech
+Défense occulte active : Volonté + Force Mentale + 1d10e — 1 PA
+p
+La Défense occulte s’applique lorsqu’un effet magique est imposé directement à une personne : malédiction, intrusion mentale, altération interne du corps, manipulation directe du sang contenu dans l’organisme, etc. Une Défense active suppose que la cible puisse percevoir ou comprendre qu’elle est attaquée ; la Défense passive s’applique toujours lorsqu’une résistance est pertinente.
+p
+Un phénomène devenu physiquement évitable utilise une défense physique : pierre télékinétique, lame de glace, explosion, chute provoquée, etc. On n’utilise jamais simultanément Défense physique et Défense occulte pour la même attaque.
+### Résolution d’une attaque magique
+3
+p
+Dégâts magiques = Résultat du lancement − Défense applicable + bonus d’Amplitude − Protection applicable
+tech
+table
+Amplitude offensive
+Bonus de dégâts
+Mineure
++6
+Significative
++12
+Majeure
++18
+Cataclysmique
++24
+p
+La Protection applicable dépend de la nature finale de l’effet: une armure peut réduire une pierre propulsée ou une lame de glace; elle n’arrête pas une malédiction qui agit directement dans l’organisme. Une protection magique spécifique peut fonctionner lorsque son texte le permet. Zone: un seul jet de lancement est effectué; chaque cible compare ce résultat à sa propre Défense et reçoit des dégâts calculés individuellement. Une cible consciente et capable de réagir peut payer 1 PA pour une Défense active.
+p
+Objets: contre un objet non défendu, la Difficulté intrinsèque du sort sert de seuil pour calculer la marge offensive, sauf si une Résistance structurelle supérieure est fixée par le MJ. L’Armure ou la solidité de l’objet s’applique ensuite normalement.
+### Canalisation, maintien et sorts longs
+2
+### Canalisation / Concentration
+3
+p
+Chaque PA supplémentaire investi avant la résolution réduit la Difficulté intrinsèque du sort d’un niveau, minimum 12.
+image
+images/rules/regles-mage-canalisation-v1.svg
+images/rules/regles-mage-canalisation-v1-mobile.svg
+Chaque PA supplémentaire investi avant le jet réduit la difficulté d’un niveau, minimum 12. Un sort Cataclysmique de base coûte 4 PA à difficulté 25 ; deux PA de Canalisation donnent 6 PA à difficulté 18. La Tension reste celle du sort libéré.
+rule-diagram
+p
+La Canalisation échange du temps contre de la fiabilité. Elle ne réduit ni la Défense d’une cible ni la Tension produite par le sort. Un Cataclysmique de base coûte 4 PA pour difficulté 25; avec 2 PA de Canalisation il coûte 6 PA et tombe à difficulté 18.
+p
+Pour un Mage à 2 PA, cela peut représenter trois rounds entiers consacrés au même sort.
+### Préparation sur plusieurs rounds
+3
+p
+Un sort de 2 PA ou plus peut être payé sur plusieurs rounds consécutifs. Le Mage peut effectuer d’autres actions compatibles avec sa concentration entre les PA investis. Une interruption significative — grosse blessure, projection, effet mental, tentative volontaire d’interruption — peut imposer Volonté + Force Mentale. En cas d’échec, les PA déjà investis sont perdus.
+p
+La Tension est ajoutée lorsque le sort est effectivement libéré, qu’il réussisse ou échoue. Un sort interrompu avant sa libération ne produit normalement pas sa Tension complète; le MJ peut néanmoins appliquer +1 Tension en cas de surcharge narrative manifeste.
+### Maintien et permanence
+3
+p
+Effet maintenu: 1 PA par round, sans nouveau jet d’activation automatique.
+p
+Un phénomène qui existe ensuite par lui-même ne nécessite pas de maintien: feu réellement allumé, métal réellement remodelé, plaie réellement guérie.
+p
+Un phénomène qui dépend d’un flux continu — lévitation, champ de force, accélération temporelle, hallucination active — exige un maintien.
+p
+Une formulation comme « pour toujours » ne rend jamais gratuitement un effet permanent. Une durée hostile ou une permanence surnaturelle importante augmente l’Amplitude, la complexité, nécessite un ancrage ou relève d’une Technique/Magie personnelle.
+### Une fonction principale
+3
+p
+Un sort générique possède une fonction mécanique principale. Une boule de feu ne gagne pas gratuitement dégâts + aveuglement + repoussement + destruction d’armure + mur persistant. Une Maîtrise élevée permet des comportements complexes, mais chaque fonction distincte doit être justifiée par la Maîtrise, l’Amplitude ou une Technique explicite.
+
+==== [Vérité — Natures & capacités › Mages] Tension, Revers, Échos & Œuvres (regles-verite-v7-mage-tension-revers-echos-oeuvres)
+### Tension, Revers et Dormance
+2
+p
+Le [Mageius](/compendium?article=regles-verite-v7-mage-maitrise-amplitude-lancement#wiki-section-architecture-du-mage) ne fonctionne pas comme une réserve de mana. Il supporte une certaine pression puis commence à protester. La Tension mesure l’insistance du Mage et la quantité de magie qu’il force à travers son conduit.
+### Monter et réduire la Tension
+3
+table
+Événement
+Variation
+Sort Insignifiant
++0
+Sort Mineur
++1
+Sort Significatif
++2
+Sort Majeur
++3
+Sort Cataclysmique
++4
+Changer d’Affinité
+−1 Tension avant d’ajouter la Tension du nouveau sort.
+Un round complet sans utiliser le Mageius
+−1 Tension.
+Quelques minutes de véritable calme hors scène
+Le MJ peut ramener progressivement la Tension à 0.
+p
+Changer de domaine soulage le Mageius sans le remettre miraculeusement à neuf. C’est l’une des raisons pour lesquelles les jeunes Mages apprennent à alterner leurs Affinités.
+### Test de Revers
+3
+p
+Aucun test n’est nécessaire tant que la Tension reste à 0–2. Dès qu’un sort fait atteindre ou augmenter une Tension de 3 ou plus, le sort est résolu puis le Mage teste: Volonté + Force Mentale + 1d10e
+table
+Tension après le sort
+Difficulté de Revers
+3
+12
+4
+15
+5
+18
+6
+21
+7+
+25
+### Conséquences du Revers
+3
+p
+Revers — Tension 3–4 Contrecoup immédiat: 3 PV irréductibles. Maintiens/concentrations cessent. PA restants du round perdus. Dormance: Environ 2 jours.
+tech
+p
+Revers sévère — Tension 5–6 Contrecoup immédiat: 5 PV irréductibles. Le Mage est hagard et n’agit plus jusqu’à la fin de son prochain round; Défense passive seulement. Dormance: Environ 3 jours.
+tech
+p
+Revers catastrophique — Tension 7+ ou échec narratif Contrecoup immédiat: 7 PV irréductibles. Le Mage s’effondre généralement inconscient; s’il reste conscient, il est au minimum hors d’état d’agir normalement pour la scène. Dormance: Environ 3 à 5 jours, selon violence.
+tech
+p
+La Dormance est le cœur de la peur du Revers. Le Mageius s’endort réellement: aucun sort, aucune Affinité, aucune Magie personnelle/familiale, aucune Protection du Mageius et aucune Perception magique provenant du Mageius. Le Mage conserve son corps, ses Attributs, Compétences, équipements et relations, mais surnaturellement il redevient presque un humain ordinaire. Dormir huit heures, prendre des stimulants ou réussir un bon jet ne réveille pas un Mageius en Dormance.
+p
+Seuls des procédés extraordinairement rares et spécifiquement capables d’agir sur un Mageius pourraient raccourcir cette période.
+### Capacités et Talents communs
+2
+### Capacités gratuites
+3
+p
+Vision à travers le Voile — SR/R: le Mage voit normalement les créatures et phénomènes accessibles à un observateur de son niveau de Révélation, conformément aux règles générales du Voile.
+p
+Perception magique — SR/R: Esprit + Perception lorsque l’information est incertaine. Permet de ressentir nœuds, zones, enchantements, traces ou présences magiques, y compris lorsqu’elles ne sont pas pleinement révélées. Ne donne pas automatiquement leur Nature, leur histoire ou leur fonctionnement exact.
+p
+Protection du Mageius — SR/R: +3 à la Défense occulte passive ou active contre les effets surnaturels agissant directement sur le Mage. Ne protège pas contre une conséquence devenue purement physique. Disparaît totalement pendant la Dormance.
+p
+Canalisation — SR/R: action universelle décrite au §8; aucun Talent requis.
+### Volonté supérieure — capacité innée
+3
+p
+Tout Mage peut forcer son Mageius au-delà de ses limites. Aucun achat en PTV n’est requis.
+p
+Avant de commencer un sort, le Mage peut augmenter pour ce sort seulement sa Maîtrise d’un palier, son Amplitude d’un palier, ou les deux si l’effet déclaré exige réellement les deux dépassements. Il ne peut jamais atteindre Mythique par ce moyen et ne peut pas improviser une Affinité qu’il ne possède pas.
+p
+Le sort utilise ensuite sa vraie difficulté, ses vrais PA, sa portée, sa Canalisation et sa Tension correspondant au niveau forcé. Après résolution, réussite ou échec: Revers catastrophique automatique. Aucun test de Revers ne peut l’éviter.
+p
+Volonté supérieure est le bouton « Revers ou mort ». Les Mages savent qu’il existe; ils font tout pour ne jamais avoir à l’utiliser.
+### Talents communs
+3
+p
+{{Talents|group=mage:capacites-et-talents-communs-talents-communs}}
+### Échos, Œuvres personnelles et Magies familiales
+2
+### Écho du Mageius
+3
+p
+Un Mageius peut conserver le sort de prédilection d’un ancien porteur comme une habitude gravée dans sa structure. Résonance héritée déverrouille un Écho précis défini avec le MJ, généralement après une découverte narrative sur l’histoire du Mageius.
+p
+list
+• Pour cet effet exact, la Difficulté est réduite d’un niveau, minimum 12.
+p
+list
+• Si le Mage ne possède pas encore l’Affinité correspondante, il peut néanmoins reproduire l’Écho exact en Initiale / Mineure, sans en déduire d’autres usages du domaine.
+p
+list
+• S’il apprend ensuite l’Affinité, l’Écho peut être utilisé jusqu’à sa propre Maîtrise et Amplitude.
+### Œuvre personnelle
+3
+p
+L’Œuvre personnelle marque le passage d’un Mage compétent à un véritable maître. Le joueur ne choisit pas un pouvoir standard: il invente avec le MJ une technique qui découle de ses Affinités et de son savoir mais possède une règle spéciale propre.
+p
+Une Œuvre personnelle peut briser une règle générale de la magie, mais doit être définie par une idée forte et identifiable — jamais « tous mes sorts sont meilleurs ».
+p
+Elle peut par exemple contourner une limite de désignation, réduire un coût en PA pour un sort signature, créer une portée normalement impossible, fusionner deux domaines, permettre une permanence particulière, modifier la défense applicable ou exploiter une structure que la magie générique ne sait pas cibler.
+### Magie familiale
+3
+p
+Une Magie personnelle devient familiale lorsqu’elle est transmise. Le fondateur a dû inventer la méthode; ses descendants ou disciples bénéficient d’un enseignement déjà structuré. Une famille peut donc transmettre un sort extrêmement sophistiqué sans que tous ses membres soient capables de l’utiliser: posséder le nom ou le sang ne remplace jamais les prérequis magiques.
+p
+Une Magie familiale peut combiner plusieurs domaines si la tradition l’exige. Un héritier dont le Mageius natal n’est pas naturellement adapté doit malgré tout ouvrir les Affinités nécessaires par la Roue ou accepter les restrictions spécifiques prévues par la tradition.
+
+==== [Vérité — Natures & capacités › Mages] Roue magique — 5 portes & 15 écoles (regles-verite-v7-mage-roue-5-portes-15-ecoles)
+### Kaharal — matière, forme et monde physique
+2
+### Architétramancie — magie des éléments
+3
+p
+L’Architétramancie manifeste et manipule des phénomènes élémentaires : feu, eau, air, terre, glace, foudre, vibrations et autres orientations cohérentes avec la tradition du [Mage](/compendium?article=regles-verite-v7-mage-maitrise-amplitude-lancement#wiki-section-architecture-du-mage). À l’éveil, le Mage choisit au moins une orientation élémentaire qu’il connaît réellement ; élargir son répertoire demande entraînement, progression ou Technique.
+table
+Maîtrise
+Ce qu’elle autorise
+Initiale
+Créer, déplacer, intensifier ou diminuer un phénomène simple.
+Affinée
+Formes précises, plusieurs manifestations simples, sélection partielle des zones touchées.
+Supérieure
+Pression, température, propagation, courants, gradients et interactions complexes.
+Magistrale
+Exploitation profonde d’un principe élémentaire ; ouvre les spécialisations dignes d’une Magie personnelle.
+### Exemples de sorts (repères, pas une liste fermée)
+4
+p
+Allumer une torche ou produire une flamme contrôlée. Maîtrise min.: Initiale — Amplitude: Mineure — PA: 1 — Diff. base: 15 Pas de défense hors opposition.
+tech
+p
+Projeter une lance de feu sur un adversaire. Maîtrise min.: Initiale — Amplitude: Mineure — PA: 1 — Diff. base: 15 Défense physique si projectile évitable ; DGT magique +6.
+tech
+p
+Créer un mur de flammes fermant une pièce. Maîtrise min.: Affinée — Amplitude: Significative — PA: 2 — Diff. base: 18 Stato ; dégâts à ceux qui le traversent selon effet annoncé.
+tech
+p
+Geler un véhicule ou projeter plusieurs ennemis par une onde d’air. Maîtrise min.: Affinée — Amplitude: Significative — PA: 2 — Diff. base: 18 Défense physique des cibles affectées.
+tech
+p
+Embraser un bâtiment ou provoquer un séisme destructeur local. Maîtrise min.: Supérieure — Amplitude: Majeure — PA: 3 — Diff. base: 21 La finesse de sélection dépend de la Maîtrise.
+tech
+p
+Déclencher un séisme ou une tempête affectant un quartier. Maîtrise min.: Magistrale — Amplitude: Cataclysmique — PA: 4 — Diff. base: 25 Très forte Tension ; Canalisation souvent indispensable.
+tech
+### Limites et garde-fous
+4
+p
+• Une forte Amplitude n’accorde pas automatiquement la finesse nécessaire pour épargner précisément les alliés au cœur d’une vaste zone.
+list
+p
+• La magie ne donne pas une connaissance scientifique gratuite : exploiter un phénomène subtil exige de comprendre suffisamment ce phénomène.
+list
+p
+• Les formes extrêmes comme une magie sismique parfaitement contrôlée peuvent devenir des [Œuvres personnelles](/compendium?article=regles-verite-v7-mage-tension-revers-echos-oeuvres#wiki-section-uvre-personnelle)/familiales.
+list
+### Morphomancie — magie du Modelage
+3
+p
+La Morphomancie modifie la forme, la densité et l’organisation de la matière sans nécessairement changer sa substance. Elle excelle sur le corps vivant, mais toute modification hostile interne doit vaincre la Défense occulte et respecter le [Principe de désignation](/compendium?article=regles-verite-v7-mage-maitrise-amplitude-lancement#wiki-section-principe-de-designation-et-role-des-savoirs).
+table
+Maîtrise
+Ce qu’elle autorise
+Initiale
+Modifier simplement forme, densité ou proportions.
+Affinée
+Remodelage précis d’anatomie ou de structures complexes.
+Supérieure
+Organes fonctionnels, métamorphoses cohérentes, plusieurs systèmes interdépendants.
+Magistrale
+Réorganisation radicale tout en conservant un ensemble fonctionnel ; base des grandes métamorphoses personnelles.
+### Exemples de sorts (repères, pas une liste fermée)
+4
+p
+Modifier temporairement son visage ou ses empreintes. Maîtrise min.: Initiale — Amplitude: Mineure — PA: 1 — Diff. base: 15 Endo : difficulté −1 niveau.
+tech
+p
+Densifier localement ses os ou former des griffes. Maîtrise min.: Initiale — Amplitude: Mineure — PA: 1 — Diff. base: 15 Bonus mécanique limité par l’effet annoncé ; maintien si nécessaire.
+tech
+p
+Se métamorphoser en animal fonctionnel. Maîtrise min.: Affinée — Amplitude: Significative — PA: 2 — Diff. base: 18 Endo ; connaissances anatomiques pertinentes.
+tech
+p
+Altérer lourdement le corps d’un adversaire. Maîtrise min.: Affinée — Amplitude: Significative — PA: 2 — Diff. base: 18 Défense occulte ; pas d’instakill anatomique par simple formulation.
+tech
+p
+Créer une chimère pleinement fonctionnelle ou transformer complètement un autre être. Maîtrise min.: Supérieure — Amplitude: Majeure — PA: 3 — Diff. base: 21 Défense occulte si hostile ; permanence non gratuite.
+tech
+p
+Transformer simultanément une foule ou remodeler massivement une structure. Maîtrise min.: Magistrale — Amplitude: Cataclysmique — PA: 4 — Diff. base: 25 La sélection fine des victimes exige une très haute Maîtrise.
+tech
+### Limites et garde-fous
+4
+p
+• La Morphomancie ne remplace pas la [Médéomancie](/compendium?article=regles-verite-v7-mage-roue-5-portes-15-ecoles#wiki-section-medeomancie-magie-de-guerison) : fermer mécaniquement une plaie n’efface pas automatiquement les PV perdus.
+list
+p
+• Une transformation durable et avantageuse ne donne pas gratuitement des augmentations permanentes d’Attributs ; elle relève d’une Technique, d’un maintien ou d’une Œuvre personnelle.
+list
+p
+• Cibler un organe interne précis exige connaissance + localisation crédible ; le nom de l’organe ne suffit pas.
+list
+### Alchimie — magie des atomes
+3
+p
+L’Alchimie manipule composition, séparation et recombinaison de la matière. Elle devient d’autant plus redoutable que le Mage possède de vrais savoirs en chimie, matériaux, pharmacologie ou physique.
+table
+Maîtrise
+Ce qu’elle autorise
+Initiale
+Déplacer, séparer ou concentrer une substance connue.
+Affinée
+Recombinaisons chimiques et contrôle précis des réactions.
+Supérieure
+Chaînes complexes sans respecter toutes les conditions normales de pression, température ou catalyse.
+Magistrale
+Manipulation atomique extrêmement fine ; les phénomènes nucléaires restent hors usage générique.
+### Exemples de sorts (repères, pas une liste fermée)
+4
+p
+Purifier un verre d’eau ou séparer une contamination simple. Maîtrise min.: Initiale — Amplitude: Mineure — PA: 1 — Diff. base: 15 Aucun effet inventé sans connaître la substance ciblée.
+tech
+p
+Concentrer un acide ou produire un composé irritant connu. Maîtrise min.: Affinée — Amplitude: Mineure — PA: 1 — Diff. base: 15 Si attaque directe : défense appropriée selon vecteur.
+tech
+p
+Transformer chimiquement le contenu d’un réservoir ou saturer une pièce de gaz. Maîtrise min.: Affinée — Amplitude: Significative — PA: 2 — Diff. base: 18 Stato possible ; exposition physique après création.
+tech
+p
+Fragiliser une structure métallique importante. Maîtrise min.: Affinée — Amplitude: Significative — PA: 2 — Diff. base: 18 Objet : difficulté ou résistance structurelle comme seuil.
+tech
+p
+Modifier plusieurs tonnes de matériau ou neutraliser une contamination industrielle. Maîtrise min.: Supérieure — Amplitude: Majeure — PA: 3 — Diff. base: 21 Exige connaissances réelles des matériaux.
+tech
+p
+Altérer la composition d’une vaste zone environnementale. Maîtrise min.: Magistrale — Amplitude: Cataclysmique — PA: 4 — Diff. base: 25 Les conséquences secondaires restent réelles.
+tech
+### Limites et garde-fous
+4
+p
+• « Je transforme ça en neurotoxine » exige de connaître ce que le Mage cherche réellement à produire.
+list
+p
+• Fusion/fission nucléaire, transformation de matière en arme nucléaire et transmutations énergétiques extrêmes sont des Œuvres personnelles/familiales, pas des conséquences automatiques d’Alchimie Magistrale.
+list
+p
+• La magie ne fournit pas gratuitement les données de laboratoire manquantes.
+list
+### Meldir — ordre, lumière et restauration
+2
+### Photomancie — magie de la Lumière
+3
+p
+La Photomancie contrôle la lumière comme phénomène réel et, aux niveaux élevés, comme principe surnaturel. Elle se distingue de l’illusion : un effet photomantique modifie réellement la lumière présente dans le monde.
+table
+Maîtrise
+Ce qu’elle autorise
+Initiale
+Créer, réduire, diriger ou intensifier la lumière.
+Affinée
+Spectres, réflexion, réfraction et plusieurs trajectoires.
+Supérieure
+Constructions lumineuses complexes, focalisation, protections et interactions surnaturelles.
+Magistrale
+Lumière utilisée comme principe magique, pas seulement comme illumination.
+### Exemples de sorts (repères, pas une liste fermée)
+4
+p
+Créer une source lumineuse ou éteindre une zone sombre. Maîtrise min.: Initiale — Amplitude: Mineure — PA: 1 — Diff. base: 15 Pas de défense si purement utilitaire.
+tech
+p
+Éblouir une cible ou lancer un faisceau offensif. Maîtrise min.: Initiale — Amplitude: Mineure — PA: 1 — Diff. base: 15 Défense physique si faisceau évitable ; +6 dégâts.
+tech
+p
+Aveugler un groupe ou illuminer intégralement une grande pièce. Maîtrise min.: Affinée — Amplitude: Significative — PA: 2 — Diff. base: 18 Défense physique/Perception selon l’effet.
+tech
+p
+Créer plusieurs faisceaux indépendants ou un écran lumineux. Maîtrise min.: Supérieure — Amplitude: Significative — PA: 2 — Diff. base: 18 Comportement multiple permis par la Maîtrise.
+tech
+p
+Baigner un bâtiment dans une Lumière surnaturelle hostile à certaines entités. Maîtrise min.: Supérieure — Amplitude: Majeure — PA: 3 — Diff. base: 21 Effets spéciaux dépendent de Techniques appropriées.
+tech
+p
+Créer une manifestation lumineuse majeure à l’échelle d’un quartier. Maîtrise min.: Magistrale — Amplitude: Cataclysmique — PA: 4 — Diff. base: 25 Très visible ; conséquences sur le Voile évidentes.
+tech
+### Limites et garde-fous
+4
+p
+• Photomancie ne crée pas automatiquement des hallucinations : elle agit sur la lumière réelle.
+list
+p
+• Une caméra peut normalement enregistrer une modification photomantique si l’Hologramme ne la réécrit pas ensuite.
+list
+p
+• Les effets sacrés/divins ne sont pas inclus gratuitement : la Lumière magique n’est pas automatiquement une énergie religieuse.
+list
+### Acratomancie — magie des Sceaux
+3
+p
+L’Acratomancie attache une règle magique à un support, un objet, un emplacement ou une condition. Elle récompense la préparation, la logique et l’anticipation.
+table
+Maîtrise
+Ce qu’elle autorise
+Initiale
+Un déclencheur, une condition et un effet simples.
+Affinée
+Délais, identités, exceptions et plusieurs conditions.
+Supérieure
+Réseaux de Sceaux, enchantements élaborés et stockage d’effets.
+Magistrale
+Architectures magiques complètes orchestrant plusieurs fonctions.
+### Exemples de sorts (repères, pas une liste fermée)
+4
+p
+Poser une alarme sur une porte. Maîtrise min.: Initiale — Amplitude: Mineure — PA: 1 — Diff. base: 15 Sceau passif, peut durer tant que son ancrage reste intact.
+tech
+p
+Créer une rune qui libère un effet Mineur au contact. Maîtrise min.: Initiale — Amplitude: Mineure — PA: 1 — Diff. base: 15 Compte comme Sceau chargé.
+tech
+p
+Protéger une pièce avec un piège sélectif. Maîtrise min.: Affinée — Amplitude: Significative — PA: 2 — Diff. base: 18 Déclenchement selon conditions définies.
+tech
+p
+Stocker temporairement un objet ou un sort dans un Sceau. Maîtrise min.: Supérieure — Amplitude: Significative — PA: 2 — Diff. base: 18 La capacité exacte dépend de la nature du stockage.
+tech
+p
+Sécuriser un bâtiment entier par un réseau de Sceaux. Maîtrise min.: Supérieure — Amplitude: Majeure — PA: 3 — Diff. base: 21 Peut demander préparation matérielle/temps narratif.
+tech
+p
+Structurer magiquement une zone urbaine par un vaste réseau. Maîtrise min.: Magistrale — Amplitude: Cataclysmique — PA: 4+ — Diff. base: 25 Rituel long presque obligatoire.
+tech
+### Limites et garde-fous
+4
+p
+• Sceaux chargés actifs simultanément : 1 / 2 / 3 / 4 selon Maîtrise Initiale / Affinée / Supérieure / Magistrale. Les alarmes et marquages passifs ancrés dans un lieu ne comptent pas nécessairement dans cette limite.
+list
+p
+• La Tension d’un Sceau chargé est payée lors de son inscription/chargement ; son déclenchement ultérieur n’exige pas que le Mageius soit actif.
+list
+p
+• Préparer une réserve infinie de « grenades magiques » est impossible sans Magie personnelle ou infrastructure spéciale.
+list
+### Médéomancie — magie de Guérison
+3
+p
+La Médéomancie restaure l’intégrité fonctionnelle d’un être vivant. Les connaissances médicales permettent des soins beaucoup plus précis ; la magie ne remplace pas automatiquement un diagnostic que le Mage ne sait pas faire.
+table
+Maîtrise
+Ce qu’elle autorise
+Initiale
+Plaies, saignements, stabilisation et traumatismes simples.
+Affinée
+Fractures, tissus profonds et organes simples.
+Supérieure
+Organes complexes, membres, lésions surnaturelles.
+Magistrale
+Reconstruction biologique extrême et restauration au-delà de la médecine normale.
+### Exemples de sorts (repères, pas une liste fermée)
+4
+p
+Stabiliser un Agonisant. Maîtrise min.: Initiale — Amplitude: Mineure — PA: 1 — Diff. base: 15 Contact conseillé ; peut être automatique pour un grand Mage hors pression.
+tech
+p
+Refermer des blessures et rendre 1 + DR PV. Maîtrise min.: Initiale — Amplitude: Mineure — PA: 1 — Diff. base: 15 Une cible ne peut pas être « farmée » en soins.
+tech
+p
+Réparer une blessure grave et rendre 3 + DR PV. Maîtrise min.: Affinée — Amplitude: Significative — PA: 2 — Diff. base: 18 Connaissance médicale utile pour effets précis.
+tech
+p
+Réparer un organe sévèrement endommagé. Maîtrise min.: Affinée — Amplitude: Significative — PA: 2 — Diff. base: 18 Peut exiger Soin/Savoirs comme permission fictionnelle.
+tech
+p
+Reconstruire un membre ou rendre 5 + DR PV à défaut d’effet ciblé. Maîtrise min.: Supérieure — Amplitude: Majeure — PA: 3 — Diff. base: 21 Permanence naturelle si véritable réparation biologique.
+tech
+p
+Traiter simultanément de nombreuses victimes d’un désastre biologique. Maîtrise min.: Magistrale — Amplitude: Cataclysmique — PA: 4 — Diff. base: 25 Logistique et diagnostic restent pertinents.
+tech
+### Limites et garde-fous
+4
+p
+• Un organisme ayant récupéré des PV par Médéomancie ne peut plus en récupérer par Médéomancie avant la fin de la scène ou une véritable période de repos. De nouvelles blessures peuvent toujours être stabilisées.
+list
+p
+• Résurrection véritable : hors magie générique. Elle exige Œuvre personnelle, sacrifices, conditions ou autres exceptions majeures.
+list
+p
+• Médéomancie restaure ; elle ne remplace pas la [Morphomancie](/compendium?article=regles-verite-v7-mage-roue-5-portes-15-ecoles#wiki-section-morphomancie-magie-du-modelage) pour fabriquer arbitrairement de nouvelles anatomies.
+list
+### Elinaeth — forces, information et continuum
+2
+### Télékinésie — magie des forces
+3
+p
+La Télékinésie applique forces, pressions et mouvements sans contact. Sa dangerosité dépend énormément de la précision du Mage et de sa compréhension des systèmes qu’il manipule.
+table
+Maîtrise
+Ce qu’elle autorise
+Initiale
+Pousser, tirer, soulever, maintenir une force simple.
+Affinée
+Plusieurs vecteurs et manipulations précises.
+Supérieure
+Champs de force, pressions différenciées, mouvements autonomes complexes.
+Magistrale
+Ingénierie de forces invisibles : armures, lames de pression, architectures dynamiques.
+### Exemples de sorts (repères, pas une liste fermée)
+4
+p
+Attirer une arme posée ou repousser une personne. Maîtrise min.: Initiale — Amplitude: Mineure — PA: 1 — Diff. base: 15 Défense physique si hostile et évitable.
+tech
+p
+Projeter un objet comme projectile. Maîtrise min.: Initiale — Amplitude: Mineure — PA: 1 — Diff. base: 15 Défense physique ; +6 dégâts avant protection physique.
+tech
+p
+Soulever une voiture ou immobiliser plusieurs personnes. Maîtrise min.: Affinée — Amplitude: Significative — PA: 2 — Diff. base: 18 Vigueur/Athlétisme ou Défense selon la forme de contrainte.
+tech
+p
+Former un écran de pression ou manipuler plusieurs trajectoires. Maîtrise min.: Supérieure — Amplitude: Significative — PA: 2 — Diff. base: 18 Maintien si champ persistant.
+tech
+p
+Soutenir une portion de bâtiment ou écraser une structure massive. Maîtrise min.: Supérieure — Amplitude: Majeure — PA: 3 — Diff. base: 21 Objet : résistance structurelle possible.
+tech
+p
+Déplacer une masse colossale ou exercer une force cohérente sur une vaste zone. Maîtrise min.: Magistrale — Amplitude: Cataclysmique — PA: 4 — Diff. base: 25 Précision sélective très coûteuse en Maîtrise.
+tech
+### Limites et garde-fous
+4
+p
+• La Télékinésie ne donne pas de vision interne. On ne « télékinèse » pas un cervelet caché sans moyen de désignation approprié.
+list
+p
+• Un objet projeté est une menace physique : armure et défense physique s’appliquent normalement.
+list
+p
+• Créer une armure/lame invisible extrêmement efficace peut relever d’une Œuvre personnelle comme spécialisation du domaine.
+list
+### Divination — magie de l’information et des possibles
+3
+p
+La Divination extrait des informations du présent, des traces, des relations et des futurs possibles. Elle ne transforme pas le Mage en narrateur omniscient et ne fournit pas automatiquement des connaissances qu’il ne sait pas formuler.
+table
+Maîtrise
+Ce qu’elle autorise
+Initiale
+Question immédiate, impression, danger proche, trace simple.
+Affinée
+Recherche ciblée, observation éloignée liée, plusieurs futurs proches.
+Supérieure
+Ramifications causales, prévisions complexes, analyse stratégique.
+Magistrale
+Lecture très large des conséquences, probabilités et relations entre événements.
+### Exemples de sorts (repères, pas une liste fermée)
+4
+p
+Pressentir un danger immédiat. Maîtrise min.: Initiale — Amplitude: Mineure — PA: 1 — Diff. base: 15 Information courte, souvent qualitative.
+tech
+p
+Retrouver une chose proche à partir d’un lien pertinent. Maîtrise min.: Initiale — Amplitude: Mineure — PA: 1 — Diff. base: 15 Le lien doit réellement désigner la cible.
+tech
+p
+Observer magiquement un lieu connu ou lié. Maîtrise min.: Affinée — Amplitude: Significative — PA: 2 — Diff. base: 18 Hors vue autorisé si le lien fait partie de l’effet.
+tech
+p
+Comparer plusieurs futurs immédiats avant une opération. Maîtrise min.: Affinée — Amplitude: Significative — PA: 2 — Diff. base: 18 Les décisions futures peuvent invalider une branche.
+tech
+p
+Prévoir les principales issues d’une bataille ou d’un projet majeur. Maîtrise min.: Supérieure — Amplitude: Majeure — PA: 3 — Diff. base: 21 Informations riches mais non omniscientes.
+tech
+p
+Lire les tendances d’une catastrophe ou d’une guerre à l’échelle urbaine. Maîtrise min.: Magistrale — Amplitude: Cataclysmique — PA: 4 — Diff. base: 25 Le résultat porte sur tendances, pivots et probabilités.
+tech
+### Limites et garde-fous
+4
+p
+• Le Mage doit poser une question, définir un sujet ou disposer d’un lien. « Dis-moi tout » n’est pas une cible valable.
+list
+p
+• Le futur est probabiliste : les choix de personnes informées de la prophétie peuvent modifier ce qui était le plus probable.
+list
+p
+• Divination donne un avantage informationnel, pas le scénario du MJ page par page.
+list
+### Chronomancie — magie du temps
+3
+p
+La Chronomancie modifie l’écoulement local du temps. Les altérations du continuum sont dangereuses ; le voyage physique dans le passé ou le futur dépasse la magie générique des PJ.
+table
+Maîtrise
+Ce qu’elle autorise
+Initiale
+Accélérer ou ralentir légèrement un processus simple.
+Affinée
+Plusieurs rythmes et petites bulles temporelles.
+Supérieure
+Accélérations fortes, suspension brève, véritables effets tactiques sur le rythme d’action.
+Magistrale
+Altérations très poussées du continuum local, à la frontière de ce qui reste raisonnablement sûr.
+### Exemples de sorts (repères, pas une liste fermée)
+4
+p
+Ralentir une chute ou accélérer une action non-combattante. Maîtrise min.: Initiale — Amplitude: Mineure — PA: 1 — Diff. base: 15 Effet bref ; maintien si prolongé.
+tech
+p
+Déplacer légèrement l’ordre d’initiative ou ralentir un adversaire. Maîtrise min.: Affinée — Amplitude: Mineure — PA: 1 — Diff. base: 15 Défense occulte si imposé directement.
+tech
+p
+Accorder +1 PA/round à une cible. Maîtrise min.: Supérieure — Amplitude: Significative — PA: 2 — Diff. base: 18 Maintien 1 PA/round ; ne se cumule pas avec autre Chronomancie identique.
+tech
+p
+Accélérer ou ralentir un petit groupe. Maîtrise min.: Supérieure — Amplitude: Significative — PA: 2 — Diff. base: 18 Défense occulte pour cibles hostiles.
+tech
+p
+Modifier fortement le rythme temporel d’une grande zone. Maîtrise min.: Supérieure — Amplitude: Majeure — PA: 3 — Diff. base: 21 Les interactions entre intérieur/extérieur peuvent être complexes.
+tech
+p
+Placer une portion de quartier dans une altération temporelle majeure. Maîtrise min.: Magistrale — Amplitude: Cataclysmique — PA: 4 — Diff. base: 25 Risque de conséquences narratives importantes.
+tech
+### Limites et garde-fous
+4
+p
+• +1 PA/round exige au minimum Maîtrise Supérieure + Amplitude Significative. Une cible ne peut gagner plus de +1 PA/round par Chronomancie générique.
+list
+p
+• Voyage physique dans le passé/futur, réécriture sûre de l’Histoire ou boucle temporelle stable : Œuvres personnelles/NPC exceptionnels.
+list
+### Mestherak — âme, mort et essence vitale
+2
+### Spectromancie — magie spectrale
+3
+p
+La Spectromancie agit sur les âmes désincarnées, spectres, empreintes spirituelles et formes incorporelles. Elle ne réanime pas la chair et ne remplace pas la [Nécromancie](/compendium?article=regles-verite-v7-mage-roue-5-portes-15-ecoles#wiki-section-necromancie-magie-de-la-mort).
+table
+Maîtrise
+Ce qu’elle autorise
+Initiale
+Percevoir, communiquer et toucher magiquement un spectre.
+Affinée
+Déplacer, protéger, contraindre ou ancrer une âme.
+Supérieure
+Projection de l’âme, possession contrôlée, manipulation de plusieurs spectres.
+Magistrale
+Restructuration complexe d’une existence spectrale et vastes phénomènes spirituels.
+### Exemples de sorts (repères, pas une liste fermée)
+4
+p
+Voir et parler à un spectre présent. Maîtrise min.: Initiale — Amplitude: Mineure — PA: 1 — Diff. base: 15 Pas de contrôle automatique.
+tech
+p
+Repousser ou maintenir un esprit. Maîtrise min.: Affinée — Amplitude: Mineure — PA: 1 — Diff. base: 15 Défense occulte de l’entité.
+tech
+p
+Forcer une manifestation ou projeter brièvement sa conscience. Maîtrise min.: Affinée — Amplitude: Significative — PA: 2 — Diff. base: 18 Maintien selon durée.
+tech
+p
+Contraindre plusieurs spectres ou déplacer une âme sur une grande distance liée. Maîtrise min.: Supérieure — Amplitude: Majeure — PA: 3 — Diff. base: 21 Défense occulte des esprits concernés.
+tech
+p
+Projeter durablement son âme dans un réceptacle préparé. Maîtrise min.: Supérieure — Amplitude: Majeure — PA: 3 — Diff. base: 21 Connaissance du réceptacle et ancrage nécessaires.
+tech
+p
+Provoquer une manifestation spectrale massive sur une zone urbaine. Maîtrise min.: Magistrale — Amplitude: Cataclysmique — PA: 4 — Diff. base: 25 Faire venir ne signifie pas contrôler.
+tech
+### Limites et garde-fous
+4
+p
+• Spectromancie = âme ; Nécromancie = cadavre/état de mort ; Médéomancie = vie/restauration.
+list
+p
+• L’Essence Invocative fait venir une entité qui préexiste. Elle ne la crée pas et ne l’asservit pas gratuitement.
+list
+p
+• Possession et projection exigent des conditions de désignation/ancrage cohérentes.
+list
+### Hématomancie — magie du Sang
+3
+p
+L’Hématomancie manipule le sang comme matière, système biologique et support magique. Elle est très directe mais reste soumise à la désignation : le Mage peut viser une personne et sa circulation globale, pas sélectionner gratuitement une microstructure invisible qu’il ne sait pas localiser.
+table
+Maîtrise
+Ce qu’elle autorise
+Initiale
+Sang visible ou accessible ; mouvements et effets globaux simples.
+Affinée
+Circulation, coagulation, pression et contrôle précis.
+Supérieure
+Sang comme vecteur autonome, lien ou extension de la volonté.
+Magistrale
+Contrôle hématique extrêmement poussé, effets de masse et techniques signatures.
+### Exemples de sorts (repères, pas une liste fermée)
+4
+p
+Faire ramper du sang exposé ou arrêter une hémorragie. Maîtrise min.: Initiale — Amplitude: Mineure — PA: 1 — Diff. base: 15 Pas de Défense si sang libre et non contesté.
+tech
+p
+Perturber globalement la circulation d’une cible. Maîtrise min.: Initiale — Amplitude: Mineure — PA: 1 — Diff. base: 15 Défense occulte ; attaque directe +6 dégâts si destructive.
+tech
+p
+Bloquer un membre par circulation ou contrôler plusieurs litres de sang. Maîtrise min.: Affinée — Amplitude: Significative — PA: 2 — Diff. base: 18 Défense occulte si sang interne.
+tech
+p
+Utiliser son propre sang comme plusieurs vecteurs actifs. Maîtrise min.: Supérieure — Amplitude: Significative — PA: 2 — Diff. base: 18 Comportement autonome limité par Maîtrise/maintien.
+tech
+p
+Manipuler le sang de plusieurs individus dans une vaste scène. Maîtrise min.: Supérieure — Amplitude: Majeure — PA: 3 — Diff. base: 21 Chaque cible compare sa Défense occulte.
+tech
+p
+Affecter la circulation d’une population importante dans une vaste zone. Maîtrise min.: Magistrale — Amplitude: Cataclysmique — PA: 4 — Diff. base: 25 Sélection fine et létalité restent limitées par le sort annoncé.
+tech
+### Limites et garde-fous
+4
+p
+• Une cible vivante contenant son sang peut être visée globalement parce que le Mage identifie la personne ; cibler une artériole invisible précise exige connaissance + localisation.
+list
+p
+• « J’arrête son cœur » ou « je bouche un vaisseau cérébral » ne contourne pas les PV : c’est une description d’attaque à résoudre normalement.
+list
+p
+• Les gouttes autonomes, liens hématiques à distance ou effets chirurgicalement précis sont d’excellents candidats à des Magies personnelles/familiales.
+list
+### Nécromancie — magie de la Mort
+3
+p
+La Nécromancie travaille sur les cadavres, l’état de mort et les structures mortes. Elle peut animer un corps sans lui rendre son âme.
+table
+Maîtrise
+Ce qu’elle autorise
+Initiale
+Préserver, mouvoir ou modifier un cadavre simple.
+Affinée
+Animation cohérente et contrôle de plusieurs corps.
+Supérieure
+Morts-vivants spécialisés, autonomies simples et cohorte organisée.
+Magistrale
+Systèmes nécromantiques durables, armées ou territoires de mort.
+### Exemples de sorts (repères, pas une liste fermée)
+4
+p
+Empêcher un cadavre de se décomposer. Maîtrise min.: Initiale — Amplitude: Mineure — PA: 1 — Diff. base: 15 Effet reconstructif/restrictif sur matière morte.
+tech
+p
+Animer un cadavre simple pour une tâche directe. Maîtrise min.: Initiale — Amplitude: Mineure — PA: 1 — Diff. base: 15 Maintien si comportement actif complexe.
+tech
+p
+Animer plusieurs serviteurs morts. Maîtrise min.: Affinée — Amplitude: Significative — PA: 2 — Diff. base: 18 Une cohorte générique active à la fois.
+tech
+p
+Créer un mort-vivant spécialisé et relativement autonome. Maîtrise min.: Supérieure — Amplitude: Significative — PA: 2 — Diff. base: 18 Fonctions spéciales exigent vraie conception magique.
+tech
+p
+Lever une unité importante de morts. Maîtrise min.: Supérieure — Amplitude: Majeure — PA: 3 — Diff. base: 21 Ordres complexes peuvent exiger maintien/commandement.
+tech
+p
+Éveiller un cimetière ou imposer un domaine nécromantique local. Maîtrise min.: Magistrale — Amplitude: Cataclysmique — PA: 4 — Diff. base: 25 Rituel/Canalisation souvent nécessaire.
+tech
+### Limites et garde-fous
+4
+p
+• Un Mage ne peut entretenir qu’une cohorte nécromantique générique pleinement liée et active à la fois ; créer une nouvelle cohorte remplace ou libère la précédente, sauf Technique/Magie personnelle.
+list
+p
+• Les armées historiques permanentes de grands nécromanciens sont des accomplissements spécialisés, pas un stockpile gratuit de sorts Mineurs.
+list
+p
+• Animer un corps ≠ remettre son âme dedans. La résurrection véritable traverse d’autres domaines et reste exceptionnelle.
+list
+### Discella — ombre, mensonge et malédiction
+2
+### Pseudomancie — magie des Illusions
+3
+p
+La Pseudomancie manipule apparence et perception. Une illusion placée dans le monde et une hallucination imposée directement à un esprit ne se défendent pas de la même manière.
+table
+Maîtrise
+Ce qu’elle autorise
+Initiale
+Un sens, un son, une image ou une apparence simple.
+Affinée
+Illusion multisensorielle cohérente.
+Supérieure
+Illusions multiples, réactives et partiellement autonomes.
+Magistrale
+Environnement perceptif complet et cohérent à grande échelle.
+### Exemples de sorts (repères, pas une liste fermée)
+4
+p
+Modifier une voix ou cacher visuellement un petit objet. Maîtrise min.: Initiale — Amplitude: Mineure — PA: 1 — Diff. base: 15 Observation opposée si quelqu’un a une raison de douter.
+tech
+p
+Créer un déguisement visuel et sonore cohérent. Maîtrise min.: Affinée — Amplitude: Mineure — PA: 1 — Diff. base: 15 Esprit + Perception contre résultat si l’illusion est examinée.
+tech
+p
+Transformer l’apparence d’une pièce entière. Maîtrise min.: Affinée — Amplitude: Significative — PA: 2 — Diff. base: 18 Maintien si illusion active et réactive.
+tech
+p
+Imposer une hallucination ciblée à une personne. Maîtrise min.: Affinée — Amplitude: Significative — PA: 2 — Diff. base: 18 Défense occulte.
+tech
+p
+Remplacer perceptivement un bâtiment ou une rue. Maîtrise min.: Supérieure — Amplitude: Majeure — PA: 3 — Diff. base: 21 Les interactions physiques réelles peuvent trahir l’illusion.
+tech
+p
+Imposer une fausse réalité cohérente à un quartier. Maîtrise min.: Magistrale — Amplitude: Cataclysmique — PA: 4 — Diff. base: 25 Très forte charge de maintien/Canalisation selon durée.
+tech
+### Limites et garde-fous
+4
+p
+• Illusion placée dans le monde : Esprit + Perception peut la confronter si le personnage dispose d’un motif de doute. Hallucination imposée : Défense occulte.
+list
+p
+• Une illusion ne devient pas physiquement réelle grâce à un gros DR.
+list
+p
+• Créer du sommeil, un monde de rêve autonome ou une illusion qui acquiert des effets matériels relève d’Œuvres personnelles/familiales.
+list
+### Pathomancie — magie des Malédictions
+3
+p
+La Pathomancie attache à une cible une règle négative surnaturelle : faiblesse, contrainte, condition, interdiction ou dégradation. Plus la règle est durable et sophistiquée, plus Maîtrise et Amplitude montent.
+table
+Maîtrise
+Ce qu’elle autorise
+Initiale
+Gêne précise, courte et simple.
+Affinée
+Condition, déclencheur ou durée sérieuse.
+Supérieure
+Malédictions complexes, transmissibles ou multiconditionnelles.
+Magistrale
+Véritable loi personnelle surnaturelle ou fléau de grande ampleur.
+### Exemples de sorts (repères, pas une liste fermée)
+4
+p
+Imposer −3 sur une famille précise d’actions pendant un court moment. Maîtrise min.: Initiale — Amplitude: Mineure — PA: 1 — Diff. base: 15 Défense occulte.
+tech
+p
+Faire dysfonctionner un objet ou fragiliser temporairement une capacité. Maîtrise min.: Initiale — Amplitude: Mineure — PA: 1 — Diff. base: 15 Objet : résistance éventuelle selon nature.
+tech
+p
+Bloquer une capacité pendant une scène. Maîtrise min.: Affinée — Amplitude: Significative — PA: 2 — Diff. base: 18 Défense occulte ; préciser exactement ce qui est bloqué.
+tech
+p
+Attacher une malédiction conditionnelle durable à une personne. Maîtrise min.: Supérieure — Amplitude: Majeure — PA: 3 — Diff. base: 21 Durée/ancrage contribuent à l’Amplitude.
+tech
+p
+Maudire durablement un groupe limité ou une organisation locale. Maîtrise min.: Supérieure — Amplitude: Majeure — PA: 3 — Diff. base: 21 Cibles identifiables nécessaires.
+tech
+p
+Imposer un fléau à une importante population ou zone. Maîtrise min.: Magistrale — Amplitude: Cataclysmique — PA: 4 — Diff. base: 25 Conditions et sélection doivent être définies avant le jet.
+tech
+### Limites et garde-fous
+4
+p
+• « Pour toujours » n’est jamais gratuit : durée longue, transmission et permanence font partie de la puissance réelle du sort.
+list
+p
+• Une malédiction doit définir clairement sa cible et sa règle ; les formulations vagues ne donnent pas plus de puissance.
+list
+p
+• Attaquer directement le Mageius d’un autre Mage, forcer le Revers ou arracher le Mageius sont des techniques spécialisées exceptionnelles.
+list
+### Skiamancie — magie des Ombres
+3
+p
+La Skiamancie contrôle l’Ombre comme substance et milieu surnaturel réel. Elle ne se confond ni avec l’absence de lumière ni avec une illusion.
+table
+Maîtrise
+Ce qu’elle autorise
+Initiale
+Étendre, déplacer ou épaissir une Ombre.
+Affinée
+Lui donner forme, consistance ou fonction simple.
+Supérieure
+Ombres autonomes, passages et zones occultantes complexes.
+Magistrale
+Utiliser l’Ombre comme véritable milieu métaphysique à grande échelle.
+### Exemples de sorts (repères, pas une liste fermée)
+4
+p
+Étendre une ombre ou créer un appendice sombre. Maîtrise min.: Initiale — Amplitude: Mineure — PA: 1 — Diff. base: 15 Peut fournir couvert/interaction selon effet annoncé.
+tech
+p
+Engloutir une petite zone dans des ténèbres surnaturelles. Maîtrise min.: Affinée — Amplitude: Significative — PA: 2 — Diff. base: 18 La Photomancie peut interagir mais ne « dissipe » pas automatiquement l’Ombre.
+tech
+p
+Créer plusieurs formes d’ombre capables d’interagir. Maîtrise min.: Supérieure — Amplitude: Significative — PA: 2 — Diff. base: 18 Maintien si autonomie active.
+tech
+p
+Passer entre deux ombres identifiées dans la portée autorisée. Maîtrise min.: Supérieure — Amplitude: Significative — PA: 2 — Diff. base: 18 Les deux extrémités doivent être désignables ; hors vue exige Technique/ancrage.
+tech
+p
+Faire vivre les ombres d’un bâtiment entier. Maîtrise min.: Supérieure — Amplitude: Majeure — PA: 3 — Diff. base: 21 Sélection et comportement dépendent de la Maîtrise.
+tech
+p
+Transformer une portion urbaine en manifestation active de l’Ombre. Maîtrise min.: Magistrale — Amplitude: Cataclysmique — PA: 4 — Diff. base: 25 Effet métaphysique massif, très risqué pour le Voile.
+tech
+### Limites et garde-fous
+4
+p
+• [Photomancie](/compendium?article=regles-verite-v7-mage-roue-5-portes-15-ecoles#wiki-section-photomancie-magie-de-la-lumiere) = lumière réelle ; [Pseudomancie](/compendium?article=regles-verite-v7-mage-roue-5-portes-15-ecoles#wiki-section-pseudomancie-magie-des-illusions) = perception ; Skiamancie = Ombre surnaturelle.
+list
+p
+• Un passage d’ombre générique ne permet pas de téléporter vers un lieu inconnu non désignable.
+list
+p
+• Créer des Deimons, royaumes d’ombre autonomes ou passages intermondes durables relève de Magies personnelles/familiales.
+list
+

@@ -1,0 +1,131 @@
+==== [Socle Vérité › Voile & continuité] Voile, V/SR/R, continuité, objets, mobilité, compagnons, réseaux & interfaces (regles-verite-v7-voile-continuite-objets-reseaux-interfaces)
+### 5. Hologramme, Voile, Semi-Révélation et Révélation
+2
+p
+L’[Hologramme](/compendium?article=verite-v7-cycle-neant-ombremonde-histoire-cachee#wiki-section-religions-mythes-et-souvenirs-deformes) est un construct technomagique planétaire qui traduit physiquement les êtres et phénomènes de Vérité en une cohérence humaine. Ce n’est pas une simple illusion visuelle.
+image
+images/rules/regles-voile-v4.svg
+images/rules/regles-voile-v4-mobile.svg
+Ce que voit un observateur du Voile : 1 · État de la cible : V — Forme traduite par l’Hologramme ; même un observateur R voit la traduction. ; 2 · Cible : SR — Observateur V : traduction ; observateur SR/R : Vérité partielle. ; 3 · Cible : R — Vérité exprimée visible de tous, même d’un observateur V. ; 4 · Transition sous pression — Normalement 1 PA ; jet seulement si opposition ou contrainte significative. ; 5 · Corriger si nécessaire — Le Voile peut corriger le souvenir civil ; un Chasseur reconnu conserve ce qu’il a vu.. Voir sous le Voile ne Révèle pas automatiquement une cible encore Voilée.
+rule-diagram
+table
+État
+Effet
+V
+forme traduite ; capacités compatibles V seulement
+SR
+Vérité partielle, métastable, normalement une scène maximum
+R
+Vérité pleinement exprimée ; l’apparence peut rester humaine selon la Nature
+p
+Transition sous pression : normalement 1 PA, jet seulement si opposition active. Aucune action générique ne force R→V ; seuls les effets qui l’autorisent explicitement le peuvent.
+table
+Cible
+Observation
+Cible V
+V/SR/R voient normalement la traduction, sauf perception spéciale
+Cible SR
+V voit la traduction ; SR/R voit la Vérité partielle
+Cible R
+la Vérité exprimée est visible par tous
+p
+Un observateur R ne voit pas automatiquement la Vérité d’une cible restée V. Voir sous le Voile ne Révèle pas.
+tech
+p
+L’Hologramme peut corriger souvenirs et preuves ordinaires. Les supports invariants résistent aux corrections ordinaires mais n’enregistrent jamais ce que leurs capteurs n’ont pas perçu. HDS/Holojamer peut maintenir V et bloquer V→SR/R ; aucun R→V générique.
+### Dissimulation surnaturelle et capteurs
+3
+p
+Lorsqu’un effet indique qu’une cible devient surnaturellement invisible, les perceptions profanes ordinaires suivent normalement la traduction de la Réalité/Hologramme : vision, caméras et capteurs ordinaires ne révèlent pas la cible. Une perception véritablement surnaturelle et adaptée peut néanmoins la percevoir lorsque sa nature le permet. Un pouvoir qui décrit une dissimulation plus limitée suit son propre texte.
+tech
+### 6. Continuité corporelle, objets et Mobilité ailée
+2
+p
+Une seule histoire de blessures suit le personnage entre états et formes. Si Vigueur change, PV max et actuels varient immédiatement de 2 × la variation ; une baisse de forme ne fait pas passer un personnage positif sous 1 PV. Changer de forme ne soigne jamais.
+### Déplacement multiplié
+3
+p
+Lorsqu’une Nature indique Déplacement ×2 ou environ ×2, chaque PA de Déplacement couvre 2 × (5 + Athlétisme) mètres lorsque le terrain et la morphologie concernés sont réellement adaptés. Ce multiplicateur ne crée aucun PA supplémentaire.
+### Mobilité ailée — convention PJ
+3
+p
+Avec des ailes fonctionnelles, un Déplacement peut devenir un grand déplacement aérien soutenu, franchir un vide, gagner/perdre fortement de l’altitude et ignorer des obstacles au sol. Le personnage doit terminer sur un support ou s’y agripper. Pas de vol stationnaire ni de combat aérien permanent par défaut.
+### Objets et projectiles
+3
+p
+Une transformation ne duplique ni ne restaure un objet consommé. Un effet de Vérité attaché à un projectile suit son propre support et sa durée ; aucun principe générique ne permet d’accumuler plusieurs enchantements équivalents.
+### 7. Humains, Chasseurs reconnus, Humanité et Intégrité
+2
+p
+L’Humain conscient connaît la Vérité mais peut encore subir des corrections. Un véritable Chasseur est reconnu par l’Hologramme : les corrections civiles ordinaires cessent d’effacer ce qu’il a réellement vu, sans lui donner vision de V, identification automatique ni immunité aux attaques explicites de mémoire.
+table
+Valeur
+Règle
+Intégrité
+Force Mentale + Humanité, minimum 1
+Stress augmentique max
+Vigueur + Humanité
+Charge augmentique
+jauge indépendante utilisant l’Intégrité
+Corruption
+jauge indépendante utilisant la même Intégrité
+p
+Seules les valeurs permanentes de Force Mentale/Humanité modifient l’Intégrité.
+### 8. Compagnons liés et réseaux de Vérité
+2
+p
+• Compagnon = PNJ réel avec stats, PV, sens, pouvoirs, faiblesses et personnalité.
+list
+p
+• Par défaut un seul compagnon actif.
+list
+p
+• Aucun pool de PA indépendant ; actions tactiques et défenses utilisent les PA du maître.
+list
+p
+• Perdre la créature ne fait pas perdre le Talent ; PTV achète le lien, jamais la créature.
+list
+p
+• Développements communs : Lien surnaturel 2 ; Résonance liée 1 ; Accueil de l’essence 2 ; Invocation liée 3.
+list
+### Réseaux de Vérité
+3
+p
+Un Talent de réseau ne crée jamais vendeur, planque, filière, marchandise ou service. Il représente l’intégration suffisante pour lire et exploiter codes, signes, procédures, relais et voies clandestines d’un réseau qui existe réellement. Disponibilité, prix, délais et risques restent fictionnels.
+tech
+p
+Cette règle couvre notamment Syndicat de Jade, Mafia Shaediri, Shaekori et réseaux analogues. Certaines institutions restent volontairement sans arbre PTV lorsque leur intérêt est principalement statutaire ou logistique.
+### 9. Équipement de Vérité — principe commun
+2
+### Armure corporelle et Réductions
+3
+p
+Une Armure corporelle est une Armure de base portée par le corps lui-même : peau, carapace, tissus minéralisés, armure dermique ou protection surnaturelle explicitement corporelle. Par défaut, une « Armure naturelle » de Vérité doit être lue comme une Armure corporelle. L’Armure est la couche matérielle de base ; les Réductions typées (Mêlée, Antichoc, Balistique, Feu, Neuro, etc.) restent distinctes et ne s’appliquent qu’à leur vecteur.
+tech
+p
+Pour le cumul, utiliser la meilleure Armure corporelle applicable ; elle peut se cumuler avec l’Armure portée selon les règles de Réalité, mais deux couches corporelles ne s’additionnent pas sauf texte explicite.
+tech
+### Interfaces étrangères et Neurodive
+3
+p
+Un système électronique, connecté ou en réseau n’est pas automatiquement compatible avec le Neurodive terrestre. Il faut une voie de données réelle et une interface/protocole compatibles, traduits ou effectivement adaptés. Une fois cette compatibilité obtenue, Intrusion, Contrôle et Neurocombat utilisent le moteur Neurodive normal.
+tech
+p
+Magie pure, âme, tissu biologique, pouvoir de Nature ou substrat technobiologique sans interface accessible ne deviennent jamais des cibles Neuro par leur seule existence ; le nuage nanitique intégré d’un Homo Superior n’est notamment pas Neuro-hackable par défaut.
+tech
+p
+• PTV achète une maîtrise, technique, calibration ou capacité d’exploitation, jamais la possession d’un objet.
+list
+p
+• Perdre un objet ne fait pas perdre les PTV investis.
+list
+p
+• Prototype = objet réel, volable, destructible, réparable et parfois utilisable par un tiers.
+list
+p
+• Un objet fixe n’accorde jamais les Talents de son créateur.
+list
+p
+• Artefacts uniques, armes de lignée et reliques de PNJ restent hors catalogue ordinaire.
+list
+

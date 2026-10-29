@@ -1,0 +1,143 @@
+==== [Réalité — règles spécifiques › Augmentations] Charge, Stress & Frénésie augmentique (regles-realite-v9-charge-stress-frenesie)
+### Intégrité, Charge et Stress
+2
+p
+Charge, [Stress augmentique](/compendium?article=realite-v9-augmentations-corps-sante#wiki-section-avantages-limites) et Frénésie décrivent le coût d'intégration des augmentations terrestres.
+p
+Intégrité = Force Mentale + Humanité, minimum 1. Seules les valeurs permanentes comptent.
+p
+Stress augmentique maximum = Vigueur + Humanité.
+p
+Le Stress augmentique de base est la somme des valeurs de Stress des augmentations installées. Il représente une sollicitation permanente et ne disparaît pas par une simple nuit de repos.
+p
+Le Stress augmentique temporaire peut provenir d'Overclock, de dommages, de drogues, de programmes ou d'effets particuliers. Il disparaît selon la durée ou la condition de sa source.
+### Saturation, dépassement et Difficulté de Maîtrise
+2
+table
+Situation
+Difficulté de Maîtrise
+Charge = Intégrité ou Stress = maximum
+15
+Dépassement de 1
+18
+Dépassement de 2
+21
+Dépassement de 3 ou plus
+25
+image
+images/rules/regles-augmentations-v4.svg
+images/rules/regles-augmentations-v4-mobile.svg
+Déclencher une crise augmentique : 1 · Calculer les limites — Intégrité = Force Mentale + Humanité ; Stress max = Vigueur + Humanité. ; 2 · Chercher le déclencheur — Déclencheur majeur en Saturation/Surcharge ou Stress au moins égal au maximum. ; 3 · Chiffrer chaque dépassement — Au seuil : 15 ; +1 : 18 ; +2 : 21 ; +3 ou plus : 25. ; 4 · Deux jauges ? — Charge et Stress simultanés : un seul test contre la difficulté la plus haute. ; 5 · Résoudre — Volonté + Maîtrise spirituelle ; en échec, suivre la Frénésie et son impulsion.. N-Sta réduit le Stress effectif de 1, mais ne modifie ni Charge ni Intégrité.
+rule-diagram
+p
+Lors d'un déclencheur majeur en Saturation ou Surcharge, ou lorsque le Stress atteint ou dépasse son maximum, effectuer Volonté + Maîtrise spirituelle contre la Difficulté correspondante.
+p
+Si Charge et Stress déclenchent simultanément une crise, effectuer un seul test avec la Difficulté la plus élevée. En échec, le personnage entre en Frénésie augmentique.
+### Frénésie augmentique
+2
+p
+La Frénésie possède une impulsion claire liée au déclencheur : violence, fuite, élimination d'une menace, accomplissement compulsif d'une fonction ou autre réaction cohérente.
+p
+À chaque round où cela est possible, le personnage doit consacrer au moins 1 PA à poursuivre directement cette impulsion.
+p
+Les actions exigeant calme, précision cognitive ou concentration subissent une circonstance défavorable (−3). La Frénésie n'accorde aucun PA et n'annule ni blessures, ni dégâts, ni Surcharge.
+p
+Sortie volontaire : Volonté + Maîtrise spirituelle difficulté 15 ; difficulté 12 si la cause a disparu.
+### N-Sta
+2
+p
+Pendant environ une heure, N-Sta réduit de 1 le Stress augmentique effectif et donne +2 aux tests de Maîtrise spirituelle provoqués par le Stress augmentique ou la Surcharge.
+p
+N-Sta ne modifie ni Charge ni Intégrité. Son emploi, son prix et ses contraintes de consommation appartiennent au catalogue d'Équipement & Objets.
+
+==== [Réalité — règles spécifiques › Augmentations] Augmentations — Supports, Slots & compatibilités (regles-realite-v9-supports-slots-compatibilites)
+### Support et module
+2
+p
+Un Support crée l'architecture permettant d'installer des modules : [câblage neuronal](/compendium?article=augmentation-022-cablage-neuronal#wiki-section-contexte), [CyberŒil](/compendium?article=augmentation-032-cyberoeil#wiki-section-contexte), Kit [CyberAudio](/compendium?article=augmentation-028-cyberaudio#wiki-section-contexte), cybermembre ou architecture cyborg lourde. Les Slots appartiennent au Support concerné et ne forment pas une réserve globale.
+image
+images/rules/regles-supports-v4.svg
+images/rules/regles-supports-v4-mobile.svg
+Augmentations : support, slot et bonus : 1 · Repérer le support — Une augmentation support ouvre ses slots ; un module doit être compatible. ; 2 · Vérifier l’emplacement — Chaque module occupe ses slots ; un œil est un support séparé de l’autre. ; 3 · Appliquer l’exclusivité — Une peau globale principale ; armure et camouflage dermiques exigent un modèle compatible. ; 4 · Vérifier les bonus — Visée, Viser, Verrouillage : garder le meilleur bonus de ciblage. ; 5 · Reporter le coût — Charge et Stress de chaque élément installé suivent leurs règles propres.. Un support ne confère pas automatiquement les propriétés de ses modules.
+rule-diagram
+p
+Un support n'accorde pas automatiquement les effets des modules qu'il pourrait recevoir. Une fonction doit être réellement installée pour exister.
+### NeuroWare
+2
+p
+Le câblage neuronal est le Support des NeuroWares. Les modules neuronaux consomment leurs Slots dans ce câblage. Une interface ou un Port neuronal ne modifie jamais le Rang de Neurodive sauf texte explicite.
+p
+Le NeuroWare est une surface privilégiée du Stress augmentique et du piratage : une attaque Neuro ne cible cependant que les éléments réellement accessibles à la connexion.
+### CyberOptique
+2
+p
+Chaque CyberŒil est un Support distinct possédant ses propres Slots. Deux CyberYeux ne fusionnent donc pas leurs capacités en un seul Support ; ils forment deux architectures séparées.
+p
+Les bonus provenant de deux exemplaires d'un même module ne se cumulent pas, sauf mention explicite. Dupliquer un module sert surtout de redondance en cas de perte ou de panne d'un œil.
+p
+Un seul œil équipé d'un capteur suffit normalement pour utiliser sa fonction : le cerveau apprend à intégrer son flux avec celui de l'autre œil.
+### Ciblage et Zoom
+2
+p
+Le bonus d'un [Dispositif de visée](/compendium?article=augmentation-038-dispositif-de-visee#wiki-section-contexte) est un bonus de ciblage. Il ne se cumule ni avec le bonus de Viser, ni avec celui de Verrouillage : utiliser le meilleur bonus de ciblage disponible. Viser et Verrouillage conservent néanmoins leurs autres fonctions propres.
+p
+Un Zoom optique utilisé avec Viser peut ignorer le −3 de longue portée au-delà de la portée nominale et jusqu'à 2 × la portée. Cet effet est équivalent à celui d'une Optique de précision montée sur l'arme et ne se cumule pas avec elle. Il n'augmente jamais la portée maximale au-delà de 2 × sans autre règle explicite.
+### CyberAudio
+2
+p
+Le Kit CyberAudio remplace l'ensemble fonctionnel auditif : oreilles, tympans, capteurs et interfaces avec l'oreille interne. Filtrage, spatialisation, traduction et brouillage concernent l'ensemble du système auditif sauf indication contraire.
+p
+Deux modules identiques ne cumulent jamais le même bonus. La duplication peut fournir de la redondance mais pas un empilement numérique gratuit.
+### Implants internes
+2
+p
+Les implants internes n'utilisent généralement pas de Slots. Ils occupent directement un organe, une structure ou une zone anatomique.
+p
+Deux dispositifs incompatibles sur le même organe ne peuvent pas cohabiter sans une architecture explicitement prévue pour cela.
+### Transformations dermiques
+2
+p
+Les transformations dermiques n'utilisent pas de Slots génériques de peau : elles modifient directement une zone corporelle ou le revêtement du corps.
+p
+Une seule peau globale fonctionnelle principale peut normalement occuper le même revêtement corporel. Deux systèmes couvrant tout le même revêtement ne se superposent pas gratuitement ; Armure dermique et Camouflage dermique exigent un modèle combiné ou compatible, sinon il faut choisir la couche fonctionnelle principale.
+p
+Le SynthéDerm standard est un habillage : il peut recouvrir une augmentation compatible sans occuper la fonction dermique principale et sans modifier les performances de l'implant.
+### Membres cybernétiques
+2
+p
+Un membre cybernétique de base restaure les fonctions humaines normales. Il n'accorde pas automatiquement de Vigueur ou d'Agilité supplémentaire simplement parce qu'il est mécanique.
+p
+Chaque bras, main, jambe ou pied possède ses propres Slots. Un module monté dans le membre ne consomme normalement pas de Charge supplémentaire : la Charge structurelle a déjà été payée par le remplacement. Un module particulièrement massif peut toutefois générer du Stress.
+p
+Une arme intégrée est considérée comme toujours portée et prête. Son déploiement peut faire partie de l'action d'attaque sans Manipulation supplémentaire. Recharger, changer une cartouche ou effectuer une maintenance suit les règles normales.
+### Cyborg lourd
+2
+p
+Un support cyborg surnuméraire crée de nouveaux ancrages corporels ; il ne fournit pas gratuitement les membres, yeux ou capteurs fixés dessus.
+p
+Des appendices ou capteurs surnuméraires augmentent les possibilités matérielles, jamais l'économie de PA : ils ne donnent ni attaque, ni Défense active, ni Réaction gratuite.
+p
+Un élément exposé peut être ciblé par une Altération lorsque la fiction le permet. Sa destruction désactive localement le support ou capteur ; la Charge du personnage ne disparaît pas avant une véritable chirurgie.
+### Biogénétique terrestre
+2
+p
+La Biogénétique n'utilise ni Génération ni Slots. Chaque traitement est développé à partir du patrimoine génétique du bénéficiaire.
+p
+Une fonction humaine restaurée ou optimisée tend vers Charge 0 / Stress 0. Une fonction corporelle réellement nouvelle produit de la Charge ; si elle exige une commande neurologique inhabituelle ou impose une tension physiologique permanente, elle produit aussi du Stress.
+p
+La Biogénétique est beaucoup plus chère et plus lente à cultiver que le Cyber à fonction comparable, moins interchangeable et sans modularité de garage. En contrepartie, elle est biologiquement intégrée, normalement non hackable et ne réclame pas de N-Sta lorsqu'elle génère 0 Stress.
+p
+Une blessure de Bioware se traite avec Soin plutôt qu'avec Mécanique. Un remplacement biologique ordinaire restaure la fonction humaine sans bonus ; accumuler sur ce même membre des fonctions non natives réintroduit Charge et Stress.
+### Esthétique et Charisme
+2
+p
+Les caractéristiques corporelles, choix esthétiques, implants mammaires, organes reproducteurs, implants sexuels ou modifications cosmétiques n'accordent jamais automatiquement de bonus ou malus global de Charisme. Une conséquence sociale dépend toujours du contexte réel de la scène.
+### Lecture des trois familles terrestres
+2
+p
+Gen 1 Cyber : brutale, bon marché, spécialisée et souvent très coûteuse en Stress.
+p
+Gen 2 Cyber : compacte, modulaire, bien intégrée et généralement plus légère en Stress.
+p
+Bio : très chère, personnalisée, organique, non hackable et souvent légère en Charge/Stress, mais sans Slots ni modularité immédiate.
+

@@ -1,0 +1,511 @@
+==== [Moteur de jeu] Moteur de jeu — règles fondamentales (regles-moteur-de-jeu)
+### Le socle commun de Terra Umbra California
+2
+p
+Le Moteur V4 a été finalisé le 10 septembre 2026 après cross-audit Création × Réalité × Vérité. Il rassemble les règles communes de Terra Umbra California : résolution des tests, profil dérivé, Initiative et Points d’Action, déplacement, Edge, Renommée, combat, tir, santé, soins et Stress.
+p
+Les règles spécifiques de Réalité et de Vérité se branchent sur ce socle sans le redéfinir, sauf lorsqu’une exception est explicitement écrite. En cas de doute, cette rubrique constitue donc la référence générale avant d’appliquer une règle plus spécifique.
+### Accès rapide
+2
+table
+Besoin en jeu
+Page de référence
+Faire un test, lire une Difficulté, calculer une DR, gérer opposition ou assistance
+Résolution des tests
+Retrouver une formule de fiche, Edge, Renommée ou Réputation
+Profil, valeurs dérivées & statut
+Déterminer l’Initiative, les PA, les passes, une Réaction ou un Déplacement
+Initiative, Points d’Action & déplacement
+Résoudre une attaque de Mêlée, de Pugilat, une Défense, une Zone ou la propriété Fiable
+Combat & défenses
+Résoudre un Tir, la portée, le couvert, Viser, Verrouillage, Rafale ou Suppression
+Tir, portée & tirs particuliers
+Gérer des blessures, l’Agonie, les soins, la récupération ou la mort
+Santé, blessures & soins
+Gérer un test de Stress ou les états Normal, Tendu et Paniqué
+Stress & états psychologiques
+### Règle générale et exception spécifique
+2
+p
+Une règle de Réalité, de Vérité, de Talent, d’équipement, d’augmentation ou de créature peut modifier une règle du Moteur lorsqu’elle l’indique explicitement. Sans exception écrite, appliquer le Moteur tel quel.
+p
+Les valeurs de départ et les dépenses de création ne sont pas définies ici lorsqu’elles appartiennent au corpus de Création de personnage. Le Moteur décrit leur fonctionnement commun une fois en jeu.
+
+==== [Moteur de jeu] Résolution des tests (regles-resolution-des-tests)
+### Attributs et Compétences
+2
+p
+Les cinq Attributs sont Vigueur, Agilité, Esprit, Volonté et Charisme. Chaque Compétence est rattachée à son Attribut de référence pour les tests standards.
+table
+Attribut
+Compétences
+Vigueur
+Athlétisme · Pugilat · Humanité · Mêlée · Constitution
+Agilité
+Tir · Pilotage · Furtivité · Esquive · Larcin
+Esprit
+Mécanique · Langages & Argot · Savoirs · Soin · Investigation
+Volonté
+Neurodive · Perception · Maîtrise spirituelle · Survie · Force Mentale
+Charisme
+Séduction · Diplomatie · Commerce · Représentation · Autorité
+### Test standard
+2
+p
+Test standard : Attribut + Compétence + 1d10e, comparé à une Difficulté. Un résultat naturel produisant un échec narratif l’emporte toujours sur une réussite numérique.
+image
+images/rules/regles-resolution-v4.svg
+images/rules/regles-resolution-v4-mobile.svg
+Résoudre un test et compter les DR : 1 · Fixer le seuil — Facile 12 · Normal 15 · Difficile 18 · Très difficile 21 · Impossible 25. ; 2 · Lancer — Attribut + Compétence + 1d10e ; appliquer les circonstances réellement distinctes. ; 3 · Échec narratif ? — Oui : échec même si le total dépasse le seuil. Normal : 1 naturel. ; 4 · Comparer — Sinon, total sous le seuil : échec ; total égal ou supérieur : réussite. ; 5 · Qualifier — Marge = total − seuil. 0–2 : 0 DR ; 3–5 : 1 DR ; +1 DR tous les 3 points, max 5.. Exemple : base 7 + dé 9 = 16 contre 15 → marge 1, donc 0 DR.
+rule-diagram
+table
+Difficulté
+Seuil
+Facile
+12
+Normale
+15
+Difficile
+18
+Très difficile
+21
+Impossible
+25
+### d10 explosif et échec narratif
+2
+p
+À l’état Normal, un 10 naturel explose : lancer un second d10 et l’ajouter. Le second dé n’explose jamais. La contribution maximale normale du dé est donc 20.
+p
+Les états Tendu et Paniqué modifient l’explosion et la plage d’échec narratif. Ces effets sont détaillés dans [Stress & états psychologiques](/compendium?article=regles-stress-etats-psychologiques#wiki-section-normal-tendu-panique).
+table
+État
+Échec narratif
+Explosion du d10
+Normal
+1 naturel
+10
+Tendu
+1–2 naturel
+9–10
+Paniqué
+1–3 naturel
+10
+p
+Un échec narratif est un échec même si le total aurait atteint ou dépassé la Difficulté.
+### Marge de réussite et DR
+2
+p
+Lorsqu’un test réussit, calculer la Marge de réussite : résultat total moins Difficulté. Cette Marge détermine le nombre de DR.
+table
+Marge de réussite
+DR
+0–2
+0
+3–5
+1
+6–8
+2
+9–11
+3
+12–14
+4
+15+
+5
+### Circonstances, opposition et coopération
+2
+p
+Circonstance favorable : +3. Circonstance défavorable : −3. Des circonstances substantiellement identiques ne se cumulent pas : retenir le meilleur modificateur applicable.
+p
+Opposition : chaque camp effectue son test ; le résultat le plus élevé l’emporte. Une égalité maintient normalement le statu quo, sauf règle ou Talent contraire.
+p
+Assistance : un assistant possédant au moins 1 point dans une Compétence pertinente apporte +2. Une seule Assistance effective est normalement comptée. Elle n’est pas automatique en combat, sauf règle ou Talent.
+p
+Prendre son temps : lorsque la fiction le permet réellement, le MJ peut réduire la Difficulté d’un niveau. Une même Difficulté ne descend normalement pas de plusieurs niveaux par empilement de préparation ordinaire.
+p
+Action combinée : lorsque deux Compétences distinctes sont toutes deux indispensables, utiliser la plus faible pour le test, sauf Talent ou règle contraire.
+### Exemple de résolution
+2
+p
+Exemple pédagogique : un personnage totalise 7 avec son Attribut et sa Compétence et tente une action de Difficulté Normale 15. Il obtient 9 au premier d10 ; à l’état Normal, ce résultat n’explose pas. Son total est 16 : la réussite a une Marge de 1 et vaut donc 0 DR. Cet exemple illustre uniquement la procédure générale.
+
+==== [Moteur de jeu] Profil, valeurs dérivées & statut (regles-profil-valeurs-derivees-statut)
+### Valeurs dérivées
+2
+p
+Sauf indication explicite, les valeurs dérivées sont calculées à partir des valeurs permanentes d’Attribut et de Compétence. Les bonus de circonstances, d’équipement, de Talent ou les modificateurs temporaires ne les recalculent pas, sauf exception explicitement écrite.
+table
+Valeur
+Calcul
+PV maximum
+2 × Vigueur + Constitution
+Seuil de Mort
+−(Vigueur + Constitution)
+Défense passive
+Agilité + Esquive
+Défense occulte passive
+Volonté + Force Mentale
+Initiative
+Agilité + Athlétisme + 1d10e
+Déplacement
+5 + Athlétisme mètres par PA
+Intégrité
+Force Mentale + Humanité, minimum 1
+Stress augmentique max
+Vigueur + Humanité
+PA maximum
+3 normalement ; une capacité peut porter ce total à 4, une exception explicitement écrite à 5
+### État actuel
+2
+p
+La fiche synthétise l’état dominant du personnage. Normal, Tendu et Paniqué relèvent du Stress ; Agonisant et Stabilisé relèvent de la Santé. Les pages [Stress & états psychologiques](/compendium?article=regles-stress-etats-psychologiques#wiki-section-test-de-stress) et [Santé, blessures & soins](/compendium?article=regles-sante-blessures-soins#wiki-section-agonisant) détaillent leurs effets.
+### Edge
+2
+p
+Edge est une ressource rare de Destin, conservée d’une session à l’autre. Maximum conservé : 8. Edge ne revient pas automatiquement par session et ne s’achète ni en XP ni en PTV.
+p
+Forcer le Destin — 1 Edge : remplacer la contribution du 1d10e par 20 = 10 + 10. Le total, la Marge et les DR sont ensuite calculés normalement ; cela ne garantit pas la réussite.
+p
+Échapper au Destin — 1 Edge : lorsqu’une conséquence devrait tuer le personnage, il survit. Les autres conséquences restent possibles selon la fiction.
+p
+Un seul Edge peut être utilisé pour le même jet ou la même conséquence. Le MJ peut exceptionnellement en rendre 1 lors d’un accomplissement personnel majeur, d’un sacrifice significatif ou d’une étape importante de campagne.
+p
+Les valeurs de départ et les dépenses d’Edge pendant la création appartiennent aux règles de Création de personnage.
+### Renommée — diffusion du nom et bénéfices
+2
+table
+Score
+Niveau
+Portée
+Bénéfice
+0
+Inconnu
+Aucun nom établi
+Les actes, relations et compétences permettent de se présenter.
+1
+Connu du milieu
+Quartier ou cercle professionnel
+Les habitués pertinents reconnaissent le nom et ce qu’il représente.
+2
+Établi
+Milieu local au-delà de ses proches
+Les clients et prestataires peuvent accorder une confiance initiale sans présentation personnelle.
+3
+Notable
+Ville, Sphère locale ou secteur important
+Une demande pertinente atteint les responsables locaux sans être écartée comme celle d’un inconnu.
+4
+Célèbre
+Diffusion large, y compris hors du milieu immédiat
+La réputation permet des introductions entre milieux, mais rend l’anonymat plus difficile.
+5
+Figure majeure
+Référence incontournable dans son domaine
+Les décideurs concernés doivent tenir compte du personnage, sans être obligés de lui obéir.
+p
+La Renommée va de 0 à 5 et possède un milieu de référence. Un nom ou une identité doit pouvoir être relié au personnage : une couverture inconnue ne bénéficie pas automatiquement de la célébrité de son identité réelle. Dans le milieu et la portée appropriés, la reconnaissance ordinaire ne nécessite pas un jet systématique.
+### Renommée et Réputation
+2
+p
+La Renommée mesure combien le nom circule ; la Réputation décrit ce qu’on raconte. Lorsqu’une réputation connue est réellement pertinente, appliquer normalement une circonstance favorable (+3), défavorable (−3) ou une conséquence fictionnelle évidente. Le score de Renommée seul n’accorde aucun bonus social universel : il ne s’ajoute pas au jet.
+p
+Une réputation de convoyeur fiable aide à obtenir un contrat ; une réputation de brutalité peut intimider, mais ne rassure pas nécessairement une victime. Une réputation pertinente ne s’empile pas plusieurs fois parce qu’elle est formulée de plusieurs façons.
+### Faire valoir son nom — une fois par scène
+2
+p
+Face à un interlocuteur non hostile qui reconnaît une réputation pertinente, une Renommée strictement supérieure permet d’obtenir sans jet une concession sociale modeste : être reçu, faire écouter sa version, obtenir une présentation ou bénéficier d’une confiance professionnelle initiale. Une seule utilisation par scène.
+p
+Cela ne fournit ni données secrètes, ni équipement important, ni obéissance contraire aux intérêts ou prérogatives de l’interlocuteur. Être plus connu qu’un gardien ne donne pas son habilitation. À Renommée égale ou inférieure, ou pour une demande dépassant ce cadre, les tests et relations ordinaires restent applicables.
+### Protection et réputation d’une organisation
+2
+p
+Le talent Protection peut s’appuyer sur la meilleure valeur entre la Renommée personnelle et celle de l’organisation localement reconnue, jamais sur leur somme. Cette valeur d’organisation est fixée pour le territoire et la situation ; ce n’est pas un score mondial automatique.
+p
+Une affiliation réelle et crédible permet, une fois par scène, de faire renoncer un adversaire ou petit groupe de moindre Renommée à une intimidation, un racket ou une hostilité limitée, et de se retirer. À égalité ou face à une valeur supérieure, la confrontation se résout normalement. Une guerre ouverte ou une vendetta majeure n’est pas annulée par cette dissuasion.
+### Progression de Renommée
+2
+p
+À la fin d’un scénario, le MJ peut accorder +1 lorsqu’un accomplissement attribué au personnage élargit réellement la portée de son nom, dans la limite de 5. Ce n’est pas une récompense automatique de chaque combat. Une opération restée secrète ne rend pas célèbre ; un scandale peut accroître la Renommée tout en dégradant la Réputation.
+p
+Le talent Renommé augmente la Renommée de 1, à la création ou lors de son acquisition ultérieure. Il n’est pas répétable et n’accorde pas de progression au-delà de 5. Les évolutions de campagne sont consignées séparément du bonus du talent pour éviter les doubles attributions.
+
+==== [Moteur de jeu] Initiative, Points d’Action & déplacement (regles-initiative-pa-deplacement)
+### Initiative et nombre de PA
+2
+p
+Initiative : Agilité + Athlétisme + 1d10e.
+table
+Résultat d’Initiative
+PA
+1–10
+1
+11–15
+2
+16+
+3
+1 naturel
+1 PA maximum
+p
+Le plafond normal est de 3 PA. Une capacité peut normalement porter ce total à 4. Une exception explicitement écrite peut atteindre 5 PA.
+### Ordre des passes
+2
+p
+Un round comporte jusqu’à cinq passes : 1 → 2 → 3 → 4 → 5. La passe 1 est celle où tout le monde agit ; les passes suivantes ne concernent que les personnages disposant initialement d’au moins autant de PA.
+image
+images/rules/regles-initiative-v4.svg
+images/rules/regles-initiative-v4-mobile.svg
+Une Réaction consomme une passe future : 1 · Initiative — Agilité + Athlétisme + 1d10e : 1 à 10 = 1 PA ; 11 à 15 = 2 ; 16+ = 3. ; 2 · Passes — Avec 4 PA, agir aux passes 1, 2, 3 et 4 ; la passe 1 est commune à tous. ; 3 · Réagir — Après la passe 1, Défense active : dépenser 1 PA du round. ; 4 · Déduire — Supprimer la plus haute passe future disponible : ici la passe 4. ; 5 · Reprendre — Le personnage agit encore aux passes 2 et 3, puis son round est fini.. Un 1 naturel à l’Initiative plafonne à 1 PA, quel que soit le total.
+rule-diagram
+p
+Chaque PA dépensé en Réaction ou en [Défense active](/compendium?article=regles-combat-defenses#wiki-section-defenses) consomme un des PA du round. Lorsqu’un PA est dépensé hors de sa passe, il supprime en priorité la plus haute passe future encore disponible.
+p
+Un PA volontairement conservé peut rester disponible pour une Réaction jusqu’à la fin du round. S’il n’est pas utilisé, il est perdu.
+### PA gagné en cours de round
+2
+p
+Lorsqu’un effet accorde +1 PA en cours de round, il ouvre la prochaine passe normalement inaccessible au personnage, dans la limite du plafond indiqué. Si cette passe est déjà passée, ce PA peut uniquement être conservé pour une Réaction avant la fin du round ; sinon il est perdu.
+p
+Exemple canonique : un personnage à 4 PA agit en passe 1. Il dépense ensuite 1 PA en Défense active : sa passe 4 est consommée. Il peut encore agir en passes 2 et 3. Dans la plupart des combats, les passes 4 et 5 servent donc surtout de réserve défensive.
+### Déplacement
+2
+p
+1 PA permet de parcourir 5 + Athlétisme mètres.
+p
+Un test n’est demandé que si le déplacement est difficile, dangereux ou contesté. Plusieurs PA peuvent être consacrés à plusieurs Déplacements. Se relever peut être intégré à un Déplacement.
+### Équipement ordinaire et objets Encombrants
+2
+p
+La jauge générale d’Encombrement est supprimée. Les petits objets, chargeurs, Holophone, outils courants et vêtements ne sont pas comptés individuellement.
+p
+Un personnage peut transporter normalement un nombre d’objets possédant la propriété Encombrant égal à sa Vigueur. Un objet exceptionnellement massif peut compter comme plusieurs objets Encombrants si sa fiche le précise.
+p
+Au-delà de cette limite, le transport exige un moyen approprié, devient une action de portage ou de traction, ou provoque les contraintes fictionnelles pertinentes.
+
+==== [Moteur de jeu] Combat & défenses (regles-combat-defenses)
+### Défenses
+2
+p
+Défense passive : Agilité + Esquive.
+image
+images/rules/regles-combat-v4.svg
+images/rules/regles-combat-v4-mobile.svg
+Résoudre une attaque physique : 1 · Attaque — Mêlée : Vigueur + Mêlée + 1d10e ; Pugilat : Vigueur + Pugilat + 1d10e. ; 2 · Défense possible ? — Passive : Agilité + Esquive. Active : +1d10e en Réaction pour 1 PA, sauf surprise. ; 3 · Comparer — Attaque ≤ Défense : aucun effet. Attaque > Défense : marge positive. ; 4 · Dégâts — Mêlée : marge + DGT de l’arme − Armure ; Pugilat : marge + DGT 1 − Armure. ; 5 · Appliquer — Déduire les dégâts des PV ; l’Armure réduit les dégâts, jamais la Défense.. En Zone : un jet d’attaque, mais défense, marge et dégâts séparés pour chaque cible.
+rule-diagram
+p
+Défense active : 1 PA en Réaction, pour effectuer Agilité + Esquive + 1d10e. Une attaque surprise ne permet normalement pas de Défense active.
+p
+Une attaque doit dépasser la Défense. Une égalité maintient le statu quo et n’inflige ni dégâts ni effet.
+### Mêlée
+2
+p
+Attaque de Mêlée : Vigueur + Mêlée + 1d10e contre la Défense.
+p
+Dégâts : Marge + DGT de l’arme − Armure applicable.
+p
+L’Armure réduit les dégâts ; elle ne s’ajoute jamais à la Défense.
+### Pugilat
+2
+p
+Pugilat : Vigueur + Pugilat + 1d10e. DGT de base 1, sauf Talent, augmentation, arme naturelle ou autre règle.
+### Zones d’effet
+2
+p
+Zone X m : une attaque Zone affecte toutes les cibles exposées dans la zone indiquée. Un seul jet d’attaque est effectué. Chaque cible compare séparément ce résultat à sa propre Défense ; sa marge et ses dégâts sont donc calculés individuellement.
+p
+Une cible consciente peut utiliser une Défense active pour 1 PA. Le couvert s’applique normalement ; un couvert total réellement interposé peut annuler l’exposition.
+p
+Une attaque de Zone ne sélectionne normalement pas une localisation anatomique précise. Une [Altération](/compendium?article=regles-tir-portee-tirs-particuliers#wiki-section-alteration) éventuelle peut viser une conséquence cohérente avec la zone : projection, renversement, incendie du décor, rupture d’un support, etc.
+p
+Toutes les cibles exposées sont concernées, alliées comprises, sauf propriété explicitement sélective.
+### Propriété Fiable
+2
+p
+Avec une arme Fiable, un 1 naturel reste un échec mais ne provoque ni échec narratif ni enrayement ou panne lié à l’arme.
+p
+Fiable ne protège pas d’un échec narratif provenant d’un autre résultat, par exemple un 2 lorsque le personnage est Tendu. Fiable ne transforme jamais l’échec en réussite.
+
+==== [Moteur de jeu] Tir, portée & tirs particuliers (regles-tir-portee-tirs-particuliers)
+### Attaque de Tir
+2
+p
+Attaque de Tir : Agilité + Tir + 1d10e contre la [Défense de la cible](/compendium?article=regles-combat-defenses#wiki-section-defenses).
+table
+Marge
+Résultat
+1–5
+DGT de l’arme − Armure
+6–10
+DGT − Armure + une Altération cohérente
+11+
+2 × DGT − Armure + une Altération cohérente
+p
+L’Armure n’est jamais doublée.
+### Altération
+2
+p
+Une Altération traduit une réussite particulièrement propre : localisation, désarmement, destruction d’un équipement exposé, projection, panne, rupture de support ou autre conséquence cohérente.
+p
+Une Altération ne crée pas automatiquement un état universel supplémentaire.
+### Viser
+2
+p
+Viser coûte 1 PA et donne +3 au prochain Tir. Si une Altération est obtenue, Viser permet d’annoncer une zone ou localisation précise lorsqu’elle est physiquement possible.
+p
+Viser est incompatible avec Rafale et Suppression.
+### Portée
+2
+table
+Distance
+Modificateur de Tir
+≤ 1/2 portée
++3
+≤ portée
+normal
+≤ 2 × portée
+−3
+> 2 × portée
+normalement impossible sans effet explicite
+### Couvert, contact et mêlée
+2
+p
+Couvert partiel : +3 Défense. Un couvert total réellement interposé rend normalement la cible impossible à atteindre directement.
+p
+Tir au contact : −3. Tir dans une mêlée : −3, sauf règle contraire.
+### Verrouillage
+2
+p
+Verrouillage : 1 PA sur une cible détectée et suivie. Le tireur reçoit +3 au Tir tant que le suivi est maintenu. Une seule cible ou un seul système peut être verrouillé ; il n’existe pas de jauge de Verrouillage.
+p
+Viser et Verrouillage peuvent se cumuler car ils représentent deux préparations distinctes.
+### Rafale
+2
+p
+Rafale nécessite la propriété Rafale. Elle coûte 1 PA et utilise un seul jet.
+image
+images/rules/regles-tir-v4.svg
+images/rules/regles-tir-v4-mobile.svg
+Tir : ordinaire, Rafale ou Suppression ? : 1 · Choisir le mode — Tir ordinaire ; Rafale si l’arme porte Rafale ; Suppression si Automatique. ; 2 · Préparer si possible — Viser : 1 PA, +3 au Tir suivant ; incompatible avec Rafale et Suppression. ; 3 · Tir ordinaire — Marge 1–5 : DGT − Armure ; 6–10 : idem + Altération ; 11+ : 2 × DGT − Armure + Altération. ; 4 · Rafale — Un jet : 1 / 2 / 3 impacts pour marges 1–5 / 6–10 / 11+ ; chacun DGT − Armure. ; 5 · Suppression — Valeur du jet jusqu’à fin du round ; cible exposée avec Défense passive plus faible : 1 impact.. Rafale et Suppression ne produisent pas d’Altération ; Suppression ne permet pas de Défense active.
+rule-diagram
+table
+Marge
+Impacts
+1–5
+1 impact
+6–10
+2 impacts
+11+
+3 impacts
+p
+Chaque impact inflige DGT − Armure. Une Rafale ne produit aucune Altération et est incompatible avec Viser.
+### Suppression
+2
+p
+Suppression nécessite Automatique et coûte 1 PA. Le résultat du test devient la valeur de Suppression jusqu’à la fin du round.
+p
+Toute cible qui s’expose ou traverse la zone et dont la Défense passive est inférieure à la valeur de Suppression subit 1 impact DGT − Armure.
+p
+La Suppression ne permet ni Altération ni Défense active ; elle peut déclencher un test de Stress. Elle est incompatible avec Viser.
+
+==== [Moteur de jeu] Santé, blessures & soins (regles-sante-blessures-soins)
+### PV et seuils de blessure
+2
+p
+PV maximum : 2 × Vigueur + Constitution.
+table
+PV actuels
+Conséquence minimale
+50 % des PV ou moins
+Le personnage est au minimum Tendu.
+25 % des PV ou moins
+Le personnage est au minimum Paniqué.
+0 PV ou moins
+Le personnage est Agonisant.
+### Agonisant
+2
+p
+À 0 PV ou moins, un personnage Agonisant dispose au maximum de 1 PA par round. Il peut ramper, tenter des Premiers soins sur lui-même ou accomplir une action extrêmement simple ; il ne peut ni attaquer ni effectuer de Défense active.
+image
+images/rules/regles-sante-v4.svg
+images/rules/regles-sante-v4-mobile.svg
+Blessure, Agonie et stabilisation : 1 · Suivre les PV — PV max = 2 × Vigueur + Constitution ; à 50 % : Tendu minimum ; à 25 % : Paniqué. ; 2 · À 0 PV — Agonisant : 1 PA maximum ; ni attaque ni Défense active. ; 3 · Fin de chaque round — Si non Stabilisé : Vigueur + Constitution + 1d10e contre 15. ; 4 · Test manqué — −1 PV ; échec narratif : −2 PV. Mort à −(Vigueur + Constitution). ; 5 · Stabiliser — Esprit + Soin contre 15 : retour exactement à 0 PV, plus de test d’Agonie.. Pour agir normalement après stabilisation, récupérer au moins 1 PV.
+rule-diagram
+p
+Test d’Agonie : à la fin de chaque round tant qu’il n’est pas Stabilisé, effectuer Vigueur + Constitution + 1d10e contre 15. En échec, le personnage perd 1 PV. En échec narratif, il perd 2 PV.
+### Stabiliser
+2
+p
+Stabiliser : Esprit + Soin, Difficulté 15. En réussite, l’Agonisant revient exactement à 0 PV et devient Stabilisé.
+p
+Un personnage Stabilisé ne fait plus de test d’Agonie mais ne peut pas agir normalement avant d’avoir récupéré au moins 1 PV.
+### Premiers soins
+2
+p
+Premiers soins : Esprit + Soin, Difficulté 15 par défaut, modifiable si les circonstances médicales le justifient. En réussite, la cible récupère 1 + DR PV.
+p
+Une seule tentative efficace de Premiers soins est possible par ensemble de blessures.
+### Repos et soins prolongés
+2
+p
+Repos : récupération de Constitution PV par jour, minimum 1.
+p
+Soins prolongés : dans des conditions médicales adaptées, la récupération de repos est doublée.
+### Mort
+2
+p
+Seuil de Mort : −(Vigueur + Constitution). Lorsqu’un personnage atteint ce seuil, il meurt.
+### Séquelles
+2
+p
+Une blessure particulièrement grave peut laisser une Séquelle physique si la fiction le justifie. Une prothèse, un traitement ou une augmentation peuvent la mitiger.
+
+==== [Moteur de jeu] Stress & états psychologiques (regles-stress-etats-psychologiques)
+### Test de Stress
+2
+p
+Test de Stress : Volonté + Maîtrise spirituelle + 1d10e contre une Difficulté adaptée à l’événement.
+p
+En échec, le personnage devient Tendu ou Paniqué selon la gravité de l’événement et les circonstances. Certains effets peuvent imposer directement un état.
+### Normal, Tendu et Paniqué
+2
+table
+État
+Échec narratif
+Explosion du d10
+Normal
+1 naturel
+10
+Tendu
+1–2 naturel
+9–10
+Paniqué
+1–3 naturel
+10
+### Stress minimum imposé par les blessures
+2
+p
+À 50 % des [PV](/compendium?article=regles-sante-blessures-soins#wiki-section-pv-et-seuils) ou moins, le personnage est au minimum Tendu. À 25 % des PV ou moins, il est au minimum Paniqué.
+image
+images/rules/regles-stress-v4.svg
+images/rules/regles-stress-v4-mobile.svg
+Quel état régit réellement le dé ? : 1 · Identifier les sources — Stress subi ou imposé ; blessures ≤ 50 % PV : Tendu minimum ; ≤ 25 % : Paniqué. ; 2 · Retenir l’état — Normal : échec 1 / explosion 10 ; Tendu : échec 1–2 / explosion 9–10. ; 3 · Si Paniqué — Échec narratif 1–3 ; explosion seulement sur 10 naturel. ; 4 · Soigner les blessures — Au-dessus d’un seuil de PV, retirer aussitôt le minimum imposé par ce seuil. ; 5 · Autre cause ? — Si oui, conserver son Stress ; sinon redescendre au minimum encore applicable.. Le repos ne descend jamais sous le minimum de Stress encore imposé par les blessures.
+rule-diagram
+p
+Un effet de repos ne peut pas faire descendre le Stress sous le minimum imposé par les blessures.
+### Remontée au-dessus d’un seuil de blessure
+2
+p
+Lorsqu’une guérison, des Premiers soins ou une Régénération font remonter les PV au-dessus de 25 % ou 50 %, le minimum de Stress imposé uniquement par ce seuil cesse immédiatement.
+p
+Si Tendu ou Paniqué provenait seulement des blessures, l’état redescend au minimum encore applicable. Une autre source indépendante de Stress continue normalement.
+### Retour au calme
+2
+p
+Quelques minutes de sécurité et de calme peuvent normalement faire passer Paniqué à Tendu.
+p
+Une nuit sûre ou une activité réellement réconfortante peut faire passer Tendu à Normal, si aucune autre règle n’impose un état minimum.
+### Traumatisme durable
+2
+p
+Une expérience exceptionnellement destructrice peut laisser une séquelle mentale, une phobie, une obsession ou le Désavantage Traumatisé.
+p
+Une simple rencontre avec le surnaturel ne crée pas automatiquement une jauge de Raison en Terra Umbra California.
+
