@@ -34,7 +34,7 @@ Une copie HTML de chaque page est dans `pages/`. Les fichiers `*-source.html` so
    - Test de classement : si deux personnages de la même voie peuvent sembler n'avoir rien en commun, ce sont deux portes ; s'ils font la même chose plus ou moins fort, c'est une progression.
 6. **REFUS des « gestes » / mécaniques communes entre Natures.** L'auteur trouve que ça tue la saveur de la Vérité. Ne jamais proposer de mutualiser des pouvoirs entre Natures. Quand deux pouvoirs se ressemblent, les différencier par un **ressort propre à chaque Nature** (condition, coût ou conséquence).
 7. **Pas de Faim pour le Vampire** (option A, 29/10) : sous le Voile, le Vampire en tant qu'humain n'a pas besoin de se nourrir.
-8. **Relation au Voile** (nom retenu, remplace « Tension du Voile ») : il n'existe **aucun texte complet** ; seul le principe ci-dessus. Une proposition rédigée est dans `relation-au-voile.md` (v2 — décidé : jauge de +3 à −4, effets selon le niveau sans dépense, ajustement par le MJ en fin de partie selon la gravité, sans marques ni poids par pouvoir ; jauge individuelle ; Chasseurs sans jauge).
+8. **Relation au Voile** (nom retenu, remplace « Tension du Voile ») : il n'existe **aucun texte complet** ; seul le principe ci-dessus. Une proposition rédigée est dans `relation-au-voile.md` (v4, validée — jauge de +3 à −4, effets selon le niveau sans dépense, ajustement par le MJ en fin de partie selon la gravité, sans marques ni poids par pouvoir ; jauge individuelle ; Chasseurs sans jauge).
 
 ## Méthode de travail souhaitée par l'auteur
 
@@ -42,6 +42,7 @@ Une copie HTML de chaque page est dans `pages/`. Les fichiers `*-source.html` so
 - Avancer **une décision à la fois**, avec des options concrètes et des exemples tirés de vrais talents.
 - Vérifier qu'une règle n'existe pas dans les sources de l'auteur avant d'affirmer qu'elle manque (cf. la Tension du Voile).
 - Tutoyer l'auteur (demandé le 29/10).
+- Lore : vérifier les factions avant d'écrire un exemple. Les Chasseurs et l'AIDH sont distincts (« un Chasseur de l'AIDH » n'existe pas ; on parle d'un officier ou d'un agent de l'AIDH).
 - Présenter les textes longs dans la conversation, avec de l'espace : l'auteur trouve les pages d'audit trop denses pour relire les propositions.
 
 ## Où on en est

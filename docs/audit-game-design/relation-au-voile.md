@@ -1,4 +1,4 @@
-# Relation au Voile — proposition de règle (v3, à valider par l'auteur)
+# Relation au Voile — proposition de règle (v4 — jauge, évolution, Défaillances et Faveurs validées par l'auteur)
 
 Anciennement « Tension du Voile » (nom des fiches papier de l'auteur).
 
