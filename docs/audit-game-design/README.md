@@ -35,28 +35,31 @@ Une copie HTML de chaque page est dans `pages/`. Les fichiers `*-source.html` so
 6. **REFUS des « gestes » / mécaniques communes entre Natures.** L'auteur trouve que ça tue la saveur de la Vérité. Ne jamais proposer de mutualiser des pouvoirs entre Natures. Quand deux pouvoirs se ressemblent, les différencier par un **ressort propre à chaque Nature** (condition, coût ou conséquence).
 7. **Pas de Faim pour le Vampire** (option A, 29/10) : sous le Voile, le Vampire en tant qu'humain n'a pas besoin de se nourrir.
 8. **Relation au Voile** (nom retenu, remplace « Tension du Voile ») : il n'existe **aucun texte complet** ; seul le principe ci-dessus. Une proposition rédigée est dans `relation-au-voile.md` (v4, validée — jauge de +3 à −4, effets selon le niveau sans dépense, ajustement par le MJ en fin de partie selon la gravité, sans marques ni poids par pouvoir ; jauge individuelle ; Chasseurs sans jauge).
+9. **Le combat doit être létal** (29/10) : Défense passive presque toujours battue = voulu. Le combat s'évite si possible. Ne pas proposer de rendre les personnages plus résistants ; se méfier des bonus défensifs permanents.
 
 ## Méthode de travail souhaitée par l'auteur
 
+**Depuis le 29/10 (demande de l'auteur : accélérer)** : ne plus poser les questions une par une. Claude applique lui-même les décisions déjà prises (charte ci-dessus) et traite chaque famille **en lot** : texte complet réécrit, appliqué par défaut. L'auteur relit **par exception** (il signale ce qu'il refuse). Ne remonter en question que ce que la charte ne tranche pas, regroupé, 3 à 5 points par famille au plus, chacun avec une recommandation.
+
 - Juger **le fond** (expérience de jeu, boucle, rôles, tensions), pas seulement la forme (doublons, notes de développement). La v1 de l'audit a été jugée trop centrée sur la forme.
-- Avancer **une décision à la fois**, avec des options concrètes et des exemples tirés de vrais talents.
+- Pour les rares questions remontées : options concrètes et exemples tirés de vrais talents.
 - Vérifier qu'une règle n'existe pas dans les sources de l'auteur avant d'affirmer qu'elle manque (cf. la Tension du Voile).
 - Tutoyer l'auteur (demandé le 29/10).
 - Lore : vérifier les factions avant d'écrire un exemple. Les Chasseurs et l'AIDH sont distincts (« un Chasseur de l'AIDH » n'existe pas ; on parle d'un officier ou d'un agent de l'AIDH).
-- Présenter les textes longs dans la conversation, avec de l'espace : l'auteur trouve les pages d'audit trop denses pour relire les propositions.
+- Présenter les textes aérés : l'auteur trouve les pages d'audit trop denses. Les lots complets vont dans un fichier lisible ; la conversation ne porte que la synthèse et les questions remontées.
 
 ## Où on en est
 
 - **Vampire hybride** publié : 1 carte de Nature + 20 voies (8 progression, 6 une porte, 6 deux portes). Les textes des 8 voies en progression ont été présentés dans la conversation ; en attente de retour de l'auteur.
-- **Questions de fond Vampire ouvertes** :
+- **Vampire : clos en lot le 29/10** (voir la fin de `vampire-voies-progression.md`, veto possible). Historique des questions :
   1. ~~Faim~~ → tranché : option A, pas de Faim.
   2. ~~Maîtrise d'un Sang~~ → tranché : en paliers, propre à chaque Nature (Vampire : voie au palier III ; Garou : deux voies au palier II) ; éveil 3 PTV.
-  3. Empreintes de Cour inégales (réduire Krovni, renforcer Ihuito, clarifier Shi Hun ; signature culturelle pour toutes ou aucune).
-  4. Paliers à créer : Shi Hun III, entrée Semi-Révélée optionnelle du Sang Condamné.
+  3. ~~Empreintes de Cour~~ → appliqué en lot.
+  4. ~~Paliers à créer~~ → appliqué en lot.
   5. ~~Poids de Relation au Voile par palier~~ → abandonné : le MJ juge la gravité, pas le pouvoir.
-  6. Ressorts propres entre pouvoirs proches (Domination / Regard d'Alpha, Présence du Conquérant / Terreur du prédateur, Corps de brume / Brume défensive).
+  6. ~~Ressorts propres entre pouvoirs proches~~ → appliqués en lot.
 - **Prochaine étape convenue : les Humains et Chasseurs** (266 talents, 14 traditions) avec la même méthode hybride, sans mécaniques communes entre traditions. Le rapport `rapports/03-humains-chasseurs.md` contient l'analyse détaillée.
-- **Décisions de l'audit encore ouvertes** : combat (Défense passive presque toujours battue, ~90 % de touches ; Défense active ~45 %), procédures légères hors combat (contrats, enquête, contacts, factions), rythme de progression (XP/PTV par séance, jalons), place du personnage profane.
+- **Décisions de l'audit encore ouvertes** : ~~combat~~ (létalité voulue), procédures légères hors combat (contrats, enquête, contacts, factions), rythme de progression (XP/PTV par séance, jalons), place du personnage profane.
 
 ## Repères techniques utiles
 

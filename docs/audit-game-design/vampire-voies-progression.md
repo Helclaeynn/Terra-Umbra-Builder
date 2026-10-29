@@ -70,3 +70,16 @@ Proposition du 29 octobre 2026, présentée à l'auteur dans la conversation. Pa
    - Domination (intime, une cible) / Ordre impérieux (Krovni, martial : ennemi Tendu ou subordonné, ordre de combat).
    - Présence du Conquérant (le rang écrase : la cible ne peut pas attaquer le Krovni en premier ce round) / Terreur du prédateur (la proie fuit ou se fige si blessée).
    - Corps de brume (se dissoudre : finir son mouvement à 3 m, à travers une grille) / Brume défensive (le +3 peut profiter à un allié adjacent).
+
+## Clôture en lot (29/10, nouvelle méthode : appliqué par défaut, veto de l'auteur possible)
+
+- **Q3 Empreintes de Cour**
+  - Krovni (Prédateur de guerre) : +3 aux deux Défenses physiques **seulement contre un adversaire qu'il a lui-même engagé au contact ce round**. Le système est létal par choix ; un +3 permanent le contredisait.
+  - Oru (Enfant des Ténèbres) : inchangé, mais l'effet cesse dès qu'il attaque ou agit contre quelqu'un (il en sort pour frapper).
+  - Ihuito (Cycle du Sang) : la réduction de 1 PA vaut pour le premier talent de Sang de chaque round jusqu'à la fin de la scène, au lieu d'une fois.
+  - Shi Hun (Équilibre dérobé) : fusionné avec Souffle du Yang, comme dans la voie Shi Hun ci-dessus.
+  - Signature culturelle : supprimée (seuls les Krovni en avaient une). Le Moteur couvre déjà le cas par la circonstance favorable (+3) quand le rang ou le protocole compte.
+- **Q4 Paliers à créer**
+  - Shi Hun III (3 PTV) : après s'être nourri d'un être de Vérité, il connaît ses faiblesses et malédictions ; ses actions qui les exploitent gagnent +3 pour la scène.
+  - Sang Condamné, entrée Semi-Révélée optionnelle : sentir une magie active à 10 m (présence et direction, pas sa nature).
+- **Q6 Ressorts propres** : les quatre ressorts proposés ci-dessus sont appliqués tels quels.
