@@ -41,6 +41,7 @@ Une copie HTML de chaque page est dans `pages/`. Les fichiers `*-source.html` so
 - Juger **le fond** (expérience de jeu, boucle, rôles, tensions), pas seulement la forme (doublons, notes de développement). La v1 de l'audit a été jugée trop centrée sur la forme.
 - Avancer **une décision à la fois**, avec des options concrètes et des exemples tirés de vrais talents.
 - Vérifier qu'une règle n'existe pas dans les sources de l'auteur avant d'affirmer qu'elle manque (cf. la Tension du Voile).
+- Tutoyer l'auteur (demandé le 29/10).
 - Présenter les textes longs dans la conversation, avec de l'espace : l'auteur trouve les pages d'audit trop denses pour relire les propositions.
 
 ## Où on en est
