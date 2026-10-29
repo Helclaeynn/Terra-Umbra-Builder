@@ -42,7 +42,7 @@ Un personnage seulement Semi-Révélé reste traduit pour les profanes : il ne c
 
 La jauge ne se dépense pas : elle ne bouge qu'avec la conduite du personnage.
 
-**Principe (auteur) : l'Hologramme ne joue jamais contre lui-même.** Il corrige toujours ce que voient les profanes et ne Révèle jamais un personnage devant eux, ce qui lui donnerait plus de travail. Il pénalise autrement : en le désignant à ceux qui voient sous le Voile, quitte à le faire traquer.
+**Principe (auteur) : l'Hologramme ne joue jamais contre lui-même.** Il corrige toujours ce que voient les profanes et ne Révèle jamais un personnage devant eux, ce qui lui donnerait plus de travail. Il peut en revanche le Révéler **hors de leur vue**, ce qui l'expose à ses malédictions (un Vampire Révélé au soleil, 2 PV irréductibles par round). Il pénalise autrement : en le désignant à ceux qui voient sous le Voile, quitte à le faire traquer.
 
 **Négatif — Défaillances.** Une fois par séance, le MJ peut déclencher une Défaillance de niveau au plus égal à la valeur de la jauge (en valeur absolue).
 
@@ -50,7 +50,7 @@ La jauge ne se dépense pas : elle ne bouge qu'avec la conduite du personnage.
 |---|---|
 | 1 | La traduction vacille : reflet en retard, animal qui panique, voix décalée. Rien d'impossible n'est vu, mais les témoins sentent que quelque chose cloche : −3 aux tests sociaux avec eux jusqu'à la fin de la scène. |
 | 2 | Semi-Révélation involontaire jusqu'à la fin du prochain round. Les profanes ne voient que la traduction ; tous les êtres de Vérité présents repèrent le personnage. |
-| 3 | Le Voile le livre : il laisse une trace qui mène à lui et que seuls ceux qui voient sous le Voile peuvent exploiter (sang, empreinte, image sur un support invariant), ou il se trahit devant un Chasseur ou une faction hostile. Conséquence : quelqu'un a désormais une piste vers lui et peut le traquer. |
+| 3 | Le Voile le livre : il laisse une trace qui mène à lui et que seuls ceux qui voient sous le Voile peuvent exploiter (sang, empreinte, image sur un support invariant), ou il se trahit devant un Chasseur ou une faction hostile ; quelqu'un a désormais une piste vers lui et peut le traquer. Ou encore : Révélation involontaire sans témoin non averti, qui l'expose à ses malédictions jusqu'à ce qu'il revienne en V (1 PA, sous pression). |
 
 **−4 : Éjection.** L'Hologramme cesse de traduire le personnage : plutôt que de l'exposer, il le rejette hors de sa traduction. À un moment choisi par le MJ dans le scénario, il glisse dans l'Ombremonde par une fissure, de préférence dans un lieu désert. Le retour est un objectif de scénario. Au retour, la jauge est à −2.
 
