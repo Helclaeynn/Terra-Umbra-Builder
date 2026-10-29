@@ -26,7 +26,7 @@ Une copie HTML de chaque page est dans `pages/`. Les fichiers `*-source.html` so
 
 1. **Rédaction sur deux niveaux** : un texte joueur court (carte), et un texte de référence pour le MJ et le moteur du site.
 2. **Edge** : il revient sous contrôle du MJ quand le personnage accomplit un objectif personnel (2 objectifs, court et long terme : +1 ou +2 Edge) ou joue un de ses 1 à 2 principes à ses dépens (+1, une fois par séance). Plafond 8.
-3. **Tension du Voile = cœur du jeu.** Règle de l'auteur, présente sur ses fiches papier mais **absente du site V2 et du compendium** : se Révéler devant des témoins non avertis charge la jauge ; trop haute, le Voile défaille au pire moment (semi-révélation involontaire, méfiance) jusqu'à envoyer le personnage dans l'Ombremonde ; bien tenue (discrétion, élimination des menaces pour le Voile), le Voile peut défaillir en faveur du personnage (ennemi Voilé trahi une fraction de seconde, image de caméra détournée). Pas de texte complet chez l'auteur : voir la proposition `tension-du-voile.md`.
+3. **Tension du Voile = cœur du jeu.** Règle de l'auteur, présente sur ses fiches papier mais **absente du site V2 et du compendium** : se Révéler devant des témoins non avertis charge la jauge ; trop haute, le Voile défaille au pire moment (semi-révélation involontaire, méfiance) jusqu'à envoyer le personnage dans l'Ombremonde ; bien tenue (discrétion, élimination des menaces pour le Voile), le Voile peut défaillir en faveur du personnage (ennemi Voilé trahi une fraction de seconde, image de caméra détournée). Pas de texte complet chez l'auteur : voir la proposition `relation-au-voile.md`.
 4. **La Corruption vient des Fléaux**, pas d'une recherche de puissance. Ne pas la présenter comme une tentation de pouvoir.
 5. **Talents de Vérité en voies à paliers**, propres à chaque Nature. Paliers I / II / III = 1 / 2 / 3 PTV.
    - Approche **hybride** proposée par l'auteur : voies en *progression* (un pouvoir qui grandit), en *collection à une porte* (talents distincts, entrée obligatoire) ou en *collection à deux portes*.
@@ -34,7 +34,7 @@ Une copie HTML de chaque page est dans `pages/`. Les fichiers `*-source.html` so
    - Test de classement : si deux personnages de la même voie peuvent sembler n'avoir rien en commun, ce sont deux portes ; s'ils font la même chose plus ou moins fort, c'est une progression.
 6. **REFUS des « gestes » / mécaniques communes entre Natures.** L'auteur trouve que ça tue la saveur de la Vérité. Ne jamais proposer de mutualiser des pouvoirs entre Natures. Quand deux pouvoirs se ressemblent, les différencier par un **ressort propre à chaque Nature** (condition, coût ou conséquence).
 7. **Pas de Faim pour le Vampire** (option A, 29/10) : sous le Voile, le Vampire en tant qu'humain n'a pas besoin de se nourrir.
-8. **Tension du Voile** : il n'existe **aucun texte complet** ; seul le principe ci-dessus. Une proposition rédigée est dans `tension-du-voile.md` (v1 : jauge de +3 à −4 décidée par l'auteur ; nom et détails en attente).
+8. **Relation au Voile** (nom retenu, remplace « Tension du Voile ») : il n'existe **aucun texte complet** ; seul le principe ci-dessus. Une proposition rédigée est dans `relation-au-voile.md` (v1 : jauge de +3 à −4 décidée par l'auteur ; nom et détails en attente).
 
 ## Méthode de travail souhaitée par l'auteur
 
@@ -51,7 +51,7 @@ Une copie HTML de chaque page est dans `pages/`. Les fichiers `*-source.html` so
   2. Maîtrise d'un Sang : 4 PTV chez le Vampire, 6 chez le Garou (aligner ; ou « un Sang est maîtrisé quand une voie est complète »).
   3. Empreintes de Cour inégales (réduire Krovni, renforcer Ihuito, clarifier Shi Hun ; signature culturelle pour toutes ou aucune).
   4. Paliers à créer : Shi Hun III, entrée Semi-Révélée optionnelle du Sang Condamné.
-  5. Poids de Tension du Voile par palier (à faire une fois `tension-du-voile.md` validé).
+  5. Poids de Relation au Voile par palier (à faire une fois `relation-au-voile.md` validé).
   6. Ressorts propres entre pouvoirs proches (Domination / Regard d'Alpha, Présence du Conquérant / Terreur du prédateur, Corps de brume / Brume défensive).
 - **Prochaine étape convenue : les Humains et Chasseurs** (266 talents, 14 traditions) avec la même méthode hybride, sans mécaniques communes entre traditions. Le rapport `rapports/03-humains-chasseurs.md` contient l'analyse détaillée.
 - **Décisions de l'audit encore ouvertes** : combat (Défense passive presque toujours battue, ~90 % de touches ; Défense active ~45 %), procédures légères hors combat (contrats, enquête, contacts, factions), rythme de progression (XP/PTV par séance, jalons), place du personnage profane.
