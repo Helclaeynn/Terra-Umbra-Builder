@@ -1,0 +1,1313 @@
+==== [Vérité — Natures & capacités › Exilés] Profils raciaux des cinq peuples (regles-verite-v7-exiles-profils-cinq-peuples)
+### Profils des cinq peuples
+2
+p
+Les modificateurs ci-dessous sont ceux de la Nature en SR et R. Ils ne remplacent jamais les Attributs bruts du personnage et suivent les règles communes de transition [V/SR/R](/compendium?article=regles-verite-v7-voile-continuite-objets-reseaux-interfaces#wiki-section-5-hologramme-voile-semi-revelation-et-revelation).
+table
+Peuple
+SR
+R
+Traits gratuits structurants
+Elyë
++1 Agilité
++1 Agilité, +1 Esprit, +1 Charisme
+Ambidextrie naturelle ; affinité elfique à la Magie ; longévité narrative.
+Whurten
++1 Vigueur
++1 Vigueur, +2 Volonté
+Sens magnétique ; physiologie robuste.
+Ashyll
++1 Agilité
++2 Agilité, +1 Esprit
+Ouïe ashyll ; petite morphologie.
+Thulkar
++1 Vigueur
++2 Vigueur, +1 Charisme
+Puissance corporelle et progression raciale volontairement compacte.
+Azménorien
++1 Esprit
++1 Vigueur, +1 Esprit, +1 Charisme
+Ailes sombres ; don magique azménorien.
+### Traits de Nature et limites
+2
+p
+Les traits gratuits décrivent ce que la physiologie permet réellement ; ils ne créent jamais une action supplémentaire. L’ambidextrie elyë ne donne pas une attaque de plus, une aile azménorienne n’accorde pas un vol libre et une morphologie ashyll n’ajoute aucun bonus générique hors règle explicite.
+p
+L’affinité elfique et le don magique azménorien sont des traits d’accès : ils permettent d’apprendre des traditions compatibles mais ne donnent aucun sort. Les différences culturelles, factions et écoles appartiennent à la page Exilés consacrée aux réseaux et traditions.
+### Catalogue mécanique
+2
+table
+Périmètre
+Talents
+Profils raciaux des cinq peuples
+53
+p
+Les 53 Talents de profils restent canoniques dans le Builder. Cette page fixe les modificateurs d’état, les traits gratuits, les limites de physiologie et les règles qui permettent d’interpréter correctement ces Talents sans recopier leur catalogue.
+### Les cinq profils raciaux › Elyë — Elfes › Grace elfique — 5 PTV
+2
+table
+Talent
+PTV
+Accès / activation
+Prérequis
+Effet
+Pas léger
+1
+SR/R · Passif
+Ignorez jusqu'à -3 de malus de circonstances provenant uniquement d'un sol étroit, instable, fragile ou bruyant lorsque l'Elyë se déplace avec prudence. Le Talent ne permet pas de tenir sur une surface physiquement impossible.
+Effacement elfique
+2
+SR/R · 1/Scène
+Pas leger
+Après un Déplacement qui rompt réellement la ligne de vue ou amène l'Elyë dans un couvert permettant de se cacher, il peut immédiatement tenter son’action de discrétion sans dépenser de PA supplémentaire. Si aucun’endroit ne permet de disparaître, le Talent ne crée pas de cachette.
+Réflexe de grâce
+2
+SR/R · Réaction sans PA supplémentaire — 1/scène
+Effacement elfique
+Une fois par scène, après un échec non narratif à une Défense active, relancez le d10 explosif et conservez le second résultat, sans payer un second PA.
+La Défense initiale reste payante ; une seule relance de Talent par test. Ne restreint pas silencieusement les types de Défenses admis actuellement.
+### Les cinq profils raciaux › Elyë — Elfes › Mémoire elfique — 5 PTV
+2
+table
+Talent
+PTV
+Accès / activation
+Prérequis
+Effet
+Souvenir ordonné
+1
+V/SR/R · Passif
+Lorsque l'Elyë a délibérément observé une information concrété pendant une scène, il peut la rappeler plus tard avec une grande fidélité sans jet : formulation’approximative, disposition d'un lieu, visage, séquence d'actions, symbole ou détail comparable. Le Talent ne crée jamais une information qu'il n'a pas perçue.
+Lecture des êtres
+2
+V/SR/R · Observation : quelques minutes — 1/scène
+Après quelques minutes d’interaction, le MJ indique une émotion retenue, une priorité ou un point d’attention déductible des comportements. Une fois par scène, votre premier test social qui exploite directement cette lecture bénéficie de +3.
+Pas de télépathie, de vérité automatique sur un menteur ou de bonus sur toutes les interactions.
+Expérience accumulée
+2
+V/SR/R · 1/scénario
+Souvenir ordonne
+Une fois par scénario, rappelez une expérience ancienne plausible : pour la scène, elle autorise les tâches ordinaires correspondantes même à Compétence 0 et donne +3 aux tests d’un domaine précis lié à cette expérience. Aucun secret surnaturel, diplôme officiel ou talent n’est obtenu.
+L’expérience est définie avant le premier jet ; le bonus bénéficie aussi à un spécialiste, sans augmenter son rang permanent.
+### Les cinq profils raciaux › Elyë — Elfes › Resonance elfique — 7 PTV
+2
+table
+Talent
+PTV
+Accès / activation
+Prérequis
+Effet
+Sens du Flux
+1
+SR/R · Passif — 10 m
+Ressentez une manifestation magique active ou une forte perturbation du Flux directement perceptible à 10 m maximum. Cela n’identifie ni sa source, ni sa puissance, ni la Nature d’une personne simplement Voilée.
+Empreinte du Flux
+1
+SR/R · Passif
+Sens du Flux
+Vous mémorisez une signature magique réellement étudiée et pouvez reconnaître la même source ou empreinte. Une signature profondément altérée doit être réétudiée.
+Suivre le Flux
+2
+SR/R · Actif
+Empreinte du Flux
+Une signature magique connue peut être suivie lorsqu’elle a laissé des manifestations récentes et perceptibles dans l'environnement. Esprit + Perception permet d'en retrouver la direction et les ruptures de piste. Le Talent rend possible une traque que des sens ordinaires ne pourraient pas menér, sans creer de trace lorsque la source n'en’a laissé aucune.
+Accord instinctif
+3
+SR/R · 1/scène — Technique déjà maintenue
+Sens du Flux
+Une fois par scène, une Technique apprise déjà maintenue devient autonome pour le reste de la scène : son entretien est réduit de 1 PA par round, minimum 0. Les tests nécessaires pour la conserver malgré une interruption bénéficient de +3.
+Une seule Technique concernée ; ni coût initial, ni autre ressource, ni concentration, ni limite du nombre de maintiens supprimés. Le bénéfice cesse si la Technique prend fin.
+### Les cinq profils raciaux › Whurten — Nains › Constitution whurtenne — 7 PTV
+2
+table
+Talent
+PTV
+Accès / activation
+Prérequis
+Effet
+Endurance obstinée
+1
+V/SR/R · Passif
+Circonstances favorables (+3) pour resister à la fatigue, au manque de sommeil, à la marché forcee, au froid ou à l'effort prolonge lorsqu’il s'agit d'endurance corporelle. Ne protege pas d'un effet surnaturel cible.
+Masse enracinée
+1
+SR/R · Passif
+Circonstances favorables (+3) pour resister à une projection, un renversement, un recul ou un déplacement force reposant sur une contrainte physique. Le bonus ne s'applique pas à une téléportation ou à un effet qui déplace sans opposition physique.
+Insensible à la peine
+2
+SR/R · Actif — 1 PA — 1/scène
+Pour 1 PA, une fois par scène, ignorez jusqu’à la fin de la scène les limitations et conséquences de dés du Stress dues uniquement aux blessures et à la douleur. Les PV, l’Agonie, les fonctions détruites et le Stress d’une autre cause restent inchangés.
+L’état réel reste enregistré ; cette exception ne cumule pas une seconde amélioration des mêmes dés avec Insensibilité à la douleur.
+Encore debout
+3
+SR/R · Reaction - 1/Scène
+Insensible à la peine
+Lorsqu’une source de dégâts ferait passer le Whurten de PV positifs à 0 PV ou moins sans franchir directement son seuil de mort, il reste a 1 PV. L'effet ne soigne rien et ne fonctionne pas si le personnage était déjà Agonisant.
+### Les cinq profils raciaux › Whurten — Nains › Integrite whurtenne — 8 PTV
+2
+table
+Talent
+PTV
+Accès / activation
+Prérequis
+Effet
+Volonté incompressible
+1
+V/SR/R · Passif
+Circonstances favorables (+3) pour resister à une domination, une possession, une contrainte mentale ou une injonction surnaturelle qui cherche directement a imposer un comportement contraire à la volonté du Whurten.
+Ancrage whurten
+2
+V/SR/R · Reaction - 1/Scène
+Volonté incompressible
+Après un échec non narratif à un test de resistance mentale ou occulte, relancez le 1d10e et conservez le second résultat.
+Âme réfractaire
+2
+V/SR/R · Nouvelle résistance — 1/effet subi
+Une fois par effet subi, à la fin de votre prochain round, vous obtenez une nouvelle résistance contre une altération surnaturelle durable de vos souvenirs, convictions, identité ou forme, même si l’effet n’en prévoit pas. Cette résistance ne répare pas des dégâts ni une transformation matérielle irréversible.
+Il s’agit d’un nouveau test de libération, pas d’une seconde relance du premier jet. L’effet agit normalement jusque-là ; les Marques fondamentales et Natures ne sont pas supprimées.
+Inaltérable
+3
+V/SR/R · Reaction - 1/Scénario
+Ancrage whurten + Ame refractaire
+Après un échec non narratif contre une possession, une transformation forcee ou une altération surnaturelle durable de l'identité ou du corps, le Whurten peut transformer cet échec en réussite simple (DR 0). Ne dissipe pas un effet déjà installe avant l'utilisation du Talent.
+### Les cinq profils raciaux › Whurten — Nains › Instinct des profondeurs — 7 PTV
+2
+table
+Talent
+PTV
+Accès / activation
+Prérequis
+Effet
+Boussole intérieure
+1
+V/SR/R · Passif
+Le Sens magnétique inné donne toujours le nord ; Boussole intérieure conserve en plus la direction du dernier repère visité dans les labyrinthes et bâtiments complexes. Les vraies distorsions spatiales restent une limite.
+Lecture du champ
+2
+V/SR/R · Actif — 1 PA — 20 m
+Boussole intérieure
+Pour 1 PA, un test d’Esprit + Perception repère grossièrement à 20 m les masses ferromagnétiques et perturbations magnétiques importantes transmises jusqu’à vous. Le DR affine direction et intensité, sans carte précise ni détection universelle de tous les appareils.
+Mémoire des profondeurs
+2
+V/SR/R · Passif
+Un itineraire que le Whurten’a lui-même parcouru dans un réseau souterrain ou structurel peut être retrace sans jet tant que son’architecture générale n'a pas été profondément modifiée. Il reconnaît également rapidement qu'un passage connu a été déplace, condamne ou transforme.
+Point fixe
+2
+V/SR/R · Choix du repère sur place — durée : scénario
+Boussole intérieure + Lecture du champ
+Conservez jusqu’à trois repères physiquement visités jusqu’à la fin du scénario, avec direction et distance approximatives malgré les illusions d’orientation. Une vraie discontinuité spatiale peut rompre le repérage ; choisir un repère exige d’être sur place.
+Ne révèle aucun itinéraire non parcouru et ne dissipe pas les illusions. Les repères doivent être nommés et conservés sur la fiche.
+### Les cinq profils raciaux › Ashyll — Gobelins › Genie ashyll — 8 PTV
+2
+table
+Talent
+PTV
+Accès / activation
+Prérequis
+Effet
+Ça devrait marcher
+1
+V/SR/R · 1/scène
+Une fois par scène, une tâche technique simple utilisant un outil détourné mais crédible bénéficie de +3, en plus de l’annulation de jusqu’à −3 dus à ce matériel improvisé. Aucun composant indispensable ni source d’énergie n’est inventé.
+Les bonus circonstanciels favorables équivalents ne s’ajoutent pas. Il faut un véritable usage détourné, pas déclarer son outil habituel « improvisé ».
+Diagnostic sauvage
+1
+V/SR/R · Examen — 1 PA
+Après 1 PA d’examen, identifiez le sous-système défaillant accessible à l’observation et bénéficiez de +3 au test de diagnostic ou à la première réparation qui l’exploite. Une cause réellement cachée demande toujours les examens adaptés.
+Bricolage de fortune
+2
+V/SR/R · Actif — 2 PA sous pression
+Diagnostic sauvage
+Avec outils et matériaux plausibles, remettez une fonction de base en service en 2 PA sous pression, jusqu’à la fin de la scène. Le test technique nécessaire reste dû ; ni appareil détruit ni fonction nouvelle ne sont recréés.
+Rien ne se perd
+1
+V/SR/R · Récupération réelle — 3 lots maximum
+Après récupération dans des appareils ou épaves réellement accessibles, conservez jusqu’à trois lots de composants ordinaires destinés à vos bricolages. Chaque lot est consommé lorsqu’il remplace des fournitures plausibles ; aucune pièce rare ni valeur de revente n’est créée.
+Il s’agit d’un stock de ressources identifié, pas de trois objets au choix tirés du néant.
+Impossible ? Non. Mal préparé.
+3
+V/SR/R · Actif — 1 PA — 1/scénario
+Bricolage de fortune
+Une fois par scénario, reconfigurez en 1 PA un appareil réel vers une fonction nouvelle mais techniquement plausible, avec +3 au test nécessaire. Cette invention fonctionne pour la scène ; connaissances, matériaux et énergie restent requis.
+Bricolage de fortune rétablit une fonction existante ; ce sommet invente une nouvelle utilisation à une vitesse exceptionnelle. Aucune attaque, énergie ou fabrication de technologie inconnue gratuite.
+### Les cinq profils raciaux › Ashyll — Gobelins › Instinct du terrier — 7 PTV
+2
+table
+Talent
+PTV
+Accès / activation
+Prérequis
+Effet
+Faufiler
+1
+V/SR/R · Passif
+L'Ashyll se déplace normalement dans les conduits, vides techniques, dessous de mobilier, passages de maintenance et espaces comparables compatibles avec sa morphologie, sans subir de penalite de vitesse due au seul manque de place.
+Oreille du terrier
+1
+V/SR/R · Actif — 1 PA — 10 m
+Pour 1 PA, en contact avec une paroi conductrice, localisez approximativement une activité sonore ou mécanique transmise à 10 m maximum grâce à Esprit + Perception. Le bonus d’Ouïe ashyll s’applique une seule fois si pertinent ; une isolation réelle reste efficace.
+Passage de rat
+2
+V/SR/R · 1/Scène
+Faufiler
+Face à un obstacle ordinaire non hermétique dans un’environnement construit, le MJ indique un passage physique plausible que l'Ashyll peut emprunter ou atteindre - gaine, trappe, espace de maintenance, conduit ou équivalent - s'il en existe un. Le Talent ne crée pas de passage dans une structure réellement scellée.
+Toujours une sortie
+3
+V/SR/R · 1/scène
+Passage de rat
+Une fois par scène, le MJ indique une route de sortie physiquement viable dans le bâtiment ou réseau urbain exploré, s’il en existe encore une. Elle peut rester surveillée ou dangereuse et doit être réellement parcourue.
+Ne garantit pas la réussite d’une fuite ; ne crée ni passage ni téléportation.
+### Les cinq profils raciaux › Ashyll — Gobelins › Culot ashyll — 8 PTV
+2
+table
+Talent
+PTV
+Accès / activation
+Prérequis
+Effet
+Même pas peur
+1
+V/SR/R · Passif
+Circonstances favorables (+3) pour resister à l'intimidation et à la peur provoquées principalement par la taille, le statut, la réputation ou la menace directe d'un’adversaire. Ne protege pas contre une terreur surnaturelle sans composante psychologique ordinaire.
+Profiter du flottement
+2
+V/SR/R · Réaction gratuite — 1/round
+Une fois par round, après un échec adverse à vous surveiller ou contenir, tentez gratuitement de vous dissimuler ou de vous dégager d’une prise dont l’échec a créé l’ouverture. Le test et les possibilités physiques restent nécessaires ; aucune attaque gratuite.
+Rebondir
+2
+V/SR/R · 1/Scène
+Après un échec non narratif, l'Ashyll peut immédiatement tenter une approche réellement differente du même probleme avec une autre Compétence, sans payer un PA supplémentaire si les deux approches s'enchainent naturellement. Ce n'est jamais une seconde tentative identique.
+Faire avec ce qu’on a
+3
+V/SR/R · 1/scène
+Ca devrait marcher + Rebondir
+Une fois par scène, le MJ désigne un substitut local réellement exploitable lorsqu’une ressource ordinaire manque à un plan. Jusqu’à trois participants bénéficient chacun de +3 à leur premier test mettant en œuvre ce plan de remplacement et en acceptent les compromis.
+Pas de fabrication de ressource. Le plan de remplacement est fixé avant les jets et les bonus équivalents ne s’empilent pas.
+### Les cinq profils raciaux › Thulkar — Orques › Puissance thulkar — 4 PTV
+2
+table
+Talent
+PTV
+Accès / activation
+Prérequis
+Effet
+Poigne thulkar
+1
+R · Passif
+Circonstances favorables (+3) pour resister à un désarmement ou maintenir une saisie physique déjà obtenue. Le Thulkar peut également maintenir d'une main un objet ou un individu que sa Vigueur lui permet raisonnablement de tenir, même si un humain’aurait normalement besoin des deux mains.
+Mains de guerre
+1
+R · Passif
+Les attaques de Pugilat du Thulkar utilisent DGT 3 au lieu du DGT 1 normal.
+Force de rupture
+2
+R · Passif
+Poigne thulkar
+Lorsqu’il’attaque volontairement un objet, une porte, une cloison, un verrou, un vehicule immobilise ou une autre structure matérielle, le Thulkar ignore 2 points de Protection matérielle. Ne s'applique pas à l'armure portée par une creature pendant une attaque normale.
+### Les cinq profils raciaux › Thulkar — Orques › Corps thulkar — 7 PTV
+2
+table
+Talent
+PTV
+Accès / activation
+Prérequis
+Effet
+Peau épaisse
+1
+R · Passif
+Armure corporelle 1. Elle se cumule avec une armure portée selon les règles normales Armure corporelle + Armure portée.
+Douleur familière
+1
+SR/R · Passif
+Circonstances favorables (+3) pour resister à un test provoqué directement par la douleur physique, une blessure ou une menace de souffrance. Ne protege pas contre la peur qui ne repose pas sur la douleur.
+Encaisser
+2
+SR/R · Réaction gratuite — 1/scène
+Peau épaisse
+Une fois par scène, réduisez sans PA supplémentaire de 5 les dégâts d’une attaque physique après Armure et Protection, minimum 0. Un effet ignorant explicitement toute résistance physique reste exclu.
+Toujours dangereux
+3
+R · Passif
+Encaisser
+Lorsqu’il est Agonisant, le Thulkar peut utiliser son unique PA du round pour effectuer une attaque de Melee ou de Pugilat, ou une Défense active, en plus des actions normalement permises a cet état. Il reste Agonisant et toute autre limitation s'applique.
+### Les cinq profils raciaux › Thulkar — Orques › Presence thulkar — 5 PTV
+2
+table
+Talent
+PTV
+Accès / activation
+Prérequis
+Effet
+Masse imposante
+1
+R · Passif
+Lorsque sa véritable morphologie est visible et constitue réellement le coeur de la menace, le Thulkar peut utiliser Vigueur à la place de Charisme pour un test d'Intimidation. Cela ne change pas la Compétence utilisee.
+Ne pas détourner le regard
+2
+SR/R · Après résistance réussie — 1/scène
+Une fois par scène, après une résistance réussie à l’intimidation directe d’un adversaire, ses répétitions de la même intimidation ordinaire ne peuvent plus vous faire reculer ou céder pendant la scène. Une menace réellement différente et une emprise surnaturelle restent opposables.
+Monter au défi
+2
+SR/R · Défi accepté — 1/scène
+Après acceptation ouverte d’un véritable défi adverse, bénéficiez de +3 aux actions qui y répondent directement pendant la scène. Un seul défi actif ; provocations fabriquées par vos alliés et actions sans rapport sont exclues.
+### Les cinq profils raciaux › Azménorien › Jusqu au bout — 8 PTV
+2
+table
+Talent
+PTV
+Accès / activation
+Prérequis
+Effet
+Insister
+1
+V/SR/R · Nouvelle tentative payante — 1/scène
+Une fois par scène, retentez une action matériellement répétable malgré la règle de non-spam, à la même difficulté. Vous payez à nouveau son temps et ses PA ; aucun échec narratif ou événement irréversible n’est annulé.
+Hyperfocalisation
+2
+V/SR/R · 1/Scène
+Choisissez une tâche précise. jusqu'à sa résolution ou jusqu'à ce que l'Azménorien l'abandonne, ignorez jusqu'à -3 de malus provenant uniquement du bruit, de la distraction, de l'inconfort ou de la pression’ambiante. Il ne peut pas simultanement fournir une Assistance reposant sur son’attention à une autre tâche.
+Pousser la limite
+2
+V/SR/R · 1/scène
+Une fois par scène, obtenez +3 sur un test en poussant réellement vos capacités. Ce bonus ne se cumule pas avec une circonstance favorable équivalente, mais n’interdit plus les aides sur les étapes ultérieures de la tâche.
+Jusqu’à la rupture
+3
+V/SR/R · 1/scénario
+Insister + Pousser la limite
+Une fois par scénario, un test décisif bénéficie de +3 ; s’il échoue sans échec narratif, vous pouvez subir 3 dégâts irréductibles pour le relancer. Le second résultat est conservé et les dégâts ne sont payés que si vous utilisez cette relance.
+Les dégâts ne doivent pas être convertis en simple perte d’Aura ou ignorés par un bonus de douleur ; pas de seconde relance de Talent.
+### Les cinq profils raciaux › Azménorien › Don d'Azmenor — 8 PTV
+2
+table
+Talent
+PTV
+Accès / activation
+Prérequis
+Effet
+Canalisation naturelle
+1
+SR/R · Passif
+Le propre corps de l'Azménorien compte comme un focus ou conduit générique suffisant pour une Technique magique apprise qui n'exige qu'un support de canalisation ordinaire. Le Talent ne remplace jamais un composant unique, un symbole rituel precis ou un reactif explicitement consomme.
+Correction instinctive
+2
+SR/R · Reaction - 1/Scène
+Canalisation naturelle
+Après un échec non narratif au jet d'activation d'une Technique magique apprise, relancez le 1d10e et conservez le second résultat.
+Maintien naturel
+2
+SR/R · 1/scène — 3 rounds
+Une fois par scène, réduisez de 1 PA par round le maintien d’une Technique apprise pendant trois rounds consécutifs, minimum 0. Sa concentration, ses ressources et les autres maintiens restent normaux.
+Le bénéfice cesse avec la Technique ; ne se cumule pas avec Accord instinctif sur le même entretien.
+Incantation fulgurante
+3
+SR/R · 1/round — réduction de 1 PA
+Correction instinctive + Maintien naturel
+Une fois par round, réduisez de 1 PA le coût d’activation d’une Technique apprise, minimum 1 PA. Une même incantation longue ne peut recevoir cette réduction qu’une fois et les ressources autres que les PA restent dues.
+
+==== [Vérité — Natures & capacités › Exilés] Silcenters, HDS, Croix d’Emphyrra, Runes, réseaux, Hordes & technomagie (regles-verite-v7-exiles-silcenters-hds-croix-runes-reseaux-hordes-technomagie)
+### Silcenters, Continuité & HDS
+2
+p
+Les [Silcenters](/compendium?article=verite-v7-exiles-peuples-silcenters-traditions#wiki-section-peuples-autres-mondes) sont des infrastructures de vie et de formation. Les apprentissages ordinaires d’intégration à la Terre utilisent l’Expérience et les Compétences normales ; les PTV ne paient que les capacités de Vérité qui modifient réellement transitions, perception ou action.
+p
+Les [Protocoles de Continuité](/compendium?article=regles-verite-extral-protocoles-de-continuite#wiki-section-ecole-commune) apprennent à gérer V/SR/R en situation réelle. La HDS est une spécialisation plus poussée, notamment développée dans des cursus liés à l’Union Elfique. Ni le Conseil des Anciens ni un Silcenter ne donnent automatiquement un arbre de pouvoirs.
+### Croix d’Emphyrra
+2
+p
+Faucon de Malachite, Serpentaire de Citrine, Aigle de Larvikite et Hibou d’Onyx sont des traditions idéologiques apprises, jamais des sous-races. Leur accès demande éducation, adhésion, mentorat et parfois épreuves ; une ascendance elyë ne suffit pas à posséder leurs Talents.
+### Runes, Atelier des Clans & Iron Law
+2
+p
+Ymirin, Elegarin et Traditionalistes sont d’abord des positions culturelles ou politiques. Les Runes, l’Atelier des Clans et Iron Law sont les grandes méthodes mécaniques : protection symbolique, maintenance durable, fiabilisation et intégration augmentique. Une faction sans méthode propre ne reçoit pas artificiellement un arbre PTV.
+### Réseaux ashylls & Syndicat de Jade
+2
+p
+La Green Union facilite l’accès aux Silcenters et aux Protocoles sans posséder d’arbre autonome. La Ligue des Quatre Empereurs utilise ressources, structures et pression économique qui doivent exister réellement dans la fiction. Le Syndicat de Jade ouvre des relais clandestins ; il ne matérialise jamais une marchandise à la demande.
+### Hordes thulkars
+2
+p
+Les Hordes représentent des héritages de formation, de tactique et de communauté. Elles ne sont pas des sous-espèces. La Horde Abyssale n’accorde aucune Corruption gratuite : un membre réellement thulien utilise les [règles de Corruption](/compendium?article=regles-verite-v7-corruption-integrite-bascule#wiki-section-sources-concurrentes) et certains Dons de Fixation. La Horde Maudite reste du lore sans arbre PJ propre.
+### Héritages azménoriens & technomagie
+2
+p
+Les héritages azménoriens combinent Magie, technologie xéno et technomagie. Un accès de tradition n’accorde ni équipement, ni infrastructure, ni connaissance profane gratuite : [chaque dispositif doit exister, être disponible](/compendium?article=regles-verite-v7-equipement-proprietes-acquisition#wiki-section-loi-commune) et être utilisé avec les Compétences nécessaires.
+### Catalogue mécanique
+2
+table
+Famille
+Talents
+Silcenters & HDS
+7
+Croix d’Emphyrra
+40
+Héritages whurtens
+16
+Réseaux ashylls & Syndicat de Jade
+23
+Hordes thulkars
+22
+Héritages azménoriens
+23
+Total hors profils raciaux
+131
+p
+Le détail des 131 Talents de traditions et réseaux reste dans le Builder. Cette page porte les accès, les limites et les distinctions entre faction, formation, ressource et véritable capacité de Vérité.
+### Silcenters et HDS › Protocoles de Continuité — 7 PTV
+2
+table
+Talent
+PTV
+Accès / activation
+Prérequis
+Effet
+Révélation drillée
+1
+V/SR/R · 1/Scène
+Au cours de son tour, effectuez une transition personnelle V vers SR, SR vers R ou V vers R sans payer le PA normalement requis. Le Talent ne contourne pas une Révélation rendue impossible ou activement bloquee.
+Repli réflexe
+1
+SR/R · Reaction - 1/Scène
+Lorsqu’un nouvel observateur, une camera, une patrouille ou une situation inattendue menace soudainement d'exposer la véritable apparence du personnage, revenez immédiatement en V sans PA. Cela n'efface pas ce qui a déjà été vu et ne peut pas interrompre la résolution d'une attaque entrante pour obtenir une immunite.
+Coordination de Silcenter
+2
+V/SR/R · 1 PA
+Le personnage peut fournir l'Assistance normale (+2) en combat sur un test non offensif d'un’allié, malgré l'interdiction générale de l'Assistance en combat. Il doit posséder la Compétence à 1+, être réellement capable d'aider et dépenser 1 PA. Ne s'applique jamais à une attaque, une Défense active ou un pouvoir strictement personnel.
+Transition’en chaîne
+3
+V/SR/R · 1/scène — durée : scène
+Révélation drillée + Repli réflexe
+Une fois par scène, vos transitions personnelles V/SR/R sont gratuites jusqu’à la fin de la scène, seulement aux moments où une transition est normalement possible. Aucun soin, PA, changement forcé d’autrui ou contournement d’un blocage n’est créé.
+### Silcenters et HDS › HDS — Hologram Distorsion Skill — 6 PTV
+2
+table
+Talent
+PTV
+Accès / activation
+Prérequis
+Effet
+Lecture de distorsion
+1
+V/SR/R · Actif — 1 PA — 10 m
+Pour 1 PA, Volonté + Maîtrise spirituelle localise une tension active de l’Hologramme à 10 m maximum. Ne révèle pas la vraie morphologie d’une cible simplement Voilée.
+HDB - Hologram Distorsion Block
+2
+V/SR/R · Actif — 1 PA — maintien 1 PA/round — 10 m
+Lecture de distorsion
+Pour 1 PA, opposez Volonté + Maîtrise spirituelle à la Défense occulte d’une cible visible à 10 m ; une réussite interdit sa progression volontaire vers un état plus Révélé jusqu’à votre prochain round. Le maintien coûte 1 PA par round ; aucun R→V forcé.
+HDP - Hologram Distorsion Punishment
+3
+V/SR/R · Réaction — 1 PA — 1/round — 10 m
+HDB — Hologram Distorsion Block
+Une fois par round, dépensez 1 PA en Réaction lorsqu’une cible visible à 10 m utilise volontairement une capacité SR/R incompatible avec la Réalité : Volonté + Maîtrise spirituelle contre sa Défense occulte lui inflige 1 + DR dégâts de contrainte en réussite. L’armure physique ne protège pas ; une observation par capteur ne déclenche rien.
+### Croix d'Emphyrra › Faucon de Malachite — 19 PTV › Voie du Terrain — 7 PTV
+2
+table
+Talent
+PTV
+Accès / activation
+Prérequis
+Effet
+Lire le terrain
+1
+V/SR/R · Examen — 1 PA — 1/scène
+Après 1 PA d’observation, identifiez une position, menace ou route déductible du terrain. Une fois par scène, la première action de vous-même ou d’un allié qui exploite cette lecture gagne +3.
+Terrain familier
+1
+V/SR/R · Passif
+Après quelques minutes dans un’environnement naturel, ruine ou faiblement aménagé, ignorez jusqu'à -3 de malus provenant uniquement du sol, de la végétation, de l humidité, de la pente ou d'obstacles naturels ordinaires pour se déplacer et se dissimuler.
+Se fondre dans le decor
+2
+V/SR/R · Passif — immobile et couvert réel
+Terrain familier
+Immobile dans un couvert naturel réel, bénéficiez de +3 en Furtivité contre les observateurs, y compris une recherche active. Les perceptions inadaptées ne vous trouvent pas automatiquement, mais aucun couvert n’est créé.
+Préparer l’embuscade
+3
+V/SR/R · Préparation : quelques minutes — 1/scène
+Lire le terrain + Se fondre dans le decor
+Après quelques minutes de préparation, une fois par scène, jusqu’à trois participants gagnent chacun +3 sur leur première action exploitant réellement l’embuscade. Ni Surprise garantie, ni action gratuite, ni maintien du bonus si la position est devenue inutilisable.
+### Croix d'Emphyrra › Faucon de Malachite — 19 PTV › Autonomie — 6 PTV
+2
+table
+Talent
+PTV
+Accès / activation
+Prérequis
+Effet
+Vivre de peu
+1
+V/SR/R · Passif
+Dans un’environnement offrant réellement eau, abri et ressources minimales, le personnage peut se maintenir avec beaucoup moins de nourriture, de confort et d'équipement qu'un individu ordinaire. Circonstances favorables (+3) aux tests de survie lies à la pénurie et à l'endurance quotidienne.
+Faire sans
+1
+V/SR/R · Passif
+Ignorez jusqu'à -3 de malus provenant uniquement d'un équipement de survie absent ou mediocre lorsqu’un substitut naturel ou manuel plausible existe. Le Talent ne crée jamais un matériel indispensable.
+Déjouer les capteurs
+2
+V/SR/R · Préparation : quelques minutes — durée : scène
+Après quelques minutes de préparation, masquez pour la scène une catégorie de capteurs ordinaires à l’aide du terrain et de matériaux réels. Un balayage capable de vous détecter oppose sa Perception à votre Furtivité ; aucune immunité à un capteur d’une autre catégorie.
+Refuge autonome
+2
+V/SR/R · Préparation : 1 heure — 1/scénario
+Vivre de peu + Faire sans
+En une heure, une fois par scénario, aménagez avec un site et des ressources réels un refuge pour cinq personnes pendant trois jours. Ses dispositifs de dissimulation imposent −3 aux recherches qui tentent de le repérer, sans effacer une piste directe.
+Eau, nourriture et entretien ne sont pas créés ; cette capacité ne donne ni logement revendable ni revenu.
+### Croix d'Emphyrra › Faucon de Malachite — 19 PTV › Briser l'Artifice — 6 PTV
+2
+table
+Talent
+PTV
+Accès / activation
+Prérequis
+Effet
+Dépendance critique
+1
+V/SR/R · Examen — 1 PA
+Après 1 PA d’inspection, identifiez une dépendance accessible d’un dispositif compris et gagnez +3 au premier test de sabotage qui l’exploite. Le talent n’apprend pas les principes d’une magie ou technologie inconnue.
+Sabotage minimal
+1
+V/SR/R · Préparation : quelques minutes
+Dépendance critique
+Si le personnage peut atteindre la dépendance identifiee, il peut provoquer une panne temporaire avec une intervention minimale et discrété. L'effet doit rester techniquement plausible et cesse après une vraie remise en état.
+Frapper juste
+2
+V/SR/R · 1/Scène
+Dépendance critique
+Après avoir identifie une dépendance critique, la première attaque ou action de destruction qui la vise peut appliquer une Altération matérielle appropriée des une réussite ordinaire, même si la marge n'aurait pas normalement permis une Altération. Les dégâts ne sont pas augmentes.
+Laisser une cicatrice
+2
+V/SR/R · Passif
+Sabotage minimal + Frapper juste
+Un sabotage ou une destruction realisee en exploitant une Dépendance critique ne peut pas être effacée par une simple remise en ligne ou un redémarrage. Une réparation réelle, des pièces ou un’atelier approprié deviennent nécessaires.
+### Croix d'Emphyrra › Serpentaire de Citrine — 22 PTV › Exigence de Citrine — 8 PTV
+2
+table
+Talent
+PTV
+Accès / activation
+Prérequis
+Effet
+Standard
+1
+V/SR/R · Examen réel
+Les défauts ordinaires manifestes restent identifiables sans jet, et vous gagnez +3 pour rechercher un vice caché dans un domaine connu. Le travail doit être réellement examiné avec les moyens adaptés.
+Préparation
+2
+V/SR/R · Préparation
+Standard
+Après avoir réellement préparé à l’avance une action non combattante précise avec les bons outils, informations et conditions, le personnage peut bénéficier de l’effet de Prendre son temps lorsqu’il exécute plus tard cette action sous pression, sans devoir alors consacrer le délai supplémentaire. La préparation doit avoir pris un temps significatif par rapport à l’action et ne se cumule pas avec un second Prendre son temps sur le même test.
+Reprise minutieuse
+2
+V/SR/R · Relance — 1/scène
+Une fois par scène, après un échec non narratif sur un travail encore corrigeable, relancez le jet sans recommencer tout le temps de travail déjà investi. Conservez le second résultat ; rien d’irréversible n’est effacé.
+Œuvre parfaite
+3
+V/SR/R · Préparation réelle — 1/scénario
+Standard + Préparation
+Une fois par scénario, un travail de création ou restauration réussi à DR 2+ gagne 2 DR pour sa qualité finale, maximum DR 5, et ignore sa première défaillance due à un défaut ordinaire de fabrication. Ni invention inconnue, ni augmentation automatique des dégâts ou du prix de vente.
+### Croix d'Emphyrra › Serpentaire de Citrine — 22 PTV › Culture de l'Ascendant — 6 PTV
+2
+table
+Talent
+PTV
+Accès / activation
+Prérequis
+Effet
+Lire le cercle
+1
+V/SR/R · 1/Scène
+Après quelques minutes d'observation d'un groupe social, le MJ indique qui detient actuellement l'influence informelle la plus forte et quelle tension visible structure le groupe. Ce n'est pas une lecture de pensee.
+Maîtriser les codes
+1
+V/SR/R · Passif
+Après une courte observation ou un briefing, le personnage ne subit pas de penalite uniquement parce qu'un milieu formel utilise des codes, un protocole ou une étiquette qui ne lui sont pas familiers. Le Talent ne donne ni statut, ni langue, ni connaissance juridique.
+Retourner l’étiquette
+1
+V/SR/R · 1/scène
+Maitriser les codes
+Une fois par scène, votre prochaine action sociale exploitant une violation explicite du protocole ou d’un engagement par l’interlocuteur gagne +3.
+Enfermer dans ses propres règles
+3
+V/SR/R · 1/scène
+Lire le cercle + Retourner l'étiquette
+Une fois par scène, rappelez un cadre formel réellement accepté ; une cible qui le rompt ouvertement subit −3 aux actions sociales cherchant à conserver les avantages de ce cadre auprès des témoins, pour la scène. Elle reste libre de rompre et aucune autorité étrangère au cadre n’est inventée.
+La sanction porte sur cet échange et ce cercle, pas sur une Renommée globale ; ne se cumule pas avec une pénalité équivalente.
+### Croix d'Emphyrra › Serpentaire de Citrine — 22 PTV › Haute Magie de Citrine — 8 PTV
+2
+table
+Talent
+PTV
+Accès / activation
+Prérequis
+Effet
+Suture
+1
+R · 1 PA
+Au contact d'une creature vivante, stabilisez automatiquement une hémorragie ou une blessure qui pourrait être stabilisee par des soins physiques ordinaires. Sur un Agonisant, le Talent le Stabilise si rien ne rend la stabilisation impossible.
+Correction somatique
+2
+R · Actif — 2 PA — contact
+Suture
+Pour 2 PA au contact, opposez Volonté + Maîtrise spirituelle à la gravité du trouble ou à sa Puissance : 15 pour un trouble ordinaire courant, 18 pour un cas complexe. En réussite, un trouble mineur récent cesse ; un trouble plus profond est contenu pour la scène, sans soin de PV ni suppression d’une Nature.
+Réfection vitale
+2
+R · Actif — 1 PA — 1/scénario/bénéficiaire
+Suture
+Pour 1 PA au contact, Volonté + Maîtrise spirituelle difficulté 18 rend 4 + DR PV, sans dépasser le maximum. Une même cible ne peut en bénéficier qu’une fois par scénario.
+Proposition de nouvelle limite par cible/scénario, inspirée de l’arbitrage sur les nanites ; un autre lanceur ou un rechargement de page ne doit pas renouveler ce même soin sur la cible.
+Le suivi est porté par le bénéficiaire, indépendamment du lanceur ; aucune recharge au combat suivant, au rechargement de page ou à une transition V/SR/R.
+Restauration parfaite
+3
+R · 1/Scénario - rituel long
+Correction somatique + Refection vitale
+Avec plusieurs heures de soin et un’environnement adapte, restaurez un dommage organique majeur encore compatible avec la survie : tissu détruit, organe gravement lésé ou membre perdu. Le Talent ne ressuscite pas un mort, ne recree pas une partie remplacee volontairement par une augmentation et peut demander une convalescence narrative.
+### Croix d'Emphyrra › Aigle de Larvikite — 15 PTV › Intransigeance — 8 PTV
+2
+table
+Talent
+PTV
+Accès / activation
+Prérequis
+Effet
+Aucune révérence
+1
+V/SR/R · Passif
+Circonstances favorables (+3) pour resister à une pression sociale ou surnaturelle qui repose explicitement sur le statut sacré, la noblesse, la divinité, la prophetie ou une autorite religieuse revendiquee.
+Une fois suffit
+2
+V/SR/R · Passif — après résistance réussie
+Aucune reverence
+Après résistance réussie, les nouvelles résistances contre le même effet de la même source sont facilitées d’un niveau sur un seuil fixe ; en opposition, appliquez une seule circonstance favorable de +3. Le bénéfice cesse à la fin de la scène et ne s’ajoute pas à un autre +3 équivalent.
+Rappeler à lui
+2
+V/SR/R · 1 PA
+Un’allié qui peut entendre le personnage et qui résiste à une peur, une fascination, une domination ou une pression religieuse surnaturelle peut recevoir Assistance +2, y compris en combat, si le personnage dépense 1 PA et peut réellement le ramenér a ses propres convictions.
+Liturgie du refus
+3
+SR/R · Actif — 1 PA — 1/scène
+Une fois suffit + Rappeler a lui
+Pour 1 PA, une fois par scène, jusqu’à trois alliés entendant la liturgie gagnent +3 contre domination, peur, fascination et commandement surnaturels pour la scène. Les bonus de résistance équivalents ne se cumulent pas.
+### Croix d'Emphyrra › Aigle de Larvikite — 15 PTV › Rites des anciens dieux — 7 PTV
+2
+table
+Talent
+PTV
+Accès / activation
+Prérequis
+Effet
+Consécration
+1
+SR/R · Rituel : 10 minutes — 100 m
+Après dix minutes de consécration, ressentez une profanation directe ou intrusion surnaturelle majeure affectant le support tant que vous restez à 100 m, jusqu’à la fin du scénario. Une consécration suivie à la fois, sans protection physique ni identité révélée.
+Rite funéraire
+1
+SR/R · Rituel : 10 minutes
+Après dix minutes de rite, le résultat de Volonté + Maîtrise spirituelle sert de Puissance contre une possession, animation ou appropriation ordinaire des restes. Le rite protège les restes tant qu’il demeure intact ; il ne contrôle ni ne rappelle leur âme.
+Rite de séparation
+2
+R · Rituel : 2 PA ou 10 minutes — contact
+Consécration
+En 2 PA au contact, ou dix minutes hors pression, opposez Volonté + Maîtrise spirituelle à la Puissance du lien spirituel mineur identifié pour le rompre. Aucune entité, Nature ou Marque fondamentale n’est détruite et aucun point de Corruption n’est directement retiré.
+Rupture de l’idole
+3
+R · Actif — 2 PA — 1/scène
+Rite de séparation
+Pour 2 PA, une fois par scène, opposez Volonté + Maîtrise spirituelle à la Puissance du lien d’un support cultuel identifié pour l’interrompre jusqu’à la fin de la scène. La rupture ne devient définitive que si son support indispensable est réellement détruit ; l’entité liée n’est pas blessée automatiquement.
+### Croix d'Emphyrra › Hibou d'Onyx — 15 PTV › Science des Ombres — 7 PTV
+2
+table
+Talent
+PTV
+Accès / activation
+Prérequis
+Effet
+Regard d’Onyx
+1
+SR/R · Passif
+Le personnage peut percevoir directement les Ombres, esprits et manifestations immatérielles presentes dans son’environnement lorsqu’elles ne sont pas explicitement dissimulées. Il ne connait pas automatiquement leur identité, leurs intentions ou leur puissance.
+Lire l’ancrage
+2
+SR/R · 1 PA
+Regard d'Onyx
+En observant une Ombre ou une manifestation immatérielle, Esprit + Perception permet d'identifier la grande nature de ce qui la retient au monde : lieu, objet, personne, pacte, corps, emotion ou autre support. Le DR affine sans révéler nécessairement comment détruire l'ancrage.
+Main d’Onyx
+2
+R · Passif
+Regard d'Onyx
+Le personnage peut toucher, saisir ou frapper une Ombre ou une manifestation immatérielle comme si elle possedait une présence physique. Ses attaques utilisent leurs caracteristiques normales et n'obtiennent aucun bonus de dégâts.
+Refuser l’arrachement
+2
+R · Réaction — 1 PA — 1/scène
+Lire l'ancrage + Main d'Onyx
+Une fois par scène, pour 1 PA en Réaction, opposez Volonté + Maîtrise spirituelle à la Puissance d’un arrachement spirituel visant vous-même ou un allié au contact. Une réussite empêche cet arrachement, sans expulser un esprit déjà installé.
+### Croix d'Emphyrra › Hibou d'Onyx — 15 PTV › Symbiose d'Onyx — 8 PTV
+2
+table
+Talent
+PTV
+Accès / activation
+Prérequis
+Effet
+Empreinte d’Onyx
+1
+SR/R · Passif — 20 m
+Conservez une seule empreinte issue d’une Ombre consentante ou d’une trace stable jusqu’à la fin du scénario. Elle indique approximativement la direction d’un passage ou d’une concentration d’Ombres à 20 m, sans localisation lointaine d’un individu.
+Chair intermittente
+2
+R · Réaction — 1 PA, défense incluse — 1/scène
+Empreinte d'Onyx
+Une fois par scène, pour 1 PA en Réaction, obtenez +3 à une Défense active contre une attaque purement physique, ce PA comprenant la défense, ou laissez traverser un petit obstacle par votre corps. Les effets surnaturels et biphysiques restent applicables.
+Pas d’Onyx
+2
+R · 1/Scène - pendant un Déplacement
+Empreinte d'Onyx
+Traversez jusqu'à 1 mètre de matière non surnaturelle continue pendant un Déplacement, à condition de connaitre ou percevoir un espace libre de l'autre côté. Le Talent ne permet pas de rester dans la matière ni de franchir une barrière dimensionnelle.
+Entre deux états
+3
+R · Actif — 1 PA — 1/scène
+Chair intermittente + Pas d'Onyx
+Pour 1 PA, une fois par scène, restez semi-immatériel jusqu’à la fin de la scène : traversez personnes et obstacles minces pendant vos déplacements et gagnez +3 à vos Défenses actives contre le purement physique. Tant que l’état dure, aucune attaque physique ou manipulation lourde ; vous pouvez y mettre fin au début de votre activation.
+La Défense reste payante ; ni invulnérabilité, ni franchissement illimité de matière, ni passage à travers une barrière dimensionnelle. Une sortie doit être physiquement possible.
+### Héritages whurtens › Runes whurtennes — 13 PTV
+2
+table
+Talent
+PTV
+Accès / activation
+Prérequis
+Effet
+Rune du Foyer
+1
+SR/R · Inscription : 10 minutes — 100 m
+Après dix minutes d’inscription, liez un refuge à vous pour le scénario : à 100 m maximum, ressentez intrusion violente, incendie, destruction importante ou manifestation majeure. Une Rune du Foyer active par runiste ; aucun auteur identifié.
+Runes : dix minutes d’inscription ordinaire ; une seule inscription active de chaque type par runiste. Durée du scénario, sauf Phrase durable ; une Phrase brève reste limitée à la scène. La Rune de Garde consommée ne se recharge jamais par changement de support ou d’auteur.
+Rune de Veille
+1
+SR/R · Inscription : 10 minutes — 100 m
+Après dix minutes d’inscription, une condition simple de franchissement, ouverture ou déplacement déclenche une alerte mentale à 100 m maximum, jusqu’à la fin du scénario. Une Rune de Veille active par runiste ; aucune vision de l’événement.
+Runes : dix minutes d’inscription ordinaire ; une seule inscription active de chaque type par runiste. Durée du scénario, sauf Phrase durable ; une Phrase brève reste limitée à la scène. La Rune de Garde consommée ne se recharge jamais par changement de support ou d’auteur.
+Rune de Fer
+2
+R · Inscription : 10 minutes
+Après dix minutes d’inscription, une arme ou un outil peut interagir avec l’immatériel pour le scénario, sans bonus de jet ou de dégâts. Une Rune de Fer active par runiste, sur un objet réellement possédé ou confié.
+Runes : dix minutes d’inscription ordinaire ; une seule inscription active de chaque type par runiste. Durée du scénario, sauf Phrase durable ; une Phrase brève reste limitée à la scène. La Rune de Garde consommée ne se recharge jamais par changement de support ou d’auteur.
+Rune de Scellement
+2
+R · Inscription : 10 minutes
+Après dix minutes d’inscription, une fermeture réelle oppose une difficulté 18 à son ouverture par force, magie ou intangibilité, pour le scénario. Une Rune de Scellement active par runiste ; détruire le support reste possible.
+Runes : dix minutes d’inscription ordinaire ; une seule inscription active de chaque type par runiste. Durée du scénario, sauf Phrase durable ; une Phrase brève reste limitée à la scène. La Rune de Garde consommée ne se recharge jamais par changement de support ou d’auteur.
+Rune de Garde
+2
+R · Inscription : 10 minutes — 1/scénario/bénéficiaire
+La Rune réduit de 6 les dégâts de la première atteinte surnaturelle subie, minimum 0, puis s’éteint. Un bénéficiaire ne peut recevoir cette protection qu’une fois par scénario, même après réinscription.
+Inscription normale de dix minutes ; une Rune de Garde active par runiste. La protection n’est pas remise à zéro par une nouvelle scène ou un nouveau support.
+Runes : dix minutes d’inscription ordinaire ; une seule inscription active de chaque type par runiste. Durée du scénario, sauf Phrase durable ; une Phrase brève reste limitée à la scène. La Rune de Garde consommée ne se recharge jamais par changement de support ou d’auteur.
+Le suivi est porté par le bénéficiaire : nouveau lanceur, nouveau combat, réinscription, sauvegarde et changement V/SR/R ne renouvellent pas cette protection.
+Inscription brève
+2
+SR/R · Inscription — 1 PA — 1/scène
+Deux Runes de base distinctes
+Une fois par scène, inscrivez en 1 PA une Rune de base connue sur un support accessible, en respectant son état V/SR/R. L’inscription expire à la fin de la scène ; il faut avoir acquis deux Runes de base distinctes pour acheter ce talent.
+Phrase runique
+3
+R · Inscription : 10 minutes — durable
+Trois Runes de base distinctes
+Une Phrase associe deux Runes connues compatibles sur le même support et en rend l’inscription durable tant qu’elle reste intacte, au-delà de la fin du scénario. Elle occupe l’unique inscription active de chaque Rune et ne recharge pas une Rune de Garde déjà consommée.
+Trois Runes de base distinctes requises, contrôlées par identifiants. La durée durable est nouvelle ; pas de deuxième copie active, de bonus de dégâts ni de contournement de support. Une Phrase tracée par Inscription brève reste limitée à la scène.
+Runes : dix minutes d’inscription ordinaire ; une seule inscription active de chaque type par runiste. Durée du scénario, sauf Phrase durable ; une Phrase brève reste limitée à la scène. La Rune de Garde consommée ne se recharge jamais par changement de support ou d’auteur.
+### Héritages whurtens › Atelier des Clans — 8 PTV
+2
+table
+Talent
+PTV
+Accès / activation
+Prérequis
+Effet
+Fiabilisation
+1
+V/SR/R · Préparation : quelques minutes
+Avec l’objet et les outils appropriés, le Whurten améliore réellement une arme, un outil, une machine ou un dispositif qu’il comprend. Après quelques minutes de préparation, la première défaillance matérielle ordinaire qui devrait affecter l’objet avant la fin du scénario est ignorée. Avec un véritable travail d’atelier, suffisamment de temps et les matériaux nécessaires, le Whurten peut corriger durablement un mode de panne identifié : l’objet devient immunisé aux échecs critiques matériels provenant de cette cause tant que la modification reste intacte. Un échec narratif de l’utilisateur reste un échec de l’action, mais ne peut plus provoquer l’enrayement, la casse ou la panne précisément éliminée. Une amélioration matériellement plausible peut également être stabilisée de façon permanente — par exemple rendre durable un revêtement ou une couche abrasive — si le travail et les ressources le permettent. Fiabilisation ne rend jamais l’objet indestructible et n’annule ni surcharge au-delà de sa conception, ni destruction externe, ni disparition physique d’un composant.
+Remise en ligne
+2
+V/SR/R · 2 PA sous pression
+Un équipement endommage ou en panne mais non détruit retrouve sa fonction de base jusqu'à la fin de la scène si le Whurten comprend la cause et peut atteindre le composant avec des outils minimalement appropriés. Un cas complexe, exotique ou catastrophique peut demander le test technique pertinent.
+Réglage de maître
+2
+V/SR/R · Préparation : quelques minutes — durée : scène
+Après quelques minutes de réglage, une fonction précise d’un équipement donne +3 aux tests qui l’utilisent pendant une scène. Une fonction réglée par objet ; aucun cumul d’optimisations équivalentes ni hausse permanente de ses statistiques.
+Fait pour durer
+3
+V/SR/R · Préparation longue en’atelier
+Fiabilisation + Remise en ligne
+Renforcez un équipement avec un vrai atelier et des matériaux. Une seule création Fait pour durer active par artisan. La première fois dans un scénario que l'objet devrait devenir inutilisable ou détruit par une contrainte matérielle laissant quelque chose de reparable, il reste au contraire lourdement endommage mais fonctionnel jusqu'à la fin de la scène. Il exige ensuite une vraie réparation. N'empêche pas une annihilation totale.
+### Héritages whurtens › Iron Law — 10 PTV
+2
+table
+Talent
+PTV
+Accès / activation
+Prérequis
+Effet
+Interface de Vérité
+1
+V/SR/R · Passif — augmentation fonctionnelle requise
+Liez un Talent racial passif acquis à une augmentation réellement installée qui reproduit sa fonction biologique nécessaire. Ce support conserve l’accès seulement tant que l’implant fonctionne ; aucune autre capacité ni greffe n’est accordée.
+Stabilité augmentique
+2
+V/SR/R · Passif
+Chaque augmentation cybermécanique intégrée génère 1 point de Stress augmentique en moins, minimum zéro par implant. La Charge et les autres sources de Stress restent inchangées ; avec la Stabilité augmentique de Réalité, seule la meilleure réduction totale s’applique.
+Redondance intégrée
+2
+V/SR/R · Reaction - 1/Scène
+Lorsqu’une augmentation devient inutilisable à cause d'une panne, de dégâts, d'un brouillage, d'une surcharge ou d'une dysfonction, maintenez une de ses fonctions principales jusqu'à la fin du prochain round. Impossible si la pièce a physiquement disparu.
+Surcadence
+2
+V/SR/R · 1/scène
+Une fois par scène, un test exploitant une fonction augmentique gagne +3. Cette fonction ne devient Surchargée que sur un échec narratif ; dans ce cas, dix minutes de maintenance ou la fin de la scène restent nécessaires.
+Architecture résiliente
+3
+V/SR/R · Réaction — 1 PA — 1/scénario
+Redondance intégrée + Surcadence
+Une fois par scénario, pour 1 PA en Réaction, maintenez les fonctions principales de jusqu’à trois augmentations encore physiquement présentes qu’un même incident devrait neutraliser, jusqu’à la fin de la scène. La panne s’applique ensuite et nécessite sa réparation ; aucune pièce annihilée n’est remplacée.
+### Réseaux ashylls et Syndicat de Jade › Ligue des Quatre Empereurs — 14 PTV › Empire invisible — 7 PTV
+2
+table
+Talent
+PTV
+Accès / activation
+Prérequis
+Effet
+Société écran
+1
+V/SR/R · 1/Scénario - préparation : quelques heures
+Avec accès aux réseaux de la Ligue, creez ou mobilisez une structure juridique crédible pour une opération : société, association, fonds, structure patrimoniale ou équivalent. Les verifications administratives ordinaires aboutissent à cette structure et non directement au personnage. Remonter jusqu’àu bénéficiaire réel exige une vraie enquête, difficulté typique 18.
+Acquisition silencieuse
+1
+V/SR/R · Transaction réelle
+Société écran
+Une acquisition réelle peut passer par des intermédiaires pour masquer votre identité au vendeur et imposer −3 aux enquêtes cherchant à vous relier à cette transaction. Le paiement reste dû et les preuves directes ne disparaissent pas.
+Le malus ne s’ajoute pas à une autre dissimulation substantiellement équivalente sur le même test. Pas de fausse annulation d’une trace financière existante.
+Capital mobilise
+2
+V/SR/R · 1/Scénario
+Si le personnage possède réellement les ressources nécessaires pour un bien ou service légal, non unique et disponible sur le marché, la Ligue élimine les lenteurs ordinaires de recherche, de mise en relation et de paperasse : il devient accessible dans la journee. Le Talent n'obtient ni prototype unique, ni matériel interdit, ni objet que le personnage ne peut payer.
+Portefeuille cloisonne
+3
+V/SR/R · 1/scénario
+Société écran + Acquisition silencieuse
+Conservez trois structures écrans indépendantes ; une fois par scénario, la compromission de l’une permet de basculer une opération encore transférable vers une autre déjà établie. Aucun actif saisi, contrat bloqué ou identité démasquée n’est effacé.
+### Réseaux ashylls et Syndicat de Jade › Ligue des Quatre Empereurs — 14 PTV › Doctrine du levier — 7 PTV
+2
+table
+Talent
+PTV
+Accès / activation
+Prérequis
+Effet
+Pression latente
+2
+V/SR/R · 1/Scénario - préparation
+Identifiez une dépendance réelle de la cible - fournisseur, bailleur, financeur, transporteur, client important, assureur, prestataire, lieu ou intermédiaire. Avec une ressource, faveur ou dépense appropriée, la Ligue peut perturber temporairement cette dépendance à l'échelle d'un individu, commerce, petite organisation ou antenne locale. Le Talent ne permet pas de couper une infrastructure regionale par simple declaration.
+Menace réversible
+2
+V/SR/R · Passif
+Pression latente
+Une Pression latente préparée peut rester suspendue pendant le scénario. Le personnage peut l'activer ou la lever une fois lorsque ses intermédiaires peuvent raisonnablement recevoir l'ordre. Aucun nouveau test n'est nécessaire. La cible reste libre de refuser la négociation.
+Étranglement
+3
+V/SR/R · 1/Scénario
+Pression latente + Menace réversible
+Avec des ressources significatives, préparez deux Pressions latentes indépendantes reposant sur deux dépendances differentes contre la même cible. Neutraliser l'une ne neutralise pas l'autre. Alternativement, utilisez une seule pression contre une antenne locale ou branche limitée d'une grande organisation, jamais l'organisation mondiale entiere.
+### Réseaux ashylls et Syndicat de Jade › Syndicat de Jade — 32 PTV › Réseau de Jade — 8 PTV
+2
+table
+Talent
+PTV
+Accès / activation
+Prérequis
+Effet
+Le bon intermédiaire
+1
+V/SR/R · 1/Scénario
+Dans une zone ou le Syndicat possède une présence, obtenez un contact concret capable de mettre en relation le personnage avec une catégorie ordinaire de service clandestin ou de personne du milieu. Le contact existe ; il n'est pas oblige d'accepter gratuitement.
+Faire courir le bruit
+2
+V/SR/R · Diffusion : quelques heures — 1/scène
+Une fois par scène, faites circuler une information dans une portion réelle du réseau ; après quelques heures, le relais rapporte un premier intéressé et sa réaction publique s’il y en a. Ni adhésion imposée, ni intention secrète révélée.
+Canal mort
+2
+V/SR/R · Préparation — durée : scénario
+Établissez pour le scénario une correspondance clandestine par relais réels, imposant −3 aux surveillances qui cherchent à relier ses interlocuteurs. Point mort reste le dépôt ou échange ponctuel ; une preuve directe ou un relais compromis peut toujours révéler le canal.
+Trouver quelqu’un qui sait
+3
+V/SR/R · 1/scénario — briefing réel
+Le bon intermédiaire
+Une fois par scénario, le réseau met en relation avec un expert réel d’une question rare accessible à ses membres. Un briefing effectivement obtenu donne +3 aux tests intellectuels directement fondés sur ses conseils pendant une scène ; prix et intervention sur le terrain restent séparés.
+### Réseaux ashylls et Syndicat de Jade › Syndicat de Jade — 32 PTV › Garde de Jade — 8 PTV
+2
+table
+Talent
+PTV
+Accès / activation
+Prérequis
+Effet
+Feu masqué
+1
+V/SR/R · Passif
+Lors de la première attaque à distance effectuée depuis une position réellement dissimulée ou difficile a localiser, le tir ne révèle pas automatiquement la position exacte du tireur. Les observateurs doivent disposer d'indices ou reussir une recherche appropriée.
+Tirer et décrocher
+2
+V/SR/R · Après tir et rupture de vue — 1/round
+Feu masque
+Une fois par round, après un tir puis une rupture réelle de ligne de vue, tentez de vous dissimuler sans PA supplémentaire. Le déplacement et le tir restent payants, et il faut un couvert où disparaître.
+Feu croisé
+2
+V/SR/R · 1/round
+Si un’allié menace ou attaque la même cible depuis un’angle réellement distinct, une attaque à distance du personnage contre cette cible peut bénéficier de circonstances favorables (+3). Deux tireurs empiles dans le même axe ne constituent pas un feu croisé.
+Zone de mort
+3
+V/SR/R · 1/Scène - préparation : Viser ou position équivalente
+Feu croisé
+Designez une zone étroite ou un passage que le tireur couvre réellement. La première cible hostile qui y entre ou s'y expose avant le prochain tour du tireur peut être attaquée immédiatement en Reaction sans PA supplémentaire. Une seule attaque ; si la ligne de tir est rompue, l'effet est perdu.
+### Réseaux ashylls et Syndicat de Jade › Syndicat de Jade — 32 PTV › Contrebande de Jade — 8 PTV
+2
+table
+Talent
+PTV
+Accès / activation
+Prérequis
+Effet
+Point mort
+1
+V/SR/R · Préparation
+Dans une zone couverte par le Syndicat, établissez un point de retrait, dépôt ou protocole permettant un echange sans rencontre directe. Une surveillance occasionnelle ne relie pas automatiquement les deux parties.
+Route grise
+2
+V/SR/R · 1/scène
+Une fois par scène, identifiez une route réellement existante qui contourne un contrôle ordinaire et gagnez +3 au premier test de passage qui l’exploite. Ni secteur hermétique franchi ni contrôle militaire majeur automatiquement annulé.
+Couverture logistique
+2
+V/SR/R · Transport préparé
+Un transport clandestin préparé avec le réseau impose −3 aux tests de fouille ou détection de son contenu correctement dissimulé. Une preuve directe ou un moyen de contrôle réellement incompatible avec la cache reste efficace.
+Passage de Jade
+3
+V/SR/R · 1/Scénario
+Route grise
+Dans une zone ou le Syndicat possède une présence, organisez le passage d'une personne ou d'une cargaison raisonnable à travers un secteur fortement contrôle. Sauf secteur totalement hermétique, une route existe. Le prix, la dette ou le service reste fictionnellement exigible. Ce n'est pas une téléportation.
+### Réseaux ashylls et Syndicat de Jade › Syndicat de Jade — 32 PTV › Courtage occulte — 8 PTV
+2
+table
+Talent
+PTV
+Accès / activation
+Prérequis
+Effet
+Garantie de Jade
+1
+V/SR/R · Préparation
+Organisez une transaction sous arbitrage du Syndicat. Les parties savent qu'une rupture deliberee de l'accord crée une dette ou consequence aupres du réseau. Le Talent ne force personne a accepter l'accord.
+Marché ferme
+2
+V/SR/R · 1/Scénario
+Obtenez un contact concret capable d'achétér ou de vendre une catégorie rare mais non unique de bien occulte accessible au réseau.
+Provenance garantie
+2
+V/SR/R · Garantie convenue avant la transaction
+Une transaction dont les courtiers acceptent explicitement la garantie fait l’objet d’une vérification de nature et d’origine ; si une tromperie couverte est ensuite démontrée, le réseau organise l’échange ou le remboursement du prix réellement payé contre restitution. Une provenance invérifiable reste annoncée comme telle.
+Garantie déclarée avant achat, jamais rétroactive. Un bien, une transaction, une indemnisation ; ni enrichissement, ni duplication, ni assurance contre destruction au combat.
+Commande noire
+3
+V/SR/R · Commande réelle — 1/scénario
+Marche ferme
+Commandez un bien occulte rare non unique réellement accessible au Syndicat, avec prix et délai annoncés avant engagement. L’achat fournit une commande suivie, pas une promesse indéfinie, et un incident de livraison réel demeure possible.
+### Hordes thulkars › Formation de Horde — commune — 8 PTV
+2
+table
+Talent
+PTV
+Accès / activation
+Prérequis
+Effet
+Déploiement de Horde
+1
+V/SR/R · Première passe — 1/combat
+Si vous n’êtes pas Surpris et pouvez communiquer, un allié consentant éligible à la première passe du combat peut agir immédiatement après vous. Il dépense son PA normal et perd son ancien emplacement ; aucune action n’est créée.
+Épaulement
+2
+V/SR/R · 1/round
+Lorsqu’un’allié est lui aussi au contact de la même cible et que les deux combattants l'engagent depuis des positions réellement distinctes, une attaque de Melee ou de Pugilat du personnage peut bénéficier de circonstances favorables (+3).
+Relève immédiate
+2
+V/SR/R · Réaction — 1 PA — 1/round
+Pour 1 PA en Réaction, une fois par round, rejoignez un allié proche réellement neutralisé par un Déplacement normal et accomplissez une manipulation simple pour le sécuriser au contact. Aucun soin ni attaque gratuite ; l’événement ne peut être simulé par un recul volontaire.
+Mouvement de Horde
+3
+V/SR/R · Pendant un Déplacement payé — 1/scène
+Deploiement de Horde + Releve immediate
+Une fois par scène, pendant votre Déplacement payé, deux alliés initialement à 3 m choisissent chacun un Déplacement normal gratuit ou une Défense active physique gratuite avant votre prochain round. Aucun enchaînement de Mouvement de Horde et aucune attaque ou réserve de PA supplémentaire.
+### Hordes thulkars › Horde Divine — Doctrine d'Ashorn — 7 PTV
+2
+table
+Talent
+PTV
+Accès / activation
+Prérequis
+Effet
+Fixer la cible
+2
+V/SR/R · 1/round
+Après avoir reussi une attaque, désignez un’allié capable de percevoir l'action. Sa prochaine attaque contre la même cible avant le prochain tour de celle-ci peut bénéficier de circonstances favorables (+3). Une cible ne peut porter qu'un Fixer la cible à la fois.
+Riposte d’Ashorn
+2
+V/SR/R · Reaction - 1/Scène
+Après avoir reussi une Défense active contre une attaque de Melee ou de Pugilat, effectuez immédiatement une attaque normale de Melee ou de Pugilat contre l'attaquant sans PA supplémentaire, s'il est a portée.
+Plan de bataille
+3
+V/SR/R · Préparation : quelques minutes — 1/scène
+Fixer la cible
+Après quelques minutes de préparation, une fois par scène, trois participants définissent chacun une action de leur plan ; la première exécution pertinente gagne +3. Une situation qui rend le rôle caduc annule ce bonus, sans relance ou action gratuite.
+### Hordes thulkars › Horde des Marais — Doctrine de la Réussite — 8 PTV
+2
+table
+Talent
+PTV
+Accès / activation
+Prérequis
+Effet
+Mauvais moment
+1
+V/SR/R · 1/round
+Lorsqu’un’adversaire rate une attaque de Melee ou de Pugilat contre le personnage, la prochaine attaque du personnage contre lui avant la fin du round peut bénéficier de circonstances favorables (+3). Aucune Défense active n'est nécessaire.
+Frapper où ça cède
+2
+V/SR/R · 1/round
+Lorsqu’une cible est déjà Tendu ou pire à cause de ses blessures, ou Paniquee, une action qui exploite directement cette faiblesse - attaque, pression, poursuite ou action comparable - peut bénéficier de circonstances favorables (+3). Le bonus ne s'applique pas a toute interaction’avec la cible.
+Pas mourir pour rien
+2
+V/SR/R · Réaction gratuite — 1/scène
+Une fois par scène, après une attaque qui vous fait franchir un seuil de blessure sans vous neutraliser, choisissez le repli gratuit déjà prévu ou une Défense active physique gratuite avant la fin de votre prochain round. Les dégâts initiaux et les limites physiques restent appliqués.
+La réussite appelle la réussite
+3
+V/SR/R · Après réussite déterminante — 1/scène
+Frapper ou ca cede
+Une fois par scène, après une mise à l’Agonie adverse ou une réussite opposée déterminante à DR 3+, gagnez 1 PA utilisable pour toute action autorisée avant la fin du round. Il suit une fenêtre d’action normale, ne modifie pas l’Initiative et ne se cumule pas avec un autre gain direct de PA.
+### Hordes thulkars › Horde Fantome — Doctrine de l'Intégration — 6 PTV
+2
+table
+Talent
+PTV
+Accès / activation
+Prérequis
+Effet
+Ancrage de Réalité
+1
+V/SR/R · Passif
+Circonstances favorables (+3) pour resister à un effet qui cherche explicitement a forcer le personnage a changer d'état V/SR/R ou à l'empecher de choisir sa propre transition. Ce Talent ne protege pas contre un capteur qui voit à travers le Voilé : le Fantome reste Voilé, mais le capteur voit ce qu'il est.
+Identité cloisonnée
+2
+V · Passif — identité réellement entretenue
+Votre identité civile réellement entretenue impose −3 aux enquêtes qui cherchent à la relier à votre Horde ou à votre vie de Vérité. Une preuve directe reste une preuve ; aucun faux document, argent ou casier vierge n’apparaît.
+Disparaître dans la Réalité
+3
+V · 1/Scène
+Identité cloisonnee
+Lors d'une poursuite, si le personnage a réellement rompu la ligne de vue, se trouve dans un’environnement urbain ou fréquenté permettant de se fondre dans la population, et ne porte pas de traceur actif connu, la poursuite immediate est cassee. Les poursuivants doivent ensuite le réacquérir par enquête, surveillance, traçage, réseau ou pouvoir approprié.
+### Hordes thulkars › Horde des Cendres — Doctrine du Chantier — 8 PTV
+2
+table
+Talent
+PTV
+Accès / activation
+Prérequis
+Effet
+Force de chantier
+1
+V/SR/R · Passif
+Pour déterminer si une action collective de soulevement, poussée, réténue, déplacement ou arrachement est physiquement possible, prenez la meilleure Vigueur du groupe et ajoutez +2 par assistant, maximum +6. Ce bonus ne s'ajoute pas au résultat du jet eventuel : il détérmine seulement si l'effort collectif peut être tente.
+Fortification express
+2
+V/SR/R · Actif — 1 PA — 1/scène
+Pour 1 PA, une fois par scène, aménagez avec les matériaux accessibles un couvert partiel réel pour jusqu’à deux personnes ou barrez une ouverture. Le couvert donne le +3 normal dans les axes protégés et reste déplaçable ou destructible.
+Tenir la structure
+2
+V/SR/R · Réaction — 1 PA — maintien 1 PA/round
+Pour 1 PA en Réaction, retenez un élément structurel que vous pouvez réellement soutenir jusqu’à votre prochain round. Continuer coûte 1 PA par round et peut demander Vigueur + Athlétisme ; aucune masse impossible n’est maintenue.
+Chantier de guerre
+3
+V/SR/R · 1/Scénario - préparation : quelques minutes
+Force de chantier + Fortification express
+Avec outils minimaux, matériaux utilisables et au moins deux personnes capables d'aider, organisez un chantier extrêmement rapide. Une tâche matérielle qui prendrait normalement plusieurs heures peut être menée en quelques minutes si elle reste techniquement possible. Le Talent ne remplace jamais une expertise indispensable absente.
+### Hordes thulkars › Horde de la Rose — Doctrine de la Polyvalence — 7 PTV
+2
+table
+Talent
+PTV
+Accès / activation
+Prérequis
+Effet
+Faire scène
+1
+V/SR/R · 1/Scène
+Après avoir reussi une action visant réellement a attirer volontairement l'attention sur lui - performance, discours, provocation, spectacle ou demonstration - désignez jusqu'à deux alliés presents. Jusqu au début du prochain round, leurs actions dont la réussite repose réellement sur le fait de ne pas être remarques par les mêmes observateurs peuvent bénéficier de circonstances favorables (+3).
+Contrepied
+1
+V/SR/R · 1/scène
+Une fois par scène, gagnez +3 à la prochaine action exploitant une erreur adverse préexistante sur vos capacités. Une simple ignorance de votre prochain geste ne suffit pas.
+Formation croisée
+2
+V/SR/R · Passif
+Lorsqu’une Action combinee exige deux Compétences indispensables et que le personnage possède au moins 1 dans chacune, utilisez la meilleure des deux Compétences au lieu de la plus faible. Les autres règles de l'Action combinee restent inchangees.
+Interdisciplinarité
+3
+V/SR/R · Auto-Assistance — 1/round
+Formation croisee
+Une fois par round, une approche non offensive impliquant deux Compétences réellement pertinentes possédées à 1+ peut recevoir votre propre Assistance +3. Elle ne se cumule pas avec une autre Assistance et ne s’applique ni aux Défenses actives ni aux pouvoirs strictement personnels.
+### Héritages azménoriens › Servants de Pluton — 16 PTV › Ingenierie xeno — 8 PTV
+2
+table
+Talent
+PTV
+Accès / activation
+Prérequis
+Effet
+Interface étrangère
+1
+V/SR/R · Passif
+Ignorez jusqu’à −3 de malus dus au paradigme étranger pour utiliser une interface xéno réellement accessible avec la Compétence appropriée. Langue, données, chiffrement et sécurités non résolues ne disparaissent pas.
+Pont de standards
+2
+V/SR/R · Préparation : quelques minutes — durable
+Interface étrangère
+Avec outils et composants adaptés, construisez une liaison durable entre deux systèmes pour une fonction précise : alimentation, données, commande ou signal. Elle demeure tant que l’adaptation matérielle est intacte, sans créer d’énergie ni de nouvelle fonction.
+Autonomie forcée
+2
+V/SR/R · Actif — 1 PA — 1/scène
+Interface étrangère
+Pour 1 PA, une fois par scène, maintenez une fonction locale disponible d’un appareil malgré la perte de son infrastructure extérieure. Une fonction calculée ou fournie uniquement à distance, un composant absent ou une sécurité non résolue ne sont pas créés.
+Architecture croisée
+3
+V/SR/R · Atelier : plusieurs heures — durable
+Pont de standards + Autonomie forcee
+Intégrez durablement un module xéno réellement disponible dans un système compatible, avec atelier, pièces et temps adéquats. Sa fonction reste utilisable tant que le montage est entretenu ; aucun module, bonus doublonné ou équipement supplémentaire n’est fourni.
+### Héritages azménoriens › Servants de Pluton — 16 PTV › Silence de Pluton — 8 PTV
+2
+table
+Talent
+PTV
+Accès / activation
+Prérequis
+Effet
+Couper la balise
+1
+V/SR/R · Reaction - 1/Scène
+Lorsqu’un’appareil auquel le personnage a accès tente d'emettre automatiquement une balise, télémétrie, appel réseau, signal de détresse ou authentification distante, empechez cette émission précise. Un message déjà parti n'est pas efface.
+Nettoyage de provenance
+2
+V/SR/R · Préparation : quelques minutes
+Après quelques minutes de travail sur un équipement accessible, son nettoyage impose −3 aux analyses qui cherchent à identifier son origine précise. Les preuves déjà enregistrées ailleurs et les signatures physiques impossibles à modifier subsistent.
+Mode silencieux
+2
+V/SR/R · Actif — 1 PA — durée : scène
+Couper la balise
+Pour 1 PA, préparez le silence d’un appareil pour la scène : ses émissions non indispensables cessent et les émissions minimales encore nécessaires imposent −3 à leur détection. Une fonction exigeant une connexion supprimée reste indisponible et les signatures non radio ne sont pas masquées.
+Fenêtre noire
+3
+V/SR/R · Actif — 1 PA — 1/scène
+Nettoyage de provenance + Mode silencieux
+Pour 1 PA, une fois par scène, appliquez le Mode silencieux à jusqu’à trois appareils préalablement préparés et effectivement accessibles par commande. Leurs fonctions locales demeurent ; émissions indispensables, chaleur et présence physique ne deviennent pas invisibles.
+Les appareils doivent avoir été préparés avec les accès et modifications nécessaires ; pas de neutralisation à distance de machines étrangères.
+### Héritages azménoriens › Technomagie azmenorienne moderne — 31 PTV › Convergence — 5 PTV
+2
+table
+Talent
+PTV
+Accès / activation
+Prérequis
+Effet
+Capteur biphysique
+1
+SR/R · Prototype ou adaptation
+Adaptez un capteur réel - camera, scanner, détécteur, instrument scientifique - afin qu'il enregistre les manifestations de magie active, les perturbations importantes du Flux, les phénomènes immatériels directement presents et les anomalies dimensionnelles locales. Il indique qu'un phénomène existe sans en donner automatiquement la nature exacte. Les données obtenues peuvent être examinees par un tiers.
+Asservissement croisé
+2
+SR/R · Prototype ou adaptation
+Capteur biphysique
+Reliez une fonction technologique simple à un déclencheur surnaturel que le Capteur biphysique sait détecter : apparition d'une signature, anomalie dimensionnelle, présence immatérielle, forte perturbation du Flux. La fonction déclenchée doit être préprogrammée et normalement réalisable par l'appareil. Une attaque automatique n'est jamais autorisee par ce Talent.
+Convertisseur biphysique
+2
+R · Actif — 1 PA — 1/scène — concentration
+Pour 1 PA, une fois par scène, un test de Volonté + Maîtrise spirituelle difficulté 18 alimente un appareil portatif admissible jusqu’à la fin de la scène, sans PA de maintien. La concentration reste nécessaire et les besoins industriels, propulsions principales et armes lourdes énergétiques restent exclus.
+Puissance admissible à enregistrer avant utilisation ; pas de recharge illimitée d’un stock revendable ni d’énergie conservée après la fin de la conversion.
+### Héritages azménoriens › Technomagie azmenorienne moderne — 31 PTV › Fracture — 8 PTV
+2
+table
+Talent
+PTV
+Accès / activation
+Prérequis
+Effet
+Relais discontinu
+1
+SR/R · 1 PA
+Avec un dispositif de transmission, établissez une liaison de données, de commande ou de communication’avec un’appareil connu situé a moins d'un mètre, même si une barrière matérielle empêche la connexion directe. Le Talent contourne mur, blindage ou absence de prise, mais pas chiffrement, mot de passe, sécurité informatique ou appareil éteint.
+Fenêtre de phase
+2
+R · Actif — 1 PA — 1/scène
+Relais discontinu
+Pour 1 PA, une fois par scène, maintenez jusqu’à la fin de la scène un chemin sensoriel étroit à travers au plus un mètre de matière ordinaire. Le capteur ne produit que ses données normales ; une barrière dimensionnelle ou protection adaptée peut bloquer le passage.
+Décalage de trajectoire
+2
+R · Attaque payée avec arme préparée — 1/scène
+Relais discontinu
+Une fois par scène, décalez d’au plus un mètre le point de sortie d’une attaque payée utilisant une arme préparée, vers un espace libre réellement exploitable. La cible doit pouvoir être visée ; aucun point de sortie dans un organisme ni bonus de dégâts ou d’attaque.
+Microbrèche
+3
+R · Actif — 2 PA — 1/scène
+Fenetre de phase
+Pour 2 PA, une fois par scène, ouvrez jusqu’à la fin du round suivant un passage de 20 cm entre deux points séparés d’au plus un mètre. Les deux extrémités doivent être connues ; petits objets et projectiles passent, mais ni créature ni membre vivant, et la fermeture ne sectionne rien.
+Un passage actif à la fois ; les tirs, manipulations et déplacements d’objets gardent leurs PA. Aucun portail dans un organisme ou contournement d’une barrière dimensionnelle explicite.
+### Héritages azménoriens › Technomagie azmenorienne moderne — 31 PTV › Arsenal de Rupture — 18 PTV
+2
+table
+Talent
+PTV
+Accès / activation
+Prérequis
+Effet
+Optique de Vérité
+1
+V/SR/R · Prototype - capteur
+Modifiez une camera, lunette, viseur, scanner ou capteur compatible afin qu'il interprète la scène sous le Voilé plutot que sa traduction holographique. Les creatures apparaissent selon leur véritable nature et morphologie quel que soit leur état V/SR/R. Le capteur ne révèle ni pouvoirs, ni intentions, ni identité exacte sans connaissance permettant de les interprétér. La Volonté de la cible ne protege pas le Voilé : seule une contre-mesure explicite, telle qu'une HDS adaptée, peut s'opposer au capteur.
+Enregistrement invariant
+2
+R · Prototype - stockage
+Optique de Vérité
+Protégez un système d'enregistrement afin que les données captées dans la Vérité ne soient pas ensuite réécrites par l’Hologramme. Une image prise par une Optique de Vérité conserve donc la morphologie vraie. Le support peut toujours être détruit, piraté ou neutralise par une contre-mesure spécifique. L'AIDH dispose de versions institutionnelles et industrialisées de ce principe.
+Signature de Vérité
+2
+V/SR/R · Prototype - capteur
+Optique de Vérité
+Après avoir observé suffisamment longtemps une creature avec une Optique de Vérité, enregistrez sa signature de continuité. Un capteur préparé avec cette signature reconnaît ensuite le même individu lorsqu’il passe réellement dans son champ, malgré un changement d'apparence holographique ou d'état V/SR/R. Ce n'est ni une localisation à distance ni une identification sans observation.
+Fenêtre de Vérité
+3
+V/SR/R · Installation réelle et alimentée — 10 m
+Optique de Vérité + Enregistrement invariant
+Une installation construite et alimentée diffuse la Vérité locale à ses écrans et viseurs réellement reliés, dans une zone de 10 m de rayon maximum. Elle ne voit pas à travers les obstacles matériels non couverts par ses capteurs et ne change aucun état V/SR/R.
+Arme d’Interférence
+2
+R · Prototype - arme
+Adaptez une arme afin que son’action soit reconnue simultanement par la matière et par certaines manifestations immatérielles. Elle peut affecter normalement Ombres, entites déphasées et phénomènes explicitement intangibles. Elle conserve dégâts, portée et règles normales ; aucun bonus d'attaque, de dégâts ou de détection.
+Ancre d’Ombre
+2
+R · Actif — 1 PA — générateur réel — 3 m
+Pour 1 PA, activez un générateur alimenté de 3 m de rayon ; les tentatives immatérielles prévues exigent Volonté + Force Mentale difficulté 18. L’appareil ne bloque pas le déplacement physique normal ni ne contrôle les occupants ; son autonomie est celle du matériel enregistré.
+Cage de Vérité
+3
+R · Prototype - installation de contention
+Ancre d'Ombre
+Construisez une enceinte qui renforce le principe de l'Ancre d'Ombre. Une creature enfermée qui tente une évasion par immaterialite, changement de plan, dephasage ou rupture d'ancrage doit reussir Volonté + Force mentale contre difficulté 21. Une sortie parfaitement physique reste possible si la cage matérielle peut être ouverte ou détruite.
+Desancrage offensif
+3
+R · Après une touche — 1/scène/cible
+Arme d'Interference + Ancre d'Ombre
+Une fois par scène par cible, une touche d’Arme d’Interférence déclenche la résistance de difficulté 18 prévue ; en échec, les sorties ou changements d’ancrage concernés sont bloqués pour la scène. Les dégâts de l’arme restent normaux, la Nature n’est pas supprimée et une cible déjà immatérielle n’est pas automatiquement matérialisée.
+

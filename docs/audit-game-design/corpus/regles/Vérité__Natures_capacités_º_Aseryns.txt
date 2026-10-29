@@ -1,0 +1,280 @@
+==== [Vérité — Natures & capacités › Aseryns] Nature, Accelyr & Origines (regles-verite-v7-aseryn-nature-accelyr-origines)
+### Nature aseryne
+2
+p
+Les Aseryns sont une espèce ssrynnesque propre à la Terre, créée par [Serathè](/compendium?article=verite-v7-aseryns-serathe-atlantide-treize#wiki-section-ouverture). Leur apparence converge fortement avec celle des humains, mais leur anatomie interne, leur métabolisme, leur système nerveux et leur activité électromusculaire diffèrent profondément. Leur longévité se compte normalement en siècles. Leur identité mécanique ne repose pas sur une longue liste de pouvoirs innés. Elle repose sur un socle racial commun, de petites particularités d'origine, puis sur des Traditions apprises.
+p
+Un Aseryn peu intéressé par la Foudre doit disposer d'autant de choix structurants qu'un Aseryn qui en fait sa spécialité.
+### Voile, Semi-Révélation et Révélation
+3
+p
+État Modificateur commun Voilé (V) Aucun modificateur racial commun. Semi-Révélé (SR) +1 Agilité. Révélé (R) +2 Agilité. Ces modificateurs représentent la véritable vitesse neuromusculaire de l'Aseryn. Ils s'ajoutent aux éventuels modificateurs de l'Origine. Ils n'accordent pas, à eux seuls, de PA supplémentaires automatiques : les PA restent déterminés par le [jet d'Initiative normal](/compendium?article=regles-initiative-pa-deplacement#wiki-section-initiative-et-pa).
+### Variation de Vigueur et Points de Vie
+4
+p
+Lorsqu'une forme modifie la Vigueur, les PV maximum et les PV actuels varient immédiatement de 2 × la variation de Vigueur. Une diminution de Vigueur ne peut toutefois pas, à elle seule, faire passer un personnage qui possédait encore des PV positifs sous 1 PV. Un changement de forme ne constitue jamais une méthode de soin : il ne restitue pas des blessures déjà subies. Le supplément de PV représente uniquement la robustesse momentanée du corps plus vigoureux.
+### Traits communs gratuits
+3
+### Accelyr
+4
+p
+Tous les Aseryns comprennent l'Accelyr, une langue parlée à une vitesse que l'oreille et le cerveau humains ne peuvent normalement pas suivre. L'Accelyr ne donne aucun bonus chiffré par lui-même ; il permet surtout une communication extrêmement rapide entre Aseryns et sert souvent de signe de reconnaissance culturelle.
+### Physiologie aseryne
+4
+p
+Longévité exceptionnelle, activité neuromusculaire rapide et activité électrique corporelle supérieure font partie de la physiologie de l'espèce. Ces éléments sont principalement narratifs tant qu'un Talent ne leur donne pas un effet précis. La physiologie aseryne n'accorde pas de résistance universelle aux maladies, poisons ou fatigues.
+### Sens électromagnétique
+4
+p
+SR/R — Passif. L'Aseryn perçoit les sources électromagnétiques significatives, les courants importants, les anomalies magnétiques marquées et les variations soudaines du champ environnant. En se concentrant 1 PA, il peut effectuer Esprit + Perception + 1d10e afin d'obtenir une direction, une proximité approximative et la nature générale de la source.
+p
+Ce sens ne lit pas des données, ne remplace pas un scanner, ne révèle pas automatiquement tous les êtres vivants derrière les murs et peut être perturbé par un blindage, un brouillage ou un environnement électromagnétique saturé.
+### Potentiel foudroyant
+3
+p
+Tout Aseryn possède biologiquement le potentiel d'[apprendre à maîtriser la Foudre](/compendium?article=regles-verite-v7-aseryn-treize-dratyn-conseil-foudre#wiki-section-dratyn-la-maitresse-de-la-foudre). Ce potentiel n'est pas une Affinité achetée en PTV et n'est pas binaire. Chez un PJ, on considère par défaut une affinité moyenne : il peut apprendre, mais cela demande un véritable enseignement et du temps. Certaines lignées ou individus exceptionnels apprennent beaucoup plus vite, voire manifestent spontanément la Foudre. Ces prodiges relèvent du lore et des PNJ extraordinaires ; ils ne constituent pas le profil normal d'un PJ.
+### Routes communes aserynes
+2
+p
+Les trois routes suivantes approfondissent des capacités présentes chez tous les Aseryns. Elles sont indépendantes des Origines et des Traditions des Fondateurs.
+### Vivacité aseryne
+3
+p
+{{Talents|group=aseryn:routes-communes-aserynes-vivacite-aseryne}}
+### Esprit fulgurant
+3
+p
+{{Talents|group=aseryn:routes-communes-aserynes-esprit-fulgurant}}
+### Perception électromagnétique
+3
+p
+{{Talents|group=aseryn:routes-communes-aserynes-perception-electromagnetique}}
+### Origines jouables
+2
+p
+Les Origines décrivent des branches historiques et biologiques de l'espèce. Les différences restent volontairement modestes : les Aseryns demeurent une espèce relativement uniforme. Les Paleo-Atlantes et les Australisiens ne sont pas proposés comme Origines normales de PJ dans ce corpus.
+table
+Origine
+SR
+R
+Orientation
+Aérilien / Néo-Atlante
++1 Agi, +1 Vol
++2 Agi, +1 Vol
+Affinité magique, lecture des flux
+Mûlien
++1 Agi, +1 Esp
++2 Agi, +1 Esp
+Psychisme, télépathie
+Hyperboréen
++1 Agi, +1 Vig
++2 Agi, +1 Vig
+Physique, endurance, explosivité
+Lémurian
++1 Agi, +1 Vol
++2 Agi, +1 Vol
+Héritage nymphal et élémentaire
+Serathèen
++1 Agi
++2 Agi
+Ascendance composite, Traces multiples
+### Aérilien / Néo-Atlante
+3
+### Empreinte — Résonance d’Aèr
+4
+p
+SR : +1 Agilité, +1 Volonté. R : +2 Agilité, +1 Volonté. L'Aérilien sent instinctivement une manifestation magique active directement perceptible : il sait que de la magie est présente, sans en connaître automatiquement la source, le domaine ou la puissance. Esprit + Perception permet d'affiner cette impression. Acclimatation arcanique — SR/R : +3 pour résister aux effets nocifs d'un environnement saturé de magie brute ou instable. Ce bonus ne protège pas contre un sort ou un pouvoir ciblé.
+p
+{{Talents|group=aseryn:origines-jouables-aerilien-neo-atlante-empreinte-resonance-d-aer}}
+### Mûlien
+3
+### Empreinte — Étincelle psychique
+4
+p
+SR : +1 Agilité, +1 Esprit. R : +2 Agilité, +1 Esprit. En 1 PA, à courte portée, le Mûlien peut envoyer à une cible consentante un mot mental simple, une image, une sensation, une direction ou une intention immédiate. Il ne lit pas l'esprit, ne dialogue pas encore et ne contrôle rien. Présence mentale — SR/R : +3 contre lecture mentale surnaturelle forcée, intrusion télépathique, confusion psychique ou effets similaires visant directement l'esprit.
+p
+{{Talents|group=aseryn:origines-jouables-mulien-empreinte-etincelle-psychique}}
+### Hyperboréen
+3
+### Empreinte — Corps hyperboréen
+4
+p
+SR : +1 Agilité, +1 Vigueur. R : +2 Agilité, +1 Vigueur. SR/R : +3 pour résister à la fatigue physique, à l'effort prolongé, au froid naturel et aux conditions corporelles hostiles comparables. Ce bonus ne protège pas automatiquement contre une attaque surnaturelle de glace ou de froid.
+p
+{{Talents|group=aseryn:origines-jouables-hyperboreen-empreinte-corps-hyperboreen}}
+### Lémurian
+3
+### Empreinte — Héritage nymphal
+4
+p
+SR : +1 Agilité, +1 Volonté. R : +2 Agilité, +1 Volonté. Choisissez une Résonance élémentaire héritée de l'ascendance nymphale : Air, Eau, Terre ou Feu. L'Aseryn sent intuitivement les manifestations significatives de cet élément et reçoit +3 pour résister aux conditions naturelles ordinaires directement liées à celui-ci. Ce bonus ne réduit pas automatiquement les dégâts d'une attaque surnaturelle.
+p
+{{Talents|group=aseryn:origines-jouables-lemurian-empreinte-heritage-nymphal}}
+### Serathèen
+3
+p
+SR : +1 Agilité. R : +2 Agilité. Le Serathèen ne reçoit pas de troisième modificateur d'Attribut : sa force est sa plasticité d'ascendance et de formation.
+### Empreinte — Sang mêlé
+4
+p
+Choisissez deux Traces ancestrales différentes parmi les quatre suivantes. Trace Effet mineur gratuit Aérilienne 1 PA de concentration : Esprit + Perception pour sentir une magie active directement perceptible. Mûlienne 1/Scène : envoyer une Étincelle psychique simple à une cible consentante. Hyperboréenne +3 pour résister au renversement et au déplacement physique forcé. Lémurienne Choisir une Résonance élémentaire et sentir les manifestations significatives de cet élément ; aucune manipulation.
+p
+{{Talents|group=aseryn:origines-jouables-seratheen-empreinte-sang-mele}}
+### Origines exceptionnelles non proposées normalement aux PJ
+3
+p
+Paleo-Atlantes : Aseryns nés avant le cataclysme et demeurés en stase. Leur potentiel foudroyant, leur longévité anormale et surtout leur décalage culturel en font des origines de campagne ou des PNJ exceptionnels, pas une option normale de création. Australisiens : les survivants connus sont trop rares et leur profil est insuffisamment documenté pour constituer une Origine jouable standard.
+
+==== [Vérité — Natures & capacités › Aseryns] Treize Traditions, Dratyn & Conseil de la Foudre (regles-verite-v7-aseryn-treize-dratyn-conseil-foudre)
+### Traditions des Treize
+2
+p
+Quatorze enfants reçurent autrefois une stèle et une mission. [Kalirath](/compendium?article=verite-aseryns-neo-atlantide-territoires#wiki-section-neo-atlantide-territoire) fut ensuite rejeté et ne resta pas parmi les Fondateurs ; la tradition historique retient donc les Treize.
+p
+Les Traditions ne sont pas des lignées génétiques ni des droits attachés à un nom de famille. Elles représentent des savoirs et disciplines culturels hérités des fonctions des Fondateurs. Un Aseryn n'a pas besoin de porter le nom de la Maison correspondante pour apprendre une Tradition.
+p
+Les Traditions ordinaires sont cumulables. Il n'existe ni taxe générique d'ouverture ni limite numérique arbitraire. En revanche, chaque Tradition exige une véritable formation fictionnelle : Maison, communauté, maître, institution ou apprentissage crédible. Dépenser des PTV représente la maîtrise acquise, pas l'achat d'un enseignement sorti de nulle part.
+p
+Tous les Fondateurs savaient manier la Foudre à des degrés divers. Cela ne transforme pas leurs Traditions en écoles de Foudre : Dratyn avait précisément pour devoir de préserver et transmettre cette discipline.
+### Athegos — le Seigneur
+3
+p
+{{Talents|group=aseryn:traditions-des-treize-athegos-le-seigneur}}
+### Sundosia — l’Aventurière
+3
+p
+{{Talents|group=aseryn:traditions-des-treize-sundosia-l-aventuriere}}
+### Caendis — le Protecteur
+3
+p
+{{Talents|group=aseryn:traditions-des-treize-caendis-le-protecteur}}
+### Cairiah — l’Architecte
+3
+p
+{{Talents|group=aseryn:traditions-des-treize-cairiah-l-architecte}}
+### Eydreas — le Chercheur
+3
+p
+{{Talents|group=aseryn:traditions-des-treize-eydreas-le-chercheur}}
+### Seryn — l’Artisane
+3
+p
+{{Talents|group=aseryn:traditions-des-treize-seryn-l-artisane}}
+### Natyel — le Nourricier
+3
+p
+{{Talents|group=aseryn:traditions-des-treize-natyel-le-nourricier}}
+### Erith — la Sentinelle
+3
+p
+{{Talents|group=aseryn:traditions-des-treize-erith-la-sentinelle}}
+### Lisirast — l’Archiviste
+3
+p
+{{Talents|group=aseryn:traditions-des-treize-lisirast-l-archiviste}}
+### Lisithas — le Juge
+3
+p
+{{Talents|group=aseryn:traditions-des-treize-lisithas-le-juge}}
+### Selerias — l’Aimante
+3
+p
+{{Talents|group=aseryn:traditions-des-treize-selerias-l-aimante}}
+### Theana — la Guérisseuse
+3
+p
+Theana est la Fondatrice. Theanai désigne la Maison/lignée moderne.
+p
+{{Talents|group=aseryn:traditions-des-treize-theana-la-guerisseuse}}
+### Dratyn — la Maîtresse de la Foudre
+2
+p
+Dratyn est l'exception volontaire parmi les Traditions : sa mission était d'assurer la continuité de la maîtrise de la Foudre, de l'enseigner et d'en contrôler la transmission. Elle dispose donc d'un développement plus profond que les autres Fondateurs. Tout Aseryn possède le [potentiel physiologique requis](/compendium?article=regles-verite-v7-aseryn-nature-accelyr-origines#wiki-section-potentiel-foudroyant). Pour un PJ, l'affinité est moyenne par défaut. L'accès mécanique dépend d'un véritable enseignement : Temple, prêtresse renégate, maître indépendant, tradition familiale ou autre source crédible.
+p
+Être prêtresse n'est pas nécessaire pour apprendre la Foudre, et être prêtresse ne l'accorde pas automatiquement.
+### Règles communes de Foudre
+3
+table
+Élément
+Règle V2
+État requis
+La génération de Foudre exige normalement R. Conduction peut fonctionner en SR/R.
+Activation d’une attaque
+1 PA sauf Talent contraire.
+Jet de Foudre
+Volonté + Maîtrise spirituelle + 1d10e contre la Défense pertinente.
+Résolution
+Dégâts = Marge de réussite + DGT − Protection électrique applicable.
+Portée normale
+20 m.
+Armure conventionnelle
+Kevlar, plaques, armure de combat ordinaire : aucune réduction contre la Foudre.
+Protection pertinente
+Isolation électrique réelle, cage de Faraday, équipement conçu pour canaliser la décharge ou protection surnaturelle adaptée.
+Paliers de Tir
+Ne s’appliquent pas. Pas de double DGT ni d’Altération automatique à marge 6/11.
+Foudre aseryne
+DGT 7.
+Foudre originelle
+DGT 9.
+Déferlement originel
+DGT 13.
+p
+Une armure métallique n'augmente pas automatiquement les dégâts : elle ne protège simplement pas, sauf si sa conception lui donne une véritable fonction électrique.
+### Talents communs de Dratyn
+3
+p
+{{Talents|group=aseryn:dratyn-la-maitresse-de-la-foudre-talents-communs-de-dratyn}}
+### Spécialisation de Foudre
+3
+p
+Après Foudre aseryne, un personnage peut recevoir l'enseignement d'une tradition spécialisée. Pour un PJ, une seule des quatre spécialisations suivantes est normalement maîtrisable : Créateur, Esprit, Érosion ou Fin. Apprendre une seconde tradition relève d'un événement de campagne exceptionnel et de l'accord du MJ. La spécialisation représente un enseignement reçu, pas nécessairement une appartenance institutionnelle actuelle. Une prêtresse renégate peut transmettre sa tradition hors de son Temple.
+### Créateur — Foudre originelle
+4
+p
+La Foudre du Créateur est la Foudre pure, originelle : puissance brute et capacité à détruire la magie.
+p
+{{Talents|group=aseryn:dratyn-la-maitresse-de-la-foudre-specialisation-de-foudre-createur-foudre-originelle}}
+### Esprit — Noire-Foudre
+4
+p
+La Noire-Foudre applique la Foudre au monde immatériel : esprits, Ombres, projections et phénomènes métaphysiques. Elle est presque invisible et ne doit pas devenir un simple bouton permettant d'attaquer la défense la plus faible d'un adversaire ordinaire.
+p
+{{Talents|group=aseryn:dratyn-la-maitresse-de-la-foudre-specialisation-de-foudre-esprit-noire-foudre}}
+### Érosion — Foudre vaporeuse
+4
+p
+La Foudre vaporeuse ne cherche pas à surpasser le Créateur en dégâts. Elle ronge les protections, malédictions, corruptions et manifestations jusqu'à les amoindrir ou les faire céder.
+p
+{{Talents|group=aseryn:dratyn-la-maitresse-de-la-foudre-specialisation-de-foudre-erosion-foudre-vaporeuse}}
+### Fin — Foudre du Silence
+4
+p
+La Foudre du Silence est la Foudre du Néant. Elle ne se contente pas de détruire : elle efface. C'est l'une des armes aserynes les plus terrifiantes et l'une des rares capables de donner une véritable fin à certaines manifestations des Fléaux.
+p
+{{Talents|group=aseryn:dratyn-la-maitresse-de-la-foudre-specialisation-de-foudre-fin-foudre-du-silence}}
+### Conseil de la Foudre
+2
+p
+Le Conseil de la Foudre est une tradition serathéenne nord-américaine à forte dimension chamanique. Malgré son nom, ce n'est pas une école de Foudre : les grands manieurs qui en sont issus utilisent [Dratyn](/compendium?article=regles-verite-v7-aseryn-treize-dratyn-conseil-foudre#wiki-section-dratyn-la-maitresse-de-la-foudre) comme les autres Aseryns. Sa singularité vient surtout de ses Ancêtres, des spectres conservés par la Grotte du Conseil et de la possession rituelle.
+### Accès
+3
+p
+Profil Accès Serathèen issu du Conseil Naturel : son milieu culturel peut justifier directement la formation. Autre Serathèen Ouvert : nécessite accueil et enseignement réel. Aseryn d’une autre Origine Ouvert ou Restreint selon le contexte ; aucun verrou biologique absolu. Les Voies du Conseil sont cumulables. L'accès aux spectres dépend aussi du lieu, des liens avec la communauté et de la coopération des Ancêtres.
+### Technique commune
+3
+p
+{{Talents|group=aseryn:conseil-de-la-foudre-technique-commune}}
+### Voie des Ancêtres
+3
+p
+{{Talents|group=aseryn:conseil-de-la-foudre-voie-des-ancetres}}
+### Voie du Vaisseau
+3
+p
+{{Talents|group=aseryn:conseil-de-la-foudre-voie-du-vaisseau}}
+### Voie du Gardien de la Grotte
+3
+p
+{{Talents|group=aseryn:conseil-de-la-foudre-voie-du-gardien-de-la-grotte}}
+

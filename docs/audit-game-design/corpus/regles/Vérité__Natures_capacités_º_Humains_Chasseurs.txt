@@ -1,0 +1,523 @@
+==== [Vérité — Natures & capacités › Humains & Chasseurs] Doctrine commune, Association, GT & Hunt (regles-verite-v7-chasseurs-doctrine-association-gt-hunt)
+### Doctrine commune
+2
+p
+La Doctrine commune formalise quatre savoir-faire qu’un véritable [Chasseur](/compendium?article=verite-v7-chasseurs-doctrine-association-traditions#wiki-section-temoin-chasseur) peut apprendre quelle que soit son origine. Elle ne remplace pas une tradition : elle couvre expérience de l’horreur, maintien de la chasse, lecture opérationnelle et réflexes communs.
+p
+L’identification reste prioritaire. Une faiblesse folklorique, une munition ou un dispositif ne fonctionne que si la cible possède réellement la vulnérabilité ou le mécanisme correspondant. La Chasse n’accorde aucun bonus universel contre « le surnaturel ».
+### Association des Chasseurs
+2
+p
+L’Association fondée par Morrighan est une infrastructure opérationnelle : points de rencontre, contrats, conseils, matériel, casiers, anciens Chasseurs et certains prototypes Raven. Elle n’a aucun arbre de PTV propre et n’offre jamais gratuitement une ressource qui doit être acquise.
+### Habilitations GT
+2
+table
+Code
+Domaine
+GT-01
+Surnaturel général / opérations de base
+GT-11
+Surnaturels civilisés, notamment Vampires et Garous
+GT-02
+Féerique et petites créatures monstrueuses
+GT-22
+Elfique / Aèr / Exilés
+GT-03
+Extrals invasifs de danger limité
+GT-33
+Domaine Extral large
+GT-00
+Habilitation transversale exceptionnelle
+p
+Une habilitation ouvre dossiers, contrats, casiers, interlocuteurs et degrés de confiance. Elle ne fournit jamais gratuitement une arme, un prototype ou une relique.
+### Hunt & fonctions
+2
+table
+Statut
+Règle
+Hunt100
+Reconnaissance tardive exceptionnelle ; narrative et jamais achetée en PTV.
+Hunt15
+Worldbuilding légendaire ; inaccessible comme progression PJ.
+Observers
+Fonction ou statut ; aucun arbre PTV.
+Confrérie du Bestiaire
+Experts et dossiers nécessairement imparfaits ; aucune progression PTV.
+### Catalogue mécanique
+2
+p
+Le registre du Builder contient 4 Talents de Doctrine commune. Association, GT, Hunt, Observers et Confrérie sont volontairement absents des arbres PTV lorsqu’ils représentent statut, infrastructure ou reconnaissance plutôt qu’une capacité surnaturelle.
+
+==== [Vérité — Natures & capacités › Humains & Chasseurs] Lavandières — tradition vampirique de Chasse (regles-verite-chasseur-lavandieres)
+### Un catalogue canonique de 4 Talents
+2
+table
+Voie
+Nombre
+Tradition des Lavandières
+4
+Total
+4
+p
+Le détail des 4 Talents — coûts, prérequis, effets et formulations mécaniques — est maintenu dans le catalogue canonique du Builder et n’est pas recopié ici. Cette page en conserve l’identité, l’architecture et les principes de lecture.
+### Une tradition vampirique spécialisée
+2
+p
+Les [Lavandières](/compendium?article=verite-vampires-lavandieres#wiki-section-linge-sale) sont des Vampires indépendants spécialisés dans la chasse des Vampires non alignés ou traîtres, des Moroï et des Strygoï. Leur voie courte ne remplace pas une Nature vampirique : elle se greffe sur la progression déjà acquise.
+p
+Leur méthode suit la souillure sanguine, reconnaît une signature déjà connue malgré les masques, neutralise brièvement l’usage du Sang noir et peut empêcher une proie vampirique de soustraire son corps à la chasse.
+### Accès et limites
+2
+p
+L’accès est naturel pour une véritable Lavandière, restreint pour un Vampire recruté et incompatible avec un non-Vampire. Cette spécialisation demeure donc un prolongement de la condition vampirique, non une école générale de Chasse.
+p
+Lire une souillure n’offre jamais une fiche complète : une trace ne livre ni Cour, ni Sang, ni âge, ni position. La tradition identifie et retient une proie précise ; elle ne devient pas un contre-pouvoir universel contre les Vampires.
+
+==== [Vérité — Natures & capacités › Humains & Chasseurs] Traditions de Chasse (regles-verite-v7-chasseurs-traditions)
+### Une tradition est une méthode apprise
+2
+p
+Les traditions de [Chasse](/compendium?article=verite-v7-chasseurs-doctrine-association-traditions#wiki-section-temoin-chasseur) sont des corpus de méthodes, rites, héritages ou techniques. L’accès suppose une transmission réelle, un contexte ou une appartenance compatible ; lire le nom d’une tradition ne suffit jamais à acquérir ses Talents.
+### Treize grandes traditions
+2
+table
+Tradition
+Talents
+Repère
+Lavandières
+4
+Vampires indépendants spécialisés contre Vampires dangereux, Moroï et Strygoï.
+Chasseurs catholiques
+40
+Arianwen, Ephraïm et Magdalena : traque, exorcisme, jugement et scellement.
+Khālsā
+20
+Serment, protection, liberté et rupture des emprises.
+Taoïstes
+20
+Gu, Shimazu et secrets Shi autour du Yin/Yang et du Néant.
+Kabbale
+20
+Travail sur les dix Sephiroth sans devenir Angelus.
+Nizarites / Asāsīyūn
+18
+Arts du Djinn et doctrine de Chasse.
+Onmyoji
+20
+Shikigami, sceaux, noms et pactes spirituels.
+Néopaïens
+20
+Morts, terre, seuils, présages et serments.
+Chasse Fantastique
+20
+Héritage de la Vénerie elfique.
+Lueurs d’Azménor
+20
+Visions réelles du Néant sans interprétation infaillible.
+Xenoshield
+20
+Contre-intrusion Extral ; compétence technique greffée à une idéologie xénophobe.
+Indépendants
+20
+Héritages familiaux, traumatismes et spécialisations sans doctrine unique.
+Table Ronde
+20
+Lignées des chevaliers de Merlin et armes uniques liées à cet héritage.
+Total
+262
+Le détail mécanique reste dans le Builder.
+### Limites transversales
+2
+p
+Une tradition spécialisée ne devient jamais une vérité universelle. Xenoshield ne prouve pas qu’un Extral est hostile ; une tradition sacrée ne rend pas toute cible impure ; une méthode contre les Vampires n’accorde pas la même efficacité contre une autre Nature.
+p
+Les armes de Merlin, reliques, Patrons et objets uniques restent des éléments réels de fiction. Acheter les Talents d’une tradition ne matérialise pas l’objet, ne remplace pas son héritier et ne donne aucune ressource qui n’est pas explicitement accordée.
+
+==== [Vérité — Natures & capacités › Humains & Chasseurs] Chasseurs catholiques (regles-verite-chasseur-catholiques)
+### Un catalogue canonique de 40 Talents
+2
+table
+Voie
+Nombre
+Liturgie de terrain
+6
+Ordre d’Arianwen — Traque
+12
+Ordre d’Ephraïm — Exorcistat
+12
+Ordre de Magdalena — Jugement
+10
+Total
+40
+p
+Le détail des 40 Talents — coûts, prérequis, effets et formulations mécaniques — est maintenu dans le catalogue canonique du Builder et n’est pas recopié ici. Cette page en conserve l’identité, l’architecture et les principes de lecture.
+### Une liturgie commune, trois ordres
+2
+p
+Les trois ordres secrets partagent une liturgie de terrain : consécration, fermeté, intercession, sanctuaire provisoire, derniers rites et restauration du sacré. Ce socle donne un langage rituel commun sans effacer leurs fonctions propres.
+p
+Arianwen poursuit et retient les proies ; Ephraïm diagnostique les possessions, protège les seuils et expulse les occupants ; Magdalena enquête sur les marques, les pactes, les objets et les influences afin de les juger, les placer sous scellés ou les rompre.
+### Institution, foi et Talents
+2
+p
+Les locaux, armureries, dossiers, véhicules, personnels et contacts de l’Église sont des ressources institutionnelles. Ils ne deviennent pas des Talents et ne sont pas achetés en PTV.
+p
+Les rites exigent toujours une cible ou une relation surnaturelle réelle. Consacrer ne fabrique pas une faiblesse, exorciser ne remplace pas l’identification d’une possession et juger ne crée pas la culpabilité que l’enquête n’a pas établie.
+
+==== [Vérité — Natures & capacités › Humains & Chasseurs] Khālsā — Serment, protection et liberté (regles-verite-chasseur-khalsa)
+### Un catalogue canonique de 20 Talents
+2
+table
+Voie
+Nombre
+Arme du Serment
+5
+Briseur de chaînes
+5
+Devoir de Protection
+5
+Volonté libre
+5
+Total
+20
+p
+Le détail des 20 Talents — coûts, prérequis, effets et formulations mécaniques — est maintenu dans le catalogue canonique du Builder et n’est pas recopié ici. Cette page en conserve l’identité, l’architecture et les principes de lecture.
+### Le Serment comme doctrine de Chasse
+2
+p
+La voie du Khālsā fait du Serment une force de protection et de libération. Elle défend le droit de rester soi-même face à la possession, à la domination, aux pactes contraints et aux chaînes surnaturelles.
+p
+L’arme consacrée, le devoir de protection, la volonté libre et l’art de briser les chaînes forment quatre expressions d’un même engagement : reconnaître une emprise réelle, défendre une personne et tenir une parole donnée.
+### Périmètre de la tradition
+2
+p
+Dans TUC, le Khālsā est une [tradition](/compendium?article=regles-verite-v7-chasseurs-traditions#wiki-section-principe) fictionnelle de Chasse. Cette construction de jeu ne prétend pas décrire les pratiques réelles du sikhisme.
+p
+Ses voies ne suppriment ni blessure, ni poison, ni contrainte naturelle sous prétexte de liberté. Elles agissent sur des serments, des emprises et des entraves surnaturelles effectivement identifiés.
+
+==== [Vérité — Natures & capacités › Humains & Chasseurs] Taoïstes — Gu, Shimazu et secrets Shi (regles-verite-chasseur-taoistes)
+### Un catalogue canonique de 20 Talents
+2
+table
+Voie
+Nombre
+Fondamentaux du Qi
+4
+Voie du Yin
+4
+Voie du Yang
+4
+Harmonie
+4
+Art du Néant des Shi
+4
+Total
+20
+p
+Le détail des 20 Talents — coûts, prérequis, effets et formulations mécaniques — est maintenu dans le catalogue canonique du Builder et n’est pas recopié ici. Cette page en conserve l’identité, l’architecture et les principes de lecture.
+### Deux écoles parentes, deux finalités
+2
+p
+Les Gu et leurs descendants [Shi](/compendium?article=personnages-verite-chasseurs-xuegang-shi#wiki-section-chasseurs-informations-realite)mazu cultivent l’harmonie du Yin et du Yang. Leur pratique lit les circulations du Qi, ouvre ou ferme les méridiens et déplace l’équilibre entre deux souffles contraires.
+p
+Les Shi historiques se concentrent sur le Vide. Dans la cosmologie actuelle, ce Vide est un contact méthodique avec le Néant : leur Art annule, dévore ou scelle certaines manifestations au lieu de reprendre les anciennes voies élémentaires du clan.
+### La piste de Qi
+2
+p
+La piste comporte cinq positions : Yin profond, Yin, Équilibre, Yang, Yang profond. Le pratiquant commence à Équilibre ; chaque déplacement d’un cran suit la polarité indiquée, sans dépasser un extrême. Les techniques se résolvent dans leur ordre ; Transe de l’équilibre, Cycle contraire et Deux souffles précisent leurs exceptions. Les deux extrêmes décrivent un état de circulation, non un alignement moral ; l’Harmonie organise leur tension autour d’un centre volontaire.
+p
+Sentir un Qi perturbé ne révèle ni espèce, ni identité, ni fiche. Le Grand Scellement des Shi exige pour sa part une cible déjà vaincue, contenue ou consentante et un ancrage adapté.
+
+==== [Vérité — Natures & capacités › Humains & Chasseurs] Kabbale — les Dix Sephiroth (regles-verite-chasseur-kabbale)
+### Un catalogue canonique de 20 Talents
+2
+table
+Voie
+Nombre
+Kether — Unité
+2
+Hokhma — Pureté
+2
+Bina — Limite
+2
+Hesed — Grâce
+2
+Gueburah — Sévérité
+2
+Tiph’ereth — Harmonie et offrande
+2
+Nesah — Victoire
+2
+Hod — Forme et analyse
+2
+Yessod — Image et rêve
+2
+Malkhouth — Royaume et incarnation
+2
+Total
+20
+p
+Le détail des 20 Talents — coûts, prérequis, effets et formulations mécaniques — est maintenu dans le catalogue canonique du Builder et n’est pas recopié ici. Cette page en conserve l’identité, l’architecture et les principes de lecture.
+### Les dix principes de l’Arbre
+2
+p
+Les Kabbalistes exploitent séparément les principes des dix Sephiroth sans porter la marque naturelle d’un Angelus. Chaque Sephira ouvre une paire cohérente d’interventions, de Malkhouth et l’incarnation jusqu’à Kether et l’unité.
+p
+La progression ne transforme pas le Chasseur en Angelus et ne lui donne pas tous les pouvoirs associés à une Sephira. Elle formalise vingt usages précis dont les effets complets restent dans le Builder.
+### Initiation et exclusion
+2
+p
+L’accès est naturel pour un initié et peut s’ouvrir, avec une formation crédible, à un extérieur. Il reste restreint lorsque l’apprentissage ou le contexte l’exigent.
+p
+Le Sephirien demeure strictement hors progression PJ. La voie kabbaliste approche une architecture spirituelle ; elle ne constitue pas une route détournée vers ce statut.
+
+==== [Vérité — Natures & capacités › Humains & Chasseurs] Nizarites / Asāsīyūn — Arts du Djinn et doctrine de chasse (regles-verite-chasseur-nizarites-asasiyun)
+### Un catalogue canonique de 18 Talents
+2
+table
+Voie
+Nombre
+Arts du Djinn
+8
+Doctrine Asāsīyūn
+10
+Total
+18
+p
+Le détail des 18 Talents — coûts, prérequis, effets et formulations mécaniques — est maintenu dans le catalogue canonique du Builder et n’est pas recopié ici. Cette page en conserve l’identité, l’architecture et les principes de lecture.
+### Le pacte et la doctrine
+2
+p
+Les Arts du [Djinn](/compendium?article=bestiaire-v15-elementaire-lie-a-un-sanctuaire#wiki-section-description) fixent une relation consentie avec un compagnon réellement rencontré. Ils règlent la voix partagée, les sens jumelés, l’invocation et les échanges d’ancrage sans abolir l’existence propre de l’esprit.
+p
+La Doctrine Asāsīyūn transforme ce lien en méthode de Chasse : marquer la proie, poursuivre un pacte, lier un projectile, préparer un contre-rite et empêcher certaines fuites locales d’essence.
+### Accès et compagnon lié
+2
+p
+Les Arts du Djinn ne sont pas intrinsèquement réservés aux Chasseurs ; la Doctrine Asāsīyūn exige en revanche d’être un véritable Chasseur. Les entités tutélaires majeures restent hors du calibrage ordinaire.
+p
+Les PTV donnent les moyens de former et d’exploiter un lien, jamais le Djinn lui-même. Le compagnon garde sa personnalité et ne fournit pas une réserve indépendante d’actions contrôlée par le joueur.
+
+==== [Vérité — Natures & capacités › Humains & Chasseurs] Onmyoji — Shikigami, sceaux et pactes spirituels (regles-verite-chasseur-onmyoji)
+### Un catalogue canonique de 20 Talents
+2
+table
+Voie
+Nombre
+Shikigami
+5
+Fūin — Sceaux
+6
+Exorcisme et noms
+5
+Pactes d’esprits
+4
+Total
+20
+p
+Le détail des 20 Talents — coûts, prérequis, effets et formulations mécaniques — est maintenu dans le catalogue canonique du Builder et n’est pas recopié ici. Cette page en conserve l’identité, l’architecture et les principes de lecture.
+### Quatre relations aux esprits
+2
+p
+Les Onmyoji sont des Chasseurs shinto spécialisés dans les entités nuisibles, les [Shikigami](/compendium?article=realite-v9-shientaoisme#wiki-section-syncretisme) et les sceaux. Leur pratique distingue le compagnon lié, le confinement, l’extraction d’un parasite et le pacte consenti.
+p
+Les quatre voies permettent d’invoquer, protéger, entraver, faire comparaître ou extraire. La foudre exceptionnelle de Koji n’est pas une capacité générique de la tradition.
+### La règle des sceaux
+2
+p
+Un sceau se prépare sur un support physique approprié : papier, bois, tissu, plaque, gravure ou équivalent. Son placement et sa conservation comptent réellement dans la fiction.
+p
+Un sceau ne remplace pas toute négociation et ne rend pas automatiquement un esprit coupable ou hostile. De même, les PTV d’un lien donnent accès à la relation avec un Shikigami ; ils n’achètent pas la créature.
+
+==== [Vérité — Natures & capacités › Humains & Chasseurs] Néopaïens — pratiques communes et Mystères (regles-verite-chasseur-neopaiens)
+### Un catalogue canonique de 20 Talents
+2
+table
+Voie
+Nombre
+Pratiques néopaïennes
+5
+Mystère des Morts et des Ancêtres
+3
+Mystère de la Terre et de la Chasse
+3
+Mystère du Foyer et des Seuils
+3
+Mystère des Présages et du Destin
+3
+Mystère des Serments et du Sacrifice
+3
+Total
+20
+p
+Le détail des 20 Talents — coûts, prérequis, effets et formulations mécaniques — est maintenu dans le catalogue canonique du Builder et n’est pas recopié ici. Cette page en conserve l’identité, l’architecture et les principes de lecture.
+### Pratiques communes et Mystères
+2
+p
+Le néopaganisme de TUC est syncrétique, moderne et pluriel. Les pratiques communes reposent sur les correspondances sacrées, la mémoire des lieux, les témoins du rite et les offrandes.
+p
+Les cinq [Mystères](/compendium?article=regles-verite-v7-chasseurs-traditions#wiki-section-principe) organisent les Morts et les Ancêtres, la Terre et la Chasse, le Foyer et les Seuils, les Présages et le Destin, puis les Serments et le Sacrifice. Ils décrivent de grandes familles de culte, non une religion unifiée.
+### Une progression liée au culte réel
+2
+p
+Une tradition concrète n’enseigne pas nécessairement les cinq Mystères. Les pratiques communes et un ou deux Mystères directement liés au culte sont naturels ; les autres demandent apprentissage ou deviennent restreints en cas de contradiction réelle.
+p
+Une correspondance ou une offrande doit être culturellement et métaphysiquement pertinente. Elle ne fabrique ni faiblesse arbitraire, ni équivalence facile avec un sacrifice réellement significatif.
+
+==== [Vérité — Natures & capacités › Humains & Chasseurs] Chasse Fantastique — la Vénerie surnaturelle (regles-verite-chasseur-chasse-fantastique)
+### Un catalogue canonique de 20 Talents
+2
+table
+Voie
+Nombre
+Voie des Limiers
+5
+Art de la Vénerie
+5
+Chevauchée
+5
+Tempête de la Chasse
+5
+Total
+20
+p
+Le détail des 20 Talents — coûts, prérequis, effets et formulations mécaniques — est maintenu dans le catalogue canonique du Builder et n’est pas recopié ici. Cette page en conserve l’identité, l’architecture et les principes de lecture.
+### D’une armée elfique à une tradition de Chasse
+2
+p
+La [Chasse Fantastique](/compendium?article=regles-verite-v7-chasseurs-traditions#wiki-section-principe) est une ancienne armée punitive elfique née pendant la Guerre de la Magie, puis modernisée en faction de Chasseurs. Elle poursuit les puissances qui menacent l’équilibre magique et se déploie avec une force capable de déchirer localement l’Hologramme.
+p
+Sa Vénerie réunit la marque et le flair des Limiers, la coordination de la battue, la mobilité de la Chevauchée et une Tempête historiquement conçue pour aspirer puis disperser la Magie.
+### Rangs, montures et coordination
+2
+p
+Limier, Piqueur, Officier de Vénerie, Grand Veneur et Roi ou Reine sont des rangs narratifs. Une place dans la hiérarchie n’est pas achetée en PTV.
+p
+La tradition suppose une chasse réellement coordonnée, une proie identifiée et des positions exploitables. Elle ne crée ni localisation absolue, ni attaque gratuite, ni monture ou véhicule acheté par un Talent.
+
+==== [Vérité — Natures & capacités › Humains & Chasseurs] Lueurs d’Azménor — visions et Néant (regles-verite-chasseur-lueurs-azmenor)
+### Un catalogue canonique de 20 Talents
+2
+table
+Voie
+Nombre
+Visions des Menaces
+5
+Purge du Néant
+5
+Extinction
+5
+Les Voix dans le Vide
+5
+Total
+20
+p
+Le détail des 20 Talents — coûts, prérequis, effets et formulations mécaniques — est maintenu dans le catalogue canonique du Builder et n’est pas recopié ici. Cette page en conserve l’identité, l’architecture et les principes de lecture.
+### Un héritage azménorien déformé
+2
+p
+Les Lueurs d’[Azménor](/compendium?article=regles-verite-v7-exiles-profils-cinq-peuples#wiki-section-etats) forment une petite tradition issue d’un héritage azménorien déformé par les siècles. Leurs dons viennent réellement du Néant, mais la doctrine religieuse construite autour d’eux peut être fausse.
+p
+Leurs voies couvrent les visions de Menaces, la purge de corruptions, l’extinction d’une fonction surnaturelle et les avertissements des Voix dans le Vide. Les visions brutes sont authentiques ; leur interprétation ne l’est pas nécessairement.
+### Menaces, présages et accès
+2
+p
+Une Menace n’est jamais une détection du Mal. C’est une puissance, un phénomène ou une chaîne surnaturelle déjà engagée dans une trajectoire capable d’entraîner une conséquence importante.
+p
+L’accès est naturel pour le noyau historique et les véritables initiés, restreint pour un recrutement extérieur exceptionnel. Aucun Talent ne prouve que les Lueurs comprennent correctement la source de leurs Voix.
+
+==== [Vérité — Natures & capacités › Humains & Chasseurs] Xenoshield — contre-intrusion Extral (regles-verite-chasseur-xenoshield)
+### Un catalogue canonique de 20 Talents
+2
+table
+Voie
+Nombre
+Détection d’intrusion
+5
+Xénobiologie hostile
+5
+Contre-technologie
+5
+Confinement et interception
+5
+Total
+20
+p
+Le détail des 20 Talents — coûts, prérequis, effets et formulations mécaniques — est maintenu dans le catalogue canonique du Builder et n’est pas recopié ici. Cette page en conserve l’identité, l’architecture et les principes de lecture.
+### Une doctrine de faits matériels
+2
+p
+Le [Xenoshield](/compendium?article=regles-verite-v7-chasseurs-traditions#wiki-section-principe) descend des anciennes sentinelles du ciel et s’est reconstruit en 2032 comme une armée internationale indépendante vouée à la lutte contre les intrusions extraterrestres. Ses soldats opèrent infiltrés et ne disposent souvent que d’une compréhension partielle de leurs adversaires.
+p
+La doctrine combine détection d’intrusion, xénobiologie hostile, contre-technologie, confinement et interception. Elle établit une origine non terrestre, un paradigme ou une incompatibilité exploitable ; elle ne détecte pas les « méchants aliens ».
+### Formation, espèce et loyauté
+2
+p
+L’accès dépend d’une formation réelle, non de l’espèce. Un Humain ou un Extral sincèrement formé peut posséder ces techniques ; une recrue crédible peut les apprendre et un extérieur ne les obtient pas par simple observation.
+p
+Aucun diagnostic de l’arbre ne certifie une culpabilité, une intention ou une loyauté politique. Les faits révélés doivent encore être interprétés par l’enquête et replacés dans leur contexte.
+
+==== [Vérité — Natures & capacités › Humains & Chasseurs] Chasseurs indépendants — Héritages modulaires (regles-verite-chasseur-independants)
+### Un catalogue canonique de 20 Talents
+2
+table
+Voie
+Nombre
+Survivant de l’impossible
+4
+Tradition familiale
+4
+Bricoleur de Vérité
+4
+Marqué par la proie
+4
+Obsession d’une seule proie
+4
+Total
+20
+p
+Le détail des 20 Talents — coûts, prérequis, effets et formulations mécaniques — est maintenu dans le catalogue canonique du Builder et n’est pas recopié ici. Cette page en conserve l’identité, l’architecture et les principes de lecture.
+### Des héritages, pas une institution
+2
+p
+Les indépendants n’ont ni doctrine institutionnelle unique ni uniforme. Leur savoir vient d’un traumatisme survécu, d’une tradition familiale, d’un assemblage improvisé, d’une marque laissée par la proie ou d’une obsession entretenue pendant des années.
+p
+Chaque Héritage transforme une expérience précise en méthode de Chasse. Ces blocs peuvent coexister lorsque l’histoire le justifie, mais ils ne supposent ni hiérarchie commune, ni doctrine partagée, ni réseau unique.
+### Une progression modulaire et justifiée
+2
+p
+Un personnage possède normalement un Héritage naturel, éventuellement un second ouvert si son histoire le justifie. Les autres commencent comme restreints et peuvent s’ouvrir en jeu par de nouveaux événements ou apprentissages.
+p
+Un Héritage reste attaché à ce qui a été réellement vécu ou transmis. Il n’accorde pas une compétence universelle contre toutes les créatures ni un accès automatique aux moyens d’une organisation.
+
+==== [Vérité — Natures & capacités › Humains & Chasseurs] Table Ronde — lignées et armes de Merlin (regles-verite-chasseur-table-ronde)
+### Un catalogue canonique de 20 Talents
+2
+table
+Voie
+Nombre
+Résonance de Merlin
+5
+Formes de la Lame
+5
+Héritage chevaleresque
+5
+La Table
+5
+Total
+20
+p
+Le détail des 20 Talents — coûts, prérequis, effets et formulations mécaniques — est maintenu dans le catalogue canonique du Builder et n’est pas recopié ici. Cette page en conserve l’identité, l’architecture et les principes de lecture.
+### Descendants, non réincarnations
+2
+p
+La Table Ronde actuelle rassemble les descendants des chevaliers historiques choisis autrefois par [Merlin](/compendium?article=regles-verite-chasseur-catholiques#wiki-section-catalogue-canonique). Ses membres ordinaires ne sont pas les réincarnations de ces chevaliers.
+p
+Chaque lignée est associée à une arme magique unique conçue pour son chevalier d’origine. La puissance moderne vient de la résonance entre le descendant et cette arme, de ses formes, de l’héritage chevaleresque et des liens reformés entre les membres de la Table.
+### Devenir un véritable chevalier
+2
+p
+Trois conditions ne coûtent aucun PTV : descendre réellement d’un chevalier historique, retrouver l’Arme de Merlin liée à cette lignée et être reconnu par elle. Plusieurs descendants peuvent exister, mais l’artefact est unique et ne reconnaît normalement qu’un héritier actif à la fois.
+p
+Les Armes de Merlin sont des objets narratifs réels, jamais achetés en PTV. Excalibur est l’épée de Ymir et demeure un artefact cosmique séparé ; elle n’est pas une récompense ordinaire de cet arbre.
+

@@ -1,0 +1,193 @@
+==== [Vérité — Natures & capacités › Vampires] Nature Vampire, prédation & Cours (regles-verite-v7-vampire-nature-predation-cours)
+### Architecture du Vampire
+2
+p
+Le Vampire est une Nature issue de l'héritage [Khinae](/compendium?article=regles-verite-v7-garou-nature-formes-frenesie-pelages#wiki-section-architecture) corrompu par les Fléaux. La Nature fournit le socle biologique et métaphysique ; la Cour d'origine est une variation durable de la malédiction donnant une Empreinte gratuite ; le Sang noir est l'expression surnaturelle individuelle ; les Talents communs approfondissent le socle ; Maison, rang et allégeance restent politiques et peuvent évoluer.
+p
+La Cour doit modifier réellement la manière de jouer sans créer un sous-système séparé. Changer d'allégeance ne change ni Cour d'origine ni Nature.
+### Voilé, Semi-Révélé, Révélé
+2
+table
+État
+Effets communs
+Voilé
+Corps humain ; aucun bonus de Nature. Le Vampire vieillit et subit les limites biologiques humaines s'il demeure durablement dans cet état.
+Semi-Révélé
++1 Vigueur, +1 Volonté ; accès aux sens surnaturels et pouvoirs subtils. Compromis, pas forme de combat principale.
+Révélé
++2 Vigueur, +1 Volonté ; accès au corps prédateur, à la prédation, à la stase, à la régénération, à l'Empreinte de Cour et à la majorité des Talents de Sang.
+image
+images/rules/regles-vampire-etats-v4.svg
+images/rules/regles-vampire-etats-v4-mobile.svg
+Vampire : ce que change chaque état : 1 · Voilé — Corps humain ; aucun bonus de Nature ; vieillissement si l’état dure anormalement. ; 2 · Semi-Révélé — +1 Vigueur et +1 Volonté ; sens surnaturels et pouvoirs subtils. ; 3 · Révélé — +2 Vigueur, +1 Agilité, +1 Volonté ; prédation, stase et régénération. ; 4 · Vérifier le Sang — La majorité des Talents de Sang et l’Empreinte de Cour exigent R. ; 5 · Changer d’allégeance — Cela ne change jamais la Cour d’origine ni son Empreinte gratuite.. Les bonus de R remplacent ceux de SR : ils ne s’ajoutent pas aux précédents.
+rule-diagram
+### Propriétés gratuites de la Nature
+2
+table
+Propriété
+Règle
+Âme condamnée
+À la mort véritable, l'âme vampirique finit dans le Néant au lieu de rejoindre le Cycle.
+Petite immortalité — R
+Le véritable corps ne vieillit pas. Un maintien anormalement long en V fait reprendre un vieillissement humain ; se Révéler suffisamment régulièrement l'empêche. La cadence reste fictionnelle.
+Physiologie maudite — R
++3 Constitution contre maladies ordinaires ; peut ralentir ou interrompre les fonctions vitales et paraître cliniquement mort, sans tromper nécessairement un examen poussé.
+Sens prédateurs — SR
+Vision claire dans l'obscurité naturelle et perception extrêmement fine du sang frais ; une blessure ouverte proche est difficile à dissimuler.
+Prédation sanguine — R, 1 PA
+Sur résistance : Vigueur + Pugilat contre Défense. Une réussite inflige les dégâts normaux et rend 1 + DR PV, au maximum autant que la victime perd réellement. Pas de jet si cible consentante ou impuissante et aucune incertitude.
+Effacement prédateur — R
+Dans des ombres suffisantes, peut tenter Furtivité sans couvert humain normalement suffisant. Ce n'est pas l'effacement absolu d'Enfant des Ténèbres.
+Fascination vampirique — SR, 1 PA
+Charisme + Diplomatie contre Volonté + Force Mentale. Force une vraie attention et ouvre une influence sociale normalement rejetée ; ne donne aucun ordre forcé.
+Stase — R, 2 PA
+Devient inerte et sans défense ; dégradation naturelle et hémorragies s'arrêtent ; récupère 1 PV/heure. Sortie volontaire : 1 PA sous pression.
+Malédiction vampirique — R
+Soleil direct : 2 PV irréductibles par round. Les pouvoirs réellement divins peuvent exploiter la malédiction ; une prière ordinaire n'est pas une arme.
+### Talents communs
+2
+p
+Le détail mécanique des Talents communs vient directement du registre canonique du Builder. Ils approfondissent des propriétés déjà présentes et ne remplacent ni Sang noir ni Empreinte de Cour.
+p
+{{Talents|group=vampire:vampire-commun}}
+p
+Progression du charme : Fascination signifie « écoute-moi » ; Charme inhumain « fais-moi confiance » ; Domination « obéis-moi » ; Somnambulisme agit sur l'esprit jusque dans le sommeil.
+### Empreintes gratuites des cinq Cours
+2
+p
+L'Empreinte est liée à la Cour d'origine et non à l'allégeance actuelle.
+table
+Cour
+Empreinte gratuite
+Krovni Rytsari
+Prédateur de guerre — R : tant qu'il n'est pas Surpris, +3 Défense passive et active contre les attaques physiques.
+Alghul Almalakiu
+Écho des Morts — R : au contact d'un cadavre ou d'une quantité significative de sang, perçoit des traces utiles de la mort — cause probable, violence, émotion finale, présence marquante, etc.
+Oru Ayeraye
+Enfant des Ténèbres — R, 1 PA : dans une zone suffisamment obscure, fait un avec l'ombre ; n'est pas vu ni directement ciblable. Ce n'est pas un Couvert matériel et aucun capteur profane ne contourne l'effet.
+Ihuito Meztzi
+Cycle du Sang — R : 1/scène après une Prédation réussie, le prochain Talent de Sang utilisé avant la fin du round coûte 1 PA de moins, minimum 0.
+Shi Hun Zhe
+Équilibre dérobé — R : après s'être nourri, 1/scène, peut consumer le Hun/Yang absorbé pour obtenir une résistance contre une faiblesse ou un effet auquel sa Nature ne permettrait normalement pas de résister.
+### Krovni Rytsari — traditions de Cour
+3
+p
+Signature culturelle : +1 Diplomatie lorsque rang, noblesse, serment, commandement ou protocole vampirique sont directement en jeu.
+p
+{{Talents|group=vampire:krovni-rytsari-talents-de-cour}}
+### Alghul Almalakiu — traditions de Cour
+3
+p
+{{Talents|group=vampire:alghul-almalakiu-talents-de-cour}}
+### Oru Ayeraye — traditions de Cour
+3
+p
+{{Talents|group=vampire:oru-ayeraye-talents-de-cour}}
+p
+Le Lien du Deimon utilise le moteur transversal des Compagnons liés : le Deimon demeure un PNJ réel et ne reçoit aucun pool de PA indépendant.
+### Ihuito Meztzi — traditions de Cour
+3
+p
+{{Talents|group=vampire:ihuito-meztzi-talents-de-cour}}
+### Shi Hun Zhe — traditions de Cour
+3
+p
+{{Talents|group=vampire:shi-hun-zhe-talents-de-cour}}
+
+==== [Vérité — Natures & capacités › Vampires] Sangs noirs & transformations exceptionnelles (regles-verite-v7-vampire-sangs-transformations)
+### Principe des Sangs noirs
+2
+p
+[SR](/compendium?article=regles-verite-v7-voile-continuite-objets-reseaux-interfaces#wiki-section-5-hologramme-voile-semi-revelation-et-revelation) couvre normalement perceptions, influences discrètes et prémices du pouvoir ; R couvre transformation corporelle, prédation, puissance offensive et manifestations franches. Les Sangs subtils peuvent déroger à cette convention lorsque leur fonction l'exige, notamment le Sang Masqué.
+### Sang Écarlate — Anya
+3
+p
+Force, vitesse et perception hématique.
+p
+{{Talents|group=vampire:sang-ecarlate-anya}}
+### Sang Primal — Lyssa
+3
+p
+Métamorphose animale et dissolution en brume.
+p
+{{Talents|group=vampire:sang-primal-lyssa}}
+### Sang Hypocrite — Briaerus
+3
+p
+Mensonge visuel, doubles et illusions.
+p
+{{Talents|group=vampire:sang-hypocrite-briaerus}}
+### Sang Venimeux — Huitzitia
+3
+p
+Toxines biologiques et perception thermique.
+p
+{{Talents|group=vampire:sang-venimeux-huitzitia}}
+### Sang Masqué — Kazuo
+3
+p
+Infiltration et imitation ; ce Sang reste presque entièrement utilisable en SR par conception.
+p
+{{Talents|group=vampire:sang-masque-kazuo}}
+### Sang Aveugle — Ashream
+3
+p
+Perceptions non visuelles et accès astral.
+p
+{{Talents|group=vampire:sang-aveugle-ashream}}
+### Sang Traqueur — Go’Ndai
+3
+p
+Analyse anatomique et manipulation hématique.
+p
+{{Talents|group=vampire:sang-traqueur-go-ndai}}
+### Sang Glacial — Vjärmod
+3
+p
+Drain de chaleur et gel surnaturel.
+p
+{{Talents|group=vampire:sang-glacial-vjarmod}}
+### Sang Ardent — Larisha
+3
+p
+Chaleur, brûlure et embrasement.
+p
+{{Talents|group=vampire:sang-ardent-larisha}}
+### Sang Orageux — Branimir
+3
+p
+Électricité biologique et conduction.
+p
+{{Talents|group=vampire:sang-orageux-branimir}}
+### Sang Révélateur — Zhi Xia
+3
+p
+Pensée, dévoilement et destruction des mensonges surnaturels.
+p
+{{Talents|group=vampire:sang-revelateur-zhi-xia}}
+### Sang Condamné — Ashelia
+3
+p
+Dévoration magique et remplacement du corps.
+p
+{{Talents|group=vampire:sang-condamne-ashelia}}
+### Sangs rares et transformations exceptionnelles
+2
+p
+Tout ce qui existe dans le lore vampirique n'entre pas dans le catalogue normal à 1–3 PTV. Certaines lignées sont des récompenses narratives, transformations ou catastrophes à part entière.
+table
+Élément
+Traitement
+Sang du Rêve
+Branche exceptionnelle liée aux vestiges de la Nemma Moogura : rêves, peur, voyeurisme et vampirisation de l'énergie vitale par le rêve.
+Vampires Oshiriques
+Transformation complète par la Fontaine noire ; remplace la physiologie et les dons vampiriques ordinaires.
+Sang d'Ivoire / Elfenbeinblut
+Altération liée à Vhodhal et à une faim destructrice ; hors catalogue des Sangs noirs.
+Héritages de Quetzalcoatl
+Fusion ou possession liée au Roi divin ; phénomène exceptionnel de scénario ou de personnage.
+### Éveiller d'autres Sangs
+2
+p
+Un Sang noir est considéré comme maîtrisé après 4 PTV réellement investis dans son arbre. Une fois ce seuil atteint, l'éveil d'un Sang supplémentaire coûte 3 PTV ; ses Talents doivent ensuite être achetés normalement. Le seuil de 4 PTV doit ensuite être atteint dans ce dernier Sang avant d’en éveiller un autre. L’ordre des éveils et le Sang natif sont conservés ; les achats restent payés même lorsque leurs conditions d’accès ne sont plus remplies. La petite immortalité du Vampire reste volontairement fictionnelle et n'est pas une monnaie de progression.
+

@@ -1,0 +1,8 @@
+#1 Ambidextrie naturelle [] {trait conditionnel / calcul partiel} :: SR/R : aucune pénalité due au seul usage de la main non dominante ; aucune attaque supplémentaire.
+#2 Affinité elfique à la Magie [] {trait conditionnel / calcul partiel} :: Trait d’accès aux traditions magiques compatibles ; aucun sort gratuit.
+#3 Longévité [] {trait conditionnel / calcul partiel} :: Trait narratif de longévité elyë.
+#4 Sens magnétique [] {trait conditionnel / calcul partiel} :: V/SR/R : connaît instinctivement le nord magnétique et ressent les anomalies importantes ; Esprit + Perception affine direction/intensité/source.
+#5 Ouïe ashyll [] {trait conditionnel / calcul partiel} :: V/SR/R : circonstances favorables (+3) aux perceptions auditives quand un son réel est suffisamment présent.
+#6 Petite morphologie [] {trait conditionnel / calcul partiel} :: Fiction : accès aux espaces et couverts compatibles ; aucun bonus chiffré automatique.
+#7 Ailes sombres [] {trait conditionnel / calcul partiel} :: R : immenses sauts, franchissement vertical et amortissement des chutes ; pas de vol libre.
+#8 Don magique azménorien [] {trait conditionnel / calcul partiel} :: Trait d’accès aux traditions magiques compatibles ; aucun sort gratuit.
