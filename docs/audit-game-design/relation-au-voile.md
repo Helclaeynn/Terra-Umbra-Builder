@@ -1,4 +1,4 @@
-# Relation au Voile — proposition de règle (v2, à valider par l'auteur)
+# Relation au Voile — proposition de règle (v3, à valider par l'auteur)
 
 Anciennement « Tension du Voile » (nom des fiches papier de l'auteur).
 
@@ -10,7 +10,7 @@ Rédigée le 29 octobre 2026 à partir du principe donné par l'auteur (aucun te
 
 Jauge **individuelle** (décision de l'auteur) de **+3 à −4**, départ à 0, pour chaque personnage de Vérité.
 
-**Humains conscients et Chasseurs** : pas de jauge, ils n'ont rien à Révéler. Quand l'un d'eux neutralise une menace pour le Voile au profit d'un allié de Vérité, la marque claire va sur la fiche de cet allié (validé par l'auteur).
+**Humains conscients et Chasseurs** : pas de jauge, ils n'ont rien à Révéler. Quand l'un d'eux neutralise une menace pour le Voile au profit d'un allié de Vérité, c'est la jauge de cet allié qui en profite (validé par l'auteur).
 
 | Valeur | Relation au Voile |
 |---|---|
@@ -23,18 +23,20 @@ Jauge **individuelle** (décision de l'auteur) de **+3 à −4**, départ à 0, 
 | −3 | Très répressive |
 | −4 | Éjection |
 
-## Comment elle évolue (décision de l'auteur : lentement)
+## Comment elle évolue (décision de l'auteur)
 
-La Relation change **lentement**, ou lors d'un **événement significatif**. Jamais −3 en une scène.
+Pas de marques ni de comptabilité. **Le MJ ajuste la jauge à son appréciation, à la fin de chaque partie**, selon la gravité de ce qui s'est passé. La jauge bouge lentement pour les écarts ordinaires, et franchement pour les événements significatifs.
 
-**Marques.** Pendant le jeu, le MJ note des marques sur la fiche :
+Repères pour le MJ :
 
-- **Marque sombre** : se Révéler devant un témoin non averti ; acte manifeste en Révélé devant lui ; scène captée par un support invariant ou devant une foule. Au plus **une marque sombre par scène**, quoi qu'il arrive. Un personnage seulement Semi-Révélé reste traduit pour les profanes : rien.
-- **Marque claire** : neutraliser une menace pour le Voile (détruire un enregistrement invariant, faire taire ou retourner un témoin, éliminer un Révélé qui s'exhibe), ou tenir sa Nature dans une situation qui poussait à la Révéler.
+| Ce qui s'est passé dans la partie | Effet |
+|---|---|
+| Une ou deux Révélations devant une ou deux personnes | −1 pour la partie |
+| Révélation devant une foule, filmée ou diffusée | −1 par événement de ce type (ex. 3 Révélations dans un centre commercial bondé : −3) |
+| Partie menée sans Révélation devant des témoins non avertis | rien, ou +1 si la discrétion a coûté quelque chose |
+| Menace pour le Voile neutralisée (enregistrement détruit, témoin retourné, Révélé qui s'exhibe éliminé) | +1 (+2 pour une menace majeure, ex. brèche colmatée) |
 
-**Bilan de fin de scénario.** On compare : plus de marques sombres → **−1** ; plus de marques claires → **+1** ; égalité → rien. Les marques sont effacées. Jamais plus d'un cran par bilan.
-
-**Événement significatif.** Révélation de masse, image diffusée, lieu fragilisé ; ou, à l'inverse, colmater une brèche du Voile, sauver un lieu. Le MJ applique **±1 immédiatement**, en plus du bilan. Au plus un par scénario.
+Un personnage seulement Semi-Révélé reste traduit pour les profanes : il ne compte pas. Une Révélation dont l'effet ne trahit rien aux yeux d'un témoin (geste imposé par Emprise II, corps en Stase) peut ne pas compter, à l'appréciation du MJ.
 
 ## Effets : le niveau agit (option B retenue), sans dépense
 
@@ -56,12 +58,12 @@ La jauge ne se dépense pas : elle ne bouge qu'avec la conduite du personnage.
 |---|---|
 | 1 | Une caméra, un témoin ou un enregistrement ordinaire traduit la scène en votre faveur. |
 | 2 | Un ennemi Voilé est trahi une fraction de seconde : sa Vérité est visible ; +3 au prochain test contre lui ou identification de sa Nature. |
-| 3 | Le Voile couvre une Révélation : la marque sombre de la scène n'est pas notée, et les témoins ne gardent qu'une explication banale. |
+| 3 | Le Voile couvre une Révélation : elle ne compte pas dans l'ajustement de fin de partie, et les témoins ne gardent qu'une explication banale. |
 
 ## Questions à valider
 
 1. ~~Nom~~ → Relation au Voile.
 2. ~~Dépense ou niveau~~ → niveau (B), évolution lente.
 3. ~~Individuelle ou groupe~~ → individuelle.
-4. ~~Humains et Chasseurs~~ → sans jauge, marque claire donnée à un allié.
-5. Ensuite, le poids par pouvoir : par défaut un pouvoir ne donne rien de plus que la marque « acte manifeste » ; seules les exceptions sont marquées (ex. Sang Masqué : jamais).
+4. ~~Humains et Chasseurs~~ → sans jauge, leur protection du Voile profite à la jauge d'un allié.
+5. ~~Poids par pouvoir~~ → aucun : le MJ juge la gravité de la Révélation, pas le pouvoir.
