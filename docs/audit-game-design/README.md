@@ -50,7 +50,7 @@ Une copie HTML de chaque page est dans `pages/`. Les fichiers `*-source.html` so
 - **Vampire hybride** publié : 1 carte de Nature + 20 voies (8 progression, 6 une porte, 6 deux portes). Les textes des 8 voies en progression ont été présentés dans la conversation ; en attente de retour de l'auteur.
 - **Questions de fond Vampire ouvertes** :
   1. ~~Faim~~ → tranché : option A, pas de Faim.
-  2. Maîtrise d'un Sang : 4 PTV chez le Vampire, 6 chez le Garou (aligner ; ou « un Sang est maîtrisé quand une voie est complète »).
+  2. ~~Maîtrise d'un Sang~~ → tranché : en paliers, propre à chaque Nature (Vampire : voie au palier III ; Garou : deux voies au palier II) ; éveil 3 PTV.
   3. Empreintes de Cour inégales (réduire Krovni, renforcer Ihuito, clarifier Shi Hun ; signature culturelle pour toutes ou aucune).
   4. Paliers à créer : Shi Hun III, entrée Semi-Révélée optionnelle du Sang Condamné.
   5. ~~Poids de Relation au Voile par palier~~ → abandonné : le MJ juge la gravité, pas le pouvoir.
