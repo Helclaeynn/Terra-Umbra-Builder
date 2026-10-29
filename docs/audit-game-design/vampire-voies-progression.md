@@ -60,7 +60,7 @@ Proposition du 29 octobre 2026, présentée à l'auteur dans la conversation. Pa
 
 ## Questions de fond ouvertes
 
-1. **Le Vampire n'a pas faim.** A : ne rien ajouter (prédateur maître de lui). B : Faim simple, jauge 0–5, monte avec les pouvoirs de Sang et l'abstinence, descend avec la Prédation ; haute, elle pousse à chasser au mauvais moment, donc vers la Tension du Voile. C : la Faim comme condition de certains paliers (« s'être nourri dans la scène »). Recommandation : B ou C.
+1. **Le Vampire n'a pas faim.** A : ne rien ajouter (prédateur maître de lui). B : Faim simple, jauge 0–5, monte avec les pouvoirs de Sang et l'abstinence, descend avec la Prédation ; haute, elle pousse à chasser au mauvais moment, donc vers la Tension du Voile. C : la Faim comme condition de certains paliers (« s'être nourri dans la scène »). Recommandation : B ou C. **Tranché : A** (sous le Voile, le Vampire en tant qu'humain n'a pas besoin de se nourrir).
 2. **Maîtrise d'un Sang : 4 PTV (Vampire) contre 6 (Garou)**, éveil à 3 PTV dans les deux cas. A : Garou à 4. B : Vampire à 6. C : garder et justifier. Recommandation : A, ou « un Sang est maîtrisé quand une voie est complète ».
 3. **Empreintes de Cour inégales** : Krovni (+3 Défense passive et active, plus signature +1 Diplomatie) et Oru (inciblable dans l'ombre) dominent ; Ihuito (−1 PA, 1/scène, double condition) est faible ; Shi Hun était flou. Proposition : Krovni +3 en Défense active seulement ; Ihuito valable toute la scène ; Shi Hun fusionné avec Souffle du Yang ; signature culturelle pour toutes les Cours ou aucune.
 4. **Paliers à créer** : Shi Hun III ; entrée Semi-Révélée optionnelle pour le Sang Condamné (ex. sentir une magie active à 10 m).
