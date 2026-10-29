@@ -34,7 +34,7 @@ Une copie HTML de chaque page est dans `pages/`. Les fichiers `*-source.html` so
    - Test de classement : si deux personnages de la même voie peuvent sembler n'avoir rien en commun, ce sont deux portes ; s'ils font la même chose plus ou moins fort, c'est une progression.
 6. **REFUS des « gestes » / mécaniques communes entre Natures.** L'auteur trouve que ça tue la saveur de la Vérité. Ne jamais proposer de mutualiser des pouvoirs entre Natures. Quand deux pouvoirs se ressemblent, les différencier par un **ressort propre à chaque Nature** (condition, coût ou conséquence).
 7. **Pas de Faim pour le Vampire** (option A, 29/10) : sous le Voile, le Vampire en tant qu'humain n'a pas besoin de se nourrir.
-8. **Tension du Voile** : il n'existe **aucun texte complet** ; seul le principe ci-dessus. Une proposition rédigée est dans `tension-du-voile.md` (v0, en attente de validation).
+8. **Tension du Voile** : il n'existe **aucun texte complet** ; seul le principe ci-dessus. Une proposition rédigée est dans `tension-du-voile.md` (v1 : jauge de +3 à −4 décidée par l'auteur ; nom et détails en attente).
 
 ## Méthode de travail souhaitée par l'auteur
 
