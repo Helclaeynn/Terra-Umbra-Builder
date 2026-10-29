@@ -10,7 +10,7 @@ Rédigée le 29 octobre 2026 à partir du principe donné par l'auteur (aucun te
 
 Jauge **individuelle** (décision de l'auteur) de **+3 à −4**, départ à 0, pour chaque personnage de Vérité.
 
-**Humains conscients et Chasseurs** : pas de jauge, ils n'ont rien à Révéler. Quand l'un d'eux neutralise une menace pour le Voile au profit d'un allié de Vérité, la marque claire va sur la fiche de cet allié (à valider).
+**Humains conscients et Chasseurs** : pas de jauge, ils n'ont rien à Révéler. Quand l'un d'eux neutralise une menace pour le Voile au profit d'un allié de Vérité, la marque claire va sur la fiche de cet allié (validé par l'auteur).
 
 | Valeur | Relation au Voile |
 |---|---|
@@ -63,5 +63,5 @@ La jauge ne se dépense pas : elle ne bouge qu'avec la conduite du personnage.
 1. ~~Nom~~ → Relation au Voile.
 2. ~~Dépense ou niveau~~ → niveau (B), évolution lente.
 3. ~~Individuelle ou groupe~~ → individuelle.
-4. Humains et Chasseurs : sans jauge, marque claire donnée à un allié (proposé).
+4. ~~Humains et Chasseurs~~ → sans jauge, marque claire donnée à un allié.
 5. Ensuite, le poids par pouvoir : par défaut un pouvoir ne donne rien de plus que la marque « acte manifeste » ; seules les exceptions sont marquées (ex. Sang Masqué : jamais).
