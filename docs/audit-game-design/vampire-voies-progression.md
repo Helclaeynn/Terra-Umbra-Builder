@@ -22,11 +22,11 @@ Proposition du 29 octobre 2026, présentée à l'auteur dans la conversation. Pa
 ## 3. Shi Hun Zhe (voie de Cour)
 *Reprend : Équilibre dérobé (Empreinte), Souffle du Yang, Harmonie impossible, Union du Hun et du Po*
 
-- **Empreinte** : après s'être nourri, 1/scène, 1 PA, ignorer une faiblesse jusqu'à la fin du prochain round.
-- **I (1 PTV)** : l'effet dure la scène ; dégâts de la faiblesse divisés par deux. Contre un effet automatique sans dégâts : Volonté + Force Mentale contre sa Puissance.
-- **II (2 PTV)** : 1/scénario, l'effet peut annuler une malédiction pour la scène, y compris le Soleil.
-- **III (3 PTV)** : à créer (piste : voler la force d'une faiblesse ennemie).
-- **Changements** : Souffle du Yang fusionné à l'Empreinte (qui était floue). Harmonie 2 → 1 PTV, Union 3 → 2 PTV.
+- **Empreinte (gratuite)** : Équilibre dérobé, texte actuel (après s'être nourri, 1/scène, résister à une faiblesse ou un effet auquel sa Nature ne permet pas de résister).
+- **I (1 PTV)** : Souffle du Yang. Après une Prédation dans la scène, 1 PA, 1/scène : ignorer une faiblesse jusqu'à la fin du prochain round.
+- **II (2 PTV)** : Harmonie impossible. L'effet dure la scène ; dégâts de la faiblesse divisés par deux. Contre un effet automatique sans dégâts : Volonté + Force Mentale contre sa Puissance.
+- **III (3 PTV)** : Union du Hun et du Po. 1 PA, 1/scénario, après une Prédation dans la scène : annuler une malédiction pour la scène, y compris le Soleil.
+- **Changements** : aucun. Correction de l'auteur : la voie était déjà très forte (elle permet de résister au Soleil) ; la fusion de Souffle du Yang dans l'Empreinte et la baisse des coûts sont annulées. Coûts d'origine conservés (1 / 2 / 3).
 
 ## 4. Sang Orageux · Branimir · désorganiser
 - **I** : Décharge. Attaque de contact payée normalement, DGT 3 électriques ; blessure réelle → −3 au prochain test de coordination ou de concentration (1/round).
@@ -77,9 +77,9 @@ Proposition du 29 octobre 2026, présentée à l'auteur dans la conversation. Pa
   - Krovni (Prédateur de guerre) : +3 aux deux Défenses physiques **seulement contre un adversaire qu'il a lui-même engagé au contact ce round**. Le système est létal par choix ; un +3 permanent le contredisait.
   - Oru (Enfant des Ténèbres) : inchangé, mais l'effet cesse dès qu'il attaque ou agit contre quelqu'un (il en sort pour frapper).
   - Ihuito (Cycle du Sang) : la réduction de 1 PA vaut pour le premier talent de Sang de chaque round jusqu'à la fin de la scène, au lieu d'une fois.
-  - Shi Hun (Équilibre dérobé) : fusionné avec Souffle du Yang, comme dans la voie Shi Hun ci-dessus.
+  - Shi Hun (Équilibre dérobé) : inchangé.
   - Signature culturelle : supprimée (seuls les Krovni en avaient une). Le Moteur couvre déjà le cas par la circonstance favorable (+3) quand le rang ou le protocole compte.
 - **Q4 Paliers à créer**
-  - Shi Hun III (3 PTV) : après s'être nourri d'un être de Vérité, il connaît ses faiblesses et malédictions ; ses actions qui les exploitent gagnent +3 pour la scène.
+  - Shi Hun : **aucun renforcement** (correction de l'auteur : déjà très fort, résiste au Soleil). La voie reprend les talents et coûts d'origine : Souffle du Yang (I), Harmonie impossible (II), Union du Hun et du Po (III).
   - Sang Condamné, entrée Semi-Révélée optionnelle : sentir une magie active à 10 m (présence et direction, pas sa nature).
 - **Q6 Ressorts propres** : les quatre ressorts proposés ci-dessus sont appliqués tels quels.
