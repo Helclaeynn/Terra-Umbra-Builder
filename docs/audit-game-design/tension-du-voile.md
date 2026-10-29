@@ -1,6 +1,8 @@
 # Tension du Voile — proposition de règle (v0, à valider par l'auteur)
 
-Rédigée le 29 octobre 2026 à partir du principe donné par l'auteur (aucun texte complet n'existe). Branchée sur les règles existantes : états V/SR/R et correction des souvenirs (Socle Vérité, chapitre 5), Ombremonde « hors de la traduction » et fissures dans les lieux peu observés (Bestiaire V17, Secrets majeurs).
+Rédigée le 29 octobre 2026 à partir du principe donné par l'auteur (aucun texte complet n'existe). Branchée sur les règles existantes : états V/SR/R et correction des souvenirs (Socle Vérité, chapitre 5), Ombremonde « hors de la traduction » et fissures dans les lieux peu observés (Bestiaire V17, Secrets majeurs), et surtout **« La Relation au Voile »** du livre Vérité V6 (relation favorable / répressive ; « plus l'événement est massif, répété, public et difficile à traduire, plus cette cohérence coûte » ; aux extrêmes « Rupture et Éjection » vers l'Ombremonde). La jauge chiffre cette Relation.
+
+Collisions de vocabulaire à trancher : « Tension » est déjà la jauge du Mageius (Mages, 0–7+), « Tendu » un état de Stress, « Rupture » un stade de la Corruption.
 
 ## Principe
 
@@ -12,10 +14,10 @@ Jauge individuelle de 0 à 6, sur la fiche des personnages de Vérité.
 
 | Valeur | État du Voile |
 |---|---|
-| 0–1 | Stable : le Voile peut jouer en faveur du personnage |
-| 2–4 | Fragile |
-| 5 | Défaillant |
-| 6 | Rupture |
+| 0–1 | Relation favorable : le Voile peut jouer en faveur du personnage |
+| 2–3 | Relation neutre |
+| 4–5 | Relation répressive : le MJ peut déclencher des Défaillances |
+| 6 | Éjection |
 
 ## Ce qui la charge
 
@@ -32,7 +34,7 @@ Un témoin non averti est quelqu'un qui ignore la Vérité (profane, Humain non 
 - **−1 ou −2** (selon le MJ) : neutraliser une menace pour le Voile (détruire un enregistrement invariant, faire taire ou retourner un témoin, éliminer un Révélé qui s'exhibe).
 - Chaque Défaillance subie vide la jauge de son coût.
 
-## Défaillances (le MJ dépense la jauge, au pire moment)
+## Défaillances (le MJ dépense la jauge, au pire moment, dès 4)
 
 | Coût | Effet |
 |---|---|
@@ -40,7 +42,7 @@ Un témoin non averti est quelqu'un qui ignore la Vérité (profane, Humain non 
 | 2 | Semi-Révélation involontaire jusqu'à la fin du prochain round. Les êtres de Vérité présents voient le personnage ; un témoin garde un souvenir non corrigé. |
 | 3 | Révélation involontaire d'un round, ou l'Hologramme renonce à corriger la scène (preuves et souvenirs restent). |
 
-## Rupture (6)
+## Éjection (6)
 
 L'Hologramme cesse de traduire le personnage. À un moment choisi par le MJ dans le scénario, il glisse dans l'Ombremonde par une fissure, de préférence dans un lieu désert. Le retour est un objectif de scénario. Au retour, la jauge revient à 2.
 
