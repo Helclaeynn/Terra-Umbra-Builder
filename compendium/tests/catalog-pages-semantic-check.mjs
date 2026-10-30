@@ -31,7 +31,7 @@ const equipmentBase=safeEntries('equipment');
 const neuroSource=safeEntries('neuroprograms');
 const vehicleSource=safeEntries('vehicles');
 const equipmentRuntime=equipmentBase+neuroSource+vehicleSource;
-if(equipmentBase!==321||neuroSource!==27||vehicleSource!==10||equipmentRuntime!==358)throw new Error(`Sources équipement inattendues: ${equipmentBase}+${neuroSource}+${vehicleSource}=${equipmentRuntime}`);
+if(equipmentBase!==332||neuroSource!==27||vehicleSource!==10||equipmentRuntime!==369)throw new Error(`Sources équipement inattendues: ${equipmentBase}+${neuroSource}+${vehicleSource}=${equipmentRuntime}`);
 
 const augB64=fs.readFileSync(`${REALITY}/augmentations.json.gz.b64`,'utf8').replace(/\s+/g,'');
 const augRaw=JSON.parse(zlib.gunzipSync(Buffer.from(augB64,'base64')).toString('utf8'));
@@ -55,7 +55,7 @@ const augSpec=manifest.datasets.find(item=>item.id==='augmentations');
 if(!equipSpec||!augSpec)throw new Error('Datasets catalogue absents du manifeste');
 const equipment=load(equipSpec);
 const augmentations=load(augSpec);
-if(equipment.length!==357)throw new Error(`Équipement visible: ${equipment.length}, attendu 357 après réintégration legacy et dédoublonnage FaceCaster`);
+if(equipment.length!==368)throw new Error(`Équipement visible: ${equipment.length}, attendu 368 après restauration des armes tranchantes et dédoublonnage FaceCaster`);
 if(!augmentations.length||augmentations.length>=augmentationRuntime)throw new Error(`Regroupement augmentations invalide: ${augmentations.length} pages pour ${augmentationRuntime} variantes`);
 if(equipSpec.count!==equipment.length||augSpec.count!==augmentations.length)throw new Error('Manifeste: nombre de pages catalogue incohérent');
 
@@ -66,7 +66,9 @@ for(const page of [...equipment,...augmentations]){
   if(!page.title)throw new Error(`${page.id}: titre absent`);
   if(!page.illustration?.src)throw new Error(`${page.title}: emplacement d’illustration absent`);
   const context=(page.sections||[]).find(section=>section.id==='contexte');
-  assertPublicLore(`${page.title} / contexte`,loreBlocks(context),2);
+  // A one-line original description does not need an invented second paragraph.
+  const minimum=page.catalog?.loreMethod==='source-document-extract'?1:2;
+  assertPublicLore(`${page.title} / contexte`,loreBlocks(context),minimum);
 }
 
 for(const page of equipment){
@@ -150,5 +152,5 @@ if(!fs.existsSync('compendium/assets/equipment-placeholder.svg')||!fs.existsSync
 
 console.log(`OK Équipement — ${equipmentRuntime} sources -> ${equipment.length} pages · FaceCaster unique · ${neuro.length} Neuroprogrammes · ${vehicles.length} véhicules.`);
 console.log(`OK Augmentations — ${augmentationRuntime} variantes -> ${augmentations.length} pages · ${variantCount} variantes conservées · ${groupedGen12} pages avec Gen.1+Gen.2.`);
-console.log(`OK Contenu — 2 paragraphes communs par page · ${generationLoreCount} paragraphes spécifiques · ${illustrationSlotCount} emplacements d’illustration de variante · tableau validé partout.`);
+console.log(`OK Contenu — descriptions complètes sans rallonger les extraits courts · ${generationLoreCount} paragraphes spécifiques · ${illustrationSlotCount} emplacements d’illustration de variante · tableau validé partout.`);
 console.log(`OK Compendium — ${visibleTotal} pages catalogue visibles · total V3 ${manifest.expectedTotal}.`);

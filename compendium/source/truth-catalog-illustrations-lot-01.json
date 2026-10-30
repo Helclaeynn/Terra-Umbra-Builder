@@ -1,0 +1,455 @@
+{
+  "lot": 1,
+  "items": [
+    {
+      "id": "verite-catalogue-001-proprietes-communes-des-equipements-de-verite",
+      "title": "Propriétés communes des équipements de Vérité",
+      "src": "images/manual/verite-catalogue-001-proprietes-communes-des-equipements-de-verite.webp",
+      "sha256": "6c2acf0d759453d3e2969f9394f4962cf06b700e7bc71e9efc5569c8565e5e35",
+      "width": 1200,
+      "height": 800,
+      "bytes": 131716
+    },
+    {
+      "id": "verite-catalogue-002-phoenix-pck-08-feather",
+      "title": "Phoenix PCK-08 « Feather »",
+      "src": "images/manual/verite-catalogue-002-phoenix-pck-08-feather.webp",
+      "sha256": "2789b25e09c3ec7be21ae94a3f32126bf3d0b4f165c6575fc574aeb23b125c9d",
+      "width": 1200,
+      "height": 800,
+      "bytes": 142550
+    },
+    {
+      "id": "verite-catalogue-003-phoenix-ba-037-sun-axe",
+      "title": "Phoenix BA-037 « Sun Axe »",
+      "src": "images/manual/verite-catalogue-003-phoenix-ba-037-sun-axe.webp",
+      "sha256": "c0358c46cad0849178a1f44648c00af07d5730a2e4df88af984ef3d73aa5928d",
+      "width": 1200,
+      "height": 800,
+      "bytes": 91776
+    },
+    {
+      "id": "verite-catalogue-004-raven-cl-038-claymore",
+      "title": "Raven CL-038 « Claymore »",
+      "src": "images/manual/verite-catalogue-004-raven-cl-038-claymore.webp",
+      "sha256": "0c13be7efbf563835b038b05a2f83a810d43ca9cb68036c201d458906c589f5f",
+      "width": 1200,
+      "height": 800,
+      "bytes": 66064
+    },
+    {
+      "id": "verite-catalogue-005-raven-sp-016-raven-spear",
+      "title": "Raven SP-016 « Raven Spear »",
+      "src": "images/manual/verite-catalogue-005-raven-sp-016-raven-spear.webp",
+      "sha256": "b80572b7c5a95da1298cabb11497ae6602a307bcece08531c0674fc066337095",
+      "width": 1200,
+      "height": 800,
+      "bytes": 50898
+    },
+    {
+      "id": "verite-catalogue-006-phoenix-pw-026-vampire-killer",
+      "title": "Phoenix PW-026 « Vampire Killer »",
+      "src": "images/manual/verite-catalogue-006-phoenix-pw-026-vampire-killer.webp",
+      "sha256": "c2abfff511d2bc40a3121b8d6c17927abc67c9ec5498bf6f30e94cd4722dc40b",
+      "width": 1200,
+      "height": 800,
+      "bytes": 118902
+    },
+    {
+      "id": "verite-catalogue-007-raven-mc-025-hitman",
+      "title": "Raven MC-025 « Hitman »",
+      "src": "images/manual/verite-catalogue-007-raven-mc-025-hitman.webp",
+      "sha256": "4b96dee619b97c38bd7627bc7eeb78baaf0229bea95a77ccd9fd1f95435139a7",
+      "width": 1200,
+      "height": 800,
+      "bytes": 64394
+    },
+    {
+      "id": "verite-catalogue-009-raven-ht-014-immobilisateur",
+      "title": "Raven HT-014 « Immobilisateur »",
+      "src": "images/manual/verite-catalogue-009-raven-ht-014-immobilisateur.webp",
+      "sha256": "e2c8c376c9649c510fbb478243950645d20a291c589854f451067ba3a98cef79",
+      "width": 1200,
+      "height": 800,
+      "bytes": 114278
+    },
+    {
+      "id": "verite-catalogue-010-raven-drill",
+      "title": "Raven Drill",
+      "src": "images/manual/verite-catalogue-010-raven-drill.webp",
+      "sha256": "c57b9cd10cd6339e6c16887af57892b2d0502adc293a304a97290cb34203e769",
+      "width": 1200,
+      "height": 800,
+      "bytes": 88254
+    },
+    {
+      "id": "verite-catalogue-011-raven-flash",
+      "title": "Raven Flash",
+      "src": "images/manual/verite-catalogue-011-raven-flash.webp",
+      "sha256": "5f303d1fd923f306fc1c6ae53f9d40e61a9f5da49f3bae9240bcf2d7bb72dd2c",
+      "width": 1200,
+      "height": 800,
+      "bytes": 121268
+    },
+    {
+      "id": "verite-catalogue-012-raven-volto",
+      "title": "Raven Volto",
+      "src": "images/manual/verite-catalogue-012-raven-volto.webp",
+      "sha256": "23776eeb6a6bebc3cdeca4fcc8927eebb4d4c0240ad00b86d9cc5c4479fc574e",
+      "width": 1200,
+      "height": 800,
+      "bytes": 115806
+    },
+    {
+      "id": "verite-catalogue-013-phoenix-pyro",
+      "title": "Phoenix Pyro",
+      "src": "images/manual/verite-catalogue-013-phoenix-pyro.webp",
+      "sha256": "043e2320e00a7c0d620d298406b54365194e8b82b0ec2293648b69985e8ac4cf",
+      "width": 1200,
+      "height": 800,
+      "bytes": 131782
+    },
+    {
+      "id": "verite-catalogue-014-noyau-d-argent",
+      "title": "Noyau d’argent",
+      "src": "images/manual/verite-catalogue-014-noyau-d-argent.webp",
+      "sha256": "f959e45589d1019c5ba3b1d4047eb17b8140c8a4063ce8d78c0fb6cb92d20447",
+      "width": 1200,
+      "height": 800,
+      "bytes": 85854
+    },
+    {
+      "id": "verite-catalogue-015-fer-froid",
+      "title": "Fer froid",
+      "src": "images/manual/verite-catalogue-015-fer-froid.webp",
+      "sha256": "04911e514cd43f6f19cd4089ce67f630e3398f65ac909b25e2ec272435b4d6d7",
+      "width": 1200,
+      "height": 800,
+      "bytes": 189242
+    },
+    {
+      "id": "verite-catalogue-016-raven-reliquary",
+      "title": "Raven Reliquary",
+      "src": "images/manual/verite-catalogue-016-raven-reliquary.webp",
+      "sha256": "6bff19985b3597bdfb3b4478a2b3b45a2fd181ba7a8dd91f22f205f90f2f7f8e",
+      "width": 1200,
+      "height": 800,
+      "bytes": 103752
+    },
+    {
+      "id": "verite-catalogue-017-munition-angelique",
+      "title": "Munition angélique",
+      "src": "images/manual/verite-catalogue-017-munition-angelique.webp",
+      "sha256": "7e5e8dea3e837af35b1534aba5b5f3aed480428d563a54c86412eec72a1a9a0f",
+      "width": 1200,
+      "height": 800,
+      "bytes": 85564
+    },
+    {
+      "id": "verite-catalogue-018-eau-benite",
+      "title": "Eau bénite",
+      "src": "images/manual/verite-catalogue-018-eau-benite.webp",
+      "sha256": "4112f7e68514d7985ffbe2e67211b338c8cbd74c9a41b6275318d06775a32f97",
+      "width": 1200,
+      "height": 1113,
+      "bytes": 179130
+    },
+    {
+      "id": "verite-catalogue-019-sel-rituel",
+      "title": "Sel rituel",
+      "src": "images/manual/verite-catalogue-019-sel-rituel.webp",
+      "sha256": "fc23b678f8b0ec0abafc2f5024c1f09204a6cddfbf0adbdcebdf5bbfea13b268",
+      "width": 1200,
+      "height": 800,
+      "bytes": 224420
+    },
+    {
+      "id": "verite-catalogue-020-kit-de-scellement",
+      "title": "Kit de scellement",
+      "src": "images/manual/verite-catalogue-020-kit-de-scellement.webp",
+      "sha256": "788b46971707e178a7f1528bbd6702f4626d909a2acad0ddd3d7d1232ba3fe56",
+      "width": 1200,
+      "height": 800,
+      "bytes": 248730
+    },
+    {
+      "id": "verite-catalogue-021-ofuda-vierges",
+      "title": "Ofuda vierges",
+      "src": "images/manual/verite-catalogue-021-ofuda-vierges.webp",
+      "sha256": "325f96f2ff75de40fa7b683b6667d0bceb4d6989884c32249398101e97d3a6c3",
+      "width": 1200,
+      "height": 800,
+      "bytes": 126864
+    },
+    {
+      "id": "verite-catalogue-022-ancrages-shi",
+      "title": "Ancrages Shi",
+      "src": "images/manual/verite-catalogue-022-ancrages-shi.webp",
+      "sha256": "daeffa0b71737ab5543e434f7bfc3d88ee890c6bfd6f0edc034cb952c0c145f6",
+      "width": 1200,
+      "height": 800,
+      "bytes": 263178
+    },
+    {
+      "id": "verite-catalogue-023-kit-d-offrandes-neopaien",
+      "title": "Kit d’offrandes néopaïen",
+      "src": "images/manual/verite-catalogue-023-kit-d-offrandes-neopaien.webp",
+      "sha256": "8c4167db37d1fd4b66c4bf2ab16d831e3452f478139610c78c15ebfc4e291c35",
+      "width": 1200,
+      "height": 800,
+      "bytes": 292822
+    },
+    {
+      "id": "verite-catalogue-024-owl-flashglue",
+      "title": "Owl Flashglue",
+      "src": "images/manual/verite-catalogue-024-owl-flashglue.webp",
+      "sha256": "e6053b9bad2066a3ca3cda6291623f7a9d6c0f59ff0e3bf22d62df1432fa00ab",
+      "width": 1200,
+      "height": 800,
+      "bytes": 141330
+    },
+    {
+      "id": "verite-catalogue-025-raven-deadlock",
+      "title": "Raven Deadlock",
+      "src": "images/manual/verite-catalogue-025-raven-deadlock.webp",
+      "sha256": "176b234d641f69308a194f189557685fff0bde07fc8b84b2a8f27bc6a0bde391",
+      "width": 1200,
+      "height": 800,
+      "bytes": 131128
+    },
+    {
+      "id": "verite-catalogue-026-raven-gravewire",
+      "title": "Raven Gravewire",
+      "src": "images/manual/verite-catalogue-026-raven-gravewire.webp",
+      "sha256": "dcd95013f8ee59ad67d072d784387124bef804285185ee43e5b334f1c1b52e09",
+      "width": 1200,
+      "height": 800,
+      "bytes": 286726
+    },
+    {
+      "id": "verite-catalogue-027-raven-no-witness",
+      "title": "Raven « No Witness »",
+      "src": "images/manual/verite-catalogue-027-raven-no-witness.webp",
+      "sha256": "77594037d5c63991a56b479f55f372c43db5420efab52597f02c165c193ade94",
+      "width": 1112,
+      "height": 1200,
+      "bytes": 259302
+    },
+    {
+      "id": "verite-catalogue-028-raven-black-ark",
+      "title": "Raven Black Ark",
+      "src": "images/manual/verite-catalogue-028-raven-black-ark.webp",
+      "sha256": "3aeb49a6c1b3819fd551a8cddb71c0f3a5f7012201dfaa9bb68f344903a56023",
+      "width": 1200,
+      "height": 800,
+      "bytes": 128386
+    },
+    {
+      "id": "verite-catalogue-029-raven-null-cage",
+      "title": "Raven Null Cage",
+      "src": "images/manual/verite-catalogue-029-raven-null-cage.webp",
+      "sha256": "74d823367a8d400fa98d508dbf57701ff02727756fccec6e6a19844cd30ba440",
+      "width": 1200,
+      "height": 1000,
+      "bytes": 294208
+    },
+    {
+      "id": "verite-catalogue-030-byron-analyst",
+      "title": "Byron « Analyst »",
+      "src": "images/manual/verite-catalogue-030-byron-analyst.webp",
+      "sha256": "57d52568c448a0a8a44f41ca7b8a244be8a2b85a0896055d8e114fddec538174",
+      "width": 1200,
+      "height": 800,
+      "bytes": 107154
+    },
+    {
+      "id": "verite-catalogue-031-dive-dsa-480",
+      "title": "DIVE DSA-480",
+      "src": "images/manual/verite-catalogue-031-dive-dsa-480.webp",
+      "sha256": "8e091e48ab618df28d36441386ed25bea3230c0ee3e4da23997a17a80bd890f7",
+      "width": 1200,
+      "height": 800,
+      "bytes": 108204
+    },
+    {
+      "id": "verite-catalogue-032-drones-traqueurs-sct12",
+      "title": "Drones traqueurs SCT12",
+      "src": "images/manual/verite-catalogue-032-drones-traqueurs-sct12.webp",
+      "sha256": "ceb3f2d9ed0815c41e0ef1f16bc0a8fe902215953119c2bcf42ac50d1da1b459",
+      "width": 1200,
+      "height": 800,
+      "bytes": 129212
+    },
+    {
+      "id": "verite-catalogue-033-raven-mnemosyne",
+      "title": "Raven « Mnemosyne »",
+      "src": "images/manual/verite-catalogue-033-raven-mnemosyne.webp",
+      "sha256": "e2e9f5ca88d9bfaa7058ad9f09dff8446a209e1a058d1ecbfa6ec3ddee721e89",
+      "width": 1200,
+      "height": 800,
+      "bytes": 182268
+    },
+    {
+      "id": "verite-catalogue-034-raven-black-feathers",
+      "title": "Raven « Black Feathers »",
+      "src": "images/manual/verite-catalogue-034-raven-black-feathers.webp",
+      "sha256": "cdf4972c2d4f39b608676980f25b39d220744bab9494996cd96209c15af2422a",
+      "width": 800,
+      "height": 1200,
+      "bytes": 107504
+    },
+    {
+      "id": "verite-catalogue-035-raven-black-dog",
+      "title": "Raven « Black Dog »",
+      "src": "images/manual/verite-catalogue-035-raven-black-dog.webp",
+      "sha256": "3a39f049f859f9e3dbdf666379520b2438255cf0d855c8a72622f4650efd14d0",
+      "width": 800,
+      "height": 1200,
+      "bytes": 106394
+    },
+    {
+      "id": "verite-catalogue-036-raven-gallowglass-ii-legere",
+      "title": "Raven « Gallowglass II » légère",
+      "src": "images/manual/verite-catalogue-036-raven-gallowglass-ii-legere.webp",
+      "sha256": "fa5bc331cdbf84ac953382addaf55f2c0cf3d6e6b0efcb8830995d4672be8541",
+      "width": 1200,
+      "height": 800,
+      "bytes": 141274
+    },
+    {
+      "id": "verite-catalogue-037-raven-gallowglass-ii-lourde",
+      "title": "Raven « Gallowglass II » lourde",
+      "src": "images/manual/verite-catalogue-037-raven-gallowglass-ii-lourde.webp",
+      "sha256": "82cf807261a97861c5383c159ea7a9969e813227da73b454a6a2efe7e3ae6159",
+      "width": 1000,
+      "height": 1200,
+      "bytes": 165616
+    },
+    {
+      "id": "verite-catalogue-038-raven-shut-up-look-away",
+      "title": "Raven « Shut Up & Look Away »",
+      "src": "images/manual/verite-catalogue-038-raven-shut-up-look-away.webp",
+      "sha256": "0bbe13013eff6d46ec590225a3d46e4b46bbef612160853228f06a9e5cfdf2ed",
+      "width": 1200,
+      "height": 1000,
+      "bytes": 182646
+    },
+    {
+      "id": "verite-catalogue-039-raven-hse-11-daybreak",
+      "title": "Raven HSE-11 « Daybreak »",
+      "src": "images/manual/verite-catalogue-039-raven-hse-11-daybreak.webp",
+      "sha256": "c5960d9d3b47d4ad60f3568faca3702aab11fc3f7b9aca76b6401ddb66f8901a",
+      "width": 1200,
+      "height": 800,
+      "bytes": 215018
+    },
+    {
+      "id": "verite-catalogue-040-raven-last-door",
+      "title": "Raven « Last Door »",
+      "src": "images/manual/verite-catalogue-040-raven-last-door.webp",
+      "sha256": "66b53b48c9957c5276f4b3016b65694581df1378fac1dba542181bb2d4ac5d67",
+      "width": 1200,
+      "height": 800,
+      "bytes": 100692
+    },
+    {
+      "id": "verite-catalogue-041-raven-murder-box",
+      "title": "Raven « Murder Box »",
+      "src": "images/manual/verite-catalogue-041-raven-murder-box.webp",
+      "sha256": "adb3c38634dd336c78201d09e7cdf871dd13ecc0b41bac35bc268e198f9ce570",
+      "width": 1200,
+      "height": 800,
+      "bytes": 223016
+    },
+    {
+      "id": "verite-catalogue-042-equipement-typique-des-traditions",
+      "title": "Équipement typique des traditions",
+      "src": "images/manual/verite-catalogue-042-equipement-typique-des-traditions.webp",
+      "sha256": "783d37dd49201a29eddbe36def5db9c9c213caacf77545d9c79989e0885886a0",
+      "width": 1200,
+      "height": 800,
+      "bytes": 259496
+    },
+    {
+      "id": "verite-catalogue-043-hors-catalogue-equipement-de-chasse",
+      "title": "Hors catalogue — Équipement de Chasse",
+      "src": "images/manual/verite-catalogue-043-hors-catalogue-equipement-de-chasse.webp",
+      "sha256": "694c828144ab8246d4978e2604c1119a578ee152441dc5c3d9fbb9299b0d723d",
+      "width": 1200,
+      "height": 800,
+      "bytes": 83290
+    },
+    {
+      "id": "verite-catalogue-044-plaque-de-fer",
+      "title": "Plaque de Fer",
+      "src": "images/manual/verite-catalogue-044-plaque-de-fer.webp",
+      "sha256": "2a2e9abbd28b9409a4ab80fb95fb6cc94fb783df6e5edc4da82e48246940e7f9",
+      "width": 1200,
+      "height": 800,
+      "bytes": 194550
+    },
+    {
+      "id": "verite-catalogue-045-lame-de-fer-stabilisee",
+      "title": "Lame de Fer stabilisée",
+      "src": "images/manual/verite-catalogue-045-lame-de-fer-stabilisee.webp",
+      "sha256": "fdb0a95591284a4d490172f6c16482ec89261d567b0a245fd241e94bfe3bb156",
+      "width": 800,
+      "height": 1200,
+      "bytes": 74840
+    },
+    {
+      "id": "verite-catalogue-046-marteau-de-scellement",
+      "title": "Marteau de Scellement",
+      "src": "images/manual/verite-catalogue-046-marteau-de-scellement.webp",
+      "sha256": "9e84e0107d06d876de7f25f499a67af1e3b1d916ae6b4fe66be0c219393ebb6c",
+      "width": 1200,
+      "height": 800,
+      "bytes": 108730
+    },
+    {
+      "id": "verite-catalogue-047-brigandine-de-garde",
+      "title": "Brigandine de Garde",
+      "src": "images/manual/verite-catalogue-047-brigandine-de-garde.webp",
+      "sha256": "5696c588220d425bd95bcca04df8861bff82789b8369c663de165eba8b20b3ef",
+      "width": 1000,
+      "height": 1200,
+      "bytes": 263342
+    },
+    {
+      "id": "verite-catalogue-048-verrou-nibelungen",
+      "title": "Verrou Nibelungen",
+      "src": "images/manual/verite-catalogue-048-verrou-nibelungen.webp",
+      "sha256": "82f2a3e57b2468988dd0e4b8e4e7c118346fcd64e1234de15fc0c03c25f7e86a",
+      "width": 1200,
+      "height": 800,
+      "bytes": 258180
+    },
+    {
+      "id": "verite-catalogue-049-plaque-de-veille",
+      "title": "Plaque de Veille",
+      "src": "images/manual/verite-catalogue-049-plaque-de-veille.webp",
+      "sha256": "56fba8395e7b29db06e0f38ce815c9674a6b2663c6b31501d8059e13cf6d5291",
+      "width": 1200,
+      "height": 800,
+      "bytes": 154032
+    },
+    {
+      "id": "verite-catalogue-050-projectile-de-fer",
+      "title": "Projectile de Fer",
+      "src": "images/manual/verite-catalogue-050-projectile-de-fer.webp",
+      "sha256": "72dab555c9744a27816b1ad7893fe5b7ec706e15fed4772cc68d383d98ab9756",
+      "width": 1200,
+      "height": 800,
+      "bytes": 111608
+    },
+    {
+      "id": "verite-catalogue-051-tete-de-scellement",
+      "title": "Tête de Scellement",
+      "src": "images/manual/verite-catalogue-051-tete-de-scellement.webp",
+      "sha256": "91e81bff7485d0e87563b43b77e341867a0d68023cd8f06d5cb9d85fb049b719",
+      "width": 1200,
+      "height": 800,
+      "bytes": 146358
+    }
+  ]
+}

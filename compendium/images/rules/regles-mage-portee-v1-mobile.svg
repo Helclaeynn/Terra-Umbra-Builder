@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 830" role="img" aria-labelledby="title desc">
+<title id="title">Portée : modifier la difficulté</title>
+<desc id="desc">Endo ou contact réduit la difficulté d’un niveau ; Volonté fois cinq mètres la laisse normale ; à vue ajoute un niveau. Hors vue exige une permission spéciale. Chaque niveau au-dessus de 25 impose au moins un PA de Canalisation.</desc>
+<rect width="540" height="830" rx="22" fill="#0c1820"/>
+<rect x="1" y="1" width="538" height="828" rx="21" fill="none" stroke="#476775" stroke-width="2"/>
+<text x="24" y="43" fill="#eef7f7" font-size="22" font-weight="700" font-family="system-ui, sans-serif">Portée : quel effet sur le seuil ?</text>
+<text x="24" y="80" fill="#d1e1e3" font-size="17" font-weight="400" font-family="system-ui, sans-serif">Partir de la difficulté après Amplitude.</text>
+<rect x="22" y="107" width="496" height="88" rx="15" fill="#162a34" stroke="#49606b"/>
+<text x="42" y="142" fill="#f0f7f6" font-size="19" font-weight="700" font-family="system-ui, sans-serif">Sur soi / contact</text>
+<text x="42" y="176" fill="#f2bd78" font-size="18" font-weight="400" font-family="system-ui, sans-serif">−1 niveau</text>
+<rect x="22" y="212" width="496" height="88" rx="15" fill="#162a34" stroke="#49606b"/>
+<text x="42" y="247" fill="#f0f7f6" font-size="19" font-weight="700" font-family="system-ui, sans-serif">À Volonté × 5 mètres</text>
+<text x="42" y="281" fill="#f2bd78" font-size="18" font-weight="400" font-family="system-ui, sans-serif">aucun changement</text>
+<rect x="22" y="317" width="496" height="88" rx="15" fill="#162a34" stroke="#49606b"/>
+<text x="42" y="352" fill="#f0f7f6" font-size="19" font-weight="700" font-family="system-ui, sans-serif">À vue</text>
+<text x="42" y="386" fill="#f2bd78" font-size="18" font-weight="400" font-family="system-ui, sans-serif">+1 niveau</text>
+<rect x="22" y="422" width="496" height="88" rx="15" fill="#162a34" stroke="#49606b"/>
+<text x="42" y="457" fill="#f0f7f6" font-size="19" font-weight="700" font-family="system-ui, sans-serif">Hors vue</text>
+<text x="42" y="491" fill="#f2bd78" font-size="18" font-weight="400" font-family="system-ui, sans-serif">permission spéciale exigée</text>
+<rect x="22" y="555" width="496" height="190" rx="15" fill="#30281f" stroke="#f2bd78"/>
+<text x="42" y="592" fill="#f2bd78" font-size="19" font-weight="700" font-family="system-ui, sans-serif">Si le calcul dépasse 25 :</text>
+<text x="42" y="630" fill="#d1e1e3" font-size="17" font-weight="400" font-family="system-ui, sans-serif">chaque niveau en trop exige au moins</text>
+<text x="42" y="658" fill="#d1e1e3" font-size="17" font-weight="400" font-family="system-ui, sans-serif">1 PA de Canalisation avant le jet.</text>
+<text x="42" y="710" fill="#d1e1e3" font-size="17" font-weight="400" font-family="system-ui, sans-serif">Ex. 25 + « à vue » → 1 PA en plus.</text>
+<text x="24" y="796" fill="#f1cfa1" font-size="16" font-weight="400" font-family="system-ui, sans-serif">La portée ne donne jamais accès hors vue seule.</text>
+</svg>

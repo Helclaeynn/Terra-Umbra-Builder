@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 1,
+  "source": "armes_blanches _tranchantes(3).docx",
+  "entries": {
+    "Owl K OwlClaws": {
+      "paragraphs": [
+        "Le K OwlClaws est le couteau de combat d’Owl.",
+        "La marque le présente comme l’expression de la simplicité américaine."
+      ],
+      "source": "armes_blanches _tranchantes(3).docx"
+    },
+    "Raven K Blaclaws": {
+      "paragraphs": [
+        "Le K Blaclaws est le couteau de combat de base de Raven."
+      ],
+      "source": "armes_blanches _tranchantes(3).docx"
+    },
+    "Owl K Resonancer": {
+      "paragraphs": [
+        "Le K Resonancer est un couteau technologique d’Owl équipé d’une lame vibrante.",
+        "Ses vibrations s’adaptent progressivement à la cible pour détériorer sa structure."
+      ],
+      "source": "armes_blanches _tranchantes(3).docx"
+    },
+    "Raven K Hellthorn": {
+      "paragraphs": [
+        "Le K Hellthorn est un couteau de combat de Raven à filament photonique.",
+        "Ce filament fonctionne de manière comparable à un laser de haute intensité et caractérise son tranchant Photoedge."
+      ],
+      "source": "armes_blanches _tranchantes(3).docx"
+    },
+    "Phoenix K SunBeak": {
+      "paragraphs": [
+        "Phoenix propose le K SunBeak comme un couteau classique de sa gamme.",
+        "Sa structure en « acier diamantin » lui confère la robustesse qui fait sa particularité."
+      ],
+      "source": "armes_blanches _tranchantes(3).docx"
+    },
+    "Raven KB Karas": {
+      "paragraphs": [
+        "Le KB Karas est le katana de Raven, présenté comme l’arme blanche la plus vendue.",
+        "Solide et puissant, il se distingue par son équilibre, qui permet une précision fine dans son maniement."
+      ],
+      "source": "armes_blanches _tranchantes(3).docx"
+    },
+    "K Golijagi": {
+      "paragraphs": [
+        "Le K Golijagi est la lame des soldats nord-coréens.",
+        "Sa fabrication en Biosteel le rend indétectable par les détecteurs conventionnels."
+      ],
+      "source": "armes_blanches _tranchantes(3).docx"
+    },
+    "Owl SB Nextcalibur": {
+      "paragraphs": [
+        "La SB Nextcalibur est une épée technologique d’Owl dont la dureté peut changer.",
+        "Sa lame peut devenir flexible pour s’enrouler autour d’un bras ou se ranger dans un sac. Son Biosteel la rend indétectable aux détecteurs conventionnels."
+      ],
+      "source": "armes_blanches _tranchantes(3).docx"
+    },
+    "Phoenix SB Khopesh": {
+      "paragraphs": [
+        "La SB Khopesh transpose chez Phoenix la silhouette du khépesh dans l’armement de 2035.",
+        "Phoenix équipe cette lame irradiante d’un monofilament et la présente comme sa meilleure offre dans cette catégorie."
+      ],
+      "source": "armes_blanches _tranchantes(3).docx"
+    },
+    "Hache circulaire Owl": {
+      "paragraphs": [
+        "Cette hache de combat d’Owl est construite autour d’une scie circulaire résistante aux chocs.",
+        "Elle peut s’utiliser avec sa lame bloquée comme une arme blanche ou avec le système rotatif en fonctionnement."
+      ],
+      "source": "armes_blanches _tranchantes(3).docx"
+    },
+    "Insurrection SP New Partisan": {
+      "paragraphs": [
+        "La SP New Partisan est une arme de l’Insurrection produite par impression et frittage.",
+        "Sa forme et sa taille peuvent varier : lance, épée ou hache conservent généralement la même efficacité. L’arme peut également se rétracter."
+      ],
+      "source": "armes_blanches _tranchantes(3).docx"
+    }
+  }
+}

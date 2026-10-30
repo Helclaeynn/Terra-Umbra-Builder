@@ -1,0 +1,117 @@
+diff --git a/apps/web/package.json b/apps/web/package.json
+--- a/apps/web/package.json
++++ b/apps/web/package.json
+@@ -9 +9 @@
+-    "test:ui": "node tests/compendium-navigation-check.mjs && node tests/compendium-reading-check.mjs && node tests/wiki-active-aliases.mjs && node tests/npc-stat-profile-dom.mjs && node tests/compendium-page-dom.mjs && node tests/corruption-panel-dom.mjs && node tests/gm-access-dom.mjs && node tests/account-performance-dom.mjs && node tests/private-character-ui-dom.mjs && node tests/character-summary-dom.mjs && node tests/character-sheet-model-check.mjs && node tests/catalog-performance-check.mjs && node tests/character-history-check.mjs && node tests/campaign-character-check.mjs && node tests/campaign-preparation-dom.mjs && node tests/campaign-notebook-dom.mjs && node tests/canonical-npcs-dom.mjs && node tests/campaign-npc-creation-dom.mjs && node tests/campaign-bestiary-dom.mjs && node tests/talent-selector-dom.mjs && node tests/equipment-contacts-dom.mjs && node tests/campaign-final-recette-dom.mjs && npm run test:reality-talents",
++    "test:ui": "node tests/compendium-navigation-check.mjs && node tests/compendium-reading-check.mjs && node tests/wiki-active-aliases.mjs && node tests/npc-stat-profile-dom.mjs && node tests/compendium-page-dom.mjs && node tests/corruption-panel-dom.mjs && node tests/gm-access-dom.mjs && node tests/account-performance-dom.mjs && node tests/private-character-ui-dom.mjs && node tests/character-summary-dom.mjs && node tests/character-sheet-model-check.mjs && node tests/catalog-performance-check.mjs && node tests/character-history-check.mjs && node tests/campaign-character-check.mjs && node tests/campaign-preparation-dom.mjs && node tests/campaign-notebook-dom.mjs && node tests/canonical-npcs-dom.mjs && node tests/campaign-npc-creation-dom.mjs && node tests/campaign-bestiary-dom.mjs && node tests/talent-selector-dom.mjs && node tests/equipment-contacts-dom.mjs && node tests/campaign-final-recette-dom.mjs && npm run test:reality-talents && npm run test:campaign-rewards",
+@@ -11 +11,2 @@
+-    "test:reality-talents": "node tests/reality-talents-integration.mjs && node tests/reality-talents-compact.mjs"
++    "test:reality-talents": "node tests/reality-talents-integration.mjs && node tests/reality-talents-compact.mjs",
++    "test:campaign-rewards": "node tests/campaign-reward-lock.mjs && node tests/campaign-rewards-dom.mjs && node tests/builder-save-navigation.mjs"
+diff --git a/apps/web/src/components/builder/ProgressionStep.vue b/apps/web/src/components/builder/ProgressionStep.vue
+--- a/apps/web/src/components/builder/ProgressionStep.vue
++++ b/apps/web/src/components/builder/ProgressionStep.vue
+@@ -146 +146,2 @@
+-function adjustRenown(delta:number){const target=currentRenown.value+delta;if(target<0||target>5)return;const next=structuredClone(state.value);next.renownAdjustment=target-renownScore(props.creationTalentIds,state.value.realityTalents,Number(props.edge.renownPack||0),props.disadvantages.includes('inconnu'));emitProgression(next);}
++function adjustRenown(delta:number){
++  if(props.rewardsLocked)return;const target=currentRenown.value+delta;if(target<0||target>5)return;const next=structuredClone(state.value);next.renownAdjustment=target-renownScore(props.creationTalentIds,state.value.realityTalents,Number(props.edge.renownPack||0),props.disadvantages.includes('inconnu'));emitProgression(next);}
+@@ -558 +559 @@
+-    <p v-if="rewardsLocked" class="rule-note" data-campaign-rewards-lock>Copie de campagne : le MJ attribue les XP, PTV, l’argent et la Corruption. Les dépenses, achats et ventes restent disponibles ; votre fiche d’origine est indépendante.</p>
++    <p v-if="rewardsLocked" class="rule-note" data-campaign-rewards-lock>Copie de campagne : le MJ attribue les XP, PTV, l’argent, la Corruption et la Renommée. Les dépenses, achats et ventes restent disponibles ; votre fiche d’origine est indépendante.</p>
+@@ -572 +573 @@
+-    <section class="progress-panel" data-renown-progression><h3>Renommée · {{ currentRenown }}/5 — {{ renownScale[currentRenown].name }}</h3><p>{{ renownScale[currentRenown].benefit }}</p><p>Évolution de campagne : {{ state.renownAdjustment }}. Les gains se notent séparément du +1 de Renommé ; aucun XP n’est dépensé.</p><div class="action-row"><button type="button" class="ghost compact" :disabled="currentRenown<=0" @click="adjustRenown(-1)">−1 Renommée</button><button type="button" class="secondary compact" :disabled="currentRenown>=5" @click="adjustRenown(1)">+1 Renommée accordée par le MJ</button></div><p class="rule-note">Une fois par scène : une Renommée strictement supérieure auprès d’un interlocuteur non hostile qui reconnaît une réputation pertinente donne une concession modeste. Une réputation pertinente peut apporter +3 ou −3 au test, jamais le score de Renommée ajouté au jet.</p></section>
++    <section class="progress-panel" data-renown-progression><h3>Renommée · {{ currentRenown }}/5 — {{ renownScale[currentRenown].name }}</h3><p>{{ renownScale[currentRenown].benefit }}</p><p>Évolution de campagne : {{ state.renownAdjustment }}. Les gains se notent séparément du +1 de Renommé ; aucun XP n’est dépensé.</p><div v-if="!rewardsLocked" class="action-row"><button type="button" class="ghost compact" :disabled="currentRenown<=0" @click="adjustRenown(-1)">−1 Renommée</button><button type="button" class="secondary compact" :disabled="currentRenown>=5" @click="adjustRenown(1)">+1 Renommée accordée par le MJ</button></div><p class="rule-note">Une fois par scène : une Renommée strictement supérieure auprès d’un interlocuteur non hostile qui reconnaît une réputation pertinente donne une concession modeste. Une réputation pertinente peut apporter +3 ou −3 au test, jamais le score de Renommée ajouté au jet.</p></section>
+diff --git a/apps/web/src/lib/progression.ts b/apps/web/src/lib/progression.ts
+--- a/apps/web/src/lib/progression.ts
++++ b/apps/web/src/lib/progression.ts
+@@ -75 +75 @@
+-          ...(row.trade&&typeof row.trade==='object'&&!Array.isArray(row.trade)?{trade:structuredClone(row.trade) as CashTrade}:{}),
++          ...(row.trade&&typeof row.trade==='object'&&!Array.isArray(row.trade)?{trade:JSON.parse(JSON.stringify(row.trade)) as CashTrade}:{}),
+diff --git a/apps/web/src/main.ts b/apps/web/src/main.ts
+--- a/apps/web/src/main.ts
++++ b/apps/web/src/main.ts
+@@ -34,8 +34,3 @@
+-router.beforeEach((to, from)=>{
+-  // Account controls can remain inert after a client-side transition from
+-  // another large page. A fresh account document reliably initializes them.
+-  // The first navigation on page load has no matched origin and must proceed.
+-  if (to.path === '/account' && from.matched.length && from.path !== '/account') {
+-    window.location.assign(to.fullPath);
+-    return false;
+-  }
++router.beforeEach(()=>{
++  // Stay in the router: a forced document reload also fires beforeunload and
++  // asks a second time after an already-approved leave guard.
+diff --git a/apps/web/src/pages/CampaignsPage.vue b/apps/web/src/pages/CampaignsPage.vue
+--- a/apps/web/src/pages/CampaignsPage.vue
++++ b/apps/web/src/pages/CampaignsPage.vue
+@@ -8,0 +9 @@
++import CampaignRewards from '../components/CampaignRewards.vue';
+@@ -36 +37 @@
+-  messages.campaign_progression_already_awarded='Des gains de séance sont déjà liés à cette fiche de campagne. Ils ne peuvent pas être effacés en proposant une ancienne sauvegarde.';
++  messages.campaign_progression_already_awarded='Des récompenses sont déjà liées à cette fiche de campagne. Elles ne peuvent pas être effacées en proposant une ancienne sauvegarde.';
+@@ -155,0 +157 @@
++          <CampaignRewards :campaign-id="id" :can-manage="campaign.canManage" :archived="!!campaign.archivedAt" />
+@@ -162 +164 @@
+-          <details v-if="!campaign.canManage&&me" class="panel form"><summary>Mon personnage</summary><p>Tu peux proposer une ancienne sauvegarde sans modifier la fiche source. Si des gains de séance ont déjà été attribués à cette version de campagne, ils sont conservés et son remplacement est bloqué.</p><label>Fiche partagée<select v-model="chosenCharacter"><option value="">Aucune fiche partagée</option><option v-for="c in characters" :key="c.id" :value="c.id">{{ c.name }} · {{ c.campaignName||'Hors campagne' }}</option></select></label><label v-if="chosenCharacter">Version à proposer<select v-model="chosenRevision" :disabled="revisionsLoading"><option value="current">Version actuelle</option><option v-for="r in revisions" :key="r.revision" :value="String(r.revision)">Version {{ r.revision }} · {{ new Date(r.createdAt).toLocaleDateString('fr-FR') }} · {{ r.xpEarned }} XP / {{ r.ptvEarned }} PTV reçus</option></select></label><p v-if="revisionsLoading" role="status">Chargement des versions…</p><p v-if="revisionsError" role="alert">{{ revisionsError }}</p><div class="actions"><button class="primary" :disabled="busy||revisionsLoading||(chosenCharacter===(me.characterId||'')&&chosenRevision==='current')" @click="join">Proposer cette fiche</button><button :disabled="busy" @click="remove(me)">Quitter la campagne</button></div><RouterLink v-if="!characters.length" to="/account">Créer un personnage dans Mon espace →</RouterLink></details>
++          <details v-if="!campaign.canManage&&me" class="panel form"><summary>Mon personnage</summary><p>Tu peux proposer une ancienne sauvegarde sans modifier la fiche source. Si des récompenses ont déjà été attribuées à cette version de campagne, elles sont conservées et son remplacement est bloqué.</p><label>Fiche partagée<select v-model="chosenCharacter"><option value="">Aucune fiche partagée</option><option v-for="c in characters" :key="c.id" :value="c.id">{{ c.name }} · {{ c.campaignName||'Hors campagne' }}</option></select></label><label v-if="chosenCharacter">Version à proposer<select v-model="chosenRevision" :disabled="revisionsLoading"><option value="current">Version actuelle</option><option v-for="r in revisions" :key="r.revision" :value="String(r.revision)">Version {{ r.revision }} · {{ new Date(r.createdAt).toLocaleDateString('fr-FR') }} · {{ r.xpEarned }} XP / {{ r.ptvEarned }} PTV reçus</option></select></label><p v-if="revisionsLoading" role="status">Chargement des versions…</p><p v-if="revisionsError" role="alert">{{ revisionsError }}</p><div class="actions"><button class="primary" :disabled="busy||revisionsLoading||(chosenCharacter===(me.characterId||'')&&chosenRevision==='current')" @click="join">Proposer cette fiche</button><button :disabled="busy" @click="remove(me)">Quitter la campagne</button></div><RouterLink v-if="!characters.length" to="/account">Créer un personnage dans Mon espace →</RouterLink></details>
+diff --git a/apps/web/src/pages/CharacterBuilderPage.vue b/apps/web/src/pages/CharacterBuilderPage.vue
+--- a/apps/web/src/pages/CharacterBuilderPage.vue
++++ b/apps/web/src/pages/CharacterBuilderPage.vue
+@@ -4 +4,2 @@
+-import { onBeforeRouteLeave, useRoute } from "vue-router";
++import { onBeforeRouteLeave, onBeforeRouteUpdate, useRoute } from "vue-router";
++import { builderDraftFingerprint, normalizeBuilderDraft, reconcileBuilderSave } from "../lib/builder-draft";
+@@ -182 +183 @@
+-  return JSON.stringify(draft.value)!==baseline.value;
++  return builderDraftFingerprint(draft.value)!==baseline.value;
+@@ -1113 +1114 @@
+-    baseline.value=JSON.stringify(draft.value);
++    baseline.value=builderDraftFingerprint(draft.value);
+@@ -1120 +1121,2 @@
+-    ]).then(([truthResult,realityResult])=>{
++    ]).then(async([truthResult,realityResult])=>{
++      const wasClean=!dirty.value;
+@@ -1126 +1128 @@
+-      if(loadedTruth&&!dirty.value){
++      if(loadedTruth&&wasClean){
+@@ -1143 +1145,2 @@
+-        baseline.value=JSON.stringify(draft.value);
++        await nextTick();
++        if(draft.value)baseline.value=builderDraftFingerprint(draft.value);
+@@ -1161,0 +1165 @@
++    await nextTick();
+@@ -1164,0 +1169 @@
++    const sent=normalizeBuilderDraft(draft.value);
+@@ -1169 +1174 @@
+-        data:draft.value,
++        data:sent,
+@@ -1172,0 +1178 @@
++    const reconciled=reconcileBuilderSave(draft.value,sent,result.character.data);
+@@ -1174,3 +1180,6 @@
+-    draft.value=structuredClone(result.character.data);
+-    baseline.value=JSON.stringify(draft.value);
+-    notice.value=`Fiche enregistrée · version ${result.character.version}.`;
++    draft.value=reconciled.draft;
++    baseline.value=reconciled.baseline;
++    // Flush synchronous benefit/default watchers before recording the clean view.
++    // Browser input events cannot interleave with this Vue microtask flush.
++    if(!reconciled.preserved){await nextTick();baseline.value=builderDraftFingerprint(draft.value);}
++    notice.value=`Fiche enregistrée · version ${result.character.version}.`+(reconciled.preserved?" Vos modifications plus récentes restent à enregistrer.":"");
+@@ -1527,4 +1536,5 @@
+-onBeforeRouteLeave(()=>{
+-  if(!dirty.value)return true;
+-  return window.confirm("Des modifications ne sont pas enregistrées. Quitter quand même ?");
+-});
++function confirmBuilderLeave(){
++  return !dirty.value||window.confirm("Des modifications ne sont pas enregistrées. Quitter quand même ?");
++}
++onBeforeRouteLeave(confirmBuilderLeave);
++onBeforeRouteUpdate((to,from)=>to.path===from.path||confirmBuilderLeave());
+diff --git a/apps/web/tests/campaign-reward-lock.mjs b/apps/web/tests/campaign-reward-lock.mjs
+--- a/apps/web/tests/campaign-reward-lock.mjs
++++ b/apps/web/tests/campaign-reward-lock.mjs
+@@ -12,0 +13 @@
++assert.equal(d.querySelectorAll('[data-renown-progression] button').length,0,'Campaign Renommée is read-only');
+@@ -32,0 +34 @@
++assert.equal(d.querySelectorAll('[data-renown-progression] button').length,2,'Original still changes Renommée');

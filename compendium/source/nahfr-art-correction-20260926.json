@@ -1,0 +1,12 @@
+{
+  "key": "nahfr-catalogue",
+  "prompt": "Edit this reference to create a standalone transparent-background catalogue cutout of the same unique organic mantle Nahfr. Preserve precisely dark charcoal violet-gray nacre iridescence, folds, asymmetric organic drapery and intact garment. Remove the room, all floor, and ALL metal display stand bars base and pole. Mantle alone remains in suspended natural open display pose, empty inside, no person. No armor plates, no scales, no dragon heads, no gold or colored emblems. Fully transparent background.",
+  "references": [
+    "C:/Users/Malek/.codex/generated_images/01a0da2e-4346-7143-890d-09f9297ac564/exec-ecdaa10d-b72b-4857-ae73-1befcfb10cf4.png"
+  ],
+  "transparent": true,
+  "sourcePath": "C:\\Users\\Malek\\.codex\\generated_images\\01a0da2e-4346-7143-890d-09f9297ac564\\exec-8c9e2f7a-4cad-4708-9ec4-d47bfe7ff1b6.png",
+  "src": "images/manual/verite-catalogue-221-nahfr.webp",
+  "sha256": "f0fc1ac1053a13c1aac0fb0921ed76ccbb990f095a4b0df44a514507ba0a4672",
+  "reason": "Correction utilisateur : peau primordiale vivante, retrait des cinq têtes de dragons évoquant Tiamat de D&D."
+}

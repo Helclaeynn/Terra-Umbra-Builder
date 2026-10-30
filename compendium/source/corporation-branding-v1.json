@@ -1,0 +1,383 @@
+{
+  "version": 1,
+  "articles": {
+    "realite-v9-corporation-yellow-food-corporation": {
+      "name": "Yellow Food",
+      "logo": "images/corporations/yellow-food-logo.webp",
+      "charts": [
+        {
+          "src": "images/corporations/yellow-food-organigramme.svg",
+          "nodes": 22,
+          "edges": 21
+        }
+      ]
+    },
+    "realite-v9-corporation-asco-corporation": {
+      "name": "Asco",
+      "charts": [
+        {
+          "src": "images/corporations/asco-organigramme.svg",
+          "nodes": 22,
+          "edges": 21
+        }
+      ],
+      "logo": "images/corporations/asco-logo.webp"
+    },
+    "realite-v9-corporation-dwarfood-corporation": {
+      "name": "Dwarfood",
+      "logo": "images/corporations/dwarfood-logo.webp",
+      "charts": [
+        {
+          "src": "images/corporations/dwarfood-organigramme.svg",
+          "nodes": 22,
+          "edges": 21
+        }
+      ]
+    },
+    "realite-v9-corporation-ocean-master-corporation": {
+      "name": "Ocean Master",
+      "logo": "images/corporations/ocean-master-logo.webp",
+      "charts": [
+        {
+          "src": "images/corporations/ocean-master-organigramme.svg",
+          "nodes": 22,
+          "edges": 21
+        }
+      ]
+    },
+    "realite-v9-corporation-herbrews-corporation": {
+      "name": "Herbrews",
+      "logo": "images/corporations/herbrews-logo.webp",
+      "charts": [
+        {
+          "src": "images/corporations/herbrews-organigramme.svg",
+          "nodes": 22,
+          "edges": 21
+        }
+      ]
+    },
+    "realite-v9-corporation-eversor-corporation": {
+      "name": "Eversor",
+      "logo": "images/corporations/eversor-logo.webp",
+      "charts": [
+        {
+          "src": "images/corporations/eversor-organigramme.svg",
+          "nodes": 20,
+          "edges": 19
+        }
+      ]
+    },
+    "realite-v9-corporation-wellspring-industries-corporation": {
+      "name": "Wellspring Industries",
+      "logo": "images/corporations/wellspring-industries-logo.webp",
+      "charts": [
+        {
+          "src": "images/corporations/wellspring-industries-organigramme.svg",
+          "nodes": 22,
+          "edges": 21
+        }
+      ]
+    },
+    "realite-v9-corporation-seawares-corporation": {
+      "name": "Seawares",
+      "logo": "images/corporations/seawares-logo.webp",
+      "charts": [
+        {
+          "src": "images/corporations/seawares-organigramme.svg",
+          "nodes": 22,
+          "edges": 21
+        }
+      ]
+    },
+    "realite-v9-corporation-tuatha-corporation": {
+      "name": "Tuatha",
+      "charts": [
+        {
+          "src": "images/corporations/tuatha-organigramme.svg",
+          "nodes": 22,
+          "edges": 21
+        }
+      ],
+      "logo": "images/corporations/tuatha-logo.webp"
+    },
+    "realite-v9-corporation-dreampoint-corporation": {
+      "name": "Dreampoint",
+      "charts": [
+        {
+          "src": "images/corporations/dreampoint-organigramme.svg",
+          "nodes": 22,
+          "edges": 21
+        }
+      ]
+    },
+    "realite-v9-corporation-nexstar-media-corporation": {
+      "name": "Nexstar Media",
+      "logo": "images/corporations/nexstar-media-logo.webp",
+      "charts": [
+        {
+          "src": "images/corporations/nexstar-media-organigramme.svg",
+          "nodes": 19,
+          "edges": 18
+        }
+      ]
+    },
+    "realite-v9-corporation-omegacoustics-corporation": {
+      "name": "Omegacoustics",
+      "logo": "images/corporations/omegacoustics-logo.webp",
+      "charts": [
+        {
+          "src": "images/corporations/omegacoustics-organigramme.svg",
+          "nodes": 17,
+          "edges": 16
+        }
+      ]
+    },
+    "realite-v9-corporation-redwheels-corporation": {
+      "name": "Redwheels",
+      "logo": "images/corporations/redwheels-logo.webp",
+      "charts": [
+        {
+          "src": "images/corporations/redwheels-organigramme.svg",
+          "nodes": 22,
+          "edges": 21
+        }
+      ]
+    },
+    "realite-v9-corporation-hound-record-corporation": {
+      "name": "Hound Record",
+      "charts": [
+        {
+          "src": "images/corporations/hound-record-organigramme.svg",
+          "nodes": 17,
+          "edges": 16
+        }
+      ],
+      "logo": "images/corporations/hound-record-logo.webp"
+    },
+    "realite-v9-corporation-raven-industries-corporation": {
+      "name": "Raven Industries",
+      "logo": "images/corporations/raven-industries-logo.webp",
+      "charts": [
+        {
+          "src": "images/corporations/raven-industries-organigramme.svg",
+          "nodes": 22,
+          "edges": 21
+        }
+      ]
+    },
+    "realite-v9-corporation-phoenix-corporation": {
+      "name": "Phoenix",
+      "logo": "images/corporations/phoenix-logo.webp",
+      "charts": [
+        {
+          "src": "images/corporations/phoenix-organigramme.svg",
+          "nodes": 22,
+          "edges": 21
+        }
+      ]
+    },
+    "realite-v9-corporation-byron-industries-corporation": {
+      "name": "Byron Industries",
+      "logo": "images/corporations/byron-industries-logo.webp",
+      "charts": [
+        {
+          "src": "images/corporations/byron-industries-organigramme.svg",
+          "nodes": 17,
+          "edges": 16
+        }
+      ]
+    },
+    "realite-v9-corporation-bullmotors-corporation": {
+      "name": "Bullmotors",
+      "logo": "images/corporations/bullmotors-logo.webp",
+      "charts": [
+        {
+          "src": "images/corporations/bullmotors-organigramme.svg",
+          "nodes": 17,
+          "edges": 16
+        }
+      ]
+    },
+    "realite-v9-corporation-space-force-union": {
+      "name": "Space Force Union",
+      "charts": [
+        {
+          "src": "images/corporations/space-force-union-organigramme.svg",
+          "nodes": 14,
+          "edges": 13
+        }
+      ],
+      "logo": "images/corporations/space-force-union-logo.webp"
+    },
+    "realite-v9-corporation-arcanetworks-corporation": {
+      "name": "Arcanetworks",
+      "charts": [
+        {
+          "src": "images/corporations/arcanetworks-organigramme.svg",
+          "nodes": 22,
+          "edges": 21
+        }
+      ],
+      "logo": "images/corporations/arcanetworks-logo.webp"
+    },
+    "realite-v9-corporation-monarch-systems-corporation": {
+      "name": "Monarch Systems",
+      "logo": "images/corporations/monarch-systems-logo.webp",
+      "charts": [
+        {
+          "src": "images/corporations/monarch-systems-organigramme.svg",
+          "nodes": 22,
+          "edges": 21
+        }
+      ]
+    },
+    "realite-v9-corporation-aces-corporation": {
+      "name": "Aces",
+      "logo": "images/corporations/aces-logo.webp",
+      "charts": [
+        {
+          "src": "images/corporations/aces-organigramme.svg",
+          "nodes": 17,
+          "edges": 16
+        }
+      ]
+    },
+    "realite-v9-corporation-biosun-corporation": {
+      "name": "Biosun",
+      "logo": "images/corporations/biosun-logo.webp",
+      "charts": [
+        {
+          "src": "images/corporations/biosun-organigramme.svg",
+          "nodes": 22,
+          "edges": 21
+        }
+      ]
+    },
+    "realite-v9-corporation-sunways-corporation": {
+      "name": "Sunways",
+      "logo": "images/corporations/sunways-logo.webp",
+      "charts": [
+        {
+          "src": "images/corporations/sunways-organigramme.svg",
+          "nodes": 22,
+          "edges": 21
+        }
+      ]
+    },
+    "realite-v9-corporation-antelligence-corporation": {
+      "name": "Antelligence",
+      "logo": "images/corporations/antelligence-logo.webp",
+      "charts": [
+        {
+          "src": "images/corporations/antelligence-organigramme.svg",
+          "nodes": 14,
+          "edges": 13
+        }
+      ]
+    },
+    "realite-v9-corporation-ushkoll-security-corporation": {
+      "name": "Ushkoll Security",
+      "logo": "images/corporations/ushkoll-security-logo.webp",
+      "charts": [
+        {
+          "src": "images/corporations/ushkoll-security-organigramme.svg",
+          "nodes": 22,
+          "edges": 21
+        }
+      ]
+    },
+    "realite-v9-corporation-pixy-security-corporation": {
+      "name": "Pixy Security",
+      "logo": "images/corporations/pixy-security-logo.webp",
+      "charts": [
+        {
+          "src": "images/corporations/pixy-security-organigramme.svg",
+          "nodes": 22,
+          "edges": 21
+        }
+      ]
+    },
+    "realite-v9-corporation-tortoise-security-corporation": {
+      "name": "Tortoise Security",
+      "logo": "images/corporations/tortoise-security-logo.webp",
+      "charts": [
+        {
+          "src": "images/corporations/tortoise-security-organigramme.svg",
+          "nodes": 14,
+          "edges": 13
+        }
+      ]
+    },
+    "realite-v9-corporation-tala-corporation": {
+      "name": "Tala",
+      "logo": "images/corporations/tala-logo.webp",
+      "charts": [
+        {
+          "src": "images/corporations/tala-organigramme-29.svg",
+          "nodes": 17,
+          "edges": 16
+        },
+        {
+          "src": "images/corporations/tala-organigramme-30.svg",
+          "nodes": 15,
+          "edges": 10
+        }
+      ]
+    },
+    "realite-v9-corporation-firstlawyer-incorporated-corporation": {
+      "name": "Firstlawyer Incorporated",
+      "logo": "images/corporations/firstlawyer-incorporated-logo.webp",
+      "charts": [
+        {
+          "src": "images/corporations/firstlawyer-incorporated-organigramme.svg",
+          "nodes": 23,
+          "edges": 22
+        }
+      ]
+    },
+    "realite-v9-corporation-northstar-corporation": {
+      "name": "Northstar",
+      "logo": "images/corporations/northstar-logo.webp",
+      "charts": [
+        {
+          "src": "images/corporations/northstar-organigramme.svg",
+          "nodes": 14,
+          "edges": 13
+        }
+      ]
+    },
+    "realite-v9-corporation-corebank-corporation": {
+      "name": "Corebank",
+      "logo": "images/corporations/corebank-logo.webp",
+      "charts": [
+        {
+          "src": "images/corporations/corebank-organigramme.svg",
+          "nodes": 22,
+          "edges": 21
+        }
+      ]
+    },
+    "realite-v9-corporation-laguna-bank-corporation": {
+      "name": "Laguna Bank",
+      "logo": "images/corporations/laguna-bank-logo.webp",
+      "charts": [
+        {
+          "src": "images/corporations/laguna-bank-organigramme.svg",
+          "nodes": 22,
+          "edges": 21
+        }
+      ]
+    },
+    "realite-v9-corporation-liao-kashiwa-banking-corporation": {
+      "name": "Liao Kashiwa Banking",
+      "logo": "images/corporations/liao-kashiwa-banking-logo.webp",
+      "charts": [
+        {
+          "src": "images/corporations/liao-kashiwa-banking-organigramme.svg",
+          "nodes": 22,
+          "edges": 21
+        }
+      ]
+    }
+  }
+}

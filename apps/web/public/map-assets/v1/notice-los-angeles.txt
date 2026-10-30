@@ -1,0 +1,22 @@
+ATLAS ILLUSTRE — CARTES RACCORDEES — 30 septembre 2026
+
+La carte principale validée sert de source unique. Les quatre zooms en reprennent exactement le fond et les grands repères, avec une couche locale supplémentaire. Les noms des lieux existants n'ont pas été réinventés par une nouvelle génération. Aucun fichier vectoriel n'est inclus.
+
+01 Métropole ; 02 Littoral ; 03 Est ; 04 Coeur urbain ; 05 Nord.
+
+Ajouts communs : deux centrales maritimes WellSprings, deux installations offshore Ocean Master et Seawares, Eversor côtier et intérieur, Palais de la Cour suprême et Herbrews. Les emplacements de ces ajouts sont des propositions cartographiques.
+
+60 repères locaux supplémentaires : grande mosquée, mosquée et centre culturel, sanctuaires néopaïens, relais criminels nommés, marchés, refuges, soins, quais, dépôts et sites côtiers. Ces implantations et les relais locaux sont proposés pour le jeu, pas présentés comme des adresses attestées du corpus. French Connection, Sinaloa, Bratva, Yamaguchi, Oglaigh et les 22 Dragons sont des organisations du corpus ; leurs petits relais sont des interprétations locales. Un relais ne signifie pas que toute une ville est dominée par cette faction. Les sites de culte sont distincts des relais criminels.
+
+Les points d'ancrage sont fixes. Les étiquettes peuvent changer de place pour rester lisibles dans un cadrage différent ; leur trait indique toujours le même point. Le contrôle technique compare exactement les pixels du fond de chaque zoom avec la carte maîtresse et conserve les mêmes coordonnées pour les ajouts. raccords-et-reperes.json contient le détail de ces contrôles.
+
+Le fond illustré original (1254 x 1254 pixels) a été agrandi quatre fois. Les nouvelles annotations sont rendues directement à la résolution de sortie. Cet agrandissement ne crée pas de nouvelle précision dans les anciens bâtiments ni dans les anciens textes. Les distances de l'illustration restent indicatives ; les symboles de centrales ne sont pas des empreintes physiques à l'échelle.
+
+Seules les cinq cartes PNG finales, cette notice et les repères de contrôle sont inclus. Les générations rejetées et les versions vectorielles ne font pas partie de ce lot.
+
+REVISION 2
+Le coeur et le nord ont des cadrages élargis ; seize détails locaux ont été ajoutés. Les quatre zooms utilisent les mêmes points d'ancrage. La générale retrouve un format strictement carré de 5016 x 5016 pixels. Le fond source est carré (1254 x 1254), agrandi de 4 dans les deux directions : aucune compression verticale ni horizontale. La précédente générale du ZIP mesurait 5016 x 5146 uniquement en raison de sa bande de notes. Une génération intermédiaire paysage 1536 x 1024 avait aussi été affichée ; elle n'est pas la carte maîtresse de ce lot.
+
+Repères contrôlés visuellement dans le coeur : Tuatha, Dreampoint, Redwheels et temple de Lilith, Hôtel Night, Grand Théâtre Milo, Caltech gouvernemental, ACES, Antelligence, Néo-Vatican, Maison Dorée, QG du LAUS, palais de la Cour suprême, Raven Tower, Tour d'or, banques, Tala, Phoenix et Raven Industries.
+Repères contrôlés dans le nord : ASCO, Dwarfood, Space Force Union, Angeltown, Military Next Academy, Ushkoll, Dreampoint, Tuatha, Caltech, ACES, Antelligence, Néo-Vatican, zones d'influence déjà présentes.
+Les nouvelles implantations restent des propositions. Les détails du fond sont ceux de l'illustration d'origine ; ils ne gagnent pas une précision native supplémentaire par agrandissement.

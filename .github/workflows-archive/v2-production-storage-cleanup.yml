@@ -1,0 +1,54 @@
+name: V2 production storage cleanup
+on:
+  push:
+    branches: [feature/tuc-web-v2]
+    paths: [.github/workflows/v2-production-storage-cleanup.yml]
+permissions:
+  contents: read
+concurrency:
+  group: tuc-v2-production
+  cancel-in-progress: false
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment: tuc-dev
+    steps:
+      # Reuse the immutable reviewed one-time cleanup, not any new application code.
+      - uses: actions/checkout@v4
+        with:
+          ref: 108abe30922eccec0942aa48f589b8bfd8686428
+          persist-credentials: false
+          sparse-checkout: .github/workflows/v2-production-storage-cleanup.yml
+          sparse-checkout-cone-mode: false
+      - name: Verify immutable cleanup and correct only the read-only volume precheck
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PYTHON'
+          import hashlib,pathlib,textwrap
+          source=pathlib.Path('.github/workflows/v2-production-storage-cleanup.yml').read_text()
+          body=textwrap.dedent(source.split('        run: |\n',1)[1].split('      - name: Remove runner SSH key\n',1)[0])
+          script=body.split("cat > /tmp/tuc-storage-cleanup.py <<'PYTHON'\n",1)[1].split('\nPYTHON\n',1)[0]+'\n'
+          assert hashlib.sha256(script.encode()).hexdigest()=='b8a32d3c85d4b1b3da07b009202b4508d6bfdc9b42724ca72b690b0a92029273'
+          replacements=[
+            ("if any(p.is_symlink() for p in protected_paths): raise RuntimeError('Unexpected protected root symlink')", "if any(p.is_symlink() for p in protected_paths if p.is_relative_to(ROOT)): raise RuntimeError('Unexpected protected root symlink')"),
+            ('root=Path(raw); assert root.is_dir(),raw','root=Path(raw); assert root.is_dir() and not root.is_symlink(),raw'),
+          ]
+          for old,new in replacements:
+              assert body.count(old)==1
+              body=body.replace(old,new)
+          pathlib.Path('/tmp/reviewed-storage-cleanup.sh').write_text(body)
+          print('Reviewed cleanup hash verified; volume root validation remains enforced inside sudo read-only fingerprint. No deletion scope changes.')
+          PYTHON
+          bash -n /tmp/reviewed-storage-cleanup.sh
+      - name: Clean obsolete application binaries and transfer archives, preserving all site content
+        env:
+          TUC_DEV_HOST: ${{ secrets.TUC_DEV_HOST }}
+          TUC_DEV_USER: ${{ secrets.TUC_DEV_USER }}
+          TUC_DEV_SSH_KEY: ${{ secrets.TUC_DEV_SSH_KEY }}
+        shell: bash
+        run: bash /tmp/reviewed-storage-cleanup.sh
+      - name: Remove runner SSH key
+        if: always()
+        run: rm -f ~/.ssh/tuc_prod

@@ -1,0 +1,280 @@
+name: V2 restore armour and reclaim obsolete images
+
+on:
+  push:
+    branches: [feature/tuc-web-v2]
+    paths: [.github/workflows/v2-production-armor-resume.yml]
+permissions:
+  contents: read
+concurrency:
+  group: tuc-v2-production
+  cancel-in-progress: false
+
+jobs:
+  restore:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment: tuc-dev
+    env:
+      TUC_DEV_HOST: ${{ secrets.TUC_DEV_HOST }}
+      TUC_DEV_USER: ${{ secrets.TUC_DEV_USER }}
+      TUC_DEV_SSH_KEY: ${{ secrets.TUC_DEV_SSH_KEY }}
+    steps:
+      - name: Restore verified armour images and remove an explicit obsolete image allowlist
+        shell: bash
+        run: |
+          set -euo pipefail
+          install -m 700 -d ~/.ssh
+          trap 'rm -f ~/.ssh/tuc_rollback ~/.ssh/tuc_rollback_hosts' EXIT
+          printf '%s\n' "$TUC_DEV_SSH_KEY" > ~/.ssh/tuc_rollback
+          chmod 600 ~/.ssh/tuc_rollback
+          ssh-keyscan -T 10 -H "$TUC_DEV_HOST" > ~/.ssh/tuc_rollback_hosts
+          ssh -i ~/.ssh/tuc_rollback -o BatchMode=yes -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes -o UserKnownHostsFile=~/.ssh/tuc_rollback_hosts -o ConnectTimeout=15 "$TUC_DEV_USER@$TUC_DEV_HOST" 'bash -s' <<'REMOTE'
+          {
+          set -euo pipefail
+          umask 077
+          root=/opt/terra-umbra
+          release=9414edbd307683ce0eac4fa7491e9494e4f1fead
+          stage="$root/releases/armor-properties-e64ac5760f6bdd756e69eb8ffa25dd8e008c7a9a"
+          cd "$root/infrastructure"
+          test -f "$root/production-active"
+          exec 9>"$root/.production-release.lock"
+          flock -n 9
+          test "$(cat "$root/.production-release-sha")" = "$release" || { echo 'Live release changed; refusing stale restore' >&2; exit 1; }
+          available=$(df -PB1 "$root" | awk 'NR==2 {print $4}')
+          test "$available" -gt 536870912
+          previous_api=$(docker image inspect --format '{{.Id}}' tuc-v2-api:incident-midday-preserved)
+          previous_web=$(docker image inspect --format '{{.Id}}' tuc-v2-web:incident-midday-preserved)
+          test "$previous_api" = sha256:6e4c2cfcab45d81246907cb1901d5f8f7aa852ffc681ee05e7521f0fbca357ff
+          test "$previous_web" = sha256:2cf24f52e0575e388b2de6a80774347d0eab20550aab9bd035d1a0f5be133ddb
+          current_api=$(docker inspect --format '{{.Image}}' "$(docker compose ps -q api)")
+          current_web=$(docker inspect --format '{{.Image}}' "$(docker compose ps -q web)")
+          test "$current_api" = sha256:f6fc5321fe0e38e0aa4362a3ba9c1218705aa0d5afc773cdbf4ed17047d80a2c
+          test "$current_web" = sha256:b9060c54e8369d782430930e92e2cad4f250e166fdf93ee0cf6d0fd18b6b44e3
+          docker image inspect "$previous_api" "$previous_web" >/dev/null
+          docker compose config --quiet </dev/null
+          audit="$root/releases/armor-resume-$(date -u +%Y%m%dT%H%M%SZ)"
+          mkdir -m 700 "$audit"
+          cp "$root/.production-release-sha" "$audit/original-release-sha"
+          printf '%s\n' "$current_api" > "$audit/original-api-image"
+          printf '%s\n' "$current_web" > "$audit/original-web-image"
+          docker tag "$current_api" tuc-v2-api:before-armor-resume
+          docker tag "$current_web" tuc-v2-web:before-armor-resume
+          snapshot_infrastructure(){
+            for service in db caddy; do
+              docker inspect --format '{{.Id}} {{.Image}} {{.State.StartedAt}} {{json .Mounts}}' "$(docker compose ps -q "$service")"
+            done
+          }
+          snapshot_infrastructure > "$audit/infrastructure-before"
+          docker volume ls --format '{{.Name}}' | LC_ALL=C sort > "$audit/volumes-before"
+          sha256sum Caddyfile docker-compose.yml .env > "$audit/config-before"
+          echo 'PREVIOUS WEB PREFLIGHT AND NGINX VERSION'
+          docker run --rm --pull=never --network none --user nginx --entrypoint sh "$previous_web" -c 'test -r /usr/share/nginx/html/index.html && cat /usr/share/nginx/html/build-info.json && nginx -v' </dev/null
+          docker run --rm --pull=never --network none --entrypoint nginx "$previous_web" -t </dev/null
+          echo 'CURRENT NGINX VERSION'
+          docker compose exec -T web nginx -v </dev/null
+          docker run --rm --pull=never --network none --user nginx --entrypoint cat "$previous_web" /usr/share/nginx/html/build-info.json > "$audit/target-build.json" </dev/null
+          target_sha=$(python3 -c 'import json,re,sys; s=json.load(open(sys.argv[1]))["commit"]; assert re.fullmatch("[0-9a-f]{40}",s); print(s)' "$audit/target-build.json")
+          test "$target_sha" = e64ac5760f6bdd756e69eb8ffa25dd8e008c7a9a
+          echo 'PREVIOUS API PREFLIGHT'
+          docker run --rm --pull=never --network none --entrypoint node "$previous_api" --input-type=module -e 'import {readFileSync} from "node:fs"; import {getRealityRules} from "./dist/rules/reality.js"; if (!readFileSync("/app/package.json","utf8") || getRealityRules().equipment.filter(i=>i.sourceCategory.startsWith("Armures")).length!==27) process.exit(1); console.log("RETAINED API IMAGE READABLE");' </dev/null
+          python3 - "$audit" "$current_api" "$current_web" "$previous_api" "$previous_web" <<'PY'
+          import json,os,pathlib,re,subprocess,sys
+          audit=pathlib.Path(sys.argv[1])
+          def run(args):
+              return subprocess.check_output(args,text=True).strip()
+          def inspect(ids):
+              return json.loads(run(['docker','inspect',*ids])) if ids else []
+          def containers():
+              return inspect(run(['docker','ps','-aq']).split())
+          def free():
+              s=os.statvfs('/opt/terra-umbra');return s.f_bavail*s.f_frsize
+          before=containers()
+          protected={c['Image'] for c in before}|set(sys.argv[2:])
+          allowed={
+          'sha256:ee6fdfd70fb3871cef5b60518b76f341e90d0a5c370a881ecd232909291fedbd',
+          'sha256:3b26177e28842142020302c3b344a3eeb76055487c9c0c8d4f1e20de5388e8d5',
+          'sha256:a40ed96a1c858344199754eb3600ac7825c8320439b4654185fd386971afb454',
+          'sha256:858dcccb33e4a5c7d70add9ca82419595213f27d782b68e32d1adee0de103687',
+          'sha256:42210f2597e9f8b75e59d3469499255d1567a8ada17d64978d36721e01aa7c5a',
+          'sha256:73dc0f5cdd473c45f18feee2c8339efda87ca224410ec28f2d5c9e5bc35a43f3',
+          'sha256:b8dc1bb6d7fbb8554ee627f6bae11373b31ba1540437b3f216000ee571591ac9'
+          }
+          all_images=inspect(sorted(set(run(['docker','image','ls','-aq','--no-trunc']).split())))
+          assert not allowed & protected, 'Obsolete image is currently protected'
+          plan=[i for i in all_images if i['Id'] in allowed]
+          for i in plan:
+              assert i.get('RepoTags') and all(re.fullmatch(r'tuc-v2-(api|web):(?:atlas-|hunter-|before-atlas-|before-hunter-)[a-f0-9]{40}',tag) for tag in i['RepoTags']), 'Unexpected image tags'
+              assert i['Created'] < '2026-10-01', 'Unexpected image age'
+          volumes=run(['docker','volume','ls','-q'])
+          state=lambda cs:sorted((c['Id'],c['Image'],c['State']['StartedAt'],json.dumps(c['Mounts'],sort_keys=True)) for c in cs)
+          free_before=free()
+          (audit/'cleanup-plan.json').write_text(json.dumps({'protected':sorted(protected),'images':[{k:i.get(k) for k in ['Id','RepoTags','Created','Size']} for i in plan]},indent=2))
+          print('CLEANUP_PLAN obsolete_images=',len(plan),'free_bytes=',free_before,flush=True)
+          for i in plan:
+              assert i['Id'] not in {c['Image'] for c in containers()}
+              now=inspect([i['Id']])[0]
+              assert sorted(now['RepoTags'])==sorted(i['RepoTags'])
+              # Explicit tags only, no force or image/system/volume/container prune.
+              for tag in i['RepoTags']:
+                  assert inspect([tag])[0]['Id']==i['Id']
+                  print(run(['docker','image','rm','--no-prune',tag]),flush=True)
+          print(run(['docker','builder','prune','--all','--force','--keep-storage','1GB']),flush=True)
+          assert state(before)==state(containers()), 'Container state changed'
+          assert volumes==run(['docker','volume','ls','-q'])
+          assert protected <= {i['Id'] for i in inspect(sorted(set(run(['docker','image','ls','-aq','--no-trunc']).split())))}
+          result={'before_free_bytes':free_before,'after_free_bytes':free(),'removed_obsolete_images':len(plan),'containers_unchanged':True,'volumes_unchanged':True}
+          result['reclaimed_bytes']=result['after_free_bytes']-free_before
+          (audit/'cleanup-result.json').write_text(json.dumps(result,indent=2))
+          print('STORAGE_CLEANUP_VERIFIED',json.dumps(result),flush=True)
+          PY
+          df -h "$root"
+          echo 'BACK UP CURRENT USER DATA; RESTORE TEST USES A SEPARATE TEMPORARY DATABASE'
+          bash production/backup.sh </dev/null
+          changed=0
+          recover_on_error(){
+            status=$?
+            trap - EXIT
+            if [ "$status" -ne 0 ] && [ "$changed" = 1 ]; then
+              set +e
+              echo 'RESTORE CHECK FAILED; RESTORING PREVIOUS APPLICATIONS' >&2
+              docker tag "$current_api" tuc-v2-api:latest
+              docker tag "$current_web" tuc-v2-web:latest
+              docker compose up -d --no-build --pull never --no-deps --force-recreate api web </dev/null
+              cp "$audit/original-release-sha" "$root/.production-release-sha"
+              for attempt in $(seq 1 30); do
+                if curl --fail --silent --show-error --max-time 5 --resolve terra-umbra.fr:443:127.0.0.1 https://terra-umbra.fr/api/health >/dev/null; then
+                  echo 'PREVIOUS APPLICATIONS RESPOND AGAIN'; break
+                fi
+                sleep 3
+              done
+            fi
+            exit "$status"
+          }
+          trap recover_on_error EXIT
+          changed=1
+          docker tag "$previous_api" tuc-v2-api:latest
+          docker tag "$previous_web" tuc-v2-web:latest
+          docker compose up -d --no-build --pull never --no-deps --force-recreate api web </dev/null
+          ready=false
+          for attempt in $(seq 1 40); do
+            if curl --fail --silent --max-time 5 --resolve terra-umbra.fr:443:127.0.0.1 https://terra-umbra.fr/api/health >/dev/null; then ready=true; break; fi
+            sleep 3
+          done
+          test "$ready" = true
+          test "$(docker inspect --format '{{.Image}}' "$(docker compose ps -q api)")" = "$previous_api"
+          test "$(docker inspect --format '{{.Image}}' "$(docker compose ps -q web)")" = "$previous_web"
+          for path in / /account /api/health /api/auth/setup-status /api/auth/capabilities /api/compendium/meta; do
+            curl --fail --silent --show-error --connect-timeout 5 --max-time 20 --resolve terra-umbra.fr:443:127.0.0.1 --output /dev/null --write-out "$path HTTP=%{http_code} TLS=%{ssl_verify_result}\n" "https://terra-umbra.fr$path"
+          done
+          curl --fail --silent --show-error --max-time 20 --resolve terra-umbra.fr:443:127.0.0.1 "https://terra-umbra.fr/build-info.json?rollback=$target_sha" > "$audit/live-build.json"
+          python3 - "$audit/target-build.json" "$audit/live-build.json" <<'PY'
+          import json,sys
+          a,b=(json.load(open(path)) for path in sys.argv[1:])
+          assert a==b, (a,b)
+          print('ARMOUR WEB BUILD LIVE',json.dumps(b))
+          PY
+          docker compose exec -T api node --input-type=module <<'NODE'
+          import assert from 'node:assert/strict';
+          import {getRealityRules} from './dist/rules/reality.js';
+          import {armorStats} from './dist/rules/equipment-armor.js';
+          import {getCompendiumQualityCorpus} from './dist/compendium.js';
+          import {pool} from './dist/db.js';
+          try{
+           const items=getRealityRules().equipment.filter(item=>item.sourceCategory.startsWith('Armures'));
+           assert.equal(items.length,27);
+           const {articles}=await getCompendiumQualityCorpus();
+           for(const item of items){
+            const article=articles.find(article=>article.catalog?.id===item.id);
+            assert.ok(article,item.name);
+            const rows=article.sections.find(section=>section.id==='proprietes').blocks.find(block=>block.type==='table').rows;
+            for(const [key,value] of armorStats(item))assert.ok(rows.some(row=>row[0]===key&&row[1]===value),item.name+' '+key);
+           }
+           console.log('LIVE ARMOR CORPUS OK — all 27 original profiles');
+          }finally{await pool.end();}
+          NODE
+          curl --fail --silent --show-error --max-time 20 https://terra-umbra.fr/api/compendium/articles/equipement-087-raven-black-dog > "$audit/live-armor.json"
+          python3 - "$audit/live-armor.json" <<'PY'
+          import json,sys
+          article=json.load(open(sys.argv[1]))['article']
+          assert any(block.get('type')=='table' and ['Protection','Balistique 3, Melee 2, Antichoc 2'] in block.get('rows',[]) for section in article['sections'] for block in section['blocks'])
+          print('LIVE PUBLIC ARMOR API OK')
+          PY
+          curl --fail --silent --show-error --max-time 20 "https://terra-umbra.fr/build-info.json?armor=$target_sha" > "$audit/live-build.json"
+          SOURCE_SHA="$target_sha" python3 - "$audit/live-build.json" <<'PY'
+          import json,os,sys
+          assert json.load(open(sys.argv[1]))['commit']==os.environ['SOURCE_SHA']
+          PY
+          snapshot_infrastructure > "$audit/infrastructure-after"
+          docker volume ls --format '{{.Name}}' | LC_ALL=C sort > "$audit/volumes-after"
+          sha256sum Caddyfile docker-compose.yml .env > "$audit/config-after"
+          cmp "$audit/infrastructure-before" "$audit/infrastructure-after"
+          cmp "$audit/volumes-before" "$audit/volumes-after"
+          cmp "$audit/config-before" "$audit/config-after"
+          printf '%s\n' "$target_sha" > "$root/.production-release-sha"
+          printf 'Restored verified armour application images e64ac576. Immediate rollback images retained.\napi=%s\nweb=%s\n' "$previous_api" "$previous_web" > "$audit/ROLLBACK-STATE.txt"
+          trap - EXIT
+          echo 'ARMOUR RESTORE LIVE VERIFIED: all 27 profiles; unchanged DB/Caddy containers, volumes and configuration; no production data restoration or migration'
+          echo "TARGET_BUILD_SHA=$target_sha"
+          echo "PRIVATE_AUDIT=$audit"
+          }
+          REMOTE
+  browser:
+    needs: restore
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - name: Install browser test on runner only
+        run: npm install --prefix "$RUNNER_TEMP/tuc-browser" --no-package-lock --no-audit --no-fund --ignore-scripts playwright-core@1.55.0
+      - name: Verify restored site in Chrome without ignoring TLS errors
+        shell: bash
+        run: |
+          set -euo pipefail
+          export CHROME_BIN="$(command -v google-chrome || command -v google-chrome-stable || command -v chromium)"
+          cat > "$RUNNER_TEMP/tuc-browser/check.cjs" <<'JS'
+          const {chromium}=require('playwright-core');
+          const assert=require('node:assert/strict');
+          (async()=>{
+            const browser=await chromium.launch({executablePath:process.env.CHROME_BIN,headless:true,args:['--no-sandbox']});
+            try{
+              const context=await browser.newContext({ignoreHTTPSErrors:false});
+              const page=await context.newPage();
+              const errors=[];
+              page.on('pageerror',e=>errors.push(e.message));
+              page.on('response',r=>{if(r.status()>=500)errors.push('HTTP '+r.status()+' '+new URL(r.url()).pathname);});
+              const health=page.waitForResponse(r=>new URL(r.url()).pathname==='/api/health',{timeout:30000});
+              const response=await page.goto('https://terra-umbra.fr/account#characters',{waitUntil:'domcontentloaded',timeout:30000});
+              assert.equal(response.status(),200);
+              assert.equal((await health).status(),200);
+              await page.getByRole('button',{name:'Se connecter',exact:true}).waitFor({state:'visible',timeout:25000});
+              assert.ok(!(await page.locator('body').innerText()).includes('Service indisponible'));
+              await page.screenshot({path:process.env.RUNNER_TEMP+'/rollback-account.png',fullPage:true});
+              const homepage=await page.goto('https://terra-umbra.fr/',{waitUntil:'networkidle',timeout:30000});
+              assert.equal(homepage.status(),200);
+              assert.ok((await page.locator('body').innerText()).includes('Compendium'));
+              await page.screenshot({path:process.env.RUNNER_TEMP+'/rollback-compendium.png',fullPage:true});
+              assert.equal((await context.request.get('https://terra-umbra.fr/api/auth/me')).status(),401);
+              const build=await (await context.request.get('https://terra-umbra.fr/build-info.json')).json();
+              assert.equal(build.commit,'e64ac5760f6bdd756e69eb8ffa25dd8e008c7a9a');
+              const armour=await context.request.get('https://terra-umbra.fr/api/compendium/articles/equipement-087-raven-black-dog');
+              assert.equal(armour.status(),200);
+              const data=await armour.json();
+              assert.ok(data.article.sections.some(s=>s.blocks.some(b=>b.type==='table'&&b.rows.some(r=>r[0]==='Protection'&&r[1]==='Balistique 3, Melee 2, Antichoc 2'))));
+              await page.goto('https://terra-umbra.fr/compendium?article=equipement-087-raven-black-dog',{waitUntil:'networkidle',timeout:30000});
+              await page.getByText('Balistique 3, Melee 2, Antichoc 2',{exact:true}).first().waitFor({timeout:15000});
+              console.log('LIVE ARMOUR PAGE RENDERED WITH CANONICAL PROTECTION');
+              assert.deepEqual(errors,[]);
+              console.log('RESTORED BUILD',JSON.stringify(build));
+              console.log('ARMOUR RESTORE CHROME CHECK PASSED: account, Compendium, TLS validation and unauthenticated account protection');
+              console.log('Workplace Defender blocking diagnosed separately; no real user credentials used');
+            }finally{await browser.close();}
+          })().catch(e=>{console.error(e);process.exitCode=1});
+          JS
+          node "$RUNNER_TEMP/tuc-browser/check.cjs"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: rollback-public-browser-verification
+          path: ${{ runner.temp }}/rollback-*.png
+          if-no-files-found: ignore
+          retention-days: 3

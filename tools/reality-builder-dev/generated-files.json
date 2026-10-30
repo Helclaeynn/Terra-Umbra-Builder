@@ -1,0 +1,21 @@
+[
+  "apps/api/scripts/check-reality-benefits-persistence.mjs",
+  "apps/api/src/campaign-character.ts",
+  "apps/api/src/rules/character-derived-stats.ts",
+  "apps/api/src/rules/terra-umbra-creation-lore.ts",
+  "apps/web/Dockerfile",
+  "apps/web/package.json",
+  "apps/web/src/components/builder/CharacterSummary.vue",
+  "apps/web/src/components/builder/EquipmentStep.vue",
+  "apps/web/src/components/builder/ProgressionStep.vue",
+  "apps/web/src/components/builder/RealityBenefitsPanel.vue",
+  "apps/web/src/components/builder/TalentChoiceFields.vue",
+  "apps/web/src/components/builder/TalentSelector.vue",
+  "apps/web/src/lib/character-sheet-model.ts",
+  "apps/web/src/lib/character-sheet.ts",
+  "apps/web/src/lib/progression.ts",
+  "apps/web/src/lib/reality-benefits.ts",
+  "apps/web/src/lib/reality.ts",
+  "apps/web/src/pages/CharacterBuilderPage.vue",
+  "apps/web/tests/reality-talents-integration.mjs"
+]

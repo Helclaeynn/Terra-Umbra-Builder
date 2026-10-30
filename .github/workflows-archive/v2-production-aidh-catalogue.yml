@@ -1,0 +1,63 @@
+name: V2 production AIDH catalogue
+on:
+  push:
+    branches: [feature/tuc-web-v2]
+    paths: [.github/workflows/v2-production-aidh-catalogue.yml]
+permissions:
+  contents: read
+concurrency:
+  group: tuc-v2-production
+  cancel-in-progress: false
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    environment: tuc-dev
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Compile and verify catalogue, media routes and canonical rules
+        run: |
+          cd apps/api
+          npm ci
+          npm run build
+          node scripts/check-aidh-catalogue.mjs
+          node scripts/check-truth-catalog-illustrations.mjs
+          cd ../..
+          node compendium/tests/truth-catalog-pages-check.mjs
+      - name: Package only the approved AIDH catalogue changes
+        run: |
+          python3 - <<'PY'
+          import json,pathlib,tarfile
+          paths=['apps/api/src/rules/truth/equipment.ts','compendium/data/manifest-v3.json','compendium/data/navigation-v1.json','compendium/source/verite-catalog-v6.json','compendium/source/verite-catalog-v6.json.gz.b64','compendium/source/truth-lore-v3-curated-aidh-field.json','compendium/source/aidh-catalogue-revision-20261001.json']
+          for pattern in ['compendium/data/v3-verite-catalogue-v6-*.b64part','compendium/source/verite-catalog-v6-*.b64part','compendium/source/truth-catalog-illustrations-lot-0[345].json','compendium/images/manual/*-aidh-20261001.webp']:
+            paths += [str(p) for p in pathlib.Path('.').glob(pattern)]
+          pathlib.Path('payload-files.json').write_text(json.dumps(paths))
+          with tarfile.open('/tmp/aidh-catalogue.tar.gz','w:gz') as tar:
+            for p in paths+['payload-files.json','apps/api/dist/rules/truth/equipment.js']:tar.add(p,arcname=p)
+          PY
+      - name: Deploy a small layer over the running API and verify public results
+        env:
+          TUC_DEV_HOST: ${{ secrets.TUC_DEV_HOST }}
+          TUC_DEV_USER: ${{ secrets.TUC_DEV_USER }}
+          TUC_DEV_SSH_KEY: ${{ secrets.TUC_DEV_SSH_KEY }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git ls-remote origin refs/heads/feature/tuc-web-v2 | cut -f1)" = "$GITHUB_SHA"
+          install -m 700 -d ~/.ssh
+          trap 'rm -f ~/.ssh/tuc_prod' EXIT
+          printf '%s\n' "$TUC_DEV_SSH_KEY" > ~/.ssh/tuc_prod
+          chmod 600 ~/.ssh/tuc_prod
+          ssh-keyscan -H "$TUC_DEV_HOST" >> ~/.ssh/known_hosts
+          SSH="ssh -i ~/.ssh/tuc_prod -o IdentitiesOnly=yes"
+          stage="/opt/terra-umbra/releases/aidh-catalogue-$GITHUB_SHA"
+          $SSH "$TUC_DEV_USER@$TUC_DEV_HOST" "mkdir -p '$stage'"
+          rsync -az -e "$SSH" /tmp/aidh-catalogue.tar.gz "$TUC_DEV_USER@$TUC_DEV_HOST:$stage/"
+          $SSH "$TUC_DEV_USER@$TUC_DEV_HOST" "tar -xzf '$stage/aidh-catalogue.tar.gz' -C '$stage'"
+          { printf '{\n'; cat infrastructure/production/release-aidh-catalogue.sh; printf '\n}\n'; } | $SSH "$TUC_DEV_USER@$TUC_DEV_HOST" bash -s -- "$GITHUB_SHA" | tee /tmp/aidh-release.log
+          grep -q '^AIDH CATALOGUE LIVE VERIFIED' /tmp/aidh-release.log

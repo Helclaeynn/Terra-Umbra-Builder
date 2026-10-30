@@ -1,0 +1,714 @@
+{
+  "version": 17,
+  "sourceDocument": "Classification des créatures de Terra Umbra.docx",
+  "date": "2026-09-26",
+  "notes": [
+    "18 fiches dédiées absentes du bestiaire V16.",
+    "Djinns : paragraphe du document dupliqué des Dives ; conserve le profil Élémentaire/Djinn existant.",
+    "Armurem et Technolem : développement autorisé par l’utilisateur le 26 septembre 2026 à partir des intitulés, les paragraphes sources recopiant Homoncule.",
+    "Statistiques conçues pour les échelles et l’économie de PA du bestiaire existant ; équilibrage sur table non encore testé.",
+    "Les classements récents des profils existants, notamment Wendigo, ne sont pas remplacés par les divergences du document de référence."
+  ],
+  "items": [
+    {
+      "key": "goule",
+      "title": "Goule",
+      "family": "Deimons",
+      "role": "PRÉDATEUR / POLYMORPHE",
+      "stats": [
+        8,
+        2,
+        10,
+        11,
+        10,
+        9,
+        11,
+        18,
+        1
+      ],
+      "description": [
+        "La Goule est un deimon nécrophage. Les os et les fragments d’âme qu’elle absorbe donnent de la consistance à son corps d’ombre et lui permettent d’emprunter des traits à ses repas. Sa fréquentation des tombes la fait souvent confondre avec les revenants qu’elle chasse.",
+        "Elle peut approcher les vivants sous une apparence humaine, puis laisser surgir une mâchoire animale ou des membres empruntés à d’autres dépouilles. Son alimentation change sa puissance autant que ses vulnérabilités ; une prédatrice nourrie de vivants devient une Goule de sang, plus vive mais soumise à certaines fragilités de ses proies."
+      ],
+      "attacks": [
+        "Morsure composite — 1d10e + 11 • DGT 5 • Contact",
+        "Griffes empruntées — 1d10e + 10 • DGT 4 • Contact"
+      ],
+      "abilities": [
+        "Polymorphie osseuse — 1 PA : adopte pour la scène un attribut physique d’un corps réellement ingéré (nage, griffes, sens ou apparence). Une adaptation active ; aucun souvenir ni pouvoir magique automatique.",
+        "Charme trompeur — 1 PA, portée 5 m : 1d10e + 11 contre Défense occulte ; en réussite, -3 au prochain test pour percer sa tromperie avant la fin de sa prochaine activation. Ne commande pas la cible.",
+        "Régime — Choisir avant la scène : cadavres (+1 DGT de morsure, pas de régénération) ; ombre à jeun (récupère 1 PV au début de son activation si elle reste consciente) ; sang (+2 Mouvement, +2 PV maximum, vulnérabilités biologiques ordinaires). Un seul régime."
+      ],
+      "weaknesses": [
+        "Toujours tangible — La Goule peut être frappée ; les armes spirituelles et bénies restent efficaces. Consommer un revenant transmet aussi ses faiblesses, définies avant la rencontre.",
+        "Vampires — Son charme et ses assimilations ne fonctionnent pas sur un Vampire ; avaler un os vampirique la réduit en poussière. Faire ingérer cet os exige une action réellement réussie, jamais une déclaration automatique."
+      ],
+      "hook": "Faire découvrir son régime par les traces laissées dans une morgue avant de la poursuivre.",
+      "aliases": [
+        "Goule de sang"
+      ]
+    },
+    {
+      "key": "kitsune",
+      "title": "Kitsune",
+      "family": "Deimons",
+      "role": "SORCIER / MANIPULATEUR",
+      "stats": [
+        10,
+        3,
+        14,
+        14,
+        15,
+        11,
+        15,
+        28,
+        3
+      ],
+      "description": [
+        "Le Kitsune est un deimon supérieur dont la forme révélée évoque un grand renard à neuf queues. Son pelage est souvent blanc, parfois noir ou doré, mais cette clarté n’empêche pas sa nature d’Ombre. Il peut aussi revêtir l’apparence d’un humain vêtu de blanc.",
+        "Joueur, séducteur et redoutable sorcier, il accompagne parfois un mortel pendant des années. Il se nourrit de l’expérience accumulée plutôt que de la peur : les réussites de son protégé peuvent préparer une récolte future. Les pactes, les défis et certains anciens liens de sang pèsent davantage sur ses choix que la compassion."
+      ],
+      "attacks": [
+        "Crocs et griffes — 1d10e + 13 • DGT 6 • Contact",
+        "Flamme sombre — 1d10e + 14 vs Déf. occulte • DGT 6 surnaturels • Portée 15 m"
+      ],
+      "abilities": [
+        "Neuf foyers — Ses queues portent différentes expressions de sorcellerie, mais ne donnent aucune PA supplémentaire. Choisir avant la scène trois effets parmi flamme, illusion, influence et brume ; chaque emploi coûte son action normale.",
+        "Brume ardente — 1 PA, 1/scène : devient brume jusqu’au début de sa prochaine activation, franchit une ouverture réelle et se déplace de 6 m. Les armes ordinaires le traversent ; les effets spirituels restent efficaces. Il ne peut attaquer pendant ce déplacement.",
+        "Influence — 2 PA, 1/scène, portée 10 m : 1d10e + 15 contre Défense occulte. Réussite : une consigne simple non suicidaire jusqu’à la fin de la prochaine activation de la cible ; tout dommage reçu rompt l’effet.",
+        "Illusion — 1 PA : crée une apparence visuelle et sonore dans une zone de 3 m à 10 m, jusqu’à sa prochaine activation. Une interaction incohérente autorise Perception contre 1d10e + 15 ; aucune blessure ni obstacle matériel ne sont créés.",
+        "Récolte — Hors combat, un contact prolongé consenti ou obtenu sur une cible impuissante permet de prélever un souvenir vécu. Son ampleur et sa récupération sont un enjeu de scène, pas une perte automatique de progression."
+      ],
+      "weaknesses": [
+        "Pactes et défis — Une parole explicitement donnée l’engage. Une énigme ou un défi crédible peut détourner sa priorité ; ce n’est pas une paralysie universelle.",
+        "Anciennes lignées — Identifier une lignée protégée ou les termes d’un pacte permet de négocier un retrait. Le MJ fixe ces liens avant la scène."
+      ],
+      "hook": "Un protecteur trop serviable revient demander le souvenir de la victoire qu’il a rendue possible.",
+      "aliases": [
+        "Renard à neuf queues"
+      ]
+    },
+    {
+      "key": "huldre",
+      "title": "Huldre",
+      "family": "Voyageurs",
+      "role": "INFILTRATEUR / PROTECTEUR",
+      "stats": [
+        8,
+        2,
+        11,
+        11,
+        10,
+        10,
+        8,
+        22,
+        2
+      ],
+      "description": [
+        "Les Huldres ressemblent à des humains d’une vigueur inhabituelle. Leur dos peut pourtant s’ouvrir sur une cavité sans organes d’où s’étend un appendice souple. Cette chambre dissimule l’âme du mortel auquel ils se sont attachés, sans empêcher celui-ci de poursuivre sa vie.",
+        "Créés autrefois pour capturer les âmes atlantes, ils cherchent désormais un lien qu’ils nomment leur Amour. Leur dévotion mêle attachement et nécessité vitale. La mort de ce compagnon déclenche une régression et un vieillissement accéléré jusqu’à ce qu’un autre lien les stabilise."
+      ],
+      "attacks": [
+        "Poigne surhumaine — 1d10e + 12 • DGT 5 • Contact",
+        "Appendice dorsal — 1d10e + 11 • DGT 4 • Portée 2 m"
+      ],
+      "abilities": [
+        "Force creuse — +3 aux tests de Force pour retenir, soulever ou maintenir un obstacle ; ne s’ajoute pas aux attaques.",
+        "Dos refermé — Peut cacher sa cavité sans jet hors urgence. Découvrir la nature dissimulée exige une observation pertinente, puis Perception contre 1d10e + 11.",
+        "Âme gardée — Le lien existe avant la confrontation ou se construit hors combat. Ce profil ne vole pas instantanément l’âme d’une cible. Une séparation préparée peut libérer le captif ; tuer l’Huldre ne doit pas effacer automatiquement les risques de l’opération."
+      ],
+      "weaknesses": [
+        "Dépendance — Menacer son Amour peut le détourner, mais le rend aussi dangereux. Le dépérissement après la perte du lien se joue hors combat.",
+        "Fragilité occulte — Sa Défense occulte basse est volontaire. Une extraction précipitée peut blesser le captif : annoncer ce risque avant le choix."
+      ],
+      "hook": "Protéger une personne dont le gardien garde aussi l’âme prisonnière.",
+      "aliases": [
+        "Huldu"
+      ]
+    },
+    {
+      "key": "amazone",
+      "title": "Amazone",
+      "family": "Voyageurs",
+      "role": "GUERRIÈRE / DOMINATION",
+      "stats": [
+        9,
+        3,
+        13,
+        12,
+        15,
+        12,
+        17,
+        28,
+        3
+      ],
+      "description": [
+        "Les Amazones sont des Voyageuses d’apparence féminine, à la musculature dense et à l’ossature exceptionnellement résistante. Leurs couleurs de peau, d’yeux et de cheveux ne suivent pas une hérédité humaine. Elles ne vieillissent pas et peuvent donner naissance en divisant leur propre âme.",
+        "Les Dives les créèrent pour attirer Serathè parmi elles. Délaissées après l’échec de leurs ambitions, elles demeurent un peuple dispersé, distinct des Aseryns. Leur orgueil guerrier s’accorde mal avec les technologies modernes, tandis que leur Domination leur permet d’imposer leur essence à des êtres ou à des objets."
+      ],
+      "attacks": [
+        "Arme de guerre — 1d10e + 14 • DGT 7 • Contact",
+        "Prise — 1d10e + 13 • DGT 4 • Contact"
+      ],
+      "abilities": [
+        "Domination — 2 PA, 1/scène, contact : 1d10e + 15 contre Défense occulte d’un être conscient. Réussite : impose une action simple non suicidaire à sa prochaine activation ; tout dommage rompt le lien. Sur un objet non animé, commande un mouvement simple compatible avec sa structure. Aucun piratage ni action gratuite.",
+        "Résistance à la magie — +3 à la Défense occulte contre les sorts directs, sans cumul avec un autre bonus de résistance ; réduit de moitié leurs dégâts après protection, arrondis au supérieur. Les attaques physiques et les conséquences indirectes restent normales.",
+        "Voyageuse — Peut franchir une frontière planaire identifiable hors combat, ou par un passage effectivement accessible pendant une scène. Ne fournit pas de téléportation tactique à chaque action.",
+        "Nature — Ne vieillit pas ; la division de l’âme exige du temps et ne crée jamais une combattante pendant la scène. Incapable de lancer des sorts : la Domination est une faculté propre."
+      ],
+      "weaknesses": [
+        "Défi et orgueil — Un défi explicite peut l’amener à accepter un désavantage ; Maîtrise difficulté 15 pour le refuser lorsqu’il engage son honneur.",
+        "Technologie étrangère — -3 aux usages techniques non appris. La résistance magique n’arrête ni balle, ni effondrement, ni poison matériel."
+      ],
+      "hook": "Une Voyageuse revendique un lieu devenu centre industriel et accepte un duel aux règles dangereusement ambiguës.",
+      "aliases": []
+    },
+    {
+      "key": "dryade",
+      "title": "Dryade",
+      "family": "Élémentaires / Djinns",
+      "role": "NYMPHE / CONTRÔLEUR",
+      "stats": [
+        7,
+        3,
+        10,
+        13,
+        13,
+        10,
+        13,
+        22,
+        3
+      ],
+      "description": [
+        "La Dryade est une nymphe de la terre liée à la forêt. Sa silhouette souvent féminine peut devenir écorce, feuillage ou racines, et sa volonté déplace les végétaux aussi sûrement que ses propres membres.",
+        "Chaque Dryade partage son essence avec un arbre dont elle peut changer au cours de sa longue existence. Blesser la forêt atteint son domaine ; abattre son arbre d’ancrage menace directement sa vie. Son obstination protège parfois un équilibre que les habitants ont oublié."
+      ],
+      "attacks": [
+        "Racines entravantes — 1d10e + 13 vs Déf. physique • pas de DGT • Portée 12 m",
+        "Contact élémentaire — 1d10e + 11 • DGT 4 • Contact"
+      ],
+      "abilities": [
+        "Modeler la flore — 1 PA : sur végétation présente, crée une entrave dans une zone de 3 m pour un round. Une cible touchée perd 3 m de Mouvement ; sortir exige Force difficulté 13 ou une coupe réelle.",
+        "Forme végétale — 1 PA : modèle son corps en écorce, feuillage ou racines, sans modifier PV, attaques ou Défenses ni se rendre intangible.",
+        "Continuité — Ne vieillit pas. À 0 PV, sa manifestation est dispersée ; elle ne revient pas pendant la confrontation. Une reformation ultérieure dépend de l’ancrage intact, de la volonté de vivre et de l’absence de malédiction."
+      ],
+      "weaknesses": [
+        "Arbre vital — La mort de l’arbre d’ancrage entraîne celle de la Dryade ; identifier cet arbre demande une enquête. Hors forêt, -3 à ses manifestations élémentaires.",
+        "Souillure — Une malédiction visant réellement son essence peut supprimer son immortalité. La magie d’une autre nymphe reste capable de l’atteindre."
+      ],
+      "hook": "Un chantier s’apprête à déplacer l’arbre auquel une gardienne a confié son essence.",
+      "aliases": [
+        "Hamadryade",
+        "Alfar"
+      ]
+    },
+    {
+      "key": "hydriade",
+      "title": "Hydriade",
+      "family": "Élémentaires / Djinns",
+      "role": "NYMPHE / CONTRÔLEUR",
+      "stats": [
+        8,
+        3,
+        12,
+        13,
+        12,
+        10,
+        13,
+        20,
+        2
+      ],
+      "description": [
+        "Les Hydriades habitent les eaux auxquelles elles mêlent leur essence. Ondines, Naïades ou Néréides sont des noms donnés à ces nymphes dont le corps peut reprendre les formes de la faune aquatique.",
+        "La qualité de leur eau détermine leur vitalité. Sociables et changeantes, elles peuvent entretenir longtemps des rapports avec les riverains, puis se retourner contre eux lorsque les rejets ou les travaux dégradent leur milieu."
+      ],
+      "attacks": [
+        "Lame d’eau — 1d10e + 13 • DGT 6 • Portée 12 m",
+        "Contact élémentaire — 1d10e + 11 • DGT 4 • Contact"
+      ],
+      "abilities": [
+        "Courant dirigé — 1 PA, 1/round : 1d10e + 13 contre Défense physique d’une cible dans l’eau à 10 m ; la déplace de 3 m, sans chute mortelle automatique.",
+        "Forme aquatique — 1 PA : emprunte la silhouette d’une créature aquatique de volume comparable, sans modifier PV, attaques ou Défenses. Nage 12 m ; respire dans l’eau.",
+        "Continuité — Ne vieillit pas. À 0 PV, sa manifestation est dispersée ; elle ne revient pas pendant la confrontation. Une reformation ultérieure dépend de l’ancrage intact, de la volonté de vivre et de l’absence de malédiction."
+      ],
+      "weaknesses": [
+        "Eau dégradée — Hors d’une étendue d’eau ou dans une eau fortement polluée, -3 aux pouvoirs élémentaires et aucune reformation. Réparer le milieu peut être plus efficace que combattre.",
+        "Souillure — Une malédiction visant réellement son essence peut supprimer son immortalité. La magie d’une autre nymphe reste capable de l’atteindre."
+      ],
+      "hook": "Une gardienne accuse les riverains tandis que la pollution vient d’une conduite oubliée.",
+      "aliases": [
+        "Naïade",
+        "Ondine",
+        "Océanide",
+        "Néréide",
+        "Sirène"
+      ]
+    },
+    {
+      "key": "ouranie",
+      "title": "Ouranie",
+      "family": "Élémentaires / Djinns",
+      "role": "NYMPHE / CONTRÔLEUR",
+      "stats": [
+        8,
+        3,
+        14,
+        14,
+        12,
+        11,
+        13,
+        18,
+        1
+      ],
+      "description": [
+        "Les Ouranies sont des nymphes aériennes qui prennent parfois l’allure de sylphides, de harpies ou d’anges. Elles se mêlent aux nuages, dirigent les êtres volants et peuvent emprunter leurs formes.",
+        "Leur puissance dépend des brumes et des hauteurs. Chacune entretient un lien avec une étoile particulière ; lorsque celle-ci devient apparente, l’Ouranie s’affaiblit. Ce lien ne se détruit pas comme un ancrage matériel."
+      ],
+      "attacks": [
+        "Rafale tranchante — 1d10e + 13 • DGT 5 • Portée 15 m",
+        "Contact élémentaire — 1d10e + 11 • DGT 4 • Contact"
+      ],
+      "abilities": [
+        "Vol — Vol 14 m avec espace suffisant. 1 PA, 1/scène : impose par une rafale -3 au prochain tir traversant une zone de 4 m avant sa prochaine activation.",
+        "Forme aérienne — 1 PA : emprunte une silhouette de la faune volante, sans modifier PV, attaques ou Défenses. Le vol reste limité au déplacement indiqué et exige un espace réel.",
+        "Continuité — Ne vieillit pas. À 0 PV, sa manifestation est dispersée ; elle ne revient pas pendant la confrontation. Une reformation ultérieure dépend de l’ancrage intact, de la volonté de vivre et de l’absence de malédiction."
+      ],
+      "weaknesses": [
+        "Ciel contraignant — Loin des brumes et nuages, ou quand son étoile est visible, -3 aux manifestations élémentaires, une seule pénalité même si les deux conditions sont réunies.",
+        "Souillure — Une malédiction visant réellement son essence peut supprimer son immortalité. La magie d’une autre nymphe reste capable de l’atteindre."
+      ],
+      "hook": "La même étoile apparaît dans tous les témoignages concernant une présence au sommet des tours.",
+      "aliases": [
+        "Sylphide",
+        "Harpie"
+      ]
+    },
+    {
+      "key": "lampade",
+      "title": "Lampade",
+      "family": "Élémentaires / Djinns",
+      "role": "NYMPHE / CONTRÔLEUR",
+      "stats": [
+        8,
+        3,
+        12,
+        12,
+        14,
+        10,
+        14,
+        24,
+        3
+      ],
+      "description": [
+        "Les Lampades sont des nymphes du feu et des profondeurs. Leur forme féminine peut se mêler aux silhouettes de la faune souterraine, tandis que la chaleur de leur présence marque tunnels, failles et cavités.",
+        "Elles protègent un corps enterré auquel leur essence s’attache. Irritables et peu intimidées par les mortels, elles peuvent transformer une intrusion en chasse ardente. Les ossements gardés constituent pourtant un lien fragile avec leur immortalité."
+      ],
+      "attacks": [
+        "Trait ardent — 1d10e + 14 • DGT 7 • Portée 15 m • Feu",
+        "Contact élémentaire — 1d10e + 11 • DGT 4 • Contact"
+      ],
+      "abilities": [
+        "Fournaise locale — 2 PA, 1/scène : zone de 3 m à 10 m. 1d10e + 14 contre Défense physique de chaque cible ; réussite DGT 5 feu. Aucun embrasement gratuit d’une cible ayant résisté.",
+        "Forme souterraine — 1 PA : emprunte une silhouette de la faune souterraine, sans modifier PV, attaques ou Défenses. Cette forme ne permet pas de traverser la roche intacte.",
+        "Continuité — Ne vieillit pas. À 0 PV, sa manifestation est dispersée ; elle ne revient pas pendant la confrontation. Une reformation ultérieure dépend de l’ancrage intact, de la volonté de vivre et de l’absence de malédiction."
+      ],
+      "weaknesses": [
+        "Ancrage enfoui — Détériorer les ossements protégés supprime sa reformation et son immortalité, sans la tuer automatiquement. À l’air libre, -3 aux manifestations élémentaires.",
+        "Souillure — Une malédiction visant réellement son essence peut supprimer son immortalité. La magie d’une autre nymphe reste capable de l’atteindre."
+      ],
+      "hook": "Des travaux souterrains déplacent les ossements qu’une présence ardente protège depuis des siècles.",
+      "aliases": [
+        "Salamandre",
+        "Vouivre"
+      ]
+    },
+    {
+      "key": "cyberiade",
+      "title": "Cyberiade",
+      "family": "Élémentaires / Djinns",
+      "role": "NYMPHE / CONTRÔLEUR",
+      "stats": [
+        8,
+        3,
+        13,
+        14,
+        11,
+        9,
+        12,
+        16,
+        1
+      ],
+      "description": [
+        "Les Cyberiades sont des nymphes adaptées aux champs électriques des villes. Elles modèlent leur corps en matière conductrice et explorent les machines, les données et les objets connectés avec la curiosité d’un esprit découvrant un milieu neuf.",
+        "Le serveur qui accueille leur essence remplace les ancrages des nymphes plus anciennes. Leurs copies parcourent l’Holonet, mais cette multiplication ne les rend pas indépendantes de leur refuge matériel. Une coupure durable ou la destruction du serveur met leur existence en péril."
+      ],
+      "attacks": [
+        "Arc électrique — 1d10e + 12 • DGT 5 • Portée 10 m • Électrique",
+        "Contact élémentaire — 1d10e + 11 • DGT 4 • Contact"
+      ],
+      "abilities": [
+        "Prise de réseau — 1 PA : prend un appareil réellement connecté dans un réseau accessible après opposition 1d10e + 13 à sa sécurité. Un appareil actif à la fois ; ordre simple, aucune arme ne tire gratuitement.",
+        "Copie d’Holonet — 1 PA, 1/scène : crée un relais sans PV ni actions propres dans le même réseau pour un round. Il ne peut attaquer, contourner une isolation physique ni survivre à la perte du serveur.",
+        "Continuité — Ne vieillit pas. À 0 PV, sa manifestation est dispersée ; elle ne revient pas pendant la confrontation. Une reformation ultérieure dépend de l’ancrage intact, de la volonté de vivre et de l’absence de malédiction."
+      ],
+      "weaknesses": [
+        "Serveur vital — Détruire l’ancrage détruit la Cyberiade et ses copies dépendantes. Hors champs électriques artificiels, -3 aux pouvoirs et pas de duplication.",
+        "Souillure — Une malédiction visant réellement son essence peut supprimer son immortalité. La magie d’une autre nymphe reste capable de l’atteindre."
+      ],
+      "hook": "Un serveur promis au recyclage abrite une présence qui tente de négocier son transfert.",
+      "aliases": [
+        "Métroiade",
+        "Polisiade"
+      ]
+    },
+    {
+      "key": "boggart",
+      "title": "Boggart",
+      "family": "Lutins",
+      "role": "ARTISAN / EMBUSCADE",
+      "stats": [
+        6,
+        2,
+        10,
+        12,
+        11,
+        9,
+        11,
+        16,
+        2
+      ],
+      "description": [
+        "Le Boggart est un lutin trapu, velu et difforme dont la petite taille masque la puissance des mains. Ancien artisan des profondeurs, il peut travailler des matières que les humains peinent à déplacer et façonner des objets invisibles.",
+        "Chassés des souterrains par les Whurtens, des Boggarts se sont installés près des mortels à leur insu. Ils observent depuis les murs, les caves et les ateliers, fascinés par la beauté et prompts à fuir une puissance qu’ils reconnaissent supérieure."
+      ],
+      "attacks": [
+        "Poigne de forge — 1d10e + 12 • DGT 6 • Contact",
+        "Outil invisible — 1d10e + 11 • DGT 5 • Contact"
+      ],
+      "abilities": [
+        "Invisibilité — 1 PA : invisible jusqu’à sa prochaine attaque ou jusqu’à la fin de sa prochaine activation. Bruits, traces et fumée demeurent détectables ; aucun bonus automatique contre une cible qui le localise.",
+        "Forge cachée — Hors combat, fabrique un objet invisible qu’il peut entretenir par sa magie. Une attaque avec cet objet reste une attaque normale ; -3 au premier test adverse pour l’identifier visuellement.",
+        "Mains puissantes — +3 aux tests pour plier, arracher ou travailler une matière, sans cumul avec une attaque."
+      ],
+      "weaknesses": [
+        "Soleil — -3 aux tests visuels et à la Furtivité ; une fumée révèle sa position même invisible, sans combustion spontanée.",
+        "Nom et crainte — Son vrai nom donne prise à un rite préparé de contrainte, jamais à un ordre automatique sans opposition. Sa fascination ou sa lâcheté peut servir de levier."
+      ],
+      "hook": "Les accidents d’un atelier cachent les outils d’un artisan que personne ne voit.",
+      "aliases": [
+        "Boggle",
+        "Duergar",
+        "Nain gris"
+      ]
+    },
+    {
+      "key": "farfadet",
+      "title": "Farfadet",
+      "family": "Lutins",
+      "role": "ÉNIGME / ÉCLAIREUR",
+      "stats": [
+        6,
+        2,
+        13,
+        11,
+        12,
+        10,
+        11,
+        8,
+        0
+      ],
+      "description": [
+        "Le Farfadet est un petit lutin à la peau grise, sans nez, aux longues oreilles et aux yeux luisants. Il peut modifier certains détails de son allure et léviter à faible hauteur, qu’il porte des ailes ou non.",
+        "Son peuple a longtemps servi les Dives puis d’autres maîtres. Fragile dans son corps et étouffé par l’Hologramme, il protège surtout sa liberté par la ruse et le pouvoir de ses énigmes. Une soumission véritable peut pourtant le lier avec une fidélité implacable."
+      ],
+      "attacks": [
+        "Éclat féerique — 1d10e + 10 vs Déf. occulte • DGT 3 • Portée 8 m"
+      ],
+      "abilities": [
+        "Énigme protectrice — 1 PA, 1/scène : pose une énigme compréhensible aux auditeurs à 8 m. Oppose 1d10e + 12 à leur Défense occulte ; les vaincus ne peuvent le cibler volontairement jusqu’à la fin de sa prochaine activation ou jusqu’à résolution de l’énigme. Attaquer rompt la protection pour tous.",
+        "Lévitation — Déplacement aérien 12 m, à 2 m du sol au maximum ; ne franchit pas gratuitement une enceinte fermée.",
+        "Petite taille — +3 Furtivité lorsque le décor offre une cache réellement adaptée."
+      ],
+      "weaknesses": [
+        "Corps fragile — Ne résiste ni aux dégâts ordinaires ni aux prises une fois localisé.",
+        "Vrai nom et soumission — Nom véritable ou pacte volontaire permettent une contrainte rituelle préparée. Le lien doit avoir des termes explicites ; une simple devinette n’asservit personne."
+      ],
+      "hook": "Un minuscule témoin échange une information contre la rupture du pacte qui le retient.",
+      "aliases": [
+        "Fradet",
+        "Follet"
+      ]
+    },
+    {
+      "key": "chichiga",
+      "title": "Chichiga",
+      "family": "Lutins",
+      "role": "LEURRE / PRÉDATEUR",
+      "stats": [
+        6,
+        2,
+        10,
+        11,
+        11,
+        9,
+        11,
+        16,
+        1
+      ],
+      "description": [
+        "La Chichiga est un lutin des eaux stagnantes, bossu et longuement oreillé, dont la peau rappelle celle d’un vieux crapaud. Sous les rayons directs de la lune, elle peut emprunter une beauté de nymphe pour attirer un passant dans la vase.",
+        "Elle souille les eaux des Hydriades et peut s’attaquer à leur essence. Cette prédation nourrit sa puissance sans lui offrir la vitalité d’une eau pure. Ses refuges gardent l’odeur des chairs avariées dont elle se nourrit."
+      ],
+      "attacks": [
+        "Griffes vaseuses — 1d10e + 11 • DGT 4 • Contact",
+        "Enlisement — 1d10e + 11 vs Déf. physique • pas de DGT • Portée 5 m"
+      ],
+      "abilities": [
+        "Enlisement — Sur réussite de l’attaque, -3 Mouvement jusqu’à la fin de la prochaine activation ; exige boue ou vase réelle.",
+        "Beauté lunaire — 1 PA sous lumière lunaire directe : masque son apparence pour la scène. Ciel couvert, abri opaque ou lumière du jour dissipent le masque ; l’odeur demeure.",
+        "Sommeil dans la vase — Insensible à l’asphyxie. Un repos hors combat dans sa vase restaure progressivement membres et PV ; pas de régénération pendant qu’elle agit."
+      ],
+      "weaknesses": [
+        "Brûlures — Sa régénération ne restaure pas les blessures infligées par le feu.",
+        "Nom véritable — Permet un rite préparé de contrainte opposé à sa Maîtrise, pas un contrôle automatique à vue."
+      ],
+      "hook": "Une eau réputée protectrice est devenue un piège à la faveur de la pleine lune.",
+      "aliases": []
+    },
+    {
+      "key": "gnome",
+      "title": "Gnome",
+      "family": "Lutins",
+      "role": "ARTISAN OCCULTE / BRUTE",
+      "stats": [
+        6,
+        3,
+        10,
+        12,
+        13,
+        11,
+        13,
+        22,
+        4
+      ],
+      "description": [
+        "Les Gnomes sont des lutins souterrains à la peau ivoire, aux yeux rouges et aux petites canines inférieures apparentes. Leur stature trapue évoque parfois celle des Whurtens, mais leur essence associe la terre et l’ombre.",
+        "Leurs anciens royaumes ont payé leurs alliances avec les Fléaux. Artisans redoutables, ils enchantent leurs ouvrages et défendent jalousement leurs biens. Leur force et leur capacité à durcir le corps rendent dangereuse toute intrusion dans un atelier des profondeurs."
+      ],
+      "attacks": [
+        "Outil enchanté — 1d10e + 13 • DGT 6 • Contact",
+        "Éclat de pierre — 1d10e + 12 • DGT 5 • Portée 12 m"
+      ],
+      "abilities": [
+        "Corps durci — Réaction 1 PA, 1/round : +3 Armure contre une attaque physique, puis -2 Mouvement jusqu’à sa prochaine activation.",
+        "Ombre et terre — 1 PA, 1/scène : obscurcit un passage de 3 m ou soulève une couverture de pierre existante ; pas d’attaque ni de matière créée gratuitement.",
+        "Artisanat — +3 aux tests pour comprendre ou réparer un objet enchanté qu’il peut réellement examiner."
+      ],
+      "weaknesses": [
+        "Soleil — Tant qu’il est exposé directement, ne peut employer Corps durci ni Ombre et terre ; conserve sa protection matérielle.",
+        "Avarice — Un gain précis, une dette ou la menace sur une création peut modifier ses priorités. Aucun accord ne supprime sa volonté."
+      ],
+      "hook": "Un objet nécessaire au groupe appartient à un artisan qui refuse tout paiement humain.",
+      "aliases": [
+        "Nibelung",
+        "Niflhéimien"
+      ]
+    },
+    {
+      "key": "argileux",
+      "title": "Argileux",
+      "family": "Golems",
+      "role": "GARDIEN / BRUTE",
+      "stats": [
+        6,
+        2,
+        8,
+        9,
+        10,
+        9,
+        11,
+        24,
+        4
+      ],
+      "description": [
+        "L’Argileux est un golem façonné dans une argile qui ne sèche qu’en surface. Son apparence dépend de l’artiste : presque humaine ou grossièrement modelée, elle abrite une essence féerique maintenue par une inscription d’ancrage.",
+        "Dévoué à son créateur et limité dans l’interprétation des consignes, il sert souvent de compagnon ou de gardien. Sa force contraste avec la fragilité de certaines articulations ; un fragment arraché ne repousse pas et peut devenir l’objet d’une poursuite obstinée."
+      ],
+      "attacks": [
+        "Poing modelé — 1d10e + 12 • DGT 6 • Contact",
+        "Bras étiré — 1d10e + 11 • DGT 4 • Portée 3 m"
+      ],
+      "abilities": [
+        "Matière inerte — Insensible aux poisons, maladies et asphyxie ; aucun organe vital. Les dégâts structurels restent normaux.",
+        "Modelage — 1 PA : modifie sa silhouette ou allonge un membre jusqu’à 3 m pour un round. Ne gagne ni masse ni PV ; un effort excessif peut rompre l’extension.",
+        "Inscription d’ancrage — À 0 PV, s’immobilise et peut être réparé hors combat si l’inscription subsiste. Une action précise sur celle-ci après accès réel, opposée à sa Défense physique, l’endort sans destruction du corps."
+      ],
+      "weaknesses": [
+        "Eau et chaleur — Une immersion prolongée ramollit sa structure (-3 Défense physique) ; une forte cuisson bloque ses articulations (-3 Mouvement). Le MJ annonce l’exposition nécessaire.",
+        "Consignes littérales — Un ordre ambigu, un leurre concernant son maître ou un obstacle non prévu peut détourner sa garde."
+      ],
+      "hook": "Récupérer une inscription sans abattre le gardien qui ignore pourquoi on lui demande d’attendre.",
+      "aliases": [
+        "Galatéen",
+        "Golem d’argile"
+      ]
+    },
+    {
+      "key": "marionnette",
+      "title": "Marionnette",
+      "family": "Golems",
+      "role": "ANIMATEUR / ESCARMOUCHE",
+      "stats": [
+        9,
+        3,
+        13,
+        10,
+        11,
+        10,
+        11,
+        14,
+        2
+      ],
+      "description": [
+        "La Marionnette est un golem de bois articulé, souvent plus petit qu’un humain. Une essence féerique anime ses gestes et lui permet de partager temporairement le mouvement avec le mobilier et les objets de bois voisins.",
+        "Sa personnalité dépend en partie du bois dont elle est faite. Elle peut se détourner des ordres, développer une volonté farouche et finir par contester son créateur. Des pièces rapportées modifient son corps sans effacer cette indépendance."
+      ],
+      "attacks": [
+        "Lame rapportée — 1d10e + 11 • DGT 4 • Contact",
+        "Mobilier animé — 1d10e + 11 • DGT 4 • Portée 8 m"
+      ],
+      "abilities": [
+        "Animation partagée — 1 PA : anime jusqu’à trois petits objets de bois ou un meuble dans un rayon de 8 m pour un round. Une attaque de mobilier coûte encore 1 PA ; les objets n’ont pas de tour propre.",
+        "Corps de bois — Insensible aux poisons, maladies, douleur et asphyxie. Flotte ; nage 6 m. Les chocs sont absorbés par l’Armure indiquée.",
+        "Articulations — +3 pour se dégager d’une prise ou passer un espace compatible avec sa taille, sans traverser une paroi."
+      ],
+      "weaknesses": [
+        "Combustion — Le bois reste combustible. Le feu inflige ses dégâts normaux ; aucune immunité issue de l’absence de douleur.",
+        "Volonté distraite — Les tâches longues ou complexes exigent une supervision. Remplacer un membre demande temps, pièces et réaccord magique hors combat."
+      ],
+      "hook": "Un atelier entier s’anime pour couvrir la fuite d’une petite création insoumise.",
+      "aliases": [
+        "Broussin",
+        "Fibreux",
+        "Golem de bois"
+      ]
+    },
+    {
+      "key": "homoncule",
+      "title": "Homoncule",
+      "family": "Golems",
+      "role": "ADAPTATEUR / OCCULTISTE",
+      "stats": [
+        8,
+        3,
+        12,
+        12,
+        12,
+        10,
+        12,
+        20,
+        2
+      ],
+      "description": [
+        "L’Homoncule est un être de chair artificiel animé par une essence féerique. Les créations abouties ont une taille humaine, une intelligence réelle et un corps soigneusement perfectionné, généralement peu pigmenté.",
+        "Une fois vivant, il n’a pas besoin d’un sort permanent pour se mouvoir. Sa durée de vie souvent brève nourrit pourtant des recherches inquiètes sur la régénération et l’assimilation. Certains tentent de prolonger leur existence en intégrant des chairs étrangères, au risque de perdre leur cohérence."
+      ],
+      "attacks": [
+        "Frappe précise — 1d10e + 12 • DGT 5 • Contact",
+        "Décharge féerique — 1d10e + 12 vs Déf. occulte • DGT 5 • Portée 10 m"
+      ],
+      "abilities": [
+        "Corps conçu — +3 à un domaine choisi avant la scène (force, vitesse fine ou analyse), hors attaques et Défenses déjà chiffrées.",
+        "Assimilation — 2 PA, 1/scène, avec matière biologique compatible disponible : récupère 3 PV ou manifeste une adaptation simple pour la scène. Ne vole ni souvenirs, ni sorts, ni actions.",
+        "Chair spécialisée — Une origine non humaine peut justifier un sens ou un déplacement particulier défini avant jeu ; elle ne donne pas l’ensemble des pouvoirs de l’espèce."
+      ],
+      "weaknesses": [
+        "Organisme vivant — Soumis aux poisons, maladies, asphyxie et dommages biologiques ordinaires.",
+        "Temps compté — Le vieillissement et l’instabilité des greffes sont des enjeux durables, sans accès gratuit à l’immortalité par accumulation de proies."
+      ],
+      "hook": "Une création lucide cherche un traitement que son concepteur prétend impossible.",
+      "aliases": [
+        "Homonculus",
+        "Réplicant",
+        "Golem de chair"
+      ]
+    },
+    {
+      "key": "armurem",
+      "title": "Armurem",
+      "family": "Golems",
+      "role": "GARDIEN CUIRASSÉ",
+      "stats": [
+        6,
+        2,
+        8,
+        10,
+        12,
+        11,
+        12,
+        28,
+        7
+      ],
+      "description": [
+        "L’Armurem est une armure animée par une essence féerique. Le métal constitue son corps : derrière les pièces et les jointures, aucun soldat ne respire. Une gravure d’ancrage maintient l’accord entre les différentes parties.",
+        "Certains gardent encore des salles dont les maîtres ont disparu ; d’autres apprennent à distinguer une personne d’un uniforme ou une intrusion d’une demande d’aide. L’usure, les pièces remplacées et les anciennes consignes rendent chaque gardien légèrement différent."
+      ],
+      "attacks": [
+        "Gantelet de fer — 1d10e + 12 • DGT 6 • Contact",
+        "Arme intégrée — 1d10e + 12 • DGT 7 • Contact"
+      ],
+      "abilities": [
+        "Armure habitée — Insensible aux maladies, poisons et asphyxie ; les dégâts frappent la structure. Perforant et effets ciblant les jointures restent utiles.",
+        "Tenir le seuil — 1 PA : se verrouille jusqu’à sa prochaine activation ; une poussée ordinaire ne le déplace plus mais il ne peut se déplacer volontairement.",
+        "Ancrage — Gravure intérieure définie avant jeu. Après ouverture d’une pièce ou étude préalable, une action de neutralisation au contact contre difficulté 15 suspend l’animation pendant un round ; effacer durablement l’ancrage exige du temps ou son immobilisation."
+      ],
+      "weaknesses": [
+        "Articulations — Une Altération visant une jointure réduit son Mouvement de 3 m ou bloque l’arme concernée jusqu’à réparation.",
+        "Aucun occupant — Électricité et magnétisme ne le piratent pas comme un robot ; une contrainte mécanique adaptée peut en revanche immobiliser son corps."
+      ],
+      "hook": "Le sceau d’autorisation a changé, mais le gardien ne reconnaît que l’ancienne gravure.",
+      "aliases": [
+        "Armure enchantée",
+        "Golem de fer"
+      ]
+    },
+    {
+      "key": "technolem",
+      "title": "Technolem",
+      "family": "Golems",
+      "role": "AUTOMATE OCCULTE / CONTRÔLEUR",
+      "stats": [
+        7,
+        3,
+        11,
+        13,
+        11,
+        10,
+        12,
+        22,
+        5
+      ],
+      "description": [
+        "Le Technolem est un assemblage technique habité par une essence féerique. Capteurs, moteurs et circuits servent de corps à une présence qui ne se confond pas avec un programme ni avec l’esprit d’un défunt.",
+        "Son créateur doit accorder le dispositif matériel à un ancrage occulte. Les réparations peuvent prolonger son existence, mais changer un composant essentiel sans préserver cet accord altère ses perceptions et ses décisions. Il apprend parfois à défendre sa propre continuité contre ceux qui le traitent comme un outil."
+      ],
+      "attacks": [
+        "Manipulateur renforcé — 1d10e + 12 • DGT 5 • Contact",
+        "Impulsion électrique — 1d10e + 12 • DGT 5 • Portée 10 m"
+      ],
+      "abilities": [
+        "Double fonctionnement — Insensible aux maladies, poisons et asphyxie. Une perturbation électrique adaptée bloque un capteur ou un moteur pour un round, sans détruire automatiquement l’essence.",
+        "Interface locale — 1 PA : agit sur un dispositif réellement relié après opposition 1d10e + 13 à sa sécurité. Un appareil à la fois, aucune propagation illimitée ni attaque gratuite.",
+        "Ancrage technique — Définir un composant gravé. Neutraliser son circuit au contact après accès réel (Mécanique difficulté 15) suspend ses pouvoirs occultes pour un round ; à 0 PV il est inactif et réparable seulement si l’ancrage survit."
+      ],
+      "weaknesses": [
+        "Énergie — Une alimentation rompue supprime l’interface et réduit le Mouvement de 3 m jusqu’à rétablissement, sans éteindre instantanément l’esprit.",
+        "Ni IA ordinaire ni Holombie — Un mot de passe ne soumet pas son essence ; des rites peuvent agir sur l’ancrage, et des moyens mécaniques sur le châssis."
+      ],
+      "hook": "Un automate sabote ses réparations pour empêcher le remplacement de la pièce qui porte son identité.",
+      "aliases": [
+        "Golem technologique"
+      ]
+    }
+  ]
+}

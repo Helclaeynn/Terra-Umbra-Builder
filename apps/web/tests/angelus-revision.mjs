@@ -1,0 +1,46 @@
+import assert from 'node:assert/strict';
+import {readFile} from 'node:fs/promises';
+import {build} from 'esbuild';
+import {fileURLToPath} from 'node:url';
+const root=fileURLToPath(new URL('../',import.meta.url));
+const b=await build({stdin:{resolveDir:root,loader:'ts',contents:`export * from './src/lib/truth';export * from './src/lib/angelus';export * from './src/lib/character-sheet-model';export * from './src/lib/character-pdf-model';export * from '../api/src/character-data';`},bundle:true,write:false,format:'esm',platform:'node'});
+const m=await import('data:text/javascript;base64,'+Buffer.from(b.outputFiles[0].text).toString('base64'));
+const {terraUmbraTruthRules:pkg}=await import('../../api/dist/rules/truth/rules.js');
+const ids=m.angelusTalentIds;
+const blank=(nature='trone',sephirah='kether')=>({nature:'angelus',consciousness:'initie',choices:{angelNature:nature,sephirah,archangel:'',seraph:''},truthTalents:[],truthEquipment:[],truthEquipmentMjOverride:false,corruptionMjAuthorized:false,corruption:0,corruptionSource:'',corruptionTalents:[]});
+const offers=s=>m.truthAvailableTalents(pkg,s),eligible=(s,id)=>{const t=offers(s).find(t=>t.id===id);return !!t&&m.truthPrerequisiteSatisfied(pkg,s,t);};
+const configure=(s,c)=>s.choices.angelusBuild=m.normalizeAngelusBuild({...s.choices.angelusBuild,...c});
+const add=(s,id)=>{assert.ok(eligible(s,id),'Must be eligible: '+id);s.truthTalents.push(id);s.truthTalents=m.truthSanitizeTalents(pkg,s);assert.ok(s.truthTalents.includes(id));};
+const invest=s=>{const name=m.angelusNatures.find(n=>n.id===s.choices.angelNature).name;let loops=0;while(m.angelusPrimaryInvestment(pkg,s)<3){const t=offers(s).find(t=>t.group===`Nature : ${name}`&&!s.truthTalents.includes(t.id)&&eligible(s,t.id));assert.ok(t,'Primary purchasable');add(s,t.id);assert.ok(++loops<10);}};
+const sephiroth=pkg.structure.natures.angelus.choices.find(c=>c.key==='sephirah').options;assert.equal(sephiroth.length,10);
+for(const n of m.angelusNatures)for(const seph of sephiroth){
+ const s=blank(n.id,seph.id),baseTraits=m.truthSelectedFreeTraits(pkg,s),baseStats=m.truthRevelationProfile(pkg,s).stats;
+ const second=m.angelusNatures.find(k=>k.id!==n.id);configure(s,{secondaryNature:second.id,transcendenceEvent:'Événement à convenir avec le MJ'});
+ assert.equal(eligible(s,ids.cherub),false);add(s,ids.reserve);add(s,ids.liaison);assert.equal(m.angelusPrimaryInvestment(pkg,s),0,'Common PTV do not count');assert.equal(eligible(s,ids.cherub),false);
+ invest(s);assert.equal(eligible(s,ids.cherub),true);configure(s,{secondaryNature:n.id});assert.equal(eligible(s,ids.cherub),false);configure(s,{secondaryNature:second.id});
+ const before=m.truthPtvSpent(pkg,s);add(s,ids.cherub);assert.equal(m.truthPtvSpent(pkg,s),before+3);assert.deepEqual(m.angelusLearnedNatures(pkg,s),[n.id,second.id]);
+ assert.equal(m.truthSelectedFreeTraits(pkg,s).length,baseTraits.length+1,'One second fundamental gift only');assert.deepEqual(m.truthRevelationProfile(pkg,s).stats,baseStats,'No second divine attribute bonus or additional wing stacking');
+ const secondary=offers(s).find(t=>t.group===`Nature : ${second.name}`&&eligible(s,t.id));assert.ok(secondary);add(s,secondary.id);
+ const paid=m.truthPtvSpent(pkg,s),bought=[...s.truthTalents];configure(s,{secondaryNature:''});assert.equal(m.truthPtvSpent(pkg,s),paid,'Incomplete choice never refunds paid PTV');assert.deepEqual(m.truthSanitizeTalents(pkg,s),bought);assert.ok(m.angelusUnavailableAcquisitions(pkg,s).includes('Transcendance chérubique'));
+ configure(s,{secondaryNature:second.id});assert.equal(m.angelusUnavailableAcquisitions(pkg,s).length,0);assert.equal(s.choices.sephirah,seph.id);assert.equal(s.choices.archangel,'');assert.equal(s.choices.seraph,'');
+ assert.equal(m.truthAngelusCapacity(s,5).maximum,12);
+}
+const s=blank('vertu','yessod');invest(s);configure(s,{secondaryNature:'domination',transcendenceEvent:'Événement réel',preferredSin:'envie',observedSkill:'Médecine',bladeForm:'ranged',bladeSacrifice:3,liaisonContact:'Une amie <img src=x onerror=alert(1)>'});add(s,ids.cherub);add(s,ids.reserve);add(s,ids.liaison);
+assert.equal(eligible(s,ids.construct),false);configure(s,{construct:{name:'Porteur',kind:'carrier',purpose:'Porter les blessés',limits:'30 m, aucun PA autonome'}});add(s,ids.construct);add(s,ids.shape);
+// Purchase genuine sin prerequisites, never bypass the normal dependency tree.
+const sin=offers(s).find(t=>t.id===ids.sin);assert.ok(sin);for(let count=0;!eligible(s,ids.sin)&&count<5;count++){const candidates=offers(s).filter(t=>t.group==='Nature : Vertu'&&!s.truthTalents.includes(t.id)&&eligible(s,t.id));assert.ok(candidates.length);add(s,candidates[0].id);}add(s,ids.sin);
+const entries=m.angelusSheetEntries(pkg,s);assert.equal(entries.find(e=>e.id==='sins').parameters.length,7);assert.match(entries.find(e=>e.id==='sins').parameters.find(p=>p.label.startsWith('Envie')).value,/\+2/);assert.match(entries.find(e=>e.id==='blade').body,/DGT 11/);assert.match(entries.find(e=>e.id==='construct').parameters.find(p=>p.label==='Actions').value,/PA et Compétences du créateur/);assert.ok(entries.some(e=>e.id==='liaison'));
+const saved=JSON.stringify(s);assert.deepEqual(m.truthSanitizeChoices(pkg.structure.natures.angelus,s.choices).angelusBuild,s.choices.angelusBuild);assert.equal(JSON.stringify(s),saved);
+const {terraUmbraCreationRules:rules}=await import('../../api/dist/rules/terra-umbra-creation.js');
+const {terraUmbraCreationLore:lore,terraUmbraTalentChoiceSpecs:specs,terraUmbraRealitySkillTalentMap:skillMap}=await import('../../api/dist/rules/terra-umbra-creation-lore.js');
+const {getRealityRules}=await import('../../api/dist/rules/reality.js');
+const source=await readFile(new URL('./builder-v2-smoke.mjs',import.meta.url),'utf8'),fixtures=source.slice(source.indexOf('const skillIds='),source.indexOf('const browser='));
+const f=await build({stdin:{resolveDir:root,loader:'ts',contents:`${fixtures}\nexport {edgeRules};`},bundle:true,write:false,format:'esm',platform:'node'});
+const {edgeRules}=await import('data:text/javascript;base64,'+Buffer.from(f.outputFiles[0].text).toString('base64'));
+const core={rules,lore,talentChoiceSpecs:specs,skillTalentMap:skillMap,disadvantages:{common:[],attribute:[],sphere:{}},edgeRules};
+const data=m.blankCharacterData('Angelus recette');data.truth=structuredClone(s);data.truth.truthTalents=s.truthTalents.filter(id=>!([ids.cherub,ids.construct,ids.sin,ids.reserve].includes(id)));data.progression={ptvEarned:30,xpEarned:3,renownAdjustment:1,truthTalents:[ids.cherub,ids.construct,ids.sin,ids.reserve],cashTransactions:[]};
+const before=JSON.stringify(data),reality=getRealityRules(),base=m.buildCharacterSheet(data,core,pkg,reality,false),campaign=m.buildCharacterSheet(data,core,pkg,reality,true);
+assert.equal(base.angelusAura.rank,'angelus');assert.equal(campaign.angelusAura.rank,'cherub');assert.equal(campaign.angelusAura.maximum,base.angelusAura.maximum+4);assert.equal(campaign.ptvRemaining,Math.max(0,base.ptvRemaining)+30-10);assert.deepEqual(campaign.derived,base.derived,'Temporary powers never inflate permanent stats');assert.equal(JSON.stringify(data),before);
+assert.deepEqual(m.normalizeCharacterData(data,'Test').truth.choices,data.truth.choices);
+const pdf=m.projectCharacterPdf({data,core,truth:pkg,reality,campaign:true},new Set());assert.ok(pdf.annex.some(a=>a.title.includes('Transcendance chérubique')));assert.ok(pdf.annex.some(a=>a.title.includes('Rêve rendu réel')));assert.ok(pdf.annex.some(a=>a.title.includes('sept Péchés')));assert.ok(pdf.annex.some(a=>a.title.includes('Liaison céleste')));
+console.log('ANGELUS WEB OK — 3 Natures × 10 Sephiroth, actual Chérubin gates/gift/access, stable paid history, Aura after cap, seven sins, Yessod definitions, saved shared/campaign/PDF details and unchanged permanent stats/rewards');

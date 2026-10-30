@@ -1,0 +1,722 @@
+import {normalizeHunterBuild,selectedHunterDoctrines,hunterTalentReady} from "./hunter";
+import {normalizeVampireBuild,vampireVisibleTalent,vampireAwakeningTalents,vampireAcquisitionIssues} from "./vampire";
+import {isKhinae,khinaeVisibleTalent,khinaeAwakeningTalents,khinaeAcquisitionIssues,khinaeBodyProfile,khinaeProfileText,khinaeAwakenedBloods} from "./khinae";
+import {normalizeExileBuild,normalizeBeneficiaryBenefits,exileVisibleTalent,exileAcquisitionIssues,exileCombatProfile} from "./exile";
+import {normalizeExtralBuild,extralVisibleTalent,extralAcquisitionIssues,extralCombatProfile} from "./extral";
+import {normalizeAngelusBuild,angelusLearnedNatures,angelusSecondaryTraits,angelusAcquisitionIssues,angelusUnavailableAcquisitions,angelusAuraCapacity} from "./angelus";
+import {normalizeDaemonBuild,daemonLearnedFunctions,daemonAdditionalTalents,daemonAcquisitionIssues,daemonSecondaryTraits,daemonTalentIds,daemonUnavailableAcquisitions} from "./daemon";
+import {normalizeMageTechniques,mageTechniqueKind,mageTechniqueIssues,mageAffinities,mageOwnedAffinities,mageWheelDistance,mageAffinityLevels} from "./mage";
+import {sanitizeAserynChoices,aserynLearnableOrigins,aserynSignatureTraits,aserynTalentEffect} from "./aseryn";
+import type {TruthChoiceOption,TruthChoice,TruthTrait,TruthFreeTraitRule,TruthNature,TruthEquipmentProperty,TruthEquipmentItem,CorruptionSource,CorruptionTalent,TruthTalent,TruthRulesPackage,TruthState} from '../../../api/src/rules/truth/types';
+export type {TruthChoiceOption,TruthChoice,TruthTrait,TruthFreeTraitRule,TruthNature,TruthEquipmentProperty,TruthEquipmentItem,CorruptionSource,CorruptionTalent,TruthTalent,TruthRulesPackage,TruthState} from '../../../api/src/rules/truth/types';
+
+export function ensureTruthRulesPackage(pkg:TruthRulesPackage):TruthRulesPackage{
+  return {
+    ...pkg,
+    equipment:Array.isArray(pkg.equipment)?pkg.equipment:[],
+    corruption:{
+      sources:Array.isArray(pkg.corruption?.sources)?pkg.corruption.sources:[],
+      precedence:Array.isArray(pkg.corruption?.precedence)?pkg.corruption.precedence:[],
+      talents:Array.isArray(pkg.corruption?.talents)?pkg.corruption.talents:[]
+    }
+  };
+}
+
+export function truthNorm(value=""){
+  return value
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g,"")
+    .toLowerCase()
+    .replace(/[’']/g,"'")
+    .replace(/[^a-z0-9]+/g," ")
+    .trim();
+}
+
+function stringChoice(choices:Record<string,unknown>,key:string){
+  const value=choices[key];
+  return typeof value==="string"?value:"";
+}
+
+export type TruthEquipmentAccess={
+  ok:boolean;
+  natural:boolean;
+  reason:string;
+};
+
+export function truthEquipmentAccess(item:TruthEquipmentItem,state:TruthState):TruthEquipmentAccess{
+  if(state.nature==="extral"&&stringChoice(state.choices,"species")==="homo_superior"&&!["22","26"].includes(item.chapter)&&
+    !(item.chapter==="23"&&state.mode==="progression"&&selectedHunterDoctrines(state).length>0)){
+    return {ok:false,natural:false,reason:"Catalogue AIDH uniquement pour les Homo Superior"};
+  }
+  if(item.referenceOnly){
+    return {ok:true,natural:true,reason:"Référence commune"};
+  }
+  if(state.mode!=="creation"&&state.truthEquipmentMjOverride){
+    return {ok:true,natural:false,reason:"Autorisation MJ exceptionnelle"};
+  }
+  if(item.requiresMj){
+    return {ok:false,natural:false,reason:state.mode==="creation"?"Objet hors catalogue de création":"Autorisation MJ requise"};
+  }
+
+    const species=stringChoice(state.choices,"species");
+  const network=stringChoice(state.choices,"network");
+
+  if(item.chapter==="23"){
+    const ok=selectedHunterDoctrines(state).length>0;
+    return {
+      ok,
+      natural:ok,
+      reason:ok?"Tradition de Chasse":"Réservé aux personnages ayant une tradition de Chasse"
+    };
+  }
+  if(item.chapter==="24"){
+    const ok=state.nature==="exile";
+    return {
+      ok,
+      natural:ok,
+      reason:ok?"Accès Exilé / Aèr":"Réservé aux Exilés"
+    };
+  }
+  if(item.chapter==="25"){
+    const ok=state.nature==="extral"&&species!=="homo_superior";
+    return {
+      ok,
+      natural:ok,
+      reason:ok?"Accès Extral / marché xéno":"Réservé aux espèces Extrales ; les Homo Superior utilisent le catalogue AIDH"
+    };
+  }
+  if(item.chapter==="26"){
+    const aidhNetwork=network==="aidh_intervention"||network==="aidh_coherence";
+    const ok=state.nature==="extral"&&(species==="homo_superior"||aidhNetwork);
+    return {
+      ok,
+      natural:ok,
+      reason:ok?"Habilitation AIDH":"Réservé aux Homo Superior / personnels AIDH autorisés"
+    };
+  }
+  if(item.chapter==="27"){
+    return {ok:false,natural:false,reason:"Équipement corrompu : autorisation MJ requise"};
+  }
+
+  return {ok:false,natural:false,reason:"Accès fictionnel non ouvert par la fiche"};
+}
+
+export function truthEquipmentVisible(item:TruthEquipmentItem,state:TruthState){
+  if(state.nature==="extral"&&stringChoice(state.choices,"species")==="homo_superior"&&!["22","26"].includes(item.chapter)&&
+    !(item.chapter==="23"&&state.mode==="progression"&&selectedHunterDoctrines(state).length>0))return false;
+  return item.referenceOnly||truthEquipmentAccess(item,state).ok;
+}
+
+export function truthEquipmentInvalidIds(pkg:TruthRulesPackage,state:TruthState){
+  const byId=new Map((pkg.equipment??[]).map(item=>[item.id,item]));
+  return (state.truthEquipment??[]).filter(id=>{
+    const item=byId.get(id);
+    return !item||!truthEquipmentAccess(item,state).ok;
+  });
+}
+
+export function truthChoiceOptions(choice:TruthChoice,choices:Record<string,unknown>){
+  if(choice.optionsBy&&choice.dependsOn){
+    return choice.optionsBy[stringChoice(choices,choice.dependsOn)]??choice.options??[];
+  }
+  return choice.options??[];
+}
+
+export function truthSanitizeChoices(nature:TruthNature,source:Record<string,unknown>):Record<string,unknown>{
+  const next:Record<string,unknown>={};
+  if(Object.hasOwn(source,"beneficiaryBenefits"))next.beneficiaryBenefits=normalizeBeneficiaryBenefits(source.beneficiaryBenefits);
+  for(const choice of nature.choices){
+    const options=truthChoiceOptions(choice,{...source,...next});
+    const value=stringChoice(source,choice.key);
+    const valid=options.some(option=>option.id===value);
+    if(valid)next[choice.key]=value;
+    else if(choice.optional&&options.some(option=>option.id==="aucune"))next[choice.key]="aucune";
+    else next[choice.key]="";
+  }
+  // Retain hidden legacy definitions; whitelisted data never grants access.
+  if(Object.hasOwn(source,"hunterBuild"))next.hunterBuild=normalizeHunterBuild(source.hunterBuild);
+  if(Object.hasOwn(source,"vampireBuild"))next.vampireBuild=normalizeVampireBuild(source.vampireBuild);
+  if(Object.hasOwn(source,"exileBuild"))next.exileBuild=normalizeExileBuild(source.exileBuild);
+  if(Object.hasOwn(source,"extralBuild"))next.extralBuild=normalizeExtralBuild(source.extralBuild);
+  if(Object.hasOwn(source,"angelusBuild"))next.angelusBuild=normalizeAngelusBuild(source.angelusBuild);
+  if(Object.hasOwn(source,"daemonBuild"))next.daemonBuild=normalizeDaemonBuild(source.daemonBuild);
+  if(Object.hasOwn(source,"mageTechniques"))next.mageTechniques=normalizeMageTechniques(source.mageTechniques);
+  return nature.id==="aseryn"?{...next,...sanitizeAserynChoices(source)}:next;
+}
+
+function whenMatches(when:Record<string,string|string[]>|undefined,choices:Record<string,unknown>){
+  if(!when)return null;
+  const pairs=Object.entries(when);
+  if(!pairs.length)return null;
+  return pairs.every(([key,want])=>{
+    const got=stringChoice(choices,key);
+    return Array.isArray(want)?want.includes(got):got===want;
+  });
+}
+
+function groupHas(group:string,needles:readonly string[]|undefined){
+  const normalized=truthNorm(group);
+  return !!needles?.some(needle=>normalized.includes(truthNorm(needle)));
+}
+
+function hunterDoctrine(talent:TruthTalent){
+  const group=truthNorm(talent.group||"");
+  const name=truthNorm(talent.name||"");
+  return group.includes("doctrine commune de chasse")||
+    ["rompu aux horreurs","fenetre de chasse","frapper la faiblesse","mise a mort preparee"].includes(name);
+}
+
+function visibleNativeTalent(pkg:TruthRulesPackage,state:TruthState,talent:TruthTalent){
+  const nature=state.nature;
+  const group=truthNorm(talent.group||"");
+  const cost=Number(talent.cost||0);
+  if(!(cost>0&&cost<=3))return false;
+
+  if(state.nature==="vampire")return vampireVisibleTalent(pkg,state,talent);
+  if(isKhinae(state))return khinaeVisibleTalent(pkg,state,talent);
+  if(nature==="exile")return exileVisibleTalent(pkg,state,talent);
+  if(nature==="extral")return extralVisibleTalent(pkg,state,talent);
+  const exact=whenMatches(talent.when,state.choices);
+  if(exact!==null)return exact;
+
+  const needles=pkg.visibility.needles;
+  if(nature==="humain"){
+    const tradition=stringChoice(state.choices,"hunterTradition")||"aucune";
+    if(tradition==="aucune")return false;
+    return groupHas(group,needles.humain?.[tradition]);
+  }
+
+  if(nature==="garou"){
+    if(group.includes("garou commun")||group.includes("maitrise d un sang")||group.includes("eveiller d autres sangs"))return true;
+    return groupHas(group,needles.garou?.[stringChoice(state.choices,"pelage")])||
+      groupHas(group,needles.garou?.[stringChoice(state.choices,"blood")]);
+  }
+  if(nature==="khinae"){
+    return groupHas(group,needles.khinae?.[stringChoice(state.choices,"lineage")])||
+      groupHas(group,needles.garou?.[stringChoice(state.choices,"blood")]);
+  }
+  if(nature==="daemon"){
+    if(group.includes("talents communs de nature"))return true;
+    if(talent.id===daemonTalentIds.formation)return true;
+    if(talent.id===daemonTalentIds.remanence)return state.choices.soulOrigin==="ancien_prophete";
+    return daemonLearnedFunctions(state).some(f=>groupHas(group,needles.daemon?.[f]))||
+      groupHas(group,needles.daemon?.[stringChoice(state.choices,"divinity")]);
+  }
+  if(nature==="angelus"){
+    if(group.includes("talents communs")||group.includes("progression de transcendance"))return true;
+    return angelusLearnedNatures(pkg,state).some(n=>groupHas(group,needles.angelus?.[n]))||
+      groupHas(group,needles.angelus?.[stringChoice(state.choices,"sephirah")]);
+  }
+  if(nature==="aseryn"){
+    if(group.includes("routes communes aserynes"))return true;
+    return aserynLearnableOrigins(state).some(origin=>groupHas(group,needles.aseryn?.[origin]))||
+      groupHas(group,needles.aseryn?.[stringChoice(state.choices,"origin")])||
+      groupHas(group,needles.aseryn?.[stringChoice(state.choices,"tradition")])||
+      groupHas(group,needles.aseryn?.[stringChoice(state.choices,"seratheenTradition")]);
+  }
+  if(nature==="exile"){
+    return groupHas(group,needles.exile?.[stringChoice(state.choices,"people")])||
+      groupHas(group,needles.exile?.[stringChoice(state.choices,"network")]);
+  }
+  if(nature==="extral"){
+    return groupHas(group,needles.extral?.[stringChoice(state.choices,"species")])||
+      groupHas(group,needles.extral?.[stringChoice(state.choices,"network")]);
+  }
+  return true;
+}
+
+function mageTemplates(pkg:TruthRulesPackage){
+  return pkg.catalogs.mage??[];
+}
+
+function mageTemplate(pkg:TruthRulesPackage,kind:"mastery"|"amplitude",name:string){
+  return mageTemplates(pkg).find(talent=>
+    truthNorm(talent.group).includes(kind==="mastery"?"maitrise":"amplitude")&&
+    truthNorm(talent.name)===truthNorm(name)
+  );
+}
+
+function mageNativeAffinities(pkg:TruthRulesPackage,state:TruthState){
+  const nature=pkg.structure.natures.mage;
+  const choice=nature?.choices.find(item=>item.key==="dominantAffinity");
+  return choice?truthChoiceOptions(choice,state.choices):[];
+}
+
+function mageProgression(pkg:TruthRulesPackage,affinity:TruthChoiceOption){
+  const defs:Array<[string,string,number,string,"mastery"|"amplitude",string]>=[
+    ["mastery_affinee","Maîtrise Affinée",1,"","mastery","Affinée"],
+    ["mastery_superieure","Maîtrise Supérieure",2,`Maîtrise Affinée — ${affinity.name}`,"mastery","Supérieure"],
+    ["mastery_magistrale","Maîtrise Magistrale",3,`Maîtrise Supérieure — ${affinity.name}`,"mastery","Magistrale"],
+    ["amplitude_significative","Amplitude Significative",1,"","amplitude","Significative"],
+    ["amplitude_majeure","Amplitude Majeure",2,`Amplitude Significative — ${affinity.name}`,"amplitude","Majeure"],
+    ["amplitude_cataclysmique","Amplitude Cataclysmique",3,`Amplitude Majeure — ${affinity.name}`,"amplitude","Cataclysmique"]
+  ];
+  return defs.map(([suffix,label,cost,prerequisiteName,kind,templateName])=>{
+    const template=mageTemplate(pkg,kind,templateName);
+    return {
+      id:`mage_${affinity.id}_${suffix}`,
+      name:`${label} — ${affinity.name}`,
+      cost,
+      access:"Progression",
+      prerequisiteName,
+      group:`Affinité — ${affinity.name}`,
+      effect:template?.effect??`Progression de ${affinity.name}.`,
+      runtimeLore:template?.runtimeLore??"",
+      effectDetails:template?.effectDetails, activation:template?.activation, compendiumId:template?.compendiumId,
+      mageAffinity:affinity.id,
+      mageProgress:true
+    } satisfies TruthTalent;
+  });
+}
+
+function mageAllTalents(pkg:TruthRulesPackage,state:TruthState){
+  const dominant=stringChoice(state.choices,"dominantAffinity"), natal=stringChoice(state.choices,"mageiusType");
+  const entries:TruthTalent[]=mageTemplates(pkg).filter(t=>!truthNorm(t.group).includes("maitrise")&&!truthNorm(t.group).includes("amplitude"));
+  const reference="regles-verite-v7-mage-maitrise-amplitude-lancement";
+  for(const affinity of mageAffinities(pkg)){
+    if(affinity.id!==dominant)entries.push({
+      id:`mage_awaken_${affinity.id}`,name:`Éveiller ${affinity.name}`,cost:1,access:"Progression",
+      prerequisiteName:"Domaine déjà accessible et progression préalable dans une Affinité de ce Type",
+      group:affinity.mageius===natal?"Affinités natives supplémentaires":"Affinités supplémentaires de la Roue",
+      effect:`Éveille ${affinity.name} en Maîtrise Initiale / Amplitude Mineure, sans le surcoût de difficulté de l’improvisation. Vous pouvez ensuite acheter ses propres paliers de Maîtrise et d’Amplitude.`,
+      effectDetails:"Une deuxième Affinité native exige une progression dans la première ; la troisième exige une nouvelle progression native. Une fois un Type étranger ouvert par Accord ou Traversée, ses deux autres domaines coûtent 1 PTV chacun, selon la même logique de progression ; cela ne modifie pas le Type natal du Mageius.",
+      mageAwaken:affinity.id,mageOpening:affinity.mageius===natal?"native":"additional",mageTargetType:affinity.mageius,compendiumId:reference
+    });
+    const distance=mageWheelDistance(natal,affinity.mageius);
+    if(distance===1||distance===2){const adjacent=distance===1;entries.push({
+      id:`mage_${adjacent?"accord":"traversee"}_${affinity.id}`,
+      name:`${adjacent?"Accord adjacent":"Traversée de la Roue"} — ${affinity.name}`,cost:adjacent?3:2,access:"Progression",
+      prerequisiteName:adjacent?"Une Affinité native à Maîtrise Supérieure":"Accord établi avec le Mageius intermédiaire",
+      group:"Roue des Mageius",mageAwaken:affinity.id,mageOpening:adjacent?"adjacent":"traverse",mageTargetType:affinity.mageius,compendiumId:reference,
+      effect:adjacent?`Ouvre ${affinity.name}, issue d’un Mageius voisin, en Initiale / Mineure pour 3 PTV. Vous pourrez développer cette Affinité et éveiller les deux autres domaines de ce Type pour 1 PTV chacun.`:`Après un Accord avec le Type intermédiaire, ouvre ${affinity.name} à deux segments en Initiale / Mineure pour 2 PTV supplémentaires. Atteindre ce domaine représente donc 5 PTV d’ouverture, hors progression préalable.`,
+      effectDetails:"Roue : Kaharal ↔ Meldir ↔ Elinaeth ↔ Mestherak ↔ Discella ↔ Kaharal. Chaque première Affinité d’un Type adjacent coûte 3 PTV et exige une Affinité native à Maîtrise Supérieure ; le Type situé deux segments plus loin coûte 2 PTV supplémentaires, après Accord avec le Type intermédiaire. Chaque domaine conserve ses paliers propres et le Mageius natal ne change pas."
+    });}
+    entries.push(...mageProgression(pkg,affinity));
+  }
+  return entries;
+}
+
+function availableMageTalents(pkg:TruthRulesPackage,state:TruthState){
+  if(!stringChoice(state.choices,"mageiusType")||!stringChoice(state.choices,"dominantAffinity"))return [];
+  const owned=mageOwnedAffinities(state), all=mageAffinities(pkg), natal=stringChoice(state.choices,"mageiusType");
+  const types=new Set([natal,...all.filter(a=>owned.has(a.id)).map(a=>a.mageius)]);
+  return mageAllTalents(pkg,state).filter(t=>{
+    if(state.truthTalents.includes(t.id))return true;
+    if(t.mageProgress)return owned.has(t.mageAffinity||"");
+    if(t.mageAwaken&&owned.has(t.mageAwaken))return false;
+    if(t.mageOpening==="additional")return types.has(t.mageTargetType||"");
+    if(t.mageOpening==="adjacent"||t.mageOpening==="traverse")return !types.has(t.mageTargetType||"");
+    return true;
+  });
+}
+
+/** Full price index: unavailable saved purchases must not turn into free PTV. */
+export function truthKnownTalents(pkg:TruthRulesPackage,state:TruthState):TruthTalent[]{
+  if(state.nature==="vampire")return [...Object.values(pkg.catalogs).flat(),...vampireAwakeningTalents(pkg,state,true)];
+  if(isKhinae(state))return [...Object.values(pkg.catalogs).flat(),...khinaeAwakeningTalents(pkg,state,true)];
+  if(state.nature==="daemon")return [...Object.values(pkg.catalogs).flat(),...daemonAdditionalTalents(pkg)];
+  if(state.nature!=="mage")return Object.values(pkg.catalogs).flat();
+  const rows=new Map(mageAllTalents(pkg,state).map(t=>[t.id,t]));
+  for(const a of mageAffinities(pkg))for(const [prefix,cost,label] of [["awaken",1,"Éveiller"],["accord",3,"Accord adjacent"],["traversee",2,"Traversée de la Roue"]] as const){
+    const id=`mage_${prefix}_${a.id}`;
+    if(!rows.has(id))rows.set(id,{id,cost,name:`${label} — ${a.name}`,group:"Roue des Mageius",effect:"Acquisition enregistrée ; vérifier les prérequis de l’Affinité."});
+  }
+  return [...rows.values()];
+}
+
+export function truthAvailableTalents(pkg:TruthRulesPackage,state:TruthState){
+  if(state.consciousness==="profane")return [];
+  let rows:TruthTalent[];
+  if(state.nature==="mage")rows=availableMageTalents(pkg,state);
+  else rows=(pkg.catalogs[state.nature]??[]).filter(talent=>visibleNativeTalent(pkg,state,talent));
+
+  if(state.nature==="vampire")rows.push(...vampireAwakeningTalents(pkg,state));
+  if(isKhinae(state))rows.push(...khinaeAwakeningTalents(pkg,state));
+  if(state.nature==="daemon"&&state.choices.divinity==="mephisto"&&state.truthTalents.includes(daemonTalentIds.polyphony))rows.push(...daemonAdditionalTalents(pkg));
+
+  const doctrines=selectedHunterDoctrines(state);
+  if(doctrines.length){
+    const hunter=(pkg.catalogs.humain??[]).filter(talent=>hunterDoctrine(talent)||doctrines.some(id=>groupHas(talent.group,pkg.visibility.needles.humain?.[id])));
+    rows=[...rows,...hunter];
+  }
+
+  const unique=new Map<string,TruthTalent>();
+  for(const talent of rows)unique.set(talent.id,state.nature==="aseryn"&&talent.elementEffects?{...talent,effect:aserynTalentEffect(talent,state)}:talent);
+  return [...unique.values()];
+}
+
+export function truthUnavailableHunters(pkg:TruthRulesPackage,state:TruthState){
+ const available=truthAvailableTalents(pkg,state),hunters=new Map((pkg.catalogs.humain??[]).map(t=>[t.id,t]));
+ return state.truthTalents.filter(id=>{const t=hunters.get(id);return t&&!hunterTalentReady(pkg,state,t,available);});
+}
+
+export function truthSelectedFreeTraits(pkg:TruthRulesPackage,state:TruthState){
+  const nature=pkg.structure.natures[state.nature];
+  if(!nature)return [];
+  const rows:TruthTrait[]=[...(nature.baseFreeTraits??[]),...aserynSignatureTraits(state),...daemonSecondaryTraits(pkg,state),...angelusSecondaryTraits(pkg,state)];
+  for(const rule of nature.freeTraitRules??[]){
+    if(state.mode==="creation"&&state.nature!=="humain"&&rule.when?.hunterTradition)continue;
+    if(whenMatches(rule.when,state.choices)||(isKhinae(state)&&rule.when?.blood==="sang_enchaine"&&khinaeAwakenedBloods(pkg,state).includes("sang_enchaine")))rows.push(...rule.traits);
+  }
+  const unique=new Map<string,TruthTrait>();
+  for(const trait of rows){
+    unique.set(`${trait.name}|${trait.source||""}|${trait.effect}`,trait);
+  }
+  return [...unique.values()];
+}
+
+export type TruthRevealStage="v"|"sr"|"r";
+
+export function truthTraitStages(access=""){
+  const value=access.toUpperCase();
+  return {
+    v:value.includes("V"),
+    sr:value.includes("SR"),
+    r:value.includes("R")
+  };
+}
+
+export function truthTraitsForStage(
+  pkg:TruthRulesPackage,
+  state:TruthState,
+  stage:TruthRevealStage
+){
+  return truthSelectedFreeTraits(pkg,state)
+    .filter(trait=>truthTraitStages(trait.access)[stage]);
+}
+
+export function truthChoiceLabel(pkg:TruthRulesPackage,state:TruthState,key:string){
+  const nature=pkg.structure.natures[state.nature];
+  const choice=nature?.choices.find(item=>item.key===key);
+  if(!choice)return "";
+  const selected=stringChoice(state.choices,key);
+  return truthChoiceOptions(choice,state.choices).find(option=>option.id===selected)?.name??"";
+}
+
+/** Canon: compendium-verite-v7-angelus.ts, Aura / Progression de Transcendance.
+ * No standard talent grants Séraphin rank; never infer it from a seraph patron.
+ */
+export function truthAngelusCapacity(state:TruthState,permanentFortitude:number){
+  if(state.nature!=='angelus')return null;
+  return angelusAuraCapacity(state.truthTalents,permanentFortitude);
+}
+
+export function truthPermanentAttributeBonus(
+  state:TruthState,
+  attributeId:string
+){
+  const hunterMemory=
+    state.nature==="humain"&&
+    state.consciousness==="initie"&&
+    selectedHunterDoctrines(state).length>0;
+  return hunterMemory&&attributeId==="volonte"?1:0;
+}
+
+export function truthRevelationProfile(pkg:TruthRulesPackage,state:TruthState){
+  const nature=state.nature;
+  const choices=state.choices;
+  const revelation=pkg.revelation;
+  const defaultBody=revelation.bodies[nature]??{
+    v:"État voilé.",
+    sr:"État semi-révélé.",
+    r:"État révélé."
+  };
+  let body={...defaultBody};
+  let label=pkg.structure.natures[nature]?.name??"Nature";
+  let stats={v:"Aucun bonus chiffré renseigné",sr:"Voir capacités SR",r:"Voir capacités R"};
+
+  const hunterMemory=
+    nature==="humain"&&
+    state.consciousness==="initie"&&
+    selectedHunterDoctrines(state).length>0;
+
+  if(nature==="humain"){
+    label=hunterMemory?"Humain Chasseur · mémoire du Voile":"Humain";
+    stats=hunterMemory
+      ? {
+          v:"+1 Volonté permanent",
+          sr:"+1 Volonté permanent · aucun bonus SR supplémentaire",
+          r:"+1 Volonté permanent · aucun bonus R supplémentaire"
+        }
+      : {
+          v:"Aucun bonus de Nature",
+          sr:"Aucun bonus racial : être Initié n’est pas une transformation physique",
+          r:"Aucun bonus racial : un Humain ne possède pas de forme Révélée propre"
+        };
+    if(hunterMemory){
+      body={
+        v:"Le Chasseur reste humain, mais sa mémoire a franchi le seuil : le +1 Volonté est permanent, même Voilé.",
+        sr:"Toujours humain. Les capacités SR de sa tradition peuvent s’exprimer ; le +1 Volonté permanent reste inclus et aucun second bonus racial ne s’ajoute.",
+        r:"Toujours humain d’apparence. Sa condition de Chasseur est pleinement lisible aux perceptions adaptées ; le +1 Volonté permanent reste son seul modificateur commun."
+      };
+    }
+  }else if(nature==="vampire"){
+    label="Nature Vampire";
+    stats={
+      v:"Aucun bonus de Nature",
+      sr:"+1 Vigueur · +1 Volonté",
+      r:"+2 Vigueur · +1 Volonté"
+    };
+  }else if(nature==="mage"){
+    label="Mageius ouvert";
+    stats={
+      v:"Aucune modification",
+      sr:"+1 Esprit · +1 Volonté",
+      r:"+1 Esprit · +2 Volonté"
+    };
+  }else if(nature==="daemon"){
+    const id=stringChoice(choices,"divinity");
+    const row=revelation.daemonStats[id];
+    label=truthChoiceLabel(pkg,state,"divinity")||"Divinité à choisir";
+    stats={
+      v:"Aucun bonus daemoniaque d’Attribut",
+      sr:row?.sr??"Choisir une Divinité",
+      r:row?.r??"Choisir une Divinité"
+    };
+  }else if(nature==="angelus"){
+    const id=stringChoice(choices,"sephirah");
+    const row=revelation.angelusStats[id];
+    label=truthChoiceLabel(pkg,state,"sephirah")||"Sephirah à choisir";
+    stats={
+      v:"Aucun bonus céleste d’Attribut",
+      sr:row?.sr??"Choisir une Sephirah",
+      r:row?.r??"Choisir une Sephirah"
+    };
+  }else if(nature==="aseryn"){
+    const id=stringChoice(choices,"origin");
+    const row=revelation.aserynStats[id];
+    label=truthChoiceLabel(pkg,state,"origin")||"Origine aseryne à choisir";
+    stats={
+      v:"Aucun modificateur racial commun",
+      sr:row?.sr??"+1 Agilité commun, puis empreinte de l’Origine",
+      r:row?.r??"+2 Agilité commun, puis empreinte de l’Origine"
+    };
+  }else if(nature==="exile"){
+    const id=stringChoice(choices,"people");
+    const row=revelation.exileStats[id];
+    label=truthChoiceLabel(pkg,state,"people")||"Peuple exilé à choisir";
+    stats={
+      v:"Traduction humaine/plausible · aucun bonus racial",
+      sr:row?.sr??"Choisir un peuple",
+      r:row?.r??"Choisir un peuple"
+    };
+  }else if(nature==="extral"){
+    const id=stringChoice(choices,"species");
+    const row=revelation.extralStats[id];
+    label=truthChoiceLabel(pkg,state,"species")||"Profil extral à choisir";
+    stats={
+      v:"Traduction humaine/plausible · aucun bonus racial",
+      sr:row?.sr??"Choisir un profil",
+      r:row?.r??"Choisir un profil"
+    };
+  }else if(isKhinae(state)){
+    label=nature==="garou"?"Garou":[truthChoiceLabel(pkg,state,"lineage"),truthChoiceLabel(pkg,state,"variant")].filter(Boolean).join(" · ")||"Lignée à choisir";
+    stats={v:"Aucun bonus de Nature",sr:"Aucun bonus d’Attribut automatique · instincts/perceptions SR",r:"Humain : "+khinaeProfileText(khinaeBodyProfile(pkg,state,'human'))+" Animal : "+khinaeProfileText(khinaeBodyProfile(pkg,state,'animal'))+" Hybride : "+khinaeProfileText(khinaeBodyProfile(pkg,state,'hybrid'))};
+  }
+
+  if(nature==="exile"&&choices.people==="thulkar")for(const stage of ["v","sr","r"] as const){const physical=exileCombatProfile(pkg,state,stage);stats[stage]+=` · Armure corporelle ${physical.armor} · Pugilat DGT ${physical.unarmed} (hors pouvoirs temporaires)`;}
+  if(nature==="extral")for(const stage of ["v","sr","r"] as const){const physical=extralCombatProfile(pkg,state,stage);stats[stage]+=` · Armure corporelle ${physical.armor} · Pugilat DGT ${physical.unarmed} (hors pouvoirs temporaires)`;}
+  return {
+    label,
+    body,
+    stats,
+    stages:{
+      v:{...revelation.stages.v,traits:truthTraitsForStage(pkg,state,"v")},
+      sr:{...revelation.stages.sr,traits:truthTraitsForStage(pkg,state,"sr")},
+      r:{...revelation.stages.r,traits:truthTraitsForStage(pkg,state,"r")}
+    },
+    vigorAffectsPv:/Vigueur/i.test(`${stats.sr} ${stats.r}`),
+    rules:revelation.rules
+  };
+}
+
+function matchingPrerequisites(talent:TruthTalent,available:TruthTalent[]){
+  const raw=truthNorm(talent.prerequisiteName||"");
+  if(!raw)return [];
+  return available.filter(other=>
+    other.id!==talent.id&&raw.includes(truthNorm(other.name))
+  );
+}
+
+export function truthPrerequisiteSatisfied(
+  pkg:TruthRulesPackage,
+  state:TruthState,
+  talent:TruthTalent,
+  available=truthAvailableTalents(pkg,state)
+){
+  if((pkg.catalogs.humain??[]).some(t=>t.id===talent.id))return hunterTalentReady(pkg,state,talent,available);
+  const vampireIssues=vampireAcquisitionIssues(pkg,state,talent);if(vampireIssues!==null)return vampireIssues.length===0;
+  const khinaeIssues=khinaeAcquisitionIssues(pkg,state,talent);if(khinaeIssues!==null)return khinaeIssues.length===0;
+  const exileIssues=exileAcquisitionIssues(pkg,state,talent);
+  if(exileIssues!==null)return exileIssues.length===0;
+  const extralIssues=extralAcquisitionIssues(pkg,state,talent);
+  if(extralIssues!==null)return extralIssues.length===0;
+  const angelusIssues=angelusAcquisitionIssues(pkg,state,talent);
+  if(angelusIssues!==null)return angelusIssues.length===0;
+  const daemonIssues=daemonAcquisitionIssues(pkg,state,talent);
+  if(daemonIssues!==null)return daemonIssues.length===0;
+  const technique=state.nature==="mage"?mageTechniqueKind(talent.id):undefined;
+  if(technique)return mageTechniqueIssues(pkg,state,technique).length===0;
+  if(talent.prerequisite&&state.truthTalents.includes(talent.prerequisite))return true;
+  if(talent.prerequisite&&!talent.prerequisiteName)return false;
+  if(!talent.prerequisiteName)return true;
+
+  if(state.nature==="mage"&&talent.mageAwaken){
+    const all=mageAffinities(pkg),natal=stringChoice(state.choices,"mageiusType");
+    const native=all.filter(a=>a.mageius===natal),target=talent.mageTargetType||natal;
+    if(talent.mageOpening==="adjacent")return native.some(a=>mageAffinityLevels(state,a.id).mastery>=2);
+    if(talent.mageOpening==="traverse")return all.some(a=>mageWheelDistance(natal,a.mageius)===1&&mageWheelDistance(a.mageius,target)===1&&state.truthTalents.includes(`mage_accord_${a.id}`));
+    const owned=mageOwnedAffinities(state),inType=all.filter(a=>a.mageius===target&&owned.has(a.id)&&a.id!==talent.mageAwaken);
+    const advances=inType.reduce((sum,a)=>{const levels=mageAffinityLevels(state,a.id);return sum+Math.max(0,levels.mastery)+Math.max(0,levels.amplitude);},0);
+    return inType.length>0&&advances>=(inType.length<=1?1:2);
+  }
+
+  const matches=matchingPrerequisites(talent,available);
+  if(matches.length){
+    const raw=truthNorm(talent.prerequisiteName);
+    const owned=matches.filter(item=>state.truthTalents.includes(item.id)).length;
+    if(raw.includes("deux talents parmi"))return owned>=2;
+    if(raw.includes(" ou ")&&!raw.includes(" et "))return owned>=1;
+    return owned===matches.length;
+  }
+
+  const raw=truthNorm(talent.prerequisiteName);
+  const free=truthSelectedFreeTraits(pkg,state).map(trait=>truthNorm(trait.name));
+  if(free.some(name=>raw.includes(name)))return true;
+
+  return false;
+}
+
+/** Explain the same blockers used by the purchase gate, including configured repertoires. */
+export function truthPrerequisiteIssues(pkg:TruthRulesPackage,state:TruthState,talent:TruthTalent):string[]{
+  if(truthPrerequisiteSatisfied(pkg,state,talent))return [];
+  if(state.consciousness==='profane')return ['L’initiation à la Vérité est nécessaire.'];
+  if((pkg.catalogs.humain??[]).some(t=>t.id===talent.id)){
+    const available=truthAvailableTalents(pkg,state),byId=new Map((pkg.catalogs.humain??[]).map(t=>[t.id,t]));
+    const ready=(id:string)=>state.truthTalents.includes(id)&&!!byId.get(id)&&hunterTalentReady(pkg,state,byId.get(id)!,available);
+    const name=(id:string)=>byId.get(id)?.name??id;
+    const issues=(talent.requiredTalentIds??[]).filter(id=>!ready(id)).map(id=>'Talent requis et utilisable : '+name(id));
+    if(talent.anyRequiredTalentIds?.length&&!talent.anyRequiredTalentIds.some(ready))issues.push('Au moins un talent requis et utilisable : '+talent.anyRequiredTalentIds.map(name).join(' ou '));
+    return issues.length?issues:['Choisissez la doctrine de Chasse correspondante.'];
+  }
+  for(const check of [vampireAcquisitionIssues,khinaeAcquisitionIssues,exileAcquisitionIssues,extralAcquisitionIssues,angelusAcquisitionIssues,daemonAcquisitionIssues]){
+    const issues=check(pkg,state,talent);if(issues!==null)return issues;
+  }
+  const technique=state.nature==='mage'?mageTechniqueKind(talent.id):undefined;
+  if(technique)return mageTechniqueIssues(pkg,state,technique);
+  const parent=truthKnownTalents(pkg,state).find(t=>t.id===talent.prerequisite);
+  return ['Prérequis : '+(talent.prerequisiteName||parent?.name||talent.prerequisite||'Complétez les choix de ce talent.')];
+}
+
+export function truthPtvSpent(pkg:TruthRulesPackage,state:TruthState){
+  const available=truthAvailableTalents(pkg,state);
+  const all=new Map(available.map(talent=>[talent.id,talent]));
+  // A saved inherited talent retains its price even while its choice is incomplete.
+  if(state.nature==="aseryn")for(const talent of pkg.catalogs.aseryn??[])all.set(talent.id,talent);
+  {
+    for(const talent of truthKnownTalents(pkg,state))all.set(talent.id,talent);
+  }
+  const native=[...new Set(state.truthTalents)].reduce((sum,id)=>sum+Number(all.get(id)?.cost||0),0);
+  const corruptionById=new Map((pkg.corruption?.talents??[]).map(talent=>[talent.id,talent]));
+  const corrupted=(state.corruptionTalents??[]).reduce(
+    (sum,id)=>sum+Number(corruptionById.get(id)?.cost||0),
+    0
+  );
+  return native+corrupted;
+}
+
+export function truthChoicesValid(pkg:TruthRulesPackage,state:TruthState){
+  const nature=pkg.structure.natures[state.nature];
+  if(!nature)return false;
+  const clean=truthSanitizeChoices(nature,state.choices);
+  if(state.nature==="angelus"&&angelusUnavailableAcquisitions(pkg,state).length)return false;
+  if(state.nature==="daemon"&&daemonUnavailableAcquisitions(pkg,state).length)return false;
+  return nature.choices.every(choice=>{
+    if(choice.optional)return true;
+    return !!clean[choice.key];
+  });
+}
+
+export function truthSanitizeTalents(pkg:TruthRulesPackage,state:TruthState){
+  if(state.truthTalents.some(id=>(pkg.catalogs.humain??[]).some(t=>t.id===id))){const known=new Set(truthKnownTalents(pkg,state).map(t=>t.id));return [...new Set(state.truthTalents)].filter(id=>known.has(id));}
+  // Changing an Extral network or consciousness never erases already-paid acquisitions.
+  if(state.nature==="vampire"||isKhinae(state)||state.nature==="extral"||state.nature==="exile"){const known=new Set(truthKnownTalents(pkg,state).map(t=>t.id));return [...new Set(state.truthTalents)].filter(id=>known.has(id));}
+  if(state.consciousness==="profane")return [];
+  // A descriptive edit must not erase previously paid Daemon acquisitions. Invalid access is reported separately.
+  if(state.nature==="daemon"||state.nature==="angelus"){const known=new Set(truthKnownTalents(pkg,state).map(t=>t.id));return [...new Set(state.truthTalents)].filter(id=>known.has(id));}
+  let selected=[...state.truthTalents];
+  let changed=true;
+  while(changed){
+    changed=false;
+    const current={...state,truthTalents:selected};
+    const available=truthAvailableTalents(pkg,current);
+    const byId=new Map(available.map(talent=>[talent.id,talent]));
+    const pruned=selected.filter(id=>{
+      const talent=byId.get(id);
+      return !!talent&&(state.nature==="mage"&&!!mageTechniqueKind(id)||truthPrerequisiteSatisfied(pkg,current,talent,available));
+    });
+    if(pruned.length!==selected.length){
+      selected=pruned;
+      changed=true;
+    }
+  }
+  return selected;
+}
+
+export function truthCorruptionDepth(corruption:number,integrity:number){
+  const max=Math.max(1,Math.floor(integrity||1));
+  const value=Math.max(0,Math.min(max,Math.floor(corruption||0)));
+  if(value===0)return "Sain";
+  if(value>=max)return "Seuil atteint";
+  if(value>=Math.max(1,max-1))return "Au bord de la Rupture";
+  if(value>=Math.ceil(max/2))return "Envahi";
+  return "Marqué";
+}
+
+function corruptionDepthRank(depth:string){
+  if(depth==="Seuil atteint"||depth==="Au bord de la Rupture")return 3;
+  if(depth==="Envahi")return 2;
+  if(depth==="Marqué")return 1;
+  return 0;
+}
+
+export function truthCorruptionTalentActive(
+  talent:CorruptionTalent,
+  state:TruthState,
+  integrity:number
+){
+  if(talent.kind==="RITE")return true;
+  if(talent.kind==="FAVEUR")return true;
+  if(!state.corruptionSource||talent.sourceId!==state.corruptionSource)return false;
+  const current=truthCorruptionDepth(state.corruption,integrity);
+  return corruptionDepthRank(current)>=corruptionDepthRank(talent.depth);
+}
+
+export function truthCorruptionPrerequisiteSatisfied(
+  pkg:TruthRulesPackage,
+  state:TruthState,
+  talent:CorruptionTalent
+){
+  const raw=truthNorm(talent.prerequisiteName||"");
+  if(!raw)return true;
+  const selected=new Set(state.corruptionTalents??[]);
+  const candidates=(pkg.corruption?.talents??[]).filter(other=>
+    other.id!==talent.id&&raw.includes(truthNorm(other.name))
+  );
+  return candidates.length>0&&candidates.every(other=>selected.has(other.id));
+}
+
+export function truthSanitizeCorruptionTalents(pkg:TruthRulesPackage,state:TruthState){
+  const known=new Set((pkg.corruption?.talents??[]).map(talent=>talent.id));
+  return [...new Set((state.corruptionTalents??[]).filter(id=>known.has(id)))];
+}
+
+export function truthGroups(talents:TruthTalent[]){
+  const groups=new Map<string,TruthTalent[]>();
+  for(const talent of talents){
+    const group=talent.group||"Talents";
+    if(!groups.has(group))groups.set(group,[]);
+    groups.get(group)!.push(talent);
+  }
+  return [...groups.entries()].map(([name,items])=>({name,items}));
+}

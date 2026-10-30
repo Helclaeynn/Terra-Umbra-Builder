@@ -1,0 +1,100 @@
+{
+  "existing": [
+    {
+      "path": "apps/api/scripts/check-campaign-reward-guard.mjs",
+      "before": "9451723215ce0f92bc534ffb4b6e95d14f1cad76",
+      "after": "da5094087057b6b2e14d2766960fcfaec75ba3f4"
+    },
+    {
+      "path": "apps/api/scripts/check-character-sheet-access.mjs",
+      "before": "4c196070614ec039944152fe3fdc1359f4c9c609",
+      "after": "05d343a598bb8714e0b8478fdbab69382998d438"
+    },
+    {
+      "path": "apps/api/src/campaign-admissions.ts",
+      "before": "23f705bb7cab54390c269268a51152f52376e2af",
+      "after": "25256b5b00c2d1e99cfd15258b415d3702ff2b65"
+    },
+    {
+      "path": "apps/api/src/campaign-character.ts",
+      "before": "0486e917c743c842f6c4e5141a8e8d8efd95e88c",
+      "after": "a78527d3ea9cfce472c426072b47683447678817"
+    },
+    {
+      "path": "apps/api/src/campaign-effects.ts",
+      "before": "f285159fcbdc998cf8b05e3cb2b83483ff692f2f",
+      "after": "a69c2df05fa1d97345871ccf969b2edb7eb41da4"
+    },
+    {
+      "path": "apps/api/src/campaign-reward-guard.ts",
+      "before": "efeb1964ecf603c2ec8ea46b5a22e9c2d258cb97",
+      "after": "b596f039ab79776c92ff80fe2d0d228aca7f68a9"
+    },
+    {
+      "path": "apps/api/src/character-history.ts",
+      "before": "a6e6fe6ef0542e4672be062b1f32ce11f6947e47",
+      "after": "9ad6ff7bce989909f54d0c3efe1a11c5b67e99ef"
+    },
+    {
+      "path": "apps/web/package.json",
+      "before": "7f3fe22fee1c75e02a5fff8b10ea10680238e680",
+      "after": "e06cef8579bead12554bea4c054e650fdb82753c"
+    },
+    {
+      "path": "apps/web/src/components/builder/ProgressionStep.vue",
+      "before": "fe3fdc9f45200bb39eed2fe8d995abc7976fecd8",
+      "after": "939c5a431e4062e042b30ee792923367035e70fd"
+    },
+    {
+      "path": "apps/web/src/lib/progression.ts",
+      "before": "d2b0192f1cc101f05f1128853b8f4277fe7458bc",
+      "after": "1f55d09c021bdc1c5ca13c09cdc57c7c4270a86e"
+    },
+    {
+      "path": "apps/web/src/main.ts",
+      "before": "3b4dc1d2f838759a3cd393b3397c18ceda7a756a",
+      "after": "c485070503a0d3f6da46592a5444440b0d7d3b3f"
+    },
+    {
+      "path": "apps/web/src/pages/CampaignsPage.vue",
+      "before": "cec6405cf2d169e722f08f192b1468366d80bdbe",
+      "after": "edc772b9cca6aa0638c3919ba55b7ae26680c8fa"
+    },
+    {
+      "path": "apps/web/src/pages/CharacterBuilderPage.vue",
+      "before": "05ab1078b80db494766abf3af6467f1fea9e2868",
+      "after": "0e892d679672e6938a1767ad873f2d2d28ce5be0"
+    },
+    {
+      "path": "apps/web/tests/campaign-reward-lock.mjs",
+      "before": "51bbf5dca8871699f973d44b439eab13ed03d066",
+      "after": "e8b7f5cf1a0d429c1f07447698c2a994724d1a9f"
+    }
+  ],
+  "newFiles": [
+    {
+      "path": "apps/api/src/campaign-rewards.ts",
+      "sha": "c9555d8ec28125756878ebd03d538c1171ebddb5"
+    },
+    {
+      "path": "apps/web/src/components/CampaignRewards.vue",
+      "sha": "730e60dabccb305dc84a28054df0380499c8f9a3"
+    },
+    {
+      "path": "apps/web/src/lib/builder-draft.ts",
+      "sha": "204bd06917cb9b181ee27e6211d137911d7f32ce"
+    },
+    {
+      "path": "apps/web/tests/builder-save-navigation.mjs",
+      "sha": "605adbe15323083219075500a292f00663665d2d"
+    },
+    {
+      "path": "apps/web/tests/campaign-rewards-dom.mjs",
+      "sha": "6dbe6fdbbee8bc753cbb7a8926f2248237aef69d"
+    },
+    {
+      "path": "infrastructure/migrations/20260928_campaign_rewards.sql",
+      "sha": "4316cc284a3df7f261f7559f8c4983cc09aa76b4"
+    }
+  ]
+}
