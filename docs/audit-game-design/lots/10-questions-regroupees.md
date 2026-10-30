@@ -13,6 +13,16 @@
 - **HDS** : le sigle n'a rien à voir avec les Garous (c'est la Hologram Distorsion Skill des Silcenters / de l'Union Elfique). Erreur du lot Garou à corriger.
 - **Remarque de l'auteur** : il doute que le corpus ait été lu et compris. Consigne : le lire en détail, l'assimiler, poser des questions.
 
+## Application (30/10, après lecture du corpus et de la passation)
+
+- **B1 et B2 appliqués** dans les lots Garou et Khinae (Corps Enchaîné +1 PA au 2e round ; Grand Félin Armure 1, Crocodilien Armure 3).
+- **A4** : homonymes Garou/Vampire **gardés** (proposition de renommage retirée) ; ressorts ajoutés d'office sur les Sangs Écarlate et Révélateur retirés ; Sangs vifs **partagés** entre Garous et Khinae (décision 10), une seule définition. Rémanence nocturne : retour au texte d'origine (lot Daemon).
+- **B3 reformulé** : la Saignée noire reste telle quelle (décision du 30/09 : opposition et extinction d'un Sang) ; le Sceau du Silence reste tel quel (liste « à observer, ne pas affaiblir préventivement » de la passation). Ma proposition B est retirée.
+- **B5** : Réflexe impossible fonctionne malgré la Surprise (texte V1 confirmé). Proposition retirée du lot Aseryn.
+- **HDS** rétablie dans Éveil furieux ; la mention « sigle non défini » (section D) était fausse.
+- **Chasseurs** : « Chasseur reconnu » est un statut, pas une Nature ; parcours réservé aux Humains à la création, Lavandières / Chasse Fantastique / Lueurs / Xenoshield en progression pour leurs Natures.
+- **A3** : sections « à transférer en Réalité » annulées dans les lots Exilés et Extrals (à faire).
+
 
 Chaque question a une recommandation. **Par défaut, la recommandation s'applique.** L'auteur répond « ok » ou cite les numéros qu'il refuse. Le détail (options, exemples) est dans la section « Questions » de chaque lot.
 

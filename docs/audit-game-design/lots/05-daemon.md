@@ -7,7 +7,7 @@ Lot complet, appliqué par défaut. Tu relis par exception. Paliers I / II / III
 - **Couches** : carte de Nature (gratuite) → Origine de l'Élu → **Divinité** (Empreinte gratuite + 3 Facettes en voies) → **Fonction** (Empreinte gratuite + 3 voies) → **Maisonnée** (une Faveur gratuite active) → 2 voies communes.
 - **207 entrées** (142 talents, 65 traits) → 1 carte de Nature, 13 cartes de Divinité, 3 cartes de Fonction, 46 Faveurs (une active par Daemon), **50 voies** (39 Facettes, 9 de Fonction, 2 communes).
 - Les Facettes étaient déjà en 1 / 2 / 3 PTV : la structure bouge peu. Aucun pouvoir supprimé.
-- **Ce qui change vraiment** : la Fureur de la Corneille devient un état propre au Daemon (elle empruntait la Frénésie Garou) ; un plafond de survie par scène ; quatre rééquilibrages (Injonction souveraine, Siècles en un souffle, Grâce retirée, Spectre amplifié) et la Faveur de Focalor ; une Maîtrise de Fonction ; entrées incomplètes complétées ; deux renommages.
+- **Ce qui change vraiment** : un plafond de survie par scène ; quatre rééquilibrages (Injonction souveraine, Siècles en un souffle, Grâce retirée, Spectre amplifié) et la Faveur de Focalor ; une Maîtrise de Fonction ; entrées incomplètes complétées ; deux renommages.
 - Le Spectre de Mageius garde son ressort : il passe par le moteur du Mage **sans Tension ni Revers**, et ne reçoit aucun talent du Mage. Sa limite vient du Daemon (cadence), pas du Mage.
 
 ## Carte de Nature (gratuite)
@@ -244,11 +244,11 @@ Chaque Divinité a une carte gratuite (profil SR / R et Empreinte) et trois Face
 **Changements** : aucun.
 
 **Dévoration** · *une porte* · manger ce qui s'oppose à la Nuit.
-- **I (1 PTV) · Boire la lumière** (SR/R, 1 PA) : absorber une source de lumière ou un effet lumineux mineur visible.
+- **I (1 PTV) · Mange-lumière** (SR/R, 1 PA) : absorber une source de lumière ou un effet lumineux mineur visible.
 - **II (2 PTV) · La Nuit apprend** (R) : un Écho de ta Rémanence nocturne peut être reproduit deux fois avant la fin de la scène, au coût de sa version élémentaire.
 - **III (3 PTV) · Prédateur des Ténèbres** (R, Réaction, 1/scène) : quand un pouvoir de Vampire ou d'Ombre te vise directement : Jet de pouvoir contre sa Puissance. Si tu gagnes, il est annulé contre toi et tu en gardes l'Écho.
 
-**Changements** : Mange-lumière renommé Boire la lumière (homonyme de la Faveur d'Amon, même Divinité). « Opposition appropriée » précisée : Jet de pouvoir contre la Puissance de l'effet.
+**Changements** : « Opposition appropriée » précisée : Jet de pouvoir contre la Puissance de l'effet.
 
 ### LILITH — Désir, Sexe, Plaisir et Attachement
 
@@ -456,11 +456,11 @@ Chaque Divinité a une carte gratuite (profil SR / R et Empreinte) et trois Face
 **Carte** : SR +1 Agilité, +1 Volonté ; R +2 Agilité, +1 Volonté. **Forme spirituelle** : 1 PA pour prendre ta forme animale ou végétale symbolique, avec ses propriétés naturelles évidentes (vol d'oiseau selon la mobilité ailée, nage, odorat, petite taille). Ni gros bonus de combat, ni Armure, ni Attribut.
 
 **Guerre & Frénésie** · *une porte* · la Corneille se nourrit des tombés.
-- **I (1 PTV) · Fureur de la Corneille** (R, 1 PA) : tu entres en fureur pour la scène : +1 aux tests physiques, +1 de plus chaque fois qu'un adversaire tombe hors combat à 10 m (maximum +3). Chaque round, tu consacres au moins 1 PA à atteindre ou frapper un ennemi. La fureur cesse quand plus aucun ennemi n'est debout en vue, ou en fin de scène ; l'arrêter avant : 1 PA et Volonté + Force Mentale contre 15.
+- **I (1 PTV) · Fureur de la Corneille** (R) : tu entres volontairement en Frénésie ; +1 aux tests physiques, avec les règles normales d'Impulsion.
 - **II (2 PTV) · Sang du champ de bataille** (R, 1/round) : quand un véritable adversaire tombe hors combat à 10 m, ta prochaine attaque physique réussie avant la fin du round suivant gagne +2 DGT.
 - **III (3 PTV) · Morrígu** (R, 2 PA, 1/scène) : jusqu'à trois alliés à 10 m gagnent +2 DGT au corps à corps et ignorent les effets de Tendu et Paniqué dus à la seule peur, pour la scène. Aucune fureur imposée.
 
-**Changements** : **Fureur de la Corneille devient un état propre au Daemon.** Elle renvoyait à la Frénésie volontaire et à l'Impulsion du chapitre Garou, ce que la charte interdit. Ressort propre : la fureur grandit avec les ennemis tombés (la Corneille se nourrit des morts), pas avec le temps ; plafond +3 conservé. La Faveur de Nemain est ajustée.
+**Changements** : aucun sur Fureur de la Corneille. *Retiré le 30/10* : la version « état propre au Daemon » que j'avais écrite. La Frénésie est une règle du moteur de Vérité que le texte d'origine emploie volontairement ; la réécrire était une erreur.
 
 **Mort & Présages** · *une porte* · voir la mort, l'annoncer.
 - **I (1 PTV) · Corneille du trépas** (SR/R) : tu vois aussitôt les mourants, les morts récentes et les lieux marqués par une mort violente.
@@ -498,36 +498,36 @@ Une Faveur change la manière d'utiliser la puissance du Dieu (information, timi
 | Mammon | Eurynome — Repos accordé | 1/scène, 1 PA, contact : fin d'une peur, douleur ou agitation surnaturelle sur une cible consentante, si la cause a disparu. | Aucun. |
 | Diablo | Xezbeth — Rêve empoisonné | 1/scène, après une peur ou une illusion réussie : le prochain sommeil de la victime reprend le thème et peut porter un message simple. | Aucun. |
 | Diablo | Balam — Dogue noir | 1/scène, quand un adversaire qui te voit vient au contact : test occulte ; en échec, il garde ses distances ou subit −3 à sa première attaque contre toi. | Coquille corrigée. |
-| Diablo | Amon — Mange-lumière | Réaction 1/scène contre un effet lumineux ou solaire : +3 à la Défense ; si tu résistes, la lumière s'affaiblit ou s'éteint. | Aucun (le talent homonyme est renommé). Voir question 1. |
+| Diablo | Amon — Mange-lumière | Réaction 1/scène contre un effet lumineux ou solaire : +3 à la Défense ; si tu résistes, la lumière s'affaiblit ou s'éteint. | Gardée (B7) : la Défense s'accompagne d'une conséquence (éteindre la lumière). Homonyme du talent de Diablo gardé, comme à l'origine. |
 | Diablo | Anammalech — Ombre de la Nuit | 1/scène, dans une vraie obscurité et sans agir hostilement : les perceptions surnaturelles qui te cherchent doivent battre ta Furtivité. | Aucun. |
 | Astaroth | Ardat-Lili — Inspiration contagieuse | 1/scène, création à DR 2+ : un observateur touché gagne +2 à son prochain test cohérent avec l'idée transmise. | Aucun. |
 | Astaroth | Byleth — Prototype | 1/scénario : improviser un outil temporaire et fragile ; Prendre son temps sans le délai. | Aucun. |
-| Astaroth | Asmodée — Mise en équation | Réaction 1/scène : +3 à la Défense occulte contre un pouvoir ciblé ; ensuite, tu comprends sa structure logique générale. | Aucun. Voir question 1. |
+| Astaroth | Asmodée — Mise en équation | Réaction 1/scène : +3 à la Défense occulte contre un pouvoir ciblé ; ensuite, tu comprends sa structure logique générale. | Gardée (B7) : elle change aussi l'information, la seconde chance ou la conséquence. |
 | Astaroth | Morax — Diagnostic du Duc | 1 PA d'examen : la principale cause médicale ; le prochain test de Soins bénéficie de Prendre son temps sans délai. | Aucun. |
 | Astaroth | Alocer — Chemin de code | 1/scène, après un test de Neurodive réussi : une information structurelle en plus (point d'entrée, dépendance, journal). | « Test informatique » (entrée) aligné sur « Neurodive » (règle). |
 | Satan | Samael — Dossier clos | 1/scène, après un Jugement confirmé : la cible est marquée pour la scène ; tes talents de Sentence n'ont plus à établir sa culpabilité. | Aucun. |
 | Satan | Cali — Poursuite de Cali | 1/scène, quand une créature blesse volontairement toi ou un protégé : tu sens sa direction et si elle s'éloigne, pour la scène. | Aucun. |
-| Satan | Barbatos — Paix intérieure | 1/scène : un proche retente avec +3 un test pour sortir d'une rage, d'une peur ou d'une perte de contrôle. | Aucun. Voir question 1. |
+| Satan | Barbatos — Paix intérieure | 1/scène : un proche retente avec +3 un test pour sortir d'une rage, d'une peur ou d'une perte de contrôle. | Gardée (B7) : elle change aussi l'information, la seconde chance ou la conséquence. |
 | Satan | Acham — Œil du magistrat | 1/scène en enquête : demander quelle contradiction ou dissimulation perceptible est la plus importante. | Aucun. |
 | Méphisto | Crocell — Répartie | Réaction 1/scène, après une action sociale réussie contre toi : test social opposé ; si tu fais mieux, l'effet est annulé. | Aucun. |
 | Méphisto | Abrasax — Leçon de Merlin | 1/scène : un usage du Spectre baisse sa Difficulté d'un niveau (minimum 12), jamais la Défense. | Aucun. |
 | Méphisto | Paimon — Mensonge parfait | 1/scène, après un mensonge réussi : toute capacité qui veut le démasquer doit battre ton résultat. | Aucun. |
 | Méphisto | Vinea — Faux reconnu | 1/scène : savoir si l'orateur ment volontairement sur une affirmation factuelle ; pas la vérité. | Aucun. |
 | Abigor | Astarté — Clarté lunaire | Vision parfaite sous le ciel nocturne ; 1/scène sous la lune, relance ton d10e. | Aucun. |
-| Abigor | Furfur — Momentum du Typhon | 1/scène, après avoir parcouru ton Déplacement : prochaine attaque du round +3 DGT. | Aucun. Voir question 1. |
-| Baal | Ereshkigal — Premier sang | 1/scène : +3 DGT contre une cible Surprise ou qui ignore ta présence. | Aucun. Voir question 1. |
+| Abigor | Furfur — Momentum du Typhon | 1/scène, après une attaque réussie : tu te déplaces aussitôt de ton Déplacement, sans PA. | **Réécrite (B7)** : c'était +3 DGT. Nouveau levier : l'économie d'action, fidèle à la culture de Furfur (« frapper brutalement puis disparaître »). |
+| Baal | Ereshkigal — Premier sang | 1/scène : contre une cible qui ignore ta présence, ta première attaque ne permet aucune Défense active, même si un talent l'autorise malgré la Surprise. | **Réécrite (B7)** : c'était +3 DGT, ce que Baal fait déjà (Impact de guerre). Nouveau levier : la condition (« neutraliser vite »). |
 | Baal | Leraje — Blessure aggravée | 1/scène, après avoir infligé des PV : la cible perd 2 PV de plus à la fin de son prochain round, sauf 1 PA pour stopper l'aggravation. | Aucun. |
 | Baal | Focalor — Dignité humaine | 1/scène, quand tu échoues à résister à un pouvoir qui t'impose soumission, obéissance, humiliation ou servitude : refais aussitôt ta Défense occulte et garde le meilleur résultat. | **Réécrite** : c'était un +3 permanent à la Défense occulte (bonus défensif permanent, et la seule Faveur sans cadence). |
 | Belzébuth | Perséphone — Deuxième printemps | 1/scénario : une cible déjà saturée par un soin de Belzébuth récupère jusqu'à 2 PV de plus. | Aucun. |
-| Belzébuth | Baphomet — Sélection immédiate | 1/scène, à la première exposition à un danger, un poison ou une maladie : +3 pour résister ; réussite : une altération mineure pour la scène. | Aucun. Voir question 1. |
+| Belzébuth | Baphomet — Sélection immédiate | 1/scène, à la première exposition à un danger, un poison ou une maladie : +3 pour résister ; réussite : une altération mineure pour la scène. | Gardée (B7) : elle change aussi l'information, la seconde chance ou la conséquence. |
 | Lucifer | Adramalech — Rayonnement | 1/scène : doubler la portée ou le rayon d'un pouvoir ; jamais les dégâts ni le nombre de cibles choisies. | Aucun. |
 | Lucifer | Abalim — Splendeur du Soleil | 1/scène, en Révélation complète : les ennemis proches opposent leur Défense occulte ; échec : −3 à leurs actions hostiles contre toi jusqu'à la fin du prochain round. | Coquille corrigée. |
-| Morrighan | Nemain — Premier hurlement | 1/scène, en entrant dans la Fureur de la Corneille : +3 à ta première action physique avant la fin du prochain round. | « Frénésie » → Fureur de la Corneille (état propre). Voir question 1. |
+| Morrighan | Nemain — Premier hurlement | 1/scène, en entrant en Frénésie : tu te déplaces aussitôt vers l'objet de ton Impulsion, sans PA. | **Réécrite (B7)** : c'était +3 à la première action physique, alors que Fureur de la Corneille et Sang du champ de bataille donnent déjà des bonus physiques. Même moment, autre levier (économie d'action). |
 | Morrighan | Huginn — Pensée fulgurante | 1/scène, sur un test d'Esprit : Prendre son temps sans le temps. | Aucun. |
 | Morrighan | Ibn al-Berih — Mauvais présage | Réaction 1/scène : une cible visible relance son d10e après une réussite et garde le second. | Aucun (le talent homonyme est renommé). |
 | Morrighan | Nankil'slas — Identité mouvante | 1/scène : une couverture plausible dans un milieu observé ; tu ignores un malus de statut dû à ta non-appartenance. | Aucun. |
-| Morrighan | Rhiannon — Courroux de Boadicée | 1/scène, après avoir subi des dégâts : +3 à ta prochaine action contre leur auteur. | Texte dégenré (« lorsqu'elle » → « après avoir subi »). Voir question 1. |
-| Morrighan | Cúchulainn — Courage du Héros | 1/scène, 1 PA : les alliés proches gagnent +3 contre la peur et l'intimidation surnaturelle jusqu'à la fin du prochain round. | Aucun. Voir question 1. |
+| Morrighan | Rhiannon — Courroux de Boadicée | 1/scène, quand tu subis des dégâts : tu marques leur auteur jusqu'à la fin du scénario. Tu sais quand il est à portée de vue et tu le reconnais malgré un changement d'apparence ordinaire. | **Réécrite (B7)** : c'était +3 à la prochaine action contre l'auteur, la même forme que Sang du champ de bataille. Nouveau levier : l'information (« ne jamais oublier une offense »). Texte dégenré. |
+| Morrighan | Cúchulainn — Courage du Héros | Réaction, 1/scène : quand un effet de peur ou d'intimidation surnaturelle vise un allié proche, tu t'avances devant lui et l'effet te vise à sa place ; tu y résistes normalement. | **Réécrite (B7)** : c'était +3 contre la peur pour les alliés, déjà couvert par Morrígu. Nouveau levier : la cible (le héros prend la peur sur lui). |
 
 ## Corrections signalées
 
@@ -577,7 +577,7 @@ Toutes les entrées : 142 talents (#), 65 traits (T).
 | #31 Peur sans visage | Diablo · Cauchemar I |
 | #32 Cauchemar éveillé | Diablo · Cauchemar II |
 | #33 Terreur primordiale | Diablo · Cauchemar III |
-| #34 Mange-lumière | Diablo · Dévoration I (renommé Boire la lumière) |
+| #34 Mange-lumière | Diablo · Dévoration I |
 | #35 La Nuit apprend | Diablo · Dévoration II |
 | #36 Prédateur des Ténèbres | Diablo · Dévoration III (jet contre la Puissance précisé) |
 | #37 Voir le désir | Lilith · Désir & Plaisir I |
@@ -652,7 +652,7 @@ Toutes les entrées : 142 talents (#), 65 traits (T).
 | #106 Lecture du champ de bataille | Baal · Stratégie & Victoire I |
 | #107 Ordre de guerre | Baal · Stratégie & Victoire II |
 | #108 Maître de bataille | Baal · Stratégie & Victoire III |
-| #109 Fureur de la Corneille | Morrighan · Guerre & Frénésie I (état propre, sans Frénésie) |
+| #109 Fureur de la Corneille | Morrighan · Guerre & Frénésie I |
 | #110 Sang du champ de bataille | Morrighan · Guerre & Frénésie II |
 | #111 Morrígu | Morrighan · Guerre & Frénésie III |
 | #112 Corneille du trépas | Morrighan · Mort & Présages I |
@@ -748,7 +748,7 @@ Toutes les entrées : 142 talents (#), 65 traits (T).
 | T57 Faveur — Ereshkigal — Meurtre | Faveurs de Maisonnée |
 | T58 Faveur — Leraje — Blessures | Faveurs de Maisonnée |
 | T59 Faveur — Focalor — Dignité | Faveurs de Maisonnée (réécrite : plus de bonus permanent) |
-| T60 Faveur — Nemain — Frénésie | Faveurs de Maisonnée (Fureur de la Corneille) |
+| T60 Faveur — Nemain — Frénésie | Faveurs de Maisonnée (réécrite, B7) |
 | T61 Faveur — Huginn — Pensée | Faveurs de Maisonnée |
 | T62 Faveur — Ibn al-Berih — Malheur | Faveurs de Maisonnée |
 | T63 Faveur — Nankil’slas — Tromperie | Faveurs de Maisonnée |
@@ -757,29 +757,27 @@ Toutes les entrées : 142 talents (#), 65 traits (T).
 
 ## Questions pour toi
 
-### 1. Les Faveurs « +3 » contre ton propre principe
+### 1. Les Faveurs « +3 » contre ton propre principe (B7, vérifié en détail le 30/10)
 
-**Problème** : ton chapitre dit qu'une Faveur qui se résume à « +3 à quelque chose » doit être réécrite. Neuf le font encore : Asmodée, Amon, Furfur, Ereshkigal, Rhiannon, Nemain, Cúchulainn, Barbatos, Baphomet. Seule Focalor a été réécrite (bonus défensif permanent).
+Ton principe : une Faveur qui se résume à « +3 à quelque chose que le Dieu fait déjà » doit être réécrite. Vérification Faveur par Faveur, sur le texte V1 :
 
-- **A (appliqué)** : garder les neuf telles quelles.
-- **B** : les réécrire en lot, sans les renforcer, en changeant la manière (timing, cible, information).
-- **C** : ne réécrire que les doublons : Furfur et Ereshkigal (+3 DGT), Cúchulainn (presque Rayonner).
+| Faveur | Verdict | Raison |
+|---|---|---|
+| Ereshkigal — Premier sang | **réécrite** | +3 DGT, ce que Baal fait déjà (Impact de guerre) |
+| Furfur — Momentum du Typhon | **réécrite** | +3 DGT pur, sans lien avec « frapper puis disparaître » |
+| Nemain — Premier hurlement | **réécrite** | +3 physique, déjà donné par Fureur de la Corneille et Sang du champ de bataille |
+| Rhiannon — Courroux de Boadicée | **réécrite** | même forme que Sang du champ de bataille |
+| Cúchulainn — Courage du Héros | **réécrite** | +3 contre la peur, déjà couvert par Morrígu |
+| Asmodée — Mise en équation | gardée | le +3 s'accompagne d'une information (la structure du pouvoir) |
+| Amon — Mange-lumière | gardée | le +3 s'accompagne d'une conséquence (la lumière s'éteint) |
+| Barbatos — Paix intérieure | gardée | c'est une seconde chance, que Satan ne donne pas ailleurs |
+| Baphomet — Sélection immédiate | gardée | le +3 s'accompagne d'une altération (évolution) |
+| Focalor — Dignité humaine | réécrite dans la première version (bonus permanent → seconde chance 1/scène) | à confirmer |
 
-**Recommandation** : B, en suivant ton principe.
-
-*Exemple* : Ereshkigal, Premier sang. Aujourd'hui : +3 DGT contre une cible Surprise. Avec B : « 1/scène, une cible Surprise ou qui ignore ta présence ne peut pas faire de Défense active contre ta première attaque. » Même moment, autre levier.
+Les cinq réécritures sont dans la table des Faveurs (section précédente) : aucune n'est plus forte que l'original, chacune change de levier (condition, économie d'action, information, cible). **Appliqué par défaut, tu relis par exception.**
 
 ### 2. Rémanence nocturne copie des pouvoirs d'une autre Nature
-
-**Problème** : l'Empreinte de Diablo et la voie Dévoration ne marchent que si un Vampire ou une Ombre utilise un pouvoir contre le Daemon, et reproduisent ce pouvoir. La charte interdit de renvoyer aux pouvoirs d'une autre Nature, et c'est souvent inutile en jeu.
-
-- **A (appliqué)** : garder.
-- **B** : l'Écho ne copie plus le pouvoir. Il donne une forme fixe, propre à Diablo : jusqu'à la fin de la scène, +3 pour résister à ce même pouvoir, et une fois une Malédiction de Nuit (−3 à la famille d'actions que ce pouvoir visait).
-- **C** : élargir le déclencheur à tout pouvoir de ténèbres ou d'ombre, de toute origine, en gardant la copie.
-
-**Recommandation** : B. Diablo devient autonome et lisible sur une carte.
-
-*Exemple* : un Vampire Oru utilise Ombre prédatrice contre le Daemon. Avec A, le Daemon doit savoir ce qu'est la « version élémentaire » de ce pouvoir Vampire. Avec B, il gagne +3 contre lui et peut imposer une fois −3 aux attaques d'un ennemi.
+**Tranché (30/10, A4) : A, on garde le texte d'origine.** Des dons proches entre Natures sont admis ; la Rémanence nocturne (copier la version élémentaire d'un pouvoir de Vampire ou d'Ombre utilisé contre toi) est l'identité même de Diablo, la Nuit qui dévore. Ma proposition B est retirée.
 
 ### 3. Spectre amplifié : quelle limite sans Tension ?
 

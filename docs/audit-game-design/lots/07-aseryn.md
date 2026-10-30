@@ -449,7 +449,7 @@ Réflexe impossible : une Défense active gratuite chaque round, même Surpris. 
 - A : garder les deux (appliqué).
 - B : Réflexe impossible ne marche plus quand tu es Surpris ; Corps de pierre inchangé (il coûte une Révélation).
 - C : B, et Corps de pierre limité à la scène où tu as utilisé Façonnage ou Manifestation.
-Recommandation : **B**, comme l'Empreinte Krovni du Vampire. Exemple : pris en embuscade, l'Aseryn paie sa première défense ; dès le round suivant, il retrouve sa défense gratuite.
+**Tranché par l'auteur (30/10, B5) : A.** Réflexe impossible fonctionne malgré la Surprise, c'est son principe (texte V1 : « Lorsqu'il est Surpris, l'Aseryn peut malgré tout… »). Corps de pierre inchangé.
 
 **3. Une Foudre sans ressource**
 1 PA, marge + 7, 20 m, et aucune armure ordinaire ne protège. Seul l'état Révélé la limite.
