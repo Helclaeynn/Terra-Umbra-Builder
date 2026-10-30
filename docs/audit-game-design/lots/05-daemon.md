@@ -7,7 +7,7 @@ Lot complet, appliqué par défaut. Tu relis par exception. Paliers I / II / III
 - **Couches** : carte de Nature (gratuite) → Origine de l'Élu → **Divinité** (Empreinte gratuite + 3 Facettes en voies) → **Fonction** (Empreinte gratuite + 3 voies) → **Maisonnée** (une Faveur gratuite active) → 2 voies communes.
 - **207 entrées** (142 talents, 65 traits) → 1 carte de Nature, 13 cartes de Divinité, 3 cartes de Fonction, 46 Faveurs (une active par Daemon), **50 voies** (39 Facettes, 9 de Fonction, 2 communes).
 - Les Facettes étaient déjà en 1 / 2 / 3 PTV : la structure bouge peu. Aucun pouvoir supprimé.
-- **Ce qui change vraiment** : un plafond de survie par scène ; quatre rééquilibrages (Injonction souveraine, Siècles en un souffle, Grâce retirée, Spectre amplifié) et la Faveur de Focalor ; une Maîtrise de Fonction ; entrées incomplètes complétées ; deux renommages.
+- **Ce qui change vraiment** : un plafond de survie par scène ; quatre rééquilibrages (Injonction souveraine, Siècles en un souffle, Grâce retirée, Spectre amplifié) une Maîtrise de Fonction ; entrées incomplètes complétées ; deux renommages.
 - Le Spectre de Mageius garde son ressort : il passe par le moteur du Mage **sans Tension ni Revers**, et ne reçoit aucun talent du Mage. Sa limite vient du Daemon (cadence), pas du Mage.
 
 ## Carte de Nature (gratuite)
@@ -460,7 +460,7 @@ Chaque Divinité a une carte gratuite (profil SR / R et Empreinte) et trois Face
 - **II (2 PTV) · Sang du champ de bataille** (R, 1/round) : quand un véritable adversaire tombe hors combat à 10 m, ta prochaine attaque physique réussie avant la fin du round suivant gagne +2 DGT.
 - **III (3 PTV) · Morrígu** (R, 2 PA, 1/scène) : jusqu'à trois alliés à 10 m gagnent +2 DGT au corps à corps et ignorent les effets de Tendu et Paniqué dus à la seule peur, pour la scène. Aucune fureur imposée.
 
-**Changements** : aucun sur Fureur de la Corneille. *Retiré le 30/10* : la version « état propre au Daemon » que j'avais écrite. La Frénésie est une règle du moteur de Vérité que le texte d'origine emploie volontairement ; la réécrire était une erreur.
+**Changements** : aucun sur Fureur de la Corneille (Frénésie confirmée par l'auteur le 30/10). *Retiré le 30/10* : la version « état propre au Daemon » que j'avais écrite. La Frénésie est une règle du moteur de Vérité que le texte d'origine emploie volontairement ; la réécrire était une erreur.
 
 **Mort & Présages** · *une porte* · voir la mort, l'annoncer.
 - **I (1 PTV) · Corneille du trépas** (SR/R) : tu vois aussitôt les mourants, les morts récentes et les lieux marqués par une mort violente.
@@ -517,7 +517,7 @@ Une Faveur change la manière d'utiliser la puissance du Dieu (information, timi
 | Abigor | Furfur — Momentum du Typhon | 1/scène, après une attaque réussie : tu te déplaces aussitôt de ton Déplacement, sans PA. | **Réécrite (B7)** : c'était +3 DGT. Nouveau levier : l'économie d'action, fidèle à la culture de Furfur (« frapper brutalement puis disparaître »). |
 | Baal | Ereshkigal — Premier sang | 1/scène : contre une cible qui ignore ta présence, ta première attaque ne permet aucune Défense active, même si un talent l'autorise malgré la Surprise. | **Réécrite (B7)** : c'était +3 DGT, ce que Baal fait déjà (Impact de guerre). Nouveau levier : la condition (« neutraliser vite »). |
 | Baal | Leraje — Blessure aggravée | 1/scène, après avoir infligé des PV : la cible perd 2 PV de plus à la fin de son prochain round, sauf 1 PA pour stopper l'aggravation. | Aucun. |
-| Baal | Focalor — Dignité humaine | 1/scène, quand tu échoues à résister à un pouvoir qui t'impose soumission, obéissance, humiliation ou servitude : refais aussitôt ta Défense occulte et garde le meilleur résultat. | **Réécrite** : c'était un +3 permanent à la Défense occulte (bonus défensif permanent, et la seule Faveur sans cadence). |
+| Baal | Focalor — Dignité humaine | +3 à la Défense occulte contre les pouvoirs qui cherchent explicitement à imposer soumission, obéissance, humiliation ou servitude. | Texte d'origine (choix de l'auteur, 30/10). |
 | Belzébuth | Perséphone — Deuxième printemps | 1/scénario : une cible déjà saturée par un soin de Belzébuth récupère jusqu'à 2 PV de plus. | Aucun. |
 | Belzébuth | Baphomet — Sélection immédiate | 1/scène, à la première exposition à un danger, un poison ou une maladie : +3 pour résister ; réussite : une altération mineure pour la scène. | Gardée (B7) : elle change aussi l'information, la seconde chance ou la conséquence. |
 | Lucifer | Adramalech — Rayonnement | 1/scène : doubler la portée ou le rayon d'un pouvoir ; jamais les dégâts ni le nombre de cibles choisies. | Aucun. |
@@ -747,7 +747,7 @@ Toutes les entrées : 142 talents (#), 65 traits (T).
 | T56 Faveur — Furfur — Typhons | Faveurs de Maisonnée |
 | T57 Faveur — Ereshkigal — Meurtre | Faveurs de Maisonnée |
 | T58 Faveur — Leraje — Blessures | Faveurs de Maisonnée |
-| T59 Faveur — Focalor — Dignité | Faveurs de Maisonnée (réécrite : plus de bonus permanent) |
+| T59 Faveur — Focalor — Dignité | Faveurs de Maisonnée (texte d'origine) |
 | T60 Faveur — Nemain — Frénésie | Faveurs de Maisonnée (réécrite, B7) |
 | T61 Faveur — Huginn — Pensée | Faveurs de Maisonnée |
 | T62 Faveur — Ibn al-Berih — Malheur | Faveurs de Maisonnée |
@@ -772,7 +772,7 @@ Ton principe : une Faveur qui se résume à « +3 à quelque chose que le Dieu f
 | Amon — Mange-lumière | gardée | le +3 s'accompagne d'une conséquence (la lumière s'éteint) |
 | Barbatos — Paix intérieure | gardée | c'est une seconde chance, que Satan ne donne pas ailleurs |
 | Baphomet — Sélection immédiate | gardée | le +3 s'accompagne d'une altération (évolution) |
-| Focalor — Dignité humaine | réécrite dans la première version (bonus permanent → seconde chance 1/scène) | à confirmer |
+| Focalor — Dignité humaine | gardée (texte d'origine, choix de l'auteur) | Baal ne donne pas cette résistance ailleurs |
 
 Les cinq réécritures sont dans la table des Faveurs (section précédente) : aucune n'est plus forte que l'original, chacune change de levier (condition, économie d'action, information, cible). **Appliqué par défaut, tu relis par exception.**
 
