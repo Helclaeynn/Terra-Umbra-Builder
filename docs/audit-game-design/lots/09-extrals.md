@@ -529,7 +529,7 @@ Le rangement proposé ci-dessous ne s'applique que si tu retiens l'option C de Q
 - #161 Ancrage de terrain (2) → Doctrine.
 - #162 Fenêtre invariante (3) → Doctrine ; effet à préciser (« protège l'observation » : contre quoi ?).
 
-Bilan de l'option C : 25 Doctrine, 22 Réalité, 6 Adhésion, 7 Campagne, 5 fusions.
+Bilan de l'option C : 26 Doctrine, 22 Réalité, 7 Adhésion, 6 Campagne, et 4 entrées fondues dans une autre (#103, #119, #131, #145).
 
 ---
 

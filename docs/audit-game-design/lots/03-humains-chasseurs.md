@@ -8,7 +8,7 @@ Lot complet du 29 octobre 2026, appliqué par défaut (veto de l'auteur possible
 - **266 entrées → 59 cartes** : 1 carte de Nature + 58 voies (1 en progression, 1 à deux portes, 56 à une porte).
 - **Aucun pouvoir supprimé, aucune fusion.** Les doublons entre traditions restent séparés : chaque tradition garde son ressort propre. Deux paires identiques mot pour mot reçoivent un ressort nouveau ; les autres ont déjà le leur, signalé dans la voie.
 - **Ce qui change vraiment** : chaque tradition n'est plus un catalogue de 20 talents. Elle se lit en 2 à 6 voies, avec une entrée et un ordre. Les règles cachées dans des talents remontent dans l'en-tête de tradition (accès, piste de Qi, règle des sceaux). Les profils « définis avec le MJ » deviennent des listes fermées.
-- **Corrections** : 7 notes de développement retirées ; 21 en-têtes sans PA ou contradictoires corrigés ; un en-tête tronqué (Grande Chasse) réparé ; 3 blocs d'Accès sortis des talents.
+- **Corrections** : 7 notes de développement retirées ; 23 en-têtes sans PA ou contradictoires corrigés ; un en-tête tronqué (Grande Chasse) réparé ; 3 blocs d'Accès sortis des talents.
 
 ## 2. Carte de Nature (gratuite)
 
@@ -779,7 +779,274 @@ Descendants des chevaliers choisis par Merlin, pas leurs réincarnations. Trois 
 
 Les 266 entrées, dans l'ordre du fichier. Palier = coût d'origine en PTV. Aucune entrée supprimée.
 
-TABLE_PLACEHOLDER
+| # | Entrée | Voie | Palier (PTV) |
+|---|---|---|---|
+| 1 | Rompu aux horreurs | Doctrine de Chasse | I (1) |
+| 2 | Fenêtre de chasse | Doctrine de Chasse | II (2) |
+| 3 | Frapper la faiblesse | Doctrine de Chasse | II (2) |
+| 4 | Mise à mort préparée | Doctrine de Chasse | III (3) |
+| 5 | Lire la souillure | Lavandières | I (1) |
+| 6 | Sang sous le masque | Lavandières | II (2) |
+| 7 | Saignée noire | Lavandières | II (2) |
+| 8 | Clouer au corps | Lavandières | III (3) |
+| 9 | Consécration de terrain | Liturgie de terrain (porte A) | I (1) |
+| 10 | Signe de fermeté | Liturgie de terrain (porte B) | I (1) |
+| 11 | Intercession | Liturgie de terrain (porte B) | II (2) |
+| 12 | Sanctuaire provisoire | Liturgie de terrain (porte A) | II (2) |
+| 13 | Derniers rites | Liturgie de terrain (porte B) | II (2) |
+| 14 | Restaurer le sacré | Liturgie de terrain (porte A) | II (2) |
+| 15 | Chasse en escouade | Arianwen · Escouade | I (1) |
+| 16 | Couverture croisée | Arianwen · Escouade | II (2) |
+| 17 | Relais de chasse | Arianwen · Escouade | I (1) |
+| 18 | Battue sacrée | Arianwen · Escouade | III (3) |
+| 19 | Plaie consacrée | Arianwen · Armes consacrées | I (1) |
+| 20 | Frapper l’immatériel | Arianwen · Armes consacrées | II (2) |
+| 21 | Purification balistique | Arianwen · Armes consacrées | II (2) |
+| 22 | Salve de purification | Arianwen · Armes consacrées | III (3) |
+| 23 | Tenir le monstre | Arianwen · Tenir la proie | I (1) |
+| 24 | Briser la mue | Arianwen · Tenir la proie | II (2) |
+| 25 | Clouer la proie | Arianwen · Tenir la proie | II (2) |
+| 26 | Tueur de l’impossible | Arianwen · Armes consacrées | III (3) |
+| 27 | Présence étrangère | Ephraïm · Discernement | I (1) |
+| 28 | Faire parler l’occupant | Ephraïm · Exorcisme | I (1) |
+| 29 | Lire l’ancrage | Ephraïm · Discernement | II (2) |
+| 30 | Distinguer l’hôte | Ephraïm · Exorcisme | II (2) |
+| 31 | Ligne de sel | Ephraïm · Seuils | I (1) |
+| 32 | Cercle d’Ephraïm | Ephraïm · Seuils | II (2) |
+| 33 | Fermer le seuil | Ephraïm · Seuils | II (2) |
+| 34 | Chambre blanche | Ephraïm · Seuils | III (3) |
+| 35 | Prière de bannissement | Ephraïm · Exorcisme | II (2) |
+| 36 | Purge | Ephraïm · Exorcisme | III (3) |
+| 37 | Renvoi | Ephraïm · Exorcisme | III (3) |
+| 38 | Grand exorcisme | Ephraïm · Exorcisme | III (3) |
+| 39 | Pesée de l’âme | Magdalena · Enquête | I (1) |
+| 40 | Lire la marque | Magdalena · Enquête | II (2) |
+| 41 | Suivre la chaîne | Magdalena · Enquête | II (2) |
+| 42 | Main de l’Inquisiteur | Magdalena · Enquête | I (1) |
+| 43 | Mise sous scellés | Magdalena · Jugement | II (2) |
+| 44 | Confiscation spirituelle | Magdalena · Jugement | II (2) |
+| 45 | Faire comparaître la corruption | Magdalena · Jugement | II (2) |
+| 46 | Briser le pacte | Magdalena · Jugement | III (3) |
+| 47 | Excommunication surnaturelle | Magdalena · Jugement | III (3) |
+| 48 | Jugement | Magdalena · Jugement | I (1) |
+| 49 | Arme du Serment | Khālsā · Arme du Serment | I (1) |
+| 50 | Plaie fidèle | Khālsā · Arme du Serment | II (2) |
+| 51 | Trancher l’emprise | Khālsā · Arme du Serment | II (2) |
+| 52 | Coup de délivrance | Khālsā · Arme du Serment | II (2) |
+| 53 | Briser le rempart | Khālsā · Arme du Serment | III (3) |
+| 54 | Veille du défenseur | Khālsā · Devoir de Protection | I (1) |
+| 55 | Parole qui relève | Khālsā · Devoir de Protection | II (2) |
+| 56 | Tenir la ligne | Khālsā · Devoir de Protection | II (2) |
+| 57 | Prendre le fardeau | Khālsā · Devoir de Protection | III (3) |
+| 58 | Refuge vivant | Khālsā · Devoir de Protection | II (2) |
+| 59 | Esprit sans maître | Khālsā · Volonté libre | I (1) |
+| 60 | Déceler l’emprise | Khālsā · Volonté libre | I (1) |
+| 61 | Refuser la souillure | Khālsā · Volonté libre | II (2) |
+| 62 | Parole qui brise l’ordre | Khālsā · Volonté libre | II (2) |
+| 63 | Libérer la volonté | Khālsā · Volonté libre | III (3) |
+| 64 | Voir les chaînes | Khālsā · Briseur de chaînes | I (1) |
+| 65 | Acier libérateur | Khālsā · Briseur de chaînes | II (2) |
+| 66 | Délier l’entrave | Khālsā · Briseur de chaînes | II (2) |
+| 67 | Briser le pacte contraint | Khālsā · Briseur de chaînes | III (3) |
+| 68 | Serment contre serment | Khālsā · Briseur de chaînes | III (3) |
+| 69 | Sentir le Qi | Taoïstes · Fondamentaux du Qi | I (1) |
+| 70 | Lecture des méridiens | Taoïstes · Fondamentaux du Qi | II (2) |
+| 71 | Souffle intérieur | Taoïstes · Fondamentaux du Qi | I (1) |
+| 72 | Transe de l’équilibre | Taoïstes · Fondamentaux du Qi | III (3) |
+| 73 | Paume Yin | Taoïstes · Voie du Yin | I (1) |
+| 74 | Qi silencieux | Taoïstes · Voie du Yin | II (2) |
+| 75 | Méridiens fermés | Taoïstes · Voie du Yin | II (2) |
+| 76 | Nuit des cinq souffles | Taoïstes · Voie du Yin | III (3) |
+| 77 | Paume Yang | Taoïstes · Voie du Yang | I (1) |
+| 78 | Barrière Yang | Taoïstes · Voie du Yang | II (2) |
+| 79 | Circulation vitale | Taoïstes · Voie du Yang | II (2) |
+| 80 | Débordement Yang | Taoïstes · Voie du Yang | III (3) |
+| 81 | Cycle contraire | Taoïstes · Harmonie | I (1) |
+| 82 | Renversement des souffles | Taoïstes · Harmonie | II (2) |
+| 83 | Deux souffles, un corps | Taoïstes · Harmonie | II (2) |
+| 84 | Harmonie imposée | Taoïstes · Harmonie | III (3) |
+| 85 | Vacillement du Qi | Taoïstes · Art du Néant des Shi | I (1) |
+| 86 | Paume des Shi | Taoïstes · Art du Néant des Shi | III (3) |
+| 87 | Sceau de Vacuité | Taoïstes · Art du Néant des Shi | II (2) |
+| 88 | Grand Scellement des Shi | Taoïstes · Art du Néant des Shi | III (3) |
+| 89 | Nœud de Kether | Kabbale · Unité et rêve | II (2) |
+| 90 | Concordance de Kether | Kabbale · Unité et rêve | II (2) |
+| 91 | Purification de Hokhma | Kabbale · Grâce | II (2) |
+| 92 | Sceau de pureté | Kabbale · Grâce | II (2) |
+| 93 | Imposer une limite | Kabbale · Rigueur | II (2) |
+| 94 | Interdit de Bina | Kabbale · Rigueur | III (3) |
+| 95 | Main de Hesed | Kabbale · Grâce | II (2) |
+| 96 | Sursis de Hesed | Kabbale · Grâce | II (2) |
+| 97 | Arme de Gueburah | Kabbale · Rigueur | I (1) |
+| 98 | Brèche de Gueburah | Kabbale · Rigueur | III (3) |
+| 99 | Offrande de Tiph’ereth | Kabbale · Grâce | I (1) |
+| 100 | Sacrifice de Tiph’ereth | Kabbale · Grâce | II (2) |
+| 101 | Élan de Nesah | Kabbale · Victoire | I (1) |
+| 102 | Victoire contagieuse | Kabbale · Victoire | II (2) |
+| 103 | Lecture de Hod | Kabbale · Rigueur | I (1) |
+| 104 | Décomposition de Hod | Kabbale · Rigueur | II (2) |
+| 105 | Image de Yessod | Kabbale · Unité et rêve | I (1) |
+| 106 | Marche onirique | Kabbale · Unité et rêve | II (2) |
+| 107 | Ancrage de Malkhouth | Kabbale · Unité et rêve | III (3) |
+| 108 | Incarner de force | Kabbale · Unité et rêve | III (3) |
+| 109 | Pacte du Djinn | Nizarites · Arts du Djinn | Entrée (2) |
+| 110 | Voix du compagnon | Nizarites · Arts du Djinn | I (1) |
+| 111 | Possession consentie | Nizarites · Arts du Djinn | II (2) |
+| 112 | Déchaîner le Djinn | Nizarites · Arts du Djinn | III (3) |
+| 113 | Sens jumelés | Nizarites · Arts du Djinn | I (1) |
+| 114 | Rappel d’urgence | Nizarites · Arts du Djinn | II (2) |
+| 115 | Échange d’ancrage | Nizarites · Arts du Djinn | III (3) |
+| 116 | Incarnation profonde | Nizarites · Arts du Djinn | III (3) |
+| 117 | Marque de la proie | Asāsīyūn · Marquer la proie | I (1) |
+| 118 | Traque du pacte | Asāsīyūn · Marquer la proie | II (2) |
+| 119 | Fenêtre jumelée | Asāsīyūn · Marquer la proie | I (1) |
+| 120 | Sceau de poursuite | Asāsīyūn · Marquer la proie | III (3) |
+| 121 | Balle liée | Asāsīyūn · Balles liées | I (1) |
+| 122 | Trajectoire du Djinn | Asāsīyūn · Balles liées | II (2) |
+| 123 | Projectile d’ancrage | Asāsīyūn · Balles liées | II (2) |
+| 124 | Balle d’exil | Asāsīyūn · Balles liées | II (2) |
+| 125 | Contre-rite du témoin | Asāsīyūn · Marquer la proie | II (2) |
+| 126 | Dernier ancrage | Asāsīyūn · Marquer la proie | III (3) |
+| 127 | Lien du Shikigami | Onmyoji · Shikigami | Entrée (2) |
+| 128 | Résonance du Shikigami | Onmyoji · Shikigami | I (1) |
+| 129 | Invocation du Shikigami | Onmyoji · Shikigami | III (3) |
+| 130 | Porte-sceau | Onmyoji · Shikigami | I (1) |
+| 131 | Ancrage vivant | Onmyoji · Shikigami | III (3) |
+| 132 | Sceau d’Entrave | Onmyoji · Fūin | I (1) |
+| 133 | Sceau du Silence | Onmyoji · Fūin | II (2) |
+| 134 | Sceau de Fermeture | Onmyoji · Fūin | II (2) |
+| 135 | Sceau de Protection | Onmyoji · Fūin | II (2) |
+| 136 | Contre-sceau | Onmyoji · Fūin | II (2) |
+| 137 | Grand Scellement | Onmyoji · Fūin | III (3) |
+| 138 | Présence parasite | Onmyoji · Exorcisme et noms | I (1) |
+| 139 | Sceau du Nom | Onmyoji · Exorcisme et noms | II (2) |
+| 140 | Faire comparaître l’esprit | Onmyoji · Exorcisme et noms | II (2) |
+| 141 | Extraction par le Sceau | Onmyoji · Exorcisme et noms | III (3) |
+| 142 | Vase de Souillure | Onmyoji · Exorcisme et noms | III (3) |
+| 143 | Pacte de Faveur | Onmyoji · Pactes d’esprits | I (1) |
+| 144 | Sceau d’Affinité | Onmyoji · Pactes d’esprits | II (2) |
+| 145 | Souffle emprunté | Onmyoji · Pactes d’esprits | II (2) |
+| 146 | Manifestation prêtée | Onmyoji · Pactes d’esprits | III (3) |
+| 147 | Correspondance sacrée | Néopaïens · Pratiques | I (1) |
+| 148 | Syncrétisme opératif | Néopaïens · Pratiques | II (2) |
+| 149 | Mémoire du lieu | Néopaïens · Pratiques | II (2) |
+| 150 | Cercle des témoins | Néopaïens · Pratiques | II (2) |
+| 151 | Offrande de paix | Néopaïens · Pratiques | II (2) |
+| 152 | Veillée des morts | Néopaïens · Morts et Ancêtres | I (1) |
+| 153 | Guider le défunt | Néopaïens · Morts et Ancêtres | II (2) |
+| 154 | Appel des ancêtres | Néopaïens · Morts et Ancêtres | III (3) |
+| 155 | Terre troublée | Néopaïens · Terre et Chasse | I (1) |
+| 156 | Trace que rien n’efface | Néopaïens · Terre et Chasse | III (3) |
+| 157 | Cercle de chasse | Néopaïens · Terre et Chasse | III (3) |
+| 158 | Droit d’hospitalité | Néopaïens · Foyer et Seuils | I (1) |
+| 159 | Feu du foyer | Néopaïens · Foyer et Seuils | II (2) |
+| 160 | Maison fermée | Néopaïens · Foyer et Seuils | III (3) |
+| 161 | Augure | Néopaïens · Présages et Destin | I (1) |
+| 162 | Reconnaître l’heure | Néopaïens · Présages et Destin | II (2) |
+| 163 | Refuser le destin imposé | Néopaïens · Présages et Destin | III (3) |
+| 164 | Serment véritable | Néopaïens · Serments et Sacrifice | I (1) |
+| 165 | Prix consenti | Néopaïens · Serments et Sacrifice | II (2) |
+| 166 | Lier par le serment | Néopaïens · Serments et Sacrifice | III (3) |
+| 167 | Marque du Limier | Chasse Fantastique · Limiers | I (1) |
+| 168 | La vraie bête | Chasse Fantastique · Limiers | I (1) |
+| 169 | Écho du passage | Chasse Fantastique · Limiers | II (2) |
+| 170 | Forcer le passage | Chasse Fantastique · Limiers | II (2) |
+| 171 | Hallali | Chasse Fantastique · Limiers | III (3) |
+| 172 | Même selle, même destin | Chasse Fantastique · Chevauchée | I (1) |
+| 173 | Monture du seuil | Chasse Fantastique · Chevauchée | I (1) |
+| 174 | Prendre le vent | Chasse Fantastique · Chevauchée | II (2) |
+| 175 | Charge irréelle | Chasse Fantastique · Chevauchée | II (2) |
+| 176 | Chevauchée sauvage | Chasse Fantastique · Chevauchée | III (3) |
+| 177 | Flair de la Tempête | Chasse Fantastique · Tempête | I (1) |
+| 178 | Vent de rupture | Chasse Fantastique · Tempête | II (2) |
+| 179 | Courant dissipateur | Chasse Fantastique · Tempête | II (2) |
+| 180 | Foudre dispersante | Chasse Fantastique · Tempête | III (3) |
+| 181 | Vortex de la Chasse | Chasse Fantastique · Tempête | III (3) |
+| 182 | Cor de chasse | Chasse Fantastique · Vénerie | I (1) |
+| 183 | Relais des Limiers | Chasse Fantastique · Vénerie | I (1) |
+| 184 | Rabattre la proie | Chasse Fantastique · Vénerie | II (2) |
+| 185 | Battue volante | Chasse Fantastique · Vénerie | II (2) |
+| 186 | Grande Chasse | Chasse Fantastique · Vénerie | III (3) |
+| 187 | Écho de Menace | Lueurs · Visions des Menaces | I (1) |
+| 188 | Vision de Menace | Lueurs · Visions des Menaces | II (2) |
+| 189 | Fil de convergence | Lueurs · Visions des Menaces | II (2) |
+| 190 | Seuil de catastrophe | Lueurs · Visions des Menaces | II (2) |
+| 191 | Avenir sans intervention | Lueurs · Visions des Menaces | III (3) |
+| 192 | Toucher d’Absence | Lueurs · Purge du Néant | I (1) |
+| 193 | Purger la corruption | Lueurs · Purge du Néant | II (2) |
+| 194 | Défaire la chair faussée | Lueurs · Purge du Néant | II (2) |
+| 195 | Silence de la Marque | Lueurs · Purge du Néant | II (2) |
+| 196 | Puits d’Absence | Lueurs · Purge du Néant | III (3) |
+| 197 | Signature de Puissance | Lueurs · Extinction | I (1) |
+| 198 | Vide entre les gestes | Lueurs · Extinction | II (2) |
+| 199 | Fracture d’Extinction | Lueurs · Extinction | II (2) |
+| 200 | Interdit du Néant | Lueurs · Extinction | III (3) |
+| 201 | Chambre d’Extinction | Lueurs · Extinction | III (3) |
+| 202 | Avertissement impossible | Lueurs · Voix dans le Vide | I (1) |
+| 203 | La voix derrière le mensonge | Lueurs · Voix dans le Vide | II (2) |
+| 204 | Conseil inhumain | Lueurs · Voix dans le Vide | II (2) |
+| 205 | Contempler l’Absence | Lueurs · Voix dans le Vide | II (2) |
+| 206 | Dernière Lueur | Lueurs · Voix dans le Vide | III (3) |
+| 207 | Incompatibilité | Xenoshield · Détection | I (1) |
+| 208 | Résidu d’intrusion | Xenoshield · Détection | I (1) |
+| 209 | Faux humain | Xenoshield · Détection | II (2) |
+| 210 | Signature impossible | Xenoshield · Détection | II (2) |
+| 211 | Pont fantôme | Xenoshield · Détection | II (2) |
+| 212 | Point de rupture | Xenoshield · Xénobiologie | I (1) |
+| 213 | Blessure xénologique | Xenoshield · Xénobiologie | II (2) |
+| 214 | Agent incompatible | Xenoshield · Xénobiologie | II (2) |
+| 215 | Contamination croisée | Xenoshield · Xénobiologie | II (2) |
+| 216 | Effondrement adaptatif | Xenoshield · Xénobiologie | III (3) |
+| 217 | Interface hérétique | Xenoshield · Contre-technologie | I (1) |
+| 218 | Court-circuit de paradigme | Xenoshield · Contre-technologie | II (2) |
+| 219 | Fenêtre de brouillage | Xenoshield · Contre-technologie | II (2) |
+| 220 | Boucle de retour | Xenoshield · Contre-technologie | III (3) |
+| 221 | Rupture de système | Xenoshield · Contre-technologie | III (3) |
+| 222 | Marque d’interception | Xenoshield · Confinement | I (1) |
+| 223 | Accrocher le signal | Xenoshield · Confinement | II (2) |
+| 224 | Zone morte | Xenoshield · Confinement | III (3) |
+| 225 | Mettre à terre | Xenoshield · Confinement | II (2) |
+| 226 | Pas de récupération | Xenoshield · Confinement | III (3) |
+| 227 | Réflexe traumatique | Indépendants · Survivant | I (1) |
+| 228 | Refus de mourir | Indépendants · Survivant | II (2) |
+| 229 | Cicatrice révélatrice | Indépendants · Survivant | II (2) |
+| 230 | Retour du prédateur | Indépendants · Survivant | III (3) |
+| 231 | Signe de la maison | Indépendants · Tradition familiale | I (1) |
+| 232 | Rite de la maison | Indépendants · Tradition familiale | II (2) |
+| 233 | Arme héritée | Indépendants · Tradition familiale | II (2) |
+| 234 | Dernière leçon | Indépendants · Tradition familiale | III (3) |
+| 235 | Interface bâtarde | Indépendants · Bricoleur | I (1) |
+| 236 | Relais de propriété | Indépendants · Bricoleur | II (2) |
+| 237 | Surcharge impossible | Indépendants · Bricoleur | II (2) |
+| 238 | Prototype unique | Indépendants · Bricoleur | III (3) |
+| 239 | Odeur du semblable | Indépendants · Marqué | I (1) |
+| 240 | Résonance étrangère | Indépendants · Marqué | II (2) |
+| 241 | Retour par le lien | Indépendants · Marqué | II (2) |
+| 242 | Retourner la cicatrice | Indépendants · Marqué | III (3) |
+| 243 | Je te retrouverai | Indépendants · Obsession | I (1) |
+| 244 | Rien ne te remplacera | Indépendants · Obsession | I (1) |
+| 245 | Le chemin jusqu’à toi | Indépendants · Obsession | II (2) |
+| 246 | Pas cette fois | Indépendants · Obsession | II (2) |
+| 247 | Appel de l’arme | Table Ronde · Résonance de Merlin | I (1) |
+| 248 | Reconnaître l’héritage | Table Ronde · Résonance de Merlin | I (1) |
+| 249 | Mémoire du fer | Table Ronde · Résonance de Merlin | II (2) |
+| 250 | Lien indissociable | Table Ronde · Résonance de Merlin | II (2) |
+| 251 | Résonance parfaite | Table Ronde · Résonance de Merlin | III (3) |
+| 252 | Forme de Garde | Table Ronde · Formes de la Lame | I (1) |
+| 253 | Forme de Chasse | Table Ronde · Formes de la Lame | II (2) |
+| 254 | Forme d’Entrave | Table Ronde · Formes de la Lame | II (2) |
+| 255 | Forme de Rupture | Table Ronde · Formes de la Lame | III (3) |
+| 256 | Forme du Chevalier | Table Ronde · Formes de la Lame | III (3) |
+| 257 | Serment de Quête | Table Ronde · Héritage chevaleresque | I (1) |
+| 258 | Écho ancestral | Table Ronde · Héritage chevaleresque | II (2) |
+| 259 | Aucun enchantement ne détourne | Table Ronde · Héritage chevaleresque | II (2) |
+| 260 | Quête inachevée | Table Ronde · Héritage chevaleresque | III (3) |
+| 261 | Écho de la lignée | Table Ronde · Héritage chevaleresque | I (1) |
+| 262 | Les armes se reconnaissent | Table Ronde · La Table | I (1) |
+| 263 | Appel de la Table | Table Ronde · La Table | I (1) |
+| 264 | Résonance croisée | Table Ronde · La Table | II (2) |
+| 265 | Formes complémentaires | Table Ronde · La Table | III (3) |
+| 266 | Reformer la Table | Table Ronde · La Table | III (3) |
 
 ## 5. Questions pour l'auteur
 

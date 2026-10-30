@@ -5,7 +5,7 @@ Lot complet, appliqué par défaut. Tu relis par exception. Paliers I / II / III
 ## En bref
 
 - **Couches** : carte de Nature (gratuite) → Type de Mageius et Affinité dominante (gratuits) → **moteur de sorts** par Affinité (Maîtrise, Amplitude, éveil d'Affinités, Tension du Mageius, Revers) → **2 voies de talents**.
-- **30 entrées** (12 talents, 18 traits) → 1 carte de Nature, 6 paliers du moteur laissés tels quels, **2 voies** (5 talents répartis sur 4 paliers).
+- **30 entrées** (12 talents, 18 traits) → 1 carte de Nature, 6 paliers du moteur laissés tels quels, **2 voies** (6 talents répartis sur 4 paliers).
 - **Le moteur n'est pas touché.** Il est déjà en paliers 1 / 2 / 3 par Affinité (Maîtrise Affinée / Supérieure / Magistrale, Amplitude Significative / Majeure / Cataclysmique). La Tension du Mageius garde son nom.
 - **Ce qui change vraiment** : les 15 traits « Affinité dominante » identiques deviennent un seul trait ; les 6 talents communs entrent dans 2 voies, avec un ordre d'achat ; l'Œuvre personnelle se place au bout d'une voie qui commence par un sort reçu (question 1).
 - **Pas de Maîtrise de lignée** : le Mage n'a ni Sang ni lignée. Son Type de Mageius ne change jamais ; ouvrir d'autres Affinités relève du moteur (1 PTV, Accord 3 PTV, Traversée 2 PTV). Le mot « Maîtrise » garde son sens du moteur (finesse d'une Affinité).
