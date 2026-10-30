@@ -3,6 +3,7 @@ name: TUC Web V2 dev
 on:
   push:
     branches:
+      - main
       - feature/tuc-web-v2
     paths:
       - "apps/**"
