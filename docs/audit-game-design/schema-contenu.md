@@ -161,7 +161,7 @@ Ce sont les contrôles que l'API fait déjà (coûts, quotas, prérequis), lus d
 { "type": "nature", "slug": "vampire", "title": "Vampire",
   "fields": { "etats": { "V": "corps humain, aucun bonus", "SR": "…", "R": "…" },
               "choix_creation": ["cour", "sang_noir"],
-              "maitrise": "voie au palier III, ou les deux portes d'un Sang", "cout_eveil": 3 } }
+              "maitrise": "un Sang est maîtrisé après 4 PTV investis (règle de la carte Vampire)", "cout_eveil": 3 } }
 
 { "type": "couche", "slug": "vampire_sang_noir", "title": "Sang noir",
   "fields": { "gratuit": false, "choix": "unique_a_la_creation" } }
