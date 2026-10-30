@@ -1,5 +1,19 @@
 # Questions regroupées des lots (30/10)
 
+## Réponses de l'auteur (30/10)
+
+- **A1 ok** (le site fait foi). **A2 ok** (paliers doubles).
+- **A3 REFUSÉ** : les organisations de la Vérité **ne passent pas en Réalité, au contraire**. Annuler les sections « À transférer en Réalité » (Exilés) et « Organisation et logistique » (Extrals) : ces entrées restent en Vérité, en PTV.
+- **A4 nuancé** : des dons proches entre Natures sont admis tant que le doublon n'est pas massif (un ou deux, ça passe). Ne pas renommer ni réécrire d'office.
+- **B1, B2, B4, B6 ok.**
+- **B3 erreur de ma part** : la Saignée noire est propre aux **Lavandières** (chasseuses de Vampires), pas aux Humains en général. À reformuler avant décision.
+- **B5 refusé** : Réflexe impossible marche même Surpris, c'est son principe.
+- **B7 à vérifier en détail** (Faveurs Daemon « +3 »).
+- **C globalement ok.**
+- **HDS** : le sigle n'a rien à voir avec les Garous (c'est la Hologram Distorsion Skill des Silcenters / de l'Union Elfique). Erreur du lot Garou à corriger.
+- **Remarque de l'auteur** : il doute que le corpus ait été lu et compris. Consigne : le lire en détail, l'assimiler, poser des questions.
+
+
 Chaque question a une recommandation. **Par défaut, la recommandation s'applique.** L'auteur répond « ok » ou cite les numéros qu'il refuse. Le détail (options, exemples) est dans la section « Questions » de chaque lot.
 
 ## A. Décisions transversales
