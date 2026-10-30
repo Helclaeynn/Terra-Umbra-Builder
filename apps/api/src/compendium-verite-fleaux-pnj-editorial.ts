@@ -57,7 +57,7 @@ const DECISIONS: Record<string, Decision> = {
 function clean(text: string): string {
   return text
     .replace(/￾/g, "-")
-    .replace(/\bNeeba  voue\b/g, "Neeba voue")
+    .replace(/\bNeeba {2}voue\b/g, "Neeba voue")
     .replace(/qu’au moins elle ne pardonne aux vampires/g, "qu’au moins elle pardonne aux vampires")
     .replace(/\bse perds\b/g, "se perd")
     .replace(/\bses années entre 2020 et 2035\b/g, "ces années entre 2020 et 2035")
