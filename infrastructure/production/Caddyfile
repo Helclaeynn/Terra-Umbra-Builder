@@ -1,4 +1,11 @@
+{
+  servers {
+    protocols h1 h2
+  }
+}
+
 terra-umbra.fr {
+  header >Alt-Svc "clear"
   encode zstd gzip
   header {
     Strict-Transport-Security "max-age=86400"
@@ -16,5 +23,6 @@ terra-umbra.fr {
 }
 
 www.terra-umbra.fr, dev.terra-umbra.fr {
+  header >Alt-Svc "clear"
   redir https://terra-umbra.fr{uri} 308
 }

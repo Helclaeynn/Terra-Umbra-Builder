@@ -1,0 +1,10 @@
+[Unit]
+Description=Terra Umbra : sauvegarde quotidienne (base, médias, restauration témoin)
+After=docker.service
+Requires=docker.service
+
+[Service]
+Type=oneshot
+User=debian
+Group=debian
+ExecStart=/bin/bash -c '/opt/terra-umbra/infrastructure/backup/daily-backup.sh >> /opt/terra-umbra/private-backups/daily.log 2>&1'
