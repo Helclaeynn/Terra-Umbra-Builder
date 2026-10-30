@@ -531,7 +531,7 @@ Une Faveur change la manière d'utiliser la puissance du Dieu (information, timi
 
 ## Corrections signalées
 
-- Moloch et Seere (Belial) sont publiés sans Faveur jouable (« pas de Maisonnée standard », « Faveur réservée ») : absents des traits, laissés hors carte jusqu'à ce que tu les fixes.
+- Moloch et Seere (Belial) sont publiés sans Faveur jouable (« pas de Maisonnée standard », « Faveur réservée ») : absents des traits, laissés hors carte jusqu'à ce que tu les fixes. *31/10* : Moloch reste sans Maisonnée standard, c'est voulu ; Seere, voir lot 15, question 2.
 - Abigor, Belzébuth et Lucifer n'ont que deux Maisonnées chacun ; Morrighan en a six. Signalé, rien ajouté.
 - Sytry « physiologie féminine » : restriction arbitraire mécaniquement et risquée à la lecture ; viser « un désir retenu » suffirait. Lore de la Maisonnée : à toi de trancher.
 - Écarts site / livre V6 / catalogue : Anéantissement (2 / 3 / 3 PA), Typhon (3 / 4 PA), Déluge (2 / 3 PA), Dernière destination (1/scène sur le site, 1/scénario au catalogue). Le lot garde le site.

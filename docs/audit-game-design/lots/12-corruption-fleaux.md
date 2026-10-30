@@ -90,7 +90,7 @@ Quand Corruption = Intégrité : Volonté + Maîtrise spirituelle + 1d10e contre
 - **Réussite** : tu tiens, mais tu restes au maximum. Toute nouvelle exposition qui t'ajouterait au moins 1 point déclenche un nouveau test.
 - **Échec** : **Rupture**. Le personnage sort du cadre PJ. La forme dépend du Fléau, de la Nature, du culte, des Dons et de la dernière exposition. Les formes sont décrites au Bestiaire.
 
-*Exception* : les sangs oshirique et d'Ivoire sont des Ruptures propres au Vampire, jouables au prix de la Corruption (décision 14). Leur texte est à écrire avec le Vampire, pas ici.
+*Exception* : les sangs oshirique et d'Ivoire sont des Ruptures propres au Vampire, jouables au prix de la Corruption (décision 14). Leurs cartes sont dans le lot 15 (section 2).
 
 ### Purification
 
@@ -121,7 +121,7 @@ Chaque Source a un Don « au seuil de Mort », une fois par scénario. Quelques 
 **VHODHAL · SOURCE** — *Dévorer. « Tout peut devenir nourriture. »*
 
 - **Vecteur** : surtout physique (Vigueur + Constitution) ; Volonté + Force Mentale contre une atteinte spirituelle.
-- **Impulsion (Envahi)** : après une privation, un usage prolongé ou une scène où la faim compte, le MJ peut demander Volonté + Maîtrise spirituelle contre 15. En échec, au moins 1 PA de ta prochaine activation sert à chercher, saisir ou manger une nourriture plausible. On ne vise pas un allié s'il existe une autre option réelle.
+- **Impulsion (Envahi), appelée Crise Blanche** : après une privation, un usage prolongé ou une scène où la faim compte, le MJ peut demander Volonté + Maîtrise spirituelle contre 15. En échec, au moins 1 PA de ta prochaine activation sert à chercher, saisir ou manger une nourriture plausible. On ne vise pas un allié s'il existe une autre option réelle.
 - **Ruptures (Bestiaire)** : Wendigo (beaucoup d'Humains), Bête Faramine (Garous), Sang d'Ivoire (Vampires, voir décision 14), Noctiel (Angelus), Cyclope ou Egam (certains Mageius).
 - **Catalogue** : Famine Blanche, 11 Dons, 25 PTV ; Loge d'Écume, 15 talents, 31 PTV.
 
@@ -509,7 +509,7 @@ Entrée : Bellatheis, où l'esprit de Sharith est recomposé. Le culte a un hér
 
 #### Culte — la Nucléomancie
 
-Entrée : les nucléomanciens. Les Rites [Irradiant] ajoutent leur **Retour fissile** au praticien, en plus de la Souillure, qui est **physique** (Vigueur + Constitution).
+Entrée : les nucléomanciens. Les Rites [Irradiant] infligent aussi un **Retour fissile** au praticien : 2 PV irréductibles, 1 PV s'il est Envahi par Sharith, 0 s'il est Au bord (livre V6). Il s'ajoute à la Souillure, qui est **physique** (Vigueur + Constitution) et n'est jamais supprimée.
 
 ##### La fission — collection à une porte
 *Lire la matière par le rayonnement, puis la défaire.*
@@ -523,7 +523,7 @@ Entrée : les nucléomanciens. Les Rites [Irradiant] ajoutent leur **Retour fiss
 - **III (3 PTV) · Irradiation chaotique** (RITE, R, 2 PA, 1/scène, [Irradiant], Souillure 21) : zone de quelques mètres. Chaque créature biologique fait Vigueur + Constitution contre ta Volonté + Maîtrise spirituelle ; en échec, 4 PV radiologiques surnaturels. Seule une Armure adaptée aux radiations protège.
 - **III (3 PTV) · Faisceau de fracture** (RITE, R, 2 PA, 1/scène, [Irradiant], Souillure 21) : attaque de Tir surnaturelle, DGT 12, portée 80 m. Sur une marge d'Altération, une destruction matérielle ou une irradiation cohérente.
 
-**Changements** : aucun. Le Retour fissile du praticien n'est chiffré nulle part (signalé en section 6).
+**Changements** : Retour fissile chiffré d'après le livre V6 (correction du 31/10 : je l'avais dit absent).
 
 ---
 
@@ -857,8 +857,8 @@ Aucune autre question : le reste est tranché par la charte (A4, létalité, dé
 
 ## 6. Problèmes de source (pour information)
 
-- **Retour fissile** (Nucléomancie) : cité par les Rites [Irradiant] comme un contrecoup pour le praticien. Le Bestiaire V17 ne le chiffre que pour l'Abomination fissile, comme une exposition de sa cible. Le contrecoup du praticien reste à écrire.
-- **Crise Blanche** (Contenir la Faim) : nommée, sans définition ni au chapitre Vhodhal ni au livre V6. On peut la lire comme l'échec à l'Impulsion de faim (1 PA consacré à la faim), ce qui colle au texte ; à confirmer au prochain export.
+- ~~Retour fissile~~ : chiffré dans le livre V6 (2 / 1 / 0 PV) ; corrigé le 31/10.
+- ~~Crise Blanche~~ : définie le 31/10 comme l'échec à l'Impulsion de Vhodhal (lot 15).
 - **Patrons de Thul hors registre** (R'Sheraag, Pestiria, Olla) : cités au livre, sans Faveurs propres au registre. Ils passent par le Sombre Culte commun.
 - **Sangs oshirique et d'Ivoire** (décision 14) : ils manquent au lot Vampire. Il faut les y écrire comme Ruptures jouables.
 - **Rapport 09** : ses propositions B1 à B5 (Céder, Souillure fixe, Ancres, mots-clés communs, plafond de 8 à 10 talents par culte, sortie des « Projets de culte ») ne sont **pas appliquées**. Elles changeaient le moteur ou supprimaient des pouvoirs, et l'auteur ne les a pas validées.

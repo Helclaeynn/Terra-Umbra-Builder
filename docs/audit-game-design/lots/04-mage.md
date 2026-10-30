@@ -106,9 +106,9 @@ Deux voies, ouvertes à tout Mage quel que soit son Type.
 
 ## Corrections signalées (moteur, hors lot, non modifiées)
 
-- « Canalisation : action universelle décrite au §8 » : la numérotation n'existe plus. Renvoi à corriger vers « Canalisation / Concentration ».
-- « Techniques » : citées une quinzaine de fois (portée hors vue, permanence, cohortes…) sans aucune liste. Référence morte.
-- État SR : « Accès magique : Vision, Perception, Protection » et « Amplitude maximale : Mineure » se contredisent. On ne sait pas si un Mage lance un sort en SR. Les talents SR/R laissent penser que oui.
+- ~~« §8 »~~ : renvoi réparé le 31/10 vers « Canalisation, maintien et sorts longs » (+1 PA = difficulté −1 niveau, minimum 12 ; ni Défense ni Tension réduites).
+- « Techniques » : citées une quinzaine de fois sans liste. Définition proposée au lot 15 (question 1).
+- ~~État SR~~ : tranché par la passation (Mage §17) le 31/10 : en SR, un Mage lance des sorts jusqu'à l'Amplitude Mineure ; la liste « Vision, Perception, Protection » donne les traits actifs.
 - Roue : l'ordre Discella (Skiamancie, Pseudomancie, Pathomancie) ne suit pas l'ordre des sections ; la première Affinité native de chaque Type s'affiche en ligne, les deux autres en liste.
 
 ## Questions pour toi
