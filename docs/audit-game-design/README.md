@@ -27,7 +27,7 @@ Une copie HTML de chaque page est dans `pages/`. Les fichiers `*-source.html` so
 1. **Rédaction sur deux niveaux** : un texte joueur court (carte), et un texte de référence pour le MJ et le moteur du site.
 2. **Edge** : il revient sous contrôle du MJ quand le personnage accomplit un objectif personnel (2 objectifs, court et long terme : +1 ou +2 Edge) ou joue un de ses 1 à 2 principes à ses dépens (+1, une fois par séance). Plafond 8.
 3. **Tension du Voile = cœur du jeu.** Règle de l'auteur, présente sur ses fiches papier mais **absente du site V2 et du compendium** : se Révéler devant des témoins non avertis charge la jauge ; trop haute, le Voile défaille au pire moment (semi-révélation involontaire, méfiance) jusqu'à envoyer le personnage dans l'Ombremonde ; bien tenue (discrétion, élimination des menaces pour le Voile), le Voile peut défaillir en faveur du personnage (ennemi Voilé trahi une fraction de seconde, image de caméra détournée). Pas de texte complet chez l'auteur : voir la proposition `relation-au-voile.md`.
-4. **La Corruption vient des Fléaux**, pas d'une recherche de puissance. Ne pas la présenter comme une tentation de pouvoir.
+4. **La Corruption vient des Fléaux.** Précision de l'auteur (30/10) : c'est bien une tentation de pouvoir *facile* — des Dons séduisants, pas une ambition politique — et en même temps la logique du Fléau qui contamine la pensée du porteur (la « Tentation » de chaque Fléau dans le livre V6).
 5. **Talents de Vérité en voies à paliers**, propres à chaque Nature. Paliers I / II / III = 1 / 2 / 3 PTV.
    - Approche **hybride** proposée par l'auteur : voies en *progression* (un pouvoir qui grandit), en *collection à une porte* (talents distincts, entrée obligatoire) ou en *collection à deux portes*.
    - **Deux portes : exclusives jusqu'à la maîtrise** — la seconde porte s'ouvre quand la première a ses deux paliers (validé).
@@ -35,6 +35,9 @@ Une copie HTML de chaque page est dans `pages/`. Les fichiers `*-source.html` so
 6. **REFUS des « gestes » / mécaniques communes entre Natures.** L'auteur trouve que ça tue la saveur de la Vérité. Ne jamais proposer de mutualiser des pouvoirs entre Natures. Quand deux pouvoirs se ressemblent, les différencier par un **ressort propre à chaque Nature** (condition, coût ou conséquence).
 7. **Pas de Faim pour le Vampire** (option A, 29/10) : sous le Voile, le Vampire en tant qu'humain n'a pas besoin de se nourrir.
 8. **Relation au Voile** (nom retenu, remplace « Tension du Voile ») : il n'existe **aucun texte complet** ; seul le principe ci-dessus. Une proposition rédigée est dans `relation-au-voile.md` (v4, validée — jauge de +3 à −4, effets selon le niveau sans dépense, ajustement par le MJ en fin de partie selon la gravité, sans marques ni poids par pouvoir ; jauge individuelle ; Chasseurs sans jauge).
+10. **Garou et autres descendants de Khinae partagent les Sangs vifs** (même origine) : exception voulue à la règle « pas de mécanique commune ». Les entrées Khinae #21–68 identiques aux Garou sont ces Sangs communs, pas une copie fautive.
+11. **Sangs noirs du Vampire = voies à deux portes** (les deux branches de chaque Sang du livre V6), comme décidé à l'origine. La version « progression » qui fusionnait les branches est abandonnée.
+12. **Empreinte Krovni : texte d'origine** (+3 Défense passive et active contre le physique tant qu'il n'est pas Surpris).
 9. **Le combat doit être létal** (29/10) : Défense passive presque toujours battue = voulu. Le combat s'évite si possible. Ne pas proposer de rendre les personnages plus résistants ; se méfier des bonus défensifs permanents.
 
 ## Méthode de travail souhaitée par l'auteur

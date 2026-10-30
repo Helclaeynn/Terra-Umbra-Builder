@@ -10,7 +10,7 @@ Rédigée le 29 octobre 2026 à partir du principe donné par l'auteur (aucun te
 
 Jauge **individuelle** (décision de l'auteur) de **+3 à −4**, départ à 0, pour chaque personnage de Vérité.
 
-**Humains conscients et Chasseurs** : pas de jauge, ils n'ont rien à Révéler. Quand l'un d'eux neutralise une menace pour le Voile au profit d'un allié de Vérité, c'est la jauge de cet allié qui en profite (validé par l'auteur).
+**Humains conscients et Chasseurs humains** : pas de jauge, ils n'ont rien à Révéler. Un Chasseur d'une autre Nature (ex. une Lavandière, Vampire) garde la jauge de sa Nature (validé 30/10). Quand l'un d'eux neutralise une menace pour le Voile au profit d'un allié de Vérité, c'est la jauge de cet allié qui en profite (validé par l'auteur).
 
 | Valeur | Relation au Voile |
 |---|---|
