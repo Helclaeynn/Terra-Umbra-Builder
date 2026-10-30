@@ -210,7 +210,7 @@ SR +1 Esprit, +1 Volonté · R +2 Esprit, +1 Volonté.
 *Reprend : Lecture occulte, Contre-forme, Silence magique.*
 - **I (1 PTV) · Lecture occulte** (SR/R, 1 PA, 1 Aura) : identifier la famille d'un phénomène magique visible (illusion, transformation, invocation, malédiction…).
 - **II (2 PTV) · Contre-forme** (SR/R, Réaction, 2 Aura) : un effet magique te cible directement : +3 à la Défense. Réussite : tu comprends son mécanisme général.
-- **III (3 PTV) · Silence magique** (SR/R, Réaction, 3 Aura, 1/scène) : un effet explicitement magique (Mageius, rituel, pouvoir dit magique) est lancé à portée de perception : Volonté + Maîtrise spirituelle contre son résultat. Victoire : annulé avant résolution.
+- **III (3 PTV) · Silence magique** (SR/R, Réaction, 3 Aura, 1/scène) : un effet explicitement magique (Mageius, rituel, pouvoir dit magique) qui te vise ou vise un allié à 10 m : Volonté + Maîtrise spirituelle contre son résultat. Victoire : annulé avant résolution.
 
 **Changements** : aucun (voir question 4).
 
@@ -285,7 +285,7 @@ SR +1 Vigueur, +1 Volonté · R +2 Vigueur, +1 Volonté.
 **Gueburah · Justice — collection à une porte** · *rendre coup pour coup*
 *Reprend : Rétribution, Proportion, Sentence de force.*
 - **I (1 PTV) · Rétribution** (SR/R, Réaction, 1 Aura) : une cible visible blesse volontairement un allié : ta première action contre elle avant la fin du prochain round gagne +3.
-- **II (2 PTV) · Proportion** (SR/R) : quand tu mets hors combat un agresseur identifié par une attaque que tu contrôles, tu peux le laisser à 0 PV, Stabilisé. Sans PA ni Aura.
+- **I b (1 PTV) · Proportion** (SR/R) : quand tu mets hors combat un agresseur identifié par une attaque que tu contrôles, tu peux le laisser à 0 PV, Stabilisé. Sans PA ni Aura.
 - **III (3 PTV) · Sentence de force** (R, 2 PA, 3 Aura, 1/scène) : attaque occulte DGT 12 contre une cible dont la responsabilité dans une violence grave est établie. Sinon, aucun effet.
 
 **Changements** : note « coût proposé : 1 PTV au lieu de 2 » retirée ; coût d'origine 2 gardé (question 3). « Établie » : même précision que Justice véritable.
@@ -320,7 +320,7 @@ SR +1 Charisme, +1 Volonté · R +2 Charisme, +1 Volonté.
 
 **Tiph'Ereth · Sacrifice — progression** · *payer de soi*
 *Reprend : Offrande, Don de soi, Sacrifice lumineux.*
-- **I (1 PTV) · Offrande** (SR/R) : une fois par round, sans PA, perds 1 PV irréductible : +2 Aura (sans dépasser le maximum). Ce PV ne revient pas avant la fin de la scène.
+- **I (1 PTV) · Offrande** (SR/R) : une fois par scène, sans PA, perds 1 PV irréductible : +2 Aura (sans dépasser le maximum). Ce PV ne revient pas avant la fin de la scène.
 - **II (2 PTV) · Don de soi** (SR/R, Réaction, 1 PA, 1 Aura, 10 m) : prends jusqu'à 5 des dégâts finaux d'un allié perçu. Irréductibles pour toi ; pas de seconde redirection.
 - **III (3 PTV) · Sacrifice lumineux** (R, Réaction, 1/scénario) : un allié visible devrait mourir : tu vides ton Aura et perds 5 PV irréductibles ; il reste à 0 PV, Agonisant. Tu peux payer même si cela te tue.
 
@@ -349,7 +349,7 @@ SR +1 Charisme, +1 Agilité · R +2 Charisme, +1 Agilité.
 **Nesah · Sexualité — collection à une porte** · *l'intimité*
 *Reprend : Compréhension du désir, Extase apaisante, Union de Nesah.*
 - **I (1 PTV) · Compréhension du désir** (V/SR/R) : le Détachement n'augmente plus la difficulté pour comprendre désir, attirance et intimité ; +3 pour interpréter ces motivations. Ne crée ni désir ni consentement.
-- **II (2 PTV) · Extase apaisante** (V/SR/R) : après une intimité réellement consentie et assez longue, la cible sort de Tendu, ou récupère 2 Aura si elle est Angelus. Une fois par scène par cible ; jamais en combat.
+- **I b (1 PTV) · Extase apaisante** (V/SR/R) : après une intimité réellement consentie et assez longue, la cible sort de Tendu, ou récupère 2 Aura si elle est Angelus. Une fois par scène par cible ; jamais en combat.
 - **III (3 PTV) · Union de Nesah** (V/SR/R) : après une vraie intimité consentie, chacun des deux partenaires peut, pendant la prochaine scène, relancer un échec non narratif à un test qui protège directement l'autre. Un lien à la fois.
 
 **Changements** : note « le coût passe de 2 à 1 PTV » retirée ; coût d'origine 2 gardé (question 3). Comparaison avec Sensibilité mortelle coupée.
@@ -390,7 +390,7 @@ SR +1 Esprit, +1 Charisme · R +2 Esprit, +1 Charisme.
 *Reprend : Visiteur de songes, Songe dirigé, Prison onirique.*
 - **I (1 PTV) · Visiteur de songes** (SR/R) : pendant ton sommeil ou une longue méditation, tu rejoins le rêve d'une personne endormie et consentante à 10 m. Tu peux dialoguer, sans forcer ses souvenirs.
 - **II (2 PTV) · Songe dirigé** (SR/R, 2 Aura) : tu glisses un message, une image ou un scénario dans le rêve d'une cible endormie (Défense occulte si elle résiste).
-- **III (3 PTV) · Prison onirique** (SR/R, 1 PA, 2 Aura, 1/scène, 20 m) : opposition occulte contre une cible déjà endormie : elle reste enfermée dans son rêve pour la scène. Un événement extérieur violent lui donne une nouvelle résistance. N'endort personne.
+- **II b (2 PTV) · Prison onirique** (SR/R, 1 PA, 2 Aura, 1/scène, 20 m) : opposition occulte contre une cible déjà endormie : elle reste enfermée dans son rêve pour la scène. Un événement extérieur violent lui donne une nouvelle résistance. N'endort personne.
 
 **Changements** : texte du site gardé (1 PA, 2 Aura, 1/scène, 20 m) ; ses notes de révision sont retirées. Le coût PTV proposé par le site (2 au lieu de 3) n'est pas appliqué (question 3).
 
@@ -602,17 +602,17 @@ Offrande rend 2 Aura chaque round pour 1 PV, sans PA ; Ouvrir l'Auréole coûte 
 - A : garder (appliqué).
 - B : Offrande une fois par scène, toujours sans PA.
 - C : Offrande coûte 1 PA (elle ne sert plus que si l'Auréole est coupée).
-Recommandation : **B**. Exemple : une Vertu à 1 Aura, au round 2, paie 1 PV et relance Châtiment capital ; elle ne peut pas recommencer à chaque round.
+**Tranché par l'auteur (30/10, B4) : B**, appliqué.
 
 **3. Baisses de coût PTV annoncées par le site**
 Les notes du site annoncent Proportion 2 → 1, Extase apaisante 2 → 1 et Prison onirique 3 → 2 PTV, sans que les coûts publiés l'indiquent.
 - A : garder les coûts du livre, qui tombent sur I / II / III (appliqué).
 - B : appliquer les baisses ; il faudrait alors deux talents au palier I et un palier vide.
-Recommandation : **A**. Seul cas gênant : Proportion (2 PTV) fait moins qu'Épargner (1 PTV, Hesed), mais un Angelus n'a qu'un Sephira et ne compare jamais les deux.
+**Tranché par l'auteur (30/10, A1) : B**, le site fait foi. Baisses appliquées avec des paliers doubles (A2) : Proportion I b, Extase apaisante I b, Prison onirique II b.
 
 **4. Deux pouvoirs offensifs très forts**
 Écrasement : attaque DGT 9 contre Défense occulte, répétable, pour 1 PA et 2 Aura (la Lame coûte des PV). Silence magique : annule un sort lancé n'importe où à portée de perception.
 - A : garder les deux (appliqué ; système létal voulu).
 - B : Silence magique limité aux effets qui visent toi ou un allié à 10 m ; Écrasement inchangé.
 - C : B, et Écrasement à DGT 7.
-Recommandation : **B**. Exemple : un Mage qui lance une illusion sur un passant à 40 m n'est plus contré ; celui qui vise ton allié l'est.
+**Tranché par l'auteur (30/10, B4) : B**, appliqué ; Écrasement inchangé.

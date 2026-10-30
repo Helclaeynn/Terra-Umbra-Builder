@@ -68,7 +68,9 @@ Une copie HTML de chaque page est dans `pages/`. Les fichiers `*-source.html` so
   4. ~~Paliers à créer~~ → appliqué en lot.
   5. ~~Poids de Relation au Voile par palier~~ → abandonné : le MJ juge la gravité, pas le pouvoir.
   6. ~~Ressorts propres entre pouvoirs proches~~ → appliqués en lot.
-- **Lots parallèles du 30/10 terminés** (`lots/`) : Garou, Khinae, Humains/Chasseurs, Mage, Daemon, Angelus, Aseryn, Exilés, Extrals. Questions regroupées dans `lots/10-questions-regroupees.md` (recommandations appliquées par défaut). Restent : Corruption/Fléaux, Objets de Vérité, Réalité (méthode à adapter), Sangs vifs Khinae.
+- **Lots parallèles du 30/10 terminés** (`lots/`) : Garou, Khinae, Humains/Chasseurs, Mage, Daemon, Angelus, Aseryn, Exilés, Extrals. Questions regroupées dans `lots/10-questions-regroupees.md` (recommandations appliquées par défaut). Restent : Corruption/Fléaux, Objets de Vérité, Réalité (méthode à adapter).
+- **Corrections des lots après lecture du corpus et de la passation (30/10, faites)** : Sangs vifs partagés Garou/Khinae (plus de réécriture à prévoir) ; B1, B2, B4, B6 et A1 appliqués ; A3 refusé → organisations des Exilés (25 voies) et des Extrals (16 voies) rétablies en PTV ; Chasseurs (Nature, accès à la création, Saignée noire, Sceau du Silence) ; HDS rétablie ; homonymes gardés ; Rémanence nocturne, Fureur de la Corneille et Mange-lumière rétablis ; B5 (Réflexe impossible) gardé ; B7 vérifié Faveur par Faveur (cinq réécrites). Détail dans `lots/10-questions-regroupees.md`.
+- **Passation générale du 30/10** : lue en entier (synthèse et annexes A à K) ; notes dans `notes-lecture.md`. Le document lui-même n'est pas versé au dépôt (secrets MJ).
 - (historique) Prochaine étape convenue : les Humains et Chasseurs (266 talents, 14 traditions) avec la même méthode hybride, sans mécaniques communes entre traditions. Le rapport `rapports/03-humains-chasseurs.md` contient l'analyse détaillée.
 - **Décisions de l'audit encore ouvertes** : ~~combat~~ (létalité voulue), procédures légères hors combat (contrats, enquête, contacts, factions), rythme de progression (XP/PTV par séance, jalons), place du personnage profane.
 
