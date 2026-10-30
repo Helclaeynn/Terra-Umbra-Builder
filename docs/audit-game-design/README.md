@@ -58,7 +58,8 @@ Une copie HTML de chaque page est dans `pages/`. Les fichiers `*-source.html` so
   4. ~~Paliers à créer~~ → appliqué en lot.
   5. ~~Poids de Relation au Voile par palier~~ → abandonné : le MJ juge la gravité, pas le pouvoir.
   6. ~~Ressorts propres entre pouvoirs proches~~ → appliqués en lot.
-- **Prochaine étape convenue : les Humains et Chasseurs** (266 talents, 14 traditions) avec la même méthode hybride, sans mécaniques communes entre traditions. Le rapport `rapports/03-humains-chasseurs.md` contient l'analyse détaillée.
+- **Lots parallèles du 30/10 terminés** (`lots/`) : Garou, Khinae, Humains/Chasseurs, Mage, Daemon, Angelus, Aseryn, Exilés, Extrals. Questions regroupées dans `lots/10-questions-regroupees.md` (recommandations appliquées par défaut). Restent : Corruption/Fléaux, Objets de Vérité, Réalité (méthode à adapter), Sangs vifs Khinae.
+- (historique) Prochaine étape convenue : les Humains et Chasseurs (266 talents, 14 traditions) avec la même méthode hybride, sans mécaniques communes entre traditions. Le rapport `rapports/03-humains-chasseurs.md` contient l'analyse détaillée.
 - **Décisions de l'audit encore ouvertes** : ~~combat~~ (létalité voulue), procédures légères hors combat (contrats, enquête, contacts, factions), rythme de progression (XP/PTV par séance, jalons), place du personnage profane.
 
 ## Repères techniques utiles
