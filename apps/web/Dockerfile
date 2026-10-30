@@ -5,25 +5,9 @@ RUN npm ci
 COPY apps/web/src ./src
 COPY apps/web/public ./public
 COPY apps/web/index.html apps/web/vite.config.ts apps/web/tsconfig*.json ./
-COPY apps/api/src/rules/economy-model.ts apps/api/src/rules/character-derived-stats.ts apps/api/src/rules/reality-talents-policy.ts apps/api/src/rules/renown-rules.ts /app/apps/api/src/rules/
-COPY apps/api/src/rules/reality-talents-summaries.ts apps/api/src/rules/reality-conditional-bonuses.ts /app/apps/api/src/rules/
-COPY apps/api/src/campaign-preparation.ts /app/apps/api/src/campaign-preparation.ts
-COPY apps/api/src/campaign-npc-model.ts apps/api/src/npc-tiers.ts apps/api/src/npc-rules.ts apps/api/src/npc-identities.ts apps/api/src/npc-truth-generator.ts apps/api/src/npc-truth-tiers.ts apps/api/src/npc-truth-generic-talents.ts /app/apps/api/src/
-COPY apps/api/src/campaign-bestiary-model.ts apps/api/src/campaign-bestiary-weapons.ts /app/apps/api/src/
-COPY apps/api/src/character-appearances.ts /app/apps/api/src/character-appearances.ts
-COPY apps/api/src/rules/builder-equipment-policy.ts /app/apps/api/src/rules/builder-equipment-policy.ts
-COPY apps/api/src/rules/equipment-armor.ts /app/apps/api/src/rules/equipment-armor.ts
-# Shared pure definitions are consumed by the Vue forms and their type checks.
-COPY apps/api/src/rules/truth/mage-techniques.ts /app/apps/api/src/rules/truth/mage-techniques.ts
-COPY apps/api/src/rules/truth/daemon-build.ts /app/apps/api/src/rules/truth/daemon-build.ts
-COPY apps/api/src/rules/truth/angelus-build.ts /app/apps/api/src/rules/truth/angelus-build.ts
-COPY apps/api/src/rules/truth/extral-build.ts /app/apps/api/src/rules/truth/extral-build.ts
-COPY apps/api/src/rules/truth/exile-build.ts /app/apps/api/src/rules/truth/exile-build.ts
-COPY apps/api/src/rules/truth/vampire-build.ts /app/apps/api/src/rules/truth/vampire-build.ts
-COPY apps/api/src/rules/truth/hunter-build.ts /app/apps/api/src/rules/truth/hunter-build.ts
-COPY apps/api/src/rules/play-state.ts apps/api/src/rules/play-bonuses.ts /app/apps/api/src/rules/
-COPY apps/api/src/rules/terra-umbra-creation.ts apps/api/src/rules/terra-umbra-creation-base.ts apps/api/src/rules/terra-umbra-creation-lore.ts apps/api/src/rules/terra-umbra-creation-lore-base.ts apps/api/src/rules/reality-talents-revision.ts /app/apps/api/src/rules/
-COPY apps/api/src/rules/truth/revelation.ts /app/apps/api/src/rules/truth/revelation.ts
+# Les formulaires Vue réutilisent les règles pures de l API : on copie tout son code source
+# (une liste fichier par fichier se désynchronisait à chaque nouveau module).
+COPY apps/api/src /app/apps/api/src
 RUN npm run build
 
 FROM nginx:1.29-alpine
