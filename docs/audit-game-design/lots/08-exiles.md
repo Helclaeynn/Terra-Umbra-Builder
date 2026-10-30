@@ -7,8 +7,8 @@ Lot du 29 octobre 2026. Appliqué par défaut, veto de l'auteur possible. Source
 ## 1. En bref
 
 - **Architecture** : une carte de Nature (le peuple, fixé à la création : Elyë, Whurten, Ashyll, Thulkar ou Azménorien), puis les **voies de peuple** (2 ou 3 par peuple), puis les **traditions de Vérité** apprises (Silcenters, Croix d'Emphyrra, Runes, Technomagie).
-- **Chiffres** : 184 entrées et 8 traits aujourd'hui. Résultat : 1 carte de Nature et 26 voies, qui reprennent 102 entrées. Les 82 autres entrées sont profanes et vont dans la section « À transférer en Réalité ».
-- **Ce qui change vraiment** : les PTV ne paient plus que la Vérité, c'est-à-dire la physiologie des peuples et les traditions qui touchent au Voile, aux Ombres, à la magie et à la technomagie. Les réseaux, les Hordes et les savoir-faire d'atelier passent en Réalité (question 1).
+- **Chiffres** : 184 entrées et 8 traits aujourd'hui. Résultat : 1 carte de Nature et 51 voies : 26 voies de peuple et de tradition magique (102 entrées), plus 25 voies de doctrine, d'atelier et de réseau (82 entrées, section 3.3).
+- **Ce qui change vraiment** : la lecture en voies. Les réseaux, les Hordes et les savoir-faire d'atelier **restent en PTV** (décision A3) : ce sont des doctrines et des réseaux de Vérité.
 - **Autres changements** : il ne reste que trois fréquences d'usage (1/round, 1/scène, 1/scénario). Le bloc des Runes, recopié six fois, devient une règle commune. Les notes de développement sont retirées.
 - **Aucun pouvoir supprimé, aucun coût baissé.** Les talents restent à leur coût d'origine. Quand deux talents ont le même coût dans une voie, ils occupent le même palier, l'un après l'autre.
 
@@ -103,11 +103,11 @@ Chaque peuple n'ouvre que ses propres voies.
 - **I (1 PTV) · Endurance obstinée** (V/SR/R) : +3 pour résister à la fatigue, au manque de sommeil, à la marche forcée, au froid et à l'effort prolongé. Ne protège pas d'un effet surnaturel ciblé.
 - **I b (1 PTV) · Masse enracinée** (SR/R) : +3 pour résister à une projection, un renversement, un recul ou un déplacement forcé physique. Ne protège pas d'une téléportation.
 - **II (2 PTV) · Insensible à la peine** (SR/R, 1 PA, 1/scène) : jusqu'à la fin de la scène, tu ignores les malus de dés du Stress dus aux seules blessures et à la douleur. Les PV, l'Agonie et les fonctions détruites ne changent pas. Ne se cumule pas avec Insensibilité à la douleur.
-- **III (3 PTV) · Encore debout** (SR/R, réaction, 1/scène) : une source de dégâts qui te ferait passer de PV positifs à 0 PV ou moins, sans franchir ton seuil de mort, te laisse à 1 PV. Rien n'est soigné. Ne fonctionne pas si tu es déjà Agonisant.
+- **III (3 PTV) · Encore debout** (SR/R, réaction, 1/scénario) : une source de dégâts qui te ferait passer de PV positifs à 0 PV ou moins, sans franchir ton seuil de mort, te laisse à 1 PV. Rien n'est soigné. Ne fonctionne pas si tu es déjà Agonisant.
 
 **Changements** :
 - Masse enracinée et Insensible à la peine se prennent désormais dans l'ordre de la voie (prérequis ajoutés).
-- Encore debout : inchangé (voir la question 2).
+- Encore debout : 1/scène → **1/scénario** (B6 validé).
 
 ##### Intégrité whurtenne — collection à une porte
 *Rester soi-même, quoi qu'on t'impose.*
@@ -255,13 +255,13 @@ Une tradition s'apprend : ce n'est pas un peuple. L'accès aux traditions n'est 
 *Gérer ses transitions en situation réelle, comme on l'apprend au Silcenter.*
 *Reprend : Révélation drillée, Repli réflexe, Coordination de Silcenter, Transition en chaîne.*
 
-- **I (1 PTV) · Révélation drillée** (V/SR/R, 1/scène) : pendant ton tour, tu passes d'un cran (V→SR ou SR→R) sans payer le PA. Ne force pas une Révélation bloquée.
+- **I (1 PTV) · Révélation drillée** (V/SR/R, 1/scène) : pendant ton tour, tu fais une transition personnelle (V→SR, SR→R ou V→R) sans payer le PA. Ne force pas une Révélation bloquée.
 - **I b (1 PTV) · Repli réflexe** (SR/R, réaction, 1/scène) : quand un témoin, une caméra ou une patrouille surgit et menace de voir ta vraie apparence, reviens en V sans PA. Ce qui a été vu reste vu. Ne coupe pas une attaque en cours.
 - **II (2 PTV) · Coordination de Silcenter** (V/SR/R, 1 PA) : en combat, tu fournis l'Assistance normale (+2) à un allié sur un test non offensif, si tu as la Compétence à 1 ou plus. Les codes du Silcenter passent par la voix ou les signes : l'allié n'a pas besoin de te voir. Jamais sur une attaque, une Défense active ou un pouvoir personnel.
-- **III (3 PTV) · Transition en chaîne** (V/SR/R, 1/scène) : jusqu'à la fin de la scène, tes transitions d'un cran sont gratuites, aux moments où une transition est possible.
+- **III (3 PTV) · Transition en chaîne** (V/SR/R, 1/scène) : jusqu'à la fin de la scène, tes transitions personnelles sont gratuites, aux moments où une transition est possible.
 
 **Changements** :
-- Les quatre talents existent sous les mêmes noms chez les Extrals. **Ressort propre ajouté** : l'Exilé change d'état d'un cran à la fois et ne passe pas de V à R d'un seul coup, ce qui touche Révélation drillée et Transition en chaîne. Raison : depuis l'enfance, il vit avec « deux descriptions de son corps » (livre V6) et le Silcenter lui apprend à passer de l'une à l'autre, pas à sauter.
+- Les quatre talents existent sous les mêmes noms chez les Extrals : doublon admis (A4), textes d'origine gardés. *Retiré le 30/10* : la restriction « un cran à la fois » que j'avais ajoutée pour les distinguer.
 - Coordination de Silcenter : elle passe par les codes du Silcenter, à la voix ou aux signes.
 - Révélation drillée et Repli réflexe : fréquence 1/scène reprise du tableau.
 
@@ -433,119 +433,183 @@ Ces quatre traditions sont idéologiques. On y entre par l'éducation, l'adhési
 - Désancrage offensif : « 1/scène par cible » devient 1/scène (simplification, marquée).
 - Cage de Vérité se prend désormais après les deux talents du palier II (avant, il fallait seulement l'Ancre).
 
+### 3.3 Doctrines, ateliers et réseaux de Vérité
+
+**Tranché par l'auteur (30/10, A3 refusé)** : ces 82 entrées **restent en Vérité, en PTV**. Les organisations de la Vérité ne passent pas en Réalité. Le Socle le dit (« Doctrine, fonction et réseau de Vérité ») et la passation le confirme : une doctrine ou un réseau peut avoir une voie PTV sans être magique, dès lors qu'il change réellement les possibilités. Les voies ci-dessous reprennent les voies de la V1 (Exilés V1 du 5/09), aux coûts d'origine.
+
+**Réseaux (Ligue, Syndicat de Jade, Pluton).** Règle du Socle « Réseaux de Vérité » : un talent de réseau ne crée jamais vendeur, planque, filière, marchandise ni service. Il donne la maîtrise des codes et des procédures d'un réseau qui existe là où l'on se trouve. Le prix, le délai et le risque restent dus.
+
+*Correction du 30/10* : la première version de ce lot proposait de transférer ces entrées en Réalité (« Affiliations » achetées en XP). C'était contraire à la décision de l'auteur et à l'architecture V1 ; la section est réécrite en voies.
+
+#### Croix d'Emphyrra — Faucon de Malachite (Elyë N, autres O)
+##### Voie du Terrain — progression
+*Lire le terrain, s'y fondre, y tendre l'embuscade.*
+
+- **I (1 PTV) · Lire le terrain** : 1 PA d'observation. Le MJ donne une position, une menace ou une route ; +3 à la première action qui l'exploite (1/scène).
+- **I b (1 PTV) · Terrain familier** : ignorer jusqu'à −3 dus au sol, à la végétation ou à la pente, pour se déplacer et se cacher en milieu naturel.
+- **II (2 PTV) · Se fondre dans le décor** : immobile dans un couvert naturel réel, +3 en Furtivité, même contre une recherche active.
+- **III (3 PTV) · Préparer l'embuscade** : après quelques minutes, jusqu'à trois participants gagnent +3 à leur première action qui exploite l'embuscade (1/scène).
+##### Autonomie — progression
+*Vivre sans dépendre de rien.*
+
+- **I (1 PTV) · Vivre de peu** : tenir avec très peu ; +3 aux tests de survie liés à la pénurie.
+- **I b (1 PTV) · Faire sans** : ignorer jusqu'à −3 dus à un équipement de survie absent, si un substitut plausible existe.
+- **II (2 PTV) · Déjouer les capteurs** : masquer pour la scène une catégorie de capteurs ordinaires, avec le terrain et des matériaux réels.
+- **III (3 PTV) · Refuge autonome** : en une heure, un refuge pour 5 personnes pendant 3 jours, −3 à le repérer (1/scénario).
+##### Briser l'Artifice — progression
+*Trouver la dépendance et la casser pour de bon.*
+
+- **I (1 PTV) · Dépendance critique** : 1 PA d'inspection ; tu trouves une dépendance d'un dispositif et gagnes +3 au premier sabotage.
+- **I b (1 PTV) · Sabotage minimal** : panne temporaire et discrète sur une dépendance identifiée.
+- **II (2 PTV) · Frapper juste** : la première attaque sur une dépendance identifiée applique une Altération matérielle dès une réussite simple.
+- **II b (2 PTV) · Laisser une cicatrice** : un sabotage sur une dépendance critique exige une vraie réparation, pas un simple redémarrage.
+
+#### Croix d'Emphyrra — Serpentaire de Citrine (Elyë N, autres R)
+##### Exigence de Citrine — progression
+*Le défaut, la préparation, l'œuvre sans faille.*
+
+- **I (1 PTV) · Standard** : les défauts manifestes se voient sans jet ; +3 pour chercher un vice caché dans un domaine connu.
+- **II (2 PTV) · Préparation** : une action préparée à l'avance bénéficie de « Prendre son temps » quand elle est exécutée sous pression.
+- **II b (2 PTV) · Reprise minutieuse** : relancer un travail encore corrigeable sans tout recommencer (1/scène).
+- **III (3 PTV) · Œuvre parfaite** : une création réussie à DR 2+ gagne 2 DR de qualité (maximum 5) (1/scénario).
+##### Culture de l'Ascendant — progression
+*Les codes du pouvoir et leur retournement.*
+
+- **I (1 PTV) · Lire le cercle** : le MJ dit qui détient l'influence dans un groupe et quelle tension le structure (1/scène, d'après le tableau).
+- **I b (1 PTV) · Maîtriser les codes** : pas de pénalité pour une étiquette inconnue, après une courte observation.
+- **I c (1 PTV) · Retourner l'étiquette** : +3 à l'action sociale qui exploite une violation de protocole de l'interlocuteur (1/scène).
+- **III (3 PTV) · Enfermer dans ses propres règles** : −3 aux actions sociales de qui rompt ouvertement un cadre accepté devant témoins (1/scène).
+
+#### Héritages whurtens
+##### Atelier des Clans (Whurten N, autres O) — progression
+*Restaurer, fiabiliser, faire durer une machine réelle.*
+
+- **I (1 PTV) · Fiabilisation** : la première défaillance ordinaire de l'objet dans le scénario est ignorée ; en atelier, tu élimines un mode de panne pour de bon.
+- **II (2 PTV) · Remise en ligne** : un équipement en panne mais pas détruit retrouve sa fonction de base jusqu'à la fin de la scène.
+- **II b (2 PTV) · Réglage de maître** : après quelques minutes, +3 aux tests qui utilisent une fonction réglée, pour la scène.
+- **III (3 PTV) · Fait pour durer** : une fois par scénario, l'objet renforcé reste fonctionnel au lieu d'être détruit, jusqu'à la fin de la scène.
+##### Iron Law (Whurten N, autres O) — progression
+*Intégrer, tolérer et exploiter un corps augmenté ; la doctrine ne fournit jamais l'augmentation.*
+
+- **I (1 PTV) · Interface de Vérité** : un implant qui remplace l'organe nécessaire à un talent racial passif en garde l'accès.
+- **II (2 PTV) · Stabilité augmentique** : −1 Stress augmentique par implant.
+- **II b (2 PTV) · Redondance intégrée** : une fonction d'implant neutralisé tient jusqu'à la fin du prochain round (1/scène, d'après le tableau).
+- **II c (2 PTV) · Surcadence** : +3 avec une fonction augmentique ; elle ne devient Surchargée que sur un échec narratif (1/scène).
+- **III (3 PTV) · Architecture résiliente** : réaction, 1 PA ; trois implants touchés par le même incident tiennent jusqu'à la fin de la scène (1/scénario).
+
+#### Ligue des Quatre Empereurs (Ashyll N, autres R)
+##### Empire invisible — progression
+*Sociétés écrans et capitaux qui ne remontent pas jusqu'à toi.*
+
+- **I (1 PTV) · Société écran** : tu sais mobiliser une structure juridique de la Ligue qui existe déjà ; les vérifications ordinaires s'y arrêtent (enquête à 18 pour remonter) (1/scénario).
+- **II (2 PTV) · Acquisition silencieuse** : tu fais passer un achat réel par des intermédiaires ; −3 aux enquêtes qui te relient à la transaction. Le paiement reste dû.
+- **II b (2 PTV) · Capital mobilisé** : un bien légal que tu peux payer est disponible dans la journée, par les circuits de la Ligue (1/scénario).
+- **III (3 PTV) · Portefeuille cloisonné** : trois structures tenues ; si l'une est compromise, tu bascules l'opération sur une autre (1/scénario).
+##### Doctrine du levier — progression
+*La pression installée avant la négociation.*
+
+- **II (2 PTV) · Pression latente** : avec une ressource ou une faveur réelle, tu perturbes une dépendance d'une cible locale (fournisseur, bailleur, client…) (1/scénario).
+- **II b (2 PTV) · Menace réversible** : une Pression latente peut rester suspendue, puis être activée ou levée une fois.
+- **III (3 PTV) · Étranglement** : deux pressions indépendantes sur la même cible, ou une pression sur une antenne locale d'une grande organisation.
+
+#### Syndicat de Jade (Ashyll et Thulkar N, autres O)
+##### Réseau de Jade — progression
+*Les intermédiaires, les rumeurs, les canaux.*
+
+- **I (1 PTV) · Le bon intermédiaire** : là où le Syndicat est implanté, tu sais trouver et aborder l'intermédiaire du milieu qui existe pour un service ; il ne travaille pas gratuitement (1/scénario).
+- **II (2 PTV) · Faire courir le bruit** : une information circule dans le réseau ; après quelques heures, tu apprends le premier intéressé et sa réaction publique (1/scène).
+- **II b (2 PTV) · Canal mort** : correspondance clandestine par des relais réels pour le scénario, −3 aux surveillances qui veulent relier ses interlocuteurs.
+- **III (3 PTV) · Trouver quelqu'un qui sait** : tu sais joindre un expert réel du réseau ; son briefing donne +3 aux tests intellectuels pendant une scène. Son prix reste dû (1/scénario).
+##### Garde de Jade — progression
+*Le tir couvert de la mafia.*
+
+- **I (1 PTV) · Feu masqué** : un tir depuis une position cachée ne trahit pas automatiquement le tireur.
+- **II (2 PTV) · Tirer et décrocher** : après un tir puis une rupture de ligne de vue, tu te dissimules sans PA supplémentaire (1/round).
+- **II b (2 PTV) · Feu croisé** : +3 à une attaque à distance quand un allié menace la même cible sous un angle distinct.
+- **III (3 PTV) · Zone de mort** : tu couvres un passage ; la première cible hostile qui y entre est attaquée en réaction sans PA supplémentaire (1/scène).
+##### Contrebande de Jade — progression
+*Points morts, routes grises, passages.*
+
+- **I (1 PTV) · Point mort** : tu connais les procédures de dépôt sans rencontre du Syndicat là où il est présent.
+- **II (2 PTV) · Route grise** : tu sais repérer une route existante qui contourne un contrôle ordinaire ; +3 au premier passage (1/scène).
+- **II b (2 PTV) · Couverture logistique** : un transport préparé avec le réseau impose −3 à la fouille de son contenu.
+- **III (3 PTV) · Passage de Jade** : tu sais faire passer une personne ou une cargaison par les filières du Syndicat, si une route existe. Le prix ou la dette restent dus (1/scénario).
+##### Courtage occulte — progression
+*Le marché clandestin de la Vérité.*
+
+- **I (1 PTV) · Garantie de Jade** : transaction sous arbitrage du Syndicat ; rompre l'accord crée une dette envers le réseau. Aucun effet chiffré.
+- **II (2 PTV) · Marché ferme** : tu sais atteindre l'acheteur ou le vendeur d'un bien occulte rare, s'il existe dans le réseau (1/scénario).
+- **II b (2 PTV) · Provenance garantie** : vérification d'origine d'une transaction ; remboursement contre restitution si une tromperie couverte est prouvée.
+- **III (3 PTV) · Commande noire** : commande suivie d'un bien occulte rare réellement accessible au Syndicat, avec un prix et un délai annoncés (1/scénario).
+
+#### Hordes thulkars (Thulkar N, autres O)
+
+Formation commune ouverte à toute Horde formée ; puis une doctrine. Horde Abyssale (Corruption de Thul) et Horde Maudite : hors PJ.
+
+##### Formation de Horde — progression
+*Le socle commun des Hordes.*
+
+- **I (1 PTV) · Déploiement de Horde** : à la première passe, un allié agit juste après toi. La fréquence « 1/combat » devient 1/scène (marqué).
+- **II (2 PTV) · Épaulement** : +3 en Mêlée ou en Pugilat quand un allié engage la même cible depuis une autre position.
+- **II b (2 PTV) · Relève immédiate** : réaction, 1 PA ; tu rejoins un allié neutralisé et le sécurises au contact (1/round).
+- **III (3 PTV) · Mouvement de Horde** : pendant ton Déplacement, deux alliés gagnent un Déplacement ou une Défense active gratuits (1/scène).
+##### Horde Divine — Doctrine d'Ashorn — progression
+*Tactique et coordination.*
+
+- **II (2 PTV) · Fixer la cible** : après une attaque réussie, la prochaine attaque d'un allié sur la même cible gagne +3 (1/round).
+- **II b (2 PTV) · Riposte d'Ashorn** : après une Défense active réussie au contact, attaque immédiate sans PA supplémentaire (1/scène, d'après le tableau).
+- **III (3 PTV) · Plan de bataille** : trois participants fixent chacun une action ; la première exécution gagne +3 (1/scène).
+##### Horde des Marais — Doctrine de la Réussite — progression
+*Opportunisme et exploitation des faiblesses.*
+
+- **I (1 PTV) · Mauvais moment** : un adversaire te rate au contact ; ta prochaine attaque contre lui gagne +3 (1/round).
+- **II (2 PTV) · Frapper où ça cède** : +3 à une action qui exploite une cible Tendue (par ses blessures) ou Paniquée (1/round).
+- **II b (2 PTV) · Pas mourir pour rien** : après avoir franchi un seuil de blessure, repli ou Défense active gratuits (1/scène).
+- **III (3 PTV) · La réussite appelle la réussite** : après une mise à l'Agonie ou une réussite opposée à DR 3+, +1 PA avant la fin du round (1/scène).
+##### Horde Fantôme — Doctrine de l'Intégration — progression
+*Vivre dans la Réalité sans s'y trahir.*
+
+- **I (1 PTV) · Ancrage de Réalité** : +3 pour résister à une transition V/SR/R forcée.
+- **II (2 PTV) · Identité cloisonnée** : (V) une identité civile entretenue impose −3 aux enquêtes qui la relient à ta vie de Vérité.
+- **III (3 PTV) · Disparaître dans la Réalité** : (V) en foule, après une rupture de vue et sans traceur, la poursuite immédiate est cassée (1/scène).
+##### Horde des Cendres — Doctrine du Chantier — progression
+*Construction et effort collectif.*
+
+- **I (1 PTV) · Force de chantier** : pour juger si un effort collectif est possible, prendre la meilleure Vigueur du groupe, +2 par assistant (maximum +6).
+- **II (2 PTV) · Fortification express** : 1 PA, un couvert partiel pour deux personnes, ou une ouverture barrée (1/scène).
+- **II b (2 PTV) · Tenir la structure** : réaction, 1 PA ; tu retiens un élément structurel jusqu'à ton prochain round, puis 1 PA par round.
+- **III (3 PTV) · Chantier de guerre** : avec deux aides au moins, une tâche matérielle de plusieurs heures se fait en quelques minutes (1/scénario).
+##### Horde de la Rose — Doctrine de la Polyvalence — progression
+*Refuser le stéréotype de l'Orque.*
+
+- **I (1 PTV) · Faire scène** : tu attires l'attention ; deux alliés gagnent +3 à leurs actions discrètes jusqu'au prochain round (1/scène).
+- **II (2 PTV) · Contrepied** : +3 à l'action qui exploite une erreur adverse préexistante sur tes capacités (1/scène).
+- **II b (2 PTV) · Formation croisée** : en Action combinée, tu utilises la meilleure des deux Compétences, si tu as 1 ou plus dans chacune.
+- **III (3 PTV) · Interdisciplinarité** : ta propre Assistance sur une approche à deux Compétences (1/round).
+
+#### Servants de Pluton (Azménorien N, autres R)
+##### Ingénierie xéno — progression
+*Faire fonctionner la technologie extrale.*
+
+- **I (1 PTV) · Interface étrangère** : ignorer jusqu'à −3 dus au paradigme étranger d'une interface xéno accessible.
+- **II (2 PTV) · Pont de standards** : une liaison durable entre deux systèmes, pour une fonction précise.
+- **II b (2 PTV) · Autonomie forcée** : 1 PA ; une fonction locale reste disponible malgré la perte de l'infrastructure (1/scène).
+- **III (3 PTV) · Architecture croisée** : intégrer durablement un module xéno disponible, en atelier.
+##### Silence de Pluton — progression
+*Garder la Terre invisible pour la galaxie.*
+
+- **I (1 PTV) · Couper la balise** : tu empêches une émission automatique (balise, télémétrie, appel) d'un appareil que tu tiens (1/scène, d'après le tableau).
+- **II (2 PTV) · Nettoyage de provenance** : −3 aux analyses qui cherchent l'origine précise d'un équipement.
+- **II b (2 PTV) · Mode silencieux** : 1 PA ; un appareil coupe ses émissions non indispensables pour la scène, −3 à détecter le reste.
+- **III (3 PTV) · Fenêtre noire** : le Mode silencieux sur trois appareils préparés (1/scène).
+
+**Changements** : aucun coût ni effet changé. Notes de transfert retirées des textes (Feu masqué, Remise en ligne, Interdisciplinarité, Ancrage de Réalité, Interface de Vérité, Stabilité augmentique). Deux signalements restent pour relecture : Interdisciplinarité vaut +3 dans le catalogue actuel alors que la V1 disait Assistance normale (+2) ; Feu masqué ressemble à la règle normale de dissimulation (la V1 le garde comme talent de 1 PTV).
+
 ---
 
-## 4. À transférer en Réalité (82 entrées)
+## 4. Table de correspondance
 
-**Pourquoi.** Ces talents ne touchent ni au Voile, ni à la physiologie, ni à la magie. Ce sont des réseaux, des tactiques d'équipe et des savoir-faire d'atelier, qui fonctionnent presque tous Voilé. On ne les met dans aucune voie de Vérité.
-
-**Destination proposée.** Une **Affiliation**, c'est-à-dire des talents réservés aux membres d'une faction, achetés en XP sur le modèle des Talents de Sphère : leur usage dépend du maintien de l'appartenance. Pour un savoir-faire sans faction, la destination est un **talent de Réalité**. Le transfert lui-même est la question 1 : tant que l'auteur n'a pas tranché, ces talents gardent leur texte et leur coût actuels.
-
-**Réseaux (Ligue, Syndicat de Jade).** On applique la règle existante du Socle Vérité, « Réseaux de Vérité » : un talent de réseau ne crée jamais vendeur, planque, filière, marchandise ni service. Il donne la maîtrise des codes et des procédures d'un réseau qui existe là où l'on se trouve. Le prix, le délai et le risque restent dus. Les lignes ci-dessous sont rédigées selon cette règle.
-
-### Croix d'Emphyrra · Faucon de Malachite → Affiliation Faucon de Malachite
-- **#61 Lire le terrain** : 1 PA d'observation. Le MJ donne une position, une menace ou une route ; +3 à la première action qui l'exploite (1/scène).
-- **#62 Terrain familier** : ignorer jusqu'à −3 dus au sol, à la végétation ou à la pente, pour se déplacer et se cacher en milieu naturel.
-- **#63 Se fondre dans le décor** : immobile dans un couvert naturel réel, +3 en Furtivité, même contre une recherche active.
-- **#64 Préparer l'embuscade** : après quelques minutes, jusqu'à trois participants gagnent +3 à leur première action qui exploite l'embuscade (1/scène).
-- **#65 Vivre de peu** : tenir avec très peu ; +3 aux tests de survie liés à la pénurie. Proche du talent de Réalité « Maître de la survie ».
-- **#66 Faire sans** : ignorer jusqu'à −3 dus à un équipement de survie absent, si un substitut plausible existe.
-- **#67 Déjouer les capteurs** : masquer pour la scène une catégorie de capteurs ordinaires, avec le terrain et des matériaux réels.
-- **#68 Refuge autonome** : en une heure, un refuge pour 5 personnes pendant 3 jours, −3 à le repérer (1/scénario).
-- **#69 Dépendance critique** : 1 PA d'inspection ; tu trouves une dépendance d'un dispositif et gagnes +3 au premier sabotage.
-- **#70 Sabotage minimal** : panne temporaire et discrète sur une dépendance identifiée.
-- **#71 Frapper juste** : la première attaque sur une dépendance identifiée applique une Altération matérielle dès une réussite simple.
-- **#72 Laisser une cicatrice** : un sabotage sur une dépendance critique exige une vraie réparation, pas un simple redémarrage.
-
-### Croix d'Emphyrra · Serpentaire de Citrine (Exigence, Ascendant) → Affiliation Serpentaire de Citrine
-- **#73 Standard** : les défauts manifestes se voient sans jet ; +3 pour chercher un vice caché dans un domaine connu.
-- **#74 Préparation** : une action préparée à l'avance bénéficie de « Prendre son temps » quand elle est exécutée sous pression.
-- **#75 Reprise minutieuse** : relancer un travail encore corrigeable sans tout recommencer (1/scène).
-- **#76 Œuvre parfaite** : une création réussie à DR 2+ gagne 2 DR de qualité (maximum 5) (1/scénario).
-- **#77 Lire le cercle** : le MJ dit qui détient l'influence dans un groupe et quelle tension le structure (1/scène, d'après le tableau).
-- **#78 Maîtriser les codes** : pas de pénalité pour une étiquette inconnue, après une courte observation.
-- **#79 Retourner l'étiquette** : +3 à l'action sociale qui exploite une violation de protocole de l'interlocuteur (1/scène).
-- **#80 Enfermer dans ses propres règles** : −3 aux actions sociales de qui rompt ouvertement un cadre accepté devant témoins (1/scène).
-
-### Héritages whurtens · Atelier des Clans → Affiliation Atelier des Clans
-- **#108 Fiabilisation** : la première défaillance ordinaire de l'objet dans le scénario est ignorée ; en atelier, tu élimines un mode de panne pour de bon.
-- **#109 Remise en ligne** : un équipement en panne mais pas détruit retrouve sa fonction de base jusqu'à la fin de la scène. Doublon de Bricolage de fortune, mais sans test : à aligner au transfert.
-- **#110 Réglage de maître** : après quelques minutes, +3 aux tests qui utilisent une fonction réglée, pour la scène.
-- **#111 Fait pour durer** : une fois par scénario, l'objet renforcé reste fonctionnel au lieu d'être détruit, jusqu'à la fin de la scène.
-
-### Héritages whurtens · Iron Law → talents de Réalité liés aux augmentations
-- **#112 Interface de Vérité** : un implant qui remplace l'organe nécessaire à un talent racial passif en garde l'accès. Il sert de pont entre Réalité et Vérité : à placer dans le chapitre Augmentations.
-- **#113 Stabilité augmentique** : −1 Stress augmentique par implant. C'est presque un doublon du talent de Réalité Stabilité augmentique (#100 Réalité) : à fondre dans ce talent, comme une option Iron Law.
-- **#114 Redondance intégrée** : une fonction d'implant neutralisé tient jusqu'à la fin du prochain round (1/scène, d'après le tableau).
-- **#115 Surcadence** : +3 avec une fonction augmentique ; elle ne devient Surchargée que sur un échec narratif (1/scène).
-- **#116 Architecture résiliente** : réaction, 1 PA ; trois implants touchés par le même incident tiennent jusqu'à la fin de la scène (1/scénario).
-
-### Ligue des Quatre Empereurs → Affiliation Ligue (réseau)
-- **#117 Société écran** : tu sais mobiliser une structure juridique de la Ligue qui existe déjà ; les vérifications ordinaires s'y arrêtent (enquête à 18 pour remonter) (1/scénario).
-- **#118 Acquisition silencieuse** : tu fais passer un achat réel par des intermédiaires ; −3 aux enquêtes qui te relient à la transaction. Le paiement reste dû.
-- **#119 Capital mobilisé** : un bien légal que tu peux payer est disponible dans la journée, par les circuits de la Ligue (1/scénario).
-- **#120 Portefeuille cloisonné** : trois structures tenues ; si l'une est compromise, tu bascules l'opération sur une autre (1/scénario).
-- **#121 Pression latente** : avec une ressource ou une faveur réelle, tu perturbes une dépendance d'une cible locale (fournisseur, bailleur, client…) (1/scénario).
-- **#122 Menace réversible** : une Pression latente peut rester suspendue, puis être activée ou levée une fois.
-- **#123 Étranglement** : deux pressions indépendantes sur la même cible, ou une pression sur une antenne locale d'une grande organisation.
-
-### Syndicat de Jade → Affiliation Syndicat de Jade (réseau)
-- **#124 Le bon intermédiaire** : là où le Syndicat est implanté, tu sais trouver et aborder l'intermédiaire du milieu qui existe pour un service ; il ne travaille pas gratuitement (1/scénario).
-- **#125 Faire courir le bruit** : une information circule dans le réseau ; après quelques heures, tu apprends le premier intéressé et sa réaction publique (1/scène).
-- **#126 Canal mort** : correspondance clandestine par des relais réels pour le scénario, −3 aux surveillances qui veulent relier ses interlocuteurs.
-- **#127 Trouver quelqu'un qui sait** : tu sais joindre un expert réel du réseau ; son briefing donne +3 aux tests intellectuels pendant une scène. Son prix reste dû (1/scénario).
-- **#128 Feu masqué** : un tir depuis une position cachée ne trahit pas automatiquement le tireur. C'est déjà la règle normale : à supprimer au transfert, ou à fondre dans #129.
-- **#129 Tirer et décrocher** : après un tir puis une rupture de ligne de vue, tu te dissimules sans PA supplémentaire (1/round).
-- **#130 Feu croisé** : +3 à une attaque à distance quand un allié menace la même cible sous un angle distinct.
-- **#131 Zone de mort** : tu couvres un passage ; la première cible hostile qui y entre est attaquée en réaction sans PA supplémentaire (1/scène).
-- **#132 Point mort** : tu connais les procédures de dépôt sans rencontre du Syndicat là où il est présent.
-- **#133 Route grise** : tu sais repérer une route existante qui contourne un contrôle ordinaire ; +3 au premier passage (1/scène).
-- **#134 Couverture logistique** : un transport préparé avec le réseau impose −3 à la fouille de son contenu.
-- **#135 Passage de Jade** : tu sais faire passer une personne ou une cargaison par les filières du Syndicat, si une route existe. Le prix ou la dette restent dus (1/scénario).
-- **#136 Garantie de Jade** : transaction sous arbitrage du Syndicat ; rompre l'accord crée une dette envers le réseau. Aucun effet chiffré.
-- **#137 Marché ferme** : tu sais atteindre l'acheteur ou le vendeur d'un bien occulte rare, s'il existe dans le réseau (1/scénario).
-- **#138 Provenance garantie** : vérification d'origine d'une transaction ; remboursement contre restitution si une tromperie couverte est prouvée.
-- **#139 Commande noire** : commande suivie d'un bien occulte rare réellement accessible au Syndicat, avec un prix et un délai annoncés (1/scénario).
-
-### Hordes thulkars → Affiliation Horde (Formation commune, puis une doctrine)
-- **#140 Déploiement de Horde** : à la première passe, un allié agit juste après toi. La fréquence « 1/combat » devient 1/scène (marqué).
-- **#141 Épaulement** : +3 en Mêlée ou en Pugilat quand un allié engage la même cible depuis une autre position.
-- **#142 Relève immédiate** : réaction, 1 PA ; tu rejoins un allié neutralisé et le sécurises au contact (1/round).
-- **#143 Mouvement de Horde** : pendant ton Déplacement, deux alliés gagnent un Déplacement ou une Défense active gratuits (1/scène).
-- **#144 Fixer la cible** : après une attaque réussie, la prochaine attaque d'un allié sur la même cible gagne +3 (1/round).
-- **#145 Riposte d'Ashorn** : après une Défense active réussie au contact, attaque immédiate sans PA supplémentaire (1/scène, d'après le tableau).
-- **#146 Plan de bataille** : trois participants fixent chacun une action ; la première exécution gagne +3 (1/scène).
-- **#147 Mauvais moment** : un adversaire te rate au contact ; ta prochaine attaque contre lui gagne +3 (1/round).
-- **#148 Frapper où ça cède** : +3 à une action qui exploite une cible Tendue (par ses blessures) ou Paniquée (1/round).
-- **#149 Pas mourir pour rien** : après avoir franchi un seuil de blessure, repli ou Défense active gratuits (1/scène).
-- **#150 La réussite appelle la réussite** : après une mise à l'Agonie ou une réussite opposée à DR 3+, +1 PA avant la fin du round (1/scène).
-- **#151 Ancrage de Réalité** : +3 pour résister à une transition V/SR/R forcée. **Exception** : cette entrée touche au Voile. Si la Horde Fantôme est transférée, elle peut rester en PTV comme talent isolé.
-- **#152 Identité cloisonnée** : (V) une identité civile entretenue impose −3 aux enquêtes qui la relient à ta vie de Vérité.
-- **#153 Disparaître dans la Réalité** : (V) en foule, après une rupture de vue et sans traceur, la poursuite immédiate est cassée (1/scène).
-- **#154 Force de chantier** : pour juger si un effort collectif est possible, prendre la meilleure Vigueur du groupe, +2 par assistant (maximum +6).
-- **#155 Fortification express** : 1 PA, un couvert partiel pour deux personnes, ou une ouverture barrée (1/scène).
-- **#156 Tenir la structure** : réaction, 1 PA ; tu retiens un élément structurel jusqu'à ton prochain round, puis 1 PA par round.
-- **#157 Chantier de guerre** : avec deux aides au moins, une tâche matérielle de plusieurs heures se fait en quelques minutes (1/scénario).
-- **#158 Faire scène** : tu attires l'attention ; deux alliés gagnent +3 à leurs actions discrètes jusqu'au prochain round (1/scène).
-- **#159 Contrepied** : +3 à l'action qui exploite une erreur adverse préexistante sur tes capacités (1/scène).
-- **#160 Formation croisée** : en Action combinée, tu utilises la meilleure des deux Compétences, si tu as 1 ou plus dans chacune.
-- **#161 Interdisciplinarité** : ta propre Assistance sur une approche à deux Compétences (1/round). Elle vaut +3 alors que l'Assistance normale vaut +2 : à ramener à +2 au transfert.
-
-### Servants de Pluton (Ingénierie xéno, Silence) → Affiliation Servants de Pluton
-- **#162 Interface étrangère** : ignorer jusqu'à −3 dus au paradigme étranger d'une interface xéno accessible.
-- **#163 Pont de standards** : une liaison durable entre deux systèmes, pour une fonction précise.
-- **#164 Autonomie forcée** : 1 PA ; une fonction locale reste disponible malgré la perte de l'infrastructure (1/scène).
-- **#165 Architecture croisée** : intégrer durablement un module xéno disponible, en atelier.
-- **#166 Couper la balise** : tu empêches une émission automatique (balise, télémétrie, appel) d'un appareil que tu tiens (1/scène, d'après le tableau).
-- **#167 Nettoyage de provenance** : −3 aux analyses qui cherchent l'origine précise d'un équipement.
-- **#168 Mode silencieux** : 1 PA ; un appareil coupe ses émissions non indispensables pour la scène, −3 à détecter le reste.
-- **#169 Fenêtre noire** : le Mode silencieux sur trois appareils préparés (1/scène).
-
----
-
-## 5. Table de correspondance
-
-Voies : **E-Grâce**, **E-Mémoire**, **E-Résonance** (Elyë) ; **W-Constitution**, **W-Intégrité**, **W-Profondeurs** (Whurten) ; **A-Génie**, **A-Terrier**, **A-Culot** (Ashyll) ; **T-Puissance**, **T-Corps**, **T-Présence** (Thulkar) ; **Z-Jusqu'au bout**, **Z-Don** (Azménorien) ; **Protocoles**, **HDS**, **Haute Magie**, **Intransigeance**, **Rites**, **Science des Ombres**, **Symbiose**, **Runes**, **Convergence**, **Fracture**, **Regard de Vérité**, **Contention**. Les entrées transférées sont notées **Transfert** avec leur destination.
+Voies : **E-Grâce**, **E-Mémoire**, **E-Résonance** (Elyë) ; **W-Constitution**, **W-Intégrité**, **W-Profondeurs** (Whurten) ; **A-Génie**, **A-Terrier**, **A-Culot** (Ashyll) ; **T-Puissance**, **T-Corps**, **T-Présence** (Thulkar) ; **Z-Jusqu'au bout**, **Z-Don** (Azménorien) ; **Protocoles**, **HDS**, **Haute Magie**, **Intransigeance**, **Rites**, **Science des Ombres**, **Symbiose**, **Runes**, **Convergence**, **Fracture**, **Regard de Vérité**, **Contention**. Les doctrines, ateliers et réseaux sont en section 3.3.
 
 ### Traits (`entries-Traits_exile.txt`)
 | # | Entrée | Destination |
@@ -622,26 +686,26 @@ Voies : **E-Grâce**, **E-Mémoire**, **E-Résonance** (Elyë) ; **W-Constitutio
 | 58 | Lecture de distorsion | HDS I |
 | 59 | HDB - Hologram Distorsion Block | HDS II |
 | 60 | HDP - Hologram Distorsion Punishment | HDS III |
-| 61 | Lire le terrain | Transfert : Affiliation Faucon |
-| 62 | Terrain familier | Transfert : Affiliation Faucon |
-| 63 | Se fondre dans le décor | Transfert : Affiliation Faucon |
-| 64 | Préparer l'embuscade | Transfert : Affiliation Faucon |
-| 65 | Vivre de peu | Transfert : Affiliation Faucon |
-| 66 | Faire sans | Transfert : Affiliation Faucon |
-| 67 | Déjouer les capteurs | Transfert : Affiliation Faucon |
-| 68 | Refuge autonome | Transfert : Affiliation Faucon |
-| 69 | Dépendance critique | Transfert : Affiliation Faucon |
-| 70 | Sabotage minimal | Transfert : Affiliation Faucon |
-| 71 | Frapper juste | Transfert : Affiliation Faucon |
-| 72 | Laisser une cicatrice | Transfert : Affiliation Faucon |
-| 73 | Standard | Transfert : Affiliation Serpentaire |
-| 74 | Préparation | Transfert : Affiliation Serpentaire |
-| 75 | Reprise minutieuse | Transfert : Affiliation Serpentaire |
-| 76 | Œuvre parfaite | Transfert : Affiliation Serpentaire |
-| 77 | Lire le cercle | Transfert : Affiliation Serpentaire |
-| 78 | Maîtriser les codes | Transfert : Affiliation Serpentaire |
-| 79 | Retourner l'étiquette | Transfert : Affiliation Serpentaire |
-| 80 | Enfermer dans ses propres règles | Transfert : Affiliation Serpentaire |
+| 61 | Lire le terrain | Faucon de Malachite (voie PTV, 3.3) |
+| 62 | Terrain familier | Faucon de Malachite (voie PTV, 3.3) |
+| 63 | Se fondre dans le décor | Faucon de Malachite (voie PTV, 3.3) |
+| 64 | Préparer l'embuscade | Faucon de Malachite (voie PTV, 3.3) |
+| 65 | Vivre de peu | Faucon de Malachite (voie PTV, 3.3) |
+| 66 | Faire sans | Faucon de Malachite (voie PTV, 3.3) |
+| 67 | Déjouer les capteurs | Faucon de Malachite (voie PTV, 3.3) |
+| 68 | Refuge autonome | Faucon de Malachite (voie PTV, 3.3) |
+| 69 | Dépendance critique | Faucon de Malachite (voie PTV, 3.3) |
+| 70 | Sabotage minimal | Faucon de Malachite (voie PTV, 3.3) |
+| 71 | Frapper juste | Faucon de Malachite (voie PTV, 3.3) |
+| 72 | Laisser une cicatrice | Faucon de Malachite (voie PTV, 3.3) |
+| 73 | Standard | Serpentaire de Citrine (voie PTV, 3.3) |
+| 74 | Préparation | Serpentaire de Citrine (voie PTV, 3.3) |
+| 75 | Reprise minutieuse | Serpentaire de Citrine (voie PTV, 3.3) |
+| 76 | Œuvre parfaite | Serpentaire de Citrine (voie PTV, 3.3) |
+| 77 | Lire le cercle | Serpentaire de Citrine (voie PTV, 3.3) |
+| 78 | Maîtriser les codes | Serpentaire de Citrine (voie PTV, 3.3) |
+| 79 | Retourner l'étiquette | Serpentaire de Citrine (voie PTV, 3.3) |
+| 80 | Enfermer dans ses propres règles | Serpentaire de Citrine (voie PTV, 3.3) |
 | 81 | Suture | Haute Magie I |
 | 82 | Correction somatique | Haute Magie II b |
 | 83 | Réfection vitale | Haute Magie II |
@@ -669,68 +733,68 @@ Voies : **E-Grâce**, **E-Mémoire**, **E-Résonance** (Elyë) ; **W-Constitutio
 | 105 | Rune de Garde | Runes II c |
 | 106 | Inscription brève | Runes II d |
 | 107 | Phrase runique | Runes III |
-| 108 | Fiabilisation | Transfert : Affiliation Atelier des Clans |
-| 109 | Remise en ligne | Transfert : Affiliation Atelier des Clans |
-| 110 | Réglage de maître | Transfert : Affiliation Atelier des Clans |
-| 111 | Fait pour durer | Transfert : Affiliation Atelier des Clans |
-| 112 | Interface de Vérité | Transfert : chapitre Augmentations (Réalité) |
-| 113 | Stabilité augmentique | Transfert : fusion avec le talent de Réalité Stabilité augmentique |
-| 114 | Redondance intégrée | Transfert : talent de Réalité (Iron Law) |
-| 115 | Surcadence | Transfert : talent de Réalité (Iron Law) |
-| 116 | Architecture résiliente | Transfert : talent de Réalité (Iron Law) |
-| 117 | Société écran | Transfert : Affiliation Ligue |
-| 118 | Acquisition silencieuse | Transfert : Affiliation Ligue |
-| 119 | Capital mobilisé | Transfert : Affiliation Ligue |
-| 120 | Portefeuille cloisonné | Transfert : Affiliation Ligue |
-| 121 | Pression latente | Transfert : Affiliation Ligue |
-| 122 | Menace réversible | Transfert : Affiliation Ligue |
-| 123 | Étranglement | Transfert : Affiliation Ligue |
-| 124 | Le bon intermédiaire | Transfert : Affiliation Syndicat de Jade |
-| 125 | Faire courir le bruit | Transfert : Affiliation Syndicat de Jade |
-| 126 | Canal mort | Transfert : Affiliation Syndicat de Jade |
-| 127 | Trouver quelqu'un qui sait | Transfert : Affiliation Syndicat de Jade |
-| 128 | Feu masqué | Transfert : Affiliation Syndicat de Jade (doublon de la règle normale, supprimable) |
-| 129 | Tirer et décrocher | Transfert : Affiliation Syndicat de Jade |
-| 130 | Feu croisé | Transfert : Affiliation Syndicat de Jade |
-| 131 | Zone de mort | Transfert : Affiliation Syndicat de Jade |
-| 132 | Point mort | Transfert : Affiliation Syndicat de Jade |
-| 133 | Route grise | Transfert : Affiliation Syndicat de Jade |
-| 134 | Couverture logistique | Transfert : Affiliation Syndicat de Jade |
-| 135 | Passage de Jade | Transfert : Affiliation Syndicat de Jade |
-| 136 | Garantie de Jade | Transfert : Affiliation Syndicat de Jade |
-| 137 | Marché ferme | Transfert : Affiliation Syndicat de Jade |
-| 138 | Provenance garantie | Transfert : Affiliation Syndicat de Jade |
-| 139 | Commande noire | Transfert : Affiliation Syndicat de Jade |
-| 140 | Déploiement de Horde | Transfert : Affiliation Horde (Formation) |
-| 141 | Épaulement | Transfert : Affiliation Horde (Formation) |
-| 142 | Relève immédiate | Transfert : Affiliation Horde (Formation) |
-| 143 | Mouvement de Horde | Transfert : Affiliation Horde (Formation) |
-| 144 | Fixer la cible | Transfert : Affiliation Horde Divine |
-| 145 | Riposte d'Ashorn | Transfert : Affiliation Horde Divine |
-| 146 | Plan de bataille | Transfert : Affiliation Horde Divine |
-| 147 | Mauvais moment | Transfert : Affiliation Horde des Marais |
-| 148 | Frapper où ça cède | Transfert : Affiliation Horde des Marais |
-| 149 | Pas mourir pour rien | Transfert : Affiliation Horde des Marais |
-| 150 | La réussite appelle la réussite | Transfert : Affiliation Horde des Marais |
-| 151 | Ancrage de Réalité | Transfert : Affiliation Horde Fantôme (exception possible : touche au Voile) |
-| 152 | Identité cloisonnée | Transfert : Affiliation Horde Fantôme |
-| 153 | Disparaître dans la Réalité | Transfert : Affiliation Horde Fantôme |
-| 154 | Force de chantier | Transfert : Affiliation Horde des Cendres |
-| 155 | Fortification express | Transfert : Affiliation Horde des Cendres |
-| 156 | Tenir la structure | Transfert : Affiliation Horde des Cendres |
-| 157 | Chantier de guerre | Transfert : Affiliation Horde des Cendres |
-| 158 | Faire scène | Transfert : Affiliation Horde de la Rose |
-| 159 | Contrepied | Transfert : Affiliation Horde de la Rose |
-| 160 | Formation croisée | Transfert : Affiliation Horde de la Rose |
-| 161 | Interdisciplinarité | Transfert : Affiliation Horde de la Rose |
-| 162 | Interface étrangère | Transfert : Affiliation Servants de Pluton |
-| 163 | Pont de standards | Transfert : Affiliation Servants de Pluton |
-| 164 | Autonomie forcée | Transfert : Affiliation Servants de Pluton |
-| 165 | Architecture croisée | Transfert : Affiliation Servants de Pluton |
-| 166 | Couper la balise | Transfert : Affiliation Servants de Pluton |
-| 167 | Nettoyage de provenance | Transfert : Affiliation Servants de Pluton |
-| 168 | Mode silencieux | Transfert : Affiliation Servants de Pluton |
-| 169 | Fenêtre noire | Transfert : Affiliation Servants de Pluton |
+| 108 | Fiabilisation | Atelier des Clans (voie PTV, 3.3) |
+| 109 | Remise en ligne | Atelier des Clans (voie PTV, 3.3) |
+| 110 | Réglage de maître | Atelier des Clans (voie PTV, 3.3) |
+| 111 | Fait pour durer | Atelier des Clans (voie PTV, 3.3) |
+| 112 | Interface de Vérité | Iron Law (voie PTV, 3.3) |
+| 113 | Stabilité augmentique | Iron Law (voie PTV, 3.3) |
+| 114 | Redondance intégrée | Iron Law (voie PTV, 3.3) |
+| 115 | Surcadence | Iron Law (voie PTV, 3.3) |
+| 116 | Architecture résiliente | Iron Law (voie PTV, 3.3) |
+| 117 | Société écran | Ligue des Quatre Empereurs (voie PTV, 3.3) |
+| 118 | Acquisition silencieuse | Ligue des Quatre Empereurs (voie PTV, 3.3) |
+| 119 | Capital mobilisé | Ligue des Quatre Empereurs (voie PTV, 3.3) |
+| 120 | Portefeuille cloisonné | Ligue des Quatre Empereurs (voie PTV, 3.3) |
+| 121 | Pression latente | Ligue des Quatre Empereurs (voie PTV, 3.3) |
+| 122 | Menace réversible | Ligue des Quatre Empereurs (voie PTV, 3.3) |
+| 123 | Étranglement | Ligue des Quatre Empereurs (voie PTV, 3.3) |
+| 124 | Le bon intermédiaire | Syndicat de Jade (voie PTV, 3.3) |
+| 125 | Faire courir le bruit | Syndicat de Jade (voie PTV, 3.3) |
+| 126 | Canal mort | Syndicat de Jade (voie PTV, 3.3) |
+| 127 | Trouver quelqu'un qui sait | Syndicat de Jade (voie PTV, 3.3) |
+| 128 | Feu masqué | Garde de Jade (voie PTV, 3.3) |
+| 129 | Tirer et décrocher | Syndicat de Jade (voie PTV, 3.3) |
+| 130 | Feu croisé | Syndicat de Jade (voie PTV, 3.3) |
+| 131 | Zone de mort | Syndicat de Jade (voie PTV, 3.3) |
+| 132 | Point mort | Syndicat de Jade (voie PTV, 3.3) |
+| 133 | Route grise | Syndicat de Jade (voie PTV, 3.3) |
+| 134 | Couverture logistique | Syndicat de Jade (voie PTV, 3.3) |
+| 135 | Passage de Jade | Syndicat de Jade (voie PTV, 3.3) |
+| 136 | Garantie de Jade | Syndicat de Jade (voie PTV, 3.3) |
+| 137 | Marché ferme | Syndicat de Jade (voie PTV, 3.3) |
+| 138 | Provenance garantie | Syndicat de Jade (voie PTV, 3.3) |
+| 139 | Commande noire | Syndicat de Jade (voie PTV, 3.3) |
+| 140 | Déploiement de Horde | Formation de Horde (voie PTV, 3.3) |
+| 141 | Épaulement | Formation de Horde (voie PTV, 3.3) |
+| 142 | Relève immédiate | Formation de Horde (voie PTV, 3.3) |
+| 143 | Mouvement de Horde | Formation de Horde (voie PTV, 3.3) |
+| 144 | Fixer la cible | Horde Divine (voie PTV, 3.3) |
+| 145 | Riposte d'Ashorn | Horde Divine (voie PTV, 3.3) |
+| 146 | Plan de bataille | Horde Divine (voie PTV, 3.3) |
+| 147 | Mauvais moment | Horde des Marais (voie PTV, 3.3) |
+| 148 | Frapper où ça cède | Horde des Marais (voie PTV, 3.3) |
+| 149 | Pas mourir pour rien | Horde des Marais (voie PTV, 3.3) |
+| 150 | La réussite appelle la réussite | Horde des Marais (voie PTV, 3.3) |
+| 151 | Ancrage de Réalité | Horde Fantôme (voie PTV, 3.3) |
+| 152 | Identité cloisonnée | Horde Fantôme (voie PTV, 3.3) |
+| 153 | Disparaître dans la Réalité | Horde Fantôme (voie PTV, 3.3) |
+| 154 | Force de chantier | Horde des Cendres (voie PTV, 3.3) |
+| 155 | Fortification express | Horde des Cendres (voie PTV, 3.3) |
+| 156 | Tenir la structure | Horde des Cendres (voie PTV, 3.3) |
+| 157 | Chantier de guerre | Horde des Cendres (voie PTV, 3.3) |
+| 158 | Faire scène | Horde de la Rose (voie PTV, 3.3) |
+| 159 | Contrepied | Horde de la Rose (voie PTV, 3.3) |
+| 160 | Formation croisée | Horde de la Rose (voie PTV, 3.3) |
+| 161 | Interdisciplinarité | Horde de la Rose (voie PTV, 3.3) |
+| 162 | Interface étrangère | Servants de Pluton (voie PTV, 3.3) |
+| 163 | Pont de standards | Servants de Pluton (voie PTV, 3.3) |
+| 164 | Autonomie forcée | Servants de Pluton (voie PTV, 3.3) |
+| 165 | Architecture croisée | Servants de Pluton (voie PTV, 3.3) |
+| 166 | Couper la balise | Servants de Pluton (voie PTV, 3.3) |
+| 167 | Nettoyage de provenance | Servants de Pluton (voie PTV, 3.3) |
+| 168 | Mode silencieux | Servants de Pluton (voie PTV, 3.3) |
+| 169 | Fenêtre noire | Servants de Pluton (voie PTV, 3.3) |
 | 170 | Capteur biphysique | Convergence I |
 | 171 | Asservissement croisé | Convergence II |
 | 172 | Convertisseur biphysique | Convergence II b |
@@ -765,18 +829,10 @@ Bilan : 8 traits vont sur la carte de Nature ; 102 entrées vont dans 26 voies ;
 
 ---
 
-## 6. Questions pour l'auteur
+## 5. Questions pour l'auteur
 
 ### Q1. Transférer les 82 entrées profanes en Réalité ?
-**Problème.** Le chapitre Exilés dit que « les PTV ne paient que les capacités de Vérité ». Mais le Socle Vérité (« Doctrine, fonction et réseau de Vérité ») autorise expressément des voies PTV non surnaturelles pour les Hordes, la Croix et le Syndicat de Jade. Aujourd'hui, deux talents d'Exilé sur trois sont profanes et entrent en concurrence avec la physiologie pour 5 PTV.
-
-- **A.** Tout transférer en Réalité : Affiliations en XP sur le modèle des Talents de Sphère, et retouche de la phrase du Socle.
-- **B.** Tout garder en PTV, comme voies de doctrine (le Socle le permet), et les réécrire en voies dans un lot suivant.
-- **C.** Mixte : les réseaux (Ligue et Jade, 23 entrées) passent en Affiliation Réalité, selon la règle « un talent de réseau ne crée jamais vendeur ni service » ; les doctrines d'action (Hordes, Faucon, Serpentaire, Atelier, Iron Law, Pluton) restent en PTV.
-
-**Recommandation : A.** Le joueur paierait ses PTV pour ce que son personnage *est*, et son XP pour ce qu'il *a appris dans une faction*.
-
-**Exemple.** Un Thulkar de la Horde Divine dépense aujourd'hui 4 de ses 5 PTV pour Fixer la cible et Riposte d'Ashorn. Après le transfert, ces deux talents coûtent de l'XP, et ses PTV vont à Corps thulkar.
+**Tranché par l'auteur (30/10, A3 refusé) : B.** Tout reste en PTV, comme voies de doctrine, d'atelier et de réseau ; elles sont écrites en section 3.3.
 
 ### Q2. Trois pouvoirs nettement plus forts que le reste
 **Problème.** Trois pouvoirs se répètent très souvent. Encore debout refuse la mise à 0 PV à chaque scène, alors que le Dernier sommeil du Vampire est à 1/scénario. Incantation fulgurante retire 1 PA à chaque round. HDP inflige des dégâts en réaction à chaque round. La charte interdit de renforcer, pas de garder.
@@ -785,7 +841,7 @@ Bilan : 8 traits vont sur la carte de Nature ; 102 entrées vont dans 26 voies ;
 - **B.** Encore debout passe à 1/scénario ; Incantation fulgurante et HDP restent tels quels.
 - **C.** Les trois passent à 1/scène.
 
-**Recommandation : B.** C'est le seul effet anti-mort à fréquence élevée. HDP exige déjà un test opposé, et Incantation fulgurante garde un minimum de 1 PA.
+**Tranché par l'auteur (30/10, B6) : B.** C'est le seul effet anti-mort à fréquence élevée. HDP exige déjà un test opposé, et Incantation fulgurante garde un minimum de 1 PA.
 
 **Exemple.** Un Whurten avec Encore debout survit aujourd'hui à trois combats mortels dans le même scénario. Avec B, il n'y survit qu'une fois.
 
@@ -796,7 +852,7 @@ Bilan : 8 traits vont sur la carte de Nature ; 102 entrées vont dans 26 voies ;
 - **B.** A, plus le passage de Poigne thulkar, Force de rupture et Masse imposante en SR/R.
 - **C.** Créer un trait gratuit pour chacun : Whurten, +3 contre poisons et maladies ; Thulkar, Mains de guerre gratuit.
 
-**Recommandation : B.** Il n'invente aucun trait et rend le Thulkar jouable en Semi-Révélé.
+**Validé (30/10, C12) : B.** Il n'invente aucun trait et rend le Thulkar jouable en Semi-Révélé.
 
 **Exemple.** Avec B, un Thulkar Semi-Révélé dans une ruelle peut forcer une grille (Force de rupture) sans se montrer orque aux passants.
 
@@ -812,7 +868,7 @@ Bilan : 8 traits vont sur la carte de Nature ; 102 entrées vont dans 26 voies ;
 - **B.** Tout en O : n'importe quel Exilé, avec un mentor.
 - **C.** Pas de règle : le MJ tranche au cas par cas.
 
-**Recommandation : A.** Ces codes existent déjà dans le Socle, et le livre V6 dit que les organisations « accueillent parfois des membres extérieurs ».
+**Validé (30/10, C13) : A**, complété par la matrice de la V1 pour les voies de la section 3.3 (accès notés dans leurs titres). Ces codes existent déjà dans le Socle, et le livre V6 dit que les organisations « accueillent parfois des membres extérieurs ».
 
 **Exemple.** Un Ashyll qui veut la Rune de Veille passe en R : il lui faut un maître whurten qui l'accepte, ce qui fait un bon objectif de scénario.
 
@@ -823,6 +879,6 @@ Bilan : 8 traits vont sur la carte de Nature ; 102 entrées vont dans 26 voies ;
 - **B.** Passer le talent au palier II (2 PTV). C'est un changement de coût.
 - **C.** Contre un Voilé qui ne sait pas qu'on l'observe, rien ne change. Contre un Voilé qui se méfie, test opposé à sa Défense occulte.
 
-**Recommandation : A.** Le talent paie le savoir-faire, pas l'appareil. Si l'auteur juge l'effet trop fort en partie, B.
+**Validé (30/10, C14) : A.** Le talent paie le savoir-faire, pas l'appareil. Si l'auteur juge l'effet trop fort en partie, B.
 
 **Exemple.** Un technomage pose une Optique sur la caméra d'un club. Avec A, il voit tous les Vampires de la salle, à condition d'avoir trouvé et payé l'appareil.
