@@ -317,13 +317,13 @@ Entrée : l'Ombre-Église (Ombre-Pape, ombre-prêtres, ombre-templiers). C'est u
 *Reprend : Liturgie inversée, Faux sacrement, Absoudre dans l'Ombre, Hostie de Sombre-Vérité, Église sans lumière, Messe de l'Indivisible.*
 
 - **I (1 PTV) · Liturgie inversée** (RITE, SR/R, rituel, Souillure 15) : tu profanes un autel, un symbole, une huile, un encens, une relique ou une petite zone jusqu'à la fin de la scène. Le Profané Longinus sert de support aux Rites ; il n'est jamais Sacré.
-- **II (2 PTV) · Faux sacrement** (RITE, SR/R, 1/scène, Souillure 18) : un Communiant volontaire reçoit pour la scène un Talent Longinus marqué FAVEUR que tu possèdes et dont il remplit les autres conditions. Il n'acquiert ni Source ni compatibilité. *Voir question 2 : l'Ordre n'a aucune FAVEUR au registre.*
+- **II (2 PTV) · Faux sacrement** (RITE, SR/R, 1/scène, Souillure 18) : un Communiant volontaire reçoit pour la scène un **RITE** Longinus que tu possèdes et dont il remplit les autres conditions. Il n'acquiert ni Source ni compatibilité ; il teste la Souillure du Rite à chaque activation.
 - **II (2 PTV) · Absoudre dans l'Ombre** (RITE, SR/R, 2 PA, 1/scène, Souillure 18) : sur un Communiant volontaire, Volonté + Maîtrise spirituelle contre une Marque, une malédiction ou un lien extérieur identifié. En réussite, l'effet cesse d'agir jusqu'à la fin de la scène, sans être détruit.
 - **II (2 PTV) · Hostie de Sombre-Vérité** (RITE, R, préparation, Souillure 18) : tu prépares une dose stabilisée de Sombre-Vérité. Ingérée de plein gré, elle rend Communiant et peut maintenir SR contre une correction ordinaire de l'Hologramme pour la scène. Ne brise ni HDS ni Holojamer.
 - **III (3 PTV) · Église sans lumière** (RITE, R, 2 PA puis 1 PA par round, Souillure 21) : dans une petite zone Profanée, les Communiants se perçoivent entre eux et les Rites Longinus n'ont plus besoin de ligne de vue entre eux. Une perception de lumière ou de divinité extérieure doit vaincre ta Volonté + Maîtrise spirituelle pour sonder la zone.
 - **III (3 PTV) · Messe de l'Indivisible** (RITE, R, rituel prolongé, 1/scénario, Souillure 21) : jusqu'à 7 Communiants offrent chacun une capacité Longinus ou Sombre-Vérité. Pour la scène préparée, chacune peut servir une fois à un autre Communiant, à son coût normal. Tous les prérequis restent dus ; un RITE ou une FAVEUR emprunté provoque sa Souillure.
 
-**Changements** : aucun (voir question 2).
+**Changements** : Faux sacrement prête un RITE Longinus au lieu d'une FAVEUR, que l'Ordre n'a pas (question 2, validée le 30/10).
 
 ##### Les Templiers — collection à une porte
 *Chasser l'Hérésie, c'est-à-dire la lumière.*
@@ -830,7 +830,7 @@ Toutes les entrées sont gardées ; aucune suppression, aucune fusion.
 
 ## 5. Questions pour l'auteur
 
-Par défaut, la recommandation s'applique.
+**Réponse de l'auteur (30/10) : les trois recommandations sont validées.** Q1 → A (pas d'ordre d'achat en plus) ; Q2 → A (RITE Longinus) ; Q3 → A (Révélation donne Analyse 4).
 
 **Q1. Les voies imposent-elles un ordre d'achat ?**
 Dans les Natures, on achète I avant II et II avant III. Ici, la Corruption a déjà son propre verrou : la profondeur (Marqué, Envahi, Au bord), plus les prérequis écrits des Rites.
