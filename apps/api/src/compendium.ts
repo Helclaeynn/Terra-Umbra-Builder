@@ -2019,7 +2019,7 @@ async function applyCommittedOverrides(
     }
 
     const baseHash = articleHash(base);
-    let effective = deepClone(base);
+    const effective = deepClone(base);
     let appliedHere = 0;
     let mediaOverride = false;
 

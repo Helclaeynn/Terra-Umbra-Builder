@@ -1,0 +1,63 @@
+# Mise en ligne de la production, uniquement à la main (onglet Actions →
+# « Mise en ligne » → Run workflow), uniquement depuis main, et seulement si
+# les contrôles de « TUC Web V2 dev » ont réussi sur ce commit.
+name: Mise en ligne
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: production
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    environment: production
+    env:
+      HOST: ${{ secrets.TUC_DEV_HOST }}
+      USER_NAME: ${{ secrets.TUC_DEV_USER }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Contrôles réussis sur ce commit
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          ok=$(gh api "repos/${{ github.repository }}/actions/workflows/v2-dev.yml/runs?head_sha=${{ github.sha }}&status=success" --jq '.total_count')
+          if [ "$ok" = 0 ]; then
+            echo "::error::Les contrôles (TUC Web V2 dev) n'ont pas réussi sur ${{ github.sha }}. Mise en ligne refusée."
+            exit 1
+          fi
+
+      - name: Archive du commit
+        run: |
+          printf '%s\n' "${{ github.sha }}" > .release-sha
+          git archive --format=tar.gz --add-file=.release-sha -o release.tar.gz HEAD \
+            apps character-builder compendium infrastructure
+          ls -lh release.tar.gz
+
+      - name: Accès au serveur
+        env:
+          SSH_KEY: ${{ secrets.TUC_DEV_SSH_KEY }}
+        run: |
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$SSH_KEY" > ~/.ssh/deploy
+          chmod 600 ~/.ssh/deploy
+          # Empreinte du serveur fixée (pas de confiance au premier contact).
+          echo "$HOST ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ592nh2kHfUzyLk7b2ql9Xe1AO2jJWbWIWhw7Yu36KG" > ~/.ssh/known_hosts
+
+      - name: Mise en ligne
+        run: |
+          remote="$USER_NAME@$HOST"
+          ssh_opts="-i $HOME/.ssh/deploy -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes"
+          archive="/opt/terra-umbra/releases/incoming-${{ github.sha }}.tar.gz"
+          scp $ssh_opts release.tar.gz "$remote:$archive"
+          ssh $ssh_opts "$remote" \
+            "tmp=\$(mktemp -d) && tar -xzf $archive -C \$tmp infrastructure/production/deploy.sh && bash \$tmp/infrastructure/production/deploy.sh ${{ github.sha }} $archive; status=\$?; rm -rf \$tmp; exit \$status"

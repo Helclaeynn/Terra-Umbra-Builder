@@ -74,7 +74,7 @@ function clean(text: string): string {
 
 function apparentAge(raw: unknown): string | undefined {
   const text = String(raw ?? "");
-  const quoted = text.match(/[«\"]\s*(\d+)\s*ans?\s*[»\"]/i);
+  const quoted = text.match(/[«"]\s*(\d+)\s*ans?\s*[»"]/i);
   if (quoted) return `${quoted[1]} ans`;
   const plain = text.match(/^\s*(\d+)\s*ans?\s*$/i);
   return plain ? `${plain[1]} ans` : undefined;
