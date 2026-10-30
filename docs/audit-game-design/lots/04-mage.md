@@ -107,7 +107,7 @@ Deux voies, ouvertes à tout Mage quel que soit son Type.
 ## Corrections signalées (moteur, hors lot, non modifiées)
 
 - ~~« §8 »~~ : renvoi réparé le 31/10 vers « Canalisation, maintien et sorts longs » (+1 PA = difficulté −1 niveau, minimum 12 ; ni Défense ni Tension réduites).
-- « Techniques » : citées une quinzaine de fois sans liste. Définition proposée au lot 15 (question 1).
+- « Techniques » : citées une quinzaine de fois sans liste. Définies le 31/10 (lot 15, Q1) : toute permission écrite par un talent de voie, un Écho, une Œuvre personnelle, une Magie familiale ou un talent d'une autre tradition qui le dit ; pas de catalogue séparé.
 - ~~État SR~~ : tranché par la passation (Mage §17) le 31/10 : en SR, un Mage lance des sorts jusqu'à l'Amplitude Mineure ; la liste « Vision, Perception, Protection » donne les traits actifs.
 - Roue : l'ordre Discella (Skiamancie, Pseudomancie, Pathomancie) ne suit pas l'ordre des sections ; la première Affinité native de chaque Type s'affiche en ligne, les deux autres en liste.
 
