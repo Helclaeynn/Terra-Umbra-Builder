@@ -33,7 +33,7 @@ Les passations des agents précédents décrivent **l'existant**, pas ce qu'il f
 - VPS : environ 40 Go de disque, déjà monté à 99 %. Ne jamais lancer `docker system prune -a --volumes`.
 
 ## Plan
-1. ~~Archiver les 76 workflows ponctuels~~ : fait le 30/10 sur la branche de travail (déplacés dans `.github/workflows-archive/`, sans modification ; seul `v2-dev.yml` reste). Ne prend effet en production qu'une fois fusionné dans `feature/tuc-web-v2` : PR à ouvrir avec l'accord de l'auteur, puis vérifier dans l'onglet Actions qu'aucun job n'est parti.
+1. ~~Archiver les 76 workflows ponctuels~~ : fait le 30/10 sur la branche de travail (déplacés dans `.github/workflows-archive/`, sans modification ; seul `v2-dev.yml` reste). Ne prend effet en production qu'une fois fusionné dans `feature/tuc-web-v2` : PR validée par l'auteur le 30/10, depuis la branche `chore/archive-workflows` (poussée, tirée de la prod, rien d'autre que les 76 déplacements ; pas de `gh` sur le PC, la PR s'ouvre depuis github.com), puis vérifier dans l'onglet Actions qu'aucun job n'est parti.
 2. Installer la sauvegarde quotidienne et la copie sur H.
 3. Relever ce qui tourne en production, le ramener dans Git, nettoyer le disque.
 4. Fusionner dans `main`, couper Pages, n'avoir qu'un workflow de déploiement, ajouter Prettier/ESLint et une limite de débit sur l'authentification.
