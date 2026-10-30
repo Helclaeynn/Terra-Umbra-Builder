@@ -1,23 +1,17 @@
 # Sauvegardes : quotidien sur le VPS, copie sur le PC de l'auteur
 
-## 1. Côté serveur (une fois)
+## 1. Côté serveur (installé le 30/10/2026)
 
 `daily-backup.sh` appelle `infrastructure/production/backup.sh` (dump PostgreSQL, archive des médias de l'éditeur, restauration témoin, empreintes), puis supprime les sauvegardes de plus de 14 jours en en gardant au moins 7. La dernière sauvegarde vérifiée n'est jamais supprimée.
 
-Installation (à faire par l'auteur, une fois) :
+Le VPS n'a pas `cron` : la sauvegarde tourne avec un minuteur systemd, tous les jours à 4 h 17 (heure de Paris), rattrapée au démarrage si elle a été manquée.
 
-```powershell
-# depuis le PC, dans le dossier du dépôt
-ssh debian@terra-umbra.fr "mkdir -p /opt/terra-umbra/infrastructure/backup"
-scp infrastructure/backup/daily-backup.sh debian@terra-umbra.fr:/opt/terra-umbra/infrastructure/backup/
-ssh debian@terra-umbra.fr "chmod 750 /opt/terra-umbra/infrastructure/backup/daily-backup.sh"
-```
+- Script : `/opt/terra-umbra/infrastructure/backup/daily-backup.sh`
+- Minuteur : `/etc/systemd/system/terra-umbra-backup.{service,timer}` (copies dans ce dossier)
+- Journal : `/opt/terra-umbra/private-backups/daily.log`
+- Vérifier : `systemctl list-timers terra-umbra-backup.timer` ; lancer à la main : `sudo systemctl start terra-umbra-backup.service`
 
-Puis, sur le VPS, `crontab -e` et ajouter la ligne suivante (sauvegarde tous les jours à 4 h 17, le VPS étant à l'heure de Paris) :
-
-```
-17 4 * * * /opt/terra-umbra/infrastructure/backup/daily-backup.sh >> /opt/terra-umbra/private-backups/daily.log 2>&1
-```
+Les 49 sauvegardes antérieures au 30/10 ont été copiées (empreintes vérifiées) dans `H:\TerraUmbra\sauvegardes\anciennes` avant la première purge.
 
 ## 2. Côté PC (Windows, disque H)
 

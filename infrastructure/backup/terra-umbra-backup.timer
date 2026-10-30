@@ -1,0 +1,9 @@
+[Unit]
+Description=Terra Umbra : sauvegarde tous les jours à 4 h 17 (heure de Paris)
+
+[Timer]
+OnCalendar=*-*-* 04:17:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target
