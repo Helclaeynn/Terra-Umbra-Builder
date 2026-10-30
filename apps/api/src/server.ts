@@ -27,7 +27,10 @@ import { registerCharacterRoutes } from "./characters.js";
 import { preloadCompendium, registerCompendiumRoutes } from "./compendium.js";
 import { registerQualityRoutes } from "./quality.js";
 import { registerArbitrageRoutes } from "./arbitrage.js";
-import { approvePendingGmRequest, registerGmAccessRoutes } from "./gm-access.js";
+import {
+  approvePendingGmRequest,
+  registerGmAccessRoutes
+} from "./gm-access.js";
 import { preloadBuilderRules, registerRulesRoutes } from "./rules/index.js";
 import { passwordResetMailAvailable, sendPasswordResetEmail } from "./mail.js";
 
@@ -42,12 +45,17 @@ await app.register(cors, {
 
 const requestStarted = new WeakMap<FastifyRequest, number>();
 app.addHook("onRequest", async (request) => {
-  if (request.url.startsWith("/api/compendium/")) requestStarted.set(request, performance.now());
+  if (request.url.startsWith("/api/compendium/"))
+    requestStarted.set(request, performance.now());
 });
 
 app.addHook("onSend", async (request, reply, payload) => {
   const started = requestStarted.get(request);
-  if (started !== undefined) reply.header("Server-Timing", `app;dur=${(performance.now() - started).toFixed(1)}`);
+  if (started !== undefined)
+    reply.header(
+      "Server-Timing",
+      `app;dur=${(performance.now() - started).toFixed(1)}`
+    );
   if (reply.statusCode >= 400) {
     reply.header("Cache-Control", "no-store, private");
     return payload;
@@ -65,8 +73,10 @@ app.addHook("onSend", async (request, reply, payload) => {
   ) {
     // The media route marks MJ portraits private and uploaded immutable files
     // separately. Keep its explicit policy instead of making them all public.
-    if (!reply.getHeader("Cache-Control")) reply.header("Cache-Control", "public, max-age=86400");
-    if (String(reply.getHeader("Cache-Control") ?? "").startsWith("private")) reply.header("Vary", "Cookie");
+    if (!reply.getHeader("Cache-Control"))
+      reply.header("Cache-Control", "public, max-age=86400");
+    if (String(reply.getHeader("Cache-Control") ?? "").startsWith("private"))
+      reply.header("Vary", "Cookie");
     return payload;
   }
 
@@ -100,30 +110,53 @@ app.addHook("onSend", async (request, reply, payload) => {
   return payload;
 });
 
-const loginAttempts = new Map<string, { count: number; resetAt: number }>();
-const LOGIN_WINDOW_MS = 15 * 60 * 1000;
-const LOGIN_MAX_ATTEMPTS = 8;
+// In-memory limits for the authentication routes (single API process).
+// Each rule counts attempts per key over a fixed window.
+const MINUTE_MS = 60 * 1000;
+const RATE_LIMITS = {
+  login: { max: 8, windowMs: 15 * MINUTE_MS }, // per IP + email
+  loginIp: { max: 40, windowMs: 15 * MINUTE_MS }, // per IP, any email
+  setup: { max: 5, windowMs: 15 * MINUTE_MS },
+  register: { max: 5, windowMs: 60 * MINUTE_MS },
+  forgotIp: { max: 5, windowMs: 60 * MINUTE_MS },
+  forgotEmail: { max: 3, windowMs: 60 * MINUTE_MS },
+  resetIp: { max: 10, windowMs: 15 * MINUTE_MS },
+  changePassword: { max: 8, windowMs: 15 * MINUTE_MS }
+} as const;
+type RateLimitRule = keyof typeof RATE_LIMITS;
 
-function loginKey(ip: string, email: string): string {
-  return `${ip}:${email}`;
-}
+const rateLimitBuckets = new Map<string, { count: number; resetAt: number }>();
 
-function consumeLoginAttempt(key: string): boolean {
+function consumeRateLimit(rule: RateLimitRule, key: string): boolean {
+  const { max, windowMs } = RATE_LIMITS[rule];
+  const bucketKey = `${rule}:${key}`;
   const now = Date.now();
-  const current = loginAttempts.get(key);
+  const current = rateLimitBuckets.get(bucketKey);
 
   if (!current || current.resetAt <= now) {
-    loginAttempts.set(key, { count: 1, resetAt: now + LOGIN_WINDOW_MS });
+    rateLimitBuckets.set(bucketKey, { count: 1, resetAt: now + windowMs });
     return true;
   }
 
-  if (current.count >= LOGIN_MAX_ATTEMPTS) return false;
+  if (current.count >= max) return false;
   current.count += 1;
   return true;
 }
 
-function clearLoginAttempts(key: string): void {
-  loginAttempts.delete(key);
+function clearRateLimit(rule: RateLimitRule, key: string): void {
+  rateLimitBuckets.delete(`${rule}:${key}`);
+}
+
+// Drop expired buckets so a spray of distinct keys cannot grow memory forever.
+setInterval(() => {
+  const now = Date.now();
+  for (const [key, bucket] of rateLimitBuckets) {
+    if (bucket.resetAt <= now) rateLimitBuckets.delete(key);
+  }
+}, 5 * MINUTE_MS).unref();
+
+function tooManyAttempts(reply: FastifyReply) {
+  return reply.code(429).send({ error: "too_many_attempts" });
 }
 
 function inputError(reply: FastifyReply, error: string) {
@@ -131,7 +164,9 @@ function inputError(reply: FastifyReply, error: string) {
 }
 
 function isTestAccountEmail(value: string | null | undefined): boolean {
-  const normalized = String(value ?? "").trim().toLowerCase();
+  const normalized = String(value ?? "")
+    .trim()
+    .toLowerCase();
   return normalized.endsWith("@example.invalid");
 }
 
@@ -206,8 +241,15 @@ app.get("/api/auth/capabilities", async () => ({
 }));
 
 app.post<{
-  Body: { email?: string; displayName?: string; password?: string; passwordConfirmation?: string };
+  Body: {
+    email?: string;
+    displayName?: string;
+    password?: string;
+    passwordConfirmation?: string;
+  };
 }>("/api/auth/setup", async (request, reply) => {
+  if (!consumeRateLimit("setup", request.ip)) return tooManyAttempts(reply);
+
   const email = normalizeEmail(request.body?.email ?? "");
   const displayName = (request.body?.displayName ?? "").trim();
   const password = request.body?.password ?? "";
@@ -270,8 +312,15 @@ app.post<{
 });
 
 app.post<{
-  Body: { email?: string; displayName?: string; password?: string; passwordConfirmation?: string };
+  Body: {
+    email?: string;
+    displayName?: string;
+    password?: string;
+    passwordConfirmation?: string;
+  };
 }>("/api/auth/register", async (request, reply) => {
+  if (!consumeRateLimit("register", request.ip)) return tooManyAttempts(reply);
+
   if ((await userCount()) === 0) {
     return reply.code(409).send({ error: "setup_required" });
   }
@@ -319,10 +368,13 @@ app.post<{
 }>("/api/auth/login", async (request, reply) => {
   const email = normalizeEmail(request.body?.email ?? "");
   const password = request.body?.password ?? "";
-  const key = loginKey(request.ip, email);
+  const key = `${request.ip}:${email}`;
 
-  if (!consumeLoginAttempt(key)) {
-    return reply.code(429).send({ error: "too_many_attempts" });
+  if (
+    !consumeRateLimit("loginIp", request.ip) ||
+    !consumeRateLimit("login", key)
+  ) {
+    return tooManyAttempts(reply);
   }
 
   const result = await pool.query<{
@@ -362,10 +414,9 @@ app.post<{
     const current = await client.query<{
       password_hash: string | null;
       is_active: boolean;
-    }>(
-      "SELECT password_hash, is_active FROM users WHERE id = $1 FOR UPDATE",
-      [row.id]
-    );
+    }>("SELECT password_hash, is_active FROM users WHERE id = $1 FOR UPDATE", [
+      row.id
+    ]);
     const locked = current.rows[0];
     if (!locked || locked.password_hash !== row.password_hash) {
       await client.query("ROLLBACK");
@@ -394,12 +445,11 @@ app.post<{
     client.release();
   }
 
-  clearLoginAttempts(key);
+  clearRateLimit("login", key);
   setSessionCookie(reply, token);
 
   return { user: await loadUser(row.id) };
 });
-
 
 app.post<{
   Body: { email?: string };
@@ -409,6 +459,13 @@ app.post<{
   }
 
   const email = normalizeEmail(request.body?.email ?? "");
+
+  if (
+    !consumeRateLimit("forgotIp", request.ip) ||
+    !consumeRateLimit("forgotEmail", email)
+  ) {
+    return tooManyAttempts(reply);
+  }
 
   if (!validateEmail(email)) {
     return { ok: true };
@@ -449,11 +506,7 @@ app.post<{
   );
 
   try {
-    await sendPasswordResetEmail(
-      account.email,
-      account.display_name,
-      token
-    );
+    await sendPasswordResetEmail(account.email, account.display_name, token);
   } catch (mailError) {
     app.log.error(mailError);
     await pool.query(
@@ -473,6 +526,8 @@ app.post<{
     passwordConfirmation?: string;
   };
 }>("/api/auth/reset-password", async (request, reply) => {
+  if (!consumeRateLimit("resetIp", request.ip)) return tooManyAttempts(reply);
+
   const token = request.body?.token ?? "";
   const password = request.body?.password ?? "";
   const passwordConfirmation = request.body?.passwordConfirmation ?? "";
@@ -581,10 +636,16 @@ app.patch<{
 });
 
 app.post<{
-  Body: { currentPassword?: string; newPassword?: string; newPasswordConfirmation?: string };
+  Body: {
+    currentPassword?: string;
+    newPassword?: string;
+    newPasswordConfirmation?: string;
+  };
 }>("/api/auth/change-password", async (request, reply) => {
   const user = await requireUser(request, reply);
   if (!user) return;
+  if (!consumeRateLimit("changePassword", user.id))
+    return tooManyAttempts(reply);
 
   const currentPassword = request.body?.currentPassword ?? "";
   const newPassword = request.body?.newPassword ?? "";
@@ -695,10 +756,7 @@ app.patch<{
     return inputError(reply, "no_changes");
   }
 
-  if (
-    requestedActive !== undefined &&
-    typeof requestedActive !== "boolean"
-  ) {
+  if (requestedActive !== undefined && typeof requestedActive !== "boolean") {
     return inputError(reply, "invalid_active_state");
   }
 
@@ -810,7 +868,6 @@ app.patch<{
     client.release();
   }
 });
-
 
 app.delete<{
   Params: { id: string };

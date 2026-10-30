@@ -56,7 +56,7 @@ export function validateLiveEffect(v:unknown):v is LiveEffect {
  const duration:EffectDuration=e.expires.unit==='round'||e.expires.unit==='activation'?{unit:e.expires.unit,value:0}:{unit:e.expires.unit};
  const draft:any={};for(const key of draftKeys.filter(k=>!['duration','delay','ticks','startDelay'].includes(k)))if(e[key]!==undefined)draft[key]=e[key];draft.duration=duration;
  if(!validateEffectDraft(draft))return false;
- return !!e.period?e.nextTick!==null:e.nextTick===null&&e.remainingTicks===null&&e.lastRoundTick===null&&e.lastActivationTick===null;
+ return e.period?e.nextTick!==null:e.nextTick===null&&e.remainingTicks===null&&e.lastRoundTick===null&&e.lastActivationTick===null;
 }
 /** Each actor has at most 100 effects; IDs are unique and protected state must be loaded server side. */
 export function validateLiveEffects(v:unknown):v is LiveEffect[]{return Array.isArray(v)&&v.length<=100&&v.every(validateLiveEffect)&&new Set(v.map(e=>e.id)).size===v.length;}

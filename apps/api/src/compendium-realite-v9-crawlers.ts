@@ -39,7 +39,7 @@ const CRAWLER_CURATED_EMPTY_SECTIONS: Record<string, Array<Record<string, any>>>
 };
 
 function crawlerReadableParagraphs(text: string): Array<Record<string, any>> {
-  let cleaned = String(text ?? "")
+  const cleaned = String(text ?? "")
     .replace(/^\s*\d{1,2}\s+(?:CONTEXTE GENERAL\s+)?(?:Chronologie|Contexte|Organisation générale)\s*/i, "")
     .replace(/^\s*(?:CONTEXTE GENERAL\s+)?(?:Chronologie|Contexte|Organisation générale)\s*/i, "")
     .trim();
