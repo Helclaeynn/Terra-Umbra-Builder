@@ -43,6 +43,9 @@ Une copie HTML de chaque page est dans `pages/`. Les fichiers `*-source.html` so
 14. **Sangs oshirique et d'Ivoire** : Ruptures propres au Vampire, jouables au prix de la Corruption, pas des Sangs noirs ordinaires.
 15. **Purification** : toujours par une voie ou une organisation qui en a le pouvoir (Vieilles et Chevaliers de la Ruine, etc.), jamais par une règle générale. Possible, mais très difficile.
 16. **Silcenters** : exempts du Voile ; on y est Révélé de base, sans effet sur la Relation au Voile.
+17. **Espèces hors Natures** (Dhampire, Nephilim, Kelta, Dive, Nymphe, Amazone, Psychopompe, Astharès…) : non jouables par les PJ.
+18. **Fléaux hors des six** (Akryth, Sheroh, Zarpheth, Ira'Xiadror…) : des Fléaux venus d'ailleurs, pas des Patrons des six Anciens terrestres.
+19. **« Sept Fléaux majeurs »** : les six Anciens plus Delanial, le faux Septième ; le texte reste tel quel.
 
 ## Méthode de travail souhaitée par l'auteur
 
