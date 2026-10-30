@@ -206,6 +206,40 @@ Lecture suivie des sources de l'auteur, pour assimiler l'univers avant de contin
 - **Exilés rares** : Nareysvors (forme humaine sans Hologramme, pas d'augmentations), Vala'Eraï, Neva'Iriel / Erkal / Yramar, Keltas (Berserk, Lycans/Dranash, Kweets ; marques bleues). Les Lycans d'Aèr ne sont pas des Garous terrestres. **Silcenters** : lieux où l'Hologramme ne produit pas son effet ordinaire, interdits aux Mages. Syndicat de Jade et Jadecenters.
 - **Extrals** : cinq espèces autorisées (Talass, Mo'sens, Baséanhs, Rocréens, Thalsios ; ces derniers sentent les fluctuations de l'Hologramme), factions CTU, Croix verte (Biobars), SRA, etc. ; espèces hostiles (Greys, Ad'rak, Zaabors…) ; Éons, peu sensibles aux pouvoirs divins.
 
+## PNJ du compendium et lore Réalité (lecture du 30/10)
+
+Lecture intégrale des fiches PNJ Vérité et Réalité (`compendium-verite-*-pnj*`, `compendium-realite-v9-*-pnj*`, ~3 Mo) et du lore Réalité. Les incohérences à corriger sont listées dans `lots/11-pnj-incoherences.md`.
+
+### Constats généraux
+
+- **Aucune fiche n'a de statistiques.** Les sections « Statistiques » et « Informations MJ » sont vides à dessein. Les blocs chiffrés viendront des gabarits de `npc-tiers.ts` (Sbire → Supérieur) ; les fiches ne donnent que des repères de puissance en prose (Ombre-Pape = Mage très ancien + roi vampire ; Akvan ≈ Archange majeur ; Munyama, strygoï « inférieure », surclasse presque tous les vampires).
+- Chaque fiche a trois couches : **Réalité / Seuil / Vérité**. Le Seuil (ce que savent les Chasseurs) existe déjà dans le livre et le Moteur.
+- Le champ « Ethnie réelle » sert de Nature et contient des valeurs hors liste : Dhampire, Nephilim, Kelta, Dive/Voyageur, Nymphe, Amazone, Psychopompe/Guédé, Astharès, Sephirienne, Homoncule, Atlante (= Aseryn), Expatrié (= Exilé).
+- Doublons et artefacts : bios en double (brut + réécriture), titres décalés d'un PNJ, commentaires Word, notes d'auteur, versions V1/V2 laissées en place.
+
+### Ce que les PNJ montrent des règles
+
+- **Garous** : douze « Pouvoirs du sang » (écarlate, enragé, chasseur, primal, vengeur, funeste, alpha, sagesse, révélateur, naturel, enchaîné, sculpteur) = les Sangs vifs. Effets montrés : enragé (berserker, force l'éveil des siens, rage dans l'Holonet), enchaîné (prive un vampire blessé de ses pouvoirs), chasseur (invisibilité), primal (formes animales), funeste (spectre, longévité), vengeur (cri qui blesse à distance). **Dévoration** du Meneur = transmission de mémoire et du nom ; latence et éveil ; un fils de garou est compatible avec le sang vampirique.
+- **Vampires** : sous-types Moroï, Strygoï, Dhampire, Veilleur, Archivampire ; sangs nommés (rêve, masqué, venimeux, condamné, primal, Coatl, archiprimordial) ; Marque de Caïn = transformation fiable propre à la Krovni ; Fontaine des Ténèbres pour l'Oru ; Écume blanche = Sang d'Ivoire. **L'Hologramme protège les vampires du soleil**, sauf les cadavres réanimés ; balles **Sunflash** qui blessent même un vampire non Révélé.
+- **Mages** : rangs Archimage, Magister, Mage, Disciple, sorcier ; « magicien de rang 4 » ; **l'Hologramme limite la magie** (Saint-Germain) et l'Holonet ponctionne la magie.
+- **Angelus** : hiérarchie Ange → Vertu → Domination → Séraphin (six ailes) → Archange, rattachée aux Sephiroth ; rétrogradation et perte d'aile possibles = paliers naturels. Possession consentie ou forcée. Les Sept Péchés sont d'anciennes Vertus dévoyées.
+- **Daemons** : âmes célèbres titrées d'un nom goétique (Jeanne d'Arc = Marchosias, Tesla = Byleth…) ; rangs prince, duc, chambellan ; **Prophètes et Attributs** (talent « Ancien Prophète » déjà au livre).
+- **Aseryns** : variantes de foudre (givrante, ombre-foudre, grise, langue-tonnerre, visée électromagnétique, orage de colère) ; Stase ; Stroethil. Les « yeux d'or » de Sharith = séquelle d'une Corruption purgée (bon modèle de cicatrice, décision 15).
+- **Exilés** : la magie d'Aèr est atténuée sur Terre (archimage d'Aèr = maître de Loge) ; Motsognir redistribue la magie ; toile magique des Adhiriel.
+- **Effets prêts à traduire** : Asmodée (bloque les pouvoirs tant qu'une énigme n'est pas résolue), Hassiel (nie les pouvoirs qu'il voit), Rubiel (bonus selon la sérénité de la cible, annulé par le Stress), Mebahel (une feinte contre lui le blesse), Narax (présent à 55 %, −45 % de dégâts reçus et infligés), médaillon de Chanington (25 ans de vie, 5 par usage).
+- **Voile** : le Voile varie selon le lieu (Lostown, cités sous-marines, Mola Mola, Silcenters = décision 16) ; Révélation incontrôlée (excitation, usage d'un pouvoir) ; **Holojamer** comme sanction ; perception graduée (« percer une partie de l'Hologramme », « forcer la Révélation »).
+- **Corruption** (conforme aux décisions 4 et 13) : Dons séduisants (Myung-Sook boit un sang souillé pour retrouver ses pouvoirs, puis est vouée à Vhodhal) ; pouvoir à tribut (Nigsummu) ; Corruption contagieuse (tuer Fredegonda) ; augmentation comme barrière (Nina Allen) ; armure qui noie l'âme (Nahfr) ; pensée de Fléau qui passe pour une sagesse (Ardinae veut libérer Thul). Le livre a déjà des **Patrons** sous les Fléaux Anciens (Dagon, Telipinu, R'Sheraag, Pestiria, Olla… pour Thul) avec leurs Faveurs.
+- **Réalité** : Charge et Stress augmentique illustrés (A-Man, Raelyn intolérante, Kyu-Ri immunisée = talent rare), **N-sta** comme ressource, **syndrome Overtech** = désavantage clé en main, coûts de Neurodive (tumeurs par suractivité), **Logifate** (déjà au V9 : profil social, Logifake) avec catégories (médiocre, dangereux, hors système, Enders), Train de vie en cinq niveaux, abonnements et dettes.
+
+### Organisations utiles comme voies de Vérité ou contacts
+
+- **Vampires** : Krovni (concubines, trônes princiers, maisons) ; Alghul (Conseil des Masques, un ministère par clan) ; Ihuito (K'uhul / Ah'kin Ajaw) ; Oru (clergé oshirique, Makoko liés à un Deimon) ; Shì Hun (ministères Han) ; Lavandières ; Tenancier du Pinksun.
+- **Pelages** : huit couleurs, Galeux, ulfhednars, Tala Corp (Tokala).
+- **Chasseurs** : Association (Hunt-15, Hunt100, badges GT-01 à GT-33, Observateurs), Blanchisserie (« Whiteman »), Xenoshield, ordres de l'Église (Exorcistat, Arianwen, Magdalena/Inquisition), Table ronde (Leslie Wright), Saintes Lagunes, traditions musulmanes, hindoues, taoïstes, kabbalistes.
+- **Exilés** : Conseil des Anciens, Chasse fantastique, Syndicat de Jade contre Ligue d'Atreesha, Hordes, Cercle écarlate, Flammes Indicibles.
+- **Extrals et AIDH** : GAAC, CTU, Croix verte, REPTILE, mafia Shaediri, Hydroguard, SMRC ; AIDH (armées numérotées, Seigneurs-généraux, Corp'+, Inquisition, ordres Assassins, ordre Scytheri).
+- **Réalité** : agences (CBII, CPP, CBAC, STAB, CCHS…), LAUS et son **Ghost Bureau** (« contenir ou nier », pont évident vers la Vérité), Comité du crime et Table des Mafias, clubs de motards, Chrétienté réunifiée (ministère Noir, ordres chasseurs cachés).
+
 ## Questions à poser à l'auteur
 
 (à compléter au fil de la lecture)
