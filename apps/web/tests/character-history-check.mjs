@@ -1,0 +1,58 @@
+import assert from 'node:assert/strict';
+import {readFile} from 'node:fs/promises';
+import {build} from 'esbuild';
+import {fileURLToPath} from 'node:url';
+const source=await readFile(new URL('./builder-v2-smoke.mjs',import.meta.url),'utf8');
+const fixtures=source.slice(source.indexOf('const skillIds='),source.indexOf('const browser='));
+const bundle=await build({stdin:{resolveDir:fileURLToPath(new URL('../',import.meta.url)),loader:'ts',contents:`
+import {compareHistory,revisionLabel} from './src/lib/character-history';
+import {buildCharacterSheet} from './src/lib/character-sheet-model';
+${fixtures}
+export {compareHistory,revisionLabel,buildCharacterSheet,characterData,rules,truthRules,realityRules};
+export const core={rules,lore,talentChoiceSpecs:{},skillTalentMap:{},disadvantages:{common:[],attribute:[],sphere:{}},edgeRules};
+`},bundle:true,write:false,format:'esm',platform:'node'});
+const {compareHistory,revisionLabel,buildCharacterSheet,characterData,rules,truthRules,realityRules,core}=await import('data:text/javascript;base64,'+Buffer.from(bundle.outputFiles[0].text).toString('base64'));
+const before=structuredClone(characterData),after=structuredClone(characterData);
+before.progression={};
+after.progression={xpEarned:100,ptvEarned:4,attributeRanks:{vigueur:1},skillRanks:{constitution:2},realityTalents:[],truthTalents:[],flashUses:['constitution:1']};
+const rev=(n,data)=>({revision:n,reason:n===1?'created':'saved',createdAt:'2026-09-23',snapshot:data});
+const sourceBefore=JSON.stringify({before,after});
+const comparison=compareHistory(rev(2,after),rev(1,before),rules,truthRules);
+const change=label=>comparison.changes.find(row=>row.label.startsWith(label));
+assert.equal(change('XP reçus').after,'100');assert.equal(change('PTV reçus').after,'4');
+const sheet=buildCharacterSheet(after,core,truthRules,realityRules);
+assert.equal(Number(change('XP engagés').after),100-sheet.xpRemaining,'History costs agree with shared character sheet');
+assert.equal(change('Constitution · rangs').after,'2');assert.match(change('Éclair de génie').after,/Constitution/);
+assert.equal(JSON.stringify({before,after}),sourceBefore,'Read-only history projection');
+assert.equal(compareHistory(rev(1,before),null,rules,truthRules).initial,true);
+assert.equal(compareHistory(rev(5,after),rev(3,before),rules,truthRules).missing,true);
+assert.deepEqual(compareHistory(rev(3,after),rev(2,after),rules,truthRules).changes,[]);
+const removed=compareHistory({...rev(3,before),reason:'restored:1'},rev(2,after),rules,truthRules);
+assert.equal(removed.changes.find(c=>c.label.startsWith('XP reçus')).after,'0');
+assert.equal(revisionLabel({...rev(3,before),reason:'restored:1'}),'Restauration de la version 1');
+const unknown=structuredClone(after);unknown.progression.truthTalents=['missing-talent'];
+assert.equal(compareHistory(rev(3,unknown),rev(2,after),rules,truthRules).changes.find(c=>c.label.startsWith('PTV engagés')).after,'Coût inconnu');
+unknown.progression.attributeRanks.vigueur=1000000000;
+assert.equal(compareHistory(rev(3,unknown),rev(2,after),rules,truthRules).changes.find(c=>c.label.startsWith('XP engagés')).after,'Coût inconnu');
+console.log('HISTORY MODEL OK — saved differences, shared sheet cost agreement, Flash discount, restored versions, missing baseline, unknown costs, bounded calculation and no mutation');
+
+const corruptionAfter=structuredClone(after);
+corruptionAfter.progression.corruptionTalents=['don-smoke','rite-smoke'];
+corruptionAfter.progression.truthEquipmentMjAuthorized=true;
+corruptionAfter.truth.corruption=2;corruptionAfter.truth.corruptionSource='vhodhal';
+corruptionAfter.truth.corruptionMjAuthorized=true;corruptionAfter.truth.truthEquipment=['truth-corrupt-smoke'];
+const corruptionChanges=compareHistory(rev(3,corruptionAfter),rev(2,after),rules,truthRules).changes;
+assert.equal(corruptionChanges.find(c=>c.label==='Corruption · niveau').after,'2');
+assert.equal(corruptionChanges.find(c=>c.label==='Corruption · Source dominante').after,'Vhodhal');
+assert.equal(corruptionChanges.find(c=>c.label.startsWith('PTV engagés')).after,'3');
+assert.ok(corruptionChanges.some(c=>c.label==='Capacité de Fléau · Don de Faim Smoke'&&c.after==='Acquis'));
+assert.ok(corruptionChanges.some(c=>c.label==='Objet de Vérité · Relique corrompue Smoke'&&c.after==='Acquis'));
+const purified=structuredClone(corruptionAfter);purified.truth.corruption=0;purified.truth.corruptionSource='';
+const purifiedChanges=compareHistory(rev(4,purified),rev(3,corruptionAfter),rules,truthRules).changes;
+assert.ok(!purifiedChanges.some(c=>c.label.startsWith('PTV engagés')||c.label.startsWith('Capacité de Fléau')),'Purification is not a refund or deletion');
+console.log('TRUTH HISTORY OK — corruption level/source, declared approvals, acquired abilities/objects and purification without refund');
+
+const cashAfter=structuredClone(after);cashAfter.progression.cashBase=200;cashAfter.progression.cashTransactions=[{uid:'gm-event',amount:125,label:'Prime de séance',type:'campaign-gm',at:'2026-09-23'}];
+const cashChange=compareHistory(rev(3,cashAfter),rev(2,after),rules,truthRules).changes.find(c=>c.label==='Argent · Prime de séance');assert.equal(cashChange.before,'Absent');assert.equal(cashChange.after,'125 $');
+assert.equal(revisionLabel({...rev(3,cashAfter),reason:'campaign-effect:Le port'}),'Événement de séance · Le port');
+console.log('CASH HISTORY OK — individual GM transactions visible in character history');

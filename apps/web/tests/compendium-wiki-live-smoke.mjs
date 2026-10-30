@@ -1,0 +1,337 @@
+import { chromium } from "playwright-core";
+
+const baseUrl=(process.env.TUC_V2_SMOKE_BASE_URL||"https://dev.terra-umbra.fr").replace(/\/$/,"");
+const executablePath=process.env.CHROME_BIN;
+const sessionToken=process.env.TUC_SESSION_TOKEN;
+const dynamicTalentArticle=process.env.TUC_DYNAMIC_TALENT_ARTICLE||"";
+
+if(!executablePath)throw new Error("CHROME_BIN manquant.");
+if(!sessionToken)throw new Error("TUC_SESSION_TOKEN manquant.");
+
+const browser=await chromium.launch({
+  headless:true,
+  executablePath,
+  args:["--no-sandbox"]
+});
+
+const perfContext=await browser.newContext();
+const perfPage=await perfContext.newPage();
+try{
+  const compactResponsePromise=perfPage.waitForResponse(
+    response=>response.url().includes("/api/compendium/wiki-index?compact=1"),
+    {timeout:15000}
+  );
+  const started=Date.now();
+  await perfPage.goto(baseUrl+"/compendium?article=realite-v9-grande-californie-2035",{
+    waitUntil:"domcontentloaded",
+    timeout:30000
+  });
+  await perfPage.locator(".article-header h1").waitFor({state:"visible",timeout:10000});
+  const articleVisibleMs=Date.now()-started;
+
+  const compactResponse=await compactResponsePromise;
+  const compactPayload=await compactResponse.json();
+  const compactEntries=compactPayload.entries||[];
+  if(compactEntries.length<500)throw new Error("Index wiki actif trop petit: "+compactEntries.length);
+  if(compactEntries.some(entry=>entry.category==="OLD")){
+    throw new Error("Une archive OLD a fui dans l’index wiki actif.");
+  }
+  if(compactEntries.some(entry=>"snippet" in entry||"media" in entry)){
+    throw new Error("Index wiki compact contient encore snippets ou médias.");
+  }
+  await perfPage.waitForFunction(()=>window.__TUC_WIKI_V2__?.ready===true,null,{timeout:10000});
+  const wikiReadyMs=Date.now()-started;
+  console.log(
+    `COMPENDIUM PERF — article visible ${articleVisibleMs} ms · wiki prêt ${wikiReadyMs} ms · index compact ${compactEntries.length} entrées`
+  );
+}finally{
+  await perfContext.close();
+}
+
+const publicContext=await browser.newContext();
+const publicPage=await publicContext.newPage();
+try{
+  await publicPage.goto(baseUrl+"/",{waitUntil:"domcontentloaded",timeout:30000});
+  await publicPage.locator(".discovery-hero").waitFor({state:"visible",timeout:20000});
+  await publicPage.locator(".compendium-topbar .tu-brand-lockup").waitFor({state:"visible",timeout:10000});
+  await publicPage.waitForFunction(
+    ()=>document.querySelector(".compendium-topbar .tu-brand-lockup")?.naturalWidth>0,
+    null,
+    {timeout:10000}
+  );
+  const homeTitle=(await publicPage.locator(".discovery-hero h1").innerText()).replace(/\s+/g," ").trim();
+  if(!homeTitle.includes("Un même monde.") || !homeTitle.includes("Une autre réalité."))throw new Error("Accueil orbital absent: "+homeTitle);
+  for(const width of [1920,2560,390]){
+    await publicPage.setViewportSize({width,height:1000});
+    await publicPage.waitForFunction(
+      mobile=>document.querySelector(".navigation-disclosure")?.open===!mobile,
+      width<=900
+    );
+    const layout=await publicPage.evaluate(()=>{
+      const rail=document.querySelector(".compendium-navigation").getBoundingClientRect();
+      const hero=document.querySelector(".discovery-hero").getBoundingClientRect();
+      return {width:document.documentElement.clientWidth,overflow:document.documentElement.scrollWidth>document.documentElement.clientWidth+1,railRight:rail.right,heroLeft:hero.left,heroRight:hero.right,mainContainsRail:document.querySelector("main").contains(document.querySelector(".compendium-navigation"))};
+    });
+    if(layout.overflow || layout.mainContainsRail || Math.abs(layout.heroRight-layout.width)>2 || Math.abs(layout.heroLeft-(width>900?layout.railRight:0))>2){
+      throw new Error("Disposition pleine largeur incorrecte à "+width+"px: "+JSON.stringify(layout));
+    }
+  }
+  await publicPage.locator(".navigation-disclosure > summary").click();
+  await publicPage.locator(".compendium-navigation").getByRole("button",{name:"Bien commencer",exact:true}).click();
+  await publicPage.locator('.discovery[data-mode="guide"]').waitFor({state:"visible",timeout:10000});
+  await publicPage.setViewportSize({width:1280,height:720});
+  console.log("COMPENDIUM LAYOUT OK — accueil bord à bord à1920/2560px · navigation mobile à390px · contenu hors rail");
+  await publicPage.locator('.discovery[data-mode="guide"] h1').filter({hasText:"Entrer dans Terra Umbra"}).waitFor({state:"visible",timeout:10000});
+  for(const asset of ["guide-realite-2035", "guide-verite-voile"]){
+    const illustration=publicPage.locator(`.discovery-illustration img[src$="${asset}.webp"]`);
+    await illustration.scrollIntoViewIfNeeded();
+    await illustration.evaluate(img=>img.decode());
+    if(!(await illustration.evaluate(img=>img.naturalWidth===1536&&img.naturalHeight===1024)))throw new Error("Illustration guide invalide: "+asset);
+  }
+  await publicPage.locator(".rules-onboarding > summary").click();
+  await publicPage.locator(".newcomer-hero h2").filter({hasText:"Entrer dans Terra Umbra"}).waitFor({state:"visible",timeout:10000});
+
+  if(await publicPage.getByRole("button",{name:/Archives · ancien Compendium/}).count()){
+    throw new Error("La rubrique OLD ne doit pas être proposée au public.");
+  }
+
+  const searchInput=publicPage.locator('input[aria-label="Recherche dans le Compendium"]');
+  await publicPage.getByRole("button",{name:"Ouvrir la recherche",exact:true}).click();
+  await searchInput.fill("Afa");
+  const afancSuggestion=publicPage.getByRole("option").filter({hasText:"Afanc"}).first();
+  await afancSuggestion.waitFor({state:"visible",timeout:10000});
+  await afancSuggestion.click();
+  await publicPage.locator(".article-header h1").waitFor({state:"visible",timeout:10000});
+  const afancFromSuggestion=(await publicPage.locator(".article-header h1").innerText()).trim();
+  if(afancFromSuggestion!=="Afanc")throw new Error("Suggestion Afanc incorrecte: "+afancFromSuggestion);
+
+  await publicPage.getByRole("button",{name:"Ouvrir la recherche",exact:true}).click();
+  const rulesChip=publicPage.locator(".category-strip .category-chip").filter({hasText:"Règles"}).first();
+  await rulesChip.click();
+  await publicPage.waitForURL(
+    url=>{
+      const parsed=new URL(url);
+      return parsed.searchParams.get("category")==="Règles" && !parsed.searchParams.has("article");
+    },
+    {timeout:20000}
+  );
+  await publicPage.goto(baseUrl+"/compendium?category="+encodeURIComponent("Règles"),{
+    waitUntil:"domcontentloaded",
+    timeout:30000
+  });
+  await publicPage.locator(".category-overview h1").filter({hasText:"Règles"}).waitFor({state:"visible",timeout:20000});
+  await publicPage.locator(".compendium-navigation .navigation-group").filter({hasText:"Moteur de jeu"}).first()
+    .waitFor({state:"visible",timeout:20000});
+  await publicPage.locator(".category-group-card").filter({hasText:"Moteur de jeu"}).first()
+    .waitFor({state:"visible",timeout:20000});
+  if(await publicPage.locator(".compendium-navigation .result-card").count()){
+    throw new Error("Les résultats de recherche ne doivent plus occuper la navigation gauche.");
+  }
+
+  await searchInput.fill("Neurodive");
+  await searchInput.press("Enter");
+  await publicPage.locator(".search-results-main").waitFor({state:"visible",timeout:10000});
+  await publicPage.locator(".main-result-card").first().waitFor({state:"visible",timeout:10000});
+  await publicPage.locator(".compendium-navigation").waitFor({state:"visible",timeout:10000});
+
+  // Retired articles are absent from the API and have a useful recovery screen.
+  for(const articleId of ["guide-realite-nouveau-joueur","guide-verite-nouveau-joueur","verite-046-10-vampires"]){
+    const retiredResponse=await publicContext.request.get(baseUrl+"/api/compendium/articles/"+articleId);
+    if(retiredResponse.status()!==404)throw new Error("Archive encore servie au public : "+articleId);
+  }
+  await publicPage.goto(baseUrl+"/compendium?article=guide-realite-nouveau-joueur",{waitUntil:"domcontentloaded",timeout:30000});
+  await publicPage.getByRole("heading",{name:"Article indisponible",exact:true}).waitFor({state:"visible",timeout:10000});
+  if(await publicPage.locator(".article-header h1").count())throw new Error("Un article retiré est encore rendu.");
+
+  await publicPage.goto(baseUrl+"/compendium?article=pnj-agences-cole-gallagher&section=profil-statistique",{waitUntil:"domcontentloaded",timeout:30000});
+  await publicPage.getByRole("heading",{name:"Cole Gallagher",exact:true}).waitFor({state:"visible",timeout:20000});
+  if(await publicPage.locator(".npc-stat-profile, #wiki-section-profil-statistique").count())throw new Error("Le profil MJ de Cole est visible sans session.");
+
+  // Builder provenance belongs to the rebuilt active article, never to its OLD archive.
+  await publicPage.goto(baseUrl+"/compendium?article=verite-v7-vampires-civilisation-cours-sangs",{waitUntil:"domcontentloaded",timeout:30000});
+  await publicPage.locator(".article-header h1").waitFor({state:"visible",timeout:20000});
+  await publicPage.getByText("DONNÉES CANONIQUES",{exact:true}).waitFor({state:"visible",timeout:10000});
+  await publicPage.getByText("DANS LE BUILDER",{exact:true}).waitFor({state:"visible",timeout:10000});
+  if(await publicPage.getByText("Archive de l’ancien Compendium",{exact:true}).count()){
+    throw new Error("La page Vampire V7 reconstruite ne doit pas être marquée OLD.");
+  }
+
+  const truthLoreChecks=[
+    ["verite-v7-exiles-peuples-silcenters-traditions","Une société exilée, pas cinq musées","Un catalogue canonique de 184 Talents"],
+    ["verite-v7-extrals-gaac-aidh-diasporas","Les Extrals en 2035 — une diaspora récente, déjà divisée","Un catalogue canonique de 161 Talents"],
+    ["verite-v7-homo-superior-adrak-profils-rares","Les Arts de Nel’Akna","Repère Builder"],
+    ["verite-v7-chasseurs-doctrine-association-traditions","La Californie comme territoire de Chasse","Un catalogue canonique de 266 Talents"],
+    ["verite-v7-six-fleaux-sources-rupture","Thul — la Fixation","Les Dons ne sont pas un second catalogue de Compendium"],
+    ["verite-v7-delanial-pere-ombre","Le Père de l’Ombre","progression PTV"],
+    ["verite-v7-descendants-khinae","Lignées majeures","Catalogue canonique des Talents de Lignée et Sangs vifs"]
+  ];
+  for(const [articleId,requiredHeading,forbiddenText] of truthLoreChecks){
+    await publicPage.goto(baseUrl+"/compendium?article="+encodeURIComponent(articleId),{waitUntil:"domcontentloaded",timeout:30000});
+    await publicPage.locator(".article-header h1").waitFor({state:"visible",timeout:20000});
+    await publicPage.getByRole("heading",{name:requiredHeading,exact:true}).waitFor({state:"visible",timeout:10000});
+    if(await publicPage.getByText(forbiddenText,{exact:false}).count()){
+      throw new Error(articleId+" contient encore du contenu mécanique de lore interdit: "+forbiddenText);
+    }
+    if(await publicPage.getByText("Archive de l’ancien Compendium",{exact:true}).count()){
+      throw new Error(articleId+" est retombé en OLD.");
+    }
+  }
+  console.log("TRUTH LORE LIVE OK — 7 pages sensibles · lore rendu · anciens catalogues absents");
+
+  await publicPage.goto(baseUrl+"/compendium?article=regles-verite-chasseur-lavandieres",{waitUntil:"domcontentloaded",timeout:30000});
+  await publicPage.locator(".article-header h1").waitFor({state:"visible",timeout:20000});
+  await publicPage.getByRole("heading",{name:"Un catalogue canonique de 4 Talents",exact:true}).waitFor({state:"visible",timeout:10000});
+  if(await publicPage.getByText("Archive de l’ancien Compendium",{exact:true}).count()){
+    throw new Error("Le hub Talent des Lavandières actif ne doit pas être marqué OLD.");
+  }
+  const rawHunterDirective=await publicPage.getByText(/\{\{Talents\|group=humain:/).count();
+  if(rawHunterDirective)throw new Error("Directive brute visible dans le hub Talent actif.");
+
+  if(dynamicTalentArticle){
+    await publicPage.goto(baseUrl+"/compendium?article="+encodeURIComponent(dynamicTalentArticle),{waitUntil:"domcontentloaded",timeout:30000});
+    await publicPage.getByRole("heading",{name:"Talents dynamiques"}).waitFor({state:"visible",timeout:10000});
+    await publicPage.getByRole("heading",{name:"Faveur de la nuit"}).waitFor({state:"visible",timeout:10000});
+    await publicPage.getByRole("heading",{name:"Sens du chasseur"}).waitFor({state:"visible",timeout:10000});
+    const cards=await publicPage.locator(".talent-wiki-card").count();
+    if(cards!==2)throw new Error("Bloc dynamique de Talents inattendu: "+cards+" cartes.");
+    const rawDirective=await publicPage.getByText("{{Talents|ids=faveur_de_la_nuit,sens_du_chasseur}}",{exact:true}).count();
+    if(rawDirective)throw new Error("Directive Talents brute encore visible.");
+  }
+
+  for(const removedPath of ["/style-lab","/style-lab/umbra-signal/builder"]){
+    await publicPage.goto(baseUrl+removedPath,{waitUntil:"domcontentloaded",timeout:30000});
+    await publicPage.locator(".discovery-hero").waitFor({state:"visible",timeout:10000});
+    if(new URL(publicPage.url()).pathname!=="/" || await publicPage.locator(".style-lab").count()){
+      throw new Error("L’ancienne URL du laboratoire ne ramène pas à l’accueil : "+removedPath);
+    }
+  }
+  console.log("ARCHIVES RETIRED OK — anciennes pages absentes · laboratoire supprimé · anciens liens récupérables");
+
+  await publicPage.goto(baseUrl+"/",{waitUntil:"domcontentloaded",timeout:30000});
+  const loginLink=publicPage.getByRole("link",{name:"Connexion"});
+  await loginLink.waitFor({state:"visible",timeout:10000});
+  console.log("WIKI PUBLIC OK — onboarding + suggestions + backlinks Builder + cartes Talents dynamiques sans session");
+}finally{
+  await publicContext.close();
+}
+
+const context=await browser.newContext();
+await context.addCookies([{
+  name:"__Host-tuc_session",
+  value:sessionToken,
+  domain:"dev.terra-umbra.fr",
+  path:"/",
+  secure:true,
+  httpOnly:true,
+  sameSite:"Lax"
+}]);
+
+const page=await context.newPage();
+const browserErrors=[];
+page.on("pageerror",error=>browserErrors.push("pageerror: "+String(error)));
+page.on("console",message=>{
+  if(message.type()==="error")browserErrors.push("console: "+message.text());
+});
+
+try{
+  await page.goto(baseUrl+"/compendium",{waitUntil:"domcontentloaded",timeout:30000});
+  await page.waitForFunction(()=>window.__TUC_WIKI_V2__?.ready===true,null,{timeout:10000});
+  const wikiDebug=await page.evaluate(()=>window.__TUC_WIKI_V2__);
+  if(!wikiDebug?.hasAfancTarget)throw new Error("Afanc absent de l’index actif: "+JSON.stringify(wikiDebug));
+  if(wikiDebug?.hasLegacyEntry)throw new Error("OLD présent dans l’index actif: "+JSON.stringify(wikiDebug));
+
+  await page.getByRole("button",{name:"Ouvrir la recherche",exact:true}).click();
+  if(await page.getByRole("button",{name:/Archives · ancien Compendium/}).count()){
+    throw new Error("La rubrique des archives est encore proposée aux éditeurs.");
+  }
+  for(const articleId of ["guide-realite-nouveau-joueur","verite-046-10-vampires"]){
+    const retiredResponse=await context.request.get(baseUrl+"/api/compendium/articles/"+articleId);
+    if(retiredResponse.status()!==404)throw new Error("Archive encore accessible à l’éditeur : "+articleId);
+  }
+  await page.goto(baseUrl+"/compendium?category=OLD",{waitUntil:"domcontentloaded",timeout:30000});
+  await page.locator(".search-results-main").waitFor({state:"visible",timeout:10000});
+  await page.locator(".main-result-card").first().waitFor({state:"visible",timeout:10000});
+  if(await page.getByRole("button",{name:/Archives · ancien Compendium/}).count())throw new Error("Ancienne catégorie encore proposée.");
+
+  await page.goto(baseUrl+"/compendium?article=pnj-agences-cole-gallagher&section=profil-statistique",{waitUntil:"domcontentloaded",timeout:30000});
+  await page.getByRole("heading",{name:"Cole Gallagher",exact:true}).waitFor({state:"visible",timeout:20000});
+  await page.locator(".npc-stat-profile").waitFor({state:"visible",timeout:10000});
+  await page.waitForFunction(()=>{
+    const section=document.getElementById("wiki-section-profil-statistique");
+    return section?.querySelector("details.mj-section")?.open && document.activeElement===section;
+  },null,{timeout:10000});
+  const attributes=await page.locator(".npc-profile-attribute").evaluateAll(items=>items.map(item=>[item.querySelector("dt")?.textContent?.trim(),item.querySelector("dd")?.textContent?.trim()]));
+  if(JSON.stringify(attributes)!==JSON.stringify([["Vigueur","5"],["Agilité","5"],["Esprit","7"],["Volonté","6"],["Charisme","5"]]))throw new Error("Attributs canoniques de Cole altérés: "+JSON.stringify(attributes));
+  const talents=await page.locator(".npc-profile-talent h5").allTextContents();
+  if(JSON.stringify(talents.map(text=>text.trim()))!==JSON.stringify(["Dossier préparé","Lecture des failles","Réseau mobilisable — CBII"]))throw new Error("Talents canoniques de Cole altérés: "+JSON.stringify(talents));
+  console.log("PNJ LIVE OK — Cole privé au public · profil et valeurs canoniques MJ · lien ciblé ouvert/focalisé");
+
+  await page.goto(`${baseUrl}/compendium?article=bestiaire-v15-afanc`,{
+    waitUntil:"domcontentloaded",
+    timeout:30000
+  });
+  await page.locator(".article-header h1").waitFor({state:"visible",timeout:20000});
+  const afancTitle=(await page.locator(".article-header h1").innerText()).trim();
+  if(afancTitle!=="Afanc")throw new Error("Page Afanc inattendue: "+afancTitle);
+
+  const media=page.locator(".wiki-media img");
+  await media.waitFor({state:"visible",timeout:10000});
+  await page.waitForFunction(
+    ()=>document.querySelector(".wiki-media img")?.naturalWidth>0,
+    null,
+    {timeout:10000}
+  );
+
+  const editLink=page.locator(".wiki-edit-link");
+  await editLink.waitFor({state:"visible",timeout:10000});
+  await editLink.click();
+  await page.waitForURL(/\/compendium\/edit\/bestiaire-v15-afanc$/, {timeout:10000});
+  await page.getByText("ÉDITION WIKI",{exact:true}).waitFor({state:"visible",timeout:10000});
+  await page.locator(".wiki-source").waitFor({state:"visible",timeout:10000});
+  const legacySections=await page.locator(".editor-section-card").count();
+  if(legacySections!==0)throw new Error("Ancien éditeur par sections encore visible.");
+
+  await page.goto(baseUrl+"/compendium/edit/verite-v7-vampires-civilisation-cours-sangs",{waitUntil:"domcontentloaded",timeout:30000});
+  await page.getByText("SOURCE MÉCANIQUE",{exact:true}).waitFor({state:"visible",timeout:10000});
+  await page.getByRole("heading",{name:"Relié au Builder"}).waitFor({state:"visible",timeout:10000});
+  await page.getByText("Nature",{exact:true}).first().waitFor({state:"visible",timeout:10000});
+
+  const coverageButton=page.getByRole("button",{name:/Couverture Builder/});
+  await coverageButton.click();
+  await page.getByRole("heading",{name:"Couverture du Compendium"}).waitFor({state:"visible",timeout:10000});
+  await page.getByText(/éléments canoniques/).waitFor({state:"visible",timeout:10000});
+  await page.getByRole("button",{name:"Fermer",exact:true}).click();
+
+  await page.goto(baseUrl+"/compendium/new?title=CI%20Builder%20Page&category=R%C3%A8gles&source=Builder%20%C2%B7%20CI&tags=Talent%2CBuilder",{waitUntil:"domcontentloaded",timeout:30000});
+  await page.getByText("NOUVELLE PAGE WIKI",{exact:true}).waitFor({state:"visible",timeout:10000});
+  await page.locator(".wiki-source").waitFor({state:"visible",timeout:10000});
+  const talentButton=page.getByRole("button",{name:"Talents",exact:true});
+  await talentButton.waitFor({state:"visible",timeout:10000});
+  await talentButton.click();
+  await page.getByText("Insérer des Talents dynamiques",{exact:true}).waitFor({state:"visible",timeout:10000});
+  const talentBlockType=page.getByLabel("Type de bloc Talents");
+  if(await talentBlockType.inputValue()!=="ids")throw new Error("L'éditeur doit proposer par défaut un Talent précis, pas tout le registre.");
+  const preciseTalent=page.getByLabel("Talent précis");
+  await preciseTalent.waitFor({state:"visible",timeout:10000});
+  await preciseTalent.locator("option").nth(1).waitFor({state:"attached",timeout:10000});
+  await preciseTalent.selectOption({index:1});
+  await page.getByRole("button",{name:"Ajouter",exact:true}).click();
+  await page.getByRole("button",{name:"Insérer",exact:true}).click();
+  if(!/\{\{Talents\|ids=[^}]+\}\}/.test(await page.locator(".wiki-source").inputValue()))throw new Error("Insertion ciblée d'un Talent absente de la source wiki.");
+  await talentButton.click();
+  await page.getByRole("button",{name:"Annuler",exact:true}).click();
+
+  const newTitle=page.locator('input[placeholder="Titre de la page"]');
+  await newTitle.waitFor({state:"visible",timeout:10000});
+  if(await newTitle.inputValue()!=="CI Builder Page")throw new Error("Préremplissage titre Builder absent.");
+  const categoryValue=await page.getByLabel("Rubrique").inputValue();
+  if(categoryValue!=="Règles")throw new Error("Préremplissage rubrique Builder absent: "+categoryValue);
+  const sourceValue=await page.getByLabel("Source").inputValue();
+  if(sourceValue!=="Builder · CI")throw new Error("Préremplissage source Builder absent: "+sourceValue);
+
+  if(browserErrors.length)throw new Error(browserErrors.join("\n"));
+
+  console.log("WIKI V2 OK — Compendium actif sans archives OLD · média + éditeur + registre Talents + source Builder + audit + création OK");
+}finally{
+  await browser.close();
+}

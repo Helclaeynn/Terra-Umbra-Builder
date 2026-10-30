@@ -1,0 +1,199 @@
+name: V2 production compact PDF packs release
+
+on:
+  push:
+    branches: [feature/tuc-web-v2]
+    paths: [.github/workflows/v2-production-pdf-packs-release.yml]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: tuc-v2-production
+  cancel-in-progress: false
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    outputs:
+      artifact-id: ${{ steps.payload.outputs.artifact-id }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Require a web PDF-only change from the reviewed production source
+        shell: bash
+        run: |
+          set -euo pipefail
+          baseline=7d3873411f5c1594f806bcd78bc629f1c818f577
+          git merge-base --is-ancestor "$baseline" HEAD
+          python3 - <<'PY'
+          import fnmatch, subprocess
+          allowed = [
+              'apps/web/src/lib/character-pdf*.ts',
+              'apps/web/src/components/CharacterPdfActions.vue',
+              'apps/web/tests/character-pdf*.mjs',
+              'apps/web/public/pdf/*',
+              'docs/pdf-packs-integration.md',
+              '.github/workflows/v2-production-pdf-packs-release.yml',
+              'infrastructure/production/release-pdf-packs.sh',
+          ]
+          changed = subprocess.check_output(['git', 'diff', '--name-only', '7d3873411f5c1594f806bcd78bc629f1c818f577', 'HEAD'], text=True).splitlines()
+          unexpected = [name for name in changed if not any(fnmatch.fnmatchcase(name, pattern) for pattern in allowed)]
+          assert not unexpected, 'Changes outside the approved web PDF scope: ' + ', '.join(unexpected)
+          assert not subprocess.check_output(['git', 'diff', '--name-only', '--diff-filter=D', '7d3873411f5c1594f806bcd78bc629f1c818f577', 'HEAD', '--', 'apps/web/public/pdf']), 'Do not delete the existing public PDF assets'
+          print('Reviewed baseline and PDF-only application scope verified')
+          PY
+      - name: Prepare local rule fixtures without modifying application data
+        run: |
+          mkdir -p .v2-rules-data/lore
+          cp compendium/source/current-equipment-catalog-v1.json .v2-rules-data/
+          cp compendium/source/reality-lore-v3-*.json .v2-rules-data/lore/
+          cp character-builder/rulesets/terra-umbra/reality/augmentations.json.gz.b64 .v2-rules-data/
+          cp character-builder/rulesets/terra-umbra/reality/safe/neuroprograms.part01.b64 character-builder/rulesets/terra-umbra/reality/safe/vehicles.part01.b64 .v2-rules-data/
+      - name: Install the locked test dependencies
+        run: |
+          npm ci --prefix apps/api
+          npm ci --prefix apps/web
+      - name: Verify all PDF templates, portraits, routing and export controls
+        working-directory: apps/web
+        run: |
+          set -euo pipefail
+          npm run test:pdf
+          node tests/homo-superior-phasing-check.mjs
+          node tests/character-sheet-model-check.mjs
+          node tests/character-summary-dom.mjs
+          node tests/private-character-ui-dom.mjs
+          node tests/character-history-check.mjs
+          node tests/campaign-character-check.mjs
+      - name: Build the exact web artifact to be released
+        working-directory: apps/web
+        run: npm run build
+      - name: Install the existing browser smoke driver
+        working-directory: apps/web
+        run: npm install --no-save --package-lock=false playwright-core@1.55.0
+      - name: Exercise PDF download and print against the built application
+        working-directory: apps/web
+        shell: bash
+        run: |
+          set -euo pipefail
+          npx vite preview --host 127.0.0.1 --port 4173 > /tmp/tuc-pdf-preview.log 2>&1 &
+          preview=$!
+          trap 'kill "$preview" 2>/dev/null || true' EXIT
+          ready=false
+          for attempt in $(seq 1 30); do
+            if curl --fail --silent --max-time 3 http://127.0.0.1:4173/ >/dev/null; then ready=true; break; fi
+            sleep 1
+          done
+          test "$ready" = true
+          CHROME_BIN="$(command -v google-chrome || command -v google-chrome-stable || command -v chromium || command -v chromium-browser || true)"
+          test -n "$CHROME_BIN"
+          TUC_PDF_BROWSER_BASE_URL=http://127.0.0.1:4173 CHROME_BIN="$CHROME_BIN" node tests/character-pdf-browser.mjs
+      - name: Package only tested bundles and compact PDF assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p release
+          python3 - <<'PY'
+          import hashlib, json, os, pathlib, re, tarfile
+          dist = pathlib.Path('apps/web/dist')
+          manifest = json.loads((dist / 'pdf/dossiers/manifest.json').read_text())
+          hashes = json.loads((dist / 'pdf/dossiers/packs-sha256.json').read_text())
+          assert manifest['schemaVersion'] == 2 and len(manifest['templates']) == 21
+          assert len(hashes) == 22
+          for slug, template in manifest['templates'].items():
+              assert template['pages'] == (2 if slug == 'realite' else 8), slug
+              areas = {area['layer']: area for area in template['portraitAreas']}
+              assert set(areas) == ({'reality'} if slug == 'realite' else {'reality', 'truth'}), slug
+              assert areas['reality']['page'] == 0
+              assert areas['reality']['rect'] == {'x': 33.85453595551741, 'y': 637.487285920246, 'width': 86.3290666865694, 'height': 98.81335255628261}
+              if slug != 'realite':
+                  assert areas['truth']['page'] == 2
+                  assert areas['truth']['rect'] == {'x': 414, 'y': 541, 'width': 137, 'height': 136}
+              for area in areas.values():
+                  assert all(area['rect'][key] > 0 for key in ['x', 'y', 'width', 'height'])
+              assert template['colour'] in hashes and template['print'] in hashes
+          files = [dist / 'index.html', *sorted((dist / 'assets').rglob('*'))]
+          files = [path for path in files if path.is_file()]
+          files += [dist / 'pdf/dossiers' / name for name in ['manifest.json', 'packs-sha256.json', *hashes]]
+          files += [dist / 'pdf/fonts/DejaVuSans.ttf']
+          for name, digest in hashes.items():
+              assert re.fullmatch(r'TUC-[a-zA-Z0-9-]+\.pdf', name), name
+              assert hashlib.sha256((dist / 'pdf/dossiers' / name).read_bytes()).hexdigest() == digest, name
+          payload = {path.relative_to(dist).as_posix(): hashlib.sha256(path.read_bytes()).hexdigest() for path in files}
+          assert len(payload) == len(files)
+          record = {
+              'sha': os.environ['GITHUB_SHA'],
+              'baseline': '7d3873411f5c1594f806bcd78bc629f1c818f577',
+              'bytes': sum(path.stat().st_size for path in files),
+              'files': payload,
+              'publicBaseline': {
+                  '/': 'b3f32fd66817b73b8aa398eb53c22a09dfc497a5b8463a9fb2c653a1b7ed33f8',
+                  '/assets/index-BLzr_ptk.js': '0bd3cb1f1094551b19d0fa5c15ddb3c5bfee898ef3e527a8946bf9853c13919d',
+                  '/assets/index-gWax7lqo.css': 'bf081be38cb70e53f7c92fb33a50e7ddbfbe7d477cc789c3f2ff65f25ff8b0df',
+                  '/pdf/dossiers/manifest.json': 'bd1968ade569b0ba13f942e2a52b1d2521e0f8c39a9ea5c48c3d3bc99c40c69a',
+                  '/pdf/fonts/DejaVuSans.ttf': '7da195a74c55bef988d0d48f9508bd5d849425c1770dba5d7bfc6ce9ed848954',
+              },
+          }
+          pathlib.Path('release/release.json').write_text(json.dumps(record, indent=2) + '\n')
+          with tarfile.open('release/web-pdf-packs.tar.gz', 'w:gz') as archive:
+              archive.add('release/release.json', arcname='release.json')
+              for path in files:
+                  archive.add(path, arcname='html/' + path.relative_to(dist).as_posix())
+          print(f'Immutable tested web payload: {len(files)} files, {record["bytes"]} bytes, commit {record["sha"]}')
+          PY
+          cd release
+          sha256sum web-pdf-packs.tar.gz > SHA256SUMS
+      - uses: actions/upload-artifact@v4
+        id: payload
+        with:
+          name: web-pdf-packs-${{ github.sha }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            release/web-pdf-packs.tar.gz
+            release/SHA256SUMS
+          if-no-files-found: error
+          retention-days: 3
+
+  release:
+    needs: verify
+    runs-on: ubuntu-latest
+    environment: tuc-dev
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@v4
+        with:
+          artifact-ids: ${{ needs.verify.outputs.artifact-id }}
+          merge-multiple: true
+          path: release
+      - name: Release the tested web artifact with private backup and rollback
+        shell: bash
+        env:
+          TUC_DEV_HOST: ${{ secrets.TUC_DEV_HOST }}
+          TUC_DEV_USER: ${{ secrets.TUC_DEV_USER }}
+          TUC_DEV_SSH_KEY: ${{ secrets.TUC_DEV_SSH_KEY }}
+        run: |
+          set -euo pipefail
+          test -n "$TUC_DEV_HOST" && test -n "$TUC_DEV_USER" && test -n "$TUC_DEV_SSH_KEY"
+          cd release
+          sha256sum --check SHA256SUMS
+          cd ..
+          install -m 700 -d ~/.ssh
+          key="$(mktemp ~/.ssh/tuc-pdf-XXXXXX)"
+          trap 'rm -f "$key"' EXIT
+          printf '%s\n' "$TUC_DEV_SSH_KEY" > "$key"
+          chmod 600 "$key"
+          unset TUC_DEV_SSH_KEY
+          ssh-keyscan -T 10 -H "$TUC_DEV_HOST" >> ~/.ssh/known_hosts 2>/dev/null
+          SSH="ssh -i $key -o BatchMode=yes -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes -o ConnectTimeout=15 -o ServerAliveInterval=15 -o ServerAliveCountMax=4"
+          stage="/opt/terra-umbra/releases/pdf-packs-$GITHUB_SHA-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          $SSH "$TUC_DEV_USER@$TUC_DEV_HOST" "test -f /opt/terra-umbra/production-active && mkdir -m 700 '$stage'"
+          rsync -az --timeout=120 -e "$SSH" release/web-pdf-packs.tar.gz release/SHA256SUMS "$TUC_DEV_USER@$TUC_DEV_HOST:$stage/"
+          $SSH "$TUC_DEV_USER@$TUC_DEV_HOST" "timeout --signal=TERM --kill-after=180s 1000 bash -s -- '$GITHUB_SHA' '$GITHUB_RUN_ID' '$GITHUB_RUN_ATTEMPT'" < infrastructure/production/release-pdf-packs.sh

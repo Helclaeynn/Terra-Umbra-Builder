@@ -1,0 +1,28 @@
+[
+  {
+    "path": "apps/web/tests/exile-progression-dom.mjs",
+    "before": "a68774b0d8e5f43aaa3bf66e9c10e6a8d6a26353b39842a8cf5695dc9c36b7c2",
+    "after": "63f2af32579fd4ad9cef900df4bde3ccf8bc95cf0bbe6f27e01bbe7749234d4c",
+    "replacements": [
+      {
+        "old": " d.querySelector('[data-exile-add=\"trainings\"]').click();await tick();const training=d.querySelector('[data-exile-section=\"trainings\"] fieldset');set(training.querySelector('select'),'hds');set(training.querySelector('input:not([type=checkbox])'),'Enseignant','input');set(training.querySelector('textarea'),'Cursus réellement acquis','input');training.querySelector('[type=checkbox]').click();await tick();",
+        "new": " // Each user event has its own Vue render cycle, as it does in a browser.\n d.querySelector('[data-exile-add=\"trainings\"]').click();await tick();\n const training=d.querySelector('[data-exile-section=\"trainings\"] fieldset');\n set(training.querySelector('select'),'hds');await tick();\n set(training.querySelector('input:not([type=checkbox])'),'Enseignant','input');await tick();\n set(training.querySelector('textarea'),'Cursus réellement acquis','input');await tick();\n training.querySelector('[type=checkbox]').click();await tick();\n const learned=w.current().truth.choices.exileBuild.trainings[0];\n assert.equal(learned.network,'hds');assert.equal(learned.mentor,'Enseignant');\n assert.equal(learned.conditions,'Cursus réellement acquis');assert.equal(learned.learned,true);"
+      },
+      {
+        "old": " d.querySelector('[data-beneficiary=\"refection\"]').click();d.querySelector('[data-beneficiary=\"guard\"]').click();await tick();",
+        "new": " d.querySelector('[data-beneficiary=\"refection\"]').click();await tick();\n d.querySelector('[data-beneficiary=\"guard\"]').click();await tick();"
+      }
+    ]
+  },
+  {
+    "path": "apps/web/src/components/builder/ExileOptions.vue",
+    "before": "9cf0b896ad32d653e5a448e3b34bf0648669de17b0abc9d16c97006a99aaf5ae",
+    "after": "c4d225edf148069f8dad22e11cca866d5948116539aee2061b89676586bdadeb",
+    "replacements": [
+      {
+        "old": "<label>Objet / implant réel<select :value=\"w.itemUid\"",
+        "new": "<label>Objet / implant réel<select aria-label=\"Objet / implant réel\" :value=\"w.itemUid\""
+      }
+    ]
+  }
+]

@@ -1,0 +1,48 @@
+name: Production resource diagnostics
+on:
+  workflow_dispatch:
+  push:
+    branches: [feature/tuc-web-v2]
+    paths: [.github/workflows/dev-resource-diagnostics.yml]
+permissions:
+  contents: read
+jobs:
+  resources:
+    runs-on: ubuntu-latest
+    environment: tuc-dev
+    timeout-minutes: 5
+    env:
+      TUC_DEV_HOST: ${{ secrets.TUC_DEV_HOST }}
+      TUC_DEV_USER: ${{ secrets.TUC_DEV_USER }}
+      TUC_DEV_SSH_KEY: ${{ secrets.TUC_DEV_SSH_KEY }}
+    steps:
+      - name: Read-only storage diagnostic; no account data or cleanup
+        shell: bash
+        run: |
+          set -euo pipefail
+          install -m 700 -d ~/.ssh
+          trap 'rm -f ~/.ssh/tuc_dev' EXIT
+          printf '%s\n' "$TUC_DEV_SSH_KEY" > ~/.ssh/tuc_dev
+          chmod 600 ~/.ssh/tuc_dev
+          ssh-keyscan -H "$TUC_DEV_HOST" >> ~/.ssh/known_hosts
+          ssh -i ~/.ssh/tuc_dev -o IdentitiesOnly=yes "$TUC_DEV_USER@$TUC_DEV_HOST" 'bash -s' <<'REMOTE'
+          {
+            set -euo pipefail
+            test -f /opt/terra-umbra/production-active
+            echo 'FILESYSTEM SPACE AND INODES'
+            df -h / /opt/terra-umbra
+            df -i / /opt/terra-umbra
+            echo 'DOCKER RECLAIMABLE STORAGE'
+            docker system df
+            echo 'RELEASE DIRECTORIES (SIZES ONLY)'
+            du -x -h --max-depth=1 /opt/terra-umbra/releases 2>/dev/null | sort -h
+            echo 'APPLICATION DIRECTORIES (SIZES ONLY)'
+            du -x -h --max-depth=1 /opt/terra-umbra 2>/dev/null | sort -h
+            echo 'RUNNING CONTAINERS'
+            docker ps --format '{{.Names}} {{.Image}} {{.Status}}'
+            echo 'CURRENT RELEASE MARKER'
+            if test -f /opt/terra-umbra/.production-release-sha; then cat /opt/terra-umbra/.production-release-sha; fi
+            echo 'PUBLIC HEALTH'
+            curl --fail --silent --show-error --max-time 15 https://terra-umbra.fr/api/health
+          }
+          REMOTE

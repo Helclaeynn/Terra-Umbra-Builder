@@ -1,0 +1,228 @@
+import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { build } from 'esbuild';
+import { parse, compileScript, compileTemplate } from '@vue/compiler-sfc';
+import { JSDOM, VirtualConsole } from 'jsdom';
+
+const root = fileURLToPath(new URL('../', import.meta.url));
+const bundle = await build({
+  stdin: { resolveDir: root, loader: 'ts', contents: `
+    import { createApp, h, ref } from 'vue';
+    import { createRouter, createMemoryHistory } from 'vue-router';
+    import Account from './src/pages/CharacterSheetPage.vue';
+    import Journal from './src/pages/CharacterJournalPage.vue';
+    import History from './src/pages/CharacterHistoryPage.vue';
+    import Progression from './src/components/builder/ProgressionStep.vue';
+    const router = createRouter({ history: createMemoryHistory(), routes: [{ path: '/characters/:id/:view', component: Account }] });
+    const campaign=ref(window.testCampaignData);
+    window.campaignSnapshot=()=>JSON.parse(JSON.stringify(campaign.value));
+    const Campaign={setup(){return ()=>h(Progression,{
+      progression:campaign.value.progression,reality:campaign.value.reality,truthState:campaign.value.truth,
+      rules:window.testFixture.rules,truthRules:window.testFixture.truthRules,realityRules:window.testFixture.realityRules,
+      style:window.testFixture.rules.styles[0],edge:{},sphereId:'crawler',sphereName:'Crawler',creationTalentIds:[],
+      skillTalentMap:{},disadvantages:[],skillBases:Object.fromEntries(window.testFixture.rules.skills.map(s=>[s.id,2])),
+      skillFinalBases:Object.fromEntries(window.testFixture.rules.skills.map(s=>[s.id,2])),
+      attributeBases:Object.fromEntries(window.testFixture.rules.attributes.map(s=>[s.id,3])),creationPtvReserve:5,creationAccount:100,
+      'onUpdate:progression':v=>campaign.value.progression=v,'onUpdate:truth':v=>campaign.value.truth=v,'onUpdate:reality':v=>campaign.value.reality=v
+    });}};
+    const app = createApp(window.testCampaignData?Campaign:window.testHistory?History:window.testJournal?Journal:Account).use(router);
+    router.push('/characters/11111111-1111-4111-8111-111111111111/sheet').then(() => { app.mount('#app'); });
+    window.unmount = () => app.unmount();
+  ` },
+  bundle: true, write: false, format: 'iife', platform: 'browser',
+  define: { 'process.env.NODE_ENV': '"test"', __VUE_OPTIONS_API__: 'true', __VUE_PROD_DEVTOOLS__: 'false', __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: 'false' },
+  plugins: [{ name: 'vue', setup(b) {
+    b.onLoad({ filter: /CharactersPanel\.vue$/ }, () => ({ contents: 'export default { template: "<section>Personnages</section>" }', loader: 'js' }));
+    b.onLoad({ filter: /\.vue$/ }, async ({ path: filename }) => {
+      const { descriptor, errors } = parse(await readFile(filename, 'utf8'), { filename });
+      assert.equal(errors.length, 0);
+      if (!descriptor.script && !descriptor.scriptSetup) {
+        const compiled = compileTemplate({ source: descriptor.template.content, filename, id: 'gm-test' });
+        assert.equal(compiled.errors.length, 0);
+        return { contents: `${compiled.code}\nexport default { render };`, loader: 'ts', resolveDir: path.dirname(filename) };
+      }
+      return { contents: compileScript(descriptor, { id: 'gm-test', inlineTemplate: true }).content, loader: 'ts', resolveDir: path.dirname(filename) };
+    });
+  } }]
+});
+const wait = ms => new Promise(r => setTimeout(r, ms));
+async function until(predicate) {
+  for (let i = 0; i < 100; i++) { if (predicate()) return; await wait(5); }
+  assert.ok(predicate(), 'UI did not reach the expected state');
+}
+const fixtureText=await readFile(path.join(root,'tests/builder-v2-smoke.mjs'),'utf8');
+const fixtures=fixtureText.slice(fixtureText.indexOf('const skillIds='),fixtureText.indexOf('const browser='));
+const fixtureBundle=await build({stdin:{contents:fixtures+`;export {characterData,rules,lore,edgeRules,truthRules,realityRules};`,loader:'js'},write:false,bundle:true,format:'esm',platform:'node'});
+const fixture=await import('data:text/javascript;base64,'+Buffer.from(fixtureBundle.outputFiles[0].text).toString('base64'));
+const id='11111111-1111-4111-8111-111111111111',readerId='33333333-3333-4333-8333-333333333333';
+const vc=new VirtualConsole(), errors=[];vc.on('jsdomError',e=>errors.push(e.message));
+const dom=new JSDOM('<!doctype html><div id="app"></div>',{url:'https://test.invalid/characters/'+id+'/sheet',runScripts:'outside-only',virtualConsole:vc});
+const w=dom.window;w.Headers=Headers;w.confirm=()=>true;
+const requests=[];
+w.fetch=async(url,options={})=>{
+ requests.push({url,...options});let body;
+ if(url.endsWith('/sheet'))body={character:{id,name:'Test',data:fixture.characterData,version:1,updatedAt:'2026-09-23'},canEdit:true,ownerName:'Test'};
+ else if(url.includes('/reader-search'))body={accounts:[{id:readerId,displayName:'Alex',role:'gm',shared:false}]};
+ else if(url.endsWith('/readers'))body={readers:[]};
+ else if(url.endsWith('/creation'))body={rules:fixture.rules,lore:fixture.lore,edgeRules:fixture.edgeRules,talentChoiceSpecs:{},skillTalentMap:{},disadvantages:{common:[],attribute:[],sphere:{}}};
+ else if(url.endsWith('/truth'))body=fixture.truthRules;
+ else if(url.endsWith('/reality'))body=fixture.realityRules;
+ else if(url.includes('/wiki'))body={entries:[]};
+ else throw Error('Unexpected '+url);
+ return {ok:true,status:200,json:async()=>body};
+};
+w.eval(bundle.outputFiles[0].text);
+await until(()=>w.document.querySelector('.sheet-sharing'));
+const details=w.document.querySelector('.sheet-sharing');details.open=true;
+const input=w.document.querySelector('#mj-account-search');input.value='Alex';input.dispatchEvent(new w.Event('input',{bubbles:true}));
+details.dispatchEvent(new w.Event('toggle'));
+await until(()=>w.document.querySelector('.reader-option'));
+assert.equal(requests.filter(r=>r.url.includes('reader-search')).length,1,'Typing immediately on disclosure opening must trigger one search');
+w.document.querySelector('.reader-option').click();await wait(5);
+const grant=()=>[...w.document.querySelectorAll('button')].find(b=>b.textContent==='Accorder l’accès');
+assert.equal(grant().disabled,false);
+input.value='Nobody';input.dispatchEvent(new w.Event('input',{bubbles:true}));await wait(5);
+assert.equal(grant().disabled,true,'Changing query must reset selection');
+let visibility='visible';Object.defineProperty(w.document,'visibilityState',{get:()=>visibility,configurable:true});
+w.scrollTo=(x,y)=>{Object.defineProperty(w,'scrollX',{value:x,configurable:true});Object.defineProperty(w,'scrollY',{value:y,configurable:true});};
+w.scrollTo(0,880);w.document.querySelector('#sheet-skills').open=false;
+const tabTitle=w.document.title;assert.match(tabTitle,/Test.*Fiche.*Terra Umbra/);
+visibility='hidden';w.document.dispatchEvent(new w.Event('visibilitychange'));await wait(5);
+assert.equal(w.document.querySelector('.character-sheet'),null,'Private content removed while hidden');assert.equal(w.document.title,tabTitle,'Inactive tab retains its useful title');
+w.scrollTo(0,0);visibility='visible';w.document.dispatchEvent(new w.Event('visibilitychange'));
+await until(()=>w.document.querySelector('#sheet-skills'));
+assert.equal(w.scrollY,880,'Reading position restored after access revalidation');assert.equal(w.document.querySelector('#sheet-skills').open,false,'Collapsed sections restored');
+assert.deepEqual(errors,[]);w.unmount();w.close();
+console.log('ACCOUNT SEARCH DOM OK — rapid opening/typing, debounce, result selection, invalidated selection, no render errors');
+const journalDom=new JSDOM('<!doctype html><div id="app"></div>',{url:'https://test.invalid/characters/'+id+'/journal',runScripts:'outside-only',virtualConsole:vc});
+const jw=journalDom.window;jw.Headers=Headers;jw.testJournal=true;jw.confirm=()=>true;
+let journalEntries=[],writes=0;
+const noteId='55555555-5555-4555-8555-555555555555';
+jw.fetch=async(url,options={})=>{
+ const method=options.method||'GET';const data=options.body?JSON.parse(options.body):null;
+ let status=200,body;
+ if(method==='GET')body={character:{id,name:'Alexandra'},entries:journalEntries,hasMore:false};
+ else if(method==='POST'){
+   writes++;const entry={...data,id:noteId,version:1,createdAt:'2026-09-23',updatedAt:'2026-09-23'};journalEntries=[entry];body={entry};
+ }else if(method==='PATCH'){
+   if(data.version!==journalEntries[0].version){status=409;body={error:'journal_version_conflict'};}
+   else{writes++;journalEntries[0]={...journalEntries[0],...data,version:data.version+1};body={entry:journalEntries[0]};}
+ }else if(method==='DELETE'){writes++;journalEntries=[];body={ok:true};}
+ else throw Error('Unexpected '+url);
+ return {ok:status<400,status,json:async()=>body};
+};
+jw.eval(bundle.outputFiles[0].text);
+const button=text=>[...jw.document.querySelectorAll('button')].find(b=>b.textContent.trim()===text);
+await until(()=>button('Nouvelle note'));
+button('Nouvelle note').click();await until(()=>jw.document.querySelector('textarea'));
+const set=(el,value)=>{el.value=value;el.dispatchEvent(new jw.Event('input',{bubbles:true}));};
+set(jw.document.querySelector('.journal-fields input'),'Séance au port');
+set(jw.document.querySelector('textarea'),'<script>not executable</script>\nUne piste.');
+jw.document.querySelector('form').dispatchEvent(new jw.Event('submit',{bubbles:true,cancelable:true}));
+await until(()=>jw.document.querySelector('.journal-entry'));
+assert.equal(jw.document.querySelector('.journal-entry script'),null);
+assert.match(jw.document.querySelector('.journal-entry').textContent,/<script>not executable/);
+button('Modifier').click();await until(()=>jw.document.querySelector('textarea'));
+set(jw.document.querySelector('textarea'),'Brouillon à conserver');
+journalEntries[0]={...journalEntries[0],content:'Version distante',version:2};
+jw.document.querySelector('form').dispatchEvent(new jw.Event('submit',{bubbles:true,cancelable:true}));
+await until(()=>button('Charger la dernière version'));
+assert.equal(jw.document.querySelector('textarea').value,'Brouillon à conserver','Conflict keeps the unsaved note');
+button('Charger la dernière version').click();
+await until(()=>jw.document.querySelector('textarea')?.value==='Version distante');
+set(jw.document.querySelector('textarea'),'Version réunie');
+jw.document.querySelector('form').dispatchEvent(new jw.Event('submit',{bubbles:true,cancelable:true}));
+await until(()=>!jw.document.querySelector('textarea'));
+assert.equal(journalEntries[0].content,'Version réunie');
+jw.confirm=()=>false;button('Supprimer').click();await wait(5);assert.equal(journalEntries.length,1);
+jw.confirm=()=>true;button('Supprimer').click();await until(()=>!jw.document.querySelector('.journal-entry'));
+assert.equal(writes,3);assert.deepEqual(errors,[]);jw.unmount();jw.close();
+console.log('JOURNAL DOM OK — create/read/edit/delete, escaped text, conflict retains draft, explicit reload, deletion confirmation');
+
+const historyDom=new JSDOM('<!doctype html><div id="app"></div>',{url:'https://test.invalid/characters/'+id+'/history',runScripts:'outside-only',virtualConsole:vc});
+const hw=historyDom.window;hw.Headers=Headers;hw.testHistory=true;
+const historyBase=structuredClone(fixture.characterData);historyBase.progression={};
+const historyNext=structuredClone(historyBase);historyNext.progression={xpEarned:30,ptvEarned:4,attributeRanks:{vigueur:1}};
+const historyRow=(revision,snapshot)=>({revision,snapshot,reason:revision===1?'created':'saved',createdAt:'2026-09-23T12:00:00Z'});
+let historyDenied=false,historyFails=false,historyRequests=[];
+hw.fetch=async(url,options={})=>{
+ assert.ok(!options.method||options.method==='GET','History is read-only');historyRequests.push(url);
+ let body,status=200;
+ if(url.includes('/history')){
+   if(historyDenied){status=404;body={error:'character_not_found'};}
+   else if(historyFails){status=503;body={error:'unavailable'};}
+   else body={character:{id,name:'<script>Alex</script>',version:2},revisions:url.includes('before=2')?[historyRow(1,historyBase)]:[historyRow(2,historyNext)],predecessor:url.includes('before=2')?null:historyRow(1,historyBase),nextBefore:url.includes('before=2')?null:2};
+ }else if(url.endsWith('/creation'))body={rules:fixture.rules};
+ else if(url.endsWith('/truth'))body=fixture.truthRules;
+ else throw Error('Unexpected history fetch '+url);
+ return {ok:status<400,status,json:async()=>body};
+};
+hw.eval(bundle.outputFiles[0].text);
+const historyButton=text=>[...hw.document.querySelectorAll('button')].find(b=>b.textContent.trim()===text);
+await until(()=>hw.document.querySelector('.history-changes'));
+assert.equal(hw.document.querySelector('.history-name script'),null);
+assert.match(hw.document.querySelector('.history-changes').textContent,/XP reçus/);
+historyFails=true;historyButton('Voir les versions précédentes').click();await until(()=>hw.document.querySelector('[role="alert"]'));
+assert.equal(hw.document.querySelectorAll('.history-entry').length,1,'Failed pagination retains loaded rows');
+historyFails=false;historyButton('Réessayer').click();await until(()=>hw.document.querySelectorAll('.history-entry').length===2);
+assert.match(hw.document.body.textContent,/Point de départ enregistré/);
+assert.equal(historyRequests.filter(url=>url.endsWith('/creation')).length,1,'Catalogues reused during pagination');
+historyDenied=true;historyButton('Actualiser').click();await until(()=>hw.document.querySelector('[role="alert"]'));
+assert.equal(hw.document.querySelectorAll('.history-entry').length,0,'Permission failure clears private history');
+assert.equal(hw.document.querySelector('.history-name'),null);
+assert.deepEqual(errors,[]);hw.unmount();hw.close();
+console.log('HISTORY DOM OK — escaped content, saved comparisons, pagination retry retains data, catalog reuse, read-only requests and privacy on access loss');
+
+const campaignDom=new JSDOM('<!doctype html><div id="app"></div>',{url:'https://test.invalid/characters/'+id+'/progression',runScripts:'outside-only',virtualConsole:vc});
+const cw=campaignDom.window;cw.Headers=Headers;cw.structuredClone=structuredClone;cw.confirm=()=>true;cw.testFixture=fixture;
+cw.testCampaignData=structuredClone(fixture.characterData);cw.testCampaignData.progression={};cw.testCampaignData.truth.consciousness='initie';
+cw.fetch=async()=>({ok:true,status:200,json:async()=>({entries:[],items:[]})});
+cw.eval(bundle.outputFiles[0].text);
+const campaignSnapshot=()=>JSON.parse(JSON.stringify(cw.campaignSnapshot()));
+await until(()=>cw.document.querySelector('.campaign-corruption'));
+const approval=label=>[...cw.document.querySelectorAll('label')].find(l=>l.textContent.includes(label)).querySelector('input');
+const check=el=>{el.checked=true;el.dispatchEvent(new cw.Event('change',{bubbles:true}));};
+const clickName=name=>{const b=[...cw.document.querySelectorAll('button')].find(b=>b.getAttribute('aria-label')===name);assert.ok(b,name);assert.equal(b.disabled,false,name);b.click();};
+assert.equal(cw.document.querySelector('.corruption-panel'),null);
+assert.ok(cw.document.querySelector('.truth-equipment-panel'));
+assert.equal(cw.document.querySelector('.campaign-corruption').open,false);
+assert.equal(cw.document.querySelectorAll('.campaign-truth-equipment input[role="switch"]').length,1,'One object authorization only');
+assert.ok(!cw.document.body.textContent.includes('Accord MJ — Talents de Vérité en campagne'));
+assert.equal(Boolean(campaignSnapshot().progression.truthTalentsMjAuthorized),false);
+const truthFamilySelect=[...cw.document.querySelectorAll('.truth-search select')].find(select=>select.parentElement.textContent.includes('Catégorie de Talents de Vérité'));
+truthFamilySelect.value=[...truthFamilySelect.options].find(option=>option.value)?.value||'';truthFamilySelect.dispatchEvent(new cw.Event('change',{bubbles:true}));await wait(5);
+const truthCard=[...cw.document.querySelectorAll('.talent-list>article')].find(a=>a.textContent.includes('Aube occulte'));
+assert.ok(truthCard);assert.equal(truthCard.querySelector('details').open,false);truthCard.querySelector('summary').click();truthCard.querySelector('button').click();await wait(5);
+check(approval('Autorisation MJ — Corruption & Fléaux'));await until(()=>cw.document.querySelector('.corruption-panel'));
+const sourceSelect=cw.document.querySelector('.source-choice select');sourceSelect.value='vhodhal';sourceSelect.dispatchEvent(new cw.Event('change',{bubbles:true}));await wait(5);
+clickName('Augmenter la corruption');await wait(5);assert.equal(campaignSnapshot().truth.corruption,2);
+clickName('Acquérir Don de Faim Smoke pour 2 PTV');await wait(5);
+assert.deepEqual(campaignSnapshot().progression.corruptionTalents,['don-smoke']);
+assert.deepEqual(campaignSnapshot().truth.corruptionTalents,[],'Creation corruption purchases unchanged');
+sourceSelect.value='';sourceSelect.dispatchEvent(new cw.Event('change',{bubbles:true}));await wait(5);
+assert.equal(campaignSnapshot().truth.corruption,0);
+assert.match(cw.document.querySelector('.corruption-owned-row').textContent,/Dormant/);
+clickName('Acquérir Rite Smoke pour 1 PTV');await wait(5);
+const ptvBox=[...cw.document.querySelectorAll('.pool-grid>div')].find(e=>e.textContent.includes('PTV disponibles'));
+assert.equal(ptvBox.querySelector('strong').textContent,'1','Native talent + Don + Rite share the same 5 PTV reserve');
+assert.ok(!cw.document.body.textContent.includes('Accord MJ — Objets de Vérité en campagne'));
+check(approval('Autorisation MJ d’accès exceptionnel aux objets de Vérité'));await wait(5);
+const objectSearch=cw.document.querySelector('.truth-equipment-toolbar input[type="search"]');objectSearch.value='Relique corrompue Smoke';objectSearch.dispatchEvent(new cw.Event('input',{bubbles:true}));await wait(5);
+const objectCard=[...cw.document.querySelectorAll('.truth-equipment-card')].find(a=>a.textContent.includes('Relique corrompue Smoke'));
+[...objectCard.querySelectorAll('button')].find(b=>b.textContent.trim()==='Ajouter').click();await wait(5);
+assert.deepEqual(campaignSnapshot().truth.truthEquipment,['truth-corrupt-smoke']);
+const modeButton=name=>[...cw.document.querySelectorAll('.catalog-modes button')].find(b=>b.textContent===name);
+assert.ok(![...cw.document.querySelectorAll('.truth-equipment-toolbar select option')].some(o=>o.value==='22'),'No common properties chapter in purchases');
+modeButton('Règles et références').click();await wait(5);
+objectSearch.value='';objectSearch.dispatchEvent(new cw.Event('input',{bubbles:true}));await wait(5);
+assert.ok([...cw.document.querySelectorAll('.truth-equipment-toolbar select option')].some(o=>o.value==='22'),'Common properties available as references');
+assert.equal(cw.document.querySelectorAll('.truth-equipment-card button.secondary').length,0,'Reference rules have no acquisition action');
+assert.ok([...cw.document.querySelectorAll('.truth-equipment-card')].every(card=>!card.textContent.includes('Relique corrompue Smoke')),'Reference view excludes acquirable objects');
+modeButton('Mes possessions').click();await wait(5);
+assert.equal(cw.document.querySelectorAll('.truth-equipment-card').length,1,'Owned view retains acquired object');
+assert.equal(ptvBox.querySelector('strong').textContent,'1','Object possession does not silently spend PTV');
+assert.equal(campaignSnapshot().truth.truthTalents.length,0,'Combined native talents were not copied into creation');
+assert.deepEqual(errors,[]);cw.unmount();cw.close();
+console.log('CAMPAIGN TRUTH DOM OK — separate MJ disclosures, native/Fléau shared PTV, corruption increments, Sain/dormant without refund, exceptional object access and preserved creation data');

@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 710" role="img" aria-labelledby="title desc">
+<title id="title">Train de vie : calculer le cran effectif</title>
+<desc id="desc">1 · Choisir la base : Prendre la valeur mensuelle de référence du Train de vie de base. ; 2 · Additionner : Compter les Charges fixes durables ; un achat comptant unique n’en est pas une. ; 3 · Diviser : Nombre de crans perdus = tranches complètes de la référence dans les charges. ; 4 · Exemple : Référence 1 200 $ ; charges 2 500 $ → 2 tranches complètes → −2 crans. ; 5 · Dépenser : Quotidien selon le cran effectif ; biens durables ou rares payés par le Compte.. La référence du calcul reste celle du Train de vie de base après la baisse.</desc>
+<rect width="1060" height="710" rx="20" fill="#0c1820"/>
+<rect x="1" y="1" width="1058" height="708" rx="19" fill="none" stroke="#476775" stroke-width="2"/>
+<text x="32" y="42" font-family="system-ui,sans-serif" font-size="27" font-weight="700" fill="#eef7f7">Train de vie : calculer le cran effectif</text>
+<rect x="31" y="98" width="998" height="86" rx="13" fill="#162a34" stroke="#49606b"/>
+<rect x="31" y="98" width="5" height="86" rx="2" fill="#5de0d0"/>
+<text x="50" y="132" font-family="system-ui,sans-serif" font-size="19" font-weight="700" fill="#5de0d0">1 · Choisir la base</text>
+<text x="50" y="167" font-family="system-ui,sans-serif" font-size="18" font-weight="400" fill="#d1e1e3">Prendre la valeur mensuelle de référence du Train de vie de base.</text>
+<text x="523" y="200" font-family="system-ui,sans-serif" font-size="18" font-weight="700" fill="#a6d6d6">↓</text>
+<rect x="31" y="202" width="998" height="86" rx="13" fill="#162a34" stroke="#49606b"/>
+<rect x="31" y="202" width="5" height="86" rx="2" fill="#8ab9ff"/>
+<text x="50" y="236" font-family="system-ui,sans-serif" font-size="19" font-weight="700" fill="#8ab9ff">2 · Additionner</text>
+<text x="50" y="271" font-family="system-ui,sans-serif" font-size="18" font-weight="400" fill="#d1e1e3">Compter les Charges fixes durables ; un achat comptant unique n’en est pas une.</text>
+<text x="523" y="304" font-family="system-ui,sans-serif" font-size="18" font-weight="700" fill="#a6d6d6">↓</text>
+<rect x="31" y="306" width="998" height="86" rx="13" fill="#162a34" stroke="#49606b"/>
+<rect x="31" y="306" width="5" height="86" rx="2" fill="#f2bd78"/>
+<text x="50" y="340" font-family="system-ui,sans-serif" font-size="19" font-weight="700" fill="#f2bd78">3 · Diviser</text>
+<text x="50" y="375" font-family="system-ui,sans-serif" font-size="18" font-weight="400" fill="#d1e1e3">Nombre de crans perdus = tranches complètes de la référence dans les charges.</text>
+<text x="523" y="408" font-family="system-ui,sans-serif" font-size="18" font-weight="700" fill="#a6d6d6">↓</text>
+<rect x="31" y="410" width="998" height="86" rx="13" fill="#162a34" stroke="#49606b"/>
+<rect x="31" y="410" width="5" height="86" rx="2" fill="#8fdea7"/>
+<text x="50" y="444" font-family="system-ui,sans-serif" font-size="19" font-weight="700" fill="#8fdea7">4 · Exemple</text>
+<text x="50" y="479" font-family="system-ui,sans-serif" font-size="18" font-weight="400" fill="#d1e1e3">Référence 1 200 $ ; charges 2 500 $ → 2 tranches complètes → −2 crans.</text>
+<text x="523" y="512" font-family="system-ui,sans-serif" font-size="18" font-weight="700" fill="#a6d6d6">↓</text>
+<rect x="31" y="514" width="998" height="86" rx="13" fill="#162a34" stroke="#49606b"/>
+<rect x="31" y="514" width="5" height="86" rx="2" fill="#ca9bdf"/>
+<text x="50" y="548" font-family="system-ui,sans-serif" font-size="19" font-weight="700" fill="#ca9bdf">5 · Dépenser</text>
+<text x="50" y="583" font-family="system-ui,sans-serif" font-size="18" font-weight="400" fill="#d1e1e3">Quotidien selon le cran effectif ; biens durables ou rares payés par le Compte.</text>
+<text x="33" y="636" font-family="system-ui,sans-serif" font-size="18" font-weight="400" fill="#f1cfa1">La référence du calcul reste celle du Train de vie de base après la baisse.</text>
+</svg>

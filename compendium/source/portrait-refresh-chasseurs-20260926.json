@@ -1,0 +1,252 @@
+{
+  "version": 1,
+  "items": [
+    {
+      "id": "personnages-verite-humains-galactiques-alkiwa-sebeth-mir",
+      "src": "images/portraits/lot-4/public/portrait-04-002-17308260c4.webp",
+      "visibility": "public"
+    },
+    {
+      "id": "personnages-verite-especes-tokala",
+      "src": "images/portraits/lot-4/public/portrait-04-003-ead19f442a.webp",
+      "visibility": "public"
+    },
+    {
+      "id": "pnj-police-todd-larsen",
+      "src": "images/portraits/lot-4/public/portrait-04-004-f8da27fcaa.webp",
+      "visibility": "public"
+    },
+    {
+      "id": "pnj-police-ryan-rowe",
+      "src": "images/portraits/lot-4/public/portrait-04-005-c78f760d7a.webp",
+      "visibility": "public"
+    },
+    {
+      "id": "pnj-portraits-chasseurs-autres-alexander-price",
+      "src": "images/portraits/lot-4/public/portrait-04-006-7b90201230.webp",
+      "visibility": "public"
+    },
+    {
+      "id": "pnj-portraits-chasseurs-autres-b-cy",
+      "src": "images/portraits/lot-4/public/portrait-04-007-d539eabaca.webp",
+      "visibility": "public"
+    },
+    {
+      "id": "personnages-verite-pelages-frederic-jackelston-jackal",
+      "src": "images/portraits/lot-4/public/portrait-04-008-c40c73e710.webp",
+      "visibility": "public"
+    },
+    {
+      "id": "pnj-crawlers-docx-aisha-white",
+      "src": "images/portraits/lot-4/public/portrait-04-009-ca084fb798.webp",
+      "visibility": "public"
+    },
+    {
+      "id": "pnj-portraits-chasseurs-autres-cai7-kai-sieben",
+      "src": "images/portraits/lot-4/public/portrait-04-010-829fcd2c1a.webp",
+      "visibility": "public"
+    },
+    {
+      "id": "personnages-verite-chasseurs-isabella-mironescu",
+      "src": "images/portraits/lot-4/public/portrait-04-011-ec522b9033.webp",
+      "visibility": "public"
+    },
+    {
+      "id": "personnages-verite-chasseurs-kaleem-nash",
+      "src": "images/portraits/lot-4/public/portrait-04-012-bc8102e6d4.webp",
+      "visibility": "public"
+    },
+    {
+      "id": "personnages-verite-chasseurs-kenneth-chanington",
+      "src": "images/portraits/lot-4/public/portrait-04-013-813a742503.webp",
+      "visibility": "public"
+    },
+    {
+      "id": "pnj-crawlers-docx-ogshaata-otto",
+      "src": "images/portraits/lot-4/public/portrait-04-014-382e1ace50.webp",
+      "visibility": "public"
+    },
+    {
+      "id": "personnages-verite-especes-iwashita-koji",
+      "src": "images/portraits/lot-4/public/portrait-04-015-aa43a10df8.webp",
+      "visibility": "public"
+    },
+    {
+      "id": "personnages-verite-extraterrestres-tejana",
+      "src": "images/portraits/lot-4/public/portrait-04-016-6bc48e4ccc.webp",
+      "visibility": "public"
+    },
+    {
+      "id": "personnages-verite-chasseurs-tiamandra-vecellio",
+      "src": "images/portraits/lot-4/public/portrait-04-017-ad73728ea7.webp",
+      "visibility": "public"
+    },
+    {
+      "id": "pnj-portraits-crawlers-ealasaid-macaodhagain",
+      "src": "images/portraits/lot-4/mj/portrait-04-018-176e519eb9.webp",
+      "visibility": "mj"
+    },
+    {
+      "id": "pnj-portraits-chasseurs-autres-octria-merus",
+      "src": "images/portraits/lot-4/public/portrait-04-019-b2d972b1d6.webp",
+      "visibility": "public"
+    },
+    {
+      "id": "pnj-portraits-chasseurs-autres-cyrus-anderson",
+      "src": "images/portraits/lot-4/public/portrait-04-020-6e1e92e3d3.webp",
+      "visibility": "public"
+    },
+    {
+      "id": "pnj-portraits-chasseurs-autres-samuel-caster",
+      "src": "images/portraits/lot-4/public/portrait-04-021-171e68a935.webp",
+      "visibility": "public"
+    },
+    {
+      "id": "personnages-verite-humains-galactiques-nehemiah-hooley",
+      "src": "images/portraits/lot-4/public/portrait-04-022-60784304e5.webp",
+      "visibility": "public"
+    },
+    {
+      "id": "personnages-verite-humains-galactiques-kay-salzer",
+      "src": "images/portraits/lot-4/public/portrait-04-023-5102278fd3.webp",
+      "visibility": "public"
+    },
+    {
+      "id": "pnj-portraits-chasseurs-autres-siegfried-vecellio",
+      "src": "images/portraits/lot-4/public/portrait-04-024-ba830add06.webp",
+      "visibility": "public"
+    },
+    {
+      "id": "pnj-portraits-chasseurs-autres-pyrrah",
+      "src": "images/portraits/lot-4/public/portrait-04-025-834b5eac7c.webp",
+      "visibility": "public"
+    },
+    {
+      "id": "pnj-portraits-chasseurs-autres-seth-dirkman",
+      "src": "images/portraits/lot-4/public/portrait-04-026-a5409de5b8.webp",
+      "visibility": "public"
+    },
+    {
+      "id": "pnj-136-alisa-svalisdottir",
+      "src": "images/portraits/lot-4/public/portrait-04-027-394457143f.webp",
+      "visibility": "public"
+    },
+    {
+      "id": "personnages-verite-chasseurs-lisbeth-brunn",
+      "src": "images/portraits/lot-4/public/portrait-04-028-39e00ec1ed.webp",
+      "visibility": "public"
+    },
+    {
+      "id": "pnj-portraits-chasseurs-autres-gareyliel-sehil-il-fenel",
+      "src": "images/portraits/lot-4/public/portrait-04-029-c6a4e841e9.webp",
+      "visibility": "public"
+    },
+    {
+      "id": "pnj-portraits-chasseurs-autres-magdalini-mavrou",
+      "src": "images/portraits/lot-4/public/portrait-04-030-08eb314a65.webp",
+      "visibility": "public"
+    },
+    {
+      "id": "personnages-verite-humains-galactiques-satan-kirchov",
+      "src": "images/portraits/lot-4/public/portrait-04-031-91ebe978ef.webp",
+      "visibility": "public"
+    },
+    {
+      "id": "pnj-portraits-chasseurs-autres-caerwynn",
+      "src": "images/portraits/lot-4/public/portrait-04-032-7aebb60ce9.webp",
+      "visibility": "public"
+    },
+    {
+      "id": "pnj-crawlers-docx-karl-henry",
+      "src": "images/portraits/lot-4/public/portrait-04-033-1ee0999b0a.webp",
+      "visibility": "public"
+    },
+    {
+      "id": "pnj-portraits-chasseurs-autres-la-reine",
+      "src": "images/portraits/lot-4/public/portrait-04-034-5d9c44f055.webp",
+      "visibility": "public"
+    },
+    {
+      "id": "pnj-fleaux-focus-mira-stephens-5-mir-a-stephens",
+      "src": "images/portraits/lot-4/public/portrait-04-035-ef9cd223b7.webp",
+      "visibility": "public"
+    },
+    {
+      "id": "pnj-portraits-chasseurs-autres-agatha-langley",
+      "src": "images/portraits/lot-4/public/portrait-04-036-0c8d423183.webp",
+      "visibility": "public"
+    }
+  ],
+  "articles": [
+    {
+      "id": "pnj-portraits-chasseurs-autres-alexander-price",
+      "name": "Alexander Price",
+      "group": "gouvernement"
+    },
+    {
+      "id": "pnj-portraits-chasseurs-autres-b-cy",
+      "name": "B-Cy",
+      "group": "gouvernement"
+    },
+    {
+      "id": "pnj-portraits-chasseurs-autres-cai7-kai-sieben",
+      "name": "CAI7 — Kai’sieben, le Devin",
+      "group": "chasseurs"
+    },
+    {
+      "id": "pnj-portraits-chasseurs-autres-octria-merus",
+      "name": "Octria Merus",
+      "group": "chasseurs"
+    },
+    {
+      "id": "pnj-portraits-chasseurs-autres-cyrus-anderson",
+      "name": "Cyrus Anderson",
+      "group": "chasseurs"
+    },
+    {
+      "id": "pnj-portraits-chasseurs-autres-samuel-caster",
+      "name": "Samuel Caster",
+      "group": "chasseurs"
+    },
+    {
+      "id": "pnj-portraits-chasseurs-autres-siegfried-vecellio",
+      "name": "Siegfried Vecellio",
+      "group": "chasseurs"
+    },
+    {
+      "id": "pnj-portraits-chasseurs-autres-pyrrah",
+      "name": "Pyrrah",
+      "group": "crawlers"
+    },
+    {
+      "id": "pnj-portraits-chasseurs-autres-seth-dirkman",
+      "name": "Seth Dirkman",
+      "group": "gouvernement"
+    },
+    {
+      "id": "pnj-portraits-chasseurs-autres-gareyliel-sehil-il-fenel",
+      "name": "Gareyliel Sehil Il’fenel",
+      "group": "chasseurs"
+    },
+    {
+      "id": "pnj-portraits-chasseurs-autres-magdalini-mavrou",
+      "name": "Magdalini Mavrou",
+      "group": "chasseurs"
+    },
+    {
+      "id": "pnj-portraits-chasseurs-autres-caerwynn",
+      "name": "Caerwynn",
+      "group": "chasseurs"
+    },
+    {
+      "id": "pnj-portraits-chasseurs-autres-la-reine",
+      "name": "La Reine",
+      "group": "autres"
+    },
+    {
+      "id": "pnj-portraits-chasseurs-autres-agatha-langley",
+      "name": "Agatha Langley",
+      "group": "autres"
+    }
+  ]
+}

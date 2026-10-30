@@ -1,0 +1,15 @@
+{
+  "realite-v9-grande-californie-2035": ["californie"],
+  "realite-v9-grande-reserve-detail": ["reserve"],
+  "realite-v9-etat-institutions-grande-reserve": ["californie", "reserve"],
+  "realite-v9-los-angeles-laus-securites": ["la", "la-coeur", "la-littoral", "la-est", "la-nord"],
+  "realite-v9-laus-commandement": ["la", "la-coeur"],
+  "realite-v9-cour-supreme": ["la-coeur"],
+  "realite-v9-executif-grande-californie": ["californie", "la-coeur"],
+  "realite-v9-corporation-ocean-master-corporation": ["la-littoral"],
+  "realite-v9-corporation-seawares-corporation": ["la-littoral"],
+  "realite-v9-corporation-eversor-corporation": ["la-littoral"],
+  "realite-v9-corporation-dwarfood-corporation": ["la-nord"],
+  "realite-v9-oglaigh": ["la-nord"],
+  "realite-v9-vingt-deux-dragons": ["la-est"]
+}

@@ -1,0 +1,6 @@
+/** Permanent records only: never heal, activate a power or reset an encounter. */
+export const vampireAnimalRoles=[{id:'vol',name:'Vol'},{id:'infiltration',name:'Infiltration'},{id:'nage',name:'Nage'},{id:'poursuite',name:'Poursuite'},{id:'attaque',name:'Attaque'}] as const;
+export const vampireWeaponProfiles=[{id:'lame',name:'Lame',effect:'DGT 5 · contact · Mêlée'},{id:'fouet',name:'Fouet',effect:'DGT 4 · 3 m · Mêlée'},{id:'projectile',name:'Projectile',effect:'DGT 5 · 20 m · Tir'}] as const;
+const record=(v:unknown):Record<string,unknown>=>v&&typeof v==='object'&&!Array.isArray(v)?v as Record<string,unknown>:{};
+const text=(v:unknown,max=400)=>typeof v==='string'?v.trim().slice(0,max):'';
+export function normalizeVampireBuild(value:unknown){const v=record(value),d=record(v.deimon),a=record(v.anchor);const forms=(Array.isArray(v.forms)?v.forms:[]).slice(0,4).map(f=>{const r=record(f);return {articleId:text(r.articleId,180),name:text(r.name,120),role:vampireAnimalRoles.some(o=>o.id===r.role)?String(r.role):''};});return {forms,deimon:{reference:text(d.reference,500),name:text(d.name,120),obligations:text(d.obligations,1200)},anchor:{container:text(a.container),location:text(a.location),practitioner:text(a.practitioner),notes:text(a.notes,1200)}};}

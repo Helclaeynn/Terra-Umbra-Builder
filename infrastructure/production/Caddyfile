@@ -1,0 +1,20 @@
+terra-umbra.fr {
+  encode zstd gzip
+  header {
+    Strict-Transport-Security "max-age=86400"
+    X-Content-Type-Options "nosniff"
+    X-Frame-Options "SAMEORIGIN"
+    Referrer-Policy "strict-origin-when-cross-origin"
+    Permissions-Policy "camera=(), microphone=(), geolocation=()"
+  }
+  handle /api/* {
+    reverse_proxy api:3000
+  }
+  handle {
+    reverse_proxy web:80
+  }
+}
+
+www.terra-umbra.fr, dev.terra-umbra.fr {
+  redir https://terra-umbra.fr{uri} 308
+}

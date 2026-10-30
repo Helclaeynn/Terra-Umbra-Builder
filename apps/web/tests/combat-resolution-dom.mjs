@@ -1,0 +1,17 @@
+import assert from 'node:assert/strict';
+import {readFile} from 'node:fs/promises';
+import {fileURLToPath} from 'node:url';
+import path from 'node:path';
+import {build} from 'esbuild';
+import {parse,compileScript} from '@vue/compiler-sfc';
+import {JSDOM,VirtualConsole} from 'jsdom';
+const root=fileURLToPath(new URL('../',import.meta.url));
+const bundle=await build({stdin:{resolveDir:root,loader:'ts',contents:`import {createApp,h} from 'vue';import Combat from './src/components/CampaignCombat.vue';const app=createApp({render:()=>h(Combat,{campaignId:'camp',room:{canManage:true,events:[],characters:[{id:'target',name:'Cible',health:'Indemne'}],combatants:[]}})});app.mount('#app');window.stop=()=>app.unmount();`},bundle:true,write:false,format:'iife',platform:'browser',define:{'process.env.NODE_ENV':'"test"',__VUE_OPTIONS_API__:'true',__VUE_PROD_DEVTOOLS__:'false'},plugins:[{name:'vue',setup(b){b.onLoad({filter:/\.vue$/},async({path:filename})=>{const {descriptor}=parse(await readFile(filename,'utf8'));return {contents:compileScript(descriptor,{id:'combat-test',inlineTemplate:true}).content,loader:'ts',resolveDir:path.dirname(filename)};});}}]});
+const errors=[],vc=new VirtualConsole();vc.on('jsdomError',e=>errors.push(e.message));vc.on('error',e=>errors.push(String(e)));
+const dom=new JSDOM('<div id="app"></div>',{url:'https://test.invalid',runScripts:'outside-only',pretendToBeVisual:true,virtualConsole:vc}),w=dom.window,d=w.document;w.Headers=Headers;const requests=[];
+w.fetch=async(url,options={})=>{if(options.body)requests.push(JSON.parse(options.body));return {ok:true,status:200,json:async()=>options.body?{ok:true}:{weapons:[],attackers:[{id:'veronica',name:'Veronica',options:[{id:'gun',label:'Pistolet',weaponName:'Pistolet',group:'Pistolets',modifier:40,damage:8,penetration:1,attackMode:'ranged',components:{attributeName:'Agilité',attribute:18,skillName:'Tir',rank:22,bonus:0}}]}],pending:[{id:'shot',attacker:'Veronica',total:21,damage:8,bonusDamage:2,penetration:1,damageType:'balistique',attackMode:'ranged',target:{id:'target',name:'Cible',armor:4,defense:10,bodyArmor:0,protections:[],reductions:{balistique:2}},defense:{label:'Défense passive',modifier:10,total:10}}]}};};
+const wait=()=>new Promise(r=>setTimeout(r,10));w.eval(bundle.outputFiles[0].text);for(let i=0;i<100&&!d.querySelector('.damage-preview');i++)await wait();
+assert.match(d.querySelector('.damage-preview').textContent,/2 × arme 8/);assert.match(d.querySelector('.damage-preview').textContent,/13 dégâts/);assert.match(d.body.textContent,/Altération cohérente/);
+const select=d.querySelector('[aria-label="Arme / attaque"]');select.value='gun';select.dispatchEvent(new w.Event('change',{bubbles:true}));await wait();assert.match(d.body.textContent,/Agilité 18 \+ Tir 22/);
+const target=d.querySelector('[aria-label="Cible de l’attaque"]');target.value='target';target.dispatchEvent(new w.Event('change',{bubbles:true}));await wait();d.querySelector('form').dispatchEvent(new w.Event('submit',{bubbles:true,cancelable:true}));await wait();assert.equal(requests[0].action,'launch');assert.equal(requests[0].optionId,'gun');assert.equal(requests[0].targetId,'target');
+assert.deepEqual(errors,[]);w.stop();w.close();console.log('COMBAT UI OK — ranged damage preview, alteration, weapon choice and decomposed NPC attack.');

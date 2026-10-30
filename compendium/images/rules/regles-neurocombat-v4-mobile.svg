@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 977" role="img" aria-labelledby="title desc">
+<title id="title">Neurocombat : cible, impact et sacrifice</title>
+<desc id="desc">1 · Attaquer : Programme offensif chargé : Volonté + Neurodive + 1d10e contre Défense Neuro. ; 2 · Cible vivante ? : Marge en dégâts sur ses PV ; seule une réduction [Neuro] protège, pas l’Armure. ; 3 · Calculer le reliquat : Après Défense, effet défensif et réductions [Neuro], compter les PV encore à perdre. ; 4 · Sacrifier si souhaité : Chaque programme chargé sacrifié annule 3 PV restants ; l’excédent est perdu. ; 5 · Appliquer : Retrancher les PV non annulés ; programmes sacrifiés grillés et slots indisponibles.. Contre IA ou programme : marge 1–5 perturbé ; 6–10 désactivé ; 11+ détruit.</desc>
+<rect width="540" height="977" rx="20" fill="#0c1820"/>
+<rect x="1" y="1" width="538" height="975" rx="19" fill="none" stroke="#476775" stroke-width="2"/>
+<text x="25" y="42" font-family="system-ui,sans-serif" font-size="24" font-weight="700" fill="#eef7f7">Neurocombat : cible, impact et</text>
+<text x="25" y="72" font-family="system-ui,sans-serif" font-size="24" font-weight="700" fill="#eef7f7">sacrifice</text>
+<rect x="20" y="104" width="500" height="133" rx="13" fill="#162a34" stroke="#49606b"/>
+<rect x="20" y="104" width="5" height="133" rx="2" fill="#5de0d0"/>
+<text x="39" y="138" font-family="system-ui,sans-serif" font-size="20" font-weight="700" fill="#5de0d0">1 · Attaquer</text>
+<text x="39" y="172" font-family="system-ui,sans-serif" font-size="17" font-weight="400" fill="#d1e1e3">Programme offensif chargé : Volonté +</text>
+<text x="39" y="198" font-family="system-ui,sans-serif" font-size="17" font-weight="400" fill="#d1e1e3">Neurodive + 1d10e contre Défense Neuro.</text>
+<text x="263" y="253" font-family="system-ui,sans-serif" font-size="18" font-weight="700" fill="#a6d6d6">↓</text>
+<rect x="20" y="255" width="500" height="133" rx="13" fill="#162a34" stroke="#49606b"/>
+<rect x="20" y="255" width="5" height="133" rx="2" fill="#8ab9ff"/>
+<text x="39" y="289" font-family="system-ui,sans-serif" font-size="20" font-weight="700" fill="#8ab9ff">2 · Cible vivante ?</text>
+<text x="39" y="323" font-family="system-ui,sans-serif" font-size="17" font-weight="400" fill="#d1e1e3">Marge en dégâts sur ses PV ; seule une</text>
+<text x="39" y="349" font-family="system-ui,sans-serif" font-size="17" font-weight="400" fill="#d1e1e3">réduction [Neuro] protège, pas l’Armure.</text>
+<text x="263" y="404" font-family="system-ui,sans-serif" font-size="18" font-weight="700" fill="#a6d6d6">↓</text>
+<rect x="20" y="406" width="500" height="133" rx="13" fill="#162a34" stroke="#49606b"/>
+<rect x="20" y="406" width="5" height="133" rx="2" fill="#f2bd78"/>
+<text x="39" y="440" font-family="system-ui,sans-serif" font-size="20" font-weight="700" fill="#f2bd78">3 · Calculer le reliquat</text>
+<text x="39" y="474" font-family="system-ui,sans-serif" font-size="17" font-weight="400" fill="#d1e1e3">Après Défense, effet défensif et</text>
+<text x="39" y="500" font-family="system-ui,sans-serif" font-size="17" font-weight="400" fill="#d1e1e3">réductions [Neuro], compter les PV encore</text>
+<text x="39" y="526" font-family="system-ui,sans-serif" font-size="17" font-weight="400" fill="#d1e1e3">à perdre.</text>
+<text x="263" y="555" font-family="system-ui,sans-serif" font-size="18" font-weight="700" fill="#a6d6d6">↓</text>
+<rect x="20" y="557" width="500" height="133" rx="13" fill="#162a34" stroke="#49606b"/>
+<rect x="20" y="557" width="5" height="133" rx="2" fill="#8fdea7"/>
+<text x="39" y="591" font-family="system-ui,sans-serif" font-size="20" font-weight="700" fill="#8fdea7">4 · Sacrifier si souhaité</text>
+<text x="39" y="625" font-family="system-ui,sans-serif" font-size="17" font-weight="400" fill="#d1e1e3">Chaque programme chargé sacrifié annule 3</text>
+<text x="39" y="651" font-family="system-ui,sans-serif" font-size="17" font-weight="400" fill="#d1e1e3">PV restants ; l’excédent est perdu.</text>
+<text x="263" y="706" font-family="system-ui,sans-serif" font-size="18" font-weight="700" fill="#a6d6d6">↓</text>
+<rect x="20" y="708" width="500" height="133" rx="13" fill="#162a34" stroke="#49606b"/>
+<rect x="20" y="708" width="5" height="133" rx="2" fill="#ca9bdf"/>
+<text x="39" y="742" font-family="system-ui,sans-serif" font-size="20" font-weight="700" fill="#ca9bdf">5 · Appliquer</text>
+<text x="39" y="776" font-family="system-ui,sans-serif" font-size="17" font-weight="400" fill="#d1e1e3">Retrancher les PV non annulés ; programmes</text>
+<text x="39" y="802" font-family="system-ui,sans-serif" font-size="17" font-weight="400" fill="#d1e1e3">sacrifiés grillés et slots indisponibles.</text>
+<text x="24" y="877" font-family="system-ui,sans-serif" font-size="17" font-weight="400" fill="#f1cfa1">Contre IA ou programme : marge 1–5 perturbé ;</text>
+<text x="24" y="904" font-family="system-ui,sans-serif" font-size="17" font-weight="400" fill="#f1cfa1">6–10 désactivé ; 11+ détruit.</text>
+</svg>

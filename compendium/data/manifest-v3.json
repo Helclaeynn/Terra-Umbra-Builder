@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "generated": "2026-09-17",
+  "generated": "2026-10-01",
   "categories": [
     "Règles",
     "Réalité",
@@ -36,9 +36,9 @@
     {
       "id": "equipement",
       "prefix": "v3-equipement-builder-v1",
-      "parts": 17,
-      "count": 357,
-      "sha256": "c3e7499516aea42911fdecd57720835b87edd27d4b098b1eb34a58f5add569d1",
+      "parts": 18,
+      "count": 368,
+      "sha256": "3e60904be0c85d85a1e1b292dcdb57012da2716549978b0825195b74c0a5ec89",
       "quality": {
         "loreVersion": 3,
         "maxIdenticalTextRatio": 0.6,
@@ -59,17 +59,17 @@
     },
     {
       "id": "verite",
-      "prefix": "v3-verite-lore-v13",
-      "parts": 12,
+      "prefix": "v3-verite-lore-v11",
+      "parts": 11,
       "count": 78,
-      "sha256": "0d79c77f44fa3939fd1388fbcf7cdfa570912df0aef4400f8ea3077f87c9d030"
+      "sha256": "d644eac53c31cd77db8ad77646fc06d57ed8075c7ac5cbe48144446048c0fd9a"
     },
     {
       "id": "verite-catalogue",
       "prefix": "v3-verite-catalogue-v6",
       "parts": 18,
-      "count": 229,
-      "sha256": "e547079015c34a59f0c3fa95f7f6b741b393fec0d0103eca3f5026f19b08d8e2",
+      "count": 231,
+      "sha256": "a351e57bba908460ee7e3fbdbb64560c17beb6308d4217f19c71674c05536504",
       "quality": {
         "loreVersion": 3,
         "maxIdenticalTextRatio": 0.6,
@@ -78,25 +78,25 @@
     },
     {
       "id": "bestiaire",
-      "prefix": "v3-bestiaire-v17-enriched-263",
-      "parts": 31,
-      "count": 263,
-      "sha256": "018148c0525c023ffd537079b2f3abbb749f98886aaa21816e504a15b16fe3ab"
+      "prefix": "v3-bestiaire-v17-classification-281",
+      "parts": 44,
+      "count": 281,
+      "sha256": "27c93b8d1e15b6be05b5f6ee6b09bcc6329bf979704e53f221d4b2ab08bb3a1a"
     },
     {
       "id": "lore",
-      "prefix": "v3-lore-v11",
-      "parts": 99,
-      "count": 355,
-      "sha256": "068222959718f5b9ce9fff5cf3808d4ecffd980da9fae2e6595933b0f520d9cc"
+      "prefix": "v3-lore-v9",
+      "parts": 89,
+      "count": 341,
+      "sha256": "f32209785b0991ebb5f1ac68cd7fe9ecbf3d72e9af4da90a61de1731f5771f4d"
     },
     {
       "id": "pnj",
-      "prefix": "v3-pnj-v3",
-      "parts": 18,
-      "count": 237,
-      "sha256": "0ee92e8c507552847c4d869a637985189ae18ff6ba240ab14482066da5ad71f9"
+      "prefix": "v3-pnj-v2",
+      "parts": 13,
+      "count": 223,
+      "sha256": "a6371b223bbde189b4d2cdaed752554562910aef2d6738729afac4338f7dd18b"
     }
   ],
-  "expectedTotal": 1890
+  "expectedTotal": 1893
 }

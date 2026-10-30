@@ -1,0 +1,56 @@
+name: V2 production approved PNJ consolidations
+on:
+  push:
+    branches: [feature/tuc-web-v2]
+    paths: [.github/workflows/v2-production-approved-pnj-merges.yml]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: tuc-v2-production
+  cancel-in-progress: false
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    environment: tuc-dev
+    timeout-minutes: 20
+    env:
+      TUC_DEV_HOST: ${{ secrets.TUC_DEV_HOST }}
+      TUC_DEV_USER: ${{ secrets.TUC_DEV_USER }}
+      TUC_DEV_SSH_KEY: ${{ secrets.TUC_DEV_SSH_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 5
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Require successful source validation
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          source=7933e88a5ce76af232d13deb2af7346f6469da5c
+          git merge-base --is-ancestor "$source" HEAD
+          test -z "$(git diff "$source" HEAD -- apps compendium character-builder infrastructure/production infrastructure/migrations)"
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/38247569946" --jq 'select(.head_sha == "7933e88a5ce76af232d13deb2af7346f6469da5c" and .conclusion == "success") | .id' | grep -q 38247569946
+      - name: Compile the validated merge module
+        working-directory: apps/api
+        run: |
+          npm ci
+          npx tsc -p tsconfig.json
+      - name: Back up and apply the targeted merge overlay
+        shell: bash
+        run: |
+          set -euo pipefail
+          install -m 700 -d ~/.ssh
+          trap 'rm -f ~/.ssh/tuc_prod' EXIT
+          printf '%s\n' "$TUC_DEV_SSH_KEY" > ~/.ssh/tuc_prod
+          chmod 600 ~/.ssh/tuc_prod
+          ssh-keyscan -T 10 -H "$TUC_DEV_HOST" >> ~/.ssh/known_hosts
+          SSH="ssh -i ~/.ssh/tuc_prod -o BatchMode=yes -o IdentitiesOnly=yes -o ConnectTimeout=15"
+          stage="/opt/terra-umbra/releases/pnj-merges-$GITHUB_SHA"
+          $SSH "$TUC_DEV_USER@$TUC_DEV_HOST" "test -f /opt/terra-umbra/production-active && mkdir -m 700 -p '$stage'"
+          rsync -az -e "$SSH" apps/api/dist/compendium-pnj-approved-merges.js infrastructure/production/check-approved-pnj-merges.mjs "$TUC_DEV_USER@$TUC_DEV_HOST:$stage/"
+          $SSH "$TUC_DEV_USER@$TUC_DEV_HOST" "bash -s -- '$GITHUB_SHA'" < infrastructure/production/release-approved-pnj-merges.sh

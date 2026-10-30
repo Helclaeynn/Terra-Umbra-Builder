@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 830" role="img" aria-labelledby="title desc">
+<title id="title">Canalisation : investir du temps</title>
+<desc id="desc">Chaque PA supplémentaire investi avant le jet réduit la difficulté d’un niveau, minimum 12. Un sort Cataclysmique de base coûte 4 PA à difficulté 25 ; deux PA de Canalisation donnent 6 PA à difficulté 18. La Tension reste celle du sort libéré.</desc>
+<rect width="540" height="830" rx="22" fill="#0c1820"/>
+<rect x="1" y="1" width="538" height="828" rx="21" fill="none" stroke="#476775" stroke-width="2"/>
+<text x="24" y="42" fill="#eef7f7" font-size="22" font-weight="700" font-family="system-ui, sans-serif">Canalisation : échanger des PA</text>
+<text x="24" y="74" fill="#d1e1e3" font-size="18" font-weight="400" font-family="system-ui, sans-serif">contre une difficulté moindre.</text>
+<rect x="22" y="107" width="496" height="182" rx="15" fill="#162a34" stroke="#49606b"/>
+<text x="42" y="149" fill="#5de0d0" font-size="21" font-weight="700" font-family="system-ui, sans-serif">Départ</text>
+<text x="42" y="196" fill="#d1e1e3" font-size="18" font-weight="400" font-family="system-ui, sans-serif">Cataclysmique : difficulté 25,</text>
+<text x="42" y="230" fill="#d1e1e3" font-size="18" font-weight="400" font-family="system-ui, sans-serif">4 PA de base, +4 Tension.</text>
+<path d="M 270 291 L 270 309 m -8 -8 l 8 8 8 -8" fill="none" stroke="#a6d6d6" stroke-width="3"/>
+<rect x="22" y="312" width="496" height="182" rx="15" fill="#162a34" stroke="#49606b"/>
+<text x="42" y="354" fill="#8ab9ff" font-size="21" font-weight="700" font-family="system-ui, sans-serif">Canaliser</text>
+<text x="42" y="401" fill="#d1e1e3" font-size="18" font-weight="400" font-family="system-ui, sans-serif">Investir 2 PA supplémentaires</text>
+<text x="42" y="435" fill="#d1e1e3" font-size="18" font-weight="400" font-family="system-ui, sans-serif">avant la résolution.</text>
+<path d="M 270 496 L 270 514 m -8 -8 l 8 8 8 -8" fill="none" stroke="#a6d6d6" stroke-width="3"/>
+<rect x="22" y="517" width="496" height="182" rx="15" fill="#162a34" stroke="#49606b"/>
+<text x="42" y="559" fill="#f2bd78" font-size="21" font-weight="700" font-family="system-ui, sans-serif">Libérer</text>
+<text x="42" y="606" fill="#d1e1e3" font-size="18" font-weight="400" font-family="system-ui, sans-serif">Difficulté 25 → 21 → 18 ;</text>
+<text x="42" y="640" fill="#d1e1e3" font-size="18" font-weight="400" font-family="system-ui, sans-serif">6 PA investis, +4 Tension.</text>
+<text x="24" y="758" fill="#f1cfa1" font-size="17" font-weight="400" font-family="system-ui, sans-serif">Avec 2 PA disponibles par round :</text>
+<text x="24" y="786" fill="#f1cfa1" font-size="17" font-weight="400" font-family="system-ui, sans-serif">3 rounds pour investir les 6 PA.</text>
+</svg>

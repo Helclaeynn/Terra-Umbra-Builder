@@ -1792,6 +1792,17 @@
       "displayTitle": "Dullahan"
     },
     {
+      "id": "bestiaire-v17-goule",
+      "dataset": "bestiaire",
+      "category": "Bestiaire",
+      "group": "Ombres & entités de l’Ombremonde",
+      "groupOrder": 40,
+      "subgroup": "Deimons",
+      "subgroupOrder": 10,
+      "pageOrder": 500,
+      "displayTitle": "Goule"
+    },
+    {
       "id": "bestiaire-v15-helhest",
       "dataset": "bestiaire",
       "category": "Bestiaire",
@@ -1801,6 +1812,17 @@
       "subgroupOrder": 10,
       "pageOrder": 500,
       "displayTitle": "Helhest"
+    },
+    {
+      "id": "bestiaire-v17-kitsune",
+      "dataset": "bestiaire",
+      "category": "Bestiaire",
+      "group": "Ombres & entités de l’Ombremonde",
+      "groupOrder": 40,
+      "subgroup": "Deimons",
+      "subgroupOrder": 10,
+      "pageOrder": 500,
+      "displayTitle": "Kitsune"
     },
     {
       "id": "bestiaire-v15-cauchemar",
@@ -1869,6 +1891,17 @@
       "displayTitle": "Somnium"
     },
     {
+      "id": "bestiaire-v17-amazone",
+      "dataset": "bestiaire",
+      "category": "Bestiaire",
+      "group": "Ombres & entités de l’Ombremonde",
+      "groupOrder": 40,
+      "subgroup": "Voyageurs",
+      "subgroupOrder": 10,
+      "pageOrder": 500,
+      "displayTitle": "Amazone"
+    },
+    {
       "id": "bestiaire-v16-dive",
       "dataset": "bestiaire",
       "category": "Bestiaire",
@@ -1891,6 +1924,17 @@
       "displayTitle": "Gorgone"
     },
     {
+      "id": "bestiaire-v17-huldre",
+      "dataset": "bestiaire",
+      "category": "Bestiaire",
+      "group": "Ombres & entités de l’Ombremonde",
+      "groupOrder": 40,
+      "subgroup": "Voyageurs",
+      "subgroupOrder": 10,
+      "pageOrder": 500,
+      "displayTitle": "Huldre"
+    },
+    {
       "id": "bestiaire-v15-kochtchei",
       "dataset": "bestiaire",
       "category": "Bestiaire",
@@ -1902,6 +1946,28 @@
       "displayTitle": "Kochtcheï"
     },
     {
+      "id": "bestiaire-v17-cyberiade",
+      "dataset": "bestiaire",
+      "category": "Bestiaire",
+      "group": "Fées & esprits naturels",
+      "groupOrder": 50,
+      "subgroup": "Élémentaires / Djinns",
+      "subgroupOrder": 10,
+      "pageOrder": 500,
+      "displayTitle": "Cyberiade"
+    },
+    {
+      "id": "bestiaire-v17-dryade",
+      "dataset": "bestiaire",
+      "category": "Bestiaire",
+      "group": "Fées & esprits naturels",
+      "groupOrder": 50,
+      "subgroup": "Élémentaires / Djinns",
+      "subgroupOrder": 10,
+      "pageOrder": 500,
+      "displayTitle": "Dryade"
+    },
+    {
       "id": "bestiaire-v15-elementaire-lie-a-un-sanctuaire",
       "dataset": "bestiaire",
       "category": "Bestiaire",
@@ -1911,6 +1977,39 @@
       "subgroupOrder": 10,
       "pageOrder": 500,
       "displayTitle": "Élémentaire lié à un sanctuaire"
+    },
+    {
+      "id": "bestiaire-v17-hydriade",
+      "dataset": "bestiaire",
+      "category": "Bestiaire",
+      "group": "Fées & esprits naturels",
+      "groupOrder": 50,
+      "subgroup": "Élémentaires / Djinns",
+      "subgroupOrder": 10,
+      "pageOrder": 500,
+      "displayTitle": "Hydriade"
+    },
+    {
+      "id": "bestiaire-v17-lampade",
+      "dataset": "bestiaire",
+      "category": "Bestiaire",
+      "group": "Fées & esprits naturels",
+      "groupOrder": 50,
+      "subgroup": "Élémentaires / Djinns",
+      "subgroupOrder": 10,
+      "pageOrder": 500,
+      "displayTitle": "Lampade"
+    },
+    {
+      "id": "bestiaire-v17-ouranie",
+      "dataset": "bestiaire",
+      "category": "Bestiaire",
+      "group": "Fées & esprits naturels",
+      "groupOrder": 50,
+      "subgroup": "Élémentaires / Djinns",
+      "subgroupOrder": 10,
+      "pageOrder": 500,
+      "displayTitle": "Ouranie"
     },
     {
       "id": "bestiaire-v15-curupira",
@@ -2045,6 +2144,28 @@
       "displayTitle": "Taniwha territorial"
     },
     {
+      "id": "bestiaire-v17-argileux",
+      "dataset": "bestiaire",
+      "category": "Bestiaire",
+      "group": "Fées & esprits naturels",
+      "groupOrder": 50,
+      "subgroup": "Golems",
+      "subgroupOrder": 10,
+      "pageOrder": 500,
+      "displayTitle": "Argileux"
+    },
+    {
+      "id": "bestiaire-v17-armurem",
+      "dataset": "bestiaire",
+      "category": "Bestiaire",
+      "group": "Fées & esprits naturels",
+      "groupOrder": 50,
+      "subgroup": "Golems",
+      "subgroupOrder": 10,
+      "pageOrder": 500,
+      "displayTitle": "Armurem"
+    },
+    {
       "id": "bestiaire-v15-golem-feerique",
       "dataset": "bestiaire",
       "category": "Bestiaire",
@@ -2054,6 +2175,83 @@
       "subgroupOrder": 10,
       "pageOrder": 500,
       "displayTitle": "Golem féerique"
+    },
+    {
+      "id": "bestiaire-v17-homoncule",
+      "dataset": "bestiaire",
+      "category": "Bestiaire",
+      "group": "Fées & esprits naturels",
+      "groupOrder": 50,
+      "subgroup": "Golems",
+      "subgroupOrder": 10,
+      "pageOrder": 500,
+      "displayTitle": "Homoncule"
+    },
+    {
+      "id": "bestiaire-v17-marionnette",
+      "dataset": "bestiaire",
+      "category": "Bestiaire",
+      "group": "Fées & esprits naturels",
+      "groupOrder": 50,
+      "subgroup": "Golems",
+      "subgroupOrder": 10,
+      "pageOrder": 500,
+      "displayTitle": "Marionnette"
+    },
+    {
+      "id": "bestiaire-v17-technolem",
+      "dataset": "bestiaire",
+      "category": "Bestiaire",
+      "group": "Fées & esprits naturels",
+      "groupOrder": 50,
+      "subgroup": "Golems",
+      "subgroupOrder": 10,
+      "pageOrder": 500,
+      "displayTitle": "Technolem"
+    },
+    {
+      "id": "bestiaire-v17-boggart",
+      "dataset": "bestiaire",
+      "category": "Bestiaire",
+      "group": "Fées & esprits naturels",
+      "groupOrder": 50,
+      "subgroup": "Lutins",
+      "subgroupOrder": 10,
+      "pageOrder": 500,
+      "displayTitle": "Boggart"
+    },
+    {
+      "id": "bestiaire-v17-chichiga",
+      "dataset": "bestiaire",
+      "category": "Bestiaire",
+      "group": "Fées & esprits naturels",
+      "groupOrder": 50,
+      "subgroup": "Lutins",
+      "subgroupOrder": 10,
+      "pageOrder": 500,
+      "displayTitle": "Chichiga"
+    },
+    {
+      "id": "bestiaire-v17-farfadet",
+      "dataset": "bestiaire",
+      "category": "Bestiaire",
+      "group": "Fées & esprits naturels",
+      "groupOrder": 50,
+      "subgroup": "Lutins",
+      "subgroupOrder": 10,
+      "pageOrder": 500,
+      "displayTitle": "Farfadet"
+    },
+    {
+      "id": "bestiaire-v17-gnome",
+      "dataset": "bestiaire",
+      "category": "Bestiaire",
+      "group": "Fées & esprits naturels",
+      "groupOrder": 50,
+      "subgroup": "Lutins",
+      "subgroupOrder": 10,
+      "pageOrder": 500,
+      "displayTitle": "Gnome"
     },
     {
       "id": "bestiaire-v15-lutin-du-petit-peuple",
@@ -3011,6 +3209,127 @@
       "subgroupOrder": 10010,
       "pageOrder": 10,
       "displayTitle": "Raven MC-025 Hitman"
+    },
+    {
+      "id": "equipement-358-owl-k-owlclaws",
+      "dataset": "equipement",
+      "category": "Équipement & Objets",
+      "group": "Équipement de Réalité",
+      "groupOrder": 10,
+      "subgroup": "Armement — Armes de mêlée",
+      "subgroupOrder": 10010,
+      "pageOrder": 358,
+      "displayTitle": "Owl K OwlClaws"
+    },
+    {
+      "id": "equipement-359-raven-k-blaclaws",
+      "dataset": "equipement",
+      "category": "Équipement & Objets",
+      "group": "Équipement de Réalité",
+      "groupOrder": 10,
+      "subgroup": "Armement — Armes de mêlée",
+      "subgroupOrder": 10010,
+      "pageOrder": 359,
+      "displayTitle": "Raven K Blaclaws"
+    },
+    {
+      "id": "equipement-360-owl-k-resonancer",
+      "dataset": "equipement",
+      "category": "Équipement & Objets",
+      "group": "Équipement de Réalité",
+      "groupOrder": 10,
+      "subgroup": "Armement — Armes de mêlée",
+      "subgroupOrder": 10010,
+      "pageOrder": 360,
+      "displayTitle": "Owl K Resonancer"
+    },
+    {
+      "id": "equipement-361-raven-k-hellthorn",
+      "dataset": "equipement",
+      "category": "Équipement & Objets",
+      "group": "Équipement de Réalité",
+      "groupOrder": 10,
+      "subgroup": "Armement — Armes de mêlée",
+      "subgroupOrder": 10010,
+      "pageOrder": 361,
+      "displayTitle": "Raven K Hellthorn"
+    },
+    {
+      "id": "equipement-362-phoenix-k-sunbeak",
+      "dataset": "equipement",
+      "category": "Équipement & Objets",
+      "group": "Équipement de Réalité",
+      "groupOrder": 10,
+      "subgroup": "Armement — Armes de mêlée",
+      "subgroupOrder": 10010,
+      "pageOrder": 362,
+      "displayTitle": "Phoenix K SunBeak"
+    },
+    {
+      "id": "equipement-363-raven-kb-karas",
+      "dataset": "equipement",
+      "category": "Équipement & Objets",
+      "group": "Équipement de Réalité",
+      "groupOrder": 10,
+      "subgroup": "Armement — Armes de mêlée",
+      "subgroupOrder": 10010,
+      "pageOrder": 363,
+      "displayTitle": "Raven KB Karas"
+    },
+    {
+      "id": "equipement-364-k-golijagi",
+      "dataset": "equipement",
+      "category": "Équipement & Objets",
+      "group": "Équipement de Réalité",
+      "groupOrder": 10,
+      "subgroup": "Armement — Armes de mêlée",
+      "subgroupOrder": 10010,
+      "pageOrder": 364,
+      "displayTitle": "K Golijagi"
+    },
+    {
+      "id": "equipement-365-owl-sb-nextcalibur",
+      "dataset": "equipement",
+      "category": "Équipement & Objets",
+      "group": "Équipement de Réalité",
+      "groupOrder": 10,
+      "subgroup": "Armement — Armes de mêlée",
+      "subgroupOrder": 10010,
+      "pageOrder": 365,
+      "displayTitle": "Owl SB Nextcalibur"
+    },
+    {
+      "id": "equipement-366-phoenix-sb-khopesh",
+      "dataset": "equipement",
+      "category": "Équipement & Objets",
+      "group": "Équipement de Réalité",
+      "groupOrder": 10,
+      "subgroup": "Armement — Armes de mêlée",
+      "subgroupOrder": 10010,
+      "pageOrder": 366,
+      "displayTitle": "Phoenix SB Khopesh"
+    },
+    {
+      "id": "equipement-367-hache-circulaire-owl",
+      "dataset": "equipement",
+      "category": "Équipement & Objets",
+      "group": "Équipement de Réalité",
+      "groupOrder": 10,
+      "subgroup": "Armement — Armes de mêlée",
+      "subgroupOrder": 10010,
+      "pageOrder": 367,
+      "displayTitle": "Hache circulaire Owl"
+    },
+    {
+      "id": "equipement-368-insurrection-sp-new-partisan",
+      "dataset": "equipement",
+      "category": "Équipement & Objets",
+      "group": "Équipement de Réalité",
+      "groupOrder": 10,
+      "subgroup": "Armement — Armes de mêlée",
+      "subgroupOrder": 10010,
+      "pageOrder": 368,
+      "displayTitle": "Insurrection SP New Partisan"
     },
     {
       "id": "equipement-282-phoenix-king-fist",
@@ -10955,28 +11274,6 @@
       "displayTitle": "« Lili Divine » - LILIANA SHERA"
     },
     {
-      "id": "pnj-fleaux-baldwin-de-vandrick",
-      "dataset": "pnj",
-      "category": "Personnages",
-      "group": "Corporations",
-      "groupOrder": 20,
-      "subgroup": "Corporatistes & acteurs privés",
-      "subgroupOrder": 10,
-      "pageOrder": 500,
-      "displayTitle": "Baldwin de Vandrick"
-    },
-    {
-      "id": "pnj-fleaux-neeba-ngubenani",
-      "dataset": "pnj",
-      "category": "Personnages",
-      "group": "Corporations",
-      "groupOrder": 20,
-      "subgroup": "Corporatistes & acteurs privés",
-      "subgroupOrder": 10,
-      "pageOrder": 500,
-      "displayTitle": "Neeba NGUBENANI"
-    },
-    {
       "id": "pnj-044-alessandra-luciano",
       "dataset": "pnj",
       "category": "Personnages",
@@ -11373,28 +11670,6 @@
       "displayTitle": "Sikya HAWKINS"
     },
     {
-      "id": "pnj-fleaux-rolf-de-vandrick",
-      "dataset": "pnj",
-      "category": "Personnages",
-      "group": "Crawlers & Underlife",
-      "groupOrder": 40,
-      "subgroup": "Crawlers & réseaux Underlife",
-      "subgroupOrder": 10,
-      "pageOrder": 500,
-      "displayTitle": "Rolf de VANDRICK"
-    },
-    {
-      "id": "pnj-fleaux-ryong-myung-sook",
-      "dataset": "pnj",
-      "category": "Personnages",
-      "group": "Crawlers & Underlife",
-      "groupOrder": 40,
-      "subgroup": "Crawlers & réseaux Underlife",
-      "subgroupOrder": 10,
-      "pageOrder": 500,
-      "displayTitle": "RYONG Myung-Sook"
-    },
-    {
       "id": "pnj-085-arthur-savas",
       "dataset": "pnj",
       "category": "Personnages",
@@ -11692,6 +11967,17 @@
       "displayTitle": "Alisa SVALISDOTTIR"
     },
     {
+      "id": "pnj-098-olayinka-najja",
+      "dataset": "pnj",
+      "category": "Personnages",
+      "group": "Figures de Vérité",
+      "groupOrder": 70,
+      "subgroup": "Vampires",
+      "subgroupOrder": 10,
+      "pageOrder": 98,
+      "displayTitle": "Olayinka NAJJA"
+    },
+    {
       "id": "pnj-157-ryan-foster",
       "dataset": "pnj",
       "category": "Personnages",
@@ -11701,6 +11987,17 @@
       "subgroupOrder": 30,
       "pageOrder": 157,
       "displayTitle": "Ryan Foster"
+    },
+    {
+      "id": "pnj-095-mir-a-stephens",
+      "dataset": "pnj",
+      "category": "Personnages",
+      "group": "Figures de Vérité",
+      "groupOrder": 70,
+      "subgroup": "Exilés",
+      "subgroupOrder": 70,
+      "pageOrder": 95,
+      "displayTitle": "Mir a STEPHENS"
     },
     {
       "id": "pnj-106-ademichelle-dunard",
@@ -12385,28 +12682,6 @@
       "displayTitle": "_"
     },
     {
-      "id": "pnj-081-aberration-z-87",
-      "dataset": "pnj",
-      "category": "Personnages",
-      "group": "Corruption & menaces",
-      "groupOrder": 80,
-      "subgroup": "Fléaux & figures de Rupture",
-      "subgroupOrder": 10,
-      "pageOrder": 81,
-      "displayTitle": "Aberration Z-87"
-    },
-    {
-      "id": "pnj-082-ana-diana-de-la-caza",
-      "dataset": "pnj",
-      "category": "Personnages",
-      "group": "Corruption & menaces",
-      "groupOrder": 80,
-      "subgroup": "Fléaux & figures de Rupture",
-      "subgroupOrder": 10,
-      "pageOrder": 82,
-      "displayTitle": "Ana Diana de la CAZA"
-    },
-    {
       "id": "pnj-083-anastasia-vargas",
       "dataset": "pnj",
       "category": "Personnages",
@@ -12418,28 +12693,6 @@
       "displayTitle": "Anastasia VARGAS"
     },
     {
-      "id": "pnj-084-arkady-karamov",
-      "dataset": "pnj",
-      "category": "Personnages",
-      "group": "Corruption & menaces",
-      "groupOrder": 80,
-      "subgroup": "Fléaux & figures de Rupture",
-      "subgroupOrder": 10,
-      "pageOrder": 84,
-      "displayTitle": "Arkady KARAMOV"
-    },
-    {
-      "id": "pnj-086-azaliah-springer",
-      "dataset": "pnj",
-      "category": "Personnages",
-      "group": "Corruption & menaces",
-      "groupOrder": 80,
-      "subgroup": "Fléaux & figures de Rupture",
-      "subgroupOrder": 10,
-      "pageOrder": 86,
-      "displayTitle": "Azaliah SPRINGER"
-    },
-    {
       "id": "pnj-088-cthulhu",
       "dataset": "pnj",
       "category": "Personnages",
@@ -12449,83 +12702,6 @@
       "subgroupOrder": 10,
       "pageOrder": 88,
       "displayTitle": "Cthulhu"
-    },
-    {
-      "id": "pnj-091-lidira",
-      "dataset": "pnj",
-      "category": "Personnages",
-      "group": "Corruption & menaces",
-      "groupOrder": 80,
-      "subgroup": "Fléaux & figures de Rupture",
-      "subgroupOrder": 10,
-      "pageOrder": 91,
-      "displayTitle": "Lidira"
-    },
-    {
-      "id": "pnj-095-mir-a-stephens",
-      "dataset": "pnj",
-      "category": "Personnages",
-      "group": "Corruption & menaces",
-      "groupOrder": 80,
-      "subgroup": "Fléaux & figures de Rupture",
-      "subgroupOrder": 10,
-      "pageOrder": 95,
-      "displayTitle": "Mir a STEPHENS"
-    },
-    {
-      "id": "pnj-096-noah-brenneman",
-      "dataset": "pnj",
-      "category": "Personnages",
-      "group": "Corruption & menaces",
-      "groupOrder": 80,
-      "subgroup": "Fléaux & figures de Rupture",
-      "subgroupOrder": 10,
-      "pageOrder": 96,
-      "displayTitle": "Noah BRENNEMAN"
-    },
-    {
-      "id": "pnj-097-nora-shakir",
-      "dataset": "pnj",
-      "category": "Personnages",
-      "group": "Corruption & menaces",
-      "groupOrder": 80,
-      "subgroup": "Fléaux & figures de Rupture",
-      "subgroupOrder": 10,
-      "pageOrder": 97,
-      "displayTitle": "Nora SHAKIR"
-    },
-    {
-      "id": "pnj-098-olayinka-najja",
-      "dataset": "pnj",
-      "category": "Personnages",
-      "group": "Corruption & menaces",
-      "groupOrder": 80,
-      "subgroup": "Fléaux & figures de Rupture",
-      "subgroupOrder": 10,
-      "pageOrder": 98,
-      "displayTitle": "Olayinka NAJJA"
-    },
-    {
-      "id": "pnj-100-ombre-pape-valentino-sombra",
-      "dataset": "pnj",
-      "category": "Personnages",
-      "group": "Corruption & menaces",
-      "groupOrder": 80,
-      "subgroup": "Fléaux & figures de Rupture",
-      "subgroupOrder": 10,
-      "pageOrder": 100,
-      "displayTitle": "Ombre-Pape -Valentino SOMBRA"
-    },
-    {
-      "id": "pnj-102-sven-scythe",
-      "dataset": "pnj",
-      "category": "Personnages",
-      "group": "Corruption & menaces",
-      "groupOrder": 80,
-      "subgroup": "Fléaux & figures de Rupture",
-      "subgroupOrder": 10,
-      "pageOrder": 102,
-      "displayTitle": "Sven SCYTHE"
     },
     {
       "id": "pnj-103-tellia-fedirivna-skrypnyk",
@@ -12550,125 +12726,114 @@
       "displayTitle": "Ulfric TAMER"
     },
     {
+      "id": "pnj-081-aberration-z-87",
+      "dataset": "pnj",
+      "category": "Personnages",
+      "group": "Corruption & menaces",
+      "groupOrder": 80,
+      "subgroup": "Abominations",
+      "subgroupOrder": 20,
+      "pageOrder": 81,
+      "displayTitle": "Aberration Z-87"
+    },
+    {
+      "id": "pnj-082-ana-diana-de-la-caza",
+      "dataset": "pnj",
+      "category": "Personnages",
+      "group": "Corruption & menaces",
+      "groupOrder": 80,
+      "subgroup": "Abominations",
+      "subgroupOrder": 20,
+      "pageOrder": 82,
+      "displayTitle": "Ana Diana de la CAZA"
+    },
+    {
+      "id": "pnj-084-arkady-karamov",
+      "dataset": "pnj",
+      "category": "Personnages",
+      "group": "Corruption & menaces",
+      "groupOrder": 80,
+      "subgroup": "Abominations",
+      "subgroupOrder": 20,
+      "pageOrder": 84,
+      "displayTitle": "Arkady KARAMOV"
+    },
+    {
+      "id": "pnj-086-azaliah-springer",
+      "dataset": "pnj",
+      "category": "Personnages",
+      "group": "Corruption & menaces",
+      "groupOrder": 80,
+      "subgroup": "Abominations",
+      "subgroupOrder": 20,
+      "pageOrder": 86,
+      "displayTitle": "Azaliah SPRINGER"
+    },
+    {
+      "id": "pnj-091-lidira",
+      "dataset": "pnj",
+      "category": "Personnages",
+      "group": "Corruption & menaces",
+      "groupOrder": 80,
+      "subgroup": "Abominations",
+      "subgroupOrder": 20,
+      "pageOrder": 91,
+      "displayTitle": "Lidira"
+    },
+    {
+      "id": "pnj-096-noah-brenneman",
+      "dataset": "pnj",
+      "category": "Personnages",
+      "group": "Corruption & menaces",
+      "groupOrder": 80,
+      "subgroup": "Abominations",
+      "subgroupOrder": 20,
+      "pageOrder": 96,
+      "displayTitle": "Noah BRENNEMAN"
+    },
+    {
+      "id": "pnj-097-nora-shakir",
+      "dataset": "pnj",
+      "category": "Personnages",
+      "group": "Corruption & menaces",
+      "groupOrder": 80,
+      "subgroup": "Abominations",
+      "subgroupOrder": 20,
+      "pageOrder": 97,
+      "displayTitle": "Nora SHAKIR"
+    },
+    {
+      "id": "pnj-100-ombre-pape-valentino-sombra",
+      "dataset": "pnj",
+      "category": "Personnages",
+      "group": "Corruption & menaces",
+      "groupOrder": 80,
+      "subgroup": "Abominations",
+      "subgroupOrder": 20,
+      "pageOrder": 100,
+      "displayTitle": "Ombre-Pape -Valentino SOMBRA"
+    },
+    {
+      "id": "pnj-102-sven-scythe",
+      "dataset": "pnj",
+      "category": "Personnages",
+      "group": "Corruption & menaces",
+      "groupOrder": 80,
+      "subgroup": "Abominations",
+      "subgroupOrder": 20,
+      "pageOrder": 102,
+      "displayTitle": "Sven SCYTHE"
+    },
+    {
       "id": "pnj-105-yegor-karamov",
       "dataset": "pnj",
       "category": "Personnages",
       "group": "Corruption & menaces",
       "groupOrder": 80,
-      "subgroup": "Fléaux & figures de Rupture",
-      "subgroupOrder": 10,
+      "subgroup": "Abominations",
+      "subgroupOrder": 20,
       "pageOrder": 105,
       "displayTitle": "Yegor KARAMOV"
-    },
-    {
-      "id": "pnj-fleaux-am-mleeac",
-      "dataset": "pnj",
-      "category": "Personnages",
-      "group": "Corruption & menaces",
-      "groupOrder": 80,
-      "subgroup": "Fléaux & figures de Rupture",
-      "subgroupOrder": 10,
-      "pageOrder": 500,
-      "displayTitle": "Am’Mleeac"
-    },
-    {
-      "id": "pnj-fleaux-dagon",
-      "dataset": "pnj",
-      "category": "Personnages",
-      "group": "Corruption & menaces",
-      "groupOrder": 80,
-      "subgroup": "Fléaux & figures de Rupture",
-      "subgroupOrder": 10,
-      "pageOrder": 500,
-      "displayTitle": "Dagon / Aberration Z-19"
-    },
-    {
-      "id": "pnj-fleaux-dsherra-neth",
-      "dataset": "pnj",
-      "category": "Personnages",
-      "group": "Corruption & menaces",
-      "groupOrder": 80,
-      "subgroup": "Fléaux & figures de Rupture",
-      "subgroupOrder": 10,
-      "pageOrder": 500,
-      "displayTitle": "Dsherra'neth / Aberration Z-47"
-    },
-    {
-      "id": "pnj-fleaux-fredegonda",
-      "dataset": "pnj",
-      "category": "Personnages",
-      "group": "Corruption & menaces",
-      "groupOrder": 80,
-      "subgroup": "Fléaux & figures de Rupture",
-      "subgroupOrder": 10,
-      "pageOrder": 500,
-      "displayTitle": "Fredegonda VONRIM"
-    },
-    {
-      "id": "pnj-fleaux-roi-du-givre",
-      "dataset": "pnj",
-      "category": "Personnages",
-      "group": "Corruption & menaces",
-      "groupOrder": 80,
-      "subgroup": "Fléaux & figures de Rupture",
-      "subgroupOrder": 10,
-      "pageOrder": 500,
-      "displayTitle": "Le Roi du Givre"
-    },
-    {
-      "id": "pnj-fleaux-pestiria",
-      "dataset": "pnj",
-      "category": "Personnages",
-      "group": "Corruption & menaces",
-      "groupOrder": 80,
-      "subgroup": "Fléaux & figures de Rupture",
-      "subgroupOrder": 10,
-      "pageOrder": 500,
-      "displayTitle": "Pestiria — Peste des vases"
-    },
-    {
-      "id": "pnj-fleaux-r-sheraag",
-      "dataset": "pnj",
-      "category": "Personnages",
-      "group": "Corruption & menaces",
-      "groupOrder": 80,
-      "subgroup": "Fléaux & figures de Rupture",
-      "subgroupOrder": 10,
-      "pageOrder": 500,
-      "displayTitle": "R’Sheraag / Aberration Z-45"
-    },
-    {
-      "id": "pnj-fleaux-raghnaid-maccalmain",
-      "dataset": "pnj",
-      "category": "Personnages",
-      "group": "Corruption & menaces",
-      "groupOrder": 80,
-      "subgroup": "Fléaux & figures de Rupture",
-      "subgroupOrder": 10,
-      "pageOrder": 500,
-      "displayTitle": "Raghnaid MACCALMAIN"
-    },
-    {
-      "id": "pnj-fleaux-siadara",
-      "dataset": "pnj",
-      "category": "Personnages",
-      "group": "Corruption & menaces",
-      "groupOrder": 80,
-      "subgroup": "Fléaux & figures de Rupture",
-      "subgroupOrder": 10,
-      "pageOrder": 500,
-      "displayTitle": "Sianna DANEIN / Siadara"
-    },
-    {
-      "id": "pnj-fleaux-telipinu",
-      "dataset": "pnj",
-      "category": "Personnages",
-      "group": "Corruption & menaces",
-      "groupOrder": 80,
-      "subgroup": "Fléaux & figures de Rupture",
-      "subgroupOrder": 10,
-      "pageOrder": 500,
-      "displayTitle": "Telipinu / Aberration Z-75"
     },
     {
       "id": "pnj-107-alicia-starrogue",
@@ -19535,94 +19700,6 @@
       "displayTitle": "Traditions et réseaux de Chasseurs"
     },
     {
-      "id": "lore-hunters-association",
-      "dataset": "lore",
-      "category": "Vérité",
-      "group": "Chasseurs & traditions",
-      "groupOrder": 50,
-      "subgroup": "Organisations de Chasse",
-      "subgroupOrder": 30,
-      "pageOrder": 10,
-      "displayTitle": "L’Association — histoire et réseau de la Chasse"
-    },
-    {
-      "id": "lore-hunters-association-gate-hunt",
-      "dataset": "lore",
-      "category": "Vérité",
-      "group": "Chasseurs & traditions",
-      "groupOrder": 50,
-      "subgroup": "Organisations de Chasse",
-      "subgroupOrder": 30,
-      "pageOrder": 20,
-      "displayTitle": "L’Association — Gate of Truth, rangs Hunt et Observateurs"
-    },
-    {
-      "id": "lore-hunters-xenoshield",
-      "dataset": "lore",
-      "category": "Vérité",
-      "group": "Chasseurs & traditions",
-      "groupOrder": 50,
-      "subgroup": "Organisations de Chasse",
-      "subgroupOrder": 30,
-      "pageOrder": 30,
-      "displayTitle": "Xenoshield"
-    },
-    {
-      "id": "lore-hunters-chretiens",
-      "dataset": "lore",
-      "category": "Vérité",
-      "group": "Chasseurs & traditions",
-      "groupOrder": 50,
-      "subgroup": "Traditions religieuses de Chasse",
-      "subgroupOrder": 40,
-      "pageOrder": 10,
-      "displayTitle": "Chasseurs chrétiens — Ephraïm, Arianwen et Magdalena"
-    },
-    {
-      "id": "lore-hunters-musulmans",
-      "dataset": "lore",
-      "category": "Vérité",
-      "group": "Chasseurs & traditions",
-      "groupOrder": 50,
-      "subgroup": "Traditions religieuses de Chasse",
-      "subgroupOrder": 40,
-      "pageOrder": 20,
-      "displayTitle": "Chasseurs musulmans — Roqya et traditions de Chasse"
-    },
-    {
-      "id": "lore-hunters-hindouistes",
-      "dataset": "lore",
-      "category": "Vérité",
-      "group": "Chasseurs & traditions",
-      "groupOrder": 50,
-      "subgroup": "Traditions religieuses de Chasse",
-      "subgroupOrder": 40,
-      "pageOrder": 30,
-      "displayTitle": "Chasseurs hindouistes — Gourous et traditions divines"
-    },
-    {
-      "id": "lore-hunters-shientaoistes",
-      "dataset": "lore",
-      "category": "Vérité",
-      "group": "Chasseurs & traditions",
-      "groupOrder": 50,
-      "subgroup": "Traditions religieuses de Chasse",
-      "subgroupOrder": 40,
-      "pageOrder": 40,
-      "displayTitle": "Chasseurs shientaoïstes — quatre traditions"
-    },
-    {
-      "id": "lore-hunters-confreries",
-      "dataset": "lore",
-      "category": "Vérité",
-      "group": "Chasseurs & traditions",
-      "groupOrder": 50,
-      "subgroup": "Traditions religieuses de Chasse",
-      "subgroupOrder": 40,
-      "pageOrder": 50,
-      "displayTitle": "Confréries de Chasseurs"
-    },
-    {
       "id": "lore-vampire-courts-alghul-histoire",
       "dataset": "lore",
       "category": "Vérité",
@@ -20690,72 +20767,6 @@
       "displayTitle": "Thul — la Fixation"
     },
     {
-      "id": "lore-plagues-cultes-vaagor",
-      "dataset": "lore",
-      "category": "Vérité",
-      "group": "Corruption & Fléaux",
-      "groupOrder": 70,
-      "subgroup": "Cultes des Fléaux",
-      "subgroupOrder": 30,
-      "pageOrder": 10,
-      "displayTitle": "Cultes de V’Aagor — Longinus, Œil Blanc, Fontaine, Faux et Gouffre"
-    },
-    {
-      "id": "lore-plagues-cultes-uxsharith",
-      "dataset": "lore",
-      "category": "Vérité",
-      "group": "Corruption & Fléaux",
-      "groupOrder": 70,
-      "subgroup": "Cultes des Fléaux",
-      "subgroupOrder": 30,
-      "pageOrder": 20,
-      "displayTitle": "Cultes d’Ux’Sharith — Saintes Lagunes, Bellatheis et Grand Savoir"
-    },
-    {
-      "id": "lore-plagues-cultes-vhodhal",
-      "dataset": "lore",
-      "category": "Vérité",
-      "group": "Corruption & Fléaux",
-      "groupOrder": 70,
-      "subgroup": "Cultes des Fléaux",
-      "subgroupOrder": 30,
-      "pageOrder": 30,
-      "displayTitle": "Cultes de Vhodhal — Loge d’Écume et Sang d’Ivoire"
-    },
-    {
-      "id": "lore-plagues-eden-gris",
-      "dataset": "lore",
-      "category": "Vérité",
-      "group": "Corruption & Fléaux",
-      "groupOrder": 70,
-      "subgroup": "Cultes des Fléaux",
-      "subgroupOrder": 30,
-      "pageOrder": 40,
-      "displayTitle": "Le culte de l’Éden Gris"
-    },
-    {
-      "id": "lore-plagues-mere-primordiale",
-      "dataset": "lore",
-      "category": "Vérité",
-      "group": "Corruption & Fléaux",
-      "groupOrder": 70,
-      "subgroup": "Cultes des Fléaux",
-      "subgroupOrder": 30,
-      "pageOrder": 50,
-      "displayTitle": "La Mère Primordiale"
-    },
-    {
-      "id": "lore-plagues-sombre-culte",
-      "dataset": "lore",
-      "category": "Vérité",
-      "group": "Corruption & Fléaux",
-      "groupOrder": 70,
-      "subgroup": "Cultes des Fléaux",
-      "subgroupOrder": 30,
-      "pageOrder": 60,
-      "displayTitle": "Le Sombre Culte"
-    },
-    {
       "id": "lore-plagues-contexte",
       "dataset": "lore",
       "category": "Vérité",
@@ -20798,6 +20809,28 @@
       "subgroupOrder": 10,
       "pageOrder": 500,
       "displayTitle": "Autres créatures"
+    },
+    {
+      "id": "verite-catalogue-230-fulgur-eb-7",
+      "dataset": "verite-catalogue",
+      "category": "Équipement & Objets",
+      "group": "Objets de Vérité",
+      "groupOrder": 30,
+      "subgroup": "Arsenal AIDH — Arsenal AIDH moderne",
+      "subgroupOrder": 50010,
+      "pageOrder": 230,
+      "displayTitle": "Fulgur EB-7"
+    },
+    {
+      "id": "verite-catalogue-231-duplex-ar-12",
+      "dataset": "verite-catalogue",
+      "category": "Équipement & Objets",
+      "group": "Objets de Vérité",
+      "groupOrder": 30,
+      "subgroup": "Arsenal AIDH — Arsenal AIDH moderne",
+      "subgroupOrder": 50010,
+      "pageOrder": 231,
+      "displayTitle": "Duplex AR-12"
     }
   ]
 }

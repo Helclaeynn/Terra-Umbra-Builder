@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 977" role="img" aria-labelledby="title desc">
+<title id="title">Véhicule attaqué : qui encaisse ?</title>
+<desc id="desc">1 · Identifier la cible : Attaque dirigée contre le véhicule ou contre un occupant exposé ? ; 2 · Véhicule : Comparer l’attaque à sa Défense, puis appliquer son Blindage avant la Structure. ; 3 · Occupant : Si ciblé : couvert de carrosserie +3 Défense ; Blindage traversé puis Armure perso. ; 4 · Dommages annexes : Un choc ou accident peut blesser les passagers selon sa règle. ; 5 · Réparer : Les réparations portent sur la Structure et exigent les conditions indiquées.. Une attaque contre la carrosserie ne retranche pas automatiquement les PV de chaque passager.</desc>
+<rect width="540" height="977" rx="20" fill="#0c1820"/>
+<rect x="1" y="1" width="538" height="975" rx="19" fill="none" stroke="#476775" stroke-width="2"/>
+<text x="25" y="42" font-family="system-ui,sans-serif" font-size="24" font-weight="700" fill="#eef7f7">Véhicule attaqué : qui</text>
+<text x="25" y="72" font-family="system-ui,sans-serif" font-size="24" font-weight="700" fill="#eef7f7">encaisse ?</text>
+<rect x="20" y="104" width="500" height="133" rx="13" fill="#162a34" stroke="#49606b"/>
+<rect x="20" y="104" width="5" height="133" rx="2" fill="#5de0d0"/>
+<text x="39" y="138" font-family="system-ui,sans-serif" font-size="20" font-weight="700" fill="#5de0d0">1 · Identifier la cible</text>
+<text x="39" y="172" font-family="system-ui,sans-serif" font-size="17" font-weight="400" fill="#d1e1e3">Attaque dirigée contre le véhicule ou</text>
+<text x="39" y="198" font-family="system-ui,sans-serif" font-size="17" font-weight="400" fill="#d1e1e3">contre un occupant exposé ?</text>
+<text x="263" y="253" font-family="system-ui,sans-serif" font-size="18" font-weight="700" fill="#a6d6d6">↓</text>
+<rect x="20" y="255" width="500" height="133" rx="13" fill="#162a34" stroke="#49606b"/>
+<rect x="20" y="255" width="5" height="133" rx="2" fill="#8ab9ff"/>
+<text x="39" y="289" font-family="system-ui,sans-serif" font-size="20" font-weight="700" fill="#8ab9ff">2 · Véhicule</text>
+<text x="39" y="323" font-family="system-ui,sans-serif" font-size="17" font-weight="400" fill="#d1e1e3">Comparer l’attaque à sa Défense, puis</text>
+<text x="39" y="349" font-family="system-ui,sans-serif" font-size="17" font-weight="400" fill="#d1e1e3">appliquer son Blindage avant la Structure.</text>
+<text x="263" y="404" font-family="system-ui,sans-serif" font-size="18" font-weight="700" fill="#a6d6d6">↓</text>
+<rect x="20" y="406" width="500" height="133" rx="13" fill="#162a34" stroke="#49606b"/>
+<rect x="20" y="406" width="5" height="133" rx="2" fill="#f2bd78"/>
+<text x="39" y="440" font-family="system-ui,sans-serif" font-size="20" font-weight="700" fill="#f2bd78">3 · Occupant</text>
+<text x="39" y="474" font-family="system-ui,sans-serif" font-size="17" font-weight="400" fill="#d1e1e3">Si ciblé : couvert de carrosserie +3</text>
+<text x="39" y="500" font-family="system-ui,sans-serif" font-size="17" font-weight="400" fill="#d1e1e3">Défense ; Blindage traversé puis Armure</text>
+<text x="39" y="526" font-family="system-ui,sans-serif" font-size="17" font-weight="400" fill="#d1e1e3">perso.</text>
+<text x="263" y="555" font-family="system-ui,sans-serif" font-size="18" font-weight="700" fill="#a6d6d6">↓</text>
+<rect x="20" y="557" width="500" height="133" rx="13" fill="#162a34" stroke="#49606b"/>
+<rect x="20" y="557" width="5" height="133" rx="2" fill="#8fdea7"/>
+<text x="39" y="591" font-family="system-ui,sans-serif" font-size="20" font-weight="700" fill="#8fdea7">4 · Dommages annexes</text>
+<text x="39" y="625" font-family="system-ui,sans-serif" font-size="17" font-weight="400" fill="#d1e1e3">Un choc ou accident peut blesser les</text>
+<text x="39" y="651" font-family="system-ui,sans-serif" font-size="17" font-weight="400" fill="#d1e1e3">passagers selon sa règle.</text>
+<text x="263" y="706" font-family="system-ui,sans-serif" font-size="18" font-weight="700" fill="#a6d6d6">↓</text>
+<rect x="20" y="708" width="500" height="133" rx="13" fill="#162a34" stroke="#49606b"/>
+<rect x="20" y="708" width="5" height="133" rx="2" fill="#ca9bdf"/>
+<text x="39" y="742" font-family="system-ui,sans-serif" font-size="20" font-weight="700" fill="#ca9bdf">5 · Réparer</text>
+<text x="39" y="776" font-family="system-ui,sans-serif" font-size="17" font-weight="400" fill="#d1e1e3">Les réparations portent sur la Structure</text>
+<text x="39" y="802" font-family="system-ui,sans-serif" font-size="17" font-weight="400" fill="#d1e1e3">et exigent les conditions indiquées.</text>
+<text x="24" y="877" font-family="system-ui,sans-serif" font-size="17" font-weight="400" fill="#f1cfa1">Une attaque contre la carrosserie ne retranche</text>
+<text x="24" y="904" font-family="system-ui,sans-serif" font-size="17" font-weight="400" fill="#f1cfa1">pas automatiquement les PV de chaque passager.</text>
+</svg>

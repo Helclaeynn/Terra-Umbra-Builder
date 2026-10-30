@@ -1,0 +1,299 @@
+type Block = {type:'p';text:string}|{type:'table';rows:string[][]};
+import {applyPnjTruthBatch001, REVIEWED_TRUTH_BATCH_001_IDS} from './compendium-pnj-truth-batch-001.js';
+import {applyPnjTruthBatch002, REVIEWED_TRUTH_BATCH_002_IDS} from './compendium-pnj-truth-batch-002.js';
+import {applyPnjTruthBatch003, REVIEWED_TRUTH_BATCH_003_IDS} from './compendium-pnj-truth-batch-003.js';
+import {applyPnjTruthBatch004, REVIEWED_TRUTH_BATCH_004_IDS} from './compendium-pnj-truth-batch-004.js';
+import {applyPnjTruthBatch005, REVIEWED_TRUTH_BATCH_005_IDS} from './compendium-pnj-truth-batch-005.js';
+import {applyPnjTruthBatch006, REVIEWED_TRUTH_BATCH_006_IDS} from './compendium-pnj-truth-batch-006.js';
+import {applyPnjTruthBatch007, REVIEWED_TRUTH_BATCH_007_IDS} from './compendium-pnj-truth-batch-007.js';
+import {NPC_TRUTH_GENERIC_TALENTS,npcTruthTalentPack} from './npc-truth-generic-talents.js';
+type Article = {id:string;sections?:Array<{id?:string;title?:string;level?:number;audience?:string;blocks?:Block[]}>;[key:string]:any};
+const p=(text:string):Block=>({type:'p',text});
+const table=(rows:string[][]):Block=>({type:'table',rows});
+export const INDIVIDUALLY_REVIEWED_TRUTH_PNJ_IDS = [
+  'personnages-verite-especes-neeba-ngubenani',
+  'pnj-142-dan-harrington',
+  'personnages-verite-especes-quetzalcoatl',
+  'personnages-verite-especes-elody-katherine-skotia',
+  'personnages-verite-especes-ming-xinya',
+  'personnages-verite-especes-tokala',
+  'pnj-fleaux-focus-olayinka-najja-8-olayinka-najja',
+  'personnages-verite-especes-megda-ayshin',
+  ...REVIEWED_TRUTH_BATCH_001_IDS,
+  ...REVIEWED_TRUTH_BATCH_002_IDS,
+  ...REVIEWED_TRUTH_BATCH_003_IDS,
+  ...REVIEWED_TRUTH_BATCH_004_IDS,
+  ...REVIEWED_TRUTH_BATCH_005_IDS,
+  ...REVIEWED_TRUTH_BATCH_006_IDS,
+  ...REVIEWED_TRUTH_BATCH_007_IDS
+] as const;
+
+// Editorial, source-anchored Truth profiles are separate from Reality. NPC
+// generic PTV purchases are estimated per dossier; canonical Dons and Rites
+// remain separate and still require verified prerequisites.
+export function applyCompendiumPnjTruthProfiles(byId:Map<string,Article>):void {
+  const neeba=byId.get('personnages-verite-especes-neeba-ngubenani');
+  if(!neeba)throw new Error('Profil Vérité : Neeba introuvable');
+  const reality=neeba.sections?.find(section=>section.id==='profil-statistique');
+  if(!reality||reality.audience!=='mj')throw new Error('Profil Vérité : profil MJ de Neeba introuvable');
+  reality.blocks??=[];
+  reality.blocks.push(
+    p('Vérité · Neeba « l’Oba Okunkun ». Le profil Héroïque de Réalité décrit son rôle d’avocat et de dirigeant ; il ne mesure pas le roi vampire. Estimation MJ indépendante : Semi-Révélé Légendaire, Révélé Supérieur. Le dossier des Cours vampiriques établit son règne sur l’Oru Ayeraye, ses conquêtes, son immersion dans la Fontaine des Ténèbres et son lien avec Gundura. Ces éléments justifient ce saut de puissance ; les valeurs ci-dessous sont un calibrage de jeu, non des nombres cités par la source.'),
+    table([
+      ['État','Palier de combat','Attributs','Compétences','Vigueur','Agilité','Esprit','Volonté','Charisme'],
+      ['Voilé','Héroïque · profil de Réalité','38','110','6','6','8','8','10'],
+      ['Semi-Révélé','Légendaire · estimation MJ','42','140','8','7','8','9','10'],
+      ['Révélé','Supérieur · estimation MJ','46','170','10','8','8','10','10']
+    ]),
+    table([
+      ['Compétence de Vérité révélée','Rang proposé'],
+      ['Pugilat','15'],['Autorité','14'],['Force Mentale','14'],['Mêlée','13'],
+      ['Constitution','13'],['Esquive','12'],['Perception','12'],['Athlétisme','11'],
+      ['Survie','10'],['Savoirs','10'],['Furtivité','9'],['Investigation','8'],
+      ['Diplomatie','8'],['Commerce','7'],['Représentation','7'],['Tir','7']
+    ]),
+    p('Les valeurs des états Semi-Révélé et Révélé incluent déjà les modificateurs de Nature vampire (+1 Vigueur et +1 Volonté en SR ; +2 Vigueur et +1 Volonté en R) : ne pas les ajouter une seconde fois. Le passage à Révélé remplace Semi-Révélé. Les 170 points de compétences révélées sont une répartition éditoriale ancrée dans son règne et ses conquêtes, distincte de sa formation d’avocat. Les achats génériques MJ et leurs PTV sont détaillés plus bas ; Gundura et les Dons de Sang demandent encore leurs règles et prérequis propres.'),
+    table([
+      ['Capacité documentée','Portée sur la fiche'],
+      ['Souverain de l’Oru Ayeraye','Autorité et ressources de sa cour ; une faction et ses délais, pas une armée instantanée.'],
+      ['Gundura','Deimone ancienne liée à Neeba, invocable ou maniée comme une arme selon le dossier ; définir les règles de l’invocation avec le catalogue avant un jet.'],
+      ['Fontaine des Ténèbres','Immersion et puissance exceptionnelles documentées ; aucun achat PTV ou effet chiffré supposé.'],
+      ['Lien à Gundura — Talent signature','1/scène, 1 PA pour donner un ordre précis ; Gundura garde sa propre initiative et exige une fiche distincte.']
+    ])
+  );
+
+  const dragoy=byId.get('pnj-142-dan-harrington');
+  if(!dragoy)throw new Error('Profil Vérité : Dragoy Skotia introuvable');
+  const dragoyReality=dragoy.sections?.find(section=>section.id==='profil-statistique');
+  if(!dragoyReality||dragoyReality.audience!=='mj')throw new Error('Profil Vérité : profil MJ de Dragoy introuvable');
+  dragoyReality.blocks??=[];
+  dragoyReality.blocks.push(
+    p('Vérité · Dragoy Skotia. Dan Harrington est un Fixer de Haute élite dans la Réalité. Dragoy fut un guerrier exceptionnel avant sa transformation ; il a combattu pendant des millénaires, fondé la Krovni Rytsari et compte parmi les plus puissants rois vampires selon le dossier MJ des Cours vampiriques. Son profil de Vérité est donc chiffré séparément. Les valeurs suivantes sont un calibrage éditorial de jeu, et non des nombres cités par le livre.'),
+    table([
+      ['État','Palier de combat','Attributs','Compétences','Vigueur','Agilité','Esprit','Volonté','Charisme'],
+      ['Voilé','Haute élite · profil de Réalité','32','75','4','5','10','7','6'],
+      ['Semi-Révélé','Légendaire · estimation MJ','42','140','9','9','9','8','7'],
+      ['Révélé','Supérieur · estimation MJ','46','170','10','10','9','9','8']
+    ]),
+    table([
+      ['Compétence de Vérité révélée','Rang proposé'],
+      ['Pugilat','17'],['Mêlée','14'],['Athlétisme','14'],['Esquive','13'],
+      ['Survie','13'],['Perception','12'],['Force Mentale','12'],['Constitution','11'],
+      ['Autorité','10'],['Furtivité','10'],['Investigation','9'],['Savoirs','8'],
+      ['Tir','8'],['Diplomatie','7'],['Commerce','7'],['Représentation','5']
+    ]),
+    p('Révélé : 46 points d’Attributs et 170 de Compétences ; le Pugilat 17 est une exception MJ personnelle fondée sur son passé de guerrier exceptionnel et ses millénaires de combats. Talent signature : Renversement du roi — Dragoy (déclencheur, opposition et limite dans la page des règles PNJ). Ces totaux incluent déjà le bonus de Nature vampire (+2 Vigueur et +1 Volonté en R) et ne se cumulent pas avec les valeurs SR. Les achats génériques MJ sont chiffrés plus bas ; la Marque de Caïn et son état incomplet d’Archivampire ont des effets et coûts propres non compris dans ce total.')
+  );
+
+  const quetzal=byId.get('personnages-verite-especes-quetzalcoatl');
+  if(!quetzal)throw new Error('Profil Vérité : Quetzalcoatl introuvable');
+  const finalReality=quetzal.sections?.find(section=>section.id==='profil-statistique');
+  if(!finalReality||!quetzal.sections)throw new Error('Profil Vérité : dossier de Quetzalcoatl incomplet');
+  const index=quetzal.sections.indexOf(finalReality);
+  quetzal.sections.splice(index,0,{
+    id:'profil-verite-quetzalcoatl',audience:'mj',
+    title:'Profil de Vérité · Quetzalcoatl',level:2,
+    blocks:[
+      p('Figure singulière · puissance occulte exceptionnelle · corps physique variable. Son dossier décrit plusieurs identités, des corps d’hôtes différents et un corps de base remodelable. Un total fixe de Vigueur, de Pugilat ou de PV pour toutes ses apparences contredirait cette source. La fiche de la couverture choisie fournit les statistiques physiques du corps en scène ; les pouvoirs acquis et les états de Vérité sont suivis séparément.'),
+      table([
+        ['Axe','Évaluation MJ fondée sur le dossier'],
+        ['Combat physique','Variable selon l’hôte ; le dossier le situe sous Dragoy ou Neeba sur cet axe.'],
+        ['Puissance occulte','Exceptionnelle ; Sang et Mageius documentés, dont les achats canoniques restent distincts du budget de talents génériques MJ ci-dessous.'],
+        ['Sang masqué','Changements d’apparence documentés ; utiliser les effets et prérequis du catalogue pour chaque usage.'],
+        ['Sang primal','Forme de serpent ailé géant rapportée au conditionnel dans la source : garder ce statut tant que confirmée en jeu.'],
+        ['Sang Coatl · signature','Si un vampire a bu son Sang selon les conditions préparées, Quetzal peut renaître dans cet hôte et écraser sa personnalité ; le corps de base demeure. Ni retour sans hôte ni statistiques de l’hôte inventées.']
+      ]),
+      p('La Vérité peut inverser la confrontation : un adversaire physiquement supérieur à son hôte reste exposé à ses capacités occultes et à sa survie par le Sang Coatl. La Nature Khinae corrompue et le Mageius de Brimhild restent des éléments singuliers, sans second jeu de bonus attribué automatiquement.')
+    ]
+  } as any);
+
+  const hecate=byId.get('personnages-verite-especes-elody-katherine-skotia');
+  const hecateReality=hecate?.sections?.find(section=>section.id==='profil-statistique');
+  if(!hecateReality||hecateReality.audience!=='mj')throw new Error('Profil Vérité : Hécate Skotia introuvable');
+  hecateReality.blocks??=[];
+  hecateReality.blocks.push(
+    p('Vérité · Hécate Skotia. Son profil Héroïque de Réalité mesure sa carrière scientifique. La première princesse de la Krovni est présentée comme peut-être le vampire le plus puissant de toutes les Cours ; elle a contribué avec Dragoy aux conquêtes de la Krovni et à la diffusion de la Marque de Caïn. L’estimation de Vérité la place hors de l’étalon Supérieur, davantage par ses pouvoirs et son savoir que par un Pugilat supérieur à celui de Dragoy.'),
+    table([
+      ['État','Profil','Attributs','Compétences','Vigueur','Agilité','Esprit','Volonté','Charisme'],
+      ['Voilé','Héroïque · Réalité','38','110','6','6','10','9','7'],
+      ['Semi-Révélé','Singulière · estimation MJ','45','155','9','8','10','9','9'],
+      ['Révélé','Hors étalon · estimation MJ','50','185','10','9','11','10','10']
+    ]),
+    table([
+      ['Compétence de Vérité révélée','Rang proposé'],
+      ['Savoirs','18'],['Force Mentale','16'],['Autorité','15'],['Pugilat','14'],
+      ['Mêlée','13'],['Constitution','13'],['Esquive','12'],['Perception','12'],
+      ['Investigation','11'],['Soin','11'],['Athlétisme','10'],['Furtivité','9'],
+      ['Diplomatie','9'],['Survie','8'],['Mécanique','7'],['Commerce','7']
+    ]),
+    p('Savoirs 18 et Force Mentale 16 sont des exceptions MJ explicites. Les attributs SR/R comprennent les modificateurs vampiriques et ne s’additionnent pas. Talent signature : Héritage de la Krovni, lié à ses recherches et à la transformation des lignées ; ses effets à long terme se préparent comme une intrigue. Les PTV génériques sont chiffrés plus bas ; la Marque de Caïn et ses pouvoirs propres demeurent distincts, sans Don accordé automatiquement par cette signature.')
+  );
+
+  const xinya=byId.get('personnages-verite-especes-ming-xinya');
+  const xinyaReality=xinya?.sections?.find(section=>section.id==='profil-statistique');
+  if(!xinyaReality||xinyaReality.audience!=='mj')throw new Error('Profil Vérité : Xinya introuvable');
+  xinyaReality.blocks??=[];
+  xinyaReality.blocks.push(
+    p('Vérité · Ming Xinya. L’Élite de sa couverture de Réalité ne représente pas l’impératrice archivampire du Shì hun zhe, décrite comme la plus ancienne vampire connue, sorcière incomparable et guerrière entraînée. Le dossier relate aussi un scellement ancien par un membre du clan Shi : elle possède une vulnérabilité attestée. Les valeurs révélées ci-dessous sont une estimation MJ propre à sa fiche.'),
+    table([
+      ['État','Profil','Attributs','Compétences','Vigueur','Agilité','Esprit','Volonté','Charisme'],
+      ['Voilé','Élite · Réalité','28','55','4','4','6','6','8'],
+      ['Semi-Révélé','Singulière · estimation MJ','43','150','8','7','9','10','9'],
+      ['Révélé','Hors étalon · estimation MJ','50','185','9','9','11','11','10']
+    ]),
+    table([
+      ['Compétence de Vérité révélée','Rang proposé'],
+      ['Savoirs','18'],['Force Mentale','16'],['Diplomatie','15'],['Mêlée','14'],
+      ['Pugilat','13'],['Esquive','13'],['Perception','12'],['Autorité','12'],
+      ['Furtivité','11'],['Investigation','11'],['Constitution','10'],['Athlétisme','9'],
+      ['Survie','9'],['Commerce','8'],['Langages & Argot','7'],['Représentation','7']
+    ]),
+    p('Savoirs 18 et Force Mentale 16 sont des exceptions MJ fondées sur sa pratique millénaire ; elles ne donnent aucune immunité au taoïsme véritable. Talent signature : Équilibre impérial, une préparation défensive limitée liée aux recherches décrites dans son dossier. Les propriétés propres aux Archivampires et les Talents de Sang ne sont ajoutés qu’après vérification de leurs prérequis et de leurs coûts ; aucune règle commune de Vampire ne se cumule aveuglément avec sa Nature singulière.')
+  );
+
+  const olayinka=byId.get('pnj-fleaux-focus-olayinka-najja-8-olayinka-najja');
+  const olayinkaReality=olayinka?.sections?.find(section=>section.id==='profil-statistique');
+  if(!olayinkaReality||olayinkaReality.audience!=='mj')throw new Error('Profil Vérité : Olayinka introuvable');
+  olayinkaReality.blocks??=[];
+  olayinkaReality.blocks.push(
+    p('Vérité · Olayinka Najja. Son profil de Réalité décrit une dirigeante religieuse ; le dossier MJ décrit l’ancienne chamane devenue archiprêtresse de la Fontaine des Ténèbres, mère adoptive et mentor de Neeba, dont le sang peut engendrer une Strygoï noire. La puissance religieuse et vampirique est évaluée indépendamment de son métier apparent. Les nombres suivants sont une estimation éditoriale pour le jeu.'),
+    table([
+      ['État','Profil','Attributs','Compétences','Vigueur','Agilité','Esprit','Volonté','Charisme'],
+      ['Voilé','Haute élite · Réalité','32','75','5','5','7','7','8'],
+      ['Semi-Révélé','Légendaire · estimation MJ','42','140','7','7','9','9','10'],
+      ['Révélé','Supérieur · estimation MJ','46','170','9','7','10','10','10']
+    ]),
+    table([
+      ['Compétence de Vérité révélée','Rang proposé'],
+      ['Savoirs','17'],['Force Mentale','16'],['Autorité','15'],['Diplomatie','14'],
+      ['Constitution','13'],['Perception','12'],['Pugilat','12'],['Représentation','11'],
+      ['Survie','10'],['Investigation','10'],['Esquive','9'],['Athlétisme','8'],
+      ['Furtivité','7'],['Mêlée','6'],['Commerce','5'],['Tir','5']
+    ]),
+    p('Savoirs 17 et Force Mentale 16 sont des exceptions MJ propres à sa pratique et à son ancienneté. Les valeurs SR/R comprennent les bonus de Nature vampire. Talent signature : Sang de la Fontaine ; la transformation éventuelle d’un humain est un événement de scénario et demande un contact réel. Les achats génériques MJ chiffrés plus bas n’accordent pas un Sang d’une autre Cour ; la Fontaine conserve ses règles propres.')
+  );
+
+  const megda=byId.get('personnages-verite-especes-megda-ayshin');
+  const megdaReality=megda?.sections?.find(section=>section.id==='profil-statistique');
+  if(!megdaReality||megdaReality.audience!=='mj')throw new Error('Profil Vérité : Megda introuvable');
+  megdaReality.blocks??=[];
+  megdaReality.blocks.push(
+    p('Vérité · Megda Ayshin, la Lamia. Sa Haute élite de Réalité reflète sa couverture d’insurgée ; le dossier MJ atteste une reine de l’Alghul manipulatrice, infiltrant chasseurs et réseaux criminels, et un venin surnaturel transmis par baiser, morsure ou effluve. Sa puissance occulte et son influence sont chiffrées à part de son activité apparente. Les valeurs suivantes sont une estimation éditoriale.'),
+    table([
+      ['État','Profil','Attributs','Compétences','Vigueur','Agilité','Esprit','Volonté','Charisme'],
+      ['Voilé','Haute élite · Réalité','32','75','8','8','5','6','5'],
+      ['Semi-Révélé','Légendaire · estimation MJ','42','140','8','8','8','9','9'],
+      ['Révélé','Supérieur · estimation MJ','46','170','9','9','9','10','9']
+    ]),
+    table([
+      ['Compétence de Vérité révélée','Rang proposé'],
+      ['Autorité','16'],['Furtivité','16'],['Force Mentale','15'],['Diplomatie','14'],
+      ['Savoirs','13'],['Perception','12'],['Constitution','12'],['Pugilat','11'],
+      ['Investigation','10'],['Esquive','10'],['Survie','9'],['Commerce','8'],
+      ['Tir','7'],['Athlétisme','6'],['Mêlée','6'],['Représentation','5']
+    ]),
+    p('Autorité 16 et Furtivité 16 sont des exceptions MJ liées à la manipulation de sa Cour et à ses infiltrations documentées. Les valeurs SR/R comprennent les bonus de Nature vampire. Talent signature : Venin de la Lamia, à résoudre sur exposition réelle et résistance appropriée ; il n’ouvre pas automatiquement l’arbre de Sang Venimeux d’une autre Cour. Son appartenance secrète à Ashlutum et l’Œil d’or demandent des achats et prérequis vérifiés avant de chiffrer les pouvoirs correspondants.')
+  );
+  applyPnjTruthBatch001(byId);
+  applyPnjTruthBatch002(byId);
+  applyPnjTruthBatch003(byId);
+  applyPnjTruthBatch004(byId);
+  applyPnjTruthBatch005(byId);
+  applyPnjTruthBatch006(byId);
+  applyPnjTruthBatch007(byId);
+  const karina=byId.get('personnages-verite-humains-galactiques-karina-kelack');
+  const karinaTruth=karina?.sections?.find(section=>section.id==='profil-verite-personnages-verite-humains-galactiques-karina-kelack');
+  if(!karinaTruth||karinaTruth.audience!=='mj')throw new Error('Profil Vérité : Karina Kelack introuvable');
+  karinaTruth.blocks=[
+    p('Vérité · Karina Kelack, seigneur-général de la 322e armée de l’AIDH. Le dossier raconte sa résistance dès l’enfance sur Astebyon II, son sauvetage par Lisa Eredhès, sa réussite au test Ackèld et sa traque personnelle de Thor’lal rark. Profil de scène MJ estimé pour Karina présente en personne, équipée normalement et sans unité militaire dans la scène. Ses attributs ne découlent d’aucune couverture civile chiffrée.'),
+    table([['Attribut révélé','Vigueur','Agilité','Esprit','Volonté','Charisme'],['Valeur proposée','10','10','12','13','11']]),
+    table([['Compétence de Vérité révélée','Rang proposé'],
+      ['Autorité','21'],['Tir','19'],['Diplomatie','18'],['Perception','14'],
+      ['Investigation','13'],['Force Mentale','12'],['Esquive','10'],['Savoirs','10'],
+      ['Survie','9'],['Athlétisme','8'],['Constitution','8'],['Furtivité','7'],
+      ['Pilotage','6'],['Mêlée','5'],['Pugilat','5'],['Langages & Argot','5'],
+      ['Autres compétences canoniques (9)','0']
+    ]),
+    table([['Valeur dérivée','Résultat · sans armure ni pouvoir personnel'],
+      ['PV maximum / Seuil de Mort','28 / −18'],
+      ['Défense physique passive / active','20 / 20 + 1d10e'],
+      ['Défense occulte passive / active','25 / 25 + 1d10e'],
+      ['Initiative / déplacement','18 + 1d10e / 13 m par PA']
+    ]),
+    table([['Talent PNJ','Application sur la fiche'],
+      ['Chef de manœuvre — 322e armée','1/scène, ordre tactique audible à un allié présent : +2 à son prochain test avant la fin du round ; ne se cumule pas avec Assistance.'],
+      ['Tir maîtrisé','Après 1 PA consacré à Viser avec une arme portée et une ligne de vue, 1/scène : relancer le premier d10 d’une attaque de Tir et garder le second.'],
+      ['Piste énergétique de Thor’lal — signature','1/scène, après accès réel à un relevé exploitable, +2 à une Investigation pour comparer la trace à celle déjà rencontrée ; ne détecte aucune cible à distance sans données.'],
+      ['Réseau mobilisable — 322e armée','1/scénario : demander des moyens qui relèvent de son commandement ; délais, localisation et chaîne de décision s’appliquent.']
+    ]),
+    p('170 points de compétences proposés, répartis pour la générale et enquêtrice documentée ; les neuf autres compétences de la liste canonique sont à 0 sur cette fiche MJ simplifiée. Attributs et dérivées correspondent à son corps présent ; les modifier si une transformation ou un équipement identifié les change. Les achats PTV génériques de la table ci-dessous sont un calibrage MJ, pas des pouvoirs personnels attestés dans le dossier. Sa reconnaissance envers Lisa ne place pas la 322e armée sous les ordres de la 783e ; Lisa a déjà refusé une traque terrestre dans le contexte de la guerre.')
+  ];
+  const tokala=byId.get('personnages-verite-especes-tokala');
+  const tokalaReality=tokala?.sections?.find(section=>section.id==='profil-statistique');
+  if(!tokalaReality||tokalaReality.audience!=='mj'||!tokala?.sections)throw new Error('Profil Vérité : Tokala introuvable');
+  tokala.sections.splice(tokala.sections.indexOf(tokalaReality),0,{
+    id:'profil-verite-tokala',title:'Profil de Vérité · Tokala',level:2,audience:'mj',blocks:[
+      p('Tokala est une Khinae et non une louve-garou. Le profil Légendaire de Réalité représente son état avant les éveils décrits dans les Catastrophes des Ten. Après son premier éveil Khinae, estimation MJ : Révélé Exceptionnel, Vigueur 19, Agilité 15, Esprit 9, Volonté 13, Charisme 10 ; Pugilat 24, Survie 22, Mêlée 21. Ces valeurs ne remplacent sa fiche actuelle qu’après cet événement de récit.'),
+      table([['Attribut révélé','Vigueur','Agilité','Esprit','Volonté','Charisme'],['Valeur proposée','19','15','9','13','10']]),
+      table([['État','Vigueur','Agilité','Esprit','Volonté','Charisme','Condition'],['Voilé · Réalité','9','9','7','9','8','Avant les éveils'],['Semi-Révélé · Khinae','17','14','8','12','10','Après le premier éveil'],['Révélé · Khinae','19','15','9','13','10','Après le premier éveil'],['Nnyrss parfaite','—','—','—','—','—','État singulier après la mémoire de la Ssrynn et la purge des souillures']]),
+      table([['Compétence de Vérité signature','Rang'],['Pugilat','24'],['Survie','22'],['Mêlée','21']]),
+      p('Talent signature : mémoire de la Ssrynn — après la rétrovolution documentée, elle peut accéder aux formes effectivement absorbées par sa lignée ; le MJ définit la forme et son coût avant usage. Les souillures de Vhadhi et V’aagor imposent un risque jusqu à leur purge. Nnyrss est un état terminal exceptionnel : aucun bonus de Nature garoue ni rang inventé ne s ajoute à ce profil de scène.')
+    ]
+  });
+  const isabella=byId.get('personnages-verite-chasseurs-isabella-mironescu');
+  const isabellaReality=isabella?.sections?.find(section=>section.id==='profil-statistique');
+  if(!isabellaReality||isabellaReality.audience!=='mj'||!isabella?.sections)throw new Error('Dossier Vérité : Isabella introuvable');
+  isabella.sections.splice(isabella.sections.indexOf(isabellaReality),0,{
+    id:'verite-indeterminee-isabella',title:'Vérité à définir · Isabella Mironescu',level:2,audience:'mj',blocks:[
+      p('Examen individuel de la source : la Nature est notée « ??? (à définir) » et la seule indication est sa troisième place au Hunt XV. Ce classement mesure sa réputation de chasseuse et ne révèle ni forme, ni pouvoirs, ni écart de puissance avec sa Réalité. Aucun profil de Vérité chiffré ne peut être établi honnêtement avant une décision de canon du MJ.')
+    ]
+  });
+  // A Reality profile is intentionally absent for some beings. In that case,
+  // the Truth profile is the sole statistical profile and must occupy the
+  // canonical PNJ stats section instead of leaving a misleading placeholder.
+  for(const id of INDIVIDUALLY_REVIEWED_TRUTH_PNJ_IDS){
+    const article=byId.get(id);
+    const stats=article?.sections?.find(section=>section.id==='profil-statistique');
+    const truth=article?.sections?.find(section=>section.id===`profil-verite-${id}`
+      || (id==='personnages-verite-especes-quetzalcoatl'&&section.id==='profil-verite-quetzalcoatl'));
+    if(!stats||!truth||!article?.sections)continue;
+    const hasRealityValues=stats.blocks?.some(block=>block.type==='table');
+    if(hasRealityValues)continue;
+    if(stats.audience!=='mj'||truth.audience!=='mj'||!truth.blocks?.length)
+      throw new Error(`Profil de Vérité non publiable dans les statistiques MJ : ${id}`);
+    stats.title=`Profil statistique · Vérité · ${article.title??id}`;
+    stats.blocks=truth.blocks;
+    article.sections.splice(article.sections.indexOf(truth),1);
+  }
+  // Individual editorial anchors (attributes, three signature ranks and lore)
+  // decide which generic NPC-only purchases are attached to each dossier.
+  for(const id of INDIVIDUALLY_REVIEWED_TRUTH_PNJ_IDS){
+    const article=byId.get(id);
+    const section=article?.sections?.find(s=>s.id===`profil-verite-${id}`
+      || (id==='personnages-verite-especes-tokala'&&s.id==='profil-verite-tokala'))
+      ?? article?.sections?.find(s=>s.id==='profil-statistique');
+    if(!section?.blocks||section.audience!=='mj')throw new Error(`Achats PTV : dossier MJ introuvable : ${id}`);
+    const tables=section.blocks.filter((block):block is Extract<Block,{type:'table'}>=>block.type==='table');
+    const attrs=tables.find(block=>block.rows[0]?.[0]==='Attribut révélé');
+    const stages=tables.find(block=>block.rows[0]?.[0]==='État');
+    const attrTotal=attrs?attrs.rows[1].slice(1).reduce((sum,n)=>sum+Number(n),0)
+      :stages?Number(stages.rows.find(row=>row[0]==='Révélé')?.[2]??0):0;
+    const skills=tables.find(block=>/^Compétence de Vérité/.test(block.rows[0]?.[0]??''));
+    const signature=skills?.rows[1]?.[0]??(id.includes('tokala')?'Pugilat':'Force Mentale');
+    const second=skills?.rows[2]?.[0]??(id.includes('tokala')?'Survie':'Perception');
+    const topRank=skills?Math.max(...skills.rows.slice(1).map(row=>Number(row[1])||0))
+      :(id.includes('tokala')?22:0);
+    const pack=id.includes('quetzalcoatl')?[0,1,2,3,4,5]:id.includes('tokala')?[0,1,2,3,4,5]
+      :npcTruthTalentPack(attrTotal,topRank);
+    if((!attrTotal||!topRank)&&!id.includes('quetzalcoatl')&&!id.includes('tokala'))
+      throw new Error(`Achats PTV : rangs insuffisants : ${id}`);
+    const rows=pack.map(index=>{
+      const talent=NPC_TRUTH_GENERIC_TALENTS[index];
+      const chosen=index===0||index===2||index===5?signature:index===4?second:'';
+      return [`${talent.name}${chosen?` · ${chosen}`:''}`,String(talent.cost),talent.prerequisite,talent.effect];
+    });
+    const spent=pack.reduce((sum,index)=>sum+NPC_TRUTH_GENERIC_TALENTS[index].cost,0);
+    section.blocks.push(table([['Talent de Vérité PNJ acheté','Coût PTV','Prérequis','Effet et limite'],...rows,
+      [`Total PTV dépensés · ${article?.title??id}`,String(spent),'Talents génériques MJ',`Budget éditorial MJ pour ${id.includes('tokala')?'son éveil Khinae (pas la Nnyrss)':id.includes('quetzalcoatl')?'ses capacités propres, à adapter au corps hôte':'cet état'} ; capacités de Nature, Dons et Rites canoniques distincts.`]]));
+  }
+}

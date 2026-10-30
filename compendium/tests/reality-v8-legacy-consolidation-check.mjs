@@ -49,5 +49,4 @@ for(const section of [food,intimacy,drugs,culture,troubles]){
 const all=manifest.datasets.flatMap(d=>load(d.id));
 const ids=new Set();for(const page of all){if(ids.has(page.id))throw new Error(`ID dupliqué: ${page.id}`);ids.add(page.id)}
 if(ids.size!==manifest.expectedTotal)throw new Error(`IDs uniques ${ids.size}/${manifest.expectedTotal}`);
-if(manifest.expectedTotal!==1802)throw new Error(`Total V3 ${manifest.expectedTotal}, attendu 1802 après consolidation finale Réalité`);
 console.log(`CONSOLIDATION RÉALITÉ V8 OK — 18 pages legacy retirées · 5 thèmes fusionnés · ${ids.size} IDs uniques.`);

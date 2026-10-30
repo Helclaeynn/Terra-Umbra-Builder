@@ -1,0 +1,166 @@
+import {exileOwnedItems,exileInventoryAnnotation,exileContextualBonuses,exileUsableTalents} from "./exile";
+import {augmentationLoad} from "./reality";
+import {extralOwnedItems,extralInventoryAnnotation,extralContextualBonuses,extralUsableTalents,extralNaturalRecoveryMultiplier} from "./extral";
+import {angelusSheetEntries} from "./angelus";
+import {truthAngelusCapacity} from "./truth";
+import {daemonSheetEntries} from "./daemon";
+import {mageTechniqueViews} from "./mage";
+import {truthKnownTalents} from "./truth";
+import {appearanceGallery,normalizeAppearances} from "../../../api/src/character-appearances";
+import {everydayEquipmentIds} from "../../../api/src/rules/builder-equipment-policy";
+import {truthSheetDetails,truthFreeTraitDetails} from "./truth-sheet-details";
+import {contextualSkillBonuses} from "../../../api/src/rules/reality-conditional-bonuses";
+import {uniqueTalents,permanentSkillBonus,renownScore,projectBenefits,benefitSettings,loanLabel,recoverySummary} from './reality-benefits';
+import {cloneJson} from './json';
+import type { CharacterDataV2 } from "../types/character";
+import type { CreationRules, CreationLore, DisadvantageCatalog, EdgeRules } from "./creation-types";
+import type { TalentChoiceSpec } from "../components/builder/TalentSelector.vue";
+import { characterDerivedStats, type CharacterSheet, type SheetEntry } from "./character-sheet";
+import { ensureProgression, currentAttribute, currentSkillRaw, currentSkillFinal, campaignCash, xpRemaining, ptvRemaining } from "./progression";
+import { ensureRealityState, realityEconomic, realityItemMap, realityLifestyleBase, lifestylePressure, type RealityRulesPackage } from "./reality";
+import { truthCorruptionTalentActive, truthAvailableTalents, truthPermanentAttributeBonus, truthPtvSpent, truthRevelationProfile, type TruthRulesPackage, type TruthState } from "./truth";
+
+export type SheetCore = {
+  rules:CreationRules; lore:CreationLore; talentChoiceSpecs:Record<string,TalentChoiceSpec>;
+  skillTalentMap:Record<string,string>; disadvantages:DisadvantageCatalog; edgeRules:EdgeRules;
+};
+
+/** Read-only projection shared by the Builder, progression and standalone sheet. */
+export function buildCharacterSheet(data:CharacterDataV2, core:SheetCore, truth:TruthRulesPackage, reality:RealityRulesPackage, campaign=true, fallbackName=""):CharacterSheet {
+  const creation=core.rules, raw=data.truth;
+  const ids=(value:unknown):string[]=>Array.isArray(value)?value.filter((id):id is string=>typeof id==="string"):[];
+  const state:TruthState={
+    exileInventory:exileOwnedItems(data.reality,campaign,[...reality.equipment,...reality.augmentations]),
+    extralInventory:extralOwnedItems(data.reality,campaign,[...reality.equipment,...reality.augmentations]),
+    nature:typeof raw.nature==="string"?raw.nature:"humain",
+    consciousness:typeof raw.consciousness==="string"?raw.consciousness:"profane",
+    choices:raw.choices&&typeof raw.choices==="object"&&!Array.isArray(raw.choices)?raw.choices as Record<string,unknown>:{},
+    truthTalents:ids(raw.truthTalents), truthEquipment:ids(raw.truthEquipment), corruptionTalents:ids(raw.corruptionTalents),
+    truthEquipmentMjOverride:Boolean(raw.truthEquipmentMjOverride), corruptionMjAuthorized:Boolean(raw.corruptionMjAuthorized),
+    corruption:Math.max(0,Math.trunc(Number(raw.corruption)||0)), corruptionSource:typeof raw.corruptionSource==="string"?raw.corruptionSource:""
+  };
+  const progress=ensureProgression({...data.progression},creation.skills.map(item=>item.id),creation.attributes.map(item=>item.id));
+  const realityState=ensureRealityState(cloneJson(data.reality));
+  const sphere=creation.spheres[data.creation.sphere];
+  const style=creation.styles.find(item=>item.id===data.creation.style);
+  const creationIds=[data.talents.origin,data.talents.sphere,data.talents.expertise,data.talents.common,...data.talents.edge].filter(Boolean);
+  const realityIds=uniqueTalents(creationIds,campaign?progress.realityTalents:[]);
+  projectBenefits(realityState,realityIds,data.creation.sphere,campaign);
+  const choices={...data.talentChoices,...(campaign?progress.realityTalentChoices:{})};
+  const choiceValue=(id:string)=>typeof choices[id]==="string"?choices[id] as string:"";
+  const talentById=(id:string)=>[...Object.values(creation.talents.origin).flat(),...Object.values(creation.talents.sphere).flat(),...creation.talents.expertise,...creation.talents.common].find(item=>item.id===id);
+  const talentNarrative=(talent:ReturnType<typeof talentById>)=>talent?(talent.category==="origin"?core.lore.originTalent:talent.category==="sphere"?core.lore.sphereTalent:core.lore.talent)[talent.id]??"":"";
+  const finalAttribute=(id:string)=>Number(data.attributes[id]||0)+Number(data.edgeAttributes[id]||0)+truthPermanentAttributeBonus(state,id);
+  const skillRaw=(id:string)=>{
+    const value=data.skills[id];
+    return (sphere?.fixedSkills.includes(id)?1:0)+Number(value?.style||0)+Number(value?.free||0)+Number(value?.edge||0);
+  };
+  const skillFinal=(id:string)=>skillRaw(id)+creationIds.reduce((sum,tid)=>{
+    const spec=core.talentChoiceSpecs[tid];
+    return sum+(core.skillTalentMap[tid]===id?1:0)+(spec?.kind==="skill"&&spec.permanent&&choiceValue(tid)===id?Number(spec.bonus||0):0);
+  },0);
+  const skillBases=Object.fromEntries(creation.skills.map(item=>[item.id,skillRaw(item.id)]));
+  const skillFinalBases=Object.fromEntries(creation.skills.map(item=>[item.id,skillFinal(item.id)]));
+  const attributeBases=Object.fromEntries(creation.attributes.map(item=>[item.id,finalAttribute(item.id)]));
+  const attribute=(id:string)=>campaign?currentAttribute(progress,attributeBases,id):finalAttribute(id);
+  const rawSkill=(id:string)=>campaign?currentSkillRaw(progress,skillBases,id):skillRaw(id);
+  const skill=(id:string)=>campaign?currentSkillFinal(progress,skillBases,skillFinalBases,core.skillTalentMap,id)+permanentSkillBonus(progress.realityTalents,progress.realityTalentChoices,core.talentChoiceSpecs,id):skillFinal(id);
+  const permanentSkill=(id:string)=>rawSkill(id)+permanentSkillBonus(realityIds,choices,core.talentChoiceSpecs,id);
+  const derived=characterDerivedStats(attribute,permanentSkill,data.disadvantages,skill);
+  const items=realityItemMap(reality);
+  const economy=style?realityEconomic(reality,realityState,style,data.edge):null;
+  const lifestyleBase=style?realityLifestyleBase(reality,style,data.edge,realityIds,data.disadvantages):"Standard";
+  const pressure=lifestylePressure(reality,realityState,lifestyleBase);
+  const renown=renownScore(creationIds,campaign?progress.realityTalents:[],Number(data.edge.renownPack||0),data.disadvantages.includes('inconnu'),campaign?progress.renownAdjustment:0);
+  const cash=campaignCash(progress,Math.max(0,economy?.account||0));
+  const edgeRemaining=core.edgeRules.base+data.disadvantages.length-["attributePack","skillPacks","talentPacks","cashPacks","lifestylePack","augmentationPacks","renownPack"].reduce((sum,key)=>sum+Number(data.edge[key]||0),0);
+  const ptvReserve=truth.structure.ptvInitial-truthPtvSpent(truth,state);
+  const allDisadvantages=[...(core.disadvantages.sphere[data.creation.sphere]??[]),...core.disadvantages.common,...core.disadvantages.attribute,...Object.values(core.disadvantages.sphere).flat()];
+  const selectedDisadvantages=data.disadvantages.flatMap(id=>{const item=allDisadvantages.find(item=>item.id===id);return item?[item]:[];});
+  const truthState={...state,corruptionTalents:[...new Set([...state.corruptionTalents,...(campaign?progress.corruptionTalents:[])])],truthTalents:[...new Set([...state.truthTalents,...(campaign?progress.truthTalents:[])])]};
+  const extralActive=extralUsableTalents(truth,truthState);
+  const exileActive=exileUsableTalents(truth,truthState);
+  const revelation=truth.revelation?truthRevelationProfile(truth,truthState):null;
+  const truthMap=new Map(Object.values(truth.catalogs).flat().map(item=>[item.id,item]));
+  for(const item of truthKnownTalents(truth,truthState))truthMap.set(item.id,item);
+  for(const item of truthAvailableTalents(truth,truthState))truthMap.set(item.id,item);
+  const corruptionMap=new Map(truth.corruption.talents.map(item=>[item.id,item]));
+  const truthCost=(id:string)=>Number(truthMap.get(id)?.cost??0);
+  const toRealityTalent=(id:string):SheetEntry=>{
+    const talent=talentById(id);
+    const choice=choiceValue(id);
+    return {id,name:talent?.name??id,compendiumId:talent?.compendiumId,detail:talent?.effect,lore:talentNarrative(talent),group:choice?`Choix : ${creation.skills.find(item=>item.id===choice)?.name??choice}`:undefined};
+  };
+  const inventory:SheetEntry[]=[];
+  for(const purchase of [...(realityState?.equipment??[]),...(realityState?.augmentations??[])]){
+    if(!campaign&&purchase.acquiredInCampaign)continue;
+    const item=items.get(purchase.itemId);
+    inventory.push({id:purchase.uid,name:item?.name??purchase.itemId,detail:[item?.effect,purchase.loanEffect,extralInventoryAnnotation(truthState,purchase.uid),exileInventoryAnnotation(truthState,purchase.uid)].filter(Boolean).join("\n"),compendiumId:item?.compendiumId,
+      group:[purchase.kind==="augmentation"?"Augmentation":"Équipement",purchase.sphereSupport?"Appui de Sphère":"",purchase.talentGrant?loanLabel(purchase.talentGrant)+" · prêt non revendable":"",purchase.loaded?"Chargé":""].filter(Boolean).join(" · ")});
+  }
+  for(const id of everydayEquipmentIds(data,campaign)){
+    const item=items.get(id);if(item)inventory.push({id:`everyday-${id}`,name:item.name,compendiumId:item.compendiumId,detail:item.effect,group:"Équipement courant — inclus dans le Train de vie · non revendable"});
+  }
+  for(const id of state.truthEquipment){
+    const item=truth.equipment.find(item=>item.id===id);
+    inventory.push({id:`truth-${id}`,name:item?.name??id,detail:[item?.lore,extralInventoryAnnotation(truthState,`truth-${id}`),exileInventoryAnnotation(truthState,`truth-${id}`)].filter(Boolean).join("\n"),compendiumId:item?.compendiumId,group:"Objet de Vérité"});
+  }
+  for(const charge of realityState.fixedChargeItems)inventory.push({id:charge.uid,name:charge.name,group:charge.talentGrant?loanLabel(charge.talentGrant):charge.sphereSupport?'Appui de Sphère':'Logement et charges fixes',detail:charge.monthly+' $/mois'+(charge.talentGrant||charge.sphereSupport?' · prestation prise en charge':'')});
+  const recovered=recoverySummary(permanentSkill('constitution'),realityIds);
+  const recoveryMultiplier=extralNaturalRecoveryMultiplier(truth,truthState);
+  recovered.normal*=recoveryMultiplier;recovered.prolonged*=recoveryMultiplier;
+  const talentRules:SheetEntry[]=[{id:'daily-recovery',name:'Récupération de repos',detail:recovered.normal+' PV / 24 h ; '+recovered.prolonged+' PV avec soins prolongés. Pas de supplément aux soins instantanés.'}];
+  if(truthState.nature==='exile'){const loadState=cloneJson(realityState);loadState.augmentations=loadState.augmentations.filter(p=>campaign||!p.acquiredInCampaign);const load=augmentationLoad(reality,loadState,realityIds,[...exileActive]);talentRules.push({id:'exile-augmentation-load',name:'Charge et Stress augmentiques',detail:`Charge ${load.charge} · Stress ${load.stress} (brut ${load.rawStress}). Iron Law : réduction par implant cybermécanique, non cumulée avec la réduction Réalité équivalente.`});}
+  if(realityIds.includes('insensibilite_a_la_douleur'))talentRules.push({id:'injury-stress',name:'Insensibilité à la douleur',detail:'Blessures : à la moitié des PV, Stress minimal Normal ; au quart, Tendu. Un Stress indépendant plus grave reste applicable. Agonie inchangée.'});
+  if(realityIds.includes('assurance_corporative')){const uid=benefitSettings(realityState).insuredAssetUid,p=[...realityState.equipment,...realityState.augmentations].find(p=>p.uid===uid);talentRules.push({id:'insured-asset',name:'Bien assuré',detail:p?(items.get(p.itemId)?.name??p.itemId):'À préciser : aucune sélection automatique.'});}
+  const strings=(value:unknown)=>Array.isArray(value)?value.filter((item):item is string=>typeof item==="string"&&Boolean(item.trim())):[];
+  const structuredContacts=Object.entries({
+    Crawler:data.social.crawlerContact,
+    "Contact de renom":data.social.renownContact,
+    ...(data.social.talentContacts&&typeof data.social.talentContacts==="object"?data.social.talentContacts as Record<string,unknown>:{})
+  })
+    .filter(([,choice])=>choice&&typeof choice==="object"&&typeof (choice as Record<string,unknown>).title==="string")
+    .map(([origin,choice],index)=>{
+      const row=choice as Record<string,unknown>;
+      const articleId=typeof row.articleId==="string"&&row.articleId.trim()?row.articleId.trim():undefined;
+      return {
+        id:`contact-${origin.replaceAll("_","-")}-${articleId??index}`,
+        name:String(row.title),
+        articleId,
+        group:origin.replaceAll("_"," "),
+        detail:typeof row.tierLabel==="string"?row.tierLabel:undefined
+      };
+    });
+  return {
+    mode:campaign?"campaign":"creation",name:[data.identity.firstName.trim(),data.identity.name.trim()].filter(Boolean).join(" ")||fallbackName,identity:{...data.identity,portraitDataUrl:appearanceGallery(data.appearances,"reality",data.identity).primary?.src??data.identity.portraitDataUrl},
+    appearances:normalizeAppearances(data.appearances),legacyPortrait:{portraitDataUrl:data.identity.portraitDataUrl,portraitName:data.identity.portraitName},
+    truthDetails:truthSheetDetails(truth,truthState,permanentSkill("force_mentale")),truthFreeTraits:truthFreeTraitDetails(truth,truthState),
+    origin:creation.origins[data.creation.origin]?.name??"",sphere:sphere?.name??"",style:style?.name??"",
+    lifestyle:pressure?.effective??lifestyleBase,lifestyleBase:lifestyleBase,renown:renown,
+    attributes:creation.attributes.map(item=>({...item,value:attribute(item.id),base:finalAttribute(item.id)})),
+    skills:creation.skills.map(item=>({...item,value:skill(item.id),raw:rawSkill(item.id),bonus:skill(item.id)-rawSkill(item.id),contexts:[...contextualSkillBonuses(realityIds,choices,core.talentChoiceSpecs,core.skillTalentMap,item.id,skill(item.id)),...extralContextualBonuses(truth,truthState,item.id,skill(item.id),extralActive),...exileContextualBonuses(truth,truthState,item.id,skill(item.id),exileActive)]})),
+    derived,talentRules,edge:edgeRemaining,
+    xpRemaining:xpRemaining(progress,skillBases,attributeBases),
+    ptvRemaining:campaign?ptvRemaining(progress,Math.max(0,ptvReserve),truthCost,id=>Number(corruptionMap.get(id)?.cost||0)):ptvReserve,
+    account:economy?.account??0,cash:cash,
+    realityTalents:realityIds.map(toRealityTalent),
+    angelusDetails:angelusSheetEntries(truth,truthState),
+    angelusAura:truthAngelusCapacity(truthState,permanentSkill("force_mentale")),
+    daemonDetails:daemonSheetEntries(truth,truthState),
+    mageTechniques:mageTechniqueViews(truth,truthState),
+    truthTalents:[...truthState.truthTalents.map(id=>({id,name:truthMap.get(id)?.name??id,detail:truthMap.get(id)?.effect,effectDetails:truthMap.get(id)?.effectDetails,activation:truthMap.get(id)?.activation,lore:truthMap.get(id)?.runtimeLore,compendiumId:truthMap.get(id)?.compendiumId})),
+      ...truthState.corruptionTalents.map(id=>{
+        const item=corruptionMap.get(id);
+        const dormant=item?.kind==="DON"&&!truthCorruptionTalentActive(item,state,derived.integrity);
+        return {id,name:item?.name??id,detail:item?.effect,compendiumId:item?.compendiumId,group:[item?.sourceName,dormant?"Dormant":""].filter(Boolean).join(" · ")};
+      })],
+    disadvantages:selectedDisadvantages.map(item=>({id:item.id,name:item.name,detail:item.effect,compendiumId:item.compendiumId})),inventory,
+    truthNature:truth.structure.natures[state.nature]?.name??state.nature,truthConsciousness:truth.structure.consciousness.find(item=>item.id===state.consciousness)?.name??state.consciousness,corruption:state.corruption,
+    truthStages:revelation?([['v','Voilé'],['sr','Semi-révélé'],['r','Révélé']] as const).map(([id,name])=>({id,name,description:revelation.body[id],stats:revelation.stats[id],traits:revelation.stages[id].traits.map(trait=>({name:trait.name,effect:trait.effect}))})):[],
+    corruptionSource:truth.corruption.sources.find(item=>item.id===state.corruptionSource)?.name??state.corruptionSource,
+    languages:strings(data.social.languages),contacts:[
+      ...strings(data.social.contacts).map((name,index)=>({id:`free-contact-${index}`,name})),
+      ...structuredContacts
+    ],reputation:String(data.social.reputation??""),renownMilieu:String(data.social.renownMilieu??"")
+  };
+}
