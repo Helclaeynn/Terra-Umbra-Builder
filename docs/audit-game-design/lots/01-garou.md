@@ -13,7 +13,7 @@ Lot complet, appliqué par défaut. Tu relis par exception. Paliers I / II / III
 - **Nettoyage** : une vingtaine de notes de développement retirées, une phrase cassée, un trait manquant (Aura prédatrice), un trait mal classé (Corps Enchaîné).
 - **Sangs vifs partagés (décision 10)** : les douze Sangs de la section 5 sont **les mêmes** pour les Garous et les autres descendants de Khinae. Une seule définition, projetée dans les deux catalogues (le Builder garde les deux identifiants). Les textes sont donc écrits pour tout descendant de Khinae : « hybride » s'entend comme le corps de guerre de sa Lignée, « meute » comme les siens.
 
-*Corrections du 30/10, après lecture de la passation : la mention d'un « sigle HDS non défini » était une erreur de ma part. La HDS (Hologram Distorsion Skill) est la tradition des Exilés enseignée dans les Silcenters ; le texte d'Éveil furieux la cite à bon droit (il ne lève pas un blocage HDS). Elle est rétablie. Les recommandations des questions 1 et 2 sont revues (section 7).*
+*Corrections du 30/10, après lecture de la passation : la mention d'un « sigle HDS non défini » était une erreur de ma part. La HDS (Hologram Distorsion Skill) est la tradition des Exilés enseignée dans les Silcenters ; le texte d'Éveil furieux la cite à bon droit (il ne lève pas un blocage HDS). Elle est rétablie. La question 2 (homonymes) est tranchée en A ; la question 1 a été validée par toi en B.*
 
 ---
 
@@ -327,7 +327,7 @@ Aucun Sang n'est « un même pouvoir plus ou moins fort » : aucune progression 
 ### Sang Enchaîné · Jayanti — le corps de guerre resté humain
 *Reprend : Corps Enchaîné (trait), Prédateur debout, Vitesse impossible, Griffe d'entrave, Sceller la Nature.*
 
-- **Don du Sang (gratuit) · Corps Enchaîné** : tu ne prends jamais la forme hybride. En humain révélé : +2 Vigueur, +2 Agilité, +1 PA par round, Déplacement ×2, et tu gardes mains, armes, armures, véhicules et augmentations. Pas d'Armure 2, pas de DGT 5, pas de régénération de combat.
+- **Don du Sang (gratuit) · Corps Enchaîné** : tu ne prends jamais la forme hybride. En humain révélé : +2 Vigueur, +2 Agilité, +1 PA par round à partir du deuxième round où tu es Révélé (B1 validé), Déplacement ×2, et tu gardes mains, armes, armures, véhicules et augmentations. Pas d'Armure 2, pas de DGT 5, pas de régénération de combat.
 
 **Porte A · Le corps**
 - **I (1 PTV) · Prédateur debout** : en Révélé, +3 Pugilat et les prouesses physiques de ton corps Enchaîné.
@@ -441,8 +441,8 @@ Aucune entrée supprimée.
 - **B** : le +1 PA ne vient qu'à partir du deuxième round où tu es Révélé, comme le rythme de l'hybride, mais sans épuisement.
 - **C** : le +1 PA demande 1 PA d'activation par scène (« le Sang se tend »).
 
-**Recommandation (revue le 30/10) : A.** Le Corps Enchaîné est le texte d'origine de la V1 (« +1 PA par round, au-delà du maximum normal ») ; l'audit du 136 l'a laissé tel quel, et la passation demande de ne pas affaiblir préventivement un pouvoir avant de l'avoir vu en jeu. Son prix est réel : jamais d'hybride, ni Armure 2, ni DGT 5, ni régénération de combat. À observer en partie.
-*Exemple* : une Enchaînée surprise dans un couloir agit avec son +1 PA dès le premier round, mais elle encaisse comme une humaine augmentée et ne se régénère pas.
+**Tranché par l'auteur (30/10, B1) : B.** Le +1 PA n'arrive qu'à partir du deuxième round où l'Enchaîné est Révélé, sans épuisement.
+*Exemple* : une Enchaînée surprise dans un couloir agit avec ses PA normaux au premier round ; au deuxième, elle a son +1 PA.
 
 ### Q2. Les homonymes du Vampire
 **Problème** : sept pouvoirs portent le même nom chez le Garou et le Vampire avec des règles différentes (Vision du Sang, Traque hématique, Déferlement écarlate, Surrégime, Lecture superficielle, Lecture profonde, Dissipation révélatrice). Les ressorts propres les séparent, mais à table, un même nom fera appliquer la mauvaise règle.

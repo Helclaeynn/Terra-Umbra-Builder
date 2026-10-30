@@ -111,7 +111,7 @@ Les paliers II marqués *Bestiaire* reprennent une capacité que tu as écrite p
 *Reprend : Silence du grand fauve, Variantes Tigre, Lion, Panthère, Jaguar, Puma, Bond souverain, Saisie du fauve.*
 
 - **Animal** : +2 Vigueur, +2 Agilité · Déplacement ×2 · griffes et crocs DGT 4 · sens de prédateur.
-- **Hybride** : +4 Vigueur, +2 Agilité · DGT 6 · Armure 2 · Déplacement ×2.
+- **Hybride** : +4 Vigueur, +2 Agilité · DGT 6 · Armure 1 · Déplacement ×2 *(Armure 2 → 1, B2 validé)*.
 - **Variantes** : *Tigre* (référence, excellent nageur) · *Lion* (+4 Vigueur / +1 Agilité ; peut reconnaître une petite troupe durable, sans règle de Meute) · *Panthère* (+3 / +3, DGT 5, Armure 1 ; escalade et nuit) · *Jaguar* (référence ; eau et végétation dense ; les libres de Quetzal sont rares) · *Puma* (+3 / +3, DGT 5, Armure 1 ; montagne et changements d'altitude).
 - **Signature (gratuite) · Silence du grand fauve** (SR) : si tu as déjà un couvert ou une dissimulation crédible, tes déplacements naturels ne trahissent pas ta position. Pas d'invisibilité ; un sol vraiment bruyant reste bruyant.
 
@@ -247,8 +247,8 @@ Les paliers II marqués *Bestiaire* reprennent une capacité que tu as écrite p
 *Reprend : Fossile de vase, Variantes Nil/marin, Alligator, Caïman, Gavial, Mâchoire verrouillée, Apnée séculaire.*
 
 - **Animal** : +3 Vigueur · morsure DGT 5 · Armure 3 · excellente nage · lent et encombré à terre.
-- **Hybride** : +5 Vigueur ; Agilité +0 à terre, +2 dans l'eau · morsure DGT 6 · Armure 4.
-- **Variantes** : *Nil / marin* (référence, eau libre) · *Alligator* (+4 Vigueur / +1 Agilité à terre, +2 Agilité dans l'eau, Armure 4) · *Caïman* (+4 / +1, DGT 5, Armure 3 ; zones encombrées) · *Gavial* (+3 Vigueur / +2 Agilité dans l'eau, DGT 5, Armure 2 ; capture aquatique rapide).
+- **Hybride** : +5 Vigueur ; Agilité +0 à terre, +2 dans l'eau · morsure DGT 6 · Armure 3 *(Armure 4 → 3, B2 validé)*.
+- **Variantes** : *Nil / marin* (référence, eau libre) · *Alligator* (+4 Vigueur / +1 Agilité à terre, +2 Agilité dans l'eau, Armure 3) · *Caïman* (+4 / +1, DGT 5, Armure 3 ; zones encombrées) · *Gavial* (+3 Vigueur / +2 Agilité dans l'eau, DGT 5, Armure 2 ; capture aquatique rapide).
 - **Signature (gratuite) · Fossile de vase** (R, animal ou hybride) : tu restes presque parfaitement immobile toute une scène. Une détection fondée sur le seul mouvement ou l'agitation de l'eau échoue ; chaleur, odorat, contact et capteurs adaptés fonctionnent.
 
 **Porte A · La mâchoire**
@@ -371,7 +371,7 @@ Ce sont les douze Sangs vifs, identiques à Garou #21–68. Ils restent au regis
 - **B** : Grand Félin hybride Armure 1 ; Crocodilien hybride Armure 3 (Variantes alignées). Rien d'autre ne bouge ; aucun profil n'est renforcé.
 - **C** : borner toutes les Lignées à une référence commune (somme Vigueur + Agilité = 5, DGT 5, Armure 2) avec un échange par Lignée.
 
-**Recommandation (revue le 30/10) : A.** La passation le dit explicitement : « le Tigre plus puissant individuellement, l'Ours plus massif, le Crocodilien blindé et d'embuscade » ; le Loup se distingue par la Meute, pas par le pic physique. L'Armure 4 du Crocodilien figure dans la liste « à observer en jeu, ne pas affaiblir préventivement ». Leurs faiblesses de milieu et l'absence de Meute sont leur prix. À observer en partie.
+**Tranché par l'auteur (30/10, B2) : B.** Grand Félin hybride Armure 1 ; Crocodilien hybride Armure 3 ; Variantes alignées.
 
 ### Q4. L'Impulsion de Frénésie par Lignée
 **Problème** : la Frénésie Khinae dit seulement que « l'objet instinctif dépend de la Lignée », sans dire lequel. C'est pourtant ce qui la sépare de la Frénésie garoue (Meute, protection des siens).

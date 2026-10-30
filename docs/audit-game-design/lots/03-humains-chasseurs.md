@@ -4,7 +4,7 @@ Lot complet du 29 octobre 2026, appliqué par défaut (veto de l'auteur possible
 
 ## 1. En bref
 
-- **Architecture** : Nature (Humain conscient ou Chasseur reconnu, gratuite) → Doctrine commune (une voie, ouverte à tout véritable Chasseur) → une tradition parmi 13, chacune avec ses propres voies → statuts narratifs hors PTV (Association, GT, Hunt, rangs, armes de Merlin).
+- **Architecture** : Nature (Humain conscient, gratuite ; « Chasseur reconnu » est un statut, pas une Nature) → Doctrine commune (une voie, ouverte à tout véritable Chasseur) → une tradition parmi 13, chacune avec ses propres voies → statuts narratifs hors PTV (Association, GT, Hunt, rangs, armes de Merlin).
 - **266 entrées → 59 cartes** : 1 carte de Nature + 58 voies (1 en progression, 1 à deux portes, 56 à une porte).
 - **Aucun pouvoir supprimé, aucune fusion.** Les doublons entre traditions restent séparés : chaque tradition garde son ressort propre. Deux paires identiques mot pour mot reçoivent un ressort nouveau ; les autres ont déjà le leur, signalé dans la voie.
 - **Ce qui change vraiment** : chaque tradition n'est plus un catalogue de 20 talents. Elle se lit en 2 à 6 voies, avec une entrée et un ordre. Les règles cachées dans des talents remontent dans l'en-tête de tradition (accès, piste de Qi, règle des sceaux). Les profils « définis avec le MJ » deviennent des listes fermées.
@@ -12,11 +12,11 @@ Lot complet du 29 octobre 2026, appliqué par défaut (veto de l'auteur possible
 
 ## 2. Carte de Nature (gratuite)
 
-> **HUMAIN CONSCIENT · CHASSEUR RECONNU** · Nature · Gratuit
+> **HUMAIN CONSCIENT** · Nature · Gratuit
 >
-> **Humain conscient** : il connaît la Vérité, mais l'Hologramme peut encore corriger ses souvenirs.
+> **Humain conscient** : il connaît la Vérité, mais l'Hologramme peut encore corriger ses souvenirs. **+1 Volonté permanent** ; ni package racial, ni encyclopédie gratuite, ni détection de V.
 >
-> **Chasseur reconnu** : il agit durablement dans la Vérité et l'Hologramme le reconnaît. Les corrections civiles ordinaires n'effacent plus ce qu'il a réellement vu. Ce statut naît de la fiction ; il ne s'achète pas en PTV.
+> **Statut de Chasseur reconnu** (pas une Nature) : il agit durablement dans la Vérité et l'Hologramme le reconnaît. Les corrections civiles ordinaires n'effacent plus ce qu'il a réellement vu. Ce statut naît de la fiction ; il ne s'achète pas en PTV.
 >
 > **V / SR / R** : un Humain n'a pas de Vérité à Révéler et n'a pas d'états propres. Les mentions V, SR et R des voies sont celles du catalogue (voir question 1).
 >
@@ -24,7 +24,9 @@ Lot complet du 29 octobre 2026, appliqué par défaut (veto de l'auteur possible
 >
 > **Relation au Voile** : pas de jauge. Quand il neutralise une menace pour le Voile au profit d'un allié de Vérité, c'est la jauge de cet allié qui en profite.
 
-Hors carte : les Lavandières sont des Vampires. C'est la carte de Nature Vampire qui s'applique à elles. Le Xenoshield accepte aussi des Extrals formés, qui gardent leur propre carte.
+**Qui peut suivre ces voies** (décision du Builder, rappelée par la passation) : à la création, le parcours de Chasseur est **réservé aux Humains**. Certaines traditions s'ouvrent ensuite **en progression**, sur choix explicite, à d'autres Natures qui gardent leur propre carte : les **Lavandières** aux Vampires seulement, la **Chasse Fantastique** aux Exilés, les **Lueurs d'Azménor** aux Azménoriens, le **Xenoshield** aux Extrals qui l'ont infiltré sans qu'il le sache. Un Chasseur d'une autre Nature garde la jauge de Relation au Voile de sa Nature.
+
+*Correction du 30/10* : la première version présentait « Chasseur reconnu » comme une Nature et ne disait rien de la restriction de création. Corrigé.
 
 Jamais achetés en PTV : Association des Chasseurs, habilitations GT, Hunt100 et Hunt15, Observers, Confrérie du Bestiaire, rangs de la Vénerie, ressources de l'Église, compagnons (Djinn, Shikigami, monture), armes de Merlin, reliques et prototypes.
 
@@ -65,7 +67,7 @@ Accès : naturel pour une véritable Lavandière, restreint pour un Vampire recr
 - **II (2 PTV) · Saignée noire** (R, 1/round, sans PA) : après une attaque de Pugilat ou de Mêlée qui blesse un Vampire, un Moroï ou un Strygoï, V + MS contre sa Défense occulte. Réussite : un de ses Sangs est éteint jusqu'à la fin de sa prochaine activation. Nature, états, Cour, talents communs et autres Sangs restent ; la Prédation blesse mais ne soigne plus.
 - **III (3 PTV) · Clouer au corps** (R, réaction 1 PA attaque comprise, 1/scène) : quand un Vampire à portée de ton arme déclenche une fuite qui soustrait son corps à la chasse, tu attaques avant. Blessure : l'activation échoue, ses PA et son usage sont perdus. Ne bloque ni la Stase ni Dernier sommeil.
 
-**Changements** : bloc d'Accès sorti de Clouer au corps vers l'en-tête (correction). Saignée noire inchangée, voir question 3.
+**Changements** : bloc d'Accès sorti de Clouer au corps vers l'en-tête (correction). Saignée noire inchangée : c'est la décision du 30/09 (opposition et extinction d'un Sang), qui explique la crainte qu'inspirent les Lavandières.
 
 ### 3.3 Chasseurs catholiques
 
@@ -1074,8 +1076,7 @@ Le rapport signale des verrous trop forts. La charte dit « dans le doute, garde
 - **A.** Ne rien changer.
 - **B.** Saignée noire passe à une fois par scène et par cible ; Sceau du Silence vise une seule capacité Active observée, pour la scène ; Puits d'Absence inchangé.
 - **C.** B, et Puits d'Absence ne suspend les effets que jusqu'à la fin de la prochaine activation de la cible.
-- **Recommandation : B.** Saignée noire et Sceau du Silence verrouillent un adversaire entier pour un prix de palier II ; Puits d'Absence est déjà au palier III, une fois par scène, pour 3 PA.
-- *Exemple* : une Lavandière qui frappe chaque round un Vampire du Sang Orageux lui interdit Décharge, Surcharge et Tempête pendant tout le combat.
+- **Tranché par les décisions antérieures (30/10) : A.** La Saignée noire relève de ta décision du 30/09 (tu as refusé de l'affaiblir) ; le Sceau du Silence est sur la liste « à observer en jeu, ne pas affaiblir préventivement » de la passation du 6/09. Ma recommandation B est retirée. Puits d'Absence reste tel quel.
 
 ### Q4. La piste de Qi à cinq positions
 Le rapport propose de la réduire à trois positions (Yin, Équilibre, Yang). Elle est lourde, mais c'est le ressort des Taoïstes. Je l'ai gardée telle quelle, sortie dans un encadré.
