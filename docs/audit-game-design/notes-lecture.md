@@ -240,6 +240,25 @@ Lecture intégrale des fiches PNJ Vérité et Réalité (`compendium-verite-*-pn
 - **Extrals et AIDH** : GAAC, CTU, Croix verte, REPTILE, mafia Shaediri, Hydroguard, SMRC ; AIDH (armées numérotées, Seigneurs-généraux, Corp'+, Inquisition, ordres Assassins, ordre Scytheri).
 - **Réalité** : agences (CBII, CPP, CBAC, STAB, CCHS…), LAUS et son **Ghost Bureau** (« contenir ou nier », pont évident vers la Vérité), Comité du crime et Table des Mafias, clubs de motards, Chrétienté réunifiée (ministère Noir, ordres chasseurs cachés).
 
+## Passation générale du 30/10 (document de l'auteur, non versé au dépôt : secrets MJ)
+
+Synthèse lue en entier (sections 1 à 16) ; les annexes A à K sont une réserve à consulter par recherche, lot par lot. Ordre d'autorité : dernière décision explicite de l'auteur > arbitrage consolidé > corpus du 10/09 (Création V12, Réalité V9, Vérité V7, Moteur V4) > dossiers de lore > passations historiques > anciennes propositions.
+
+Ce qui corrige ou précise ma lecture :
+
+- **AIDH = Armée Interstellaire de Défense de l'Humanité**, venue d'Ichéi. La Terre est sous surveillance et l'ignore, sauf quelques élites.
+- **Hologramme** : base technologique AIDH, savoirs technomagiques azménoriens, énergie et stabilité fournies par des divinités et puissances ; Morrighan au centre politique ; **Fearys** maintient la cohérence, les **Piliers** l'alimentent (secret MJ). Globalement omniscient du point de vue de l'auteur.
+- **Atlantis prospère dans l'Ombremonde.** Un Deimon est une forme d'Ombre (termes quasi interchangeables).
+- **L'Humanité terrestre vient d'Aèr** (secret majeur). Les panthéons d'Aèr et de la Terre sont distincts ; Elynea vient de l'histoire divine d'Aèr, les Angelus descendent d'Anges artificiels élémentaires d'Aèr. Delanial est un Légionnaire des Puissances.
+- **Khinae** : pas de Khinae « purs » en 2035. La Nature Khinae, ce sont les **autres lignées** héréditaires (Canidé errant, Renard, Grand Félin, Chat, Rapace, Requin, Serpent, Hyène/Bouda, Berserkir/Ours, Crocodilien), avec les mêmes Sangs vifs que les Garous mais sans Pelage ni Appel de la Meute.
+- **Cycle et Néant** : descendants de Khinae au Cycle, Vampires au Néant, Daemons retirés du Cycle.
+- **Douze Sangs noirs** : Écarlate/Anya, Primal/Lyssa, Hypocrite/Briaerus, Venimeux/Huitzitia, Masqué/Kazuo, Aveugle/Ashream, Traqueur/Go'Ndai, Glacial/Vjärmod, Ardent/Larisha, Orageux/Branimir, Révélateur/Zhi Xia, Condamné/Ashelia. **Douze Sangs vifs** : Naturel/Vortigern, Alpha/Ohtana, Révélateur/Ceallachán, Écarlate/Keyna, Sculpteur/Svenn, Funeste/Verica, Primal/Khuyildar, Chasseur/Thorkel, Sagesse/Tomoko, Enragé/Asulf, Enchaîné/Jayanti, Vengeur/Astaphium.
+- **Chasseurs** : le parcours Chasseur est **réservé aux Humains à la création** ; Lavandières, Xenoshield et doctrines assimilées s'obtiennent en progression. Humain conscient : +1 Volonté permanent. L'Association et les badges GT/Hunt sont des accès, pas des arbres PTV.
+- **Saignée noire** (décision du 30/09) : test d'opposition et **extinction d'un Sang** ; l'auteur a refusé de l'affaiblir, c'est ce qui rend les Lavandières redoutées. **La recommandation B du lot 03 (1/scène) est donc contraire à une décision et doit être retirée.**
+- **Corruption** : Intégrité = Force Mentale + Humanité ; Marqué dès 1, Envahi à la moitié, Au bord à Intégrité − 1 ; Bascule = Volonté + Maîtrise spirituelle contre 18. DON sans Souillure par défaut ; RITE et FAVEUR avec Souillure 15/18/21 selon le coût. Préséance V'Aagor > Sharith > Vhodhal > Vhadhi > Shaoggith > Thul.
+- **Audits Garou/Khinae (136 entrées) et Exilés (184)** : propositions **non appliquées** ; ne pas les traiter comme canon.
+- **Méthode attendue** : ne jamais redemander un choix tranché, lire les vrais fichiers avant d'affirmer, montrer des comparaisons réelles, ne pas vider une doctrine de son identité par un équilibrage abstrait ; les bonus surnaturels peuvent dépasser un humain compétent.
+
 ## Questions à poser à l'auteur
 
 (à compléter au fil de la lecture)
