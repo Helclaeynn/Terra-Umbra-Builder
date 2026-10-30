@@ -38,7 +38,7 @@ Les passations des agents précédents décrivent **l'existant**, pas ce qu'il f
 ## Plan
 1. ~~Archiver les 76 workflows ponctuels~~ : fait. Déplacés dans `.github/workflows-archive/` et fusionnés en production le 30/10 (PR #23) ; aucun job lancé. Seul `v2-dev.yml` reste actif.
 2. ~~Installer la sauvegarde quotidienne et la copie sur H~~ : serveur fait le 30/10 (minuteur systemd 4 h 17, testé). Copie sur H : tâche planifiée Windows « Terra Umbra - copie des sauvegardes » (9 h), script dans `H:\TerraUmbra\`. Les sauvegardes contiennent le `.env` : jamais dans un dossier synchronisé.
-3. Relever ce qui tourne en production, le ramener dans Git, nettoyer le disque.
+3. Relever ce qui tourne en production, le ramener dans Git, nettoyer le disque. Relevé fait le 30/10 : les 48 dossiers de release viennent de commits déjà dans `feature/tuc-web-v2` ; les fichiers du serveur sont des versions égales ou plus anciennes que Git, sauf le `Caddyfile` de production (HTTP/3 coupé), ramené dans `infrastructure/production/Caddyfile`. Nettoyage : `infrastructure/production/nettoyage-disque.sh` (déposé sur le VPS, testé à blanc : 46 dossiers, 15 Go, et 64 images ; garde ce qui tourne et un retour arrière), à lancer par l'auteur.
 4. Fusionner dans `main`, couper Pages, n'avoir qu'un workflow de déploiement, ajouter Prettier/ESLint et une limite de débit sur l'authentification.
 5. Monter la recette sur le même VPS.
 6. Migrer le contenu en base (schéma `content_*`), puis importer les lots, Vampire en pilote.
