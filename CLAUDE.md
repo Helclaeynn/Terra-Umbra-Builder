@@ -32,11 +32,12 @@ Les passations des agents précédents décrivent **l'existant**, pas ce qu'il f
 - Une quarantaine de workflows lancent une opération de production quand leur propre fichier change sur `feature/tuc-web-v2`. Ne jamais modifier un fichier de `.github/workflows/` sans accord. Le déplacer hors du dossier (archivage) est sans risque.
 - Six workflows tournent sur `main`, dont un qui y recommite (`compendium-page-overrides-sync.yml`). Les archiver avant de fusionner.
 - Les fiches enregistrent les talents par identifiant : ne jamais changer un identifiant existant.
-- VPS : environ 40 Go de disque, déjà monté à 99 %. Ne jamais lancer `docker system prune -a --volumes`.
+- Accès VPS : `ssh -i ~/.ssh/terra_umbra debian@terra-umbra.fr` (clé sans phrase secrète, `sudo` sans mot de passe ; `tuc_vps` a une phrase secrète, inutilisable par Claude). Pas de `cron` sur le VPS : utiliser systemd.
+- VPS : environ 40 Go de disque, 96 % le 30/10 (1,9 Go libres). Ne jamais lancer `docker system prune -a --volumes`.
 
 ## Plan
 1. ~~Archiver les 76 workflows ponctuels~~ : fait. Déplacés dans `.github/workflows-archive/` et fusionnés en production le 30/10 (PR #23) ; aucun job lancé. Seul `v2-dev.yml` reste actif.
-2. Installer la sauvegarde quotidienne et la copie sur H.
+2. ~~Installer la sauvegarde quotidienne et la copie sur H~~ : serveur fait le 30/10 (minuteur systemd 4 h 17, testé). Copie sur H testée ; la tâche planifiée Windows (9 h) est à créer par l'auteur, l'outil me l'a refusée.
 3. Relever ce qui tourne en production, le ramener dans Git, nettoyer le disque.
 4. Fusionner dans `main`, couper Pages, n'avoir qu'un workflow de déploiement, ajouter Prettier/ESLint et une limite de débit sur l'authentification.
 5. Monter la recette sur le même VPS.
