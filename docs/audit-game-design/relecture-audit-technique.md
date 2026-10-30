@@ -79,64 +79,63 @@ L'ordre de l'audit est gardé, avec une étape en plus (1b) pour faire entrer le
 
 ## 4. Ajustements après la passation technique OVH (31/10)
 
-La passation technique du 30/10 (agent précédent) change plusieurs points du plan. Ce qui suit vient d'elle, et de la lecture des 77 workflows.
+**Statut de cette passation (consigne de l'auteur, 31/10)** : elle décrit **ce qui existe**, pas ce qu'il faut suivre. Ses pratiques sont un état des lieux, et beaucoup doivent changer :
+- releases par overlay sur les images en service ;
+- dizaines de workflows ponctuels ;
+- interdiction de fusionner dans `main` ;
+- sauvegardes locales seulement ;
+- `dev` redirigé vers la production.
 
-### 4.1 Contraintes de l'hébergement
+Ce qui fait foi, c'est l'audit technique et les décisions de l'auteur. La passation sert seulement à savoir **ce qui existe aujourd'hui**, pour ne rien casser ni perdre en le changeant.
 
-- **Serveur** : OVH VPS-1, Debian 13, environ **40 Go de disque**, déjà monté à 90 % puis 99 % (29/09 et 01/10). Il restait environ 2,5 Go de RAM libre au relevé du 01/10. Releases et images Docker occupent plus de 30 Go.
-- **Pas d'environnement de recette** : `dev.terra-umbra.fr` redirige vers la production, et la passation interdit de le réactiver sans pile et base séparées.
-- **La production ne correspond pas exactement au code** : beaucoup de releases sont des *overlays* posés sur les images en service. Rebuilder `feature/tuc-web-v2` ne reproduit donc pas forcément ce qui tourne. La passation classe la « reconstruction intégrale depuis une révision Git unique » parmi les points non établis.
-- **Sauvegardes** : le script `backup.sh` est sérieux (dump, archive des médias, restauration témoin, empreintes). Mais tout reste sur le VPS, sans copie hors site ni test de reprise sur une machine neuve.
-- **Incident Chrome en entreprise du 01/10** : non résolu. La mitigation HTTP/3 n'est pas reportée dans le modèle Caddy de production versionné.
+### 4.1 Décisions de l'auteur (31/10)
 
-### 4.2 Pièges dans GitHub Actions
+- **Pas de second VPS.** Tout tient sur le VPS-1 actuel.
+- **La V1 ne reste pas en ligne.** GitHub Pages est coupé ; la V1 part dans `legacy/` (et reste dans l'historique Git). `feature/tuc-web-v2` devient `main`.
+- **On assainit au lieu de prolonger** : fin des releases par overlay, retour à une release reconstruite depuis Git, workflows ponctuels archivés.
 
-- **Une quarantaine de workflows de production se déclenchent par un push sur `feature/tuc-web-v2`** (en général, quand leur propre fichier change). Modifier un fichier de workflow sur cette branche peut donc **lancer une opération de production**.
-  - Conséquence : Prettier et ESLint doivent **exclure `.github/`**.
-  - Toute PR qui touche un workflow se relit comme une mise en production.
-- **Six workflows se déclenchent par un push sur `main`**. L'un d'eux, `compendium-page-overrides-sync.yml`, a le droit d'écrire et recommite sur `main`. Fusionner la V2 dans `main` les déclencherait. Il faut d'abord les archiver ou les neutraliser.
-- **GitHub Pages sert la V1 depuis `main`**. Pages ne sait servir que la racine ou `/docs` d'une branche, pas un dossier `legacy/` quelconque.
+### 4.2 Ce qu'il faut savoir de l'existant pour le changer sans casse
 
-### 4.3 Ce que ça change au plan
+- **Disque** : environ 40 Go, déjà monté à 99 %. Sur ce total, environ 12 Go d'archives de releases et 18,6 Go d'images Docker (relevé du 01/10), en grande partie des restes des releases par overlay. Le ménage libère la place d'une recette.
+- **Production ≠ code** : à cause des overlays, il faut d'abord relever ce qui tourne (images, sources livrées, corpus) et le ramener dans Git. La migration du contenu (phase 1) part de **ce qui est servi**, éditions en base comprises.
+- **Workflows piégés** :
+  - une quarantaine se lancent en production quand on pousse une modification de leur propre fichier sur `feature/tuc-web-v2` ;
+  - six se lancent sur `main`, dont `compendium-page-overrides-sync.yml`, qui recommite sur `main`.
 
-| Phase | Ajustement |
+  Ils sont archivés **avant** la fusion dans `main` et avant tout formatage. Prettier et ESLint excluent `.github/` tant que le ménage n'est pas fait.
+- **Sauvegardes** : le script `backup.sh` est bon (dump, médias, restauration témoin) ; il manque seulement la copie hors site.
+
+### 4.3 Plan ajusté
+
+| Étape | Contenu |
 |---|---|
-| 0 | **La sauvegarde hors site reste la priorité.** Avant la limite de débit : `@fastify/rate-limit` est une **nouvelle dépendance**, or les releases par overlay refusent un changement de dépendances. Il faut donc d'abord une release reconstruite depuis Git, ce qui suppose d'avoir établi que Git reproduit la production. |
-| 0 bis (nouvelle) | **Rendre la production reproductible** : comparer les images en service au code (sources livrées, `build-info.json`, empreintes du corpus), puis faire une release complète depuis une révision unique. Sans elle, chaque phase suivante empile un overlay de plus. |
-| 0 ter (nouvelle) | **Un environnement de recette isolé**, avec sa propre base restaurée depuis une sauvegarde. Indispensable avant la migration du contenu (phase 1) : on ne la teste pas en production. |
-| 1 | La migration doit capturer **ce qui est servi en production** (images actives et éditions en base), pas le corpus de `HEAD`, qui peut différer. |
-| 2 | Directus ajoute environ 300 Mo de RAM et un peu plus d'1 Go d'image sur un disque déjà serré. Il reste faisable, à condition d'avoir fait le ménage du disque (ou agrandi le VPS). |
-| Fusion dans `main` | Faisable maintenant que tu acceptes de passer la V1 en legacy, mais dans cet ordre : neutraliser les 6 workflows `main`, figer la V1 sur une branche `legacy-v1` (servie par Pages ou coupée), puis fusionner. |
-
-**Ce qui ne bouge pas** : je travaille sur une branche de travail et par PR ; je ne touche ni au serveur, ni aux secrets, ni aux workflows de production sans ton accord explicite, au cas par cas.
+| **0. Filets** | Copie hors site des sauvegardes. Archivage des workflows ponctuels (on garde : CI, déploiement, sauvegarde). Relevé de ce qui tourne en production et rapatriement dans Git. Ménage du disque. |
+| **0 bis. Base saine** | Coupure de Pages, V1 dans `legacy/`, `feature/tuc-web-v2` fusionnée dans `main`. **Un seul workflow de déploiement**, qui reconstruit depuis Git. Prettier et ESLint. Limite de débit sur l'authentification. |
+| **0 ter. Recette** | Une seconde pile Compose **sur le même VPS** (projet, base et volume séparés, `dev.terra-umbra.fr` protégé par mot de passe), avec des limites de mémoire. Elle ne tourne que pendant les essais et repart d'une sauvegarde restaurée. |
+| **1. Contenu en base** | Schéma `content_*` avec les voies, migration du corpus servi, suppression des modules de contenu. Testée en recette. |
+| **1b. Import des lots** | Les 15 lots en données structurées ; Vampire en pilote. |
+| **2 à 5** | CMS, temps réel, règles en données, front (inchangé). |
 
 ---
 
-## 5. Questions pour l'auteur (reposées le 31/10)
+## 5. Questions restantes (31/10)
 
-**Q1. Où mettre la sauvegarde hors site ?**
-- **A (recommandé)** : OVH Object Storage, sur ton compte OVH existant, dans une **autre région** que le VPS. Copie chiffrée avec restic, une par jour, et un test de restauration mensuel. Tu crées le conteneur et une clé d'accès, puis tu poses la clé dans `/opt/terra-umbra/secrets/`. J'écris le script et le workflow, et tu valides avant le premier lancement.
-- **B** : un autre fournisseur (Backblaze B2, environ 6 $ par To et par mois). Un compte de plus à gérer.
+**Q1. Copie hors site des sauvegardes : OVH Object Storage ?**
+Les sauvegardes actuelles pèsent environ 400 Mo. En stockage objet, cela revient à quelques centimes par mois : ce n'est pas un second serveur.
+- **A (recommandé)** : OVH Object Storage, sur ton compte, dans une autre région que le VPS, avec une copie chiffrée chaque jour. Tu crées le conteneur et la clé ; j'écris le script.
+- **B** : une copie sur ton propre ordinateur, récupérée à la main (gratuit, mais dépend de toi).
 
-**Q2. Où faire la recette ?**
-La migration du contenu ne peut pas se tester en production, et il n'existe aucun environnement isolé.
-- **A (recommandé)** : un **second petit VPS OVH** dédié à la recette (pile Compose identique, base restaurée depuis la sauvegarde, nom `recette.terra-umbra.fr` protégé par mot de passe). Il ne prend pas de place sur le disque de production.
-- **B** : une seconde pile sur le même VPS. Pas de coût, mais le disque de 40 Go est déjà au bord, et une erreur peut toucher la production.
-- **C** : pas de recette ; on teste en local et en CI avec des données fictives. Moins sûr pour une migration du contenu réel.
+**Q2. Recette sur le même VPS : d'accord ?**
+- **A (recommandé)** : oui, après le ménage du disque. Une pile séparée, allumée seulement pendant les essais.
+- **B** : non ; on teste uniquement en local et en CI, avec des données fictives. La migration du contenu réel serait alors moins sûre.
 
-**Q3. La V1 sur GitHub Pages doit-elle rester en ligne ?**
-Tu acceptes qu'elle passe en legacy. Reste à savoir si son adresse GitHub Pages doit continuer à répondre.
-- **A (recommandé)** : la V1 est figée sur une branche `legacy-v1` que Pages continue de servir (même adresse, plus aucune mise à jour). Puis `feature/tuc-web-v2` est fusionnée dans `main`, une fois les 6 workflows de `main` neutralisés.
-- **B** : Pages est coupé ; la V1 reste seulement dans l'historique Git et dans le dossier `legacy/`.
+**Q3. Par quoi je commence ?**
+- **A (recommandé)** : l'étape 0, préparée sans rien déployer :
+  - archivage des workflows ponctuels ;
+  - script de sauvegarde hors site ;
+  - workflow de relevé de la production en lecture seule.
 
-**Q4. CMS : Directus ou back-office maison ?**
-- **A (recommandé)** : décider après la phase 1, quand le contenu sera en base et l'état du disque connu. Directus reste le favori (2 à 4 semaines, relations et révisions fournies), si la place le permet.
-- **B** : trancher maintenant pour le back-office maison (pas de service de plus sur le VPS, mais 2 à 4 mois de développement).
+  En parallèle, le schéma de contenu avec les voies, sur papier.
+- **B** : d'abord le schéma de contenu seul.
 
-**Q5. Par quoi je commence ?**
-- **A (recommandé)** : préparer sans rien déployer.
-  1. Le script de sauvegarde hors site (Q1).
-  2. Un workflow **en lecture seule**, déclenché à la main par toi, qui relève les images en service et les compare au code (phase 0 bis).
-  3. Le **schéma de contenu avec les voies**, sur papier, avec le Vampire en exemple.
-- **B** : commencer par le schéma de contenu seul, et laisser l'exploitation pour plus tard.
-
+*Le choix du CMS (Directus ou maison) attend la fin de la phase 1, quand on connaîtra la place réelle sur le disque.*
