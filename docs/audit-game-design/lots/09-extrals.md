@@ -6,13 +6,13 @@ Lot complet, appliqué par défaut (relecture par exception). Sources : `rapport
 
 ## 1. En bref
 
-- **Architecture** : une carte de Nature commune, puis **un profil gratuit** (5 peuples, ou une origine rare : Homo Superior, Ad'rak), ses **voies de peuple**, une **voie commune** (Protocoles de Continuité). Les organisations sortent de la Nature.
-- **Comptes** : 193 entrées (162 talents, 31 traits) → **34 cartes** de Nature (1 carte commune, 7 cartes de profil, 26 voies) + **65 entrées** rangées à part dans « Organisation et logistique ».
+- **Architecture** : une carte de Nature commune, puis **un profil gratuit** (5 peuples, ou une origine rare : Homo Superior, Ad'rak), ses **voies de peuple**, une **voie commune** (Protocoles de Continuité). Les organisations ont leurs voies, hors Nature, en PTV (section 3.9).
+- **Comptes** : 193 entrées (162 talents, 31 traits) → **34 cartes** de Nature (1 carte commune, 7 cartes de profil, 26 voies) + **16 voies d'organisation** (65 entrées, section 3.9).
 - **Chaque peuple garde son ressort** : Talass (surfaces, soie, Talwa bloqué par les barrières dimensionnelles), Mo'sen (pic hormonal suivi d'un contrecoup), Baséanh (tout passe par une préparation de Tardolla), Rocréen (humidité et Noyau intact), Thalsios (contact avec le milieu, constance), Homo Superior (essaim nanitique, reste humain), Ad'rak (la masse, contre plus petit que soi).
 - **Ce qui change vraiment** : six pouvoirs trop forts reprennent la version du livre V6 (Réflexe de chasse, Régénération active, Noyau obstiné, Crête de Mosenine, Muscle tassé, Vieux cuir). Les traits vides reçoivent un texte tiré des sources. Les notes de développement et le vocabulaire logiciel disparaissent.
 - **Format** : beaucoup de voies d'origine ont deux talents au même coût. Plutôt que de baisser un coût, la voie garde un **palier double** (IIa puis IIb, dans cet ordre). 21 voies sont dans ce cas (voir Q4).
 
-Pas de maîtrise ni d'éveil chez les Extrals : on naît d'un peuple (ou on sort d'un programme de l'AIDH), on n'en change pas. L'emprunt d'un talent racial par greffe relève du SMRC (#142, section Organisation).
+Pas de maîtrise ni d'éveil chez les Extrals : on naît d'un peuple (ou on sort d'un programme de l'AIDH), on n'en change pas. L'emprunt d'un talent racial par greffe relève du SMRC (#142, section 3.9).
 
 ---
 
@@ -420,116 +420,110 @@ L'entrée est l'un des deux sens.
 - Onde : coût 1 PA écrit (il manquait).
 - Déchaînement : interdiction de cumul ajoutée ; coquille « ,, » corrigée.
 
-### 3.9 Organisation et logistique (hors Nature)
+### 3.9 Organisations de Vérité (voies hors Nature)
 
-Ces 65 entrées ne sont pas des pouvoirs de Nature : logistique, contrebande, ingénierie, soins exotiques, tactique d'équipe, appareils de l'AIDH. Elles sortent des voies de Nature.
+**Tranché par l'auteur (30/10, A3 refusé)** : ces 65 entrées **restent en Vérité, en PTV**. Les organisations de la Vérité ne passent pas en Réalité. Ce sont des voies de doctrine, d'ingénierie et de réseau, au sens du Socle (« Doctrine, fonction et réseau de Vérité »), rangées par organisation. Coûts et textes d'origine ; seules les corrections de forme sont faites (phrases finies, notes « Nom proposé » retirées).
 
-**Par défaut, en attendant ta réponse à Q1** : chaque entrée garde son texte et son coût, toujours en PTV, rangée par organisation (une organisation par personnage, comme le dit le site : « l'adhésion ne donne pas chaque talent »). Les corrections de forme sont faites : phrases finies, notes « Nom proposé » retirées, accès harmonisés (aucun accès V/SR/R ou R propre à une doctrine).
+**Rappels de la V1** : le GAAC et la SRA n'ont pas de voie (ce sont des institutions) ; la Brotherhood of Hate et la Saeniaforming Army (REPTILE) sont antagonistes, hors PJ ; la Mafia Shaediri reste à l'échelle Terre, orbite et Lune ; un talent de réseau ne crée jamais vendeur ni marchandise ; les PTV n'achètent jamais l'armure, la greffe ou l'appareil qu'une voie exige. Accès par espèce : matrice de la V1 (CTU : Talass et Thalsios N ; Croix Verte : Baséanh N ; REPTILE : Mo'sen N ; Shaediri : Rocréen N ; Hydroguard : Thalsios et Rocréen N, Mo'sen R ; SMRC : Baséanh et Thalsios N, Talass R ; Émeraude Sanglante : R ; AIDH : R pour les auxiliaires extrals).
 
-Le rangement proposé ci-dessous ne s'applique que si tu retiens l'option C de Q1 :
-- **Doctrine (PTV)** : méthode propre à une faction de Vérité, avec un effet chiffré. Reste en PTV, couche « tradition / doctrine / fonction » du Socle, hors Nature.
-- **Réalité (XP)** : savoir-faire qu'un expert humain bien formé pourrait avoir. Devient un talent de Réalité, ouvert par l'adhésion.
-- **Adhésion** : permission sans chiffre. C'est ce que l'appartenance donne déjà selon le Socle (« l'initié sait reconnaître les signes… ; prix, délais, risques restent réels »). Gratuit, géré par la fiction.
-- **Campagne** : ressource de campagne que le MJ ouvre par le scénario.
+*Correction du 30/10* : la première version rangeait ces entrées en « Doctrine / Réalité / Adhésion / Campagne » (option C) avec des fusions. C'était contraire à ta décision ; tout est rétabli, sans fusion.
 
-**CTU — Ingénierie de transition**
-- #99 Déclassement fonctionnel (1) → Réalité : +3 technique, déjà borné.
-- #100 Émulation de composant (2) → Réalité : +3, dix minutes, une scène.
-- #101 Standard terrestre (2) → Réalité, avec un test à écrire (un jour d'atelier, Esprit + Technologie difficulté 15).
-- #102 Prototype de transition (3) → Campagne : projet de scénario (temps, atelier, matériaux).
+##### CTU — Ingénierie de transition
+- **I (1 PTV) · Déclassement fonctionnel** : Avec les outils et l’appareil nécessaires, sacrifiez une fonction secondaire ou réduisez les performances pour préserver sa fonction essentielle malgré une infrastructure locale insuffisante, avec +3 au test technique. Les fonctions abandonnées restent perdues jusqu’à réparation ou réadaptation ; aucune pièce n’est créée.
+- **II (2 PTV) · Émulation de composant** : Avec matériaux, outils et fonction connue, fabriquez un substitut temporaire en dix minutes avec +3 au test technique approprié. Il tient pour la scène d’utilisation et ne reproduit pas un principe physiquement impossible avec ces moyens.
+- **II b (2 PTV) · Standard terrestre** : Le personnage peut adapter durablement alimentation, connectique, interface ou protocole d’une technologie xéno afin qu’elle fonctionne avec un standard terrestre approprié sans exiger l’infrastructure d’origine
+- **III (3 PTV) · Prototype de transition** : Avec temps, atelier et matériaux, le personnage peut produire un prototype local reproduisant une fonction majeure d’une technologie supérieure par des étapes intermédiaires moins avancées. Le prototype reste un objet réel : il peut être volé, cassé ou réparé
 
-**CTU — Diffusion technologique**
-- #103 Interface vulgarisée (1) → fusion dans #104 (même but : rendre l'appareil utilisable par un non-spécialiste).
-- #104 Procédure encapsulée (2) → Doctrine : +3 aux techniciens qui suivent la procédure ; méthode CTU propre.
-- #105 Atelier distribué (2) → Campagne : logistique de réseau, pas une capacité.
-- #106 Production de terrain (3) → Réalité ; note « Nom proposé… identifiant conservé » retirée.
+##### CTU — Diffusion technologique
+- **I (1 PTV) · Interface vulgarisée** : Le personnage peut encapsuler une interface xéno de façon qu’un opérateur formé mais non spécialiste puisse utiliser ses fonctions prévues sans comprendre le paradigme technique complet
+- **II (2 PTV) · Procédure encapsulée** : Après sa mise au point réelle, une procédure documentée donne +3 aux tests des techniciens qui l’exécutent avec les bons outils pendant une scène de travail. Elle ne leur transmet ni théorie générale ni compétence permanente.
+- **II b (2 PTV) · Atelier distribué** : Un processus complexe peut être réparti entre plusieurs ateliers ou équipes disposant chacun de moyens incomplets, puis assemblé sans exiger que chaque site maîtrise toute la chaîne technologique
+- **III (3 PTV) · Production de terrain** : Vous pouvez reproduire ou réparer une fonction d’un prototype connu et testé à l’aide d’un kit mobile réellement assemblé, sans atelier fixe pour cette fonction. Les composants, outils, temps et tests restent nécessaires ; ce savoir-faire permet aussi une petite série avec une infrastructure réelle.
 
-**Croix Verte — Acclimatation artificielle**
-- #107 Microclimat de fortune (1) → Réalité : 3 m, dix minutes.
-- #108 Substitution métabolique (2) → fusion avec #111 → Adhésion.
-- #109 Acclimatation transitoire (2) → Réalité ; « tolérance » à chiffrer (+3 pour résister au milieu pendant la scène).
-- #110 Habitat de survie (3) → Réalité : cinq personnes, 24 heures.
+##### Croix Verte — Acclimatation artificielle
+- **I (1 PTV) · Microclimat de fortune** : En dix minutes, avec du matériel réellement approprié, aménagez une zone de 3 m de rayon pour les besoins d’une espèce connue. Elle reste viable tant que ses ressources consommables et conditions d’étanchéité le permettent ; aucune atmosphère n’apparaît sans moyen matériel.
+- **II (2 PTV) · Substitution métabolique** : Transformer ou combiner des ressources locales afin qu’elles remplacent temporairement une ressource biologique normalement incompatible : nutriment, électrolyte, support respiratoire ou besoin métabolique comparable
+- **II b (2 PTV) · Acclimatation transitoire** : Définissez un protocole pour une espèce et un milieu non instantanément létal, avec dix minutes de préparation et une scène de tolérance. Produits nécessaires, incompatibilités absolues et limites biologiques restent réels.
+- **III (3 PTV) · Habitat de survie** : En une heure, aménagez avec des ressources réelles un refuge compatible pour cinq personnes pendant 24 heures. Le maintien durable d’une petite population reste possible avec une infrastructure entretenue et les consommables nécessaires.
 
-**Croix Verte — Intervention xénobiologique**
-- #111 Pont métabolique (1) → Adhésion (avec #108).
-- #112 Conversion thérapeutique (2) → Réalité ; distincte d'Antidote ciblé (Baséanh), qui cultive un contre-agent.
-- #113 Stabilisation exotique (2) → Réalité : +3 à la Stabilisation.
-- #114 Support vital universel (3) → Réalité : 2 PA, 24 heures.
+##### Croix Verte — Intervention xénobiologique
+- **I (1 PTV) · Pont métabolique** : Adapter un traitement, nutriment ou support biologique connu afin qu’un organisme d’une autre espèce puisse l’utiliser sans incompatibilité fondamentale
+- **II (2 PTV) · Conversion thérapeutique** : Après étude de la pathologie et adaptation réelle d’un traitement disponible, la cible reçoit un nouveau test de résistance à +3 contre l’affection traitée. Dix minutes de préparation ; aucun traitement universel, résurrection ou disparition des dégâts déjà subis.
+- **II b (2 PTV) · Stabilisation exotique** : Tentez la Stabilisation d’une physiologie inconnue avec +3, à partir des signes vitaux réellement observables. Les moyens de soin doivent être disponibles et une destruction vitale définitive reste irréversible.
+- **III (3 PTV) · Support vital universel** : Avec un matériel adapté disponible, consacrez 2 PA à établir un maintien vital d’urgence d’une physiologie inconnue pendant 24 heures maximum. Les consommables restent requis, aucune guérison ou résurrection n’est donnée et une destruction vitale définitive reste fatale.
 
-**REPTILE**
-- #115 Compartimentation reptilienne (1) → Doctrine : −3 aux enquêtes qui remontent les cellules.
-- #116 Mandat dormant (2) → Doctrine : retour en arrière 1/scène, borné par les faits établis.
-- #117 Décision distribuée (2) → Doctrine : +3 à la coordination quand un responsable tombe.
-- #118 Le système agit (3) → Campagne : 1/scénario, entièrement à la main du MJ.
+##### REPTILE
+- **I (1 PTV) · Compartimentation reptilienne** : Les cellules réellement compartimentées imposent −3 aux tests d’enquête cherchant à remonter de l’une à l’autre. Une preuve directe conservée reste utilisable ; aucune identité parfaite ni preuve effacée.
+- **II (2 PTV) · Mandat dormant** : Une fois par scène, déclarez rétroactivement un ordre conditionnel plausible laissé lors d’un accès antérieur réel à une institution infiltrée. Il ne peut contredire un fait déjà établi, créer de l’autorité ou résoudre rétroactivement une action déjà accomplie.
+- **II b (2 PTV) · Décision distribuée** : Lorsqu’un responsable devient indisponible, les relais effectivement briefés poursuivent l’opération et gagnent +3 aux tests de coordination directement nécessaires à sa continuité pendant la scène. Aucun agent, PA ou moyen supplémentaire n’est créé.
+- **III (3 PTV) · Le système agit** (V/SR/R) : 1/Scénario, lorsqu’une institution réellement infiltrée dispose déjà de l’autorité, du personnel et des moyens nécessaires, le personnage peut faire déclencher une action importante préparée en amont sans devoir intervenir personnellement au moment critique. Le Talent ne crée jamais une autorité inexistante ni un pouvoir que l’institution ne possède pas
 
-**Mafia Shaediri — Frontière noire**
-- #119 Transpondeur fantôme (1) → fusion dans #121.
-- #120 Soute aveugle (2) → Adhésion ; ou Réalité si on lui donne −3 aux fouilles de routine.
-- #121 Fenêtre de transit (2) → Doctrine : +3 au premier test du transit ; note « Nom proposé » retirée.
-- #122 Route cislunaire (3) → Campagne : hors échelle d'un personnage.
+##### Mafia Shaediri — Frontière noire
+- **I (1 PTV) · Transpondeur fantôme** : Préparer une signature ou identification de transit cohérente pour tromper les contrôles routiniers d’un trajet local, tant qu’aucune enquête ciblée ne dispose d’un élément compromettant
+- **II (2 PTV) · Soute aveugle** : Avec un véhicule ou local réellement modifiable, créer une zone dissimulée conçue pour échapper aux inspections et scans de routine. Un contrôle ciblé ou une technologie explicitement adaptée peut toujours la trouver
+- **II b (2 PTV) · Fenêtre de transit** : Identifiez un créneau réel de surveillance, de trafic ou de synchronisation pour un transit clandestin terrestre, portuaire, aérien ou orbital : +3 au premier test qui l’exploite. Ni véhicule, autorisation ni invisibilité ne sont fournis.
+- **III (3 PTV) · Route cislunaire** : Avec accès au réseau et aux moyens de transport réels, construire une route clandestine cohérente Terre ↔ orbite ↔ Lune utilisant relais, fenêtres et nœuds locaux. Le Talent n’ouvre pas une route galactique gratuite
 
-**Mafia Shaediri — Marché xéno**
-- #123 Substitution galactique (1) → fusion avec #125 et #126 → Adhésion « Marché xéno ».
-- #124 Provenance brouillée (2) → Doctrine : −3 à qui reconstitue la provenance.
-- #125 Chaîne interdite (2) → Adhésion (avec #123, #126).
-- #126 Importation noire (3) → Adhésion (avec #123, #125) : un prix et un délai, l'objet reste payant.
+##### Mafia Shaediri — Marché xéno
+- **I (1 PTV) · Substitution galactique** : Identifier dans le marché xéno une alternative fonctionnelle à un composant ou produit rare lorsque l’original est indisponible. Il faut encore trouver et payer l’objet
+- **II (2 PTV) · Provenance brouillée** : Une acquisition réellement passée par les relais appropriés impose −3 aux tests visant à en reconstituer la provenance. Les preuves directes subsistent et les transferts ont des délais et coûts réels.
+- **II b (2 PTV) · Chaîne interdite** : Utiliser les filières existantes pour sourcer un bien contrôlé ou interdit non unique. La disponibilité, le prix, les délais et les risques restent réels
+- **III (3 PTV) · Importation noire** : Après vérification d’un bien rare non unique réellement disponible dans le réseau, obtenez un prix et un délai de livraison dans la zone de campagne. L’engagement de la filière est réel dans ces conditions, sauf obstacle nouveau effectivement joué ; l’objet reste payant.
 
-**Mafia Shaediri — Shaekori**
-- #127 Refuge fraternel (1) → Adhésion.
-- #128 Relais brûlé (2) → Doctrine : retour en arrière 1/scène quand un relais tombe.
-- #129 Extraction fraternelle (2) → Campagne : 1/scénario, sans test.
-- #130 Réseau sans centre (2) → Campagne : un jour pour rétablir une fonction ; accès V/SR/R retiré.
+##### Mafia Shaediri — Shaekori
+- **I (1 PTV) · Refuge fraternel** : Dans une zone où un réseau Shaekori existe réellement, trouver un refuge clandestin difficile à relier au personnage sans piste concrète
+- **II (2 PTV) · Relais brûlé** : Une fois par scène, lorsqu’un relais vient d’être compromis, détournez avant interception une opération encore en cours vers une solution alternative réellement praticable. Pas d’annulation d’une arrestation ou saisie déjà résolue, ni disparition des preuves.
+- **II b (2 PTV) · Extraction fraternelle** : 1/Scénario, avec un réseau local réel et une voie praticable, organiser l’extraction d’un membre ou allié depuis une position dangereuse mais non totalement verrouillée. Cela prend le temps nécessaire et n’invoque pas une équipe depuis le néant
+- **II c (2 PTV) · Réseau sans centre** (V/SR/R) : Après la perte d’un relais, rétablissez en une journée une fonction locale de la filière à partir de contacts et moyens restés intacts. Cela ne libère pas les captifs, ne remplace pas le matériel perdu et ne recrée pas une organisation entièrement détruite.
 
-**Hydroguard — Combat hydrostatique**
-- #131 Équilibrage brutal (1) → fusion dans #132 (même effet anti-courant).
-- #132 Propulsion vectorielle (2) → Doctrine : ignore jusqu'à −3 dus aux courants.
-- #133 Poussée d'interception (2) → Doctrine : interposition aquatique, réaction 1 PA.
-- #134 Percée hydrostatique (2) → Doctrine : franchissement 1/scène.
+##### Hydroguard — Combat hydrostatique
+- **I (1 PTV) · Équilibrage brutal** : Les turbulences, changements de courant ou pertes d’orientation dans un milieu liquide ne suffisent pas à interrompre une action physique que le personnage peut réellement accomplir
+- **II (2 PTV) · Propulsion vectorielle** : Avec la nage ou une propulsion appropriée, changez brutalement de direction sans perdre d’activation et ignorez jusqu’à −3 dus aux courants ou turbulences lors d’une manœuvre, attaque adaptée ou sauvetage aquatique. Les limites du corps et du dispositif restent applicables.
+- **II b (2 PTV) · Poussée d’interception** : Pour 1 PA en Réaction, une fois par round, parcourez jusqu’à votre Déplacement aquatique normal pour intercepter une menace physiquement accessible. Si vous atteignez un allié visé, le même PA inclut une Défense active physique d’interposition contre cette seule attaque.
+- **II c (2 PTV) · Percée hydrostatique** : Une fois par scène, lors d’un Déplacement aquatique normalement payé, franchissez un courant violent, une turbulence ou un obstacle de milieu normalement capable de vous arrêter, en entraînant une personne remorquée si votre capacité le permet. Une impossibilité physique absolue reste impossible.
 
-**Hydroguard — Sauvetage abyssal**
-- #135 Remorquage de combat (1) → Doctrine.
-- #136 Partage de survie (1) → Réalité.
-- #137 Sas humain (2) → Réalité ; paramètres à chiffrer.
-- #138 Extraction abyssale (3) → Doctrine ; accès V/SR/R retiré.
+##### Hydroguard — Sauvetage abyssal
+- **I (1 PTV) · Remorquage de combat** : Dans l’eau, déplacer une cible inconsciente ou consentante de gabarit comparable sans que le remorquage réduise à lui seul le Déplacement normal
+- **I b (1 PTV) · Partage de survie** : Avec une réserve, un recycleur ou une physiologie compatible, partagez temporairement le support vital d’une cible adjacente sans perdre votre propre usage. Les deux consommations sont décomptées ; aucune réserve supplémentaire n’apparaît.
+- **II (2 PTV) · Sas humain** : Avec les équipements adaptés et quelques instants de préparation, accompagnez une cible dans une transition de milieu normalement exigeante sans sas complet. Le protocole fixe avant l’action pression, température, durée et limites supportées ; les transitions physiquement mortelles ne sont pas annulées.
+- **III (3 PTV) · Extraction abyssale** (V/SR/R) : Pour 1 PA, une fois par scène, saisissez une victime neutralisée à votre portée puis remorquez-la jusqu’à votre Déplacement aquatique normal en franchissant un obstacle de milieu réellement franchissable. Équipements, voie de sortie et survie biologique restent nécessaires.
 
-**SMRC / AGI — Expression mosaïque** (greffes : règles d'Augmentations)
-- #139 Veille génétique (1) → Réalité (Augmentations).
-- #140 Profil phénotypique (2) → Réalité (Augmentations).
-- #141 Sursaut d'expression (2) → Réalité (Augmentations).
-- #142 Héritage recombiné (1) → Doctrine : ouvre un talent racial extral par greffe. Seul pont vers la Nature ; texte du Builder (« identifiant de talent autorisé ») remplacé par « avec l'accord du MJ ».
+##### SMRC / AGI — Expression mosaïque
+- **I (1 PTV) · Veille génétique** : Reconnaissez le greffon en défaut et, une fois par scène, mettez-le volontairement au repos avant qu’un dysfonctionnement détecté n’entraîne une complication secondaire. Sa fonction est alors indisponible ; une lésion déjà infligée n’est pas effacée.
+- **II (2 PTV) · Profil phénotypique** : Pour 1 PA, recalibrez une modification biologique compatible vers une expression alternative définie avant achat qui demanderait normalement une intervention technique. Les modes ordinaires de l’équipement restent utilisables sans le talent ; aucune fonction absente n’est inventée.
+- **II b (2 PTV) · Sursaut d’expression** : Une fois par scène, activez le sur-régime compatible selon ses coûts normaux et gagnez +3 au premier test qui en exploite directement la fonction pendant le round. Les limites et conséquences réelles du greffon demeurent.
+- **I b (1 PTV) · Héritage recombiné** (SR/R) : Une greffe réellement possédée reproduisant le substrat biologique requis vous ouvre l’achat d’un talent racial extral précis, utilisable en R. Ce talent, ses prérequis et la greffe restent à acquérir ; aucun arbre entier ni essaim Homo Superior n’est accordé. Une fiche de greffe et un identifiant de talent autorisé sont nécessaires ; une description saisie par le joueur ne vaut pas autorisation du MJ.
 
-**SMRC / AGI — Architecture organique**
-- #143 Tolérance au greffon (1) → Réalité (Augmentations).
-- #144 Redondance biologique (2) → fusion avec #145 → Réalité.
-- #145 Compensation croisée (2) → fusion dans #144.
-- #146 Architecture quadrigénique (3) → Réalité (Augmentations, Charge augmentique) ; accès V/SR/R retiré.
+##### SMRC / AGI — Architecture organique
+- **I (1 PTV) · Tolérance au greffon** : Gagnez +3 aux tests pour résister à un rejet ou conflit biologique d’une greffe xéno compatible. Les incompatibilités fondamentales ne sont pas levées.
+- **II (2 PTV) · Redondance biologique** : Une fois par scène, maintenez pendant la scène la fonction d’une modification encore partiellement intacte malgré une Altération locale qui devrait la neutraliser. Ce contournement actif ne recrée pas les parties détruites et cesse avec la destruction de l’ensemble.
+- **II b (2 PTV) · Compensation croisée** : 1/Scène, une augmentation biologique compatible peut soutenir temporairement un autre système physiologique défaillant jusqu’à la fin de la scène, sans réparer la lésion elle-même
+- **III (3 PTV) · Architecture quadrigénique** (V/SR/R) : Définissez un montage de deux à quatre greffes réellement possédées dont vous savez supprimer les interférences fonctionnelles corrigibles. Elles peuvent opérer ensemble sans ces interférences, mais conservent leurs coûts, fonctions, contraintes biologiques et Charge augmentique. Aucune réduction de Corruption, hausse d’Intégrité ou acquisition gratuite ; montage soumis à la compatibilité réelle et au MJ.
 
-**Émeraude Sanglante — Armure d'Émeraude**
-- #147 Mobilité cuirassée (1) → Réalité (maniement d'armure).
-- #148 Servomusculature (2) → Réalité.
-- #149 Verrou inertiel (2) → Réalité ; distinct d'Ancrage de masse (Ad'rak) : c'est l'armure qui tient, pour 1 PA.
-- #150 Armure obstinée (3) → Réalité.
+##### Émeraude Sanglante — Armure d'Émeraude
+- **I (1 PTV) · Mobilité cuirassée** : Ignorez jusqu’à −3 de malus de mobilité dus à une armure réellement adaptée à votre morphologie. Les articulations bloquées, charges impossibles et contraintes physiques restent applicables.
+- **II (2 PTV) · Servomusculature** : Avec une armure assistée adaptée, gagnez +3 aux tests d’effort exploitant réellement sa servomusculature. Ce bonus améliore la maîtrise, sans relever les limites mécaniques, les PV ou les dégâts.
+- **II b (2 PTV) · Verrou inertiel** : Une fois par round, dépensez 1 PA en Réaction pour bloquer un renversement ou déplacement physique compatible avec les appuis et capacités de l’armure. Aucun arrêt de téléportation ou de force dépassant sa résistance réelle.
+- **III (3 PTV) · Armure obstinée** : Pour 1 PA en Réaction, une fois par scène, isolez une panne non catastrophique et maintenez les fonctions essentielles d’une armure jusqu’à la fin de la scène. Une destruction réelle ne peut pas être ignorée.
 
-**Émeraude Sanglante — Doctrine du Géant**
-- #151 Sous le tir (1) → Doctrine.
-- #152 Ouvrir la cuirasse (2) → Doctrine.
-- #153 Exploiter la brèche (2) → Doctrine (phrase terminée).
-- #154 Démantèlement méthodique (3) → Doctrine ; accès R retiré (une doctrine n'exige pas la Révélation).
+##### Émeraude Sanglante — Doctrine du Géant
+- **I (1 PTV) · Sous le tir** : Une fois par round, la simple pression du feu ne suffit pas à interrompre votre approche d’un adversaire sensiblement plus massif ; +3 pour résister à la suppression ou intimidation de cette approche. Les impacts, blessures et obstacles matériels restent appliqués.
+- **II (2 PTV) · Ouvrir la cuirasse** : Lorsqu’une attaque produit une Altération appropriée, remplacez-la par une brèche qui diminue de 2 l’Armure matérielle de la zone atteinte pour la scène ou jusqu’à réparation. Une même zone ne cumule pas plusieurs réductions de ce talent, et une attaque doit réellement pouvoir endommager la protection.
+- **II b (2 PTV) · Exploiter la brèche** : Une fois par round, lorsqu’une cible possède une brèche créée ou identifiée par la Doctrine du Géant, une attaque du personnage visant explicitement cette brèche réduit de 2 l’Armure applicable
+- **III (3 PTV) · Démantèlement méthodique** (R) : Pour 1 PA, une fois par scène, désignez une brèche réelle d’une cible plus massive : jusqu’à trois alliés capables de la viser ignorent 2 Armure sur leur première attaque contre elle de chaque round pendant la scène. Ce bénéfice remplace un Exploiter la brèche équivalent, sans seconde attaque ni ligne de tir créée.
 
-**AIDH — Doctrine d'Intervention**
-- #64 Coordination de Continuité (2) → Doctrine, ici (venue des Protocoles de Continuité).
-- #155 Relève de position (1) → Doctrine.
-- #156 Interposition doctrinale (2) → Doctrine.
-- #157 Relève immédiate (2) → Doctrine.
-- #158 Séquence coordonnée (3) → Doctrine ; à simplifier (réordonner les passes est lourd sur papier).
+##### AIDH — Doctrine d'Intervention
+- **II (2 PTV) · Coordination de Continuité** (V/SR/R) : Le personnage peut fournir l’Assistance normale +2 en combat sur un test non offensif d’un allié malgré l’interdiction générale de l’assistance de combat. Il doit posséder la Compétence pertinente à 1+, être réellement en mesure d’aider et dépenser 1 PA. Jamais sur une Attaque, une Défense active ou un pouvoir strictement personnel.
+- **I (1 PTV) · Relève de position** (V/SR/R) : Au début d’une passe, avant que l’un des deux ait agi dans cette passe, le personnage et un allié consentant disposant chacun d’au moins 1 PA peuvent échanger leur position dans l’ordre d’Initiative pour cette passe uniquement. Ils doivent pouvoir communiquer et participer à la même action tactique. Aucun PA n’est créé.
+- **II b (2 PTV) · Interposition doctrinale** (V/SR/R) : Quand un allié proche est ciblé par une attaque que le personnage perçoit et contre laquelle il peut physiquement intervenir, celui-ci effectue Agilité + Esquive + 1d10e. L’attaque doit dépasser la meilleure Défense entre celle de la cible et celle obtenue par l’intervenant. La fiction détermine s’il dévie, tire l’allié ou s’interpose ; aucune impossibilité physique n’est créée.
+- **II c (2 PTV) · Relève immédiate** (V/SR/R) : Quand un allié visible tombe à 0 PV ou moins, est immobilisé, mis hors de combat ou perd brutalement sa capacité à tenir sa position, le personnage peut immédiatement effectuer un Déplacement vers lui. S’il termine au contact, il peut accomplir gratuitement une manipulation simple directement liée à sa sécurisation : le saisir, le tirer derrière un couvert adjacent, récupérer l’objet qu’il vient de lâcher ou prendre son relais sur un dispositif. Aucun soin ou attaque gratuit.
+- **III (3 PTV) · Séquence coordonnée** (V/SR/R) : Une fois par scène, coordonnez jusqu’à deux alliés et vous-même pour agir successivement dans les passes du round où chacun peut encore agir. Les PA restent normaux, une action par participant par passe, et aucun ordre d’Initiative n’est conservé au round suivant.
 
-**AIDH — Protocoles de Cohérence** (exigent un appareil de l'AIDH)
-- #159 Calibration de cohérence (1) → Doctrine.
-- #160 Chaîne invariante (2) → Doctrine.
-- #161 Ancrage de terrain (2) → Doctrine.
-- #162 Fenêtre invariante (3) → Doctrine ; effet à préciser (« protège l'observation » : contre quoi ?).
-
-Bilan de l'option C : 26 Doctrine, 22 Réalité, 7 Adhésion, 6 Campagne, et 4 entrées fondues dans une autre (#103, #119, #131, #145).
+##### AIDH — Protocoles de Cohérence (exigent un appareil de l'AIDH)
+- **I (1 PTV) · Calibration de cohérence** (V/SR/R) : Avec un capteur AIDH ou compatible, déterminer si l’Hologramme est activement sollicité dans une zone proche : fonctionnement normal, Révélation récente ou en cours, contrainte active sur le Voile, anomalie de cohérence ou stabilisation artificielle. Ne révèle pas la forme réelle d’une cible V et n’identifie pas automatiquement son espèce.
+- **II (2 PTV) · Chaîne invariante** (V/SR/R) : Avec un dispositif d’Enregistrement invariant, relier pour le reste de la scène un unique flux ordinaire - caméra, micro, capteur, terminal ou transmission - de façon que toute modification ultérieure par l’Hologramme devienne détectable comme rupture d’intégrité. Cela ne rend pas les données absolument indestructibles.
+- **II b (2 PTV) · Ancrage de terrain** (V/SR/R) : Pour 1 PA et avec un dispositif AIDH approprié, ancrez une cible consentante à 10 m dans son état V/SR/R pour la scène, sans entretien. Pour 1 PA en Réaction face à un changement forcé, opposez Esprit + Technologie au jet adverse ; la cible peut toujours changer volontairement d’état. Le jet ajoute normalement 1d10e. Si l’effet adverse possède une procédure d’opposition spécifique, celle-ci prévaut ; aucune Révélation forcée et aucun cumul de protections équivalentes.
+- **III (3 PTV) · Fenêtre invariante** (V/SR/R) : Pour 1 PA et avec le projecteur approprié, maintenez une zone d’observation stable jusqu’à la fin de la scène, dans son périmètre réel et avec un rayon maximal de 10 m. Elle protège l’observation et ses données, sans Révélation, vision de V cachée ou extinction de l’Hologramme.
 
 ---
 
@@ -700,14 +694,7 @@ Chaque entrée #99 à #162 a sa ligne dans la section 3.9. Aucune entrée suppri
 ## 5. Questions pour l'auteur
 
 ### Q1. Que deviennent les 65 entrées d'organisation ?
-**Problème** : 65 entrées (125 PTV, 40 % du catalogue) sont de la logistique, de l'ingénierie, du soin exotique ou de la tactique. En PTV, elles font concurrence à la biologie : un Rocréen de la Shaediri qui achète ses routes n'a plus de quoi payer son Noyau. Ton Socle autorise pourtant des voies de doctrine en PTV, et cite la Mafia Shaediri.
-
-- **A** : tout reste en PTV, hors Nature, une organisation par personnage (appliqué par défaut).
-- **B** : tout passe en Réalité (XP), ouvert par l'adhésion.
-- **C** : au cas par cas, selon le rangement de la section 3.9 : doctrines chiffrées en PTV, savoir-faire en XP, simples permissions données par l'adhésion, ressources de campagne au MJ.
-
-**Recommandation : C.** Le PTV reste pour ce qui fait d'une faction de Vérité une manière d'agir propre (REPTILE, Doctrine du Géant, AIDH). Le reste ne coûte plus de PTV.
-**Exemple** : Mafia Shaediri, 12 entrées pour 23 PTV aujourd'hui. Avec C : 3 doctrines (Fenêtre de transit avec Transpondeur, Provenance brouillée, Relais brûlé), l'accès « Marché xéno » et le Refuge par l'adhésion, Route cislunaire, Extraction fraternelle et Réseau sans centre au MJ.
+**Tranché par l'auteur (30/10, A3 refusé) : A.** Tout reste en PTV, en voies d'organisation hors Nature (section 3.9).
 
 ### Q2. Quand le site V7 et le livre V6 divergent, lequel fait foi ?
 **Problème** : sur six talents, le site est plus fort que ton livre. J'ai appliqué le livre, au nom de la létalité. Mais le site est plus récent : il est possible que ce renforcement soit un choix de ta part.
