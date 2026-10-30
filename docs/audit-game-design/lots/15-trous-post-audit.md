@@ -13,9 +13,9 @@ Lot appliqué par défaut. Tu relis par exception. Les ajouts qui ne viennent d'
 | Crise Blanche (Vhodhal) | Définie à partir du texte de Contenir la Faim (lot 12). |
 | Mage : renvoi « §8 » | Renvoi réparé vers « Canalisation, maintien et sorts longs » (lot 04). |
 | Mage : sort en Semi-Révélé | Tranché par la passation : Amplitude Mineure au plus (lot 04). |
-| Mage : « Techniques » | Aucune liste nulle part. Définition proposée, voir question 1. |
+| Mage : « Techniques » | Aucune liste nulle part. Définies comme les permissions écrites par ce que le Mage possède (question 1, validée). |
 | Daemon : Moloch | **Pas un trou** : « pas de Maisonnée standard » est voulu. Moloch reste une exception narrative. |
-| Daemon : Seere | Faveur « réservée » par toi. Question 2. |
+| Daemon : Seere | Faveur proposée et appliquée : « Rôle tenu » (question 2). |
 | Vampire : sangs oshirique et d'Ivoire | Deux cartes de Rupture jouable, tirées du Bestiaire V17 et du lore (section 2). Question 3. |
 
 ---
@@ -81,7 +81,7 @@ Les sangs oshirique et d'Ivoire sont des **Ruptures**, pas des Sangs noirs. Ils 
 
 ## 4. Questions pour l'auteur
 
-Par défaut, la recommandation s'applique.
+**Réponses de l'auteur (31/10)** : Q1 → A (Techniques = permissions écrites), Q2 → B (Faveur proposée ci-dessous), Q3 → A (les deux propositions de l'Oshirique gardées).
 
 **Q1. Que sont les « Techniques » du Mage ?**
 Le chapitre les cite une quinzaine de fois : portée hors vue, permanence, cohortes, effets spéciaux de Photomancie… Il n'en donne aucune liste, ni sur le site, ni dans le livre V6, ni dans la passation. La règle dit seulement : « usages particuliers appris ; elles n'annulent jamais les limites générales sans le dire explicitement ».
@@ -89,11 +89,17 @@ Le chapitre les cite une quinzaine de fois : portée hors vue, permanence, cohor
 - **B** : écrire un vrai catalogue de Techniques (portée hors vue, permanence, cohorte supplémentaire…), en PTV. Il faut alors tout créer.
 - *Exemple* : en A, un Nécromancien ne tient une seconde cohorte que s'il a une Œuvre personnelle ou une Magie familiale qui le permet. En B, il achèterait une Technique « Seconde cohorte ».
 
-**Q2. La Faveur de Seere (Belial, « Nombre de la Bête »)**
-Tu l'as marquée « réservée : le sens mécanique du Nombre de la Bête doit être fixé avant de formaliser cette Maison ». C'est un secret qui t'appartient.
-- **A (recommandé)** : tu me donnes le sens du Nombre de la Bête, et j'écris la Faveur.
-- **B** : je propose une Faveur tirée de la seule culture de la Maisonnée (maîtrise de soi, jeu de rôles, secret), sans toucher au 666. Par exemple : 1/scène, un masque social que tu tiens ne se fissure pas sous une pression profane.
-- **C** : Seere reste sans Faveur jouable, comme Moloch.
+**Q2. La Faveur de Seere (Belial, « Nombre de la Bête »)** — *réponse de l'auteur (31/10) : B, je propose.*
+
+**SEERE · FAVEUR DE MAISONNÉE — Rôle tenu**
+*Vieille noblesse, maîtrise de soi, richesse, jeu de rôles. On ne lit chez un enfant de Seere que ce qu'il a décidé de montrer.*
+
+1/scène. Après un vrai échange avec quelqu'un, le MJ te dit quel rôle cette personne croit que tu joues : ce qu'elle pense savoir de toi, de ton rang et de tes intentions. Tant que tu tiens ce rôle jusqu'à la fin de la scène, une tentative **profane** de te percer à jour échoue si elle ne repose que sur ton attitude : lire une émotion, repérer un mensonge, te faire perdre contenance.
+
+- Une preuve, une contradiction concrète ou un pouvoir surnaturel restent possibles.
+- Sortir du rôle met fin à la Faveur pour la scène.
+- **Levier** : l'information (ce que l'autre croit), comme les Faveurs de Gusoyn et de Meririm. Aucun bonus chiffré, conformément à B7.
+- **Ce qu'elle ne fait pas** : elle ne touche pas au **Nombre de la Bête**, qui reste ton secret ; une future Faveur pourra s'y appuyer.
 
 **Q3. Les deux Propositions de l'Oshirique**
 Ombre fluide (attaque d'ombre à 5 m, DGT 5) et Corps de la Fontaine (+1 Vigueur en SR/R) ne sont chiffrées qu'à moitié dans les sources.

@@ -483,6 +483,7 @@ Une Faveur change la manière d'utiliser la puissance du Dieu (information, timi
 | Divinité | Maisonnée — Faveur | Effet (court) | Changement |
 |---|---|---|---|
 | Belial | Marchosias — Victoire arrachée | 1/scène, un échec de 3 points ou moins devient une réussite DR 0 ; jamais sur échec narratif. | Aucun (même effet que l'exemple « Victoire » de la Rémanence : sources différentes, gardé). |
+| Belial | Seere — Rôle tenu | 1/scène, après un vrai échange : le MJ te dit quel rôle ton interlocuteur croit que tu joues. Tant que tu tiens ce rôle jusqu'à la fin de la scène, une tentative profane de te percer à jour qui ne repose que sur ton attitude échoue. | **Nouvelle (31/10, proposition validée sur le principe)** ; ne touche pas au Nombre de la Bête. |
 | Belial | Demona — Démolition méthodique | 1 PA d'observation : le MJ indique la partie dont la destruction aura la conséquence la plus importante ; en agissant dessus, tu l'obtiens sans travail en plus. | Formulation clarifiée. |
 | Lilith | Meririm — Accueil de Meririm | 1/scène, envers une personne déjà attirée : savoir si une demande serait acceptée, refusée ou négociable, et quelle limite bloque. | Aucun. |
 | Lilith | Babalon — Cycle parfait | 1/scène, avec un talent de Fertilité & Chair : ignorer un obstacle biologique ordinaire ; jamais une protection surnaturelle. | Aucun. |
@@ -531,7 +532,7 @@ Une Faveur change la manière d'utiliser la puissance du Dieu (information, timi
 
 ## Corrections signalées
 
-- Moloch et Seere (Belial) sont publiés sans Faveur jouable (« pas de Maisonnée standard », « Faveur réservée ») : absents des traits, laissés hors carte jusqu'à ce que tu les fixes. *31/10* : Moloch reste sans Maisonnée standard, c'est voulu ; Seere, voir lot 15, question 2.
+- Moloch et Seere (Belial) sont publiés sans Faveur jouable (« pas de Maisonnée standard », « Faveur réservée ») : absents des traits, laissés hors carte jusqu'à ce que tu les fixes. *31/10* : Moloch reste sans Maisonnée standard, c'est voulu ; Seere reçoit la Faveur « Rôle tenu » (lot 15, question 2).
 - Abigor, Belzébuth et Lucifer n'ont que deux Maisonnées chacun ; Morrighan en a six. Signalé, rien ajouté.
 - Sytry « physiologie féminine » : restriction arbitraire mécaniquement et risquée à la lecture ; viser « un désir retenu » suffirait. Lore de la Maisonnée : à toi de trancher.
 - Écarts site / livre V6 / catalogue : Anéantissement (2 / 3 / 3 PA), Typhon (3 / 4 PA), Déluge (2 / 3 PA), Dernière destination (1/scène sur le site, 1/scénario au catalogue). Le lot garde le site.
