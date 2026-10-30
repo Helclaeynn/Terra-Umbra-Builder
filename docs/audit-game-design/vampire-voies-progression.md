@@ -83,3 +83,8 @@ Proposition du 29 octobre 2026, présentée à l'auteur dans la conversation. Pa
   - Shi Hun : **aucun renforcement** (correction de l'auteur : déjà très fort, résiste au Soleil). La voie reprend les talents et coûts d'origine : Souffle du Yang (I), Harmonie impossible (II), Union du Hun et du Po (III).
   - Sang Condamné, entrée Semi-Révélée optionnelle : sentir une magie active à 10 m (présence et direction, pas sa nature).
 - **Q6 Ressorts propres** : les quatre ressorts proposés ci-dessus sont appliqués tels quels.
+
+## Corrections de l'auteur (30/10) après lecture du livre V6
+
+- **Sangs noirs : voies à deux portes**, une porte par branche du livre (ex. Sang Orageux : porte Décharge = Décharge orageuse puis Surcharge nerveuse ; porte Brume = Brume électrostatique puis Arc orageux). Les textes « progression » des cinq Sangs ci-dessus (sections 4 à 8) sont **abandonnés** et à refaire dans ce format.
+- **Empreinte Krovni : retour au texte d'origine** (+3 Défense passive et active contre le physique tant qu'il n'est pas Surpris). La restriction « adversaire engagé » de la clôture en lot est annulée.
