@@ -16,7 +16,9 @@
     "check:truth-v7-lore": "npm run build && node scripts/check-truth-v7-lore-integrity.mjs",
     "check:truth-species": "npm run build && node scripts/check-truth-species-integration.mjs",
     "check:truth-fantastiques": "npm run build && node scripts/check-truth-fantastiques-integration.mjs",
-    "check:truth-extraterrestrials": "npm run build && node scripts/check-truth-extraterrestrials-integration.mjs"
+    "check:truth-extraterrestrials": "npm run build && node scripts/check-truth-extraterrestrials-integration.mjs",
+    "lint": "eslint src scripts --quiet",
+    "format:check": "prettier --check src/server.ts eslint.config.js"
   },
   "dependencies": {
     "@fastify/cors": "11.1.0",
@@ -26,10 +28,15 @@
     "pg": "8.16.3"
   },
   "devDependencies": {
+    "@eslint/js": "^9.36.0",
     "@types/node": "24.5.2",
     "@types/nodemailer": "7.0.1",
     "@types/pg": "8.15.5",
+    "eslint": "^9.36.0",
+    "globals": "^16.4.0",
+    "prettier": "^3.6.2",
     "tsx": "4.20.5",
-    "typescript": "5.9.2"
+    "typescript": "5.9.2",
+    "typescript-eslint": "^8.44.1"
   }
 }
