@@ -105,7 +105,7 @@ Les dotations types (#228) sont des exemples de briefing, pas des packs automati
 
 Un badge GT donne accès à des dossiers, contrats, casiers et interlocuteurs, jamais gratuitement à une arme ou un prototype.
 
-Les lettres **C, A, T, R, P** ne sont définies nulle part. Le contexte suggère Commerce, Armurerie, Tradition, Restreint, Prototype. Voir la question 1.
+Lettres **C, A, T, R, P** (validé le 30/10) : **C** Commerce (vente libre), **A** Armurerie de l'Association, **T** Tradition (par sa tradition de Chasse), **R** Restreint, **P** Prototype Raven (réseau et dette).
 
 ### 3.3 Équipement typique des traditions (#42)
 
@@ -199,7 +199,7 @@ Il n'existe pas de règle générale de retour forcé de R à V.
 | **Fiable, Automatique, Rafale, Dispersion X, Smartlink** | Définis au chapitre Réalité. Fiable : un 1 naturel reste un échec, sans échec narratif ni enrayement dû à l'arme. Automatique : autorise la Suppression. |
 | **Souillure X, Corruptif X, INSTABLE** | Voir 3.8. |
 
-**Mots employés sans définition** (définitions tirées de leur usage, voir question 2) :
+**Mots employés sans définition** (définitions tirées de leur usage, validées le 30/10) :
 
 | Mot | Définition proposée | Où |
 |---|---|---|
@@ -472,7 +472,7 @@ Tout le matériel est **Verrouillé** par défaut, et l'échelle est volontairem
 | 171 | ARK-6 | S | Conteneur de confinement ; module JANUS possible |
 | 172 | SENTINEL-N | S | Alerte de possession ; révoque les accès sensibles ; aucune immunité |
 | 173 | WAKE-3 | S | 1 PA au contact : nouveau test contre un contrôle neurologique ; la cible devient Tendue et brièvement incapable |
-| 174 | HDS-4 Veil Lock | S/X | Empêche une cible V de passer en SR/R (voir question 3) ; aucun retour forcé de R à V |
+| 174 | HDS-4 Veil Lock | S/X | Empêche une cible V de passer en SR/R : elle doit réussir Volonté + Maîtrise spirituelle contre l'Esprit + Technologie de l'opérateur, sinon elle reste V. Aucun retour forcé de R à V. |
 | 175 | CALIBAN-S | S | Spectromètre de souillure matérielle ; ne lit pas la jauge d'un personnage |
 
 ### 5.5 Calamitechnologie et reliques (#178 à #218)
@@ -551,7 +551,7 @@ Aucune entrée n'est supprimée.
 
 ## 8. Questions pour l'auteur
 
-Par défaut, la recommandation s'applique.
+**Réponse de l'auteur (30/10) : les trois recommandations sont validées.** Q1 → A (C, A, T, R, P = Commerce, Armurerie, Tradition, Restreint, Prototype) ; Q2 → A (« chaleur » reste une saveur) ; Q3 → A (Volonté + Maîtrise spirituelle de la cible contre Esprit + Technologie de l'opérateur).
 
 **Q1. Que veulent dire les lettres C, A, T, R, P de la Chasse ?**
 Elles ne sont définies nulle part : ni sur le site, ni dans le livre V6, ni dans le catalogue.
