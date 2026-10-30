@@ -14,14 +14,16 @@ Jauge **individuelle** (décision de l'auteur) de **+3 à −4**, départ à 0, 
 
 | Valeur | Relation au Voile |
 |---|---|
-| +3 | Très favorable |
-| +2 | Favorable |
-| +1 | Légèrement favorable |
-| 0 | Neutre |
-| −1 | Légèrement répressive |
-| −2 | Répressive |
-| −3 | Très répressive |
-| −4 | Éjection |
+| +3 | Favorable |
+| +2 | Bien disposé |
+| +1 | Tolérant |
+| 0 | Indifférent |
+| −1 | Irrité |
+| −2 | Hostile |
+| −3 | Répressif |
+| −4 | Rupture / Éjection |
+
+*Intitulés repris de l'arbitrage antérieur de l'auteur (passation du 30/10) ; le cran −4 tranche la question ouverte de cette passation.*
 
 ## Comment elle évolue (décision de l'auteur)
 
