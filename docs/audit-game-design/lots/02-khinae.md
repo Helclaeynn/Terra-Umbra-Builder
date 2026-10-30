@@ -1,6 +1,6 @@
 # Lot 02 — Descendants de Khinae en voies à paliers
 
-Lot complet, appliqué par défaut, sauf ce qui est marqué **Proposition à valider**. Tu relis par exception. Paliers I / II / III = 1 / 2 / 3 PTV. Sources : chapitre de règles Khinae (site, V7), entrées `entries-Vérité_khinae.txt` (68) et `entries-Traits_khinae.txt` (55), coûts de `truth/talents/khinae.json`, livre Vérité V6 (chapitre 12), Bestiaire V17 (neuf profils Khinae), rapport 04.
+Lot complet, appliqué par défaut. Tu relis par exception. Paliers I / II / III = 1 / 2 / 3 PTV. Sources : chapitre de règles Khinae (site, V7), entrées `entries-Vérité_khinae.txt` (68) et `entries-Traits_khinae.txt` (55), coûts de `truth/talents/khinae.json`, livre Vérité V6 (chapitre 12), Bestiaire V17 (neuf profils Khinae), rapport 04.
 
 ---
 
@@ -12,7 +12,7 @@ Lot complet, appliqué par défaut, sauf ce qui est marqué **Proposition à val
 
 *Correction du 30/10* : j'avais traité #21–68 comme une copie fautive à retirer. C'était faux : Garous et autres Khinae ont la même origine et partagent les Sangs vifs (décision 10, et V1 : « Sangs vifs identiques à ceux des Garous »). Seuls les **renvois propres au loup** sont à neutraliser dans la définition commune (voir section 4).
 - **Ressort propre** : le Garou a la Meute et la hiérarchie, le Vampire la malédiction et la Prédation. **Le descendant de Khinae a l'espèce** : chaque pouvoir passe par le corps et le milieu de sa Lignée (l'eau, la hauteur, la vase, le passage étroit, la Bande) ; il n'a ni société imposée, ni malédiction.
-- **Ce qui manque et ce qui est proposé** : chaque Lignée n'a que deux talents à 1 PTV, donc deux paliers I et aucun palier II. Le lot propose **14 paliers II tirés du Bestiaire V17** (capacités écrites par toi pour les PNJ Khinae), marqués « Proposition à valider » ; **6 paliers II** n'ont aucune source (question 2).
+- **Catalogue complet rétabli (31/10)** : le site ne garde que deux talents par Lignée (20 au total), mais le livre Vérité V6 (chapitre 12) en donne **cinq par Lignée** (1, 1, 2, 2 et 3 PTV), soit 50. Les 30 talents absents du site sont rétablis depuis le livre, à leur coût d'origine. Ils remplacent les 14 paliers II que j'avais tirés du Bestiaire : 7 d'entre eux étaient en fait des talents à 3 PTV du livre, que j'avais placés à 2 PTV.
 
 ---
 
@@ -62,11 +62,9 @@ Lot complet, appliqué par défaut, sauf ce qui est marqué **Proposition à val
 
 ## 3. Les voies de Lignée
 
-**Forme commune : collection à deux portes.** Chaque Lignée a deux talents à 1 PTV qui ouvrent deux facettes distinctes (test passé : deux Renards, l'un qui vole des odeurs et l'autre qui brouille ses pistes, ne font pas la même chose). Chaque porte : I (1 PTV, talent existant), puis II (2 PTV). Tu entres par la porte de ton choix ; l'autre s'ouvre quand la première a ses deux paliers.
+**Forme commune : collection à deux portes, plus un sommet.** Chaque Lignée a deux facettes distinctes (test passé : deux Renards, l'un qui brouille ses pistes et l'autre qui imite odeurs et sons, ne font pas la même chose). Chaque porte : I (1 PTV), puis II (2 PTV). Tu entres par la porte de ton choix ; l'autre s'ouvre quand la première a ses deux paliers. Le **sommet** (III, 3 PTV), le cinquième talent du livre, s'ouvre en même temps.
 
-**Tant que les paliers II ne sont pas validés**, les deux talents de palier I restent achetables librement, comme aujourd'hui. Aucun coût n'est changé.
-
-Les paliers II marqués *Bestiaire* reprennent une capacité que tu as écrite pour le PNJ de la Lignée dans le Bestiaire V17, adaptée au joueur (jet de PJ à la place des scores de PNJ).
+Les talents marqués *(livre V6)* viennent du chapitre 12 du livre, absents du site ; leur texte est celui du livre, mis au format joueur. Les talents de palier I gardent le texte du site (A1).
 
 ### Canidés errants — Coyote, Chacal, Lycaon, Dhole, Dingo
 *Poursuite, endurance, survie sans territoire stable.*
@@ -79,11 +77,13 @@ Les paliers II marqués *Bestiaire* reprennent une capacité que tu as écrite p
 
 **Porte A · La poursuite**
 - **I (1 PTV) · Chemin de traverse** : en animal ou hybride, +3 aux tests de poursuite ou de fuite dans un terrain encombré mais franchissable. Les obstacles évidents restent sans jet.
-- **II (2 PTV)** : *à créer* (question 2).
+- **II (2 PTV) · Course qui ne finit pas** *(livre V6)* (R, animal ou hybride) : tant que la poursuite continue reste ton objectif immédiat, la fatigue ordinaire ne réduit pas ton Déplacement et ne te fait pas perdre la piste. Faim, blessures, toxines, milieu hostile et épuisement surnaturel s'appliquent.
 
 **Porte B · Le relais**
 - **I (1 PTV) · Relais de chasse** (SR) : 1 PA. Un allié qui t'entend ou te sent et poursuit la même proie reçoit direction, allure et changements brusques ; il reprend la poursuite sans redécouvrir la piste.
-- **II (2 PTV)** : *à créer* (question 2).
+- **II (2 PTV) · Piste sous les pistes** *(livre V6)* (SR) : une piste déjà acquise reste identifiable malgré la foule, la pluie, la circulation, les autres animaux et la contamination olfactive ordinaire. Un moyen conçu pour effacer ou falsifier une trace peut encore demander une opposition.
+
+**Sommet · III (3 PTV) · Fermer l'étau** *(livre V6)* (R, 1/scène) : quand une proie identifiée fuit par des moyens physiques et qu'une vraie route d'interception existe, le MJ t'indique une voie praticable pour tenter de couper sa trajectoire. Ne retrouve pas une proie perdue, ne traverse rien d'impossible.
 
 **Changements** : Relais de chasse noté [R] mais SR dans son texte → SR. Phrase de comparaison avec le Garou et le Grand Félin retirée.
 
@@ -98,11 +98,13 @@ Les paliers II marqués *Bestiaire* reprennent une capacité que tu as écrite p
 
 **Porte A · Les pistes**
 - **I (1 PTV) · Piste bifurquée** : 1/scène, pendant un Déplacement payé en animal ou hybride, ta trace se dédouble sur deux itinéraires plausibles, 20 m au plus. Le pisteur oppose Esprit + Perception à ton Agilité + Furtivité ; la fausse piste finit par mourir.
-- **II (2 PTV) · Le Faux Renard** — *Proposition à valider (Bestiaire)* : 2 PA, 1/scène. Une présence faite d'odeurs, de bruits et de pas part dans une direction. Une créature qui t'a perdu de vue oppose son Esprit + Perception à ton Agilité + Furtivité, sinon elle suit le mauvais départ.
+- **II (2 PTV) · Corps d'échappée** *(livre V6)* (R, Réaction, 1 PA, 1/scène) : saisi, ligoté ou coincé par une contrainte purement physique, tu tords ou comprimes ton corps pour te libérer si une issue corporelle existe. Un scellement surnaturel ou une cage sans ouverture tient.
 
-**Porte B · Les odeurs**
+**Porte B · Les odeurs et les sons**
 - **I (1 PTV) · Odeur empruntée** (SR) : 1 PA. Après contact avec une source olfactive fraîche, tu reproduis son odeur naturelle pour la scène. Trompe l'odorat ordinaire et animal, pas une signature surnaturelle ni la biométrie.
-- **II (2 PTV) · Corps d'échappée** — *Proposition à valider (Bestiaire)* : Réaction, 1 PA, 1/scène. Tu te libères d'une saisie ou d'une contrainte purement physique si une vraie issue existe pour ton corps.
+- **II (2 PTV) · Voix de l'autre côté** *(livre V6)* (R, 1 PA) : tu projettes ta voix, un cri ou un son simple depuis un point visible ou connu à courte portée. Rien ne traverse un obstacle qui étoufferait le son ; ni image ni pensée.
+
+**Sommet · III (3 PTV) · Le Faux Renard** *(livre V6)* (R, 2 PA, 1/scène) : une fausse présence d'odeurs, de bruits et de pas part dans la direction choisie. Une créature qui ne te voit plus et suit ces traces doit vaincre ta Volonté + Maîtrise spirituelle, sinon elle suit le mauvais départ. Tu n'es jamais invisible.
 
 **Changements** : Odeur empruntée notée [R] mais SR dans son texte → SR ; limites redites retirées.
 
@@ -115,13 +117,15 @@ Les paliers II marqués *Bestiaire* reprennent une capacité que tu as écrite p
 - **Variantes** : *Tigre* (référence, excellent nageur) · *Lion* (+4 Vigueur / +1 Agilité ; peut reconnaître une petite troupe durable, sans règle de Meute) · *Panthère* (+3 / +3, DGT 5, Armure 1 ; escalade et nuit) · *Jaguar* (référence ; eau et végétation dense ; les libres de Quetzal sont rares) · *Puma* (+3 / +3, DGT 5, Armure 1 ; montagne et changements d'altitude).
 - **Signature (gratuite) · Silence du grand fauve** (SR) : si tu as déjà un couvert ou une dissimulation crédible, tes déplacements naturels ne trahissent pas ta position. Pas d'invisibilité ; un sol vraiment bruyant reste bruyant.
 
-**Porte A · Le bond**
+**Porte A · L'approche**
 - **I (1 PTV) · Bond souverain** : en animal ou hybride, double la distance d'un bond de ta forme, dans la limite du Déplacement payé, avec une réception praticable. Ni second Déplacement ni vol.
-- **II (2 PTV) · Mort dans l'angle mort** — *Proposition à valider (Bestiaire)* : 1/scène. Si la cible ne t'avait pas localisé au début de ton activation, ta première attaque naturelle depuis une vraie dissimulation la traite comme Surprise.
+- **II (2 PTV) · Approche d'angle mort** *(livre V6)* (R) : si tu commences ton activation non localisé et qu'un parcours couvert existe jusqu'à courte portée, le seul bruit de ton mouvement ne te trahit pas. Une ligne de vue directe ou un capteur adapté te détecte.
 
 **Porte B · La prise**
 - **I (1 PTV) · Saisie du fauve** : 1/round, après une attaque naturelle payée qui inflige au moins 1 PV, tu engages une saisie sans PA ni jet de plus sur une cible de gabarit compatible. Elle se libère par l'opposition physique normale.
-- **II (2 PTV)** : *à créer* (question 2).
+- **II (2 PTV) · Duel du prédateur** *(livre V6)* (R, 1 PA, 1/scène) : tu désignes une proie perçue. Jusqu'à la fin de la scène, ou jusqu'à ce que tu changes de cible, elle ne peut pas te Surprendre par une feinte ou un mouvement purement physique dans cette confrontation. Aucun bonus contre les autres.
+
+**Sommet · III (3 PTV) · Mort dans l'angle mort** *(livre V6)* (R, 1/scène) : si la cible ne t'avait pas localisé au début de ton activation, ta première attaque naturelle depuis une vraie dissimulation la traite comme Surprise. Il faut qu'elle ait réellement perdu ta position.
 
 **Changements** : note de développement retirée (« le modèle doit connaître la distance de bond »). Mort dans l'angle mort ressemble à Embuscade parfaite (Garou) et Ombre prédatrice (Vampire) ; son ressort propre est déjà là : pas de pouvoir d'invisibilité, une vraie dissimulation (le couvert du fauve), une fois par scène.
 
@@ -136,11 +140,13 @@ Les paliers II marqués *Bestiaire* reprennent une capacité que tu as écrite p
 
 **Porte A · Les chutes**
 - **I (1 PTV) · Toujours retomber** : en animal ou hybride, une chute compte comme 6 m moins haute (minimum zéro) si tu as la place de te retourner et une surface de réception viable.
-- **II (2 PTV) · Neuf issues** — *Proposition à valider (Bestiaire)* : Réaction, 1 PA, 1/round. Après une agression au contact, tu rejoins aussitôt un perchoir, un couvert ou un passage à ta portée, avant que la même source n'enchaîne.
+- **II (2 PTV) · Neuf issues** *(livre V6)* (R, Réaction, 1 PA, 1/round) : après avoir subi ou évité une agression au contact, tu rejoins un perchoir, un couvert, un rebord ou un passage à ta portée avant que la même source n'enchaîne.
 
 **Porte B · Les passages**
 - **I (1 PTV) · Passer partout** : en animal, toute ouverture qui admet ton crâne ; en hybride, des passages bien trop étroits pour un humain si ton ossature peut s'y engager.
-- **II (2 PTV)** : *à créer* (question 2).
+- **II (2 PTV) · Entre les monstres** *(livre V6)* (SR/R, Réaction, 1 PA, 1/scène) : dans un échange direct avec une créature surnaturelle, tu sens l'instant où il bascule vers une agression contre toi : Défense active, déplacement simple ou manipulation préparée avant la résolution. Ne lit aucune pensée.
+
+**Sommet · III (3 PTV) · Familier de personne** *(livre V6)* (R, Réaction, 1 PA, 1/scène) : quand un pouvoir cherche à te posséder, à te lier comme familier ou à faire de toi la propriété spirituelle de quelqu'un, tu opposes Volonté + Force Mentale même si l'effet n'offre aucune défense. En réussite, cette source ne peut retenter de la scène.
 
 **Changements** : accès recopié dans le texte de Passer partout retiré.
 
@@ -155,11 +161,13 @@ Les paliers II marqués *Bestiaire* reprennent une capacité que tu as écrite p
 
 **Porte A · Le regard**
 - **I (1 PTV) · Vue plongeante** : depuis une position élevée, +3 en Perception visuelle lointaine ; tu ignores jusqu'à −3 dû à la seule distance.
-- **II (2 PTV) · Plongeon de chasse** — *Proposition à valider (Bestiaire)* : après une nette perte d'altitude, une attaque naturelle qui inflige au moins 1 PV peut aussi renverser la cible ou lui arracher un objet, si le gabarit le permet.
+- **II (2 PTV) · Plongeon de chasse** *(livre V6)* (R, animal ou hybride) : après une nette perte d'altitude pendant un Bond ailé, une attaque naturelle qui inflige au moins 1 PV peut, comme Altération, renverser la cible ou lui arracher un objet, si le gabarit le permet. Aucun DGT de plus.
 
 **Porte B · Les perchoirs**
 - **I (1 PTV) · Perchoir impossible** : un Bond ailé peut finir sur une corniche minuscule, un poteau, un câble ou une façade qui offre une prise. Un support sur la trajectoire d'une chute peut l'arrêter.
-- **II (2 PTV) · Traversée des hauteurs** — *Proposition à valider (Bestiaire)* : 1/scène, un même Déplacement enchaîne jusqu'à trois appuis atteignables avant de finir sur un support.
+- **II (2 PTV) · Emporter** *(livre V6)* (R, animal ou hybride) : une cible ou un objet déjà saisi et assez léger peut être emporté pendant un Bond ailé. Pas de vol stationnaire : tu finis sur un support, et ta Vigueur dit ce que tu portes.
+
+**Sommet · III (3 PTV) · Traversée des hauteurs** *(livre V6)* (R, 1/scène) : un même Déplacement enchaîne jusqu'à trois appuis atteignables (toit, balcon, enseigne, arbre, pylône) sans revenir au sol. Chaque étape reste un Bond ; tu finis sur un support.
 
 **Changements** : préfixe d'accès retiré du texte de Perchoir impossible.
 
@@ -174,11 +182,13 @@ Les paliers II marqués *Bestiaire* reprennent une capacité que tu as écrite p
 
 **Porte A · Le sang**
 - **I (1 PTV) · Sang dans l'eau** (SR/R, dans l'eau) : direction générale d'une créature qui saigne dans la même masse d'eau, à 100 m au plus. Ni identité ni distance exacte.
-- **II (2 PTV) · Prédateur du courant** — *Proposition à valider (Bestiaire)* : Réaction, 1 PA, 1/scène. Une cible que tu perçois tente de fuir dans la même masse d'eau : tu l'interceptes par un Déplacement, si une route existe.
+- **II (2 PTV) · Morsure verrouillée** *(livre V6)* (R, animal ou hybride, 1/round) : après une morsure qui inflige au moins 1 PV, tu verrouilles la prise. La cible ne quitte pas le contact par un simple Déplacement : elle doit briser la saisie par opposition physique ou un moyen approprié.
 
 **Porte B · Le courant**
 - **I (1 PTV) · Lecture électrique** (SR/R, dans l'eau) : tu localises l'activité bioélectrique des vivants à 10 m, +3 Perception pour les distinguer, même sans vision. Les isolants adaptés bloquent.
-- **II (2 PTV)** : *à créer* (question 2).
+- **II (2 PTV) · Corps des profondeurs** *(livre V6)* (R, animal ou hybride) : pressions océaniques extrêmes, froid abyssal et variations de profondeur ordinaires ne rendent plus ton corps non fonctionnel. Rien contre un froid surnaturel ou une décompression imposée par un pouvoir.
+
+**Sommet · III (3 PTV) · Prédateur du courant** *(livre V6)* (R, Réaction, 1 PA, 1/scène) : une cible perçue tente de quitter la zone par la même masse d'eau : si une route existe, tu te déplaces aussitôt pour couper son trajet. Ni déplacement impossible ni attaque gratuite.
 
 **Changements** : phrase de distinction avec le Sang Écarlate retirée (renvoi à un pouvoir Garou). Variante Baleine : « moins prédateur » dans le trait, mais +5 Vigueur et Armure 3 dans les règles ; chiffres rétablis.
 
@@ -196,11 +206,13 @@ Les paliers II marqués *Bestiaire* reprennent une capacité que tu as écrite p
 
 **Porte A · Le guet**
 - **I (1 PTV) · Frappe ophidienne** : Réaction, 1 PA, 1/round. Quand une cible que tu perçois entre volontairement à ton contact, tu portes une attaque naturelle normale avant qu'elle poursuive son action.
-- **II (2 PTV) · Sens du vivant** — *Proposition à valider (Bestiaire)* : tu perçois la présence et la direction des vivants à 10 m par la chaleur, les vibrations ou la chimie du milieu, même dans le noir. Une isolation adaptée bloque ce sens.
+- **II (2 PTV) · Arme ophidienne perfectionnée** *(livre V6)* (R) : ta Variante se renforce. *Vipère* : venin hémotoxique à 18. *Cobra* : venin neurotoxique à 18. *Python / Boa* : une cible saisie ne s'échappe par Déplacement ou transformation purement physique qu'en gagnant une opposition de Vigueur. *Couleuvre* : après une attaque naturelle, tu te retires dans un passage de ton gabarit par un Déplacement normal sans perdre ta dissimulation.
 
-**Porte B · La mue**
+**Porte B · Le corps**
 - **I (1 PTV) · Mue de peau** : 1 PA, 1/scène. Tu abandonnes une couche de peau et ce qui n'est fixé qu'à elle (colle, poudre, parasite, traceur). Ni implant profond, ni blessure, ni Corruption.
-- **II (2 PTV)** : *à créer* (question 2).
+- **II (2 PTV) · Sens du vivant** *(livre V6)* (SR/R) : par la langue, les vibrations, la chaleur ou l'électrochimie selon ta Variante, tu perçois la présence et la direction des vivants proches, même sans les voir. Un obstacle étanche ou une isolation adaptée bloque ce sens.
+
+**Sommet · III (3 PTV) · Corps sans angles** *(livre V6)* (R, 2 PA, 1/scène) : tu disloques, comprimes ou réorganises ton corps pour sortir d'une contrainte purement physique ou franchir un passage que ton hybride ne devrait pas accepter. Le crâne, les organes vitaux et l'existence d'une ouverture restent des limites.
 
 **Changements** : « l'attaque n'est pas gratuite » redit deux fois, retiré. Sens du vivant : le Bestiaire dit « proches » ; la portée de 10 m est ajoutée pour le joueur.
 
@@ -213,15 +225,17 @@ Les paliers II marqués *Bestiaire* reprennent une capacité que tu as écrite p
 - **Variantes** : *Tachetée* (+4 Vigueur / +1 Agilité) · *Rayée* (+2 / +3 ; mobile et discrète) · *Brune* (référence ; charogne et aridité).
 - **Signature (gratuite) · Bande de ricanement** : au début d'une scène ou d'une chasse, jusqu'à trois créatures consentantes deviennent ta Bande pour la scène. Ni Meute permanente, ni obligation.
 
-**Porte A · La mâchoire**
+**Porte A · La curée**
 - **I (1 PTV) · Mâchoire broyeuse** : en animal ou hybride, ta morsure a Perforant 1 contre l'Armure matérielle (os, bois, plastique rigide, protections). Rien contre une Protection surnaturelle.
-- **II (2 PTV) · Harcèlement tournant** — *Proposition à valider (Bestiaire)* : 1/round. Quand un membre de ta Bande, toi compris, vient d'infliger au moins 1 PV à une cible, un autre membre reçoit Assistance +2 sur sa prochaine attaque contre elle avant la fin du round.
+- **II (2 PTV) · Harcèlement tournant** *(livre V6)* (R, 1/round) : quand un membre de ta Bande vient d'infliger au moins 1 PV à une cible, un autre membre reçoit Assistance +2 sur sa prochaine attaque contre elle avant la fin du round, malgré l'interdiction normale en combat. Une seule par attaque.
 
-**Porte B · Le charognard**
+**Porte B · La Bande**
 - **I (1 PTV) · Charognard increvable** : la charogne ne te rend pas malade ; +3 pour résister aux poisons et toxines non surnaturels ingérés.
-- **II (2 PTV) · La Bande rit encore** — *Proposition à valider (Bestiaire)* : Réaction, 1 PA, 1/scène. Quand un membre de ta Bande devient Agonisant ou immobilisé, tu te déplaces aussitôt vers lui ou attaques normalement la source.
+- **II (2 PTV) · Rire de ralliement** *(livre V6)* (SR/R, 1 PA) : par un rire bref, tous les membres de ta Bande qui t'entendent comprennent une impulsion simple : danger, repli, proie, rassemblement ou changement de cible. Ni langage commun ni télépathie.
 
-**Changements** : le trait Bande de ricanement disait « pour les Talents de Lignée », alors qu'aucun talent ne s'en servait ; les deux propositions lui donnent un usage. Harcèlement tournant ressemble à Chasse coordonnée (Garou, Pelage Noir) ; son ressort propre est déjà là : la Bande d'une scène, pas une Meute, et le déclencheur est la blessure infligée par n'importe quel membre. Exclusion surnaturelle redite, retirée de Mâchoire broyeuse.
+**Sommet · III (3 PTV) · La Bande rit encore** *(livre V6)* (R, Réaction, 1 PA, 1/scène) : quand un membre de ta Bande devient Agonisant ou est immobilisé par une menace perçue, un autre membre se déplace aussitôt vers lui ou attaque normalement la source, avec son propre PA de Réaction.
+
+**Changements** : le trait Bande de ricanement disait « pour les Talents de Lignée » : les trois talents du livre (Harcèlement tournant, Rire de ralliement, La Bande rit encore) en sont l'usage. Harcèlement tournant ressemble à Chasse coordonnée (Garou, Pelage Noir) ; son ressort propre est déjà là : la Bande d'une scène, pas une Meute, et le déclencheur est la blessure infligée par n'importe quel membre. Exclusion surnaturelle redite, retirée de Mâchoire broyeuse.
 
 ### Berserkirs — Hommes-Ours
 *Massifs, rarement en communautés ; autrefois liés par un pacte de sang aux Ulfhednars, ancêtres des Pelages Blancs.*
@@ -234,13 +248,15 @@ Les paliers II marqués *Bestiaire* reprennent une capacité que tu as écrite p
 
 **Porte A · L'étreinte**
 - **I (1 PTV) · Étreinte d'ours** : après une saisie réussie en animal ou hybride, +3 pour tenir la prise, et tu peux emporter à demi-Déplacement une cible que ta force permet de porter.
-- **II (2 PTV) · Pas de recul** — *Proposition à valider (Bestiaire)* : quand tu avances droit vers une menace ou vers quelqu'un que tu protèges, une créature de gabarit comparable doit gagner une opposition de Vigueur pour seulement te barrer le passage.
+- **II (2 PTV) · Pas de recul** *(livre V6)* (R, hybride) : quand tu avances droit vers une menace, une Impulsion de Frénésie ou quelqu'un que tu protèges, une créature de gabarit comparable doit gagner une opposition de Vigueur pour seulement te barrer le passage. Ni mur ni obstacle infranchissable.
 
-**Porte B · Le sommeil de l'ours**
+**Porte B · Le vieil ours**
 - **I (1 PTV) · Torpeur profonde** : hors combat, en quelques minutes, tu entres en torpeur volontaire. Tes besoins chutent ; dans un lieu sûr, tu tiens des jours ou des semaines. Réveil en quelques instants.
-- **II (2 PTV) · Quand l'Ours se lève** — *Proposition à valider (Bestiaire)* : Réaction, 1 PA, 1/scène. La première fois que tu passes sous la moitié de tes PV, ou qu'un proche risque d'être abattu, tu entres en Frénésie avec cette menace pour Impulsion et te portes vers elle ou vers le protégé.
+- **II (2 PTV) · Ancien pacte Ulfhednar** *(livre V6)* (R, spécial) : une fois le vieux pacte rétabli dans la fiction avec un membre reconnu des Pelages Blancs, vous pouvez vous accorder mutuellement Assistance +2 sur une Compétence de combat, malgré l'interdiction normale. Le talent ne recrée pas le pacte.
 
-**Changements** : préfixe d'accès retiré de Torpeur profonde. Quand l'Ours se lève donne enfin un déclencheur de Frénésie à une Lignée (le rapport notait une Frénésie « sans objet » chez les Khinae).
+**Sommet · III (3 PTV) · Quand l'Ours se lève** *(livre V6)* (R, Réaction, 1 PA, 1/scène) : la première fois que tu passes sous la moitié de tes PV, ou qu'un proche à portée subit une attaque qui pourrait l'abattre, tu entres en Frénésie avec cette menace pour Impulsion et te portes vers elle ou vers le protégé. Ni DGT ni attaque gratuits.
+
+**Changements** : préfixe d'accès retiré de Torpeur profonde. Quand l'Ours se lève donne un déclencheur de Frénésie à la Lignée (le rapport notait une Frénésie « sans objet » chez les Khinae).
 
 ### Crocodiliens — les fossiles d'embuscade
 *La branche terrestre la plus blindée : immobilité, embuscade aquatique, prise de mâchoire. Le livre V6 précise que leur mécanique est une extrapolation du corpus.*
@@ -253,11 +269,13 @@ Les paliers II marqués *Bestiaire* reprennent une capacité que tu as écrite p
 
 **Porte A · La mâchoire**
 - **I (1 PTV) · Mâchoire verrouillée** : 1/round, une morsure payée qui inflige au moins 1 PV verrouille la prise, sans PA ni jet de plus. La cible se libère par l'opposition physique normale.
-- **II (2 PTV) · Emporter sous l'eau** — *Proposition à valider (Bestiaire)* : 1 PA, 1/scène. Si une masse d'eau suffisante est à portée, opposition de Vigueur pour y entraîner une cible que tu tiens verrouillée.
+- **II (2 PTV) · Roulade de mort** *(livre V6)* (R, 1 PA) : sur une cible verrouillée, Vigueur + Pugilat contre sa défense physique. En réussite, une nouvelle attaque naturelle DGT 6 (ou celui de ta Variante), et tu peux la renverser si le gabarit le permet. C'est une attaque payée.
 
-**Porte B · L'apnée**
+**Porte B · L'eau**
 - **I (1 PTV) · Apnée séculaire** : en animal ou hybride, une heure sous l'eau sans effort soutenu, ou toute une scène de combat sans manquer d'air.
-- **II (2 PTV) · Embuscade de berge** — *Proposition à valider (Bestiaire)* : 1/scène. Si tu commences non localisé dans l'eau, la vase ou un couvert semblable, tu émerges jusqu'au contact sans être trahi par le seul mouvement du milieu.
+- **II (2 PTV) · Embuscade de berge** *(livre V6)* (R, 1/scène) : si tu commences non localisé dans l'eau, la vase ou un couvert semblable, et qu'une cible est à portée de Déplacement, tu émerges jusqu'au contact sans être trahi par le seul mouvement de l'eau.
+
+**Sommet · III (3 PTV) · Emporter sous l'eau** *(livre V6)* (R, 1 PA, 1/scène) : sur une cible verrouillée, si une masse d'eau suffisante est à portée de Déplacement, opposition de Vigueur : en réussite, tu l'entraînes dans l'eau et elle n'en sort pas par un simple Déplacement tant que la prise tient. Aucune asphyxie instantanée.
 
 **Changements** : aucun sur les talents existants. Les trois saisies (Saisie du fauve, Étreinte d'ours, Mâchoire verrouillée) restent séparées : chacune appartient à une Lignée différente, et un personnage n'a qu'une Lignée.
 
@@ -320,6 +338,23 @@ Les paliers II marqués *Bestiaire* reprennent une capacité que tu as écrite p
 | #19 Mâchoire verrouillée | Crocodiliens, porte A I |
 | #20 Apnée séculaire | Crocodiliens, porte B I |
 
+### Talents de Lignée du livre V6, absents du site (rétablis le 31/10)
+
+| Lignée | Palier II, porte A | Palier II, porte B | Sommet III |
+|---|---|---|---|
+| Canidés | Course qui ne finit pas | Piste sous les pistes | Fermer l'étau |
+| Renards | Corps d'échappée | Voix de l'autre côté | Le Faux Renard |
+| Grands Félins | Approche d'angle mort | Duel du prédateur | Mort dans l'angle mort |
+| Chats | Neuf issues | Entre les monstres | Familier de personne |
+| Rapaces | Plongeon de chasse | Emporter | Traversée des hauteurs |
+| Requins | Morsure verrouillée | Corps des profondeurs | Prédateur du courant |
+| Serpents | Arme ophidienne perfectionnée | Sens du vivant | Corps sans angles |
+| Boudas | Harcèlement tournant | Rire de ralliement | La Bande rit encore |
+| Berserkirs | Pas de recul | Ancien pacte Ulfhednar | Quand l'Ours se lève |
+| Crocodiliens | Roulade de mort | Embuscade de berge | Emporter sous l'eau |
+
+Ces 30 talents sont à ajouter au registre du Builder (`truth/talents/khinae.json`).
+
 ### Entrées #21–68 : les Sangs vifs partagés
 
 Ce sont les douze Sangs vifs, identiques à Garou #21–68. Ils restent au registre Khinae avec leurs identifiants (`khinae_blood_…`), définis une seule fois avec le lot Garou. Ce qui doit être corrigé dans la définition commune, pour qu'elle tienne aussi pour un descendant non lupin :
@@ -356,14 +391,8 @@ Ce sont les douze Sangs vifs, identiques à Garou #21–68. Ils restent au regis
 ### Q1. Les Sangs vifs des descendants de Khinae
 **Tranché** (décision 10) : les Sangs vifs sont communs aux Garous et aux autres Khinae. Question close.
 
-### Q2. Six paliers II sans source, quatorze tirés du Bestiaire
-**Problème** : chaque Lignée a deux talents à 1 PTV et aucun palier II. Le Bestiaire V17 fournit 14 capacités Khinae que j'ai placées en palier II (« Proposition à valider »). Six portes restent vides : Canidés (les deux), Grands Félins (la prise), Chats (les passages), Requins (le courant), Serpents (la mue). Le Bestiaire n'a pas de PNJ Canidé.
-- **A** : valider les 14 propositions ; j'écris les 6 manquantes au lot suivant, à partir du lore de la Lignée, en Proposition.
-- **B** : valider les 14 ; les 6 portes restent à un seul palier (voies courtes).
-- **C** : refuser les propositions ; les Lignées gardent deux talents de palier I, achetables librement.
-
-**Recommandation : A.** Les Sangs vifs donnent déjà de la profondeur, mais l'identité de Lignée s'épuise à 2 PTV, contre un Pelage et quatre voies communes pour le Garou. La passation du 6/09 décrit d'ailleurs chaque arbre de Lignée avec « une Signature gratuite, 5 talents et des variantes » : le catalogue actuel n'en a que 2 par Lignée, il en manque donc trois ; les paliers II proposés comblent une partie de cet écart.
-*Exemple* : un Chat pourrait recevoir en porte des passages *Entre les monstres* (Bestiaire : sentir le moment où un échange surnaturel bascule en agression), qui porte enfin son identité d'intermédiaire, absente de ses talents actuels.
+### Q2. Les paliers manquants des Lignées
+**Résolu (31/10)** : le livre V6 donne cinq talents par Lignée (1, 1, 2, 2, 3 PTV). Les 30 talents absents du site sont rétablis à leur coût d'origine ; les 14 paliers tirés du Bestiaire et les 6 portes vides n'ont plus lieu d'être. Écart signalé : le Faux Renard, Mort dans l'angle mort, Traversée des hauteurs, Prédateur du courant, La Bande rit encore, Quand l'Ours se lève et Emporter sous l'eau valent 3 PTV dans le livre ; ils sont au sommet, pas en palier II.
 
 ### Q3. Les hybrides déséquilibrés
 **Problème** : l'hybride du Grand Félin (+4/+2, DGT 6, Armure 2) dépasse celui du Garou (+3/+2, DGT 5, Armure 2) sans prix de plus. Le Crocodilien (Armure 4 + 2 PV par round) est le plus dur à tuer du jeu, ce que la charte (létalité) déconseille.

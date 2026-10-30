@@ -46,7 +46,7 @@ Chaque question a une recommandation. **Par défaut, la recommandation s'appliqu
 
 ## C. Questions propres à une Nature
 
-- **C1. Khinae** : 14 paliers II tirés des fiches du Bestiaire, marqués « Proposition à valider » ; 6 autres restent à écrire.
+- **C1. Khinae** : ~~14 paliers II tirés du Bestiaire~~ → *31/10* : remplacés par les 30 talents du livre V6, absents du site (cinq par Lignée).
 - **C2. Khinae** : une Impulsion de Frénésie propre à chaque Lignée (une ligne par carte).
 - **C3. Humains** : pour un Humain, la mention SR ou R dit seulement ce que voient les témoins ; aucun état nouveau.
 - **C4. Humains** : une seconde tradition s'ouvre par la fiction (transmission réelle), sans coût d'entrée.
