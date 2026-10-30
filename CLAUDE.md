@@ -33,12 +33,12 @@ Les passations des agents précédents décrivent **l'existant**, pas ce qu'il f
 - Six workflows tournent sur `main`, dont un qui y recommite (`compendium-page-overrides-sync.yml`). Les archiver avant de fusionner.
 - Les fiches enregistrent les talents par identifiant : ne jamais changer un identifiant existant.
 - Accès VPS : `ssh -i ~/.ssh/terra_umbra debian@terra-umbra.fr` (clé sans phrase secrète, `sudo` sans mot de passe ; `tuc_vps` a une phrase secrète, inutilisable par Claude). Pas de `cron` sur le VPS : utiliser systemd.
-- VPS : environ 40 Go de disque, 96 % le 30/10 (1,9 Go libres). Ne jamais lancer `docker system prune -a --volumes`.
+- VPS : 40 Go de disque, 37 % après nettoyage le 30/10. Chaque release ajoute environ 5 Go d'image : nettoyer les anciennes images après chaque mise en ligne. Ne jamais lancer `docker system prune -a --volumes`.
 
 ## Plan
 1. ~~Archiver les 76 workflows ponctuels~~ : fait. Déplacés dans `.github/workflows-archive/` et fusionnés en production le 30/10 (PR #23) ; aucun job lancé. Seul `v2-dev.yml` reste actif.
 2. ~~Installer la sauvegarde quotidienne et la copie sur H~~ : serveur fait le 30/10 (minuteur systemd 4 h 17, testé). Copie sur H : tâche planifiée Windows « Terra Umbra - copie des sauvegardes » (9 h), script dans `H:\TerraUmbra\`. Les sauvegardes contiennent le `.env` : jamais dans un dossier synchronisé.
-3. Relever ce qui tourne en production, le ramener dans Git, nettoyer le disque. Relevé fait le 30/10 : les 48 dossiers de release viennent de commits déjà dans `feature/tuc-web-v2` ; les fichiers du serveur sont des versions égales ou plus anciennes que Git, sauf le `Caddyfile` de production (HTTP/3 coupé), ramené dans `infrastructure/production/Caddyfile`. Nettoyage : `infrastructure/production/nettoyage-disque.sh` (déposé sur le VPS, testé à blanc : 46 dossiers, 15 Go, et 64 images ; garde ce qui tourne et un retour arrière), à lancer par l'auteur.
+3. ~~Relever ce qui tourne en production, le ramener dans Git, nettoyer le disque~~ : fait le 30/10, disque passé de 96 % à 37 % (24 Go libres), site vérifié. Relevé : les 48 dossiers de release viennent de commits déjà dans `feature/tuc-web-v2` ; les fichiers du serveur sont des versions égales ou plus anciennes que Git, sauf le `Caddyfile` de production (HTTP/3 coupé), ramené dans `infrastructure/production/Caddyfile`. Nettoyage : `infrastructure/production/nettoyage-disque.sh` (déposé sur le VPS, testé à blanc : 46 dossiers, 15 Go, et 64 images ; garde ce qui tourne et un retour arrière), à lancer par l'auteur.
 4. Fusionner dans `main`, couper Pages, n'avoir qu'un workflow de déploiement, ajouter Prettier/ESLint et une limite de débit sur l'authentification.
 5. Monter la recette sur le même VPS.
 6. Migrer le contenu en base (schéma `content_*`), puis importer les lots, Vampire en pilote.
