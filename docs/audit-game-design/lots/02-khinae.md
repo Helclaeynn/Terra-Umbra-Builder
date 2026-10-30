@@ -7,8 +7,10 @@ Lot complet, appliqué par défaut, sauf ce qui est marqué **Proposition à val
 ## 1. En bref
 
 - **Qui est concerné** : Khinae est l'héritage ancestral ; le Garou en est le rameau lupin, le Vampire la branche corrompue par les Fléaux. Cette Nature jouable, ce sont **les autres descendants** : dix Lignées animales qui ne sont pas des Garous repeints.
-- **Architecture** : une carte de Nature gratuite (formes, Mue, Frénésie sans Meute) ; une **Lignée** (profil de formes, Variante gratuite, signature gratuite, une voie à deux portes). Les Sangs vifs : question 1.
-- **123 entrées** (68 talents + 55 traits) → **11 cartes** : 1 Nature + 10 voies de Lignée. **Les entrées #21 à #68 ne sont pas des talents Khinae** : copie exacte des Garou #21–68, avec des renvois cassés. Elles sortent du registre Khinae (le pouvoir vit dans le lot Garou).
+- **Architecture** : une carte de Nature gratuite (formes, Mue, Frénésie sans Meute) ; une **Lignée** (profil de formes, Variante gratuite, signature gratuite, une voie à deux portes) ; **les douze Sangs vifs, partagés avec les Garous** (décision 10).
+- **123 entrées** (68 talents + 55 traits) → **11 cartes** : 1 Nature + 10 voies de Lignée, plus les **douze Sangs vifs** (#21 à #68), qui sont les mêmes que ceux des Garous : une seule définition, celle du lot Garou (section 5), projetée dans les deux catalogues avec leurs identifiants propres.
+
+*Correction du 30/10* : j'avais traité #21–68 comme une copie fautive à retirer. C'était faux : Garous et autres Khinae ont la même origine et partagent les Sangs vifs (décision 10, et V1 : « Sangs vifs identiques à ceux des Garous »). Seuls les **renvois propres au loup** sont à neutraliser dans la définition commune (voir section 4).
 - **Ressort propre** : le Garou a la Meute et la hiérarchie, le Vampire la malédiction et la Prédation. **Le descendant de Khinae a l'espèce** : chaque pouvoir passe par le corps et le milieu de sa Lignée (l'eau, la hauteur, la vase, le passage étroit, la Bande) ; il n'a ni société imposée, ni malédiction.
 - **Ce qui manque et ce qui est proposé** : chaque Lignée n'a que deux talents à 1 PTV, donc deux paliers I et aucun palier II. Le lot propose **14 paliers II tirés du Bestiaire V17** (capacités écrites par toi pour les PNJ Khinae), marqués « Proposition à valider » ; **6 paliers II** n'ont aucune source (question 2).
 
@@ -318,39 +320,41 @@ Les paliers II marqués *Bestiaire* reprennent une capacité que tu as écrite p
 | #19 Mâchoire verrouillée | Crocodiliens, porte A I |
 | #20 Apnée séculaire | Crocodiliens, porte B I |
 
-### Entrées #21–68 : retirées du registre Khinae
+### Entrées #21–68 : les Sangs vifs partagés
 
-Raison commune : **copie exacte, caractère pour caractère, des Garou #21–68** (les douze Sangs vifs), avec des renvois cassés pour un descendant non lupin (#28 renvoie au Hurlement du Rempart, talent du Pelage Gris ; #46 à Chimère fonctionnelle, talent du Pelage Roux ; #50 à un « talent commun » que la Khinae n'a pas ; #53 dit « le Garou » ; #60 parle de Jayanti et d'un « HDS » jamais défini). Ces pouvoirs vivent dans le lot Garou. La place des Sangs vifs chez les Khinae est la question 1.
+Ce sont les douze Sangs vifs, identiques à Garou #21–68. Ils restent au registre Khinae avec leurs identifiants (`khinae_blood_…`), définis une seule fois avec le lot Garou. Ce qui doit être corrigé dans la définition commune, pour qu'elle tienne aussi pour un descendant non lupin :
 
-| Entrées | Copie de |
+| Entrée | Renvoi à neutraliser | Correction |
+|---|---|---|
+| #28 Hurlement d'Alpha | renvoie au Hurlement du Rempart (Pelage Gris) | ne citer que l'effet : protéger de la Panique de peur les siens qui l'entendent |
+| #46 Chimère primale | renvoie à Chimère fonctionnelle (Pelage Roux) | décrire l'effet sans citer le talent de Pelage |
+| #50 Traque parfaite | renvoie à un « talent commun » | renvoyer à la Signature de pistage de la Lignée ou au jet normal |
+| #53 Mémoire absolue | dit « le Garou » | « le descendant de Khinae » |
+| #60 Éveil furieux | cite Jayanti et la HDS | garder (la HDS est la tradition des Exilés ; Jayanti = Sang Enchaîné) |
+| tous | « hybride », « meute » | corps de guerre de la Lignée ; « les siens » (Bande des Boudas comprise) |
+
+| Entrées | Sang |
 |---|---|
-| #21 Appel élémentaire, #22 Déchaînement élémentaire, #23 Marque tellurique, #24 Domaine primordial | Garou #21–24 (Naturel) |
-| #25 Regard d'Alpha, #26 Autorité absolue, #27 Ralliement de meute, #28 Hurlement d'Alpha | Garou #25–28 (Alpha) |
-| #29 Lecture superficielle, #30 Lecture profonde, #31 Œil de Vérité, #32 Dissipation révélatrice | Garou #29–32 (Révélateur) |
-| #33 Vision du Sang, #34 Traque hématique, #35 Déferlement écarlate, #36 Surrégime | Garou #33–36 (Écarlate) |
-| #37 Sculpture de matière, #38 Grand remodelage, #39 Visage sculpté, #40 Sculpture de chair | Garou #37–40 (Sculpteur) |
-| #41 Vision funeste, #42 Interroger le trépas, #43 Hurlement funeste, #44 Cri d'outre-tombe | Garou #41–44 (Funeste) |
-| #45 Assimilation de chair, #46 Chimère primale, #47 Brume défensive, #48 Brume gardienne | Garou #45–48 (Primal) |
-| #49 Marque indélébile, #50 Traque parfaite, #51 Disparition, #52 Embuscade parfaite | Garou #49–52 (Chasseur) |
-| #53 Mémoire absolue, #54 Bibliothèque vivante, #55 Dévoration de savoir, #56 Héritage de chair | Garou #53–56 (Sagesse) |
-| #57 Fureur croissante, #58 Rage lucide, #59 Morsure furieuse, #60 Éveil furieux | Garou #57–60 (Enragé) |
-| #61 Prédateur debout, #62 Vitesse impossible, #63 Griffe d'entrave, #64 Sceller la Nature | Garou #61–64 (Enchaîné) |
-| #65 Hurlement des plaies, #66 Déchirer les cicatrices, #67 Onde de Mue, #68 Mue cataclysmique | Garou #65–68 (Vengeur) |
+| #21–24 | Naturel (Vortigern) |
+| #25–28 | Alpha (Ohtana) |
+| #29–32 | Révélateur (Ceallachán) |
+| #33–36 | Écarlate (Keyna) |
+| #37–40 | Sculpteur (Svenn) |
+| #41–44 | Funeste (Verica) |
+| #45–48 | Primal (Khuyildar) |
+| #49–52 | Chasseur (Thorkel) |
+| #53–56 | Sagesse (Tomoko) |
+| #57–60 | Enragé (Asulf) |
+| #61–64 | Enchaîné (Jayanti) — remplace aussi le corps de guerre de la Lignée |
+| #65–68 | Vengeur (Astaphium) |
 
-**Problème de source signalé** : le livre V6 et le chapitre de règles disent que les descendants de Khinae « utilisent les Sangs vifs exactement comme les Loups-Garous » ; la charte interdit les mécaniques communes entre Natures. Les deux ne tiennent pas ensemble sans ta décision.
 
 ---
 
 ## 5. Questions pour toi
 
 ### Q1. Les Sangs vifs des descendants de Khinae
-**Problème** : le livre V6 donne aux Khinae les douze Sangs vifs, « exactement comme les Garous », et le registre n'en contient qu'une copie. Or la charte refuse toute mécanique commune entre Natures. Le livre ouvre lui-même une porte : « le même Sang vif peut s'exprimer à travers des instincts radicalement différents » ; « un non-loup peut exprimer [l'Alpha] selon sa propre logique sociale ».
-- **A** : pas de Sang vif jouable pour un Khinae tant qu'ils ne sont pas réécrits ; sa profondeur vient de sa Lignée (il faut alors des paliers III de Lignée).
-- **B** : les douze Sangs réécrits pour la Khinae, mêmes voies, coûts et maîtrise (deux portes au palier II, éveil 3 PTV), avec **le ressort de l'espèce** : chaque palier passe par le corps ou le milieu de la Lignée. Quarante-huit textes, en lot séparé.
-- **C** : seulement les Sangs que le livre relie à d'autres instincts (Alpha, Primal, Chasseur, Enragé…), réécrits comme en B ; les autres restent lupins.
-
-**Recommandation : B**, en lot séparé une fois le ressort validé.
-*Exemple* : Sang Alpha chez un Bouda. Le Regard d'Alpha garou n'agit que sur une cible qui a reculé devant lui (hiérarchie) ; la version Khinae, *Ricanement de Bande*, n'agirait que sur une cible que la Bande encercle (au moins deux membres au contact). Même Sang, autre instinct.
+**Tranché** (décision 10) : les Sangs vifs sont communs aux Garous et aux autres Khinae. Question close.
 
 ### Q2. Six paliers II sans source, quatorze tirés du Bestiaire
 **Problème** : chaque Lignée a deux talents à 1 PTV et aucun palier II. Le Bestiaire V17 fournit 14 capacités Khinae que j'ai placées en palier II (« Proposition à valider »). Six portes restent vides : Canidés (les deux), Grands Félins (la prise), Chats (les passages), Requins (le courant), Serpents (la mue). Le Bestiaire n'a pas de PNJ Canidé.
@@ -358,7 +362,7 @@ Raison commune : **copie exacte, caractère pour caractère, des Garou #21–68*
 - **B** : valider les 14 ; les 6 portes restent à un seul palier (voies courtes).
 - **C** : refuser les propositions ; les Lignées gardent deux talents de palier I, achetables librement.
 
-**Recommandation : A.** Sans palier II, une Lignée offre 2 achats contre 22 pour un Garou (communs + Pelage), et son identité s'épuise à 2 PTV.
+**Recommandation : A.** Les Sangs vifs donnent déjà de la profondeur, mais l'identité de Lignée s'épuise à 2 PTV, contre un Pelage et quatre voies communes pour le Garou. La passation du 6/09 décrit d'ailleurs chaque arbre de Lignée avec « une Signature gratuite, 5 talents et des variantes » : le catalogue actuel n'en a que 2 par Lignée, il en manque donc trois ; les paliers II proposés comblent une partie de cet écart.
 *Exemple* : un Chat pourrait recevoir en porte des passages *Entre les monstres* (Bestiaire : sentir le moment où un échange surnaturel bascule en agression), qui porte enfin son identité d'intermédiaire, absente de ses talents actuels.
 
 ### Q3. Les hybrides déséquilibrés
@@ -367,8 +371,7 @@ Raison commune : **copie exacte, caractère pour caractère, des Garou #21–68*
 - **B** : Grand Félin hybride Armure 1 ; Crocodilien hybride Armure 3 (Variantes alignées). Rien d'autre ne bouge ; aucun profil n'est renforcé.
 - **C** : borner toutes les Lignées à une référence commune (somme Vigueur + Agilité = 5, DGT 5, Armure 2) avec un échange par Lignée.
 
-**Recommandation : B.** C'est le plus petit geste qui rend au Garou son rôle de « pic physique », et il ne touche à la survie que pour la réduire.
-*Exemple* : aujourd'hui, un Crocodilien hybride encaisse une rafale DGT 6 en ne perdant que 2 PV, qu'il régénère au round suivant. Avec Armure 3, il en perd 3 et reste au-dessus de sa régénération.
+**Recommandation (revue le 30/10) : A.** La passation le dit explicitement : « le Tigre plus puissant individuellement, l'Ours plus massif, le Crocodilien blindé et d'embuscade » ; le Loup se distingue par la Meute, pas par le pic physique. L'Armure 4 du Crocodilien figure dans la liste « à observer en jeu, ne pas affaiblir préventivement ». Leurs faiblesses de milieu et l'absence de Meute sont leur prix. À observer en partie.
 
 ### Q4. L'Impulsion de Frénésie par Lignée
 **Problème** : la Frénésie Khinae dit seulement que « l'objet instinctif dépend de la Lignée », sans dire lequel. C'est pourtant ce qui la sépare de la Frénésie garoue (Meute, protection des siens).

@@ -9,8 +9,11 @@ Lot complet, appliqué par défaut. Tu relis par exception. Paliers I / II / III
 - **Architecture** : une carte de Nature gratuite (formes, Mue, Frénésie, Appel de la Meute) ; un **Pelage** (tradition gratuite + une voie) ; quatre **voies communes** ; un **Sang vif** (une voie à deux portes), plus d'autres Sangs par éveil.
 - **81 entrées** (68 talents + 13 traits) → **23 cartes** : 1 Nature + 6 voies de Pelage + 4 voies communes + 12 Sangs vifs. Aucun pouvoir supprimé.
 - **Les 12 Sangs vifs deviennent des voies à deux portes.** Le test est passé Sang par Sang (section 5) : à chaque fois, deux Garous du même Sang peuvent sembler n'avoir rien en commun (un élémentaliste et un gardien de territoire, un liseur de pensées et un briseur d'illusions…). Le livre le dit déjà : « deux builds différents ». **Maîtrise** = les deux portes au palier II (les « deux voies au palier II » décidées). Éveil d'un nouveau Sang : 3 PTV.
-- **Ce qui change vraiment** : les ressorts propres validés face au Vampire (Regard d'Alpha, Terreur du prédateur, Brume défensive) ; des ressorts nouveaux pour les pouvoirs homonymes du Vampire (Écarlate, Révélateur) ; Vitesse impossible ne marche plus en étant Surpris ; la Mue, les formes et la Frénésie ne bougent pas.
-- **Nettoyage** : une vingtaine de notes de développement retirées, une phrase cassée, un sigle non défini (HDS), un trait manquant (Aura prédatrice), un trait mal classé (Corps Enchaîné).
+- **Ce qui change vraiment** : les ressorts propres validés face au Vampire (Regard d'Alpha, Terreur du prédateur, Brume défensive) ; Vitesse impossible ne marche plus en étant Surpris ; la Mue, les formes et la Frénésie ne bougent pas.
+- **Nettoyage** : une vingtaine de notes de développement retirées, une phrase cassée, un trait manquant (Aura prédatrice), un trait mal classé (Corps Enchaîné).
+- **Sangs vifs partagés (décision 10)** : les douze Sangs de la section 5 sont **les mêmes** pour les Garous et les autres descendants de Khinae. Une seule définition, projetée dans les deux catalogues (le Builder garde les deux identifiants). Les textes sont donc écrits pour tout descendant de Khinae : « hybride » s'entend comme le corps de guerre de sa Lignée, « meute » comme les siens.
+
+*Corrections du 30/10, après lecture de la passation : la mention d'un « sigle HDS non défini » était une erreur de ma part. La HDS (Hologram Distorsion Skill) est la tradition des Exilés enseignée dans les Silcenters ; le texte d'Éveil furieux la cite à bon droit (il ne lève pas un blocage HDS). Elle est rétablie. Les recommandations des questions 1 et 2 sont revues (section 7).*
 
 ---
 
@@ -221,27 +224,27 @@ Aucun Sang n'est « un même pouvoir plus ou moins fort » : aucune progression 
 *Reprend : Lecture superficielle, Lecture profonde, Œil de Vérité, Dissipation révélatrice.*
 
 **Porte A · Les pensées**
-- **I (1 PTV) · Lecture superficielle** (SR) : 1 PA, 10 m, Volonté + Force Mentale contre Défense occulte. Pensées, impressions et émotions présentes, jusqu'à ta prochaine activation. Une pensée peut être fausse. **Lecture du corps** : la cible doit être à portée de tes sens, sans écran (vitre, caméra, combinaison étanche).
+- **I (1 PTV) · Lecture superficielle** (SR) : 1 PA, 10 m, Volonté + Force Mentale contre Défense occulte. Pensées, impressions et émotions présentes, jusqu'à ta prochaine activation. Une pensée peut être fausse.
 - **II (2 PTV) · Lecture profonde** (R) : 2 PA, 10 m, même jet et même condition. Un souvenir ou une motivation précise ; le DR en fixe la profondeur et la netteté.
 
 **Porte B · La vérité**
 - **I (1 PTV) · Œil de Vérité** (SR) : à 10 m, tu repères les signes d'une illusion ou d'une transformation surnaturelle locale. Une dissimulation active oppose sa Puissance à ton Esprit + Perception. Ni l'auteur ni la vraie forme ; le Voile ordinaire n'est pas une illusion.
 - **II (2 PTV) · Dissipation révélatrice** : 1 PA au contact, Volonté + Force Mentale contre la Puissance d'une illusion ou transformation temporaire identifiée : tu la dissipes. Rien de permanent, ni état V/SR/R, ni Nature.
 
-**Changements** : **ressort propre ajouté** aux deux Lectures (« lecture du corps » : le Garou lit par ses sens, pas à travers un écran), car elles étaient identiques à celles du Vampire. Dissipation reste distincte de celle du Vampire (elle dissipe, elle ne suspend pas un pouvoir).
+**Changements** : aucun sur le fond. *Retiré le 30/10* : la condition « lecture du corps » que j'avais ajoutée pour distinguer ces Lectures de celles du Vampire ; les deux catalogues V1 les ont volontairement semblables (décision A4). Dissipation reste distincte de celle du Vampire (elle dissipe, elle ne suspend pas un pouvoir).
 
 ### Sang Écarlate · Keyna — puissance physique et perception du sang
 *Reprend : Vision du Sang, Traque hématique, Déferlement écarlate, Surrégime.*
 
 **Porte A · Le sang**
-- **I (1 PTV) · Vision du Sang** (SR) : **par le flair**, à 10 m, le sang frais et la circulation des vivants, malgré l'obscurité, la fumée ou une cloison légère (10 cm au plus) qui laisse passer l'air. Présence et position grossière.
-- **II (2 PTV) · Traque hématique** (SR) : un sang que tu as flairé, tu reconnais sa signature et suis sa trace malgré les perturbations ordinaires. Sans trace, aucune direction.
+- **I (1 PTV) · Vision du Sang** (SR) : à 10 m, le sang frais et la circulation des vivants, malgré l'obscurité, la fumée ou une cloison légère (10 cm au plus) qui laisse passer l'air. Présence et position grossière.
+- **II (2 PTV) · Traque hématique** (SR) : un sang que tu as perçu, tu reconnais sa signature et suis sa trace malgré les perturbations ordinaires. Sans trace, aucune direction.
 
 **Porte B · La fureur**
-- **I (1 PTV) · Déferlement écarlate** : 1/round, avant un test physique, +3 sans PA d'activation ; le test garde son coût. **Le sang supplée le corps de guerre** : sans effet en hybride.
+- **I (1 PTV) · Déferlement écarlate** : 1/round, avant un test physique, +3 sans PA d'activation ; le test garde son coût.
 - **II (2 PTV) · Surrégime** : 1/scène, sans PA, +1 PA à utiliser avant la fin du round. Avec le rythme de l'hybride ou du Corps Enchaîné : 5 PA au plus.
 
-**Changements** : **ressorts propres ajoutés**, ces pouvoirs étant presque identiques à ceux du Sang Écarlate vampirique. Perception par le flair (bloquée par une paroi étanche, sans échantillon à prélever). Déferlement inutilisable en hybride : c'est aussi le rééquilibrage demandé par l'audit (+3 gratuit par round qui s'ajoutait aux +3 de l'hybride). Notes de serveur retirées.
+**Changements** : notes de serveur retirées. *Retiré le 30/10* : la perception « par le flair » et l'interdiction de Déferlement en hybride, que j'avais ajoutées pour distinguer ce Sang de l'Écarlate vampirique. Les deux sont volontairement proches (décision A4), le Sang est partagé avec les autres Lignées khinae (un Rapace ne flaire pas), et l'interdiction en hybride venait d'un audit non validé. Le cumul du +3 avec l'hybride reste à observer en partie, pas à corriger d'avance.
 
 ### Sang Sculpteur · Svenn — modelage de matière et de chair
 *Reprend : Sculpture de matière, Grand remodelage, Visage sculpté, Sculpture de chair.*
@@ -317,9 +320,9 @@ Aucun Sang n'est « un même pouvoir plus ou moins fort » : aucune progression 
 
 **Porte B · La contagion**
 - **I (1 PTV) · Morsure furieuse** : 1/scène par cible. Après une morsure payée qui inflige au moins 1 PV à un prédateur compatible, Volonté + Force Mentale contre sa Défense occulte : il entre en Frénésie. Son Impulsion suit son instinct, pas tes ordres. Ne transmet aucune Nature.
-- **II (3 PTV) · Éveil furieux** : 1 PA au contact, 1/scénario. Éveille un temps un héritage Khinae latent, ou permet à un allié descendant de Khinae, éveillé et consentant, une Mue hybride sans test d'épuisement, même après un échec narratif de Mue dans la scène. La Mue prend son round, compte dans l'épuisement et peut déclencher sa Frénésie. Rien pour un porteur du Sang Enchaîné.
+- **II (3 PTV) · Éveil furieux** : 1 PA au contact, 1/scénario. Éveille un temps un héritage Khinae latent, ou permet à un allié descendant de Khinae, éveillé et consentant, une Mue hybride sans test d'épuisement, même après un échec narratif de Mue dans la scène. La Mue prend son round, compte dans l'épuisement et peut déclencher sa Frénésie. Ne lève pas un blocage HDS. Rien pour un porteur du Sang Enchaîné.
 
-**Changements** : palier II de la porte B à **3 PTV**, coût d'origine conservé ; maîtrise de l'Enragé : 7 PTV. Corrections : sigle « HDS » retiré (jamais défini), « pas de Mue hybride pour Jayanti » réécrit, notes retirées.
+**Changements** : palier II de la porte B à **3 PTV**, coût d'origine conservé ; maîtrise de l'Enragé : 7 PTV. Corrections : « pas de Mue hybride pour Jayanti » réécrit, notes retirées.
 
 ### Sang Enchaîné · Jayanti — le corps de guerre resté humain
 *Reprend : Corps Enchaîné (trait), Prédateur debout, Vitesse impossible, Griffe d'entrave, Sceller la Nature.*
@@ -438,8 +441,8 @@ Aucune entrée supprimée.
 - **B** : le +1 PA ne vient qu'à partir du deuxième round où tu es Révélé, comme le rythme de l'hybride, mais sans épuisement.
 - **C** : le +1 PA demande 1 PA d'activation par scène (« le Sang se tend »).
 
-**Recommandation : B.** Même ressort que le corps de guerre (la puissance arrive après un temps), sans emprunter la Mue.
-*Exemple* : une Enchaînée surprise dans un couloir agit avec ses PA normaux au premier round ; au deuxième, elle a son +1 PA. Aujourd'hui, elle l'a dès la première seconde.
+**Recommandation (revue le 30/10) : A.** Le Corps Enchaîné est le texte d'origine de la V1 (« +1 PA par round, au-delà du maximum normal ») ; l'audit du 136 l'a laissé tel quel, et la passation demande de ne pas affaiblir préventivement un pouvoir avant de l'avoir vu en jeu. Son prix est réel : jamais d'hybride, ni Armure 2, ni DGT 5, ni régénération de combat. À observer en partie.
+*Exemple* : une Enchaînée surprise dans un couloir agit avec son +1 PA dès le premier round, mais elle encaisse comme une humaine augmentée et ne se régénère pas.
 
 ### Q2. Les homonymes du Vampire
 **Problème** : sept pouvoirs portent le même nom chez le Garou et le Vampire avec des règles différentes (Vision du Sang, Traque hématique, Déferlement écarlate, Surrégime, Lecture superficielle, Lecture profonde, Dissipation révélatrice). Les ressorts propres les séparent, mais à table, un même nom fera appliquer la mauvaise règle.
@@ -447,8 +450,7 @@ Aucune entrée supprimée.
 - **B** : renommer côté Garou (ex. *Flair du sang*, *Piste de sang*, *Sang qui gronde*, *Second souffle*, *Lecture du corps*, *Lecture des profondeurs*, *Briser le mensonge*).
 - **C** : renommer côté Vampire.
 
-**Recommandation : B.** Le Vampire est déjà publié ; les noms Garou ne sont pas encore figés en voies.
-*Exemple* : un groupe avec un Vampire Écarlate et un Garou Écarlate : « Déferlement écarlate » marche en hybride pour l'un et pas pour l'autre… alors que l'un n'a pas d'hybride. Deux noms évitent la confusion.
+**Tranché (30/10) : A, on garde les noms.** Les deux catalogues V1 les portent volontairement (les Sangs Écarlate, Primal et Révélateur existent des deux côtés, avec la même filiation khinae) ; la décision A4 tolère quelques doublons entre Natures. Le ressort propre de chaque version suffit à les distinguer. La proposition de renommage est retirée.
 
 ### Q3. Site ou livre V6 quand ils divergent
 **Problème** : Hurlement du Rempart (scène contre un round) et Terreur du prédateur (Défense occulte contre Volonté + Force Mentale) n'ont pas la même règle sur le site et dans le livre V6.
