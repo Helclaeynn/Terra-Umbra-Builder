@@ -39,6 +39,10 @@ Une copie HTML de chaque page est dans `pages/`. Les fichiers `*-source.html` so
 10. **Garou et autres descendants de Khinae partagent les Sangs vifs** (même origine) : exception voulue à la règle « pas de mécanique commune ». Les entrées Khinae #21–68 identiques aux Garou sont ces Sangs communs, pas une copie fautive.
 11. **Sangs noirs du Vampire = voies à deux portes** (les deux branches de chaque Sang du livre V6), comme décidé à l'origine. La version « progression » qui fusionnait les branches est abandonnée.
 12. **Empreinte Krovni : texte d'origine** (+3 Défense passive et active contre le physique tant qu'il n'est pas Surpris).
+13. **Le culte est le vecteur principal de la Corruption** : il fixe l'entrée et le prix, le Fléau fixe la nature des Dons. D'autres vecteurs restent possibles (croiser un Fléau, un objet, une Abomination).
+14. **Sangs oshirique et d'Ivoire** : Ruptures propres au Vampire, jouables au prix de la Corruption, pas des Sangs noirs ordinaires.
+15. **Purification** : toujours par une voie ou une organisation qui en a le pouvoir (Vieilles et Chevaliers de la Ruine, etc.), jamais par une règle générale. Possible, mais très difficile.
+16. **Silcenters** : exempts du Voile ; on y est Révélé de base, sans effet sur la Relation au Voile.
 
 ## Méthode de travail souhaitée par l'auteur
 
