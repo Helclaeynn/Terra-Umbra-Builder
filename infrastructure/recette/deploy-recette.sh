@@ -134,9 +134,9 @@ for _ in $(seq 1 30); do
       -v "$stage/infrastructure/recette/directus-setup.mjs:/setup.mjs:ro" \
       node:24-alpine node /setup.mjs </dev/null
     docker image prune -f >/dev/null
-    # Le cache de construction grossit à chaque essai (9 Go le 01/11) : on
-    # ne garde que celui des trois derniers jours.
-    docker builder prune -f --filter until=72h >/dev/null
+    # Le cache de construction grossit de 2 à 3 Go à chaque essai (17 Go le
+    # 01/11) : on le plafonne à 4 Go, assez pour accélérer l'essai suivant.
+    docker builder prune -f --max-used-space 4gb >/dev/null
     printf '%s\n' "$sha" > "$dir/.recette-sha"
     echo "À L'ESSAI : $sha sur https://dev.terra-umbra.fr"
     exit 0
