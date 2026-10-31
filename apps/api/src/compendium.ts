@@ -18,6 +18,8 @@ import { gunzipSync } from "node:zlib";
 import type { FastifyInstance, FastifyReply } from "fastify";
 import { currentUser, requireUser } from "./auth.js";
 import { pool } from "./db.js";
+import { syncArticlesWithContent } from "./content-articles.js";
+import { contentRulesEnabled } from "./rules/content-rules.js";
 import {
   COMPENDIUM_GUIDE_ARTICLES,
   COMPENDIUM_GUIDE_NAVIGATION,
@@ -4047,6 +4049,12 @@ async function loadCorpus(): Promise<Corpus> {
   }
   applyApprovedPnjMerges(byId);
   for(const alias of Object.keys(APPROVED_PNJ_ALIASES))navigation.delete(alias);
+  // Site d'essai (CONTENT_SOURCE=db) : les articles de la base font foi.
+  const content = await syncArticlesWithContent(byId, isMjOnlyArticle);
+  if (content) {
+    for (const id of navigation.keys()) if (!byId.has(id)) navigation.delete(id);
+    console.log(`Compendium lu dans les tables de contenu : ${content.loaded} articles publiés${content.seeded ? ` (${content.seeded} versés au premier démarrage)` : ""}.`);
+  }
   const articles = [...byId.values()].sort(compareArticles);
   const publicArticles = articles.filter((article) => !isMjOnlyArticle(article)).map((article) => { const publicArticle=articleForAudience(article,false); publicArticle.__searchText=norm(flattenText(publicArticle)); return publicArticle; });
   const publicById = new Map(publicArticles.map((article) => [article.id, article]));
@@ -4339,6 +4347,15 @@ async function ownedCollection(collectionId: string, userId: string): Promise<bo
 
 export async function registerCompendiumRoutes(app: FastifyInstance) {
   await registerCanonicalNpcGenerator(app);
+  // Site d'essai : les articles s'éditent dans Directus. L'ancien éditeur écrirait
+  // dans des tables que le compendium ne lit plus ; ses écritures sont refusées.
+  app.addHook("onRequest", async (request, reply) => {
+    if (!contentRulesEnabled() || request.method === "GET" || !request.url.startsWith("/api/compendium/editor")) return;
+    return reply.code(409).send({
+      error: "editor_moved_to_directus",
+      message: "Les articles se modifient maintenant dans Directus : https://dev.terra-umbra.fr/cms"
+    });
+  });
   app.get("/api/compendium/meta", async () => {
     const corpus = await getCorpus();
     return {

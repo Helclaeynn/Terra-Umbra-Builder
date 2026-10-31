@@ -24,14 +24,15 @@ import {
 } from "./auth.js";
 import { databaseStatus, pool } from "./db.js";
 import { registerCharacterRoutes } from "./characters.js";
-import { preloadCompendium, registerCompendiumRoutes } from "./compendium.js";
+import { invalidateCompendiumCorpus, preloadCompendium, registerCompendiumRoutes } from "./compendium.js";
+import { startContentWatch } from "./content-articles.js";
 import { registerQualityRoutes } from "./quality.js";
 import { registerArbitrageRoutes } from "./arbitrage.js";
 import {
   approvePendingGmRequest,
   registerGmAccessRoutes
 } from "./gm-access.js";
-import { preloadBuilderRules, registerRulesRoutes } from "./rules/index.js";
+import { invalidateTruthRules, preloadBuilderRules, registerRulesRoutes } from "./rules/index.js";
 import { passwordResetMailAvailable, sendPasswordResetEmail } from "./mail.js";
 
 const app = Fastify({
@@ -1013,6 +1014,13 @@ await preloadCompendium();
 // Same strategy as the Compendium: build the static Builder catalogs once
 // during startup so no visitor becomes the cold-cache guinea pig.
 await preloadBuilderRules();
+// Site d'essai : une modification des tables de contenu (Directus) reconstruit
+// le compendium et les règles sans redémarrer.
+startContentWatch(() => {
+  app.log.info("Tables de contenu modifiées : compendium et règles relus.");
+  invalidateCompendiumCorpus();
+  invalidateTruthRules();
+});
 
 const port = Number(process.env.PORT ?? 3000);
 

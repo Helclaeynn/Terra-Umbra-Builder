@@ -108,8 +108,9 @@ const FIELDS = {
     legacy_ids: { readonly: true, translations: [{ language: "fr-FR", translation: "Anciens identifiants" }], note: "Identifiants fondus dans cette entrée : les fiches qui les portent la retrouvent." },
     version: { readonly: true, width: "half", translations: [{ language: "fr-FR", translation: "Version" }] },
     id: { hidden: true, readonly: true },
-    created_at: { readonly: true, width: "half", translations: [{ language: "fr-FR", translation: "Créé le" }] },
-    updated_at: { readonly: true, width: "half", translations: [{ language: "fr-FR", translation: "Modifié le" }] },
+    // Directus date chaque écriture : le site voit le changement et relit le contenu.
+    created_at: { special: ["date-created"], readonly: true, width: "half", translations: [{ language: "fr-FR", translation: "Créé le" }] },
+    updated_at: { special: ["date-updated"], readonly: true, width: "half", translations: [{ language: "fr-FR", translation: "Modifié le" }] },
     published_at: { readonly: true, width: "half", translations: [{ language: "fr-FR", translation: "Publié le" }] },
     created_by: { hidden: true }, updated_by: { hidden: true }
   },

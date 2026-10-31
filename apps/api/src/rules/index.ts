@@ -230,6 +230,11 @@ function getEnrichedTruth(){
   truthPromise??=enrichTruthRules();
   return truthPromise;
 }
+/** Règles de Vérité à relire (tables de contenu modifiées, par exemple depuis Directus). */
+export function invalidateTruthRules(){
+  truthPromise=null;
+  void getEnrichedTruth();
+}
 function getEnrichedReality(){
   realityPromise??=enrichRealityRules();
   return realityPromise;
