@@ -36,6 +36,9 @@ services:
       SMTP_HOST: ""
       SMTP_USER: ""
       COMPENDIUM_UPLOAD_DIR: /app/editor-media
+      # Étape 7 : règles de Vérité lues dans les tables de contenu (voies à
+      # paliers). La production garde les catalogues tant que ce n'est pas validé.
+      CONTENT_SOURCE: db
     volumes:
       - recette-editor-media:/app/editor-media
     depends_on:
