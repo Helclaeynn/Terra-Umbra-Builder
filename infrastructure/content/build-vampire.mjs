@@ -4,16 +4,18 @@
 //
 //   node infrastructure/content/build-vampire.mjs
 //
-// Les textes de référence sont ceux que l'API sert aujourd'hui (le site fait
-// foi, A1). Les cartes courtes ne sont remplies que là où un lot les a écrites.
+// Les textes sont ceux que l'API sert aujourd'hui, révisions comprises (le site
+// fait foi, A1) : texte complet en référence ; carte courte du lot quand elle
+// existe, sinon le résumé servi par l'API.
 // Chaque identifiant de talent actuel reste un slug, ou un legacy_id en cas de
 // fusion : les fiches existantes se lisent sans conversion.
 import { writeFileSync } from "node:fs";
 import { truthCatalogVampire } from "../../apps/api/src/rules/truth/catalog-vampire.ts";
+import { applyVampireRevisions } from "../../apps/api/src/rules/truth/vampire-revision.ts";
 import { truthRuntimeStructure } from "../../apps/api/src/rules/truth/runtime-structure.ts";
 
 const nature = truthRuntimeStructure.natures?.vampire ?? findNature(truthRuntimeStructure, "vampire");
-const catalog = new Map(truthCatalogVampire.map((t) => [t.id, t]));
+const catalog = new Map(applyVampireRevisions(truthCatalogVampire).map((t) => [t.id, t]));
 const option = (key, id) => nature.choices.find((c) => c.key === key).options.find((o) => o.id === id);
 const empreinte = (court) => nature.freeTraitRules.find((r) => r.when.court === court).traits[0];
 
@@ -147,10 +149,11 @@ function talentFromCatalog(id, voie, palier, porte, position, more = {}) {
   if (!t) throw new Error(`Talent absent du catalogue : ${id}`);
   seen.add(id);
   const legacy = FUSIONS[id];
-  let reference = t.effect;
+  const full = (x) => x.effectDetails ?? x.effect;
+  let reference = full(t);
   if (legacy) {
     seen.add(legacy);
-    reference = `${t.effect}\n${catalog.get(legacy).effect}`;
+    reference = `${full(t)}\n${full(catalog.get(legacy))}`;
   }
   const [statut, note] = CHANGEMENTS[id] ?? ["origine", null];
   const cout = more.cout ?? PALIER_COUT[palier];
@@ -161,7 +164,8 @@ function talentFromCatalog(id, voie, palier, porte, position, more = {}) {
     porte,
     palier_double: more.palier_double ?? null,
     acces: t.access,
-    texte_court: CARTES[id] ?? null,
+    activation: t.activation ?? null,
+    texte_court: CARTES[id] ?? (legacy ? null : t.effect),
     texte_reference: reference,
     lore: t.runtimeLore ?? null,
     statut_regle: statut,
