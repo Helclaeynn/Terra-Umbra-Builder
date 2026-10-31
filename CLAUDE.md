@@ -11,7 +11,7 @@ Lu automatiquement à l'ouverture d'une session dans ce dépôt. À tenir à jou
 
 ## Ordre d'autorité
 1. Dernière décision explicite de l'auteur.
-2. `docs/audit-game-design/README.md` (charte des décisions 1 à 19, état d'avancement).
+2. `docs/audit-game-design/README.md` (charte des décisions 1 à 22, état d'avancement).
 3. Les lots `docs/audit-game-design/lots/01` à `16` : refonte des talents en voies à paliers, terminée.
 
 Les passations des agents précédents décrivent **l'existant**, pas ce qu'il faut suivre.
@@ -45,6 +45,6 @@ Les passations des agents précédents décrivent **l'existant**, pas ce qu'il f
 5. ~~Monter la recette sur le même VPS~~ : fait le 31/10 (PR #27, mise en ligne `abaa1026`, bouton « Mise à l'essai » testé). Pile `tuc-recette` (`infrastructure/recette/`, dossier `/opt/terra-umbra/recette` sur le VPS) déjà démarrée avec une copie de la sauvegarde ; aucun e-mail ; services nommés `recette-*` (sur le réseau partagé avec Caddy, `api`/`web` désignent la production). Adresse : `dev.terra-umbra.fr` derrière un mot de passe (identifiant `recette`, mot de passe dans `/opt/terra-umbra/secrets/recette-acces.txt` et `H:\TerraUmbra\recette-acces.txt`). Bouton `deploy-recette.yml` (« Mise à l'essai », toute branche). Note : la première copie a rejoué toutes les migrations sur la base d'essai (la sauvegarde précédait la table `deploy_migrations`) ; sans effet sur la production.
 6. Migrer le contenu en base (schéma `content_*`), puis importer les lots, Vampire en pilote.
    - 31/10, branche `feat/contenu-vampire` (poussée, **à l'essai, pas fusionnée**) : migration `20261031_content_schema.sql` ; `infrastructure/content/build-vampire.mjs` génère `vampire.sql` (1 Nature, 3 couches, 20 voies, 75 talents ; les 71 identifiants actuels gardés, fusions Prédateur en `legacy_ids`) ; `deploy-recette.sh` applique `infrastructure/content/*.sql` en recette seulement. Vérifié en recette : 20 voies, coûts 1/2/3, tous les talents des fiches réelles retrouvés (15 fiches avec talents de Vérité, 1 Vampire). L'API ne lit pas encore ces tables.
-   - Questions posées à l'auteur le 31/10 : droits acquis des fiches dont les achats ne respectent plus les portes (la fiche Vampire réelle a les deux portes I du Sang Révélateur) ; règle de maîtrise (carte « 4 PTV » contre Q2 « palier III », impossible avec des Sangs à deux portes de deux paliers) ; propositions restées ouvertes (Sens de la magie du Sang Condamné, Déferlement 1/scène, portée d'Arme hématique).
+   - Questions tranchées par l'auteur le 31/10 : décisions 20 (droits acquis), 21 (maîtrise à 4 PTV) et 22 (Sens de la magie, Déferlement 1/scène, Arme hématique à 10 m), appliquées dans `build-vampire.mjs`.
    - Ensuite : le moteur (achats, coûts, prérequis) lit `content_*` ; puis les autres Natures, lot par lot.
 7. CMS, temps réel (SSE), règles en données, front.
