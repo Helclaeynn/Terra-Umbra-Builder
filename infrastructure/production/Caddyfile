@@ -33,8 +33,15 @@ dev.terra-umbra.fr {
   header >Alt-Svc "clear"
   encode zstd gzip
   header X-Robots-Tag "noindex, nofollow"
-  basic_auth {
+  # Directus (/cms) a sa propre connexion : ses requêtes portent leur propre
+  # en-tête d'autorisation, que le mot de passe du site d'essai bloquerait.
+  @protege not path /cms /cms/*
+  basic_auth @protege {
     recette $2a$14$UpvYBDwL7utoH2XYoRzPoO7kPRoAatWHUYJIH6eihMhu8JKhHeflS
+  }
+  redir /cms /cms/ 308
+  handle_path /cms/* {
+    reverse_proxy recette-directus:8055
   }
   handle /api/* {
     reverse_proxy recette-api:3000
