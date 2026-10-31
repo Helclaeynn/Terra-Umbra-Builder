@@ -6,6 +6,7 @@ import { terraUmbraCreationRules } from "./terra-umbra-creation.js";
 import { terraUmbraCreationLore, terraUmbraTalentChoiceSpecs, terraUmbraRealitySkillTalentMap } from "./terra-umbra-creation-lore.js";
 import { terraUmbraDisadvantages, terraUmbraDisadvantageLore, terraUmbraEdgeRules } from "./terra-umbra-disadvantages-edge.js";
 import { terraUmbraTruthRules } from "./truth/rules.js";
+import { applyContentRules } from "./content-rules.js";
 import { getRealityRules } from "./reality.js";
 import {
   findActiveCompendiumArticleById,
@@ -193,7 +194,7 @@ async function enrichTruthRules(){
       })
     );
   }
-  return truth;
+  return applyContentRules(truth);
 }
 
 async function enrichRealityRules(){

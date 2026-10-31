@@ -68,10 +68,18 @@ import {
   truthAvailableTalents,
   truthNorm,
   truthPrerequisiteSatisfied,
+  truthVoieIssues,
   type TruthRulesPackage,
   type TruthState,
   type TruthTalent
 } from "../../lib/truth";
+import type { TruthTalentVoie } from "../../../../api/src/rules/truth/types";
+
+function voieLabel(voie:TruthTalentVoie){
+  const palier=voie.palier==="entree"?"entrée":voie.palier?`palier ${voie.palier}`:"";
+  const porte=voie.porte==="sommet"?"sommet":voie.porte?`porte ${voie.porte}`:"";
+  return ["Voie "+voie.title,palier,porte].filter(Boolean).join(" · ");
+}
 
 type RuleAttribute={id:string;name:string};
 type RuleSkill={id:string;name:string;attribute:string};
@@ -763,11 +771,13 @@ function sellCampaignItem(){
             <div class="progress-card-title">
               <strong>{{ talent.name }}</strong>
               <small>{{ talent.group }}</small>
+              <small v-if="talent.voie" class="talent-voie" data-talent-voie>{{ voieLabel(talent.voie) }}</small>
             </div>
             <span>{{ talent.cost }} PTV</span>
           </summary>
 
-          <p v-if="talent.prerequisiteName"><b>Prérequis :</b> {{ talent.prerequisiteName }}</p>
+          <p v-if="talent.prerequisiteName&&!talent.voie"><b>Prérequis :</b> {{ talent.prerequisiteName }}</p>
+          <p v-for="issue in truthVoieIssues(truthRules,combinedTruthState,talent)" :key="issue" class="rule-note" data-voie-issue>{{ issue }}</p>
           <TruthTalentText :effect="talent.effect" :details="talent.effectDetails" :lore="talent.runtimeLore" :activation="talent.activation" />
           <button class="primary compact" type="button" :disabled="!truthCanBuy(talent)" @click="buyTruthTalent(talent)">Apprendre · {{ talent.cost }} PTV</button>
           <button v-if="truthBuildChoiceLabel(combinedTruthState,talent.id)" type="button" :data-configure-talent="talent.id" @click="configuredTruthTalent=configuredTruthTalent===talent.id?'':talent.id">{{truthBuildChoiceLabel(combinedTruthState,talent.id)}}</button>

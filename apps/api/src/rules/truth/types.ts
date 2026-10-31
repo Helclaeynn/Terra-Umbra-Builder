@@ -101,6 +101,26 @@ export type TruthTalent={
   mageAwaken?:string;
   mageOpening?:"native"|"additional"|"adjacent"|"traverse";
   mageTargetType?:string;
+  /** Voie à paliers, quand les règles viennent des tables de contenu (CONTENT_SOURCE=db). */
+  voie?:TruthTalentVoie;
+  /** Carte courte du lot. */
+  card?:string;
+  /** Ancien talent fondu dans `aliasOf` : connu et payé, plus achetable (décision 20). */
+  aliasOf?:string;
+  /** Talent rétabli par un lot, absent des anciens catalogues. */
+  restored?:boolean;
+};
+
+export type TruthTalentVoie={
+  id:string;
+  title:string;
+  couche:string|null;
+  forme:string|null;
+  /** entree, I, II, III, ou un palier gratuit. */
+  palier:string|null;
+  /** A, B, sommet, ou null pour une voie à une porte. */
+  porte:string|null;
+  position:number|null;
 };
 
 export type TruthRulesPackage={
