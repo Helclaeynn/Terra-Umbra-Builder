@@ -9,7 +9,7 @@
 // existe, sinon le résumé servi par l'API.
 // Chaque identifiant de talent actuel reste un slug, ou un legacy_id en cas de
 // fusion : les fiches existantes se lisent sans conversion.
-import { writeFileSync } from "node:fs";
+import { ContentSet } from "./lib.mjs";
 import { truthCatalogVampire } from "../../apps/api/src/rules/truth/catalog-vampire.ts";
 import { applyVampireRevisions } from "../../apps/api/src/rules/truth/vampire-revision.ts";
 import { truthRuntimeStructure } from "../../apps/api/src/rules/truth/runtime-structure.ts";
@@ -133,15 +133,14 @@ const FUSIONS = { faveur_de_la_nuit: "sens_du_chasseur", regeneration_de_sang: "
 
 // ---------------------------------------------------------------- assemblage
 
-const entries = [];
-const relations = [];
+const set = new ContentSet("vampire");
 const seen = new Set();
 
 function entry(type, slug, title, fields, extra = {}) {
-  entries.push({ type, slug, title, fields: { nature: "vampire", ...fields }, ...extra });
+  set.entry(type, slug, title, fields, extra);
 }
 function relation(fromType, from, toType, to, kind, position = null, meta = {}) {
-  relations.push({ fromType, from, toType, to, kind, position, meta });
+  set.relation([fromType, from], [toType, to], kind, position, meta);
 }
 
 function talentFromCatalog(id, voie, palier, porte, position, more = {}) {
@@ -267,45 +266,4 @@ for (const [blood, def] of Object.entries(SANGS)) {
 const missing = [...catalog.keys()].filter((id) => !seen.has(id));
 if (missing.length) throw new Error(`Talents non repris : ${missing.join(", ")}`);
 
-// ---------------------------------------------------------------- SQL
-
-const q = (s) => (s == null ? "NULL" : `'${String(s).replace(/'/g, "''")}'`);
-const j = (v) => `${q(JSON.stringify(v))}::jsonb`;
-const arr = (a) => (a.length ? `ARRAY[${a.map(q).join(",")}]::text[]` : "'{}'::text[]");
-const ref = (type, slug) => `(SELECT id FROM content_entry WHERE type = ${q(type)} AND slug = ${q(slug)})`;
-
-const lines = [
-  "-- Généré par infrastructure/content/build-vampire.mjs : ne pas modifier à la main.",
-  `-- ${entries.length} entrées, ${relations.length} relations.`,
-  "BEGIN;",
-  "DELETE FROM content_relation WHERE from_id IN (SELECT id FROM content_entry WHERE fields->>'nature' = 'vampire');"
-];
-for (const e of entries) {
-  lines.push(
-    `INSERT INTO content_entry (type, slug, title, summary, fields, status, legacy_ids, published_at) VALUES (` +
-      `${q(e.type)}, ${q(e.slug)}, ${q(e.title)}, ${q(e.summary ?? null)}, ${j(e.fields)}, ${q(e.status ?? "published")}, ${arr(e.legacy_ids ?? [])}, ` +
-      `${e.status === "review" ? "NULL" : "now()"}) ` +
-      `ON CONFLICT (type, slug) DO UPDATE SET title = EXCLUDED.title, summary = EXCLUDED.summary, fields = EXCLUDED.fields, ` +
-      `status = EXCLUDED.status, legacy_ids = EXCLUDED.legacy_ids, ` +
-      `version = content_entry.version + CASE WHEN content_entry.fields IS DISTINCT FROM EXCLUDED.fields OR content_entry.title IS DISTINCT FROM EXCLUDED.title THEN 1 ELSE 0 END, ` +
-      `updated_at = now();`
-  );
-}
-for (const r of relations) {
-  lines.push(
-    `INSERT INTO content_relation (from_id, to_id, kind, position, meta) VALUES (${ref(r.fromType, r.from)}, ${ref(r.toType, r.to)}, ${q(r.kind)}, ${r.position ?? "NULL"}, ${j(r.meta)});`
-  );
-}
-lines.push(
-  "INSERT INTO content_revision (entry_id, version, snapshot, comment)",
-  "SELECT e.id, e.version, to_jsonb(e) - 'id', 'Import Vampire (voies à paliers)'",
-  "FROM content_entry e WHERE e.fields->>'nature' = 'vampire'",
-  "ON CONFLICT (entry_id, version) DO NOTHING;",
-  "COMMIT;",
-  ""
-);
-
-const out = new URL("./vampire.sql", import.meta.url);
-writeFileSync(out, lines.join("\n"));
-const count = (type) => entries.filter((e) => e.type === type).length;
-console.log(`vampire.sql : ${count("nature")} Nature, ${count("couche")} couches, ${count("voie")} voies, ${count("talent")} talents, ${relations.length} relations ; ${catalog.size} talents actuels tous repris.`);
+console.log(`${set.write("build-vampire.mjs", "./vampire.sql")} ; ${catalog.size} talents actuels tous repris.`);
