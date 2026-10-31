@@ -1,7 +1,8 @@
 // Règles de Vérité lues dans les tables de contenu (étape 7 du plan,
 // docs/audit-game-design/schema-contenu.md). Actif seulement si
 // CONTENT_SOURCE=db (site d'essai) ; sinon le paquet de règles reste celui des
-// catalogues TypeScript.
+// catalogues TypeScript. Seules les entrées publiées comptent : un brouillon
+// ou une entrée « en relecture » dans Directus ne change rien au jeu.
 //
 // Chaque talent garde son identifiant, son groupe et ses contrôles d'achat
 // propres à sa Nature. On y ajoute :
@@ -55,7 +56,7 @@ async function loadTalents(): Promise<Row[]> {
       LEFT JOIN content_entry v ON v.id = r.to_id AND v.type = 'voie'
       LEFT JOIN content_relation rc ON rc.from_id = v.id AND rc.kind = 'appartient_a'
       LEFT JOIN content_entry c ON c.id = rc.to_id AND c.type = 'couche'
-     WHERE t.type = 'talent' AND t.status <> 'archived'
+     WHERE t.type = 'talent' AND t.status = 'published'
      ORDER BY t.scope, t.slug, v.slug NULLS LAST`);
   return rows;
 }

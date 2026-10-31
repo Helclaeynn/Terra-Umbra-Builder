@@ -45,6 +45,18 @@ if [ ! -f "$dir/.env" ]; then
     "$(head -c 32 /dev/urandom | base64 | tr -dc A-Za-z0-9)" > "$dir/.env"
   chmod 600 "$dir/.env"
 fi
+# Clés et compte administrateur de Directus, créés une fois, hors de Git.
+# L'accès est recopié dans les secrets du serveur pour l'auteur.
+if ! grep -q '^DIRECTUS_KEY=' "$dir/.env"; then
+  rand() { head -c 48 /dev/urandom | base64 | tr -dc A-Za-z0-9 | head -c "$1"; }
+  password=$(rand 24)
+  printf 'DIRECTUS_KEY=%s\nDIRECTUS_SECRET=%s\nDIRECTUS_ADMIN_EMAIL=auteur@terra-umbra.fr\nDIRECTUS_ADMIN_PASSWORD=%s\n' \
+    "$(rand 32)" "$(rand 48)" "$password" >> "$dir/.env"
+  umask 077
+  printf 'Directus (site d essai) : https://dev.terra-umbra.fr/cms\nIdentifiant : auteur@terra-umbra.fr\nMot de passe : %s\n' "$password" \
+    > "$root/secrets/directus-acces.txt"
+  umask 022
+fi
 
 echo "== Construction des images"
 docker build --pull=false -f "$stage/apps/api/Dockerfile" \
@@ -89,19 +101,37 @@ for file in "$stage"/infrastructure/migrations/*.sql; do
   fi
 done
 
-# Contenu en base (étape 6) : rejoué à chaque mise à l'essai, idempotent.
-# Seulement en recette tant que l'auteur n'a pas validé l'import.
-for file in "$stage"/infrastructure/content/*.sql; do
-  [ -e "$file" ] || continue
-  echo "Contenu : $(basename "$file")"
-  psql -q < "$file"
-done
+# Contenu en base (étape 6) : importé quand la base d'essai n'en a pas, ou
+# quand on recopie les données. Jamais par-dessus : depuis Directus, c'est
+# là qu'on modifie le contenu, et un import écraserait ces modifications.
+if [ "$refresh" = 1 ] || [ "$(psql -Atc "SELECT count(*) FROM content_entry" </dev/null)" = 0 ]; then
+  for file in "$stage"/infrastructure/content/*.sql; do
+    [ -e "$file" ] || continue
+    echo "Contenu : $(basename "$file")"
+    psql -q < "$file"
+  done
+else
+  echo "Contenu : déjà en base, non réimporté (REFRESH_DATA=1 pour repartir des lots)"
+fi
 
 echo "== Démarrage"
 compose up -d --force-recreate recette-api recette-web </dev/null
+compose up -d recette-directus </dev/null
 for _ in $(seq 1 30); do
   if compose exec -T recette-api node -e \
       "fetch('http://127.0.0.1:3000/api/ready').then(r=>process.exit(r.ok?0:1),()=>process.exit(1))" </dev/null; then
+    echo "== Directus"
+    for _ in $(seq 1 60); do
+      compose exec -T recette-api node -e \
+        "fetch('http://recette-directus:8055/server/health').then(r=>process.exit(r.ok?0:1),()=>process.exit(1))" </dev/null && break
+      sleep 3
+    done
+    # Collections, relations et champs de Directus sur les tables de contenu.
+    docker run --rm --network tuc-recette_recette \
+      -e DIRECTUS_URL=http://recette-directus:8055 \
+      -e DIRECTUS_ADMIN_EMAIL -e DIRECTUS_ADMIN_PASSWORD \
+      -v "$stage/infrastructure/recette/directus-setup.mjs:/setup.mjs:ro" \
+      node:24-alpine node /setup.mjs </dev/null
     docker image prune -f >/dev/null
     printf '%s\n' "$sha" > "$dir/.recette-sha"
     echo "À L'ESSAI : $sha sur https://dev.terra-umbra.fr"
