@@ -8,6 +8,9 @@ import { pool } from "./db.js";
 import { registerCharacterJournalRoutes } from "./character-journal.js";
 import { registerCharacterSheetRoutes } from "./character-sheets.js";
 import { requireUser } from "./auth.js";
+import { contentRulesEnabled } from "./rules/content-rules.js";
+import { truthRulesForChecks } from "./rules/index.js";
+import { voieOrderViolations } from "./rules/voie-order.js";
 import {
   blankCharacterData,
   importV1CharacterData,
@@ -86,6 +89,15 @@ async function insertCharacter(
   }
 }
 
+/** Talents de Vérité ajoutés hors de l'ordre de leur voie (site d'essai : règles en base). */
+async function voieViolations(before: unknown, after: Record<string, unknown>) {
+  if (!contentRulesEnabled()) return [];
+  const truthOf = (data: unknown) => ((data as any)?.truth ?? {}) as { nature?: string; truthTalents?: string[] };
+  const next = truthOf(after);
+  const rules = await truthRulesForChecks();
+  return voieOrderViolations(rules.catalogs ?? {}, String(next.nature ?? "humain"), truthOf(before).truthTalents ?? [], next.truthTalents ?? []);
+}
+
 export async function registerCharacterRoutes(app: FastifyInstance) {
   await registerCampaignRoutes(app);
   await registerCharacterHistoryRoutes(app);
@@ -150,6 +162,8 @@ export async function registerCharacterRoutes(app: FastifyInstance) {
       requestedData && Object.keys(requestedData).length > 0
         ? normalizeCharacterData(requestedData, name)
         : blankCharacterData(name);
+    const createViolations = await voieViolations(null, data);
+    if (createViolations.length) return reply.code(400).send({ error: "truth_voie_order", violations: createViolations });
 
     try {
       const character = await insertCharacter(user.id, name, data, "created");
@@ -286,6 +300,11 @@ export async function registerCharacterRoutes(app: FastifyInstance) {
         requestedData !== undefined
           ? normalizeCharacterData(requestedData, nextName)
           : normalizeCharacterData(current.data, nextName);
+      const violations = await voieViolations(current.data, nextData);
+      if (violations.length) {
+        await client.query("ROLLBACK");
+        return reply.code(400).send({ error: "truth_voie_order", violations });
+      }
       if(current.campaignId){
         const field=campaignRewardViolation(current.data,nextData);
         if(field){

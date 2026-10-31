@@ -466,6 +466,7 @@ function humanError(code:string){
     character_not_found:"Ce personnage n’existe plus ou ne t’appartient pas.",
     character_version_conflict:"Cette fiche a été modifiée ailleurs. Recharge-la avant d’enregistrer de nouveau.",
     invalid_character_data:"Les données de cette fiche ne sont pas valides.",
+    truth_voie_order:"Un talent de Vérité ne respecte pas l’ordre de sa voie (paliers ou portes). Regarde l’avertissement affiché sous le talent.",
     character_update_failed:"La sauvegarde a échoué."
   };
   return labels[code]??"Une erreur est survenue.";

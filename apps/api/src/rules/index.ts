@@ -235,6 +235,10 @@ export function invalidateTruthRules(){
   truthPromise=null;
   void getEnrichedTruth();
 }
+/** Règles de Vérité enrichies, pour les contrôles du serveur (ordre des voies). */
+export function truthRulesForChecks():Promise<any>{
+  return getEnrichedTruth();
+}
 function getEnrichedReality(){
   realityPromise??=enrichRealityRules();
   return realityPromise;

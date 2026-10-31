@@ -148,7 +148,8 @@ docker images --format '{{.Repository}}:{{.Tag}}' |
   grep -vE ":(latest|rollback|$short)$" |
   xargs -r docker rmi >/dev/null 2>&1 || true
 docker image prune -f >/dev/null
-docker builder prune -f >/dev/null
+# Cache de construction commun avec le site d'essai : plafonné à 4 Go.
+docker builder prune -f --max-used-space 4gb >/dev/null
 
 echo "EN LIGNE : $sha"
 df -h / | awk 'NR==2{print "Disque : "$4" libres ("$5" utilisés)"}'
