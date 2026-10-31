@@ -27,14 +27,21 @@ Les passations des agents précédents décrivent **l'existant**, pas ce qu'il f
 - La V1 (GitHub Pages) ne reste pas en ligne : elle passe dans `legacy/`, et `feature/tuc-web-v2` devient `main`.
 - Fin des releases par overlay : un seul déploiement, reconstruit depuis Git.
 - Sauvegardes : `infrastructure/backup/daily-backup.sh` sur le VPS, copie sur le PC de l'auteur (disque H) avec `pull-backups-windows.ps1`.
-- Pas de changement de langage. Le contenu passe en base (`docs/audit-game-design/schema-contenu.md`), le CMS se choisit ensuite.
+- Pas de changement de langage. Le contenu passe en base (`docs/audit-game-design/schema-contenu.md`).
+- **CMS : Directus** (audit du 30/10, recommandation A, confirmée par l'auteur le 01/11) pour le contenu éditorial (articles, PNJ, lieux, organisations, médias) ; l'application Vue garde le jeu. Ne pas proposer de garder l'éditeur maison à la place. Les règles (talents, voies, objets) sont visibles dans Directus ; une modification y passe « en relecture » et le site n'applique que ce qui est publié (décision du 01/11).
+- Audit technique v2 du 01/11 : https://claude.ai/artifact/G2hXWn58crmfnh4k3dgj7t (plan révisé).
 
 ## Pièges
 - Workflows actifs : `v2-dev.yml` (contrôles sur `main` ; ne déploie pas, la production est protégée par `/opt/terra-umbra/production-active`), `deploy.yml` et `deploy-recette.yml` (manuels).
 - Le `Caddyfile` de production vient de `infrastructure/production/Caddyfile` à chaque mise en ligne : toute modification à la main sur le VPS est écrasée. Les anciens sont dans `.github/workflows-archive/` : ne jamais les remettre dans `.github/workflows/`.
-- Pousser une étiquette sur un ancien commit relance les workflows de ce commit.
+- Pousser une étiquette sur un ancien commit relance les workflows de ce commit. De même, une réécriture d'historique poussée sur les ~70 anciennes branches (`preview/*`, `feature/*`…) a relancé 53 contrôles le 01/11 (sans effet sur les serveurs). Ne pousser que les branches utiles.
+- **Dépôt privé depuis le 01/11.** Les textes sources de l'auteur (livres, Bestiaire et secrets MJ) avaient été publiés par erreur : historique purgé (`filter-branch`, toutes les identités de commit ont changé), copie privée dans `H:\TerraUmbra\sources-auteur`, exclus par `.gitignore`. Ne jamais verser de texte de l'auteur dans le dépôt.
 - Les fiches enregistrent les talents par identifiant : ne jamais changer un identifiant existant.
-- Accès VPS : `ssh -i ~/.ssh/terra_umbra debian@terra-umbra.fr` (clé sans phrase secrète, `sudo` sans mot de passe ; `tuc_vps` a une phrase secrète, inutilisable par Claude). Pas de `cron` sur le VPS : utiliser systemd.
+- Accès VPS (01/11) :
+  - Claude : `ssh -i ~/.ssh/terra_umbra_admin debian@terra-umbra.fr` (clé « claude-admin-delegation », sans phrase secrète, `sudo` sans mot de passe) ; à retirer de `~debian/.ssh/authorized_keys` quand la délégation prend fin.
+  - Copie des sauvegardes : `~/.ssh/terra_umbra` → compte `sauvegarde` (lecture de `/opt/terra-umbra/private-backups` seulement, ni sudo ni Docker) ; `daily-backup.sh` donne la lecture au groupe `sauvegarde`.
+  - GitHub (clé « github-tuc-v2 ») : passe par le portier `/usr/local/bin/terra-umbra-ssh-gate` (source : `infrastructure/production/ssh-gate.sh`, à réinstaller à la main s'il change) qui n'accepte que `upload`, `deploy`, `recette`. Ancienne configuration gardée dans `~debian/.ssh/authorized_keys.avant-portier`.
+  - `tuc_vps` a une phrase secrète, inutilisable par Claude. Pas de `cron` sur le VPS : utiliser systemd.
 - VPS : 40 Go de disque, 52 % le 31/10 avec les deux piles. `deploy.sh` range lui-même (garde la version en ligne et une de retour arrière) et refuse de tourner sous 10 Go libres. Ne jamais lancer `docker system prune -a --volumes`.
 
 ## Plan

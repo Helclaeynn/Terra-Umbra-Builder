@@ -18,11 +18,11 @@ run_from_archive() {
   local archive=$1 script=$2
   shift 2
   test -f "$archive" || { echo "Archive absente : $archive" >&2; exit 1; }
-  local tmp
-  tmp=$(mktemp -d)
-  trap 'rm -rf "$tmp"' EXIT
-  tar -xzf "$archive" -C "$tmp" "$script"
-  bash "$tmp/$script" "$@"
+  # Variable globale : le piège EXIT la lit après la fin de la fonction.
+  gate_tmp=$(mktemp -d)
+  trap 'rm -rf "$gate_tmp"' EXIT
+  tar -xzf "$archive" -C "$gate_tmp" "$script"
+  bash "$gate_tmp/$script" "$@"
 }
 
 case "${args[0]:-}" in
