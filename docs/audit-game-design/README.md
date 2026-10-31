@@ -9,6 +9,7 @@ Travail commencé le 29 octobre 2026 avec Claude Code. Ce dossier contient tout 
 | Audit game design (v2, sur le fond, avec l'annexe des 2 553 verdicts) | https://claude.ai/artifact/WwCpHa58KdNP5XBXuuPKda |
 | Vampire en voies à paliers (version hybride) | https://claude.ai/artifact/BunXYV63PwtnUNk3dkQNYg |
 | Audit technique (back-end, CMS, campagnes, table en direct) | https://claude.ai/artifact/5nJHVt6zcezz1vJq2JcVk8 |
+| Audit technique v2 (01/11 : état après les étapes 1 à 6, Directus, plan révisé) | https://claude.ai/artifact/G2hXWn58crmfnh4k3dgj7t |
 | Audit UI/UX | https://claude.ai/artifact/RLu4Wj2PDqoqtPrFk43Yyb |
 | Maquettes (canevas Claude Design, 6 écrans) | https://claude.ai/artifact/Cs7jytKajQg84RhnatPTve |
 
