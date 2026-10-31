@@ -78,6 +78,8 @@ const CARTES = {
   presence_du_conquerant: "Le rang écrase : la cible est Tendue et ne peut pas attaquer le Krovni en premier ce round, sauf si elle est elle-même noble ou officier.",
   ordre_imperieux: "Ordre martial : sur un ennemi Tendu ou un subordonné, un ordre de combat (reculer, lâcher, se jeter à terre).",
   // Primal : ressort propre (Q6)
+  deferlement_ecarlate: "1 PA, 1/scène : +3 au prochain test physique effectué avant la fin du round.",
+  arme_hematique: "Le sang animé forme une lame, un fouet ou un projectile ; la forme choisie fixe la compétence d'attaque. Le projectile porte à 10 m au plus.",
   corps_de_brume: "Se dissoudre : en plus du +3, finir son mouvement à 3 m, à travers une fente ou une grille.",
   // Sang Condamné
   faim_condamnee: "1 PA, 10 m, Volonté + Force Mentale contre Défense occulte, drain DGT 3 ; récupère jusqu'à 1 + DR PV.",
@@ -119,8 +121,8 @@ const CHANGEMENTS = {
   faveur_de_la_nuit: ["correction", "Fusion avec Sens du chasseur (Prédateur I)."],
   regeneration_de_sang: ["correction", "Fusion avec Insensibilité améliorée (Prédateur II)."],
   toucher_ardent: ["origine", "DGT 5 rétabli (lot 16)."],
-  deferlement_ecarlate: ["proposition", "1/scène au lieu de 1/round : proposition de la page, non tranchée."],
-  arme_hematique: ["proposition", "Réduire la portée (DGT 5 à 20 m sans équipement) : proposition de la page, non tranchée."],
+  deferlement_ecarlate: ["correction", "1/scène au lieu de 1/round (décision 22, 31/10)."],
+  arme_hematique: ["correction", "Portée du projectile réduite à 10 m (décision 22, 31/10)."],
   enfant_des_tenebres: ["correction", "L'effet cesse dès qu'il attaque ou agit contre quelqu'un (clôture du 29/10, Q3)."],
   cycle_du_sang: ["correction", "La réduction de 1 PA vaut pour le premier talent de Sang de chaque round jusqu'à la fin de la scène (clôture du 29/10, Q3)."]
 };
@@ -181,9 +183,10 @@ entry("nature", "vampire", "Vampire", {
   traits_gratuits: nature.baseFreeTraits,
   malediction: "Au soleil direct, 2 PV irréductibles par round. Âme condamnée : à la mort véritable, le Néant.",
   choix_creation: ["cour", "sang_noir"],
-  maitrise: "Un Sang est maîtrisé après 4 PTV investis (règle de la carte Vampire) ; on peut alors éveiller un autre Sang.",
+  maitrise: "Un Sang est maîtrisé après 4 PTV investis dans sa voie (règle de la carte Vampire, décision 21) ; on peut alors éveiller un autre Sang pour 3 PTV.",
   cout_eveil: 3,
-  faim: false
+  faim: false,
+  droits_acquis: "Les talents achetés avant les voies restent acquis, même si leur combinaison ne respecte plus l'ordre des paliers ou des portes ; la règle vaut pour les achats suivants (décision 20)."
 }, { summary: "Prédateur maudit : une Cour, un Sang noir, des voies communes.", status: "published" });
 
 // Couches
@@ -251,8 +254,8 @@ for (const [blood, def] of Object.entries(SANGS)) {
     cout: 1, palier: "I", porte: null, entree_alternative: true, acces: "SR",
     texte_court: "Tu sens une magie active à 10 m : sa présence et sa direction, pas sa nature.",
     texte_reference: "Entrée Semi-Révélée optionnelle du Sang Condamné : perçoit à 10 m la présence et la direction d'une magie active, sans en connaître la nature.",
-    statut_regle: "proposition", changements: "Nouveau talent (clôture du 29/10, Q4). Nom et place dans la voie à valider."
-  }, { status: "review" });
+    statut_regle: "correction", changements: "Nouveau talent : entrée Semi-Révélée optionnelle (clôture du 29/10, Q4 ; nom validé, décision 22)."
+  }, { status: "published" });
   relation("talent", "sens_de_la_magie", "voie", voie, "appartient_a", 0);
 }
 
