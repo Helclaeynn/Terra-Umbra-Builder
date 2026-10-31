@@ -118,11 +118,19 @@ export async function createContentArticle(article: Article, userId: string) {
 
 /** Publication depuis l'éditeur du site : la base est mise à jour, avec une révision. */
 export async function publishContentArticle(db: Queryable, article: Article, userId: string) {
-  const { rows: [current] } = await db.query<{ id: string; body: Article | null }>(
-    "SELECT id, body FROM content_entry WHERE type = 'article' AND scope = $1 AND slug = $2 FOR UPDATE",
+  const { rows: [current] } = await db.query<ContentRow & { id: string; version: number }>(
+    `SELECT id, version, ${COLUMNS} FROM content_entry
+      WHERE type = 'article' AND scope = $1 AND slug = $2 FOR UPDATE`,
     [SCOPE, article.id]
   );
   if (!current) throw new Error(`Article ${article.id} absent de la base de contenu`);
+  // Première modification : on garde la version d'origine pour pouvoir y revenir.
+  await db.query(
+    `INSERT INTO content_revision (entry_id, version, snapshot, comment)
+     SELECT $1, $2, $3::jsonb, 'Version d''origine'
+      WHERE NOT EXISTS (SELECT 1 FROM content_revision WHERE entry_id = $1)`,
+    [current.id, current.version, JSON.stringify(storedBody(rowToArticle(current), current.body))]
+  );
   const body = storedBody(article, current.body);
   const { rows: [saved] } = await db.query<{ version: number }>(
     `UPDATE content_entry
@@ -193,4 +201,28 @@ export function startContentWatch(onChange: () => void, everyMs = 30_000) {
   };
   void tick();
   setInterval(tick, everyMs).unref();
+}
+
+/** Versions publiées d'un article (les plus récentes d'abord), pour l'historique de l'éditeur. */
+export async function contentArticleRevisions(slug: string) {
+  const { rows } = await pool.query<{ version: number; createdAt: string; author: string | null; comment: string | null }>(
+    `SELECT r.version, r.created_at::text AS "createdAt", u.display_name AS author, r.comment
+       FROM content_revision r
+       JOIN content_entry e ON e.id = r.entry_id
+       LEFT JOIN users u ON u.id = r.author
+      WHERE e.type = 'article' AND e.scope = $1 AND e.slug = $2
+      ORDER BY r.version DESC
+      LIMIT 100`,
+    [SCOPE, slug]
+  );
+  return rows;
+}
+
+export async function contentArticleRevision(slug: string, version: number): Promise<Article | null> {
+  const { rows: [row] } = await pool.query<{ snapshot: Article }>(
+    `SELECT r.snapshot FROM content_revision r JOIN content_entry e ON e.id = r.entry_id
+      WHERE e.type = 'article' AND e.scope = $1 AND e.slug = $2 AND r.version = $3`,
+    [SCOPE, slug, version]
+  );
+  return row ? { ...row.snapshot, id: slug } : null;
 }

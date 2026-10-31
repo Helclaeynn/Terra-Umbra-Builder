@@ -5,7 +5,7 @@ import AtlasArticleMaps from "../components/AtlasArticleMaps.vue";
 import ArticleReadingGuide from "../components/ArticleReadingGuide.vue";
 import TerraUmbraBrand from "../components/TerraUmbraBrand.vue";
 import PortraitAdmin from "../components/PortraitAdmin.vue";
-import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from "vue";
+import { computed, defineAsyncComponent, nextTick, onBeforeUnmount, onMounted, ref, watch } from "vue";
 import { isNavigationFailure, NavigationFailureType, RouterLink, useRoute, useRouter } from "vue-router";
 import { api, ApiError } from "../lib/api";
 import CompendiumOnboarding from "../components/CompendiumOnboarding.vue";
@@ -15,6 +15,8 @@ const topbarHeight = ref<number | undefined>();
 let topbarObserver: ResizeObserver | undefined;
 import CompendiumHologramComparison from "../components/CompendiumHologramComparison.vue";
 import NpcStatProfile from "../components/NpcStatProfile.vue";
+// Éditeur sur la page : chargé seulement quand un éditeur clique sur « Modifier ».
+const ArticleInlineEditor = defineAsyncComponent(() => import("../components/editor/ArticleInlineEditor.vue"));
 import { isNpcStatProfileSection } from "../lib/npc-stat-profile";
 import { parseReadingPositions, rememberReading, type ReadingPositions } from "../lib/compendium-reading";
 import { createRenderCache } from "../lib/render-cache";
@@ -486,6 +488,17 @@ function clearCategorySelection() {
 const selectedIsFavorite = computed(() =>
   selected.value ? favoriteIds.value.includes(selected.value.id) : false
 );
+
+const editing = ref(false);
+watch(() => selected.value?.id, () => { editing.value = false; });
+async function onEditorPublished() {
+  const id = selected.value?.id;
+  editing.value = false;
+  if (!id) return;
+  articleCache.delete(id);
+  selected.value = null;
+  await loadArticle(id);
+}
 
 const canEdit = computed(() =>
   currentUser.value?.role === "editor" || currentUser.value?.role === "admin"
@@ -2205,7 +2218,15 @@ onBeforeUnmount(() => {
             </div>
 
             <template v-else-if="selected">
-              <div :key="selected.id" class="wiki-article-grid wiki-article-enter">
+              <div v-if="editing && canEdit" class="wiki-inline-edit">
+                <ArticleInlineEditor
+                  :article-id="selected.id"
+                  :builder-sources="builderSources"
+                  @close="editing = false"
+                  @published="onEditorPublished"
+                />
+              </div>
+              <div v-else :key="selected.id" class="wiki-article-grid wiki-article-enter">
                 <div class="wiki-article-main">
                   <header class="article-header">
                     <img class="reader-orbital-art" :src="orbitalImage" alt="" width="1536" height="1024" decoding="async" />
@@ -2260,13 +2281,14 @@ onBeforeUnmount(() => {
                         :title="`Logo de ${selected.manufacturer} à intégrer`"
                       >{{ selected.manufacturer }}</span>
                       <h1>{{ selected.title }}</h1>
-                      <RouterLink
+                      <button
                         v-if="canEdit"
                         class="wiki-edit-link"
-                        :to="`/compendium/edit/${encodeURIComponent(selected.id)}`"
+                        type="button"
+                        @click="editing = true"
                       >
                         ✎ Modifier
-                      </RouterLink>
+                      </button>
                     </div>
 
                     <div class="article-meta">
@@ -3259,6 +3281,9 @@ onBeforeUnmount(() => {
   padding: .5rem .7rem;
   border: 1px solid rgba(216, 189, 133, .30);
   color: #91cfe0;
+  background: transparent;
+  cursor: pointer;
+  font: inherit;
   text-decoration: none;
   font-size: .76rem;
 }

@@ -19,7 +19,8 @@ import type { FastifyInstance, FastifyReply } from "fastify";
 import { currentUser, requireUser } from "./auth.js";
 import { pool } from "./db.js";
 import {
-  archiveContentArticle, contentArticle, contentArticleExists, createContentArticle, publishContentArticle,
+  archiveContentArticle, contentArticle, contentArticleExists, contentArticleRevision, contentArticleRevisions,
+  createContentArticle, publishContentArticle,
   syncArticlesWithContent
 } from "./content-articles.js";
 import { contentRulesEnabled } from "./rules/content-rules.js";
@@ -5235,6 +5236,29 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
       conflict: Boolean(row && row.baseHash !== base.hash)
     };
   });
+
+  // Historique des versions publiées (site d'essai : base de contenu).
+  app.get<{ Params: { id: string } }>("/api/compendium/editor/articles/:id/revisions", async (request, reply) => {
+    const user = await requireEditor(request, reply);
+    if (!user) return;
+    if (!contentRulesEnabled()) return { revisions: [] };
+    return { revisions: await contentArticleRevisions(request.params.id.trim()) };
+  });
+
+  app.get<{ Params: { id: string; version: string } }>(
+    "/api/compendium/editor/articles/:id/revisions/:version",
+    async (request, reply) => {
+      const user = await requireEditor(request, reply);
+      if (!user) return;
+      const version = Number(request.params.version);
+      if (!contentRulesEnabled() || !Number.isInteger(version) || version < 1) {
+        return reply.code(404).send({ error: "compendium_revision_not_found" });
+      }
+      const article = await contentArticleRevision(request.params.id.trim(), version);
+      if (!article) return reply.code(404).send({ error: "compendium_revision_not_found" });
+      return { article };
+    }
+  );
 
   app.put<{
     Params: { id: string };
