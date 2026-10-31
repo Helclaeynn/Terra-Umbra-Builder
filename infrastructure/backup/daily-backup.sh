@@ -13,6 +13,13 @@ flock -n 9 || { echo "Une sauvegarde est déjà en cours" >&2; exit 1; }
 
 bash /opt/terra-umbra/infrastructure/production/backup.sh
 
+# Le compte « sauvegarde » (copie sur le PC de l'auteur) lit les sauvegardes,
+# rien d'autre : ni sudo, ni Docker. debian est membre du groupe sauvegarde.
+chgrp -R sauvegarde "$backup_root"
+chmod 750 "$backup_root"
+chmod -R g+rX "$backup_root"/pre-production-*
+chmod g+r "$backup_root/latest-verified"
+
 latest=$(cat "$backup_root/latest-verified")
 mapfile -t dirs < <(find "$backup_root" -maxdepth 1 -mindepth 1 -type d -name 'pre-production-*' -printf '%T@ %p\n' | sort -rn | cut -d' ' -f2-)
 count=0

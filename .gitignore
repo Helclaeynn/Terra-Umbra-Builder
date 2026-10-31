@@ -10,3 +10,7 @@ dist/
 
 # Réglages locaux de Claude Code (PC de l auteur)
 .claude/settings.local.json
+
+# Textes sources de l'auteur (livres, Bestiaire et secrets MJ) : jamais dans le dépôt.
+# Copie privée : H:\TerraUmbra\sources-auteur
+docs/audit-game-design/corpus/sources-auteur/

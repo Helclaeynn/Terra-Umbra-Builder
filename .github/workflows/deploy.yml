@@ -53,11 +53,11 @@ jobs:
           # Empreinte du serveur fixée (pas de confiance au premier contact).
           echo "$HOST ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ592nh2kHfUzyLk7b2ql9Xe1AO2jJWbWIWhw7Yu36KG" > ~/.ssh/known_hosts
 
+      # La clé de GitHub passe par le portier du serveur
+      # (infrastructure/production/ssh-gate.sh) : déposer l'archive, puis lancer.
       - name: Mise en ligne
         run: |
           remote="$USER_NAME@$HOST"
           ssh_opts="-i $HOME/.ssh/deploy -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes"
-          archive="/opt/terra-umbra/releases/incoming-${{ github.sha }}.tar.gz"
-          scp $ssh_opts release.tar.gz "$remote:$archive"
-          ssh $ssh_opts "$remote" \
-            "tmp=\$(mktemp -d) && tar -xzf $archive -C \$tmp infrastructure/production/deploy.sh && bash \$tmp/infrastructure/production/deploy.sh ${{ github.sha }} $archive; status=\$?; rm -rf \$tmp; exit \$status"
+          ssh $ssh_opts "$remote" "upload incoming-${{ github.sha }}.tar.gz" < release.tar.gz
+          ssh $ssh_opts "$remote" "deploy ${{ github.sha }}"
