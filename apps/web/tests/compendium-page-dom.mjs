@@ -83,6 +83,7 @@ const bundle = await build({
         { path: '/decouvrir/:guide', component: Placeholder },
         { path: '/glossaire', component: Placeholder },
         { path: '/compendium/new', component: Placeholder },
+        { path: '/compendium/nouvelle', component: Placeholder },
         { path: '/compendium/edit/:id', component: Placeholder },
         { path: '/characters/:id/builder', component: Placeholder }
       ] });
