@@ -16,7 +16,7 @@
 param(
   [string]$Destination = "H:\TerraUmbra\sauvegardes",
   [string]$ServerHost = "terra-umbra.fr",
-  [string]$User = "debian",
+  [string]$User = "sauvegarde",
   [string]$KeyPath = "$env:USERPROFILE\.ssh\id_ed25519",
   [int]$Keep = 30
 )
