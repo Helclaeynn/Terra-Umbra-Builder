@@ -5339,7 +5339,9 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
       if (contentRulesEnabled()) {
         // Site d'essai : la publication écrit dans la base de contenu (avec une
         // révision) ; le brouillon de l'éditeur est vidé.
-        await publishContentArticle(client, editableArticle(base.article, row.draft), user.id);
+        // Le brouillon est déjà l'article complet : le repasser sur la base
+        // ferait revenir une visibilité retirée (« Public » n'est pas un champ).
+        await publishContentArticle(client, { ...row.draft, id }, user.id);
         await client.query(
           `UPDATE compendium_article_edits
            SET draft = NULL, draft_by = NULL, draft_updated_at = NULL, updated_at = now()
