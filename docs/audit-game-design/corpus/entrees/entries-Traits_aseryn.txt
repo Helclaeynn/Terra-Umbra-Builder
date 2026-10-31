@@ -1,0 +1,3 @@
+#1 Accelyr [] {trait conditionnel / calcul partiel} :: Langue aseryne parlée à une vitesse que l’oreille et le cerveau humains ne suivent normalement pas.
+#2 Physiologie aseryne [] {trait conditionnel / calcul partiel} :: Longévité exceptionnelle et activité neuromusculaire rapide.
+#3 Sens électromagnétique [] {trait conditionnel / calcul partiel} :: Perçoit les sources et variations électromagnétiques significatives.

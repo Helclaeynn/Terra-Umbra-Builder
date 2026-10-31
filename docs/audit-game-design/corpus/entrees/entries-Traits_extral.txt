@@ -1,0 +1,31 @@
+#1 Anatomie segmentaire [] {trait conditionnel / calcul partiel} :: Physiologie segmentaire talass.
+#2 Bond talass [] {trait conditionnel / calcul partiel} :: Bonds sans élan et changements d’appui biologiques, dans les limites de l’endurance ; les Talents améliorent les manœuvres difficiles.
+#3 Adhérence naturelle [] {trait conditionnel / calcul partiel} :: Adhérence physiologique talass.
+#4 Soie conductrice [] {trait conditionnel / calcul partiel} :: Soie physiologique transportant un courant ou un Talwa compatible ; Relais conducteur améliore la portée maîtrisée et ne fait pas payer la conductivité de base.
+#5 Affinité Talwa’Etax [] {trait conditionnel / calcul partiel} :: Substrat psychique naturel : scan, télépathie et télékinésie ; les Talents précisent les développements contrôlés, leur portée et leurs coûts.
+#6 Perception des fractures [] {trait conditionnel / calcul partiel} :: Détecte naturellement une fracture dimensionnelle active ou un résidu récent du Néant ; Vision des fractures développe son interprétation.
+#7 Cuirasse mo’senne [] {trait conditionnel / calcul partiel} :: Armure corporelle 1 ; se cumule avec une armure portée réellement compatible.
+#8 Griffes et dentition [] {trait conditionnel / calcul partiel} :: Pugilat DGT 2.
+#9 Digestion absolue [] {trait conditionnel / calcul partiel} :: Physiologie digestive mo’senne.
+#10 Thermotolérance [] {trait conditionnel / calcul partiel} :: Tolérance thermique naturelle.
+#11 Tardollas [] {trait conditionnel / calcul partiel} :: Capacité biologique de culture ; normalement 2 préparations actives à la fois.
+#12 Quatre bras [] {trait conditionnel / calcul partiel} :: Deux paires de bras ; aucun PA, Attaque, Défense active ou Réaction supplémentaire par défaut.
+#13 Immunité adaptative [] {trait conditionnel / calcul partiel} :: +3 aux résistances contre maladies, poisons, toxines et contamination biologique.
+#14 Stabilité manuelle [] {trait conditionnel / calcul partiel} :: Stabilité naturelle de la quadrimanie baséanne.
+#15 Amphibie [] {trait conditionnel / calcul partiel} :: Physiologie amphibie rocréenne.
+#16 Noyau rocréen [] {trait conditionnel / calcul partiel} :: Noyau biologique central de la physiologie et de la régénération rocréennes.
+#17 Quadrimanie rocréenne [] {trait conditionnel / calcul partiel} :: Morphologie quadrimanuelle rocréenne.
+#18 Résonance psychique [] {trait conditionnel / calcul partiel} :: Communication et perceptions partagées entre Rocréens et partenaires télépathiquement compatibles proches ; Lien de banc ouvre une exception aux partenaires non télépathes.
+#19 Amphibie thalsios [] {trait conditionnel / calcul partiel} :: Physiologie amphibie thalsiosse.
+#20 Charpente cartilagineuse [] {trait conditionnel / calcul partiel} :: +3 contre fracture, bris osseux ou trauma squelettique.
+#21 Toucher thalsios [] {trait conditionnel / calcul partiel} :: Perçoit naturellement les vibrations et variations de pression. Les Thalsios acclimatés à la Terre sentent les fluctuations locales de l’Hologramme, sans identification automatique ; les Talents améliorent leur interprétation.
+#22 Essaim nanitique AIDH [] {trait conditionnel / calcul partiel} :: Population nanitique durable intégrée ; substrat des Talents Homo Superior, pas équipement interchangeable.
+#23 Homéostasie assistée [] {trait conditionnel / calcul partiel} :: Connaît automatiquement son état physiologique général sans identifier automatiquement cause ou traitement.
+#24 Hémostase nanitique [] {trait conditionnel / calcul partiel} :: Un Saignement ordinaire s’arrête automatiquement à la fin du round ; ne soigne pas et ne Stabilise pas.
+#25 Organisme optimisé [] {trait conditionnel / calcul partiel} :: +3 aux tests exclusivement destinés à résister aux effets physiologiques d’un environnement naturel hostile ; pas aux impossibilités biologiques.
+#26 Métabolisme de campagne [] {trait conditionnel / calcul partiel} :: Peut fonctionner quelques jours avec sommeil réduit, repas irréguliers et effort prolongé sans pénalité notable.
+#27 Patchs tatoués AIDH [] {trait conditionnel / calcul partiel} :: Intégrés à chaque soldat Homo Superior ; supports de liaison de son équipement. Leur présence n’accorde ni le Talent Phasage de l’équipement ni le matériel lié.
+#28 Gabarit Ad’rak [] {trait conditionnel / calcul partiel} :: R : allonge et masse considérables ; contraintes réelles de véhicule, mobilier, passage et armure. Une arme humaine à deux mains peut souvent être maniée à une main si l’ergonomie le permet ; aucune attaque supplémentaire.
+#29 Force Ad’rak [] {trait conditionnel / calcul partiel} :: Peut tenter normalement des actions de force hors échelle humaine ; pas de jet quand l’issue n’est réellement pas incertaine.
+#30 Pugilat Ad’rak [] {trait conditionnel / calcul partiel} :: SR : DGT 2 ; R : DGT 3.
+#31 Compatibilité terrestre [] {trait conditionnel / calcul partiel} :: Physiologie proche de l’Humain pour respiration, eau, grande partie de l’alimentation et environnements ordinaires.

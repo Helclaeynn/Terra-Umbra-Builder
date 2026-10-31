@@ -1,0 +1,375 @@
+           TERRA UMBRA CALIFORNIA ◆ MOTEUR
+
+
+TERRA UMBRA / CALIFORNIA
+
+
+
+
+MOTEUR
+Résolution • Profil & statut • Combat • Santé • Stress
+
+  Le socle commun sur lequel se branchent la Réalité et la Vérité.
+                                  MOTEUR TUC — V4 • SOCLE FINALISÉ • 10 SEPTEMBRE 2026
+
+
+
+
+                                                                                         PAGE 1
+                        TERRA UMBRA CALIFORNIA ◆ MOTEUR
+
+
+
+
+SOMMAIRE
+Le socle commun de Terra Umbra California : résolution, profil dérivé, statut, combat, santé et Stress.
+
+1. Résolution générale.........................................................................................................................................................4
+
+   1.1 Attributs et Compétences........................................................................................................................................................................................................................4
+   1.2 Test standard, Difficulté et DR.............................................................................................................................................................................................................4
+   1.3 Circonstances, opposition et coopération.........................................................................................................................................................................................4
+
+2. Profil dérivé & statut.......................................................................................................................................................5
+
+   2.1 Valeurs dérivées.............................................................................................................................................................................................................................................5
+   2.2 Initiative, PA et passes..............................................................................................................................................................................................................................5
+   2.3 Déplacement et Encombrement...........................................................................................................................................................................................................5
+   2.4 État actuel..................................................................................................................................................................................................................................................... 5
+   2.5 Edge..................................................................................................................................................................................................................................................................5
+   2.6 Renommée...................................................................................................................................................................................................................................................5
+
+3. Combat.................................................................................................................................................................................6
+
+   3.1 Défenses et combat physique..................................................................................................................................................................................................................6
+   3.2 Tir et Altération.........................................................................................................................................................................................................................................6
+   3.3 Portée, couvert et tirs particuliers.........................................................................................................................................................................................................6
+   3.4 Zones d’effet et propriétés......................................................................................................................................................................................................................6
+
+4. Santé, soins et récupération........................................................................................................................................6
+
+5. Stress et états psychologiques....................................................................................................................................7
+
+LECTURE RAPIDE Les règles spécifiques de Réalité et de Vérité se branchent sur ce moteur sans le redéfinir, sauf exception explicitement
+écrite.
+
+
+
+
+                                                                                                                                                                                                                                                       PAGE 2
+             TERRA UMBRA CALIFORNIA ◆ MOTEUR
+
+ STATUT : moteur finalisé après cross-audit Création ×
+ Réalité × Vérité.
+
+Les modules de Réalité et de Vérité se branchent sur ce socle sans
+redéfinir ses règles, sauf exception explicitement écrite.
+
+Ce document contient le socle commun : résolution, profil dérivé,
+Initiative et PA, Edge, Renommée, Déplacement, combat, tir,
+Santé, soins et Stress. Les règles spécifiques de Réalité et de Vérité
+restent dans leurs corpus respectifs.
+
+
+
+
+                                                                         PAGE 3
+             TERRA UMBRA CALIFORNIA ◆ MOTEUR
+
+
+                                                                         Prendre son temps : lorsque la fiction le permet réellement, le MJ
+ 1. Résolution générale                                                  peut réduire la Difficulté d’un niveau. Une même Difficulté ne
+                                                                         descend normalement pas de plusieurs niveaux par empilement de
+                                                                         préparation ordinaire.
+ STABILISÉ
+                                                                         Action combinée : lorsque deux Compétences distinctes sont
+                                                                         toutes deux indispensables, utiliser la plus faible pour le test, sauf
+                                                                         Talent ou règle contraire.
+1.1 Attributs et Compétences
+
+Les cinq Attributs sont Vigueur, Agilité, Esprit, Volonté et
+Charisme. Chaque Compétence est rattachée à son Attribut de
+référence pour les tests standards.
+
+Attribut              Compétences
+Vigueur               Athlétisme • Pugilat • Humanité • Mêlée •
+                      Constitution
+Agilité               Tir • Pilotage • Furtivité • Esquive • Larcin
+Esprit                Mécanique • Langages & Argot • Savoirs • Soin •
+                      Investigation
+Volonté               Neurodive • Perception • Maîtrise spirituelle •
+                      Survie • Force Mentale
+Charisme              Séduction • Diplomatie • Commerce •
+                      Représentation • Autorité
+
+
+
+1.2 Test standard, Difficulté et DR
+
+Test standard — Attribut + Compétence + 1d10e ≥ Difficulté. Un
+résultat naturel produisant un échec narratif l’emporte sur une
+réussite numérique.
+
+Difficulté            Seuil
+Facile                12
+Normale               15
+Difficile             18
+Très difficile        21
+Impossible            25
+d10 explosif — À l’état Normal, un 10 explose : lancer un second
+d10 et l’ajouter. Le second dé n’explose jamais. La contribution
+maximale normale du dé est donc 20. Les états Tendu/Paniqué
+modifient l’explosion comme indiqué au chapitre Stress.
+Échec narratif — Normal : 1 naturel. Tendu : 1–2. Paniqué : 1–3. Il
+s’agit d’un échec même si le total aurait atteint la Difficulté.
+
+Marge de réussite     DR
+0–2                   0
+3–5                   1
+6–8                   2
+9–11                  3
+12–14                 4
+15+                   5
+
+
+
+1.3 Circonstances, opposition et coopération
+
+Circonstance favorable : +3. Circonstance défavorable : −3. Des
+circonstances substantiellement identiques ne se cumulent pas ;
+prendre le meilleur modificateur applicable.
+Opposition : chaque camp effectue son test ; le résultat le plus élevé
+l’emporte. Une égalité maintient normalement le statu quo, sauf
+règle ou Talent contraire.
+Assistance : un assistant possédant au moins 1 point dans une
+Compétence pertinente apporte +2. Une seule Assistance effective
+est normalement comptée ; elle n’est pas automatique en combat
+sauf règle/Talent.
+
+
+
+
+                                                                                                                          PAGE 4
+               TERRA UMBRA CALIFORNIA ◆ MOTEUR
+
+
+
+ 2. Profil dérivé & statut                                                 2.3 Déplacement et Encombrement
+
+                                                                            STABILISÉ
+
+2.1 Valeurs dérivées                                                       Déplacement — 1 PA permet de parcourir 5 + Athlétisme mètres.
+                                                                           Terrain — Un test n’est demandé que si le déplacement est
+Valeurs dérivées — Sauf indication explicite, elles sont
+                                                                           difficile, dangereux ou contesté. Plusieurs PA peuvent être
+calculées à partir des valeurs permanentes d’Attribut et de                consacrés à plusieurs Déplacements. Se relever peut être intégré à
+Compétence. Les bonus de circonstances, d’équipement, de                   un Déplacement.
+Talent ou les modificateurs temporaires ne les recalculent
+pas, sauf exception explicitement écrite.                                   STABILISÉ — la jauge générale d’Encombrement est
+                                                                            supprimée
+PV maximum — 2 × Vigueur + Constitution.
+                                                                           Équipement ordinaire — Les petits objets, chargeurs, Holophone,
+Seuil de Mort — −(Vigueur + Constitution).                                 outils courants et vêtements ne sont pas comptés individuellement.
+
+Défense passive — Agilité + Esquive.                                       Objets Encombrants — Un personnage peut transporter
+                                                                           normalement un nombre d’objets possédant la propriété
+Défense occulte passive — Volonté + Force Mentale.                         Encombrant égal à sa Vigueur. Un objet exceptionnellement
+                                                                           massif peut compter comme plusieurs objets Encombrants si sa
+Initiative — Agilité + Athlétisme + 1d10e.                                 fiche le précise. Au-delà, le transport exige un moyen approprié,
+                                                                           devient une action de portage/traction ou provoque les contraintes
+Déplacement — 5 + Athlétisme mètres par PA.                                fictionnelles pertinentes.
+Intégrité — Force Mentale + Humanité, minimum 1.
+Stress augmentique max — Vigueur + Humanité.                               2.4 État actuel
+PA maximum — 3 normalement ; une capacité peut porter                      État actuel — La fiche synthétise ici l’état dominant du
+ce total à 4 et une exception explicitement écrite à 5.                    personnage. Normal, Tendu et Paniqué relèvent du Stress ;
+                                                                           Agonisant et Stabilisé relèvent de la Santé. Les chapitres
+                                                                           Santé et Stress détaillent leurs effets.
+2.2 Initiative, PA et passes
+
+ STABILISÉ — correction de l’ordre des passes                              2.5 Edge
+Initiative — Agilité + Athlétisme + 1d10e.
+                                                                           Edge — Ressource rare de Destin, conservée d’une session à
+Résultat               PA                                                  l’autre. Maximum conservé : 8. Edge ne revient pas
+d’Initiative                                                               automatiquement par session et ne s’achète ni en XP ni en
+1–10                   1                                                   PTV.
+11–15                  2
+                       3
+                                                                           Forcer le Destin — 1 Edge : remplacer la contribution du
+16+
+                                                                           1d10e par 20 = 10 + 10. Le total, la Marge et les DR sont
+1 naturel              1 PA maximum
+                                                                           ensuite calculés normalement ; cela ne garantit pas la
+Plafond — Le plafond normal est de 3 PA. Une capacité peut                 réussite.
+normalement porter ce total à 4. Une exception explicitement
+écrite peut atteindre 5 PA.                                                Échapper au Destin — 1 Edge : lorsqu’une conséquence
+                                                                           devrait tuer le personnage, il survit. Les autres conséquences
+Ordre des passes — Un round comporte jusqu’à cinq passes : 1 → 2
+→ 3 → 4 → 5. La passe 1 est celle où tout le monde agit ; les passes       restent possibles selon la fiction.
+suivantes ne concernent que les personnages disposant
+                                                                           Un seul Edge peut être utilisé pour le même jet ou la même
+initialement d’au moins autant de PA.
+                                                                           conséquence. Le MJ peut exceptionnellement en rendre 1
+Réactions et Défenses actives — Chaque PA dépensé en Réaction              lors d’un accomplissement personnel majeur, d’un sacrifice
+ou en Défense active consomme un des PA du round. Lorsqu’un                significatif ou d’une étape importante de campagne. Les
+PA est dépensé hors de sa passe, il supprime en priorité la plus haute     valeurs de départ et dépenses de création sont détaillées dans
+passe future encore disponible. Un PA volontairement conservé              Création de personnage.
+peut rester disponible pour une Réaction jusqu’à la fin du round ;
+s’il n’est pas utilisé, il est perdu.
+PA gagné en cours de round — Lorsqu’un effet accorde +1 PA en              2.6 Renommée
+cours de round, il ouvre la prochaine passe normalement
+inaccessible au personnage, dans la limite du plafond indiqué. Si          0 — Inconnu : le nom ne signifie pratiquement rien.
+cette passe est déjà passée, ce PA peut uniquement être conservé
+pour une Réaction avant la fin du round ; sinon il est perdu.              1 — Connu du milieu : le réseau immédiat peut avoir
+                                                                           entendu parler du personnage.
+Exemple. Un personnage à 4 PA agit en passe 1. Il dépense ensuite 1
+PA en Défense active : sa passe 4 est consommée. Il peut encore agir       2 — Établi : professionnel reconnu dans son milieu local ; le
+en passes 2 et 3. Dans la plupart des combats, les passes 4 et 5 servent   nom circule réellement.
+donc surtout de réserve défensive.
+
+
+
+
+                                                                                                                         PAGE 5
+               TERRA UMBRA CALIFORNIA ◆ MOTEUR
+
+3 — Notable : figure connue à l’échelle de sa Sphère, de sa            Couvert partiel — +3 Défense. Couvert total réellement interposé :
+ville ou d’un secteur important.                                       cible normalement impossible à atteindre directement.
+
+4 — Célèbre : le nom est largement répandu, y compris                  Tir au contact — −3. Tir dans une mêlée — −3, sauf règle
+hors du milieu immédiat.                                               contraire.
+                                                                       Verrouillage — 1 PA sur une cible détectée et suivie : +3 au Tir tant
+5 — Figure majeure : personnalité incontournable dans le               que le suivi est maintenu. Une seule cible/système ; pas de jauge.
+domaine concerné.                                                      Viser et Verrouillage peuvent se cumuler car ils représentent deux
+                                                                       préparations distinctes.
+Renommée ≠ Réputation — La Renommée mesure
+combien le nom circule ; la Réputation décrit ce qu’on                 Rafale — Nécessite la propriété Rafale. 1 PA, un seul jet. Marge 1–5 :
+raconte. Lorsqu’une réputation connue est réellement                   1 impact ; 6–10 : 2 impacts ; 11+ : 3 impacts. Chaque impact inflige
+pertinente, appliquer normalement une circonstance                     DGT − Armure. Aucune Altération. Incompatible avec Viser.
+favorable (+3), défavorable (−3) ou une conséquence
+                                                                       Suppression — Nécessite Automatique. 1 PA. Le résultat du test
+fictionnelle évidente ; le score seul n’accorde aucun bonus            devient la valeur de Suppression jusqu’à la fin du round. Toute cible
+social universel.                                                      qui s’expose ou traverse la zone et dont la Défense passive est
+                                                                       inférieure subit 1 impact DGT − Armure. Pas d’Altération ni de
+                                                                       Défense active ; peut déclencher un test de Stress. Incompatible
+ 3. Combat                                                             avec Viser.
+
+
+3.1 Défenses et combat physique                                        3.4 Zones d’effet et propriétés
+
+Défense passive — Agilité + Esquive.                                    STABILISÉ — nouveau bloc commun
+
+Défense active — 1 PA en Réaction : Agilité + Esquive + 1d10e. Une     Zone X m — Une attaque Zone affecte toutes les cibles exposées
+attaque surprise ne permet normalement pas de Défense active.          dans la zone indiquée. Un seul jet d’attaque est effectué. Chaque
+Une attaque doit dépasser la Défense ; une égalité maintient le        cible compare séparément ce résultat à sa propre Défense ; sa marge
+statu quo et n’inflige ni dégâts ni effet.                             et ses dégâts sont donc calculés individuellement.
+
+Attaque de Mêlée — Vigueur + Mêlée + 1d10e contre la Défense.           • Une cible consciente peut utiliser une Défense active pour 1 PA.
+Dégâts = Marge + DGT de l’arme − Armure applicable.                     • Le couvert s’applique normalement. Un couvert total
+                                                                          réellement interposé peut annuler l’exposition.
+Pugilat — Vigueur + Pugilat + 1d10e. DGT de base 1, sauf Talent,
+augmentation, arme naturelle ou autre règle.                            • Une attaque de Zone ne sélectionne normalement pas une
+                                                                          localisation anatomique précise.
+Armure — L’Armure réduit les dégâts ; elle ne s’ajoute jamais à la
+                                                                        • Une Altération éventuelle peut viser une conséquence cohérente
+Défense.
+                                                                          avec la zone : projection, renversement, incendie du décor,
+                                                                          rupture d’un support, etc.
+
+3.2 Tir et Altération                                                   • Toutes les cibles exposées sont concernées, alliées comprises, sauf
+                                                                          propriété explicitement sélective.
+Attaque de Tir — Agilité + Tir + 1d10e contre la Défense de la          STABILISÉ
+cible.
+                                                                       Fiable — Un 1 naturel avec cette arme reste un échec, mais ne
+Marge 1–5 : DGT de l’arme − Armure.                                    provoque ni échec narratif ni enrayement/panne lié à l’arme.
+                                                                       Fiable ne protège pas d’un échec narratif provenant d’un autre
+Marge 6–10 : DGT − Armure + une Altération cohérente.                  résultat, par exemple un 2 lorsque le personnage est Tendu. Fiable
+                                                                       ne transforme jamais l’échec en réussite.
+Marge 11+ : 2 × DGT − Armure + une Altération cohérente.
+L’Armure n’est jamais doublée.
+Altération — Elle traduit une réussite particulièrement propre :        4. Santé, soins et récupération
+localisation, désarmement, destruction d’un équipement exposé,
+projection, panne, rupture de support ou autre conséquence
+cohérente. Elle ne crée pas automatiquement un état universel           STABILISÉ — reprise du bloc Dranor
+supplémentaire.
+                                                                       PV maximum — 2 × Vigueur + Constitution.
+                                                                        • À 50 % des PV ou moins : le personnage est au minimum Tendu.
+3.3 Portée, couvert et tirs particuliers
+                                                                        • À 25 % des PV ou moins : le personnage est au minimum
+                                                                          Paniqué.
+Viser — 1 PA : +3 au prochain Tir et, si une Altération est obtenue,
+possibilité d’annoncer une zone/localisation précise lorsque            • À 0 PV ou moins : le personnage est Agonisant.
+physiquement possible. Incompatible avec Rafale et Suppression.        Agonisant — À 0 PV ou moins, le personnage dispose au
+                                                                       maximum de 1 PA par round. Il peut ramper, tenter des Premiers
+Distance              Modificateur de Tir
+                                                                       soins sur lui-même ou accomplir une action extrêmement simple ;
+≤ 1/2 portée          +3                                               il ne peut ni attaquer ni effectuer de Défense active.
+≤ portée              normal
+                      −3                                               Test d’Agonie — À la fin de chaque round tant qu’il n’est pas
+≤ 2 × portée
+                                                                       Stabilisé : Vigueur + Constitution + 1d10e contre 15. Échec : −1 PV.
+> 2 × portée          normalement impossible sans effet explicite
+                                                                       Échec narratif : −2 PV.
+
+
+
+                                                                                                                        PAGE 6
+             TERRA UMBRA CALIFORNIA ◆ MOTEUR
+
+Stabiliser — Esprit + Soin, difficulté 15. En réussite, l’Agonisant
+revient exactement à 0 PV et devient Stabilisé. Il ne fait plus de test
+d’Agonie mais ne peut pas agir normalement avant d’avoir
+récupéré au moins 1 PV.
+Premiers soins — Esprit + Soin, difficulté 15 par défaut, modifiable
+si les circonstances médicales le justifient. En réussite, la cible
+récupère 1 + DR PV. Une seule tentative efficace par ensemble de
+blessures.
+Repos — Récupération de Constitution PV par jour, minimum 1.
+Soins prolongés — Dans des conditions médicales adaptées, la
+récupération de repos est doublée.
+Mort — Seuil de Mort = −(Vigueur + Constitution). À ce seuil, le
+personnage meurt.
+Séquelles — Une blessure particulièrement grave peut laisser une
+Séquelle physique si la fiction le justifie. Prothèse, traitement ou
+augmentation peuvent la mitiger.
+
+
+ 5. Stress et états psychologiques
+
+ STABILISÉ — moteur général de Stress
+
+Test de Stress — Volonté + Maîtrise spirituelle + 1d10e contre une
+Difficulté adaptée à l’événement.
+Conséquence — En échec, le personnage devient Tendu ou
+Paniqué selon la gravité de l’événement et les circonstances.
+Certains effets peuvent imposer directement un état.
+Normal — Échec narratif sur 1 naturel ; le d10 explose sur 10.
+Tendu — Échec narratif sur 1–2 ; le d10 explose sur 9–10.
+Paniqué — Échec narratif sur 1–3 ; le d10 explose sur 10.
+Blessures — À 50 % des PV ou moins, le personnage est au
+minimum Tendu. À 25 % ou moins, il est au minimum Paniqué.
+Un effet de repos ne peut pas faire descendre sous le minimum
+imposé par les blessures.
+
+ Remontée au-dessus d’un seuil — Lorsqu’une guérison, des
+ Premiers soins ou une Régénération font remonter les PV
+ au-dessus de 25 % ou 50 %, le minimum de Stress imposé
+ uniquement par ce seuil cesse immédiatement. Si Tendu
+ ou Paniqué provenait seulement des blessures, l’état
+ redescend au minimum encore applicable ; une autre
+ source indépendante de Stress continue normalement.
+
+Retour au calme — Quelques minutes de sécurité et de calme
+peuvent normalement faire passer Paniqué à Tendu. Une nuit sûre
+ou une activité réellement réconfortante peut faire passer Tendu à
+Normal, si aucune autre règle n’impose un état minimum.
+Traumatisme durable — Une expérience exceptionnellement
+destructrice peut laisser une séquelle mentale, une phobie, une
+obsession ou le Désavantage Traumatisé. Une simple rencontre
+avec le surnaturel ne crée pas automatiquement une jauge de
+Raison en TUC.
+
+
+
+
+                                                                          PAGE 7
+

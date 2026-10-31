@@ -1,0 +1,133 @@
+==== [Vérité — Corruption › Corruption] Corruption, Souillure, Bascule & purification (regles-verite-v7-corruption-integrite-bascule)
+### Humanité & Intégrité
+2
+p
+Humanité mesure la continuité de l’identité, du libre arbitre et du rapport au corps malgré les transformations. Le terme est métaphysique : il ne mesure ni l’espèce ni la ressemblance avec Homo sapiens. L’Intégrité vaut Force Mentale + Humanité, minimum 1, en ne comptant que les valeurs permanentes.
+p
+[Charge augmentique](/compendium?article=regles-realite-v9-charge-stress-frenesie#wiki-section-valeurs) et Corruption utilisent la même limite d’Intégrité mais restent deux jauges indépendantes : elles ne s’additionnent jamais et l’une ne réduit pas le seuil de l’autre. Le Stress augmentique maximal vaut Vigueur + Humanité.
+### Profondeur de l’emprise
+2
+table
+État
+Condition
+Conséquence générale
+Sain
+Corruption 0
+Aucune Source dominante ; Dons de Corruption dormants.
+Marqué
+Corruption 1+
+Premiers Dons de la Source accessibles.
+Envahi
+Corruption ≥ moitié de l’Intégrité, arrondie au supérieur
+Dons de profondeur moyenne accessibles.
+Au bord de la Rupture
+Corruption ≥ max(1, Intégrité − 1)
+Dons les plus dangereux accessibles.
+Seuil atteint
+Corruption = Intégrité
+Test de Bascule immédiat.
+p
+La Corruption ne récupère jamais naturellement par repos, thérapie, temps ou simple éloignement d’un culte. La réduire exige un moyen rare et explicitement capable de purifier la Source.
+### Une seule Source dominante
+2
+p
+Un personnage n’a qu’une seule jauge de Corruption. Si une nouvelle Source de Fléau tente d’entrer, on résout d’abord le gain réel puis on compare l’emprise actuelle à la quantité entrante. La plus forte assimile l’autre et tous les points deviennent ceux de la Source dominante.
+p
+En cas d’égalité exacte, la préséance est : V’Aagor → Sharith → Vhodhal → Vhadhi → Shaoggith → Thul. Cette liste ne mesure jamais la puissance cosmique ; elle sert uniquement à départager deux emprises égales sur un même individu.
+### Exposition & gain de Corruption
+2
+table
+Vecteur
+Test
+Physique / biologique
+Vigueur + Constitution + 1d10e
+Mental / spirituel / essentiel
+Volonté + Force Mentale + 1d10e
+image
+images/rules/regles-corruption-v4.svg
+images/rules/regles-corruption-v4-mobile.svg
+Exposition, profondeur et Bascule : 1 · Déterminer le vecteur — Physique : Vigueur + Constitution ; mental : Volonté + Force Mentale. ; 2 · Résister — Ajouter 1d10e contre 12 / 15 / 18 / 21 / 25 selon l’intensité. ; 3 · Reporter le résultat — Réussite : +0 ; échec : +1 ; échec narratif : +2 Corruption de la Source. ; 4 · Comparer à l’Intégrité — Intégrité = Force Mentale + Humanité ; atteindre ce score : Bascule immédiate. ; 5 · Tenter de tenir — Volonté + Maîtrise spirituelle + 1d10e contre 18 ; échec : Rupture.. Un succès de Bascule laisse la jauge au maximum ; une nouvelle exposition reteste.
+rule-diagram
+table
+Intensité
+Difficulté
+Mineure
+12
+Courante
+15
+Forte
+18
+Majeure
+21
+Exceptionnelle
+25
+p
+Réussite : aucune Corruption. Échec : +1 Corruption de la Source. Échec narratif : +2. Humanité n’est pas ajoutée au test : elle fixe l’Intégrité. Un Test de Corruption ou de [Souillure](/compendium?article=verite-v7-six-fleaux-sources-rupture#wiki-section-six-sources) ne bénéficie normalement ni d’Assistance ni de Prendre son temps, sauf règle explicitement conçue pour cela.
+p
+Une exposition environnementale continue à un même vecteur ordinaire ne provoque normalement qu’un seul test par scène, sauf hausse réelle d’intensité ou nouveau vecteur. Les activations surnaturelles de culte sont chacune une nouvelle ouverture et peuvent provoquer leur propre Souillure.
+### DON, RITE & FAVEUR
+2
+table
+Type
+Définition
+Après purification ou rupture
+DON
+Capacité rendue possible par la Corruption déjà présente.
+Devient dormant si la Source change ou si la profondeur requise n’est plus atteinte.
+RITE
+Technique apprise manipulant un principe de Fléau.
+Reste connue ; l’utiliser demeure corrupteur.
+FAVEUR
+Pouvoir accordé ou alimenté par un Patron, une marque ou un lien extérieur.
+Devient dormante si le lien correspondant est réellement rompu.
+p
+Les PTV achètent la maîtrise de Dons auxquels la Source et la profondeur donnent accès. Un seul arbre de Dons de Corruption est actif à la fois. Les Dons d’une ancienne Source restent sur la fiche mais deviennent dormants et leurs PTV ne sont jamais remboursés.
+### Souillure des Rites & Faveurs
+2
+table
+Coût du pouvoir
+Difficulté de Souillure
+1 PTV
+15 — Normal
+2 PTV
+18 — Difficile
+3 PTV
+21 — Très difficile
+Exceptionnel
+25 si le texte l’indique
+image
+images/rules/regles-corruption-rites-v4.svg
+images/rules/regles-corruption-rites-v4-mobile.svg
+DON, RITE ou FAVEUR : tester la Souillure ? : 1 · DON personnel — Aucun test de Souillure à chaque usage, sauf mention explicite. ; 2 · RITE ou FAVEUR — Chaque activation surnaturelle déclenche un test, même si le pouvoir échoue. ; 3 · Fixer la difficulté — Coût 1 PTV : 15 ; 2 PTV : 18 ; 3 PTV : 21 ; exception explicite : 25. ; 4 · Résister — Volonté + Force Mentale ; si explicitement corporel : Vigueur + Constitution. ; 5 · Maintenir — Un maintien ne reteste pas ; nouvelle activation, nouveau test.. Purifier le porteur à 0 endort ses Dons ; les Rites appris restent connus.
+rule-diagram
+p
+Chaque activation surnaturelle d’un RITE ou d’une FAVEUR provoque un Test de Souillure, même si le pouvoir principal échoue. Par défaut il utilise Volonté + Force Mentale ; un pouvoir explicitement corporel peut utiliser Vigueur + Constitution. Un maintien ne reteste qu’à l’activation initiale.
+p
+Un DON personnel n’impose pas de Souillure à chaque usage par défaut : il exploite une Corruption déjà installée. Certains Dons ou pouvoirs indiquent toutefois un gain automatique de Corruption, qui peut s’ajouter au Test de Souillure d’un RITE ou d’une FAVEUR.
+### Atteindre l’Intégrité — la Bascule
+2
+p
+Lorsque Corruption = [Intégrité](/compendium?article=regles-verite-v7-corruption-integrite-bascule#wiki-section-humanite-integrite), effectuer immédiatement Volonté + Maîtrise spirituelle + 1d10e contre difficulté 18. En réussite, le personnage tient mais reste à Corruption maximale. Toute nouvelle exposition qui aurait dû ajouter au moins 1 point déclenche un nouveau Test de Bascule.
+p
+En échec, la Source dominante produit normalement une Rupture et le personnage sort du cadre PJ standard. La forme dépend du Fléau, des Dons, du culte, de la dernière exposition et de la Nature d’origine.
+### Purification & objets souillés
+2
+p
+Une purification explicite retire seulement le nombre de points indiqué. À 0, la Source dominante disparaît et les Dons deviennent dormants ; les Rites restent connus et les Faveurs ne cessent que si leur lien externe est réellement rompu.
+p
+Purifier un porteur ne purifie pas automatiquement une relique, une greffe ou une Calamitechnologie. Un objet corrompu indique sa Source, son vecteur, la difficulté et fréquence de [Souillure](/compendium?article=regles-verite-v7-corruption-integrite-bascule#wiki-section-souillure), ses propriétés, contrecoups et moyens de confinement. Il ne donne jamais automatiquement les Dons du Fléau.
+### Focus Fléaux — corruption des mortels et annihilation
+2
+p
+lore
+Un don de Fléau altère toujours son porteur. L’effet peut d’abord ressembler à une guérison, une adaptation, une protection ou un pouvoir utile, mais il introduit la logique de la Source dans le corps, l’esprit ou les liens de la personne.
+p
+lore
+Cette altération ne produit pas une forme unique. Un même Fléau peut provoquer des Ruptures différentes selon la Nature d’origine, le vecteur d’exposition, le culte et les dons déjà reçus. Détruire une Abomination ne détruit donc pas automatiquement la Source qui l’a rendue possible.
+p
+lore
+À un stade avancé, le corps peut agir alors que l’esprit assiste impuissant à sa propre transformation ; ailleurs, la volonté elle-même se fragmente avant toute mutation visible. La puissance offerte ne constitue jamais la preuve que le bénéficiaire contrôle encore le lien.
+p
+lore
+Les engeances des Fléaux tendent vers le Néant et l’annihilation, même lorsque leur Source cherche à l’éviter. Une purification doit donc viser l’exposition, la corruption et les objets souillés concernés ; elle ne réécrit pas rétroactivement l’histoire du porteur ni n’anéantit le Fléau.
+

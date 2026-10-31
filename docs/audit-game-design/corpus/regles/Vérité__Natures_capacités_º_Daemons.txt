@@ -1,0 +1,845 @@
+==== [Vérité — Natures & capacités › Daemons] Nature, Fonctions, Divinités & Facettes (regles-verite-v7-daemon-nature-fonctions-divinites-facettes)
+### Concept et architecture
+2
+p
+Un Daemon est avant tout une âme qui a déjà vécu. Une Divinité ancienne a choisi cette âme après sa mort, l’a retirée du [Cycle](/compendium?article=regles-verite-v7-khinae-moteur-lignees#wiki-section-nature), l’a conservée dans sa Cour et l’a reforgée pour en faire un Élu, un Héraut et une porte de sa puissance. Les Daemons ne forment donc pas une espèce biologique homogène : leur forme véritable est conceptuelle et porte la marque de leur Dieu, de leur passé et de la fonction qu’ils ont apprise. Origine de l’Élu : qui était l’âme avant d’être choisie.
+p
+Divinité : ce qui a profondément reforgé l’âme et détermine son Empreinte. Patron / Maisonnée : le Duc ou la Duchesse auprès de qui l’Élu sert et dont il reçoit une Faveur particulière. Fonction : le métier appris dans la Cour — Oracle, Châtiment ou Chevalier. Facettes divines : les portes que le Daemon apprend à ouvrir plus largement vers la puissance de son Dieu. Titre infernal : élément politique et narratif. Un PJ ne progresse pas mécaniquement vers Duc ou Prince.
+p
+La Divinité reste l’axe le plus profond : la Fonction est apprise, le Patron forme une sous-culture de Cour, mais la Marque divine a laissé une partie du Dieu lui-même dans l’âme du Daemon.
+### Origine de l’Élu
+2
+p
+Éveillé Définition: Une âme singulière qui a plu à une Divinité sans avoir été un personnage cosmologiquement majeur. Effet de jeu: Aucun bonus automatique. Liberté maximale de passé et de personnalité. Héros Définition: Une âme qui a compté dans l’Histoire, un culte ou les plans divins, célèbre ou totalement oubliée. Effet de jeu: Aucun bonus automatique. Le passé justifie des compétences, souvenirs et relations cohérents.
+p
+Ancien Prophète Définition: Une âme qui a réellement porté un Attribut unique durant sa vie mortelle. Effet de jeu: Ne possède plus l’Attribut. Peut acheter Rémanence prophétique. Origine rare, soumise à accord MJ. Rémanence prophétique — 2 PTV — exclusif Ancien Prophète Le joueur et le MJ définissent une manifestation étroite de la cicatrice conceptuelle laissée par l’ancien Attribut. Elle ne recrée jamais l’Attribut lui-même et ne reçoit aucune prière.
+p
+Exemple : ancien Prophète de la Victoire — 1/scène, transformer un échec de 3 points ou moins en réussite simple DR 0 ; ancien Prophète de la Force — 1/scène, +3 à un effort de force brute à la limite du possible. La Rémanence n’accorde aucun statut automatique sur les Daemons et ne fait pas du personnage le détenteur actuel de l’Attribut.
+### Espèce d’origine et souvenirs
+3
+p
+L’âme d’un Élu est le plus souvent humaine, mais elle peut avoir appartenu à une autre espèce mortelle ou spirituelle si le MJ l’autorise. Une ancienne origine ne remplace jamais la Nature actuelle : le personnage est désormais un Daemon. Les souvenirs des vies passées donnent ce que le personnage a réellement vécu ou appris, mais ne constituent pas une seconde fiche de compétences. Être un grand guerrier antique ne donne pas gratuitement Mêlée 5 dans l’incarnation actuelle.
+### Réincarnation — mode jouable
+2
+p
+Pour les PJ, le seul mode d’incarnation utilisé par défaut est la Réincarnation. L’âme de l’Élu est déposée dans un nourrisson, vit une nouvelle vie mortelle puis s’éveille progressivement à sa nature passée. Possession, Invocation et Émissaire existent dans le lore, mais sont réservés aux PNJ et aux événements de scénario. Éveil daemoniaque — Événement narratif L’Éveil est distinct de la Révélation.
+p
+Il correspond au moment où l’incarnation comprend sa nature, récupère des fragments suffisants de mémoire et accède consciemment à sa Marque. Un PJ standard commence déjà éveillé, sauf campagne conçue autour de cet événement.
+### Révélation et forme exaltée
+2
+p
+État Expression V Incarnation mortelle sous l’Hologramme. Aucun pouvoir daemoniaque n’est utilisable sauf s’il porte explicitement le tag V. État Expression SR La Marque transparaît. Les bonus SR de la Divinité remplacent le profil V. Vision des âmes, prières et Talents SR deviennent accessibles. R Forme exaltée complète. Les bonus R remplacent les bonus SR et toutes les capacités R deviennent disponibles.
+p
+Sous pression, passer d’un état à l’autre coûte 1 PA sans jet sauf opposition active, conformément aux [règles générales du Voile](/compendium?article=regles-verite-v7-voile-continuite-objets-reseaux-interfaces#wiki-section-5-hologramme-voile-semi-revelation-et-revelation). La forme exaltée n’est pas raciale : elle reflète la Divinité, le passé, la culture, les compétences et la personnalité de l’Élu. Une description visuelle ne crée aucun avantage mécanique gratuit : des ailes décoratives ne donnent pas le vol, des griffes décrites ne donnent pas DGT 8 sans Talent.
+p
+Empreinte SR/R — Règle de cumul Le profil R remplace le profil SR ; il ne s’ajoute jamais à lui. Un bonus de Vigueur augmente le maximum de PV mais ne soigne pas les PV actuels. Lors d’un retour vers une forme ayant un maximum de PV inférieur, les PV actuels sont plafonnés au nouveau maximum ; revenir ensuite en R ne restaure pas les PV perdus.
+### Nature daemoniaque — pouvoirs communs
+2
+p
+tech
+Âme élue — Passif — V/SR/R L’âme du Daemon a été retirée du Cycle et liée à sa Divinité. Si l’incarnation meurt normalement, l’âme quitte le corps et retourne vers sa puissance protectrice ou vers le destin particulier prévu par le lore de sa Cour. La mort de l’incarnation reste une fin de personnage dans la situation présente : aucun respawn immédiat. Seuls les effets visant explicitement l’âme peuvent interférer avec ce retour.
+p
+tech
+Vision des âmes — SR/R — 1 PA sous pression Le Daemon choisit une créature qu’il perçoit et regarde réellement son âme. Hors pression, quelques instants suffisent. Sans protection particulière, il distingue la nature spirituelle générale : âme mortelle, Khinae, corruption, présence d’un Mageius, marque divine, altération surnaturelle manifeste, etc. Il ne voit pas automatiquement la fiche, les Talents, les PV, la Cour, le Sang ou le nom véritable.
+p
+tech
+Une lecture plus profonde utilise Esprit + Perception + 1d10e contre Volonté + Force Mentale si la cible résiste ou est protégée. Vision des âmes ne voit pas à travers les murs et n’est jamais un radar passif de zone.
+p
+tech
+Assimilation des prières — SR/R Un lieu durablement ou massivement imprégné des valeurs, comportements ou prières correspondant à la Divinité peut être déclaré Lieu de Résonance par le MJ. Les mortels n’ont pas besoin de connaître le Dieu qu’ils nourrissent symboliquement. Dans un tel lieu, le Daemon possède Faveur divine : 1/scène, +3 à un test directement cohérent avec une Facette de sa Divinité. Une action isolée ne crée pas un Lieu de Résonance.
+p
+tech
+Instinct des Temples — SR/R — intégré à Assimilation des prières Lorsqu’un Lieu de Résonance suffisamment puissant existe à proximité, le Daemon peut en ressentir vaguement la présence et la direction. Plus la Résonance est forte, plus l’impression est nette ; ce n’est jamais un GPS exact.
+### Talents communs de Nature
+3
+p
+{{Talents|group=daemon:talents-communs-de-nature}}
+### Règles transversales des pouvoirs divins
+2
+p
+tech
+Jet de pouvoir — Règle générale
+Sauf Talent précisant une autre combinaison : Volonté + Maîtrise spirituelle + 1d10e. Un pouvoir physiquement évitable affronte la Défense physique ; une imposition directe à l’âme, l’esprit ou l’organisme affronte la [Défense occulte](/compendium?article=regles-verite-v7-pa-reactions-defense-puissance#wiki-section-4-defense-occulte-et-puissance-des-effets). Une cible n’oppose jamais les deux. Égalité = statu quo.
+p
+tech
+Dégâts divins — Règle générale
+Lorsqu’un Talent possède une valeur de DGT : Dégâts = Résultat du pouvoir − Défense applicable + DGT − Protection applicable. Les protections ordinaires ne s’appliquent que si leur nature est cohérente avec l’attaque.
+p
+tech
+Un seul résultat pour une zone — Règle générale
+Un pouvoir de zone effectue un seul jet d’activation. Chaque cible compare sa Défense appropriée au même résultat.
+p
+Divinité et Patron — Règle structurelle
+Un Daemon ne possède qu’une Empreinte divine active. Changer de Divinité est une refonte majeure de l’âme et un événement de scénario. Une seule [Faveur de Maisonnée](/compendium?article=regles-verite-v7-daemon-maisonnees-faveurs-patron#wiki-section-maisonnees-et-faveurs-de-patron) est active à la fois ; changer de Maisonnée rend l’ancienne Faveur dormante. Une dispute ordinaire n’efface pas une Faveur acquise.
+p
+Faveur de Maison — Principe de conception
+Une Faveur de Patron ne doit pas simplement reproduire le même bonus qu’un Talent divin. Elle change la manière d’utiliser la puissance : information, timing, cible, économie d’action, conséquence ou condition. Si une Faveur peut se résumer à « +3 à quelque chose que le Dieu fait déjà », elle doit être réécrite.
+### Fonctions daemoniaques
+2
+p
+La Fonction est un métier appris dans la Cour et non une seconde nature. Chaque PJ choisit une Fonction principale et reçoit gratuitement son Empreinte de Fonction. Les Talents de Fonction sont communs à tous les Dieux : un Chevalier d’Abigor et un Chevalier de Belial partagent une doctrine de combat, mais leur Divinité, leur Patron et leurs Facettes rendent leur expression très différente.
+### Oracle / Tentateur
+3
+p
+Télépathie — Empreinte gratuite — SR/R Communiquer mentalement avec une créature consentante perçue dans un rayon d’environ 30 m. La cible peut répondre. Aucun accès gratuit à ses pensées.
+p
+{{Talents|group=daemon:oracle-tentateur-lecture-mentale}}
+p
+{{Talents|group=daemon:oracle-tentateur-fantasmagorie}}
+p
+{{Talents|group=daemon:oracle-tentateur-influence-prophetie}}
+### Châtiment / Tourmenteur
+3
+p
+Affliction — Empreinte gratuite — R — 1 PA — contact Volonté + Maîtrise spirituelle contre Défense occulte. Provoquer une affection physique brutale et temporaire : douleur, nausée, faiblesse, vertige, spasme. −3 à une famille cohérente d’actions jusqu’à la fin du prochain round.
+p
+{{Talents|group=daemon:chatiment-tourmenteur-affliction}}
+p
+{{Talents|group=daemon:chatiment-tourmenteur-terreur}}
+p
+{{Talents|group=daemon:chatiment-tourmenteur-destruction}}
+### Chevalier / Légionnaire
+3
+p
+Lame infernale — Empreinte gratuite — R — 1 PA Sacrifier 1 à 3 PV irréductibles et réduire d’autant le maximum de PV tant que la Lame existe. 1 PV : DGT 7 ; 2 PV : DGT 9 ; 3 PV : DGT 11. Arme de mêlée ou de tir, liée au Chevalier, utilisant la compétence normale correspondante et comptant comme divine. Une seule Lame active ; elle ne peut être prêtée. Une arme de tir n’utilise pas de munitions ordinaires.
+p
+{{Talents|group=daemon:chevalier-legionnaire-lame-infernale}}
+p
+{{Talents|group=daemon:chevalier-legionnaire-armure-infernale}}
+p
+{{Talents|group=daemon:chevalier-legionnaire-garde-devotion}}
+p
+{{Talents|group=daemon:fonctions-daemoniaques-formation-secondaire}}
+### Divinités et Facettes
+2
+p
+Chaque Divinité donne une Empreinte gratuite : modifications d’Attributs en SR/R, don fondamental, puis trois Facettes divines. Les pouvoirs divins sont des capacités discrètes : un Daemon n’improvise pas librement comme un Mage. Il ouvre des portes précises vers la puissance de son Dieu.
+### ALABOR — Les Eaux primordiales
+3
+p
+État Empreinte SR +1 Vigueur, +1 Agilité R +2 Vigueur, +1 Agilité Corps des Profondeurs — Empreinte gratuite En R, le Daemon peut respirer sous l’eau ; noyade et pression hydraulique ordinaires ne peuvent le tuer. Les manipulations insignifiantes de liquide sont triviales.
+### Facette : Flots
+4
+p
+{{Talents|group=daemon:alabor-les-eaux-primordiales-facette-flots}}
+### Facette : Pression
+4
+p
+{{Talents|group=daemon:alabor-les-eaux-primordiales-facette-pression}}
+### Facette : Pluie & Fécondité
+4
+p
+{{Talents|group=daemon:alabor-les-eaux-primordiales-facette-pluie-fecondite}}
+### ASTAROTH — La Civilisation
+3
+p
+État Empreinte SR +1 Esprit, +1 Volonté R +2 Esprit, +1 Volonté Mémoire des Écrits — Empreinte gratuite En touchant un document et en s’y concentrant, le Daemon assimile rapidement son contenu lisible, même si la langue lui est inconnue. Il acquiert l’information, pas l’expérience pratique ni les compétences correspondantes. Toucher un serveur ne revient pas à absorber Internet.
+### Facette : Savoir
+4
+p
+{{Talents|group=daemon:astaroth-la-civilisation-facette-savoir}}
+### Facette : Écriture
+4
+p
+{{Talents|group=daemon:astaroth-la-civilisation-facette-ecriture}}
+### Facette : Arts & Création
+4
+p
+{{Talents|group=daemon:astaroth-la-civilisation-facette-arts-creation}}
+### BELIAL — La Reine des Dieux
+3
+p
+Belial incarne le Feu, la Domination, la royauté et la Destruction. Ses Élus ne sont pas de simples pyromanciens : ils ouvrent une porte vers une puissance divine qui brûle avec une qualité presque surnaturelle. État Empreinte SR +1 Vigueur, +1 Volonté R +2 Vigueur, +1 Volonté Feu de la Reine — Empreinte gratuite En R, le Daemon peut produire et manipuler feu et chaleur dans son environnement immédiat. Le feu et la chaleur ordinaires peuvent le blesser mais ne peuvent à eux seuls le faire passer sous 1 PV.
+p
+Le feu magique, divin ou surnaturel peut le tuer normalement. Les flammes de ses Talents sont du Feu divin de Belial, pas une simple pyromancie.
+### Facette : Feu royal
+4
+p
+{{Talents|group=daemon:belial-la-reine-des-dieux-facette-feu-royal}}
+### Facette : Domination
+4
+p
+{{Talents|group=daemon:belial-la-reine-des-dieux-facette-domination}}
+### Facette : Destruction
+4
+p
+{{Talents|group=daemon:belial-la-reine-des-dieux-facette-destruction}}
+### DIABLO — La Nuit qui regarde
+3
+p
+État Empreinte SR +1 Agilité, +1 Volonté R +1 Agilité, +2 Volonté Rémanence nocturne — Empreinte gratuite Lorsqu’un Vampire ou une Ombre utilise directement un pouvoir surnaturel contre le Daemon, celui-ci peut conserver un Écho de ce pouvoir jusqu’à la fin de la scène et reproduire une fois sa version la plus élémentaire. Aucun Talent de Sang complet, pouvoir unique de Roi ou capacité cosmique n’est copié.
+### Facette : Nuit
+4
+p
+{{Talents|group=daemon:diablo-la-nuit-qui-regarde-facette-nuit}}
+### Facette : Cauchemar
+4
+p
+{{Talents|group=daemon:diablo-la-nuit-qui-regarde-facette-cauchemar}}
+### Facette : Dévoration
+4
+p
+{{Talents|group=daemon:diablo-la-nuit-qui-regarde-facette-devoration}}
+### LILITH — Désir, Sexe, Plaisir et Attachement
+3
+p
+Lilith ne représente pas seulement l’amour courtois. Elle incarne le sexe, le désir, le plaisir, les fantasmes, la tendresse, l’attachement, la fertilité et la dévotion. Toute déclaration d’amour ou manifestation de désir peut résonner avec elle. Ses représailles peuvent donc être terribles sans jamais ressembler à une simple attaque physique : retirer le plaisir ou l’affect est une punition typiquement lilithienne.
+p
+État Empreinte SR +1 Charisme, +1 Volonté R +2 Charisme, +1 Volonté Grâce de Lilith — Empreinte gratuite Lorsqu’une créature éprouve réellement attirance, désir, amour, tendresse ou affection envers le Daemon, elle doit réussir Volonté + Force Mentale, difficulté 15, pour l’achever volontairement alors qu’elle pourrait choisir de l’épargner. L’existence de cet attachement doit être établie dans la fiction, jamais inventée rétroactivement.
+### Facette : Désir & Plaisir
+4
+p
+{{Talents|group=daemon:lilith-desir-sexe-plaisir-et-attachement-facette-desir-plaisir}}
+### Facette : Fertilité & Chair
+4
+p
+{{Talents|group=daemon:lilith-desir-sexe-plaisir-et-attachement-facette-fertilite-chair}}
+### Facette : Attachement & Sentiments
+4
+p
+{{Talents|group=daemon:lilith-desir-sexe-plaisir-et-attachement-facette-attachement-sentiments}}
+### MAMMON — L’Inéluctable
+3
+p
+État Empreinte SR +1 Vigueur, +1 Volonté R +1 Vigueur, +2 Volonté Permission de mourir — Empreinte gratuite En R, lorsque le Daemon atteint normalement son seuil de Mort, son âme ne quitte pas le corps tant que Mammon ne l’autorise pas. Sous ce seuil, le corps est néanmoins incapable d’agir sauf effet spécifique. Mammon empêche la mort, pas la décapitation, le démembrement ou la destruction physique.
+### Facette : Mort
+4
+p
+{{Talents|group=daemon:mammon-l-ineluctable-facette-mort}}
+### Facette : Vieillesse
+4
+p
+{{Talents|group=daemon:mammon-l-ineluctable-facette-vieillesse}}
+### Facette : Destin & Délivrance
+4
+p
+{{Talents|group=daemon:mammon-l-ineluctable-facette-destin-delivrance}}
+### MÉPHISTO — L’Occulte, la Parole et le Hasard
+3
+p
+État Empreinte SR +1 Esprit, +1 Charisme R +2 Esprit, +1 Charisme Spectre de Mageius — Empreinte gratuite À la création, choisir une Affinité parmi les quinze domaines magiques. En R, le Daemon peut produire des usages Initiale / Mineure de cette Affinité avec Volonté + Maîtrise spirituelle, en suivant les [règles normales de construction d’un sort](/compendium?article=regles-verite-v7-mage-maitrise-amplitude-lancement#wiki-section-construire-et-lancer-un-sort) : Maîtrise, Amplitude, PA, portée, Défense, Principe de désignation et connaissances nécessaires.
+p
+Le Spectre ne produit ni Tension, ni Revers, ni Volonté supérieure, ni accès aux Échos, Œuvres personnelles ou Traversée de la Roue.
+### Facette : Magie
+4
+p
+{{Talents|group=daemon:mephisto-l-occulte-la-parole-et-le-hasard-facette-magie}}
+### Facette : Parole & Chant
+4
+p
+{{Talents|group=daemon:mephisto-l-occulte-la-parole-et-le-hasard-facette-parole-chant}}
+### Facette : Fortune & Illusion
+4
+p
+{{Talents|group=daemon:mephisto-l-occulte-la-parole-et-le-hasard-facette-fortune-illusion}}
+### SATAN — Le Juge
+3
+p
+État Empreinte SR +1 Esprit, +1 Volonté R +1 Esprit, +2 Volonté Jugement — Empreinte gratuite Face à une accusation précise, le Daemon peut discerner si l’âme de la cible porte réellement la responsabilité de l’acte. Jugement ne répond pas à « est-ce une mauvaise personne ? » et ne fabrique jamais la culpabilité.
+### Facette : Sentence
+4
+p
+{{Talents|group=daemon:satan-le-juge-facette-sentence}}
+### Facette : Ordre & Paix
+4
+p
+{{Talents|group=daemon:satan-le-juge-facette-ordre-paix}}
+### Facette : Vengeance
+4
+p
+{{Talents|group=daemon:satan-le-juge-facette-vengeance}}
+### LUCIFER — Le Soleil déchu
+3
+p
+Lucifer est déchu mais reste profondément loyal à Belial. Sa chute vient de la jalousie et de la culpabilité liées à Elynea : il la trompa, la captura, la scella et la tortura à l’insu de la Reine ; ses Daemons allèrent parfois encore plus loin. Le retour d’Elynea déclencha la guerre. Une grande partie de la Cour de Lucifer fut détruite et certains de ses survivants restent des cibles prioritaires pour les Anges qui les identifient.
+p
+État Empreinte SR +1 Vigueur, +1 Volonté R +2 Vigueur, +1 Volonté Radiance originelle — Empreinte gratuite Les pouvoirs offensifs divins de Lucifer comptent comme solaires. Lorsqu’un Talent offensif frappe une créature intrinsèquement vulnérable au solaire — notamment certains Vampires et Ombres — il gagne +3 DGT sauf indication contraire.
+### Facette : Soleil
+4
+p
+{{Talents|group=daemon:lucifer-le-soleil-dechu-facette-soleil}}
+### Facette : Cycle & Vie
+4
+p
+{{Talents|group=daemon:lucifer-le-soleil-dechu-facette-cycle-vie}}
+### Facette : Courage
+4
+p
+{{Talents|group=daemon:lucifer-le-soleil-dechu-facette-courage}}
+### BELZÉBUTH — La Vie sans jugement moral
+3
+p
+État Empreinte SR +1 Vigueur, +1 Esprit R +2 Vigueur, +1 Esprit Vies offertes — Empreinte gratuite Lorsque le Daemon devrait mourir, il peut sacrifier 1 point de Vigueur pour le reste de cette incarnation et revenir immédiatement à 1 PV. La Vigueur ne peut pas descendre sous 1. Cette perte réduit immédiatement le maximum de PV et ne peut être soignée. Ce n’est pas une ressource par scène mais un tribut permanent de l’incarnation.
+### Facette : Régénération
+4
+p
+{{Talents|group=daemon:belzebuth-la-vie-sans-jugement-moral-facette-regeneration}}
+### Facette : Nature & Évolution
+4
+p
+{{Talents|group=daemon:belzebuth-la-vie-sans-jugement-moral-facette-nature-evolution}}
+### Facette : Maladie
+4
+p
+{{Talents|group=daemon:belzebuth-la-vie-sans-jugement-moral-facette-maladie}}
+### ABIGOR — Le Ciel qui frappe d’en haut
+3
+p
+État Empreinte SR +1 Agilité, +1 Volonté R +2 Agilité, +1 Volonté Souffle du Ciel — Empreinte gratuite En R, le Daemon n’a normalement pas besoin de respirer et les substances inhalées ordinaires ne peuvent le tuer ou l’empoisonner. Les pouvoirs divins/surnaturels spécifiques peuvent toujours le menacer.
+### Facette : Vent & Ciel
+4
+p
+{{Talents|group=daemon:abigor-le-ciel-qui-frappe-d-en-haut-facette-vent-ciel}}
+### Facette : Orage
+4
+p
+{{Talents|group=daemon:abigor-le-ciel-qui-frappe-d-en-haut-facette-orage}}
+### Facette : Tempête
+4
+p
+{{Talents|group=daemon:abigor-le-ciel-qui-frappe-d-en-haut-facette-tempete}}
+### BAAL — La Guerre elle-même
+3
+p
+État Empreinte SR +1 Vigueur, +1 Agilité R +2 Vigueur, +1 Agilité Instinct de Guerre — Empreinte gratuite En SR : +1 aux tests de Mêlée, Pugilat et Tir. En R : +2 aux tests de Mêlée, Pugilat et Tir. Aucun malus d’arme inconnue n’existe dans le moteur.
+### Facette : Armes
+4
+p
+{{Talents|group=daemon:baal-la-guerre-elle-meme-facette-armes}}
+### Facette : Force & Violence
+4
+p
+{{Talents|group=daemon:baal-la-guerre-elle-meme-facette-force-violence}}
+### Facette : Stratégie & Victoire
+4
+p
+{{Talents|group=daemon:baal-la-guerre-elle-meme-facette-strategie-victoire}}
+### MORRIGHAN — La Corneille étrangère
+3
+p
+État Empreinte SR +1 Agilité, +1 Volonté R +2 Agilité, +1 Volonté Forme spirituelle — Empreinte gratuite Chaque serviteur possède une forme animale ou végétale symbolique. 1 PA pour passer de la forme exaltée à cette forme. Elle donne les propriétés naturelles évidentes — [mobilité ailée d’un oiseau selon la règle commune](/compendium?article=regles-verite-v7-voile-continuite-objets-reseaux-interfaces#wiki-section-mobilite-ailee-convention-pj), nage d’un poisson, odorat d’un loup, petite taille d’un chat — mais aucun gros bonus de combat, Armure ou Attribut gratuit. Les améliorations surnaturelles viennent des Talents.
+### Facette : Guerre & Frénésie
+4
+p
+{{Talents|group=daemon:morrighan-la-corneille-etrangere-facette-guerre-frenesie}}
+### Facette : Mort & Présages
+4
+p
+{{Talents|group=daemon:morrighan-la-corneille-etrangere-facette-mort-presages}}
+### Facette : Royauté & Magie
+4
+p
+{{Talents|group=daemon:morrighan-la-corneille-etrangere-facette-royaute-magie}}
+### Précisions communes aux talents
+2
+p
+Les actions et Réactions coûtent 1 PA sauf gratuité explicite. Un effet physiquement évitable affronte la Défense physique ; une imposition intérieure affronte la Défense occulte. Un seul jet de zone est comparé séparément à chaque cible : les dégâts ne se répètent pas sans règle explicite.
+p
+Les bonus équivalents, propriétés identiques et réductions d’une même source ne s’additionnent pas. Le +3 solaire de Radiance originelle ne s’applique qu’une fois. Une capacité conditionnelle ou un choix de forme ne modifie pas les valeurs permanentes du personnage.
+p
+Sève vitale, Reconstruction et Printemps partagent la saturation de soin d’un même Élu sur une même cible : changer de talent ne permet pas un nouveau soin avant la fin de la scène ou un vrai repos. L’exception écrite de Perséphone est conservée. Dissiper une Lame ou une Armure infernale ne rend pas les PV actuels sacrifiés.
+p
+Formation secondaire conserve une seule Divinité et une seule Faveur de Maisonnée : la seconde Fonction apporte seulement son Empreinte et l’accès à ses talents, achetés normalement. Mentor et apprentissage narratif sont requis ; un formulaire ne vaut jamais approbation du MJ.
+p
+Chaque Spectre de Méphisto possède ses propres paliers payants et reste plafonné à Affinée / Significative, sans Tension ni Revers. Ni Roue, Écho, Œuvre personnelle ni Volonté supérieure de Mage n’est accordé. Polyphonie ouvre seulement la seconde Affinité Initiale / Mineure, différente de la première.
+p
+Les répertoires corporels, rites, profils de pathologies et manifestations sont décrits sur la fiche partagée, avec leurs conditions et limites. Ils ne s’activent pas automatiquement et ne créent ni points, ni récompense, ni validation du MJ. Un achat dont les prérequis ne sont plus satisfaits reste historisé et payé, mais signalé comme non utilisable.
+### Rémanence prophétique — manifestation acquise
+3
+p
+{{Talents|group=daemon:origine-de-l-elu-ancien-prophete}}
+
+==== [Vérité — Natures & capacités › Daemons] Maisonnées & Faveurs de Patron (regles-verite-v7-daemon-maisonnees-faveurs-patron)
+### Maisonnées et Faveurs de Patron
+2
+p
+Un Daemon sert mécaniquement une seule Maisonnée à la fois et possède une seule Faveur active. Une Faveur représente l’enseignement, la mentalité ou une empreinte transmise par le [Patron](/compendium?article=regles-verite-v7-daemon-nature-fonctions-divinites-facettes#wiki-section-concept-et-architecture) ; elle n’est pas l’Attribut cosmique du Duc et ne doit pas simplement doubler un Talent de la Divinité.
+### Belial
+3
+p
+Marchosias — Victoire
+Culture de Maisonnée: Courage, loyauté, persévérance, arracher
+la victoire à une situation presque perdue.
+Faveur: Victoire arrachée — 1/scène : un échec de 3
+points ou moins devient une réussite simple DR 0.
+Jamais sur un échec narratif.
+tech
+p
+Demona — Destruction
+Culture de Maisonnée: Pragmatisme, efficacité, savoir ce qu’il
+faut vraiment casser.
+Faveur: Démolition méthodique — 1/scène : après 1 PA
+d’observation d’un objet, structure, barrière ou
+protection, le MJ indique la partie accessible dont la
+destruction produirait la conséquence fonctionnelle la
+plus importante. Si le Daemon agit conformément à
+cette information, cette conséquence est obtenue sans
+second travail inutile.
+tech
+p
+Moloch — Feu
+Culture de Maisonnée: Entité indépendante née directement de
+la colère de Belial.
+Faveur: Pas de Maisonnée standard. Être formé ou
+marqué par Moloch est une exception narrative.
+tech
+p
+Seere — Nombre de la Bête
+Culture de Maisonnée: Vieille noblesse, maîtrise de soi, richesse,
+jeu de rôles et secret du 666.
+Faveur: Faveur réservée : le sens mécanique du Nombre
+de la Bête doit être fixé avant de formaliser cette
+Maison.
+tech
+### Lilith
+3
+p
+Meririm — Charme
+Culture de Maisonnée: Liberté sexuelle, bienveillance,
+connaissance du plaisir, absence de honte.
+Faveur: Accueil de Meririm — 1/scène : envers une
+personne éprouvant déjà attirance, affection ou désir, le
+Daemon peut savoir immédiatement si une demande
+précise serait acceptée, refusée ou négociable et quelle
+limite émotionnelle bloque éventuellement l’accord.
+Aucun bonus chiffré automatique.
+tech
+p
+Babalon — Fertilité
+Culture de Maisonnée: Corps souverain, sexualité assumée,
+biologie comme puissance.
+Faveur: Cycle parfait — 1/scène : lors d’un Talent de
+Fertilité/Chair, ignorer un obstacle biologique ordinaire
+tel qu’infertilité, contraception, mauvais moment du
+cycle ou perturbation hormonale. Ne contourne pas une
+protection surnaturelle ou divine.
+tech
+p
+Gusoyn — Manipulation
+Culture de Maisonnée: Comprendre les rapports humains et
+utiliser les désirs plutôt que contraindre.
+Faveur: Levier intime — 1 PA d’observation : le MJ
+indique le principal levier émotionnel ou social
+actuellement perceptible chez la cible. La prochaine
+action qui l’exploite peut bénéficier du bonus normal de
+circonstance si le plan est réellement pertinent.
+tech
+p
+Sytry — Secrets féminins
+Culture de Maisonnée: Intimité, désir féminin, discrétion,
+renseignement.
+Faveur: Secret du désir — 1/scène : face à une cible de
+physiologie féminine, Voir le désir peut révéler un désir
+enfoui ou consciemment retenu plutôt que seulement le
+désir immédiat.
+tech
+### Alabor
+3
+p
+Vephar — Brumes
+Culture de Maisonnée: Ambiguïté, patience, approche indirecte.
+Faveur: Brume de Scylla — 1 PA, 1/scène : créer autour
+du Daemon une brume de 5 m persistant pour la scène ;
+−3 aux perceptions et tirs traversant la brume. Le
+Daemon n’en subit pas le malus.
+tech
+p
+Forneus — Vagues
+Culture de Maisonnée: Ténacité, avancer, encaisser puis revenir.
+Faveur: Élan de la vague — 1/scène : après un
+Déplacement, effectuer immédiatement un second
+Déplacement ou repousser de plusieurs mètres une cible
+que le Daemon vient de toucher.
+tech
+p
+Zagan — Pression
+Culture de Maisonnée: Force contenue, patience écrasante, peu
+de gestes inutiles.
+Faveur: Pression distribuée — 1/scène : lorsqu’un
+pouvoir de Pression affecte une cible, appliquer la
+composante de poussée, immobilisation ou contrainte —
+sans les dégâts supplémentaires — à une seconde cible
+très proche utilisant la même Défense appropriée.
+tech
+p
+Shax — Pluie
+Culture de Maisonnée: Fertilité et cruauté, donner ou retirer
+l’eau.
+Faveur: Pluie révélatrice — dans une pluie créée ou
+naturelle, 1/scène : pendant un round, les silhouettes et
+mouvements physiques dans la zone sont révélés par les
+gouttes ; les bonus de dissimulation visuelle pure liés à
+invisibilité légère, camouflage ou fumée ne s’appliquent
+pas contre le Daemon.
+tech
+### Mammon
+3
+p
+Alastor — Souffrance
+Culture de Maisonnée: La douleur comme mémoire de toute une
+vie.
+Faveur: Écho de douleur — 1/scène : contre une cible
+ayant déjà perdu des PV, attaque occulte ; réussite : 3 à −
+sa prochaine action en rappelant brutalement les
+souffrances accumulées.
+tech
+p
+Abrahel — Âge
+Culture de Maisonnée: Tout se dégrade, tout finit, parfois avec
+compassion.
+Faveur: Mémoire du corps — 1/scène, au contact : lire
+l’âge biologique approximatif, les altérations de
+vieillissement/rajeunissement et les principales
+séquelles dues au temps ; le prochain Talent de
+Vieillesse peut cibler précisément l’une de ces faiblesses
+sans jet de diagnostic supplémentaire.
+tech
+p
+Apollyon — Destruction
+Culture de Maisonnée: Ce qui doit mourir doit d’abord pouvoir
+être brisé.
+Faveur: Mort des choses — 1/scène : une attaque contre
+objet, structure ou construction surnaturelle ignore 3
+Protection. Cette Faveur ouvre un registre que les
+Facettes génériques de Mammon ne couvrent pas
+directement.
+tech
+p
+Eurynome — Repos
+Culture de Maisonnée: Mort paisible, psychopompie, fin de la
+souffrance.
+Faveur: Repos accordé — 1/scène, 1 PA au contact :
+mettre fin à un effet de peur, douleur ou agitation
+surnaturelle sur une cible consentante si sa cause
+immédiate a disparu.
+tech
+### Diablo
+3
+p
+Xezbeth — Cauchemars
+Culture de Maisonnée: Renseignement par la peur, mensonges
+obsédants, patience psychologique.
+Faveur: Rêve empoisonné — après avoir réussi un effet
+de peur ou illusion, 1/scène, marquer la victime : son
+prochain sommeil reprend le thème et peut contenir un
+message simple.
+tech
+p
+Balam — Peur
+Culture de Maisonnée: Faire face au danger, imposer sa présence,
+chevalerie noire.
+Faveur: Dogue noir — 1/scène, lorsqu’un adversaire qui
+peut voir le Daemon choisit volontairement de l’engager
+au contact, le Daemon peut lui imposer un test occulte ;
+en cas d’échec, la cible doit consacrer son premier
+mouvement du round à garder ses distances ou subit 3 −
+à sa première attaque contre le Daemon. Ce n’est pas
+une Terreur de zone.
+tech
+p
+Amon — Obscurité
+Culture de Maisonnée: Absorber ce qui s’oppose à la Nuit,
+notamment la Lumière.
+Faveur: Mange-lumière — Réaction, 1/scène contre un
+effet lumineux ou solaire : +3 à la Défense appropriée ; si
+le Daemon résiste, la manifestation lumineuse est
+également affaiblie ou éteinte lorsqu’elle peut l’être.
+tech
+p
+Anammalech — Nuit
+Culture de Maisonnée: Discrétion, conseil, présence dans les
+coulisses du pouvoir.
+Faveur: Ombre de la Nuit — 1/scène, tant que le Daemon
+reste dans une obscurité réelle et n’accomplit aucune
+action hostile, les perceptions surnaturelles cherchant
+simplement à repérer sa présence doivent battre sa
+Furtivité au lieu de le détecter automatiquement.
+tech
+### Astaroth
+3
+p
+Ardat-Lili — Arts
+Culture de Maisonnée: Création, beauté, expression, inspiration.
+Faveur: Inspiration contagieuse — lorsqu’une création
+artistique du Daemon obtient DR 2+, 1/scène, choisir un
+observateur réellement touché : il reçoit +2 à son
+prochain test cohérent avec l’émotion ou l’idée
+transmise. Aucun bonus à la création elle-même.
+tech
+p
+Byleth — Inventivité
+Culture de Maisonnée: Expérimentation, innovation, « essayons
+pour voir ».
+Faveur: Prototype — 1/scénario : à partir de composants
+plausibles, improviser un outil temporaire répondant à
+un besoin précis. Le test de conception bénéficie de
+Prendre son temps sans demander le délai normalement
+nécessaire à cette option ; l’objet reste un prototype
+fragile ou limité.
+tech
+p
+Asmodée — Mathématiques
+Culture de Maisonnée: Formaliser, comprendre puis opposer la
+logique d’un phénomène.
+Faveur: Mise en équation — Réaction, 1/scène : +3 à une
+Défense occulte contre un pouvoir directement ciblé.
+Après usage, le Daemon peut décrire la structure logique
+générale du pouvoir sans en apprendre les Talents
+exacts.
+tech
+p
+Morax — Médecine
+Culture de Maisonnée: Science médicale, observation clinique,
+refus de l’ignorance.
+Faveur: Diagnostic du Duc — après 1 PA d’examen,
+connaître la principale cause médicale d’une affection
+corporelle accessible à la médecine. Le prochain test de
+Soin correspondant bénéficie de Prendre son temps sans
+délai supplémentaire.
+tech
+p
+Alocer — Informatique
+Culture de Maisonnée: Information numérique, architecture,
+logique et réseaux.
+Faveur: Chemin de code — 1/scène : lors d’un test de
+Neurodive réussi, le Daemon peut choisir d’obtenir en
+plus une information structurelle sur le système — point
+d’entrée, dépendance, journal pertinent ou architecture
+— plutôt qu’un simple bonus chiffré.
+tech
+### Satan
+3
+p
+Samael — Sentence
+Culture de Maisonnée: Enquêter avant de condamner ; une
+sentence doit être juste.
+Faveur: Dossier clos — après que Jugement a confirmé
+la culpabilité d’une cible, 1/scène, le Daemon peut la
+marquer pour toute la scène : ses Talents de Sentence
+n’ont plus besoin de réétablir cette culpabilité, même si
+la cible change d’apparence ou tente de masquer son
+âme.
+tech
+p
+Cali — Vengeance
+Culture de Maisonnée: La dette doit être payée ; patience,
+poursuite, représailles ciblées.
+Faveur: Poursuite de Cali — lorsqu’une créature blesse
+volontairement le Daemon ou un protégé, 1/scène, le
+Daemon ressent sa direction approximative et si elle
+s’éloigne ou se rapproche jusqu’à la fin de la scène, tant
+qu’elle reste dans la même zone générale.
+tech
+p
+Barbatos — Paix
+Culture de Maisonnée: Refus de la colère, maîtrise de soi, ordre
+durable.
+Faveur: Paix intérieure — 1/scène, un personnage
+proche peut immédiatement retenter avec +3 un test
+visant à sortir d’une Frénésie, rage, peur ou autre perte
+de contrôle émotionnelle.
+tech
+p
+Acham — Jugement
+Culture de Maisonnée: Intégrité, preuve, justice morale,
+incorruptibilité.
+Faveur: Œil du magistrat — 1/scène : lors d’une enquête
+ou d’un interrogatoire, le Daemon peut demander quelle
+contradiction, dissimulation de preuve ou incohérence
+de témoignage est la plus importante parmi celles
+réellement perceptibles. Ne révèle jamais
+automatiquement la vérité complète.
+tech
+### Méphisto
+3
+p
+Crocell — Parole
+Culture de Maisonnée: Rhétorique, répartie, influence publique.
+Faveur: Répartie de Crocell — Réaction, 1/scène :
+lorsqu’un interlocuteur réussit une action sociale
+directement contre le Daemon, celui-ci peut
+immédiatement effectuer un test social opposé. S’il
+obtient un résultat supérieur, l’effet social est annulé.
+tech
+p
+Abrasax — Magie
+Culture de Maisonnée: Étudier les systèmes occultes et connaître
+leurs règles.
+Faveur: Leçon de Merlin — 1/scène : la difficulté
+intrinsèque d’un usage du Spectre de Mageius est
+réduite d’un niveau, minimum 12. La Défense d’une
+cible n’est pas réduite.
+tech
+p
+Paimon — Mensonge
+Culture de Maisonnée: Un bon mensonge est cohérent, élégant et
+défendable.
+Faveur: Mensonge parfait — 1/scène, après réussite d’un
+mensonge, toute capacité surnaturelle cherchant à
+établir que cette affirmation était un mensonge doit
+battre le résultat original. Cela ne transforme pas le
+mensonge en vérité.
+tech
+p
+Vinea — Vérité
+Culture de Maisonnée: La réalité importe, même lorsqu’elle
+déplaît.
+Faveur: Faux reconnu — 1/scène, en entendant une
+affirmation factuelle, savoir automatiquement si
+l’orateur ment volontairement. Ne révèle pas quelle est
+la vérité.
+tech
+### Abigor
+3
+p
+Astarté — Lune
+Culture de Maisonnée: Espionnage mondain, cycles, beauté,
+pouvoir indirect.
+Faveur: Clarté lunaire — sous le ciel nocturne, voir
+parfaitement malgré la faible lumière. 1/scène sous
+lumière lunaire, relancer son d10e et conserver le
+second résultat.
+tech
+p
+Furfur — Typhons
+Culture de Maisonnée: Mobilité, technologie militaire, frapper
+brutalement puis disparaître.
+Faveur: Momentum du Typhon — 1/scène : après avoir
+parcouru au moins son Déplacement normal au cours
+du round, la prochaine attaque avant la fin de ce round
+gagne +3 DGT. Aucun déplacement gratuit
+supplémentaire.
+tech
+### Baal
+3
+p
+Ereshkigal — Meurtre
+Culture de Maisonnée: Neutraliser vite, aucune romance du duel,
+efficacité létale.
+Faveur: Premier sang — 1/scène : une attaque contre
+une cible Surprise ou ignorant encore la présence du
+Daemon gagne +3 DGT.
+tech
+p
+Leraje — Blessures
+Culture de Maisonnée: Précision, tir, rendre chaque coup
+réellement coûteux.
+Faveur: Blessure aggravée — 1/scène, après avoir infligé
+des PV, la cible perd 2 PV supplémentaires à la fin de son
+prochain round sauf si elle ou un allié consacre 1 PA à
+stopper l’aggravation.
+tech
+p
+Focalor — Dignité
+Culture de Maisonnée: Tous les mortels ont la même valeur ;
+insoumission et refus de plier.
+Faveur: Dignité humaine — +3 à la Défense occulte
+contre les pouvoirs cherchant explicitement à imposer
+soumission, obéissance, humiliation ou servitude.
+tech
+### Belzébuth
+3
+p
+Perséphone — Régénération
+Culture de Maisonnée: Médecine, préserver la vie, réparer avant
+de remplacer.
+Faveur: Deuxième printemps — 1/scénario : une cible
+déjà saturée par une guérison de Belzébuth peut tout de
+même récupérer jusqu’à 2 PV supplémentaires grâce à
+un pouvoir du Daemon. Cette Faveur contourne une fois
+la saturation sans la supprimer.
+tech
+p
+Baphomet — Évolution
+Culture de Maisonnée: Le corps est modifiable ; adaptation,
+transgression, expérimentation.
+Faveur: Sélection immédiate — 1/scène : lorsqu’un
+danger environnemental, poison, maladie ou condition
+physique affecte le Daemon pour la première fois, il
+gagne immédiatement +3 pour y résister. S’il réussit, une
+altération physique mineure appropriée peut apparaître
+pour le reste de la scène.
+tech
+### Lucifer
+3
+p
+Adramalech — Rayonnement
+Culture de Maisonnée: Gloire, héroïsme, présence qui s’étend au-delà du corps.
+Faveur: Rayonnement — 1/scène : doubler la portée ou
+le rayon d’un pouvoir du Daemon. Ne double ni dégâts
+ni nombre de cibles individuellement sélectionnées.
+tech
+p
+Abalim — Splendeur
+Culture de Maisonnée: Majesté, beauté solaire, présence
+impossible à ignorer.
+Faveur: Splendeur du Soleil — lors d’une Révélation
+complète, 1/scène, les ennemis proches opposent leur
+Défense occulte ; échec : 3 à leurs actions directement −
+hostiles contre le Daemon jusqu’à la fin du prochain
+round, par sidération et révérence, jamais par désir.
+tech
+### Morrighan
+3
+p
+Nemain — Frénésie
+Culture de Maisonnée: Fureur contrôlée, violence assumée,
+instinct du champ de bataille.
+Faveur: Premier hurlement — en entrant en Frénésie,
+1/scène, +3 à la première action physique accomplie
+avant la fin du prochain round.
+tech
+p
+Huginn — Pensée
+Culture de Maisonnée: Observation, stratégie, intelligence
+accélérée.
+Faveur: Pensée fulgurante — 1/scène, sur un test
+d’Esprit ou de réflexion, bénéficier de l’effet de Prendre
+son temps sans devoir réellement consacrer le temps
+supplémentaire.
+tech
+p
+Ibn al-Berih — Malheur
+Culture de Maisonnée: Attendre l’erreur et laisser le destin
+trébucher.
+Faveur: Mauvais présage — Réaction, 1/scène : faire
+relancer à une cible visible son d10e après une réussite ;
+elle conserve le second résultat.
+tech
+p
+Nankil’slas — Tromperie
+Culture de Maisonnée: Plans indirects, fausses identités, ne
+jamais expliquer son vrai objectif.
+Faveur: Identité mouvante — 1/scène : après quelques
+instants d’observation d’un milieu social, le Daemon
+peut adopter une couverture plausible et ignorer pour
+cette scène un malus de statut social provenant
+uniquement du fait de ne pas appartenir à ce milieu.
+Cela ne fournit aucun document, compétence ou
+mémoire manquante.
+tech
+p
+Rhiannon — Colère
+Culture de Maisonnée: Répondre à l’agression et ne jamais
+oublier une offense.
+Faveur: Courroux de Boadicée — lorsqu’elle subit des
+dégâts, 1/scène, +3 à sa prochaine action directement
+contre l’auteur.
+tech
+p
+Cúchulainn — Courage
+Culture de Maisonnée: Héroïsme frontal, protéger les siens, se
+dresser même quand il faudrait fuir.
+Faveur: Courage du Héros — 1/scène, 1 PA : les alliés
+proches gagnent +3 contre peur et intimidation
+surnaturelle jusqu’à la fin du prochain round.
+tech
+### Relations, hiérarchie et rôle en campagne
+2
+p
+La relation à la Divinité est narrative, pas une jauge d’obéissance. La norme est qu’un Dieu ait choisi une âme parce qu’elle lui plaisait et l’ait gardée pendant des siècles ou millénaires dans sa Cour ; loyauté, affection, amitié, désir, admiration ou relation de disciple peuvent être très fortes. Les cas de contrainte ou de rancœur existent mais restent des exceptions intéressantes précisément parce qu’ils rompent cette norme. Un PJ ne devient pas Duc par accumulation de PTV.
+p
+Le Duc est généralement un supérieur majeur, un mentor ou le patron du patron avant la Divinité elle-même. Servir un Duc ne signifie pas posséder son Attribut. Une Faveur n’est qu’un reflet, une méthode ou une petite porte secondaire. Une âme peut avoir changé de Cour dans le lore, mais un PJ ne cumule jamais les Empreintes de plusieurs Dieux. Les Dieux déchus gardent leur puissance personnelle mais leur infrastructure métaphysique est endommagée.
+p
+Le destin exact de leurs âmes après la mort peut dépendre du lore de campagne ; mécaniquement, l’incarnation jouable est terminée dans tous les cas.
+
