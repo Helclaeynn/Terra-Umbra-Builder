@@ -1,0 +1,264 @@
+==== [Vérité — Corruption › Fléaux] Vhodhal — Famine Blanche (regles-verite-v7-fleau-vhodhal)
+### Source — Vhodhal — Famine Blanche
+2
+table
+Principe
+Dévorer
+Tentation
+Tout peut devenir nourriture.
+Vecteur / résistance typique
+Exposition généralement physique : Vigueur + Constitution ; une atteinte explicitement spirituelle utilise la résistance mentale appropriée.
+p
+La Famine Blanche étend progressivement ce qui peut être consommé : matière, énergie, distance ou manifestation peuvent devenir des objets de dévoration seulement lorsque le Don correspondant l’autorise.
+p
+La [Loge d’Écume](/compendium?article=lore-plagues-cultes-vhodhal#wiki-section-cult-1-la-loge-d'ecume-histoire) est une voie cultuelle fondée sur sacrifice, Miettes de Vérité et transmission de la Famine. Ses Rites n’accordent jamais automatiquement les Dons de Vhodhal.
+### Impulsion à partir d’Envahi
+2
+p
+Après privation significative, usage prolongé ou scène où la faim devient centrale, le MJ peut demander Volonté + Maîtrise spirituelle difficulté 15. En échec, au moins 1 PA de la prochaine activation doit servir à chercher, saisir ou consommer une nourriture plausible s’il en existe une. Aucun allié n’est imposé comme cible si une alternative réelle existe.
+### Progression DON / RITE / FAVEUR
+2
+p
+Les Dons suivent [la profondeur Marqué, Envahi puis Au bord](/compendium?article=regles-verite-v7-corruption-integrite-bascule#wiki-section-profondeur). Les Rites et Faveurs suivent [les règles communes de Souillure](/compendium?article=regles-verite-v7-corruption-integrite-bascule#wiki-section-souillure) ; un Don personnel ne provoque pas de Souillure à chaque usage sauf texte explicite. Le détail de chaque capacité reste dans le registre canonique du Builder.
+table
+Famille
+Talents
+PTV
+Famine Blanche
+11
+25
+Loge d’Écume
+15
+31
+Total
+26
+56
+### Bascule & Rupture
+2
+p
+[La Rupture](/compendium?article=regles-verite-v7-corruption-integrite-bascule#wiki-section-bascule) adapte la Famine à la Nature d’origine : Wendigo pour beaucoup d’Humains, Bête Faramine chez les Garous, Sang d’Ivoire chez les Vampires, Noctiel chez les Angelus, Cyclope/Egam dans certains cas Mageius. Ces formes relèvent du Bestiaire, pas de la progression PJ.
+
+==== [Vérité — Corruption › Fléaux] V’Aagor — Sombre-Vérité (regles-verite-v7-fleau-vaagor)
+### Source — V’Aagor — Sombre-Vérité
+2
+table
+Principe
+Annexer / unir
+Tentation
+Tout peut devenir une partie de moi.
+Vecteur / résistance typique
+Le vecteur dépend du rite ou de la manifestation. La Sombre-Vérité n’implique jamais automatiquement loyauté envers V’Aagor.
+p
+Deimonisme, [Longinus](/compendium?article=lore-plagues-cultes-vaagor#wiki-section-cult-1-l'ordre-de-longinus-histoire), Confrérie de la Faux, Fontaine et Œil Blanc sont des voies distinctes, pas les branches d’une religion unifiée.
+p
+Les Deimons ont volonté, Nature et limites propres. Aucun Rite ne les transforme par défaut en serviteurs gratuits ni en réserve de PA.
+### Impulsion à partir d’Envahi
+2
+p
+Lorsqu’une autre personne tente brutalement d’arracher, purifier, détruire ou voler quelque chose effectivement intégré par un Don aagorien, Volonté + Maîtrise spirituelle difficulté 15. En échec, au moins 1 PA avant la fin de la prochaine activation doit servir à empêcher la séparation ou récupérer ce qui a été arraché si une option réelle existe.
+### Progression DON / RITE / FAVEUR
+2
+p
+Les Dons suivent [la profondeur Marqué, Envahi puis Au bord](/compendium?article=regles-verite-v7-corruption-integrite-bascule#wiki-section-profondeur). Les Rites et Faveurs suivent [les règles communes de Souillure](/compendium?article=regles-verite-v7-corruption-integrite-bascule#wiki-section-souillure) ; un Don personnel ne provoque pas de Souillure à chaque usage sauf texte explicite. Le détail de chaque capacité reste dans le registre canonique du Builder.
+table
+Famille
+Talents
+PTV
+Sombre-Vérité
+18
+40
+Deimonisme
+13
+28
+Ordre de Longinus
+16
+34
+Confrérie de la Faux
+8
+18
+Fontaine des Ténèbres
+6
+12
+Messagers de l’Œil Blanc
+6
+13
+Total
+67
+145
+### Bascule & Rupture
+2
+p
+[La Rupture](/compendium?article=regles-verite-v7-corruption-integrite-bascule#wiki-section-bascule) dépend de la trajectoire : Assimilé ou Fragment mineur, Abomination liée au Père, Oshirique pour certains Vampires, forme gravitationnelle de l’Œil Blanc ou autre résultat aagorien. Un Deimon corrompu reste fondamentalement un Deimon mais devient structurellement aagorien.
+
+==== [Vérité — Corruption › Fléaux] Sharith — Division (regles-verite-v7-fleau-sharith)
+### Source — Sharith — Division
+2
+table
+Principe
+Séparer / décomposer
+Tentation
+Tout possède une ligne de coupe.
+Vecteur / résistance typique
+La Division peut viser matière, fonction, énergie, identité ou structure ; le vecteur dépend de ce qui est effectivement séparé.
+p
+Sharith révèle, sépare, isole, redistribue ou dégrade une propriété existante ; elle ne crée normalement pas une propriété nouvelle.
+p
+Les Rites [Irradiant] de [Nucléomancie](/compendium?article=bestiaire-v15-reacteur-vivant-abomination-fissile#wiki-section-description) ajoutent leur Retour fissile au praticien sans supprimer la Souillure.
+### Impulsion à partir d’Envahi
+2
+p
+Face à une possession, fusion, symbiose, artefact lié, pouvoir composite ou ensemble réellement constitué d’éléments distincts, Volonté + Maîtrise spirituelle difficulté 15. En échec, au moins 1 PA avant la fin de la prochaine activation doit servir à examiner, exposer ou tenter de séparer une composante si une option réelle existe.
+### Progression DON / RITE / FAVEUR
+2
+p
+Les Dons suivent [la profondeur Marqué, Envahi puis Au bord](/compendium?article=regles-verite-v7-corruption-integrite-bascule#wiki-section-profondeur). Les Rites et Faveurs suivent [les règles communes de Souillure](/compendium?article=regles-verite-v7-corruption-integrite-bascule#wiki-section-souillure) ; un Don personnel ne provoque pas de Souillure à chaque usage sauf texte explicite. Le détail de chaque capacité reste dans le registre canonique du Builder.
+table
+Famille
+Talents
+PTV
+Division
+14
+31
+Grand Savoir
+15
+32
+Bellatheis
+10
+21
+Nucléomancie
+7
+15
+Total
+46
+99
+### Bascule & Rupture
+2
+p
+[La Rupture](/compendium?article=regles-verite-v7-corruption-integrite-bascule#wiki-section-bascule) peut produire une Abomination fracturée ou un Éclat de Sharith, un organisme polymorphe de Bellatheis, une entité restructurée par le Grand Savoir, un réacteur vivant de Nucléomancie ou une conscience scindée. Les Psycolors restent hors progression PJ et relèvent du Bestiaire.
+
+==== [Vérité — Corruption › Fléaux] Vhadhi — Métastase (regles-verite-v7-fleau-vhadhi)
+### Source — Vhadhi — Métastase
+2
+table
+Principe
+Réaffecter / adapter
+Tentation
+Je peux devenir la solution.
+Vecteur / résistance typique
+Transformation corporelle : Vigueur + Constitution ; altération de l’âme, de l’identité ou d’une fonction surnaturelle : Volonté + Force Mentale.
+p
+Vhadhi ne change pas pour explorer toutes les possibilités : elle réaffecte un corps, un objet ou un système vers une fonction jugée plus utile.
+p
+L’[Éden Gris](/compendium?article=lore-plagues-eden-gris#wiki-section-lore-plagues-eden-gris-histoire) est une tradition de recherche et d’évolution dirigée. Grades, Éveillées, laboratoires et Nacre noire sont des ressources institutionnelles, jamais une monnaie de PTV.
+### Impulsion à partir d’Envahi
+2
+p
+Si exactement la même méthode échoue une deuxième fois contre le même obstacle significatif, Volonté + Maîtrise spirituelle difficulté 15. En échec, le personnage doit changer de méthode, se repositionner, employer une adaptation ou renoncer temporairement à cette approche.
+### Progression DON / RITE / FAVEUR
+2
+p
+Les Dons suivent [la profondeur Marqué, Envahi puis Au bord](/compendium?article=regles-verite-v7-corruption-integrite-bascule#wiki-section-profondeur). Les Rites et Faveurs suivent [les règles communes de Souillure](/compendium?article=regles-verite-v7-corruption-integrite-bascule#wiki-section-souillure) ; un Don personnel ne provoque pas de Souillure à chaque usage sauf texte explicite. Le détail de chaque capacité reste dans le registre canonique du Builder.
+table
+Famille
+Talents
+PTV
+Métastase
+14
+31
+Éden Gris
+16
+35
+Total
+30
+66
+### Bascule & Rupture
+2
+p
+[La Bascule](/compendium?article=regles-verite-v7-corruption-integrite-bascule#wiki-section-bascule) produit une Finalité structurante. Le MJ examine dernière exposition, Dons, adaptations, contexte, rite et Nature d’origine, puis décide ce que le nouvel être a appris qu’il devait être. La Rupture peut rester consciente ; elle n’en redevient pas pour autant une progression PJ.
+
+==== [Vérité — Corruption › Fléaux] Shaoggith — Germination (regles-verite-v7-fleau-shaoggith)
+### Source — Shaoggith — Germination
+2
+table
+Principe
+Engendrer / proliférer
+Tentation
+Je peux mettre la solution au monde.
+Vecteur / résistance typique
+Vecteur typique physique : Vigueur + Constitution via tissu, écaille, sécrétion, greffe, parasite ou contamination biologique.
+p
+Les mutations anciennes liées à l’histoire de certains peuples ne signifient pas une Corruption héréditaire actuelle.
+p
+Les neuf [Maîtres des Abominations](/compendium?article=lore-plagues-mere-primordiale#wiki-section-lore-plagues-mere-primordiale-histoire) sont un statut de culte, pas neuf classes. Toute créature durable créée par une Culture est un PNJ réel et ne fournit aucun pool de PA gratuit.
+### Impulsion à partir d’Envahi
+2
+p
+Lorsqu’une création vivante issue du personnage, une masse importante de tissu viable ou un organisme qu’il cultive va être détruit ou stérilisé, Volonté + Maîtrise spirituelle difficulté 15. En échec, au moins 1 PA doit servir à préserver, récupérer ou mettre à l’abri ce potentiel si c’est possible.
+### Progression DON / RITE / FAVEUR
+2
+p
+Les Dons suivent [la profondeur Marqué, Envahi puis Au bord](/compendium?article=regles-verite-v7-corruption-integrite-bascule#wiki-section-profondeur). Les Rites et Faveurs suivent [les règles communes de Souillure](/compendium?article=regles-verite-v7-corruption-integrite-bascule#wiki-section-souillure) ; un Don personnel ne provoque pas de Souillure à chaque usage sauf texte explicite. Le détail de chaque capacité reste dans le registre canonique du Builder.
+table
+Famille
+Talents
+PTV
+Germination
+15
+34
+Mère Primordiale
+15
+32
+Total
+30
+66
+### Bascule & Rupture
+2
+p
+[La Bascule](/compendium?article=regles-verite-v7-corruption-integrite-bascule#wiki-section-bascule) produit une Abomination germinative : le corps cesse de respecter le principe qu’un organisme est un individu fermé. Les Cycles appartiennent à l’après-Rupture et peuvent ensuite reconfigurer profondément l’Abomination ; ils ne sont jamais une progression PJ.
+
+==== [Vérité — Corruption › Fléaux] Thul — Fixation (regles-verite-v7-fleau-thul)
+### Source — Thul — Fixation
+2
+table
+Principe
+Fixer / empêcher le devenir
+Tentation
+Pourquoi laisser quoi que ce soit changer ?
+Vecteur / résistance typique
+Le vecteur dépend du Patron, du rite ou de l’émanation. Thul demeure endormi ou emprisonné sous Mû en 2035.
+p
+[Sombre Culte](/compendium?article=lore-plagues-sombre-culte#wiki-section-lore-plagues-sombre-culte-histoire), Dagon, Telipinu et Horde Abyssale ne forment pas une Église centralisée ; ce sont des foyers différents autour d’une Source emprisonnée.
+p
+La Horde Abyssale n’a pas d’arbre PTV propre. Elle utilise la formation normale de Horde et, pour les membres réellement corrompus, les règles de Fixation.
+### Impulsion à partir d’Envahi
+2
+p
+Lorsqu’une chose à laquelle le personnage est personnellement attaché va subir un changement important et irréversible, Volonté + Maîtrise spirituelle difficulté 15. En échec, au moins 1 PA doit servir à retarder, empêcher ou préserver quelque chose de l’état précédent si une option réelle existe.
+### Progression DON / RITE / FAVEUR
+2
+p
+Les Dons suivent [la profondeur Marqué, Envahi puis Au bord](/compendium?article=regles-verite-v7-corruption-integrite-bascule#wiki-section-profondeur). Les Rites et Faveurs suivent [les règles communes de Souillure](/compendium?article=regles-verite-v7-corruption-integrite-bascule#wiki-section-souillure) ; un Don personnel ne provoque pas de Souillure à chaque usage sauf texte explicite. Le détail de chaque capacité reste dans le registre canonique du Builder.
+table
+Famille
+Talents
+PTV
+Fixation
+14
+31
+Sombre Culte commun
+6
+13
+Dagon
+4
+9
+Telipinu
+4
+8
+Total
+28
+61
+### Bascule & Rupture
+2
+p
+[La Bascule](/compendium?article=regles-verite-v7-corruption-integrite-bascule#wiki-section-bascule) thulienne fixe la nouvelle Nature au lieu de la laisser continuer à évoluer : Fossile vivant, Abyssal profondément métissé, Myxinien, hybride, organisme pathologique ou âme figée selon le Patron et la contamination. Les Grands Thuliens relèvent du Bestiaire et du scénario.
+

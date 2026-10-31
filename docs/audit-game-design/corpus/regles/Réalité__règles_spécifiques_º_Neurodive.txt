@@ -1,0 +1,302 @@
+==== [Réalité — règles spécifiques › Neurodive] Neurodive — principes, connexion & Rang (regles-realite-v9-neurodive-principes-rang)
+### Lexique
+2
+table
+Terme
+Définition
+Neurodive
+Discipline et acte de plonger dans l'Holonet.
+Neurodiver
+Toute personne capable de pratiquer le Neurodive.
+Neurodriver
+Neurodiver doté d'une neuroarchitecture extrêmement rare, représentée par le Talent Neurodriver.
+Unsinkable
+Architecture neurologique inverse : le cerveau rejette le Neurodive ; l'Holonet de surface reste utilisable.
+### Un seul moteur
+2
+p
+Test standard de Neurodive : Volonté + Neurodive + 1d10e.
+p
+Le Neurodive utilise le même pool de PA, la même Initiative et les mêmes PV que les actions physiques. Il n'existe ni réserve d'actions virtuelles ni jauge de PV Neuro séparée.
+p
+Neurodive permet accès, intrusion, analyse et contrôle. Les [Neuroprogrammes](/compendium?article=regles-realite-v9-neurodive-actions-intrusion#wiki-section-chargement) permettent les actions spécialisées : Défense active, attaque, masquage de traces, évacuation sous opposition, sabotage autonome ou attaque d'augmentations.
+p
+Seule la valeur permanente de Neurodive détermine le Rang. Les bonus de Talent, d'équipement ou de programme ne relèvent jamais le Rang. Les Applications Holonet ordinaires ne consomment jamais de slot de Neuroprogramme.
+### Pressure
+2
+p
+La sécurité, la profondeur et la difficulté de sortie d'un environnement sont représentées par sa Difficulté, ses IA, ses Neuroprogrammes de défense et les conséquences d'un échec.
+p
+Un environnement peut exiger une connexion profonde ou une immersion complète sans fournir automatiquement de bonus chiffré. Une architecture agressive peut prévoir verrouillage, Stress augmentique temporaire ou dégâts neuronaux.
+### Modes de connexion
+2
+table
+Mode
+Usage
+Contraintes
+Règle
+Holonet standard
+Navigation, applications, communication, recherche courante
+Le personnage reste incarné et conscient.
+Pas de bonus générique.
+Neuro-hack local
+Intrusion, Contrôle et Neurocombat
+Attention partagée avec le monde physique.
+Les actions physiques exigeant forte concentration peuvent subir −3.
+Plongée / immersion complète
+Environnements à forte Pressure
+Le corps est largement délaissé et vulnérable.
+Pas de bonus générique ; peut être exigée par l'environnement.
+Connexion physique directe
+Port, prise, câble ou interface sur le système précis
+Expose physiquement l'utilisateur et son interface.
++2 Intrusion et Contrôle contre le système exactement connecté.
+p
+La connexion physique directe contourne portée radio, brouillage et isolement réseau du système câblé. Elle ne contourne ni chiffrement, ni authentification, ni sécurité logicielle. Son +2 ne s'applique ni aux Neuroattaques ni à la Défense Neuro.
+### Compatibilité et cibles
+2
+p
+Un système électronique ou connecté n'est pas automatiquement Neurodive-compatible : il faut une voie de données réelle et une interface ou un protocole effectivement compatibles. Un câble ne traduit pas à lui seul un protocole alien.
+p
+Magie pure, âme, tissu biologique, pouvoir de Nature ou substrat technobiologique sans interface de contrôle accessible ne sont pas des cibles Neuro. Une couche de commande cybernétique explicitement connectée peut constituer une surface d'attaque distincte.
+### Interfaces Neurodive
+2
+p
+Un [Holophone](/compendium?article=equipement-139-holophone#wiki-section-contexte) avec NavIA suffit pour l'usage ordinaire de l'Holonet. Charger et employer des Neuroprogrammes en intrusion ou Neurocombat exige une interface Neurodive compatible : cyberconsole, câblage neural, équipement de Neurodiver ou dispositif équivalent.
+p
+Une Cyberconsole permet les Neuroprogrammes sans implant neural mais n'accorde aucun Rang et ne fournit pas à elle seule le +2 de connexion directe. Un Kit hardline permet cette connexion lorsque l'accès physique compatible existe réellement.
+p
+Le Neuromaster est une interface d'immersion profonde et fournit Réduction 3 [Neuro] contre les pertes de PV neuronales ; il n'augmente ni Rang, ni slots, ni PA.
+### Rang de Neurodive
+2
+table
+Neurodive brut
+Rang
+Neuroprogrammes chargés
+0
+0
+0
+1–3
+1
+1
+4–6
+2
+2
+7–9
+3
+3
+10–15
+4
+4
+p
+Le Rang mesure uniquement la capacité cognitive et technique à maintenir des Neuroprogrammes. Il ne représente ni une portée spéciale, ni une réserve de PA, ni l'aptitude Neurodriver.
+### Neurodriver
+2
+p
+Neurodriver exige Neurodive 1+. Il donne +1 aux tests de Neurodive et +1 Neuroprogramme chargé au-delà du maximum normal du Rang. Le bonus n'augmente jamais le Rang.
+p
+La présence fictionnelle d'un Neurodriver peut être décrite comme relayée par les nœuds et objets qu'il a réellement atteints. Cela ne contourne jamais une Intrusion, ne crée pas une ligne de données inexistante et ne donne aucune action ou portée mécanique gratuite.
+### Unsinkable
+2
+p
+Un Unsinkable peut utiliser l'Holonet de surface, les applications et interfaces non immersives, mais ne peut jamais effectuer de Neurodive, charger ou employer un Neuroprogramme, ni acquérir Neurodriver. Sa valeur de Neurodive est inutilisable tant que le Désavantage existe.
+p
+Il ne peut pas bénéficier de Smartlink, Interface de ciblage, Verrouillage personnel ou autre guidage exigeant une liaison neurale avec l'utilisateur. Optiques ordinaires, commandes manuelles et systèmes Autoguidés réellement autonomes continuent de fonctionner.
+p
+Plongée forcée : la connexion échoue toujours. Vigueur + Constitution difficulté 15 permet de rejeter proprement la connexion ; échec : 1 PV neural et Tendu ; échec narratif : 2 PV neuronaux et Paniqué.
+
+==== [Réalité — règles spécifiques › Neurodive] Neurodive — actions, intrusion, contrôle & trace (regles-realite-v9-neurodive-actions-intrusion)
+### Chargement et programmes engagés
+2
+p
+Un programme chargé occupe un slot et est immédiatement disponible. Hors pression, modifier le chargement est libre ; en combat, poursuite ou intrusion chronométrée, remplacer un programme chargé coûte 1 PA.
+p
+Utiliser la fonction d'un programme coûte uniquement le PA indiqué par cette fonction : aucun PA supplémentaire n'est requis pour l'allumer.
+p
+Un même test ne reçoit qu'un seul bonus numérique direct provenant des Neuroprogrammes. Les effets qui permettent l'action, modifient une conséquence ou protègent un environnement peuvent coexister s'ils ne représentent pas le même bonus.
+p
+Une Défense Neuro active n'emploie qu'un seul programme défensif ; seuls le bonus et les effets de ce programme s'appliquent à cette Défense, sauf effet explicitement passif.
+p
+Un effet entretenu depuis le loadout personnel cesse lorsque le programme est déchargé. Une installation persistante dans une infrastructure exige une copie ou instance dédiée ; une même copie ne peut pas protéger une infinité de systèmes.
+### Actions de Neurodive
+2
+p
+Hors pression, les actions triviales ne demandent ni PA ni jet. Sous opposition, en combat ou lorsqu'un compte à rebours importe, les actions significatives coûtent normalement 1 PA.
+table
+Action
+Programme ?
+Résolution
+Navigation / consultation
+Non
+Accéder à une information déjà autorisée ; pas de test sans obstacle réel.
+Analyse
+Non
+Étudier une donnée accessible ; test seulement si elle est complexe, cachée ou trompeuse.
+Cartographie
+Non
+Identifier la topologie accessible d'un sous-réseau ; test si des zones sont dissimulées.
+Intrusion
+Non
+Volonté + Neurodive contre la Difficulté de sécurité.
+Contrôle
+Non
+Prendre la main sur un nœud atteint ; test si sécurité ou opposition subsiste.
+Action sur système contrôlé
+Non
+Chaque action significative coûte normalement 1 PA.
+Copie ordinaire
+Non
+Copier des données accessibles ; 1 PA sous pression.
+Neuroattaque
+Oui — offensif
+Volonté + Neurodive + 1d10e contre Défense Neuro.
+Défense Neuro active
+Oui — défensif
+1 PA en Réaction : Volonté + Force Mentale + 1d10e.
+Masquage / nettoyage
+Oui — spécialisé
+Généralement 1 PA et test de Neurodive.
+Fuite sous verrouillage
+Oui — spécialisé
+Programme d'évacuation si une contre-mesure empêche la déconnexion.
+Sabotage / copie d'IA / attaque d'augmentations
+Oui — spécialisé
+Le programme correspondant définit l'effet.
+### Niveaux de sécurité
+2
+table
+Niveau
+Difficulté
+Faible / civile
+12
+Standard
+15
+Renforcée
+18
+Haute sécurité
+21
+Exceptionnelle
+25
+### Intrusion et Contrôle
+2
+p
+Une Intrusion réussie franchit l'obstacle annoncé : authentification, verrou, porte logique ou accès local. Elle ne donne jamais automatiquement le contrôle de tout le système.
+image
+images/rules/regles-intrusion-v4.svg
+images/rules/regles-intrusion-v4-mobile.svg
+Intrusion : atteindre une fonction : 1 · Vérifier la voie — Connexion et protocole compatibles ; nommer le système et le nœud visé. ; 2 · Franchir l’obstacle — Intrusion sur authentification, verrou ou porte logique ; 1 PA sous pression. ; 3 · Échec ? — Aucun accès ; sécurité peut déclencher alerte, verrouillage, IA ou trace. ; 4 · Réussite ? — Seul l’obstacle nommé est franchi ; atteindre la fonction réellement accessible. ; 5 · Agir puis couvrir ses traces — Contrôle de la porte A ; caméra du nœud B = nouvel accès. Masquage si requis.. Réussir l’objectif n’efface pas automatiquement les traces.
+rule-diagram
+p
+Une fois le nœud atteint, Contrôle permet de prendre la main sur une fonction réellement accessible : porte, caméra, arme, ventilation, véhicule, terminal, etc. Une autre fonction ou un autre nœud peut exiger une nouvelle action.
+### Échec et échec narratif
+2
+p
+En échec, l'accès n'est pas obtenu. Selon la sécurité, l'échec peut déclencher alerte, verrouillage, IA ou trace.
+p
+En échec narratif, le MJ peut notamment provoquer localisation, alerte prioritaire, verrouillage, trace forte, expulsion ou corruption du Neuroprogramme effectivement utilisé. Un équipement connecté peut aussi être endommagé si la contre-mesure a réellement accès à lui.
+### Trace
+2
+p
+Réussir l'objectif ne supprime jamais automatiquement les preuves. Sans Masquage approprié, un autre [Neurodive](/compendium?article=regles-realite-v9-neurodive-principes-rang#wiki-section-lexique)r, une IA ou une enquête peut déterminer qu'une intrusion a eu lieu et remonter les opérations selon les traces disponibles.
+### Déconnexion
+2
+p
+Hors pression, se déconnecter est libre. Sous opposition, une déconnexion simple coûte 1 PA. Si la connexion est verrouillée ou si l'utilisateur veut sortir malgré une contre-mesure, un programme d'évacuation peut être requis.
+
+==== [Réalité — règles spécifiques › Neurodive] Neurocombat & intégrité logicielle (regles-realite-v9-neurocombat-integrite-logicielle)
+### Début du Neurocombat
+2
+p
+Dès qu'une IA, un Neurodiver ou une défense active s'oppose directement à l'intrus, lancer l'[Initiative](/compendium?article=regles-initiative-pa-deplacement#wiki-section-initiative-et-pa) normale. Les passes, PA et Réactions restent ceux du moteur général.
+p
+Défense passive : Volonté + Force Mentale.
+p
+Défense active : 1 PA en Réaction, nécessite un programme défensif chargé, Volonté + Force Mentale + 1d10e, plus l'effet éventuel du programme choisi.
+p
+Neuroattaque : 1 PA, nécessite un programme offensif chargé, Volonté + Neurodive + 1d10e contre la Défense Neuro.
+### Cible vivante
+2
+p
+Si une Neuroattaque dépasse la Défense, la cible perd un nombre de PV égal à la marge. L'Armure physique ordinaire ne réduit pas ces dégâts ; seule une protection explicitement [Neuro] peut les réduire ou les empêcher.
+p
+Les dégâts neuronaux utilisent les PV normaux et peuvent donc imposer Tendu, Paniqué, Agonisant et Mort. Ils représentent douleur neurale, surcharge des interfaces, crise sensorielle, convulsions ou lésions physiologiques provoquées par la connexion.
+### IA et programmes hostiles
+2
+p
+Les IA et programmes ordinaires n'utilisent pas une jauge universelle de PV. Une attaque réussie produit un état de fonctionnement selon la marge, sauf effet particulier du [Neuroprogramme](/compendium?article=regles-realite-v9-neurodive-actions-intrusion#wiki-section-chargement).
+table
+Marge
+Effet standard
+1–5
+Perturbé : −3 à la prochaine action de l'IA ou du programme.
+6–10
+Désactivé : l'instance cesse de fonctionner jusqu'à relance, réparation ou restauration.
+11+
+Détruit : l'instance doit être restaurée, réinstallée ou remplacée.
+p
+Une IA majeure, un agent autonome de scénario ou un système stratégique peut recevoir un profil spécifique et plusieurs couches de protection.
+### Marge majeure et Altération Neuro
+2
+p
+Sur une Neuroattaque infligeant normalement des PV à une cible vivante, une marge 11+ permet de convertir 3 points de dégâts en une Altération Neuro ciblée et techniquement plausible.
+p
+Exemples : désactiver une interface ou un périphérique connecté jusqu'à réparation, forcer une déconnexion si l'architecture et le programme le permettent, créer une trace exploitable, exposer une identité numérique ou rendre un canal local inutilisable jusqu'à réinitialisation.
+p
+Une Altération Neuro ne détruit jamais arbitrairement un organe, une augmentation vitale ou un matériel hors ligne ou inaccessible. Les programmes spécialisés gardent la priorité.
+### Corruption de programme
+2
+p
+Lorsqu'un personnage obtient un échec narratif en utilisant un Neuroprogramme, le MJ peut choisir de corrompre ce programme si la conséquence est cohérente avec l'action.
+p
+Une corruption ordinaire rend la copie indisponible jusqu'à réinstallation ou réparation. Une contre-mesure particulièrement destructrice peut griller la copie si elle y a réellement accès.
+### Sacrifice de programme
+2
+p
+Après calcul de la Neuroattaque, application de la Défense, des effets défensifs et des Réductions [Neuro], mais avant de perdre les PV restants, la cible peut sacrifier un ou plusieurs Neuroprogrammes chargés.
+image
+images/rules/regles-neurocombat-v4.svg
+images/rules/regles-neurocombat-v4-mobile.svg
+Neurocombat : cible, impact et sacrifice : 1 · Attaquer — Programme offensif chargé : Volonté + Neurodive + 1d10e contre Défense Neuro. ; 2 · Cible vivante ? — Marge en dégâts sur ses PV ; seule une réduction [Neuro] protège, pas l’Armure. ; 3 · Calculer le reliquat — Après Défense, effet défensif et réductions [Neuro], compter les PV encore à perdre. ; 4 · Sacrifier si souhaité — Chaque programme chargé sacrifié annule 3 PV restants ; l’excédent est perdu. ; 5 · Appliquer — Retrancher les PV non annulés ; programmes sacrifiés grillés et slots indisponibles.. Contre IA ou programme : marge 1–5 perturbé ; 6–10 désactivé ; 11+ détruit.
+rule-diagram
+p
+Chaque Neuroprogramme sacrifié annule 3 PV de dégâts neuronaux restants. Plusieurs programmes peuvent être sacrifiés sur la même attaque ; l'excédent de réduction est perdu. Le programme défensif utilisé peut lui-même être sacrifié.
+p
+Un programme sacrifié est grillé : sa copie ou clé locale est détruite et son slot devient indisponible jusqu'à la fin du Neurocombat et à un redémarrage sûr. Pour le réutiliser ensuite, il faut une autre copie valide ou en racheter une, sauf contrat ou licence prévoyant explicitement un remplacement.
+### Matériel physique et restauration
+2
+p
+Holophone, cyberconsole, port d'interface, relais, combinaison de Neurodiver ou périphérique connecté peuvent être briqués ou endommagés si l'attaque y a réellement accès. Un équipement hors ligne ou physiquement séparé n'est jamais une cible magique.
+p
+Une copie légale simplement corrompue peut souvent être réinstallée hors pression si la licence et le support existent encore. Une copie grillée par sacrifice, une clé brûlée, une copie clandestine ou un sabotage destructeur exige une nouvelle copie valide. La perte d'un programme reste une conséquence significative, jamais une taxe automatique sur chaque échec.
+### Exemple canonique d'intrusion sous opposition
+2
+p
+Un Neurodiver tente d'ouvrir une porte corporatiste de sécurité Renforcée, difficulté 18. Il échoue : une IA se déclenche et une trace apparaît. Il reste connecté pour récupérer une information ; le Neurocombat commence avec l'Initiative normale.
+p
+L'IA attaque. Le Neurodiver dépense 1 PA en Défense active avec un programme défensif mais perd 1 PV neural sur une marge adverse de 1. Il utilise son PA restant pour accomplir son objectif. Au round suivant, il attaque l'IA, puis emploie un programme de Masquage avant de se déconnecter. Si la connexion avait été verrouillée, un programme d'évacuation aurait été nécessaire.
+### Référence rapide
+2
+table
+Élément
+Règle
+Test Neurodive
+Volonté + Neurodive + 1d10e
+Défense passive
+Volonté + Force Mentale
+Défense active
+1 PA + programme défensif : Volonté + Force Mentale + 1d10e
+Neuroattaque
+1 PA + programme offensif : Volonté + Neurodive + 1d10e
+Dégâts vivants
+Marge en PV ; Armure physique ignorée
+Sécurité
+12 / 15 / 18 / 21 / 25
+Connexion directe
++2 Intrusion et Contrôle contre le système exactement connecté
+Changement de programme
+Libre hors pression ; 1 PA sous pression
+Applications
+Aucun slot
+Sacrifice
+1 programme chargé = −3 PV neuronaux restants ; programme grillé
+

@@ -1,0 +1,131 @@
+==== [Réalité — règles spécifiques › Profil & création] Réalité — repères sociaux (regles-realite-v9-reperes-sociaux)
+### Sphères et Origine
+2
+p
+Les cinq Sphères de Réalité sont Corporatiste, Gouvernementale, Mafieuse, Religieuse et Crawler.
+p
+L'Origine décrit le milieu de départ du personnage ; la Sphère actuelle décrit son appartenance présente. À la création, l'Origine donne accès à un Talent d'Origine. Ce Talent reste acquis même si le personnage change ensuite de Sphère.
+p
+Les Talents de Sphère représentent des accès, privilèges, réseaux, ressources et savoir-faire liés à l'appartenance actuelle. Leur usage peut dépendre du maintien de cette appartenance.
+### Langues
+2
+p
+Une langue maternelle est gratuite. Chaque point de Langages & Argot permet normalement une langue parlée supplémentaire.
+### Renommée, Logifate, Contacts et Compte
+2
+table
+Élément
+Rôle
+Renommée
+Jauge contextuelle persistante qui mesure combien le nom circule dans un milieu.
+Logifate
+Profil social et administratif numérique : identité, fiabilité, habilitations et historique connus des systèmes.
+Contacts
+Personnes nommées disposant de leurs propres moyens, intérêts, disponibilités et limites.
+Compte
+Argent liquide ou numérique explicitement disponible pour les achats significatifs.
+p
+Les valeurs initiales et dépenses de création sont définies par le corpus de Création de personnage. Cette page décrit leur place dans Réalité, pas une seconde table de création.
+### Appartenance, statut et accès
+2
+p
+Dans Réalité, accès et propriété sont distincts. Un poste, une Sphère, une corporation, une administration, une famille mafieuse ou une institution religieuse peuvent donner droit à des services, logements, véhicules, informations ou protections qui cessent lorsque le lien institutionnel disparaît.
+p
+Une réputation personnelle, un [Logifate](/compendium?article=realite-v9-holonet-medias-culture-identite#wiki-section-logifate) ou un réseau de Contacts peuvent ouvrir une porte sans créer pour autant un droit permanent sur la ressource obtenue.
+
+==== [Réalité — règles spécifiques › Profil & création] Talents de Réalité — structure & principes (regles-realite-v9-talents)
+### Un catalogue canonique de 122 Talents
+2
+table
+Famille
+Nombre
+Talents communs
+12
+Talents d'expertise
+25
+Talents d'Origine
+25
+Talents de Sphère
+60
+Total
+122
+p
+Le détail des 122 Talents est alimenté par le catalogue canonique du Builder et ne doit pas être recopié dans une seconde source mécanique. Cette page conserve les principes qui structurent le catalogue.
+### Principes communs
+2
+p
+Les Talents communs sont accessibles indépendamment de la Sphère.
+p
+Il existe exactement un Talent d'expertise par Compétence, soit cinq Talents d'expertise par Attribut et vingt-cinq au total.
+p
+Le modèle fréquent d'un Talent d'expertise est un bonus ciblé à la Compétence accompagné d'un effet signature. Un bonus de Talent n'augmente pas la valeur brute permanente d'une Compétence pour calculer une valeur dérivée, sauf indication explicite.
+### Talents d'Origine
+2
+p
+Chaque personnage choisit une Origine sociale et reçoit gratuitement un des cinq Talents correspondant à cette Origine. L'Origine n'est pas le métier actuel : elle représente ce qui reste de l'éducation et du milieu d'enfance.
+p
+Changer de Sphère ne retire jamais le Talent d'Origine déjà acquis.
+### Talents de Sphère
+2
+p
+Les Talents de Sphère actuelle représentent privilèges, réseaux, ressources, accès ou savoir-faire liés à l'appartenance présente. Leur usage peut dépendre du maintien de cette appartenance.
+p
+Les cinq Sphères disposent chacune de douze Talents de Sphère : Crawler, Corporatiste, Gouvernementale, Pègre et Religieuse.
+### Deux repères particuliers
+2
+p
+Stabilité augmentique occupe la case d'expertise Humanité.
+p
+Neurodriver est le Talent d'expertise associé à Neurodive. Il exige Neurodive 1+, accorde +1 aux tests de Neurodive et +1 Neuroprogramme chargé au-delà du maximum normal du Rang. Il n'augmente jamais le Rang de Neurodive.
+p
+Neurodiver désigne toute personne pratiquant le Neurodive. Neurodriver désigne la neuroarchitecture rare représentée par le Talent ; les deux termes ne sont pas synonymes.
+### Progression
+2
+p
+Apprentissage fulgurant intervient dans le coût d'XP d'une hausse de Compétence réellement pratiquée ou entraînée pendant le scénario. Son effet complet appartient aux règles de progression de Création de personnage.
+p
+Sens surnaturels reste exclu du catalogue profane : la prescience relève de Vérité.
+
+==== [Réalité — règles spécifiques › Profil & création] Désavantages de Réalité — structure & principes (regles-realite-v9-desavantages)
+### Principe
+2
+p
+Les Désavantages sont des contraintes réelles. Ils ne servent jamais à obtenir gratuitement une ressource de création en annulant artificiellement leur propre effet.
+p
+Ils sont facultatifs. Un personnage peut choisir au maximum trois Désavantages à la création ; chacun accorde +1 Edge. Un Désavantage acquis ultérieurement en jeu n'accorde pas rétroactivement d'Edge.
+p
+Un Désavantage ne peut pas être choisi si un Talent, une Nature de Vérité ou une propriété permanente annule pratiquement son effet. Les couples Talent/Désavantage créés uniquement pour gagner une ressource de création sont donc à éviter.
+### Structure du catalogue
+2
+table
+Famille
+Nombre
+Désavantages communs
+15
+Faiblesses liées aux Attributs
+15
+Désavantages de Sphère
+25 — cinq par Sphère
+Total structurel
+55
+p
+Le détail des 55 entrées reste alimenté par le catalogue canonique du Builder. La structure et les règles générales sont conservées ici afin d'éviter de transformer le Compendium en seconde source mécanique.
+### Échelle et philosophie
+2
+p
+Échelle indicative : −1 correspond à une faiblesse générale modérée, −2 à un handicap spécialisé ; une circonstance défavorable (−3) représente une vraie situation problématique.
+p
+Un Désavantage doit contraindre réellement les choix sans prendre complètement le contrôle du personnage. Violent n'oblige jamais automatiquement à attaquer un PJ ; Obsédé et Scrupuleux contraignent une décision mais laissent au joueur la manière dont le personnage agit.
+p
+Logifate, Renommée et Réputation décrivent le poids social sans multiplier les malus génériques de Charisme. Les Désavantages de Sphère modifient surtout confiance, accès et connaissance institutionnelle du personnage.
+### Cas structurants
+2
+p
+Unsinkable est un Désavantage ordinaire de création : +1 Edge, incompatibilité avec Neurodriver, impossibilité définitive de Neurodive et de guidage neuroassisté personnel. L'usage de surface de l'Holonet et des interfaces non immersives reste possible.
+p
+Neurocompatibilité nulle ajoute +2 au Stress augmentique de base total dès qu'au moins une augmentation générant du Stress est installée. Ce +2 s'applique au total, jamais à chaque augmentation.
+p
+Mauvais tireur réduit de 3 la marge uniquement pour déterminer une Altération de précision ou de localisation ; les dégâts du tir ne changent pas.
+p
+Aucun Désavantage n'augmente durablement le coût d'XP.
+

@@ -1,0 +1,55 @@
+#1 Âme du Cycle [] {trait conditionnel / calcul partiel} :: À sa mort véritable, le descendant de Khinae rejoint normalement le Cycle des âmes.
+#2 Régénération lente [] {trait conditionnel / calcul partiel} :: Récupère 1 PV par heure hors combat.
+#3 Instinct de Lignée [] {trait conditionnel / calcul partiel} :: La Frénésie et les perceptions instinctives prennent l’animal de la Lignée comme référence ; elles ne donnent ni Appel de la Meute ni Hiérarchie lupine par défaut.
+#4 Corps de guerre [] {trait conditionnel / calcul partiel} :: En hybride : +3 aux tests de Pugilat et Régénération de 2 PV au début de chaque round tant que le personnage reste vivant et maintient la forme.
+#5 Rythme Khinae [] {trait conditionnel / calcul partiel} :: À partir du round suivant l’achèvement de la Mue hybride : +1 PA à chaque round, au-delà du maximum normal.
+#6 Piste nomade [] {trait conditionnel / calcul partiel} :: Après identification directe d’une odeur, la distingue du bruit olfactif ordinaire pour la scène tant qu’une trace physique existe.
+#7 Odeur mouvante [] {trait conditionnel / calcul partiel} :: Peut atténuer, accentuer ou déformer sa propre odeur naturelle sans imiter encore parfaitement un individu précis.
+#8 Silence du grand fauve [] {trait conditionnel / calcul partiel} :: Ses déplacements naturels ne suffisent pas à révéler sa position lorsqu’il possède déjà un couvert ou une dissimulation crédible.
+#9 Inoffensif par nature [] {trait conditionnel / calcul partiel} :: Un instinct surnaturel de prédation ne le classe pas automatiquement comme menace majeure tant qu’il ne manifeste pas d’hostilité.
+#10 Bond ailé [] {trait conditionnel / calcul partiel} :: Un Déplacement peut devenir un grand bond soutenu par les ailes ; pas de vol stationnaire.
+#11 Sang qui refuse l’abysse [] {trait conditionnel / calcul partiel} :: 1/scène, peut relancer une exposition biologique directe à la Corruption de Thul.
+#12 Corps ophidien [] {trait conditionnel / calcul partiel} :: Locomotion sans membres, enroulement et compression corporelle impossibles pour un humain.
+#13 Bande de ricanement [] {trait conditionnel / calcul partiel} :: Au début d’une scène/chasse, reconnaît jusqu’à trois consentants comme sa Bande pour les Talents de Lignée.
+#14 Masse ursine [] {trait conditionnel / calcul partiel} :: Une force humaine ordinaire ne peut normalement pas le renverser, pousser ou soulever.
+#15 Fossile de vase [] {trait conditionnel / calcul partiel} :: Peut rester presque parfaitement immobile et ralentir ses fonctions ; le mouvement seul ne suffit plus à le détecter.
+#16 Variante — Coyote [] {trait conditionnel / calcul partiel} :: Gabarit compact ; milieux urbains encombrés comme terrain adapté.
+#17 Variante — Chacal / Dhole [] {trait conditionnel / calcul partiel} :: Charognard robuste ; distingue sang frais et charogne récente.
+#18 Variante — Lycaon [] {trait conditionnel / calcul partiel} :: Coureur de fond, particulièrement adapté à la poursuite continue.
+#19 Variante — Dingo [] {trait conditionnel / calcul partiel} :: Aridophile, tolère chaleur et manque d’eau.
+#20 Variante — Roux [] {trait conditionnel / calcul partiel} :: Profil équilibré, lisières et zones humaines peu denses.
+#21 Variante — Fennec [] {trait conditionnel / calcul partiel} :: Physiologie désertique et écoute exceptionnelle.
+#22 Variante — Arctique [] {trait conditionnel / calcul partiel} :: Adapté au froid intense et au camouflage neige/glace.
+#23 Variante — Gris / forestier [] {trait conditionnel / calcul partiel} :: Grimpe et progression en terrain boisé/accidenté.
+#24 Variante — Tigre [] {trait conditionnel / calcul partiel} :: Profil de référence ; excellent nageur.
+#25 Variante — Lion [] {trait conditionnel / calcul partiel} :: Plus massif ; peut reconnaître une petite troupe durable sans mécanique de Meute.
+#26 Variante — Panthère [] {trait conditionnel / calcul partiel} :: Plus agile, escalade et progression nocturne.
+#27 Variante — Jaguar [] {trait conditionnel / calcul partiel} :: À l’aise dans l’eau et la végétation dense.
+#28 Variante — Puma [] {trait conditionnel / calcul partiel} :: Agile en terrain montagneux et changements d’élévation.
+#29 Variante — Domestique [] {trait conditionnel / calcul partiel} :: Forme animale crédible comme chat ordinaire.
+#30 Variante — Sauvage [] {trait conditionnel / calcul partiel} :: Plus robuste, moins facile à banaliser.
+#31 Variante — Nocturne [] {trait conditionnel / calcul partiel} :: Perception et déplacement naturels en faible lumière.
+#32 Variante — Grimpeur [] {trait conditionnel / calcul partiel} :: Griffes et articulations adaptées aux surfaces verticales.
+#33 Variante — Aigle [] {trait conditionnel / calcul partiel} :: Puissant, vision longue portée.
+#34 Variante — Faucon [] {trait conditionnel / calcul partiel} :: Très agile, vitesse horizontale.
+#35 Variante — Hibou [] {trait conditionnel / calcul partiel} :: Nocturne et silencieux.
+#36 Variante — Vautour [] {trait conditionnel / calcul partiel} :: Endurant et adapté aux charognes.
+#37 Variante — Requin blanc [] {trait conditionnel / calcul partiel} :: Profil de référence, froid et grandes profondeurs.
+#38 Variante — Bouledogue [] {trait conditionnel / calcul partiel} :: Eau douce/salée et transitions de milieu.
+#39 Variante — Requin tigre [] {trait conditionnel / calcul partiel} :: Digestion robuste et régime opportuniste.
+#40 Variante — Requin marteau [] {trait conditionnel / calcul partiel} :: Électroréception fine et grande agilité.
+#41 Variante — Requin baleine [] {trait conditionnel / calcul partiel} :: Très grand gabarit, moins prédateur.
+#42 Variante — Vipère — hémotoxique [] {trait conditionnel / calcul partiel} :: Venin hémotoxique.
+#43 Variante — Cobra — neurotoxique [] {trait conditionnel / calcul partiel} :: Venin neurotoxique.
+#44 Variante — Python / Boa — constricteur [] {trait conditionnel / calcul partiel} :: Plus puissant, sans venin, spécialisé en constriction.
+#45 Variante — Couleuvre / petite lignée furtive [] {trait conditionnel / calcul partiel} :: Petit gabarit et très grande agilité.
+#46 Variante — Hyène tachetée [] {trait conditionnel / calcul partiel} :: Plus massive et puissante.
+#47 Variante — Hyène rayée [] {trait conditionnel / calcul partiel} :: Plus mobile et discrète.
+#48 Variante — Hyène brune [] {trait conditionnel / calcul partiel} :: Tolérance aux charognes et milieux arides.
+#49 Variante — Brun / Grizzly [] {trait conditionnel / calcul partiel} :: Masse, puissance et robustesse.
+#50 Variante — Polaire [] {trait conditionnel / calcul partiel} :: Froid extrême, nage et immersion glaciale.
+#51 Variante — Ours noir [] {trait conditionnel / calcul partiel} :: Plus mobile et meilleur grimpeur.
+#52 Variante — Crocodile du Nil / marin [] {trait conditionnel / calcul partiel} :: Grand gabarit, eau libre.
+#53 Variante — Alligator [] {trait conditionnel / calcul partiel} :: Plus mobile à terre.
+#54 Variante — Caïman [] {trait conditionnel / calcul partiel} :: Gabarit réduit, zones encombrées.
+#55 Variante — Gavial [] {trait conditionnel / calcul partiel} :: Moins blindé, capture aquatique rapide.

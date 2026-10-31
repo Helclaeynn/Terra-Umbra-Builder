@@ -1,0 +1,224 @@
+<title>Audit UI/UX Terra Umbra</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout : colonne de lecture unique, sommaire collant à gauche sur grand écran */
+:root{
+  --bg:#f5f7f8;--surface:#ffffff;--ink:#14202a;--muted:#55636f;--line:#d7dee3;
+  --accent:#0b8aa6;--accent-soft:#e1f3f7;--verite:#6b4bb8;--verite-soft:#eee8fa;
+  --ok:#1e7a4c;--ok-soft:#e3f4ea;--warn:#a5650a;--warn-soft:#fbf0dc;--crit:#b3322b;--crit-soft:#fbe5e3;
+  --display:"Bricolage Grotesque",ui-sans-serif,system-ui,sans-serif;
+  --body:"Source Sans 3",ui-sans-serif,system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0c1319;--surface:#121c24;--ink:#e3eaef;--muted:#93a3af;--line:#25343f;
+  --accent:#4cc9e4;--accent-soft:#11303a;--verite:#a98cf0;--verite-soft:#251d3b;
+  --ok:#5fd19a;--ok-soft:#10301f;--warn:#f0b65a;--warn-soft:#33260f;--crit:#f2817a;--crit-soft:#3a1715;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0c1319;--surface:#121c24;--ink:#e3eaef;--muted:#93a3af;--line:#25343f;
+  --accent:#4cc9e4;--accent-soft:#11303a;--verite:#a98cf0;--verite-soft:#251d3b;
+  --ok:#5fd19a;--ok-soft:#10301f;--warn:#f0b65a;--warn-soft:#33260f;--crit:#f2817a;--crit-soft:#3a1715;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:17px/1.6 var(--body);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1180px;margin:0 auto;padding-block:40px 80px;display:grid;grid-template-columns:230px minmax(0,1fr);gap:48px}
+nav.toc{position:sticky;top:calc(env(safe-area-inset-top,0px) + 24px);align-self:start;font-size:14px}
+nav.toc p{font:600 11px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 12px}
+nav.toc a{display:block;color:var(--muted);text-decoration:none;padding:5px 0 5px 12px;border-left:2px solid var(--line)}
+nav.toc a:hover,nav.toc a:focus-visible{color:var(--accent);border-color:var(--accent)}
+main{min-width:0}
+.eyebrow{font:600 12px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+h1{font:700 clamp(32px,5vw,50px)/1.05 var(--display);margin:14px 0 16px;text-wrap:balance}
+h2{font:700 28px/1.15 var(--display);margin:64px 0 14px;text-wrap:balance;scroll-margin-top:24px}
+h3{font:600 20px/1.25 var(--display);margin:32px 0 8px}
+p,li{max-width:68ch}
+.lede{font-size:20px;color:var(--muted);max-width:62ch}
+code{font-family:var(--mono);font-size:.86em;background:var(--accent-soft);padding:1px 5px;border-radius:4px}
+.verdict{margin:28px 0;padding:20px 22px;background:var(--surface);border:1px solid var(--line);border-radius:10px}
+.verdict strong{font-family:var(--display)}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin:24px 0}
+.fact{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:14px 16px}
+.fact b{display:block;font:700 26px/1.1 var(--display);font-variant-numeric:tabular-nums}
+.fact span{font-size:14px;color:var(--muted)}
+.tbl{overflow-x:auto;margin:18px 0;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:15px}
+th,td{text-align:left;vertical-align:top;padding:10px 12px;border-bottom:1px solid var(--line)}
+th{font:600 12px/1.3 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);background:var(--bg)}
+tr:last-child td{border-bottom:0}
+.pill{display:inline-block;font:600 11px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;padding:5px 7px;border-radius:999px;white-space:nowrap}
+.p0{background:var(--crit-soft);color:var(--crit)}.p1{background:var(--warn-soft);color:var(--warn)}.p2{background:var(--accent-soft);color:var(--accent)}.good{background:var(--ok-soft);color:var(--ok)}
+.callout{border-left:3px solid var(--verite);background:var(--verite-soft);padding:14px 18px;border-radius:0 8px 8px 0;margin:20px 0}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media (max-width:900px){.wrap{grid-template-columns:minmax(0,1fr)}nav.toc{display:none}}
+</style>
+
+<div class="wrap">
+<nav class="toc" aria-label="Sommaire">
+  <p>Sommaire</p>
+  <a href="#verdict">Verdict</a>
+  <a href="#maquettes">Maquettes</a>
+  <a href="#identite">Identité visuelle</a>
+  <a href="#navigation">Navigation & adresses</a>
+  <a href="#compendium">Lire le compendium</a>
+  <a href="#creation">Créer un personnage</a>
+  <a href="#espace">Espace personnel</a>
+  <a href="#table">La table de jeu</a>
+  <a href="#mobile">Mobile</a>
+  <a href="#a11y">Accessibilité</a>
+  <a href="#front">Réécrire le front ?</a>
+  <a href="#plan">Plan</a>
+</nav>
+<main>
+<header>
+  <div class="eyebrow">Audit UI/UX · terra-umbra.fr · 29 octobre 2026</div>
+  <h1>Un site riche, mais qui fait travailler le joueur</h1>
+  <p class="lede">J'ai parcouru le site public sur ordinateur et à 375 px, lu le code des 14 pages et 49 composants, et utilisé les captures de recette des vues joueur et MJ du dépôt. Le site contient énormément, mais il présente tout au même niveau. Le joueur doit savoir où chercher, quoi cocher et quel bonus s'applique.</p>
+</header>
+
+<section id="verdict">
+<div class="verdict">
+<p><strong>Verdict.</strong> Le front n'a pas besoin d'être réécrit dans un autre framework : Vue 3 convient. Il a besoin d'un <strong>système de design</strong> (une seule identité, des composants partagés), d'une <strong>hiérarchie</strong> (résumé d'abord, détail à la demande) et de <strong>vraies adresses</strong> pour les articles. La table de jeu doit passer d'une logique de formulaires à une logique d'actions : le joueur choisit « Attaquer », le site lui montre ce qui s'applique.</p>
+</div>
+<div class="facts">
+  <div class="fact"><b>1 284</b><span>couleurs hexadécimales différentes dans le front</span></div>
+  <div class="fact"><b>3</b><span>identités visuelles différentes (compendium, « Découvrir », table)</span></div>
+  <div class="fact"><b>4 374</b><span>lignes dans <code>CompendiumPage.vue</code></span></div>
+  <div class="fact"><b>50</b><span>sections dans l'article « Roue magique »</span></div>
+</div>
+</section>
+
+<section id="maquettes">
+<h2>Maquettes</h2>
+<p>Six écrans sont proposés sur le canevas <a href="https://claude.ai/artifact/Cs7jytKajQg84RhnatPTve">Maquettes Terra Umbra</a> :</p>
+<ul>
+<li><strong>Accueil connecté</strong> : la prochaine séance et ce qu'il reste à préparer (XP, PTV, PV) passent avant tout le reste.</li>
+<li><strong>Article du compendium</strong> : adresse propre, encadré « En bref », formule de test illustrée, encadré MJ repliable, rétroliens « Cité par » et glossaire en marge.</li>
+<li><strong>Table de jeu</strong> : zones de portée (Contact, Proche, Moyen, Loin), préparation de jet avec les bonus éligibles à cocher, seuils de d10 à atteindre par DR, jets épinglés en barre du bas.</li>
+<li><strong>Éditeur de contenu</strong> : champs structurés (coût, accès, activation, quota), effet chiffré, liens internes par autocomplétion <code>[[</code>, relations, rétroliens, aperçu de carte, visibilité.</li>
+<li><strong>Fiche jouable mobile</strong> : PV, PA et Edge toujours visibles, jets épinglés, pouvoirs prêts ou déjà utilisés, navigation par onglets en bas, au pouce.</li>
+<li><strong>Cartes imprimables</strong> : gabarit unique 63 × 88 mm pour tous les talents, générable depuis les champs structurés.</li>
+</ul>
+</section>
+
+<section id="identite">
+<h2>Identité visuelle</h2>
+<div class="tbl"><table>
+<thead><tr><th>Priorité</th><th>Constat</th><th>Correction</th></tr></thead>
+<tbody>
+<tr><td><span class="pill p0">P0</span></td><td><strong>Trois sites en un.</strong> Le compendium a une barre latérale néon et des boutons cadrés ; « Bien commencer » (<code>/decouvrir</code>) passe en titre à empattements, liens soulignés et sans barre latérale ; la table de jeu utilise encore une autre grille, des boutons natifs et des liens soulignés. Le joueur a l'impression de changer de site.</td><td>Un seul en-tête, une seule navigation, une seule bibliothèque de composants pour tout le site.</td></tr>
+<tr><td><span class="pill p0">P0</span></td><td><strong>1 284 couleurs codées en dur</strong> et deux fichiers de styles concurrents (<code>brand-signal.css</code>, 1 438 lignes, et <code>style.css</code>). Aucune cohérence possible à l'échelle.</td><td>Jetons de design : 6 couleurs de base, 3 sémantiques (succès, alerte, danger), 2 couleurs de couche (Réalité cyan, Vérité violet), une échelle d'espacement et de typographie.</td></tr>
+<tr><td><span class="pill p1">P1</span></td><td>Les deux couches du jeu (Réalité et Vérité) ne sont pas distinguées visuellement, alors que c'est le cœur du concept.</td><td>Code couleur constant : cyan pour la Réalité, violet pour la Vérité, ambre pour le MJ, sur les étiquettes, les cartes et les pouvoirs.</td></tr>
+<tr><td><span class="pill p2">P2</span></td><td>Police unique (Inter) sur tout le site : rien ne porte l'ambiance cyberpunk occulte en dehors du logo et des images.</td><td>Une police de titre à caractère (par exemple Chakra Petch), une police de lecture confortable, une monospace pour les chiffres de jeu.</td></tr>
+</tbody></table></div>
+</section>
+
+<section id="navigation">
+<h2>Navigation et adresses</h2>
+<div class="tbl"><table>
+<thead><tr><th>Priorité</th><th>Constat</th><th>Correction</th></tr></thead>
+<tbody>
+<tr><td><span class="pill p0">P0</span></td><td><strong>Les articles n'ont pas d'adresse propre.</strong> Un article s'ouvre par <code>/compendium?article=regles-resolution-des-tests</code> ; l'adresse naturelle <code>/compendium/regles-resolution-des-tests</code> renvoie silencieusement à l'accueil. Partage moins lisible, et un site à rendu purement client est mal indexé par les moteurs de recherche.</td><td>Routes <code>/regles/:slug</code>, <code>/verite/:slug</code>, <code>/pnj/:slug</code>… avec redirection des anciennes adresses. Rendu serveur ou pré-rendu des articles publics.</td></tr>
+<tr><td><span class="pill p1">P1</span></td><td>La navigation principale ne mène ni aux personnages ni aux campagnes : elle ne propose que « Atlas &amp; cartes », « Glossaire », « Rechercher », « Bien commencer », « Connexion ».</td><td>Quatre entrées stables : Compendium, Mes personnages, Campagnes, Rechercher (Ctrl K), plus le compte.</td></tr>
+<tr><td><span class="pill p1">P1</span></td><td>La recherche est une page plutôt qu'un réflexe : formulaire, filtres, puis un long en-tête avant les résultats.</td><td>Palette de recherche (Ctrl K) disponible partout, avec résultats groupés par type et aperçu.</td></tr>
+<tr><td><span class="pill p2">P2</span></td><td>À 800 px de large, l'entrée « Glossaire » chevauche son sous-titre « Définitions courtes » dans la barre latérale.</td><td>Sous-titre sur sa propre ligne, ou supprimé.</td></tr>
+</tbody></table></div>
+</section>
+
+<section id="compendium">
+<h2>Lire le compendium</h2>
+<div class="tbl"><table>
+<thead><tr><th>Priorité</th><th>Constat</th><th>Correction</th></tr></thead>
+<tbody>
+<tr><td><span class="pill p0">P0</span></td><td><strong>Pas de résumé.</strong> Les articles de règles ouvrent sur une rangée d'étiquettes, puis sur des sections repliables. La « Roue magique » compte 50 sections. Le joueur doit tout lire pour trouver la règle de base.</td><td>Encadré « En bref » de 3 à 5 lignes en tête de chaque règle, rédigé une fois dans le CMS.</td></tr>
+<tr><td><span class="pill p1">P1</span></td><td><strong>Informations internes visibles du public</strong> : le statut éditorial <code>canon_enrichi</code> apparaît comme étiquette sous le titre.</td><td>Réserver statut, source et notes aux éditeurs.</td></tr>
+<tr><td><span class="pill p1">P1</span></td><td>Les étiquettes (10 à 18 par article) passent avant le contenu et ne mènent nulle part d'utile.</td><td>Les déplacer en pied d'article, ou les remplacer par les liens « Voir aussi ».</td></tr>
+<tr><td><span class="pill p1">P1</span></td><td>Aucun rétrolien : on ne sait pas quels talents ou articles renvoient à une règle.</td><td>Bloc « Cité par » alimenté par les relations du CMS (voir l'audit technique).</td></tr>
+<tr><td><span class="pill p2">P2</span></td><td>Le sommaire n'est qu'un bouton ; sur grand écran, il pourrait rester visible en marge.</td><td>Sommaire collant à gauche sur ordinateur, bouton sur mobile.</td></tr>
+<tr><td><span class="pill p2">P2</span></td><td>En faisant défiler l'accueil, une grande zone vide apparaît le temps que les sections différées se chargent.</td><td>Réserver la hauteur des blocs ou afficher des squelettes de chargement.</td></tr>
+</tbody></table></div>
+</section>
+
+<section id="creation">
+<h2>Créer un personnage</h2>
+<p>Le créateur (<code>CharacterBuilderPage.vue</code>, 3 426 lignes, plus des étapes de 1 000 à 1 400 lignes) suit les règles fidèlement, mais il impose au joueur le même effet catalogue que les livres : 266 talents humains, 184 Exilés, 162 Extrals, 227 entrées de Corruption.</p>
+<ul>
+<li><strong>Proposer des parcours prêts à jouer.</strong> Pour chaque Style et chaque Nature : 2 ou 3 « paquets » de départ cohérents, modifiables, à côté du catalogue complet.</li>
+<li><strong>Filtrer par intention</strong> : « je veux me battre », « je veux enquêter », « je veux protéger mes alliés », plutôt que par arborescence de règles.</li>
+<li><strong>Comparer côte à côte</strong> deux talents ou deux équipements, sous forme de cartes.</li>
+<li><strong>Afficher une fiche vivante</strong> qui se remplit au fil des étapes, avec l'impact de chaque choix (« +2 Diplomatie entre corporations »).</li>
+<li><strong>Prévisualiser les cartes à imprimer</strong> en fin de création : c'est le meilleur antidote au catalogue sur papier.</li>
+</ul>
+</section>
+
+<section id="espace">
+<h2>Espace personnel et campagnes</h2>
+<ul>
+<li>L'espace personnel empile compte, personnages, fiches partagées, campagnes et administration dans une seule page à sections repliables. Il manque un <strong>tableau de bord</strong> qui réponde à « que dois-je faire maintenant ? » (voir la maquette d'accueil connecté).</li>
+<li>La préparation de campagne est très complète (séances, présences, PNJ, bestiaire, récompenses, effets), mais chaque fonction est un panneau. Pour le MJ, il faut une vue <strong>« séance »</strong> chronologique : avant (préparation, scènes, PNJ), pendant (table), après (récompenses, résumé).</li>
+<li>Les messages d'état sont bruts : « Enregistré. » s'affiche comme un paragraphe au milieu de la table, sans contexte ni disparition. Il faut des notifications discrètes, qui disent quoi a été enregistré.</li>
+</ul>
+</section>
+
+<section id="table">
+<h2>La table de jeu</h2>
+<p>La refonte d'octobre (scène au centre, participants à gauche, journal à droite, panneau modal unique) va dans le bon sens. Ce qui reste :</p>
+<div class="tbl"><table>
+<thead><tr><th>Priorité</th><th>Constat</th><th>Correction</th></tr></thead>
+<tbody>
+<tr><td><span class="pill p0">P0</span></td><td><strong>Les actions sont cachées.</strong> La barre du bas ne propose que « Attaquer » et « Outils du MJ » ; tout le reste (jets, pouvoirs, sac, état) est dans un modal à 4 onglets, puis dans des volets « Plus » et « Autres capacités &amp; textes ».</td><td>Jets épinglés en barre d'actions ; pouvoirs prêts affichés avec leur coût et leur quota restant.</td></tr>
+<tr><td><span class="pill p0">P0</span></td><td><strong>Le joueur doit connaître ses bonus.</strong> Avec plusieurs talents à +2 ou +3 contextuels, rien ne lui rappelle lesquels s'appliquent.</td><td>Au moment du jet, liste des bonus éligibles à cocher, avec ce qui est automatique et ce qui demande l'avis du MJ.</td></tr>
+<tr><td><span class="pill p1">P1</span></td><td>La scène occupe le centre mais reste presque vide (un titre et un bouton « Partager une scène »).</td><td>Y placer les zones de portée et les participants : la scène devient l'endroit où l'on agit.</td></tr>
+<tr><td><span class="pill p1">P1</span></td><td>Le résultat d'un jet est un total brut (« Initiative → 19 ») ; la DR obtenue n'est visible qu'en dépliant le détail.</td><td>Afficher la DR et, avant le jet, le d10 nécessaire pour chaque seuil.</td></tr>
+<tr><td><span class="pill p1">P1</span></td><td>Révélation (Voilé, Semi-Révélé, Révélé) se change dans une liste déroulante au milieu de l'état de santé.</td><td>Un interrupteur à trois positions, visuel, avec l'effet de chaque position.</td></tr>
+<tr><td><span class="pill p2">P2</span></td><td>Le journal mêle jets, révélations et messages techniques dans des cartes de même poids.</td><td>Hiérarchie : révélations du MJ en avant, jets compacts, détails techniques repliés.</td></tr>
+</tbody></table></div>
+</section>
+
+<section id="mobile">
+<h2>Mobile</h2>
+<ul>
+<li>À 375 px, l'en-tête occupe deux lignes de boutons avant tout contenu, et les rubriques du compendium sont cachées derrière « Explorer les rubriques ». Il faut un menu compact et une barre d'onglets en bas.</li>
+<li>En ouvrant un article sur mobile, la page s'est affichée déjà défilée (on voyait la fin du sommaire au-dessus du titre) : la position de défilement n'est pas réinitialisée entre deux articles.</li>
+<li>La table de jeu est utilisable à 320 px d'après la recette du dépôt, mais elle empile les colonnes du bureau au lieu de proposer une fiche pensée pour le pouce (voir la maquette mobile).</li>
+</ul>
+</section>
+
+<section id="a11y">
+<h2>Accessibilité</h2>
+<ul>
+<li>Les petits libellés gris (11 à 12 px) sur fond bleu nuit sont sous le contraste minimal de 4,5:1 à plusieurs endroits (compteurs de la barre latérale, sous-titres).</li>
+<li>Plusieurs boutons-icônes (agrandir le portrait, ↗) n'ont pas de nom accessible.</li>
+<li>Les boutons de la table font souvent moins de 44 px de haut ; c'est trop petit pour le tactile en pleine partie.</li>
+<li>Bon point : le panneau modal se ferme au clavier et conserve le brouillon, d'après la recette d'octobre.</li>
+</ul>
+</section>
+
+<section id="front">
+<h2>Faut-il réécrire le front ?</h2>
+<p>Pas de réécriture dans un autre framework. Une <strong>restructuration progressive</strong> :</p>
+<ol>
+<li><strong>Système de design</strong> : jetons CSS, puis 15 à 20 composants de base (bouton, champ, sélecteur, onglets, modal, carte, étiquette, notification, tableau). Une bibliothèque sans style imposé comme Reka UI (pour Vue) fournit l'accessibilité clavier ; le style reste le vôtre.</li>
+<li><strong>Découpage des pages géantes</strong> : <code>CompendiumPage</code>, <code>CharacterBuilderPage</code>, <code>CompendiumEditorPage</code>, <code>App.vue</code> en composants de 100 à 300 lignes.</li>
+<li><strong>État partagé</strong> avec Pinia (utilisateur, campagne en cours, personnage actif) au lieu de recharger dans chaque composant.</li>
+<li><strong>Rendu serveur des articles publics</strong> avec Nuxt, à terme, pour les adresses propres et le référencement. Les écrans de jeu peuvent rester en application cliente.</li>
+</ol>
+<div class="callout">Le front et le CMS sont liés : tant que le contenu n'est pas structuré (résumé, champs typés, relations), l'interface ne peut pas afficher un « En bref », une carte ou un rétrolien. L'ordre recommandé est donc : contenu structuré, puis système de design, puis refonte écran par écran.</div>
+</section>
+
+<section id="plan">
+<h2>Plan</h2>
+<div class="tbl"><table>
+<thead><tr><th>Étape</th><th>Contenu</th><th>Durée indicative</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>Corrections rapides : masquer les statuts internes, chevauchement du glossaire, réinitialisation du défilement, adresses d'articles avec redirections, notifications d'enregistrement</td><td>1 semaine</td></tr>
+<tr><td>2</td><td>Jetons de design et composants de base ; une seule identité sur compendium, « Découvrir » et table</td><td>3 à 4 semaines</td></tr>
+<tr><td>3</td><td>Table : jets épinglés, bonus éligibles, zones de portée, DR affichée</td><td>2 à 3 semaines</td></tr>
+<tr><td>4</td><td>Accueil connecté et vue « séance » pour le MJ</td><td>2 semaines</td></tr>
+<tr><td>5</td><td>Articles : « En bref », rétroliens, sommaire en marge (après la migration du contenu)</td><td>2 semaines</td></tr>
+<tr><td>6</td><td>Créateur : paquets de départ, filtres par intention, cartes imprimables</td><td>3 à 4 semaines, à caler sur la refonte des talents</td></tr>
+</tbody></table></div>
+</section>
+</main>
+</div>

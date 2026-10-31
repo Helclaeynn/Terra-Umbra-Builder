@@ -1,0 +1,228 @@
+==== [Vérité — Natures & capacités › Khinae] Autres descendants de Khinae — moteur commun & lignées (regles-verite-v7-khinae-moteur-lignees)
+### Nature commune des descendants de Khinae
+2
+p
+Les autres thérianthropes sont des descendants de Khinae et non des [Garous](/compendium?article=regles-verite-v7-garou-nature-formes-frenesie-pelages#wiki-section-architecture) remaquillés. Ils restent liés au Cycle mais ne reçoivent jamais gratuitement Appel de la Meute, Hiérarchie instinctive, Bravoure lupine ou traditions de Pelage.
+table
+État
+Expression
+Voilé
+Corps humain complet ; pas de régénération surnaturelle, transformation ou expression physique.
+Semi-Révélé
+Toujours humain extérieurement ; instincts, perceptions et Talents SR de Lignée commencent à s'exprimer.
+Révélé — humain
+Morphologie humaine, Régénération lente, Talents R et possibilité d'entamer une Mue.
+Révélé — animal
+Vraie forme animale définie par profil et Variante.
+Révélé — hybride
+Corps de guerre Khinae : bonus physiques, armes naturelles, régénération de combat et +1 PA selon la Lignée.
+### Propriétés communes, Mue et Frénésie
+2
+table
+Propriété
+Règle
+Âme du Cycle
+À la mort véritable, rejoint normalement le Cycle.
+Régénération lente
+R, humain révélé ou animal : 1 PV/heure hors combat.
+Instinct de Lignée
+La Frénésie et les perceptions prennent l'animal de la Lignée comme référence, sans mécaniques lupines gratuites.
+Corps de guerre
+En hybride : +3 Pugilat et 2 PV récupérés au début de chaque round tant que le personnage vit et reste hybride.
+Rythme Khinae
+À partir du round suivant la fin de la Mue hybride : +1 PA par round au-delà du maximum normal.
+Morphologie
+Les actions dépendent réellement du corps ; aucun profil ne crée mains, parole ou compatibilité d'équipement inexistantes.
+p
+La Mue hybride prend un round complet ; aucune autre action significative n'est possible. L'animal depuis l'humain révélé coûte 1 PA et ne compte normalement pas dans l'épuisement.
+table
+Mue hybride depuis le dernier repos
+Vigueur + Constitution
+1re
+Automatique
+2e
+15
+3e
+18
+4e
+21
+5e et suivantes
+25
+p
+Échec : possibilité de forcer pour 3 PV irréductibles. Échec narratif : round perdu et plus de Mue hybride durant la scène.
+p
+La Frénésie reprend le sous-système Garou : Impulsion, au moins 1 PA vers elle, −3 aux actions de calme/concentration, peur temporairement écrasée, sortie Volonté + Maîtrise spirituelle 15 ou 12 si la cause a disparu. L'objet instinctif dépend de la Lignée, et aucune Meute permanente n'est supposée.
+### Variantes morphologiques & Sangs vifs
+2
+p
+Chaque personnage choisit gratuitement une Variante morphologique au sein de sa Lignée. Elle représente l'espèce réelle et modifie gabarit, milieu, sens, venin, robustesse, agilité ou déplacement. Ce n'est ni un Talent, ni une Tradition, ni un Sang vif et elle ne se change pas normalement par PTV.
+p
+Les Sangs vifs fonctionnent exactement comme chez les Garous : premier Sang natif, maîtrise généralement à 6 PTV, puis 3 PTV pour éveiller le suivant. Les cas rares, altérés ou corrompus utilisent leur propre moteur de Corruption.
+### Canidés errants — Coyote, Chacal, Lycaon, Dhole & Dingo
+3
+p
+Arbre centré sur poursuite, endurance et survie sans territoire stable.
+table
+Forme
+Profil
+Animal
++2 Agilité ; Déplacement ×2 sur terrain adapté ; morsure DGT 3 ; odorat/ouïe de grand canidé ; Régénération lente.
+Hybride
++3 Vigueur, +2 Agilité ; crocs/griffes DGT 5 ; Armure 1 ; Régénération 2 PV/round ; Déplacement ×2 ; +1 PA.
+table
+Variante
+Particularité
+Coyote
+Gabarit compact ; friches, infrastructures, égouts et environnements urbains encombrés sont terrain adapté.
+Chacal / Dhole
+Charognard robuste ; viande très décomposée tolérée et distinction naturelle sang frais/charogne récente.
+Lycaon
+Coureur de fond ; une poursuite physiquement continue ne s'arrête pas pour la seule fatigue ordinaire.
+Dingo
+Aridophile ; supporte chaleur et manque d'eau bien au-delà d'un Humain.
+p
+Signature gratuite — Piste nomade — SR : après avoir identifié directement une odeur, peut la distinguer du bruit olfactif ordinaire pour la scène ; ne crée aucune piste si aucune trace physique n'existe.
+### Renards — les survivants libres
+3
+p
+La majorité des lignées Renard a cédé à V’Aagor ; les libres sont rares. Leur ruse surnaturelle agit surtout sur présence, odeurs, sons, pistes et fausses directions.
+table
+Forme
+Profil
+Animal
++3 Agilité ; Déplacement ×2 ; morsure DGT 2 ; excellente ouïe ; Régénération lente.
+Hybride
++2 Vigueur, +3 Agilité ; crocs/griffes DGT 4 ; Armure 1 ; Régénération 2 PV/round ; +1 PA.
+p
+Variantes : Roux équilibré ; Fennec adapté à chaleur et écoute ; Arctique au froid et camouflage neige/glace ; Gris/forestier excellent grimpeur.
+p
+Signature gratuite — Odeur mouvante — SR : peut atténuer, accentuer ou déformer sa propre odeur sans copier encore fidèlement celle d'un individu.
+### Grands Félins — Tigres et lignées apparentées
+3
+p
+Parmi les Khinae les plus redoutables individuellement et les moins enclins à bâtir des sociétés globales ; embuscade, bond et domination d'une proie isolée.
+table
+Forme
+Profil
+Animal
++2 Vigueur, +2 Agilité ; Déplacement ×2 ; griffes/crocs DGT 4 ; sens de prédateur ; Régénération lente.
+Hybride
++4 Vigueur, +2 Agilité ; griffes/crocs DGT 6 ; Armure 2 ; Régénération 2 PV/round ; Déplacement ×2 ; +1 PA.
+p
+Variantes : Tigre de référence et excellent nageur ; Lion +4 Vigueur/+1 Agilité avec petite troupe narrative ; Panthère +3/+3, DGT 5, Armure 1 et escalade nocturne ; Jaguar de référence, eau et végétation dense, libres de Quetzal rares ; Puma +3/+3, DGT 5, Armure 1 et terrain montagneux adapté.
+p
+Signature gratuite — Silence du grand fauve — SR : un déplacement naturel ne suffit pas à révéler la position si couvert ou dissimulation crédible existent ; ne rend pas invisible et n'annule pas un sol réellement bruyant.
+### Chats — les familiers de personne
+3
+p
+Moins puissants que les grands Félins mais plus diplomates, curieux et adaptés aux milieux d'autres monstres ; ils peuvent servir d'intermédiaires sans accepter d'être des familiers.
+table
+Forme
+Profil
+Animal
++4 Agilité ; petit gabarit ; griffes/morsure DGT 1 ; Déplacement ×2 sur terrain encombré ; Régénération lente.
+Hybride
++1 Vigueur, +4 Agilité ; griffes/crocs DGT 3 ; Armure 0 ; Régénération 2 PV/round ; +1 PA.
+p
+Variantes : Domestique crédible dans l'environnement humain ; Sauvage +2 Vigueur/+3 Agilité, DGT 4, Armure 1 ; Nocturne à l'aise en faible lumière ; Grimpeur utilisant surfaces verticales comme terrain normal.
+p
+Signature gratuite — Inoffensif par nature — SR : un instinct qui ne connaît que « prédateur dangereux » ne classe pas automatiquement le Chat comme menace majeure tant qu'il ne manifeste pas d'hostilité ; n'efface aucune preuve connue.
+### Rapaces — Aigles, Faucons, Hiboux & Vautours
+3
+p
+Le vol tactique n'est pas une position permanente dans les airs : ailes et corps Khinae donnent de grands Bonds ailés, descentes contrôlées et passages de hauteur en hauteur.
+table
+Forme
+Profil
+Animal
++3 Agilité ; serres/bec DGT 3 ; Bond ailé ; sens selon Variante ; Régénération lente.
+Hybride
++2 Vigueur, +3 Agilité ; serres DGT 5 ; Armure 1 ; Régénération 2 PV/round ; Bond ailé ; +1 PA.
+p
+Variantes : Aigle +3 Vigueur/+2 Agilité ; Faucon +1/+4 et vitesse horizontale ; Hibou +1/+3, nuit et battements silencieux ; Vautour +2/+2, charogne et endurance.
+p
+Signature gratuite — Bond ailé — R Animal/Hybride : un Déplacement peut franchir un vide, gagner/perdre fortement de l'altitude et ignorer les obstacles au sol ; distance environ ×2 si trajectoire favorable. Doit finir sur un support ou une prise, sans vol stationnaire.
+### Requins — les indépendants des abysses
+3
+p
+Principaux Khinae marins ayant conservé leur indépendance face à Thul. La forme animale exige l'eau ; l'hybride peut agir à l'air libre mais reste nettement meilleur dans son milieu.
+table
+Forme
+Profil
+Animal
+Dans l'eau : +2 Agilité ; nage très rapide ; morsure DGT 4 ; pression et odeur sanguine ; Régénération lente. Hors de l'eau, devient non fonctionnel à terme.
+Hybride
+Dans l'eau : +4 Vigueur, +2 Agilité ; morsure DGT 6 ; Armure 2 ; Régénération 2 PV/round ; +1 PA. Sur terre, perd le bonus d'Agilité et subit les contraintes de locomotion du corps.
+p
+Variantes : Blanc de référence et profondeur/froid ; Bouledogue +3/+2, DGT 5, Armure 2, eau douce/salée ; Tigre robuste et opportuniste ; Marteau +3/+3, DGT 5, Armure 1 et électroréception ; Baleine +5/+1, DGT 4, Armure 3 et très grand gabarit.
+p
+Signature gratuite — Sang qui refuse l'abysse : 1/scène, relance d'une exposition biologique à la Corruption de Thul provenant directement d'un milieu abyssal, tissu thulien ou créature thulienne.
+### Serpents — venimeux, constricteurs & lignées furtives
+3
+p
+Petites lignées dispersées ; la Variante décide si l'arme corporelle dominante est hémotoxique, neurotoxique, constrictrice ou furtive.
+table
+Variante
+Profil et propriété
+Vipère
+Base hybride +2 Vigueur/+3 Agilité, DGT 3, Armure 1. Morsure causant au moins 1 PV : Vigueur + Constitution 15 ; échec = 1 PV irréductible au début des deux prochaines activations, une exposition/cible/scène.
+Cobra
++2 Vigueur/+2 Agilité, DGT 3, Armure 1. Venin difficulté 15 ; échec = maximum 1 PA en actions physiques à la prochaine activation, une exposition/cible/scène.
+Python / Boa
++4 Vigueur/+1 Agilité, DGT 4, Armure 2 ; pas de venin ; saisie utilisable comme constriction.
+Couleuvre / petite furtive
++1 Vigueur/+4 Agilité, DGT 2, Armure 0 ; aucun venin significatif ; gabarit réduit et passages très étroits.
+p
+Forme animale : +3 Agilité, locomotion ophidienne, morsure DGT 2 ou 3 selon Variante et Régénération lente.
+p
+Signature gratuite — Corps ophidien — R Animal/Hybride : progresse sans membres, s'enroule aux supports et comprime son corps de manière impossible pour un Humain.
+### Boudas — Hommes-Hyènes
+3
+p
+Presque exterminés en Afrique avant la déportation d'une partie des survivants vers les Amériques. Sociaux, mais leur Bande est opportuniste, bruyante, conflictuelle et distincte de la Meute lupine.
+table
+Forme
+Profil
+Animal
++2 Vigueur, +2 Agilité ; morsure DGT 4 ; excellente digestion ; Régénération lente.
+Hybride
++3 Vigueur, +2 Agilité ; morsure DGT 6 ; Armure 2 ; Régénération 2 PV/round ; +1 PA.
+p
+Variantes : Tachetée +4 Vigueur/+1 Agilité ; Rayée +2/+3 ; Brune profil de référence avec grande tolérance aux charognes et aux milieux arides.
+p
+Signature gratuite — Bande de ricanement : au début d'une scène ou chasse, peut reconnaître jusqu'à trois créatures consentantes comme sa Bande pour la scène ; ce n'est ni une Meute permanente ni une obligation émotionnelle.
+### Berserkirs — Hommes-Ours
+3
+p
+Khinae massifs rarement organisés en communautés permanentes. Ils furent autrefois liés par un pacte de sang aux Ulfhednars, ancêtres des Pelages Blancs ; l'alliance est largement oubliée par les Garous modernes, pas nécessairement par les Ours.
+table
+Forme
+Profil
+Animal
++3 Vigueur ; griffes/morsure DGT 5 ; Armure 2 ; déplacement puissant non accéléré ; Régénération lente.
+Hybride
++5 Vigueur, +0 Agilité ; griffes/crocs DGT 6 ; Armure 3 ; Régénération 2 PV/round ; +1 PA.
+p
+Variantes : Brun/Grizzly de référence ; Polaire adapté froid/nage/immersion glaciale ; Ours noir +4 Vigueur/+1 Agilité, DGT 6, Armure 2 et meilleure grimpe.
+p
+Signature gratuite — Masse ursine — R Hybride : une force humaine ordinaire ne peut normalement pas le renverser, pousser ou soulever ; adversaire surnaturel, véhicule, explosion ou rupture du support le peuvent.
+### Crocodiliens — les fossiles d'embuscade
+3
+p
+Les Crocodiliens forment une branche terrestre lourde, très blindée, lente à terre et spécialisée dans l’embuscade aquatique et la prise de mâchoire.
+table
+Forme
+Profil
+Animal
++3 Vigueur ; morsure DGT 5 ; Armure 3 ; excellente nage ; lenteur et encombrement à terre ; Régénération lente.
+Hybride
++5 Vigueur ; +0 Agilité à terre / +2 dans l'eau ; morsure DGT 6 ; Armure 4 ; Régénération 2 PV/round ; +1 PA.
+p
+Variantes : Nil/marin de référence ; Alligator +4 Vigueur/+1 Agilité à terre et +2 dans l'eau, Armure 4 ; Caïman +4/+1, DGT 5, Armure 3 ; Gavial +3 Vigueur/+2 Agilité dans l'eau, DGT 5, Armure 2.
+p
+Signature gratuite — Fossile de vase — R Animal/Hybride : peut rester presque parfaitement immobile et ralentir fonctions durant une scène ; une détection reposant seulement sur mouvement/agitation de l'eau échoue, mais thermique, odorat, contact ou capteurs adaptés fonctionnent.
+### Accès, rareté et cas corrompus
+2
+p
+Ces options sont rares et soumises au cadre de campagne. Renards libres et Jaguars libres sont des exceptions narratives ; les Requins ne sont pas immunisés à Thul ; une tradition serpent liée à Shaoggith ne vaut pas Corruption automatique ; Boudas et Berserkirs peuvent avoir leurs alliances sans créer de Pelages supplémentaires.
+

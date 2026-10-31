@@ -1,0 +1,322 @@
+<title>Audit technique Terra Umbra</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout : colonne de lecture unique, sommaire collant à gauche sur grand écran, tableaux en conteneurs défilants */
+:root{
+  --bg:#f5f7f8;--surface:#ffffff;--ink:#14202a;--muted:#55636f;--line:#d7dee3;
+  --accent:#0b8aa6;--accent-soft:#e1f3f7;--verite:#6b4bb8;--verite-soft:#eee8fa;
+  --ok:#1e7a4c;--ok-soft:#e3f4ea;--warn:#a5650a;--warn-soft:#fbf0dc;--crit:#b3322b;--crit-soft:#fbe5e3;
+  --display:"Bricolage Grotesque",ui-sans-serif,system-ui,sans-serif;
+  --body:"Source Sans 3",ui-sans-serif,system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0c1319;--surface:#121c24;--ink:#e3eaef;--muted:#93a3af;--line:#25343f;
+  --accent:#4cc9e4;--accent-soft:#11303a;--verite:#a98cf0;--verite-soft:#251d3b;
+  --ok:#5fd19a;--ok-soft:#10301f;--warn:#f0b65a;--warn-soft:#33260f;--crit:#f2817a;--crit-soft:#3a1715;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0c1319;--surface:#121c24;--ink:#e3eaef;--muted:#93a3af;--line:#25343f;
+  --accent:#4cc9e4;--accent-soft:#11303a;--verite:#a98cf0;--verite-soft:#251d3b;
+  --ok:#5fd19a;--ok-soft:#10301f;--warn:#f0b65a;--warn-soft:#33260f;--crit:#f2817a;--crit-soft:#3a1715;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:17px/1.6 var(--body);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1180px;margin:0 auto;padding-block:40px 80px;display:grid;grid-template-columns:230px minmax(0,1fr);gap:48px}
+nav.toc{position:sticky;top:calc(env(safe-area-inset-top,0px) + 24px);align-self:start;font-size:14px}
+nav.toc p{font:600 11px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 12px}
+nav.toc a{display:block;color:var(--muted);text-decoration:none;padding:5px 0 5px 12px;border-left:2px solid var(--line)}
+nav.toc a:hover,nav.toc a:focus-visible{color:var(--accent);border-color:var(--accent)}
+main{min-width:0}
+header.hero .eyebrow{font:600 12px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+h1{font:700 clamp(32px,5vw,50px)/1.05 var(--display);margin:14px 0 16px;text-wrap:balance}
+h2{font:700 28px/1.15 var(--display);margin:64px 0 14px;text-wrap:balance;scroll-margin-top:24px}
+h3{font:600 20px/1.25 var(--display);margin:32px 0 8px}
+p,li{max-width:68ch}
+.lede{font-size:20px;color:var(--muted);max-width:62ch}
+code,.mono{font-family:var(--mono);font-size:.86em}
+code{background:var(--accent-soft);padding:1px 5px;border-radius:4px}
+.verdict{margin:28px 0;padding:20px 22px;background:var(--surface);border:1px solid var(--line);border-radius:10px}
+.verdict strong{font-family:var(--display)}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin:24px 0}
+.fact{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:14px 16px}
+.fact b{display:block;font:700 26px/1.1 var(--display);font-variant-numeric:tabular-nums}
+.fact span{font-size:14px;color:var(--muted)}
+.tbl{overflow-x:auto;margin:18px 0;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:15px}
+th,td{text-align:left;vertical-align:top;padding:10px 12px;border-bottom:1px solid var(--line)}
+th{font:600 12px/1.3 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);background:var(--bg)}
+tr:last-child td{border-bottom:0}
+.pill{display:inline-block;font:600 11px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;padding:5px 7px;border-radius:999px;white-space:nowrap}
+.p0{background:var(--crit-soft);color:var(--crit)}.p1{background:var(--warn-soft);color:var(--warn)}.p2{background:var(--accent-soft);color:var(--accent)}.good{background:var(--ok-soft);color:var(--ok)}
+.callout{border-left:3px solid var(--verite);background:var(--verite-soft);padding:14px 18px;border-radius:0 8px 8px 0;margin:20px 0}
+pre{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:14px 16px;overflow-x:auto;font:13px/1.55 var(--mono)}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media (max-width:900px){.wrap{grid-template-columns:minmax(0,1fr)}nav.toc{position:static;display:none}}
+</style>
+
+<div class="wrap">
+<nav class="toc" aria-label="Sommaire">
+  <p>Sommaire</p>
+  <a href="#verdict">Verdict</a>
+  <a href="#carte">Carte du système</a>
+  <a href="#langage">Faut-il changer de langage ?</a>
+  <a href="#contenu">Le cœur du problème : contenu = code</a>
+  <a href="#cms">Le CMS pour les administrateurs</a>
+  <a href="#regles">Moteur de règles</a>
+  <a href="#espace">Espace personnel</a>
+  <a href="#campagnes">Campagnes</a>
+  <a href="#enjeu">La partie « en jeu »</a>
+  <a href="#qualite">Qualité du code</a>
+  <a href="#secu">Sécurité & exploitation</a>
+  <a href="#plan">Plan de travail</a>
+</nav>
+<main>
+<header class="hero">
+  <div class="eyebrow">Audit technique · branche feature/tuc-web-v2 · 29 octobre 2026</div>
+  <h1>Terra Umbra : le moteur est solide, le contenu est prisonnier du code</h1>
+  <p class="lede">Ce rapport porte sur l'API, la base de données, l'infrastructure, l'espace personnel, les campagnes et la table de jeu en direct. Il répond à une question précise : comment permettre aux administrateurs de faire vivre le compendium (ajouter des articles, les relier) sans passer par un développeur ?</p>
+</header>
+
+<section id="verdict">
+<div class="verdict">
+<p><strong>Verdict.</strong> Il ne faut pas réécrire le site dans un autre langage. TypeScript, Fastify, PostgreSQL et Vue forment une base saine et moderne, et l'essentiel de la valeur (2 553 entrées de règles, le moteur de table en direct, les permissions MJ/joueur) y est déjà. Le vrai problème est architectural : <strong>le contenu du compendium et des règles est écrit dans le code source</strong>, sous forme de plus de 220 fichiers TypeScript empilés en couches de correctifs. Tant que ça reste vrai, aucun outil d'administration ne pourra être confortable. La priorité est donc de <strong>faire de la base de données la source de vérité du contenu</strong>, puis de brancher un vrai CMS dessus.</p>
+</div>
+<div class="facts">
+  <div class="fact"><b>16 Mo</b><span>de TypeScript dans l'API, dont ~12 Mo de contenu éditorial</span></div>
+  <div class="fact"><b>278</b><span>fichiers dans <code>apps/api/src</code>, dont 221 modules de contenu</span></div>
+  <div class="fact"><b>2 053</b><span>lignes de fusion de couches dans <code>loadCorpus()</code></span></div>
+  <div class="fact"><b>126</b><span>routes d'API</span></div>
+  <div class="fact"><b>45</b><span>tables PostgreSQL, 40 migrations</span></div>
+  <div class="fact"><b>77</b><span>workflows GitHub Actions</span></div>
+</div>
+</section>
+
+<section id="carte">
+<h2>Carte du système</h2>
+<p>Le dépôt contient deux générations du site. La V1 (<code>character-builder/</code>, <code>index.html</code>, pages statiques) est servie par GitHub Pages depuis <code>main</code>. La V2, en production sur terra-umbra.fr, vit uniquement sur <code>feature/tuc-web-v2</code>, qui a environ 1 700 commits d'avance sur <code>main</code>.</p>
+<div class="tbl"><table>
+<thead><tr><th>Couche</th><th>Technologie</th><th>Constat</th></tr></thead>
+<tbody>
+<tr><td>Proxy</td><td>Caddy 2 (HTTPS automatique)</td><td><span class="pill good">bon</span> Simple et fiable. Redirection www/dev vers le domaine principal.</td></tr>
+<tr><td>Front</td><td>Vue 3.5, Vite 7, vue-router, servi par Nginx</td><td><span class="pill good">bon choix</span> Pas de gestion d'état (Pinia), pas de bibliothèque de composants : tout est fait main.</td></tr>
+<tr><td>API</td><td>Fastify 5, TypeScript 5.9, Node 24</td><td><span class="pill good">bon choix</span> Seulement 5 dépendances. Aucune validation de schéma déclarée sur les routes.</td></tr>
+<tr><td>Données</td><td>PostgreSQL 17 (prod), requêtes SQL brutes via <code>pg</code></td><td><span class="pill p1">à corriger</span> La CI teste sur PostgreSQL 16. Les fiches sont des JSONB jusqu'à 800 Ko.</td></tr>
+<tr><td>Contenu</td><td>Fichiers JSON compressés en base64 + modules TS + surcouche d'éditions en base</td><td><span class="pill p0">critique</span> Trois sources de vérité qui se contredisent déjà (9 conflits de surcharges affichés par <code>/api/compendium/meta</code>).</td></tr>
+<tr><td>Temps réel</td><td>Sondage HTTP toutes les 3 à 5 s depuis 9 composants</td><td><span class="pill p1">à corriger</span> Coûteux et lent ; une table d'événements existe déjà et pourrait alimenter un flux poussé.</td></tr>
+<tr><td>CI/CD</td><td>77 workflows GitHub Actions, déploiement SSH</td><td><span class="pill p1">à simplifier</span> Beaucoup de workflows ponctuels de migration de données sont restés en place.</td></tr>
+</tbody></table></div>
+</section>
+
+<section id="langage">
+<h2>Faut-il changer de langage ?</h2>
+<p>Non. Voici les options sérieuses, et pourquoi elles ne valent pas une réécriture :</p>
+<div class="tbl"><table>
+<thead><tr><th>Option</th><th>Ce qu'elle apporterait</th><th>Ce qu'elle coûterait</th><th>Avis</th></tr></thead>
+<tbody>
+<tr><td>Rester en TypeScript, restructurer</td><td>Garde tout le moteur de règles, les tests et la connaissance accumulée</td><td>Migration du contenu vers la base, découpage en modules</td><td><span class="pill good">recommandé</span></td></tr>
+<tr><td>PHP / Laravel + Filament</td><td>Back-office d'administration très rapide à produire</td><td>Réécrire ~4 Mo de logique de règles et le temps réel ; deux langages pour une seule personne</td><td><span class="pill p1">non</span></td></tr>
+<tr><td>Python / Django admin</td><td>Admin automatique sur les modèles</td><td>Même problème : le moteur de jeu est en TS et partagé avec le front</td><td><span class="pill p1">non</span></td></tr>
+<tr><td>Nuxt (Vue plein écran côté serveur)</td><td>Pages d'articles indexables, partage de liens propre</td><td>Migration progressive possible, pas obligatoire</td><td><span class="pill p2">plus tard</span></td></tr>
+</tbody></table></div>
+<p>L'argument décisif : le moteur de règles (<code>apps/api/src/rules</code>, 2,5 Mo de logique) doit tourner à la fois côté serveur (autorité sur les jets et les coûts) et côté client (aperçu dans le créateur de personnage). Seul TypeScript permet de partager ce code entre les deux. Le besoin « que les administrateurs puissent modifier le site » se règle avec un CMS branché sur la même base, pas avec un nouveau langage.</p>
+</section>
+
+<section id="contenu">
+<h2>Le cœur du problème : le contenu vit dans le code</h2>
+<p>Au démarrage, <code>loadCorpus()</code> (lignes 2055 à 4108 de <code>compendium.ts</code>) reconstruit le compendium en empilant, dans un ordre précis :</p>
+<ol>
+<li>un manifeste <code>manifest-v3.json</code> et ses jeux de données compressés ;</li>
+<li>les articles « Moteur V4 », puis « Réalité V9 », qui écrasent les anciens articles de même identifiant ;</li>
+<li>des dizaines d'enrichissements éditoriaux (corporations, Pègre, PNJ, Vérité V7…) chargés depuis 221 modules TypeScript <code>compendium-*.ts</code> (<code>compendium-realite-v9-corporations-payload-0.ts</code> à <code>-7</code>, <code>compendium-pnj-truth-civilians-06.ts</code> à <code>-16</code>, etc.) ;</li>
+<li>15 tables de correspondance d'identifiants de PNJ « résolus » ;</li>
+<li>un fichier <code>manual-overrides.json</code> ;</li>
+<li>enfin, les éditions faites dans l'éditeur web, stockées en base (<code>compendium_article_edits</code>) et appliquées par-dessus.</li>
+</ol>
+<p>Conséquences concrètes :</p>
+<ul>
+<li><strong>Une édition en ligne peut être écrasée ou devenir orpheline</strong> lorsqu'un nouveau lot de code remplace l'article de base. L'API publique en témoigne déjà : <code>"overrides":{"applied":1,"conflicts":9}</code> et <code>"databaseEdits":{"applied":33,"conflicts":1}</code>.</li>
+<li><strong>Ajouter un article ou un PNJ exige un commit</strong>, une compilation et un déploiement. Un administrateur non développeur ne peut pas le faire.</li>
+<li><strong>Le démarrage de l'API recompile tout le corpus en mémoire</strong> (2 496 articles) et chaque modification de contenu fait grossir le bundle.</li>
+<li><strong>Les liens entre articles sont implicites</strong> (identifiants dans le texte, tables de « resolved ids ») : il n'existe pas de graphe de relations interrogeable, donc pas de rétroliens fiables.</li>
+<li>Les règles de jeu suivent le même schéma : <code>rules/truth/hunter-revision.ts</code> (302 Ko), <code>catalog-humain.ts</code> (258 Ko), <code>runtime-structure.ts</code> (258 Ko), et des scripts <code>check-*-revision.mjs</code> lancés à chaque build.</li>
+</ul>
+<div class="callout"><strong>Correctif structurel :</strong> faire une migration unique qui exécute <code>loadCorpus()</code> une dernière fois, écrit le résultat fusionné (éditions en base comprises) dans des tables normalisées, puis supprime les modules de contenu du code. À partir de là, la base de données est la seule source de vérité, et le code ne contient plus que de la logique.</div>
+
+<h3>Modèle de données proposé pour le contenu</h3>
+<pre>content_entry      (id, type, slug, title, status, category, summary, body_blocks jsonb,
+                    visibility, created_by, updated_by, published_at, version)
+content_type       article | regle | talent | trait | objet | equipement | augmentation
+                   | pnj | creature | lieu | organisation | glossaire
+content_field      champs typés par type (coût PTV, accès V/SR/R, PA, quota, prérequis,
+                   profil d'arme…) → JSON Schema par type, validé à l'écriture
+content_relation   (from_id, to_id, kind)   kind = mentionne | prerequis | appartient_a
+                   | membre_de | fabrique_par | voir_aussi | remplace
+content_revision   (entry_id, version, snapshot, author, comment, created_at)
+content_media      (id, entry_id, file, alt, credit, visibility)
+taxonomy / tag     arbre de rubriques + étiquettes libres, gérés dans l'admin</pre>
+<p>Les talents, objets et PNJ deviennent des entrées typées avec des champs structurés au lieu de texte libre. C'est ce qui permettra à la fois d'éditer proprement, de générer des cartes imprimables et d'automatiser les règles sans réécrire de code (voir la section moteur de règles).</p>
+</section>
+
+<section id="cms">
+<h2>Le CMS pour les administrateurs</h2>
+<p>L'éditeur actuel (<code>CompendiumEditorPage.vue</code>, 1 815 lignes, routes <code>/api/compendium/editor/*</code>) sait déjà gérer brouillon, publication, médias, historique et rôles <code>editor</code>/<code>admin</code>. Il manque l'essentiel pour un usage quotidien : un modèle de contenu structuré et des relations. Deux voies réalistes :</p>
+<div class="tbl"><table>
+<thead><tr><th></th><th>A. Directus sur la même base PostgreSQL</th><th>B. Back-office maison dans l'app Vue</th></tr></thead>
+<tbody>
+<tr><td>Principe</td><td>Directus se branche sur les tables existantes et génère une interface d'admin complète (formulaires, relations, médias, rôles, révisions, API).</td><td>Étendre l'éditeur actuel avec un éditeur de blocs, un sélecteur de relations et une vue de graphe.</td></tr>
+<tr><td>Délai jusqu'à un usage confortable</td><td>2 à 4 semaines (surtout la migration du contenu)</td><td>2 à 4 mois</td></tr>
+<tr><td>Relations, rétroliens</td><td>Natifs (Many-to-Many, aperçu des éléments liés)</td><td>À construire</td></tr>
+<tr><td>Rôles et flux de validation</td><td>Natifs, avec permissions par champ</td><td>À construire (le socle <code>compendium_review_state</code> existe)</td></tr>
+<tr><td>Cohérence visuelle avec le site</td><td>Interface Directus, distincte du site</td><td>Totale</td></tr>
+<tr><td>Risque</td><td>Un service de plus à héberger (Docker, ~300 Mo de RAM)</td><td>Charge de développement continue</td></tr>
+</tbody></table></div>
+<p><strong>Recommandation :</strong> voie A pour le contenu éditorial (articles, PNJ, lieux, organisations, médias), et garder l'app Vue pour tout ce qui est « jeu » (création de personnage, campagnes, table). Payload CMS est une alternative en TypeScript si tu préfères un CMS dont tu peux modifier le code ; Directus a l'avantage de ne rien imposer au schéma.</p>
+<h3>Fonctions indispensables pour l'édition</h3>
+<ul>
+<li><strong>Éditeur de blocs</strong> (paragraphe, tableau de règles, encadré MJ, exemple, citation, image) au lieu de JSON de sections.</li>
+<li><strong>Liens internes par autocomplétion</strong> : taper <code>[[Vamp</code> propose « Vampire », crée une relation <code>mentionne</code> et rend un lien qui survit au renommage.</li>
+<li><strong>Rétroliens</strong> (« Cet article est cité par… ») et <strong>détection des liens cassés</strong> à la publication.</li>
+<li><strong>Relations typées</strong> : un PNJ appartient à une organisation, un talent a des prérequis, un objet a un fabricant. L'admin choisit dans une liste au lieu d'écrire un identifiant.</li>
+<li><strong>Révisions et comparaison</strong> avec restauration (le socle <code>compendium_article_edit_revisions</code> existe).</li>
+<li><strong>Statuts</strong> brouillon → relecture → publié → archivé, et <strong>visibilité</strong> public / joueurs connectés / MJ seulement.</li>
+<li><strong>Import/export</strong> CSV ou JSON par type (talents, équipement) pour les corrections en masse dans un tableur.</li>
+<li><strong>Prévisualisation</strong> de l'article tel qu'il apparaîtra sur le site, et de la carte de talent imprimable.</li>
+</ul>
+</section>
+
+<section id="regles">
+<h2>Le moteur de règles</h2>
+<p>C'est la partie la plus aboutie et la plus précieuse du projet. Les jets sont tirés côté serveur avec <code>crypto.randomInt</code>, le serveur contrôle coûts, quotas, révélation et prérequis, et les suites de tests couvrent rejeu, falsification de sauvegarde et conflits de version. L'audit du 9 octobre recense 2 553 entrées et leur couverture.</p>
+<p>Trois faiblesses :</p>
+<ol>
+<li><strong>Les règles sont du code, pas des données.</strong> Chaque talent automatisé l'est par du code ad hoc (<code>live-vampire.ts</code>, <code>live-frenzy.ts</code>, <code>lightning-*.ts</code>, <code>registered-power-state.ts</code>…). Modifier un coût ou un bonus impose un développeur. Ça bloque l'évolution du game design.</li>
+<li><strong>La couverture est faible en proportion</strong> : 263 talents humains sur 266 sont en « texte / activation assistée », 142 Exilés sur 184, 125 Extrals sur 162. Le serveur suit le coût et le quota, mais la table résout l'effet à la main.</li>
+<li><strong>Les textes sont rédigés pour un humain, pas pour une machine</strong> : conditions, exceptions et « le MJ décide » sont dans la prose.</li>
+</ol>
+<div class="callout"><strong>Proposition :</strong> standardiser chaque talent sous un gabarit structuré, qui sert à la fois au papier (carte lisible) et au moteur (effet exécutable).
+<pre>{
+  "nom": "Faveur de la nuit",
+  "cout": 1, "acces": "R", "activation": "passif",
+  "declencheur": { "test": "furtivite", "contexte": "ombre_ou_obscurite" },
+  "effet": [{ "type": "bonus_test", "valeur": 3 }],
+  "quota": null,
+  "texte_court": "+3 Furtivité dans l'ombre."
+}</pre>
+Avec une vingtaine de types d'effets (bonus au test, relance, réduction de dégâts, PA bonus, ressource +/-, état appliqué, contexte préparé, information demandée au MJ…), on couvre l'immense majorité des 1 187 talents de Vérité. Le reste garde un effet « narratif » explicite. Cette standardisation rejoint directement les recommandations de l'audit game design.</div>
+</section>
+
+<section id="espace">
+<h2>L'espace personnel</h2>
+<p>Route <code>/account</code>, portée par <code>App.vue</code> (1 185 lignes), qui sert aussi de coquille de l'application. Contenu : compte, personnages (<code>CharactersPanel</code>), fiches partagées avec moi, campagnes, dernière lecture, demande de statut MJ, et pour les admins la gestion des utilisateurs et le journal d'audit.</p>
+<h3>Ce qui fonctionne</h3>
+<ul>
+<li>Révisions de fiche avec restauration (<code>/api/characters/:id/revisions</code>), historique et journal du personnage.</li>
+<li>Partage de fiche en lecture à des comptes nommés (<code>character_sheet_readers</code>), sans droit de mutation.</li>
+<li>Favoris de personnages, galerie d'images, export PDF côté client (<code>pdf-lib</code>).</li>
+<li>Import des fiches V1 (<code>/api/characters/import-v1</code>).</li>
+</ul>
+<h3>À corriger</h3>
+<div class="tbl"><table>
+<thead><tr><th>Priorité</th><th>Problème</th><th>Correction</th></tr></thead>
+<tbody>
+<tr><td><span class="pill p1">P1</span></td><td><code>App.vue</code> fait à la fois coquille, page de compte et administration ; la route <code>/account</code> pointe sur le composant racine.</td><td>Créer <code>AccountPage</code>, <code>AdminUsersPage</code>, <code>AdminAuditPage</code> ; garder <code>App.vue</code> pour la mise en page.</td></tr>
+<tr><td><span class="pill p1">P1</span></td><td>Administration éclatée entre <code>/account</code>, <code>/admin/quality</code> et <code>/admin/arbitrage</code>.</td><td>Un espace <code>/admin</code> unique avec menu : utilisateurs, demandes MJ, journal, qualité, arbitrage, contenu.</td></tr>
+<tr><td><span class="pill p2">P2</span></td><td>Pas de tableau de bord : le joueur doit chercher sa prochaine séance et ses fiches.</td><td>Accueil connecté : prochaine séance, personnages actifs, invitations en attente, dernières révélations du MJ.</td></tr>
+<tr><td><span class="pill p2">P2</span></td><td>Les brouillons de la V1 restés dans le navigateur ne migrent pas d'eux-mêmes.</td><td>Proposer l'import automatiquement quand un brouillon local est détecté.</td></tr>
+</tbody></table></div>
+</section>
+
+<section id="campagnes">
+<h2>Les campagnes</h2>
+<p>Le périmètre fonctionnel est très riche, plus que la plupart des VTT commerciaux pour la préparation : membres et invitations, admissions avec messagerie, séances planifiées avec présences et invitations calendrier par e-mail, préparation de séance (scènes, effets), bibliothèque de préparation, PNJ de campagne (générateur canonique, portraits), bestiaire de campagne (générateur, équilibrage indicatif), récompenses par séance (XP, PTV, argent, Renommée, Corruption, équipement) avec garde anti-doublon, versions de personnage par séance.</p>
+<h3>Points forts techniques</h3>
+<ul>
+<li>Récompenses attribuées par lots, avec contrainte SQL qui interdit une récompense vide et un garde contre la double attribution.</li>
+<li>Versions de personnage figées par séance (<code>campaign_character_versions</code>) : on peut savoir quelle fiche a joué quelle séance.</li>
+<li>Projection publique des autres joueurs limitée (portrait, identité publique, camp, état de blessure) : bonne séparation de la vie privée.</li>
+</ul>
+<h3>À corriger</h3>
+<div class="tbl"><table>
+<thead><tr><th>Priorité</th><th>Problème</th><th>Correction</th></tr></thead>
+<tbody>
+<tr><td><span class="pill p1">P1</span></td><td><code>campaigns.ts</code> fait 110 lignes mais la logique est dispersée dans 26 fichiers <code>campaign-*.ts</code> sans couche service commune ; chaque fichier refait ses requêtes et ses contrôles d'accès.</td><td>Un module <code>campaigns/</code> avec <code>repository</code> (SQL), <code>service</code> (règles), <code>routes</code> (HTTP), et un unique <code>assertCampaignRole(user, campaign, role)</code>.</td></tr>
+<tr><td><span class="pill p1">P1</span></td><td>Aucune validation déclarative des entrées : les corps de requête sont lus et vérifiés à la main.</td><td>Schémas JSON Fastify (ou TypeBox/Zod) sur chaque route, générés en types TS.</td></tr>
+<tr><td><span class="pill p2">P2</span></td><td>Pas de notion de « campagne archivée » ou de transfert de MJ visible côté interface.</td><td>Statut de campagne et passation de MJ.</td></tr>
+<tr><td><span class="pill p2">P2</span></td><td>Les générateurs de PNJ et de créatures produisent des données qui restent hors du compendium.</td><td>Permettre de « promouvoir » un PNJ de campagne en entrée de compendium (visibilité MJ).</td></tr>
+</tbody></table></div>
+</section>
+
+<section id="enjeu">
+<h2>La partie « en jeu »</h2>
+<p>La table (<code>/campaigns/:id/play</code>) et la fiche jouable (<code>/characters/:id/play</code>) reposent sur <code>/api/campaigns/:id/play</code> et <code>/play/actions</code>, avec les tables <code>campaign_live_*</code>, <code>character_play_states</code> et <code>character_play_events</code>.</p>
+<h3>Ce qui est remarquable</h3>
+<ul>
+<li>Le serveur fait autorité : jets, coûts en PA, quotas, révélation, Edge, consommation de munitions et charges.</li>
+<li>Les jets sont rejouables et vérifiables (journal d'événements, détail du dé, explosion).</li>
+<li>Contrôle de version optimiste (<code>campaign_live_versions</code>) contre les doubles clics et les conflits.</li>
+<li>Résolutions occultes avec consentement ou défense de la cible, réactions (Gardien, Caendis, ripostes), effets avec horloges par round, activation ou scène.</li>
+</ul>
+<h3>Ce qui pèse</h3>
+<div class="tbl"><table>
+<thead><tr><th>Priorité</th><th>Problème</th><th>Correction</th></tr></thead>
+<tbody>
+<tr><td><span class="pill p0">P0</span></td><td><strong>Sondage toutes les 3 s</strong> (<code>setInterval(load,3000)</code>) dans <code>CampaignCombat</code>, <code>CampaignPlay</code>, <code>CharacterPlay</code>, <code>CampaignOccultConsent</code>… Chaque client recharge l'état complet de la salle. À 6 joueurs, c'est ~120 requêtes par minute pour une table qui ne bouge pas.</td><td>Flux poussé par <strong>Server-Sent Events</strong> (<code>/api/campaigns/:id/stream</code>) alimenté par <code>LISTEN/NOTIFY</code> PostgreSQL sur <code>campaign_live_events</code>. Le client ne reçoit que les événements nouveaux et applique un correctif local. SSE suffit (flux descendant), passe par Caddy sans configuration et se reconnecte seul.</td></tr>
+<tr><td><span class="pill p1">P1</span></td><td>Une seule route <code>/play/actions</code> multiplexe des dizaines de types d'actions, avec une validation au cas par cas.</td><td>Une union discriminée typée (<code>{type:"attaque", …}</code>) partagée front/back, un gestionnaire par type, et un registre.</td></tr>
+<tr><td><span class="pill p1">P1</span></td><td>L'état est rechargé et recalculé en entier à chaque action (<code>play-state.ts</code> recalcule toute la fiche).</td><td>Mettre en cache la projection dérivée par version et ne recalculer que sur changement.</td></tr>
+<tr><td><span class="pill p1">P1</span></td><td>Le combat suit initiative, passes et cibles, mais <strong>aucune position</strong> : portée, zone, couvert et contact restent déclaratifs, alors que beaucoup de talents en dépendent (« à 5 m », « zone immédiate »).</td><td>Zones abstraites (contact / proche / moyen / loin), choisies d'un clic, avant toute carte tactique.</td></tr>
+<tr><td><span class="pill p2">P2</span></td><td>Pas de mode hors ligne ou de reprise après coupure réseau en pleine action.</td><td>File d'actions locale avec identifiant idempotent (le rejeu est déjà refusé côté serveur, c'est donc peu coûteux).</td></tr>
+</tbody></table></div>
+<h3>Utilisation des compétences par les joueurs</h3>
+<p>Le panneau personnel propose Jets, États &amp; PV, Pouvoirs et Équipement. Un jet se fait en choisissant une compétence, un bonus, la visibilité publique, et le serveur ajoute les bonus contextuels préparés. Ça marche, mais :</p>
+<ul>
+<li>le joueur doit savoir <strong>quel bonus contextuel s'applique</strong> ; avec 3 à 10 talents à +2/+3 conditionnels, le serveur ne peut pas deviner le contexte. Il faut afficher, au moment du jet, la liste des bonus éligibles cochables (« Codes du milieu +2 : s'applique ? »).</li>
+<li>les jets fréquents (Perception, Esquive, attaque principale) doivent être des <strong>raccourcis épinglés</strong> plutôt qu'un sélecteur de 25 compétences.</li>
+<li>la Difficulté visée n'est pas toujours connue du joueur ; afficher la DR obtenue pour chaque seuil (12/15/18/21/25) au lieu d'un total brut aide le MJ à trancher vite.</li>
+</ul>
+</section>
+
+<section id="qualite">
+<h2>Qualité du code</h2>
+<div class="tbl"><table>
+<thead><tr><th>Priorité</th><th>Constat</th><th>Correction</th></tr></thead>
+<tbody>
+<tr><td><span class="pill p0">P0</span></td><td><strong>Code au style « compressé »</strong> : 752 lignes de plus de 300 caractères dans le front, 2 227 dans l'API ; une ligne de 6 521 caractères dans <code>CampaignPlayPage.vue</code>. Plusieurs instructions par ligne, variables d'une lettre. Illisible pour un humain, risqué à modifier.</td><td>Ajouter Prettier + ESLint, formater tout le dépôt en un commit dédié, et l'imposer en CI.</td></tr>
+<tr><td><span class="pill p1">P1</span></td><td>Fichiers géants : <code>compendium.ts</code> 5 316 lignes, <code>CompendiumPage.vue</code> 4 374, <code>CharacterBuilderPage.vue</code> 3 426.</td><td>Découper par responsabilité (chargement, recherche, navigation, rendu de blocs, filtres).</td></tr>
+<tr><td><span class="pill p1">P1</span></td><td>Tests sous forme de 222 scripts <code>.mjs</code> autonomes (80 côté web, 142 côté API) et non d'une suite outillée.</td><td>Vitest pour l'unitaire, Playwright pour les parcours (déjà utilisé en CI), couverture mesurée.</td></tr>
+<tr><td><span class="pill p1">P1</span></td><td>Aucun type partagé entre front et back : le front manipule beaucoup de <code>any</code>.</td><td>Monorepo npm workspaces avec un paquet <code>@tuc/shared</code> (types, schémas, moteur de règles pur).</td></tr>
+<tr><td><span class="pill p2">P2</span></td><td>77 workflows, dont de nombreux jobs ponctuels (« v2-production-angelus-talents », « legacy-equipment-reintegration »…).</td><td>Archiver les workflows ponctuels ; garder CI, déploiement dev, déploiement prod, sauvegarde.</td></tr>
+<tr><td><span class="pill p2">P2</span></td><td><code>main</code> ne reflète plus la production.</td><td>Fusionner <code>feature/tuc-web-v2</code> dans <code>main</code>, déplacer la V1 dans un dossier <code>legacy/</code> ou un autre dépôt.</td></tr>
+</tbody></table></div>
+</section>
+
+<section id="secu">
+<h2>Sécurité et exploitation</h2>
+<div class="tbl"><table>
+<thead><tr><th>Priorité</th><th>Constat</th><th>Correction</th></tr></thead>
+<tbody>
+<tr><td><span class="pill p0">P0</span></td><td><strong>Sauvegardes uniquement sur le même serveur</strong> (<code>/opt/terra-umbra/private-backups</code>). Une panne du VPS fait tout perdre : comptes, personnages, campagnes et éditions du compendium.</td><td>Copie quotidienne chiffrée hors serveur (stockage objet OVH ou Backblaze, avec <code>restic</code>) et test de restauration mensuel.</td></tr>
+<tr><td><span class="pill p0">P0</span></td><td>Aucune limite de débit sur la connexion, l'inscription ou la réinitialisation de mot de passe.</td><td><code>@fastify/rate-limit</code> sur <code>/api/auth/*</code> (5 essais/minute/IP et par compte).</td></tr>
+<tr><td><span class="pill p1">P1</span></td><td>CI sur PostgreSQL 16, production sur PostgreSQL 17.</td><td>Aligner les versions.</td></tr>
+<tr><td><span class="pill p1">P1</span></td><td>Pas de supervision ni d'alerte (seulement <code>/api/health</code>).</td><td>Sonde externe (Uptime Kuma ou Better Stack) et collecte des erreurs (Sentry ou GlitchTip auto-hébergé).</td></tr>
+<tr><td><span class="pill good">bon</span></td><td>Mots de passe Argon2 avec réhachage, sessions hachées, cookies, CORS fermé, PostgreSQL non exposé, verrou de production qui empêche la CI de déployer par erreur.</td><td>Conserver.</td></tr>
+</tbody></table></div>
+</section>
+
+<section id="plan">
+<h2>Plan de travail recommandé</h2>
+<div class="tbl"><table>
+<thead><tr><th>Phase</th><th>Contenu</th><th>Durée indicative</th></tr></thead>
+<tbody>
+<tr><td>0. Filets de sécurité</td><td>Sauvegarde hors serveur, limite de débit, Prettier/ESLint, fusion dans <code>main</code></td><td>1 semaine</td></tr>
+<tr><td>1. Contenu en base</td><td>Schéma <code>content_*</code>, migration unique du corpus fusionné, suppression des modules de contenu, API de lecture inchangée pour le front</td><td>3 à 4 semaines</td></tr>
+<tr><td>2. CMS</td><td>Directus sur les tables de contenu, rôles, relations, liens internes, rétroliens, révisions</td><td>2 à 3 semaines</td></tr>
+<tr><td>3. Temps réel</td><td>SSE + <code>LISTEN/NOTIFY</code>, suppression des sondages</td><td>1 à 2 semaines</td></tr>
+<tr><td>4. Règles en données</td><td>Gabarit de talent structuré, types d'effets, migration progressive par Nature, en parallèle de la refonte game design</td><td>continu, par Nature</td></tr>
+<tr><td>5. Front</td><td>Voir l'audit UI/UX : découpage des pages, système de design, URL d'articles propres</td><td>en parallèle</td></tr>
+</tbody></table></div>
+<p>Ordre impératif : la phase 1 avant tout travail d'administration. Construire un back-office sur la structure actuelle reviendrait à éditer une couche de plus au-dessus de six autres.</p>
+</section>
+</main>
+</div>

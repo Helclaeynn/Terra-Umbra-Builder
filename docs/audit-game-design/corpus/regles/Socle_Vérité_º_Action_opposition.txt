@@ -1,0 +1,70 @@
+==== [Socle Vérité › Action & opposition] PA, Réactions, Défense occulte & Puissance (regles-verite-v7-pa-reactions-defense-puissance)
+### 3. PA, Réactions, durées et non-cumul
+2
+p
+• Actif : 1 PA par défaut ; 2–3 PA ou préparation longue si indiqué.
+list
+p
+• Maximum normal : 3 PA. Une capacité accorde normalement au plus +1 PA, donc 4. Plusieurs gains directs ne se cumulent pas sauf exception explicite.
+list
+p
+• Exception écrite possible : le Surrégime Garou Écarlate se cumule avec le +1 PA Hybride et peut atteindre 5 PA.
+list
+p
+• Une Réaction dépense un PA, sauf PA de Réaction spécialisé explicitement créé.
+list
+p
+• Une relance de Talent maximum par test. Une réduction générique de Difficulté maximum par effets externes ; les moteurs internes comme Amplitude/portée/Canalisation Mage suivent leurs propres règles.
+list
+p
+• Deux effets substantiellement équivalents ne se cumulent pas sauf mention explicite. Une seule Assistance effective peut s’appliquer à un même test.
+list
+p
+• Bras, tentacules, queues et appendices supplémentaires n’accordent jamais d’eux-mêmes PA, Attaque, Défense active ou Réaction supplémentaires.
+list
+### Arbitrage transversal des chevauchements
+3
+p
+• Une même conséquence mortelle ne bénéficie que d’un seul effet surnaturel d’annulation/report/remplacement de Mort, sauf exception écrite.
+list
+p
+• Compagnon, double, invocation ou projection contrôlée : aucun pool de PA joueur indépendant sauf règle explicite.
+list
+p
+• Pouvoir copié/emprunté : conserve les prérequis de Nature, V/SR/R et lien externe sauf exception explicite.
+list
+p
+• Une réaction pré-fuite doit l’indiquer ; aucune poursuite rétroactive après téléportation résolue.
+list
+p
+• Une Altération automatique n’en crée pas une seconde de même nature si l’action en accordait déjà une.
+list
+p
+• Voir sous le Voile n’est jamais Révéler.
+list
+### 4. Défense occulte et Puissance des effets
+2
+p
+Une imposition directe sur esprit, âme, volonté, identité ou intérieur du corps utilise la Défense occulte. Un phénomène physiquement évitable utilise la Défense physique. Jamais les deux pour le même effet.
+image
+images/rules/regles-defense-occulte-v4.svg
+images/rules/regles-defense-occulte-v4-mobile.svg
+Choisir la Défense contre un effet : 1 · Quel effet atteint la cible ? — Imposition directe sur esprit, âme ou intérieur du corps : occultement imposé. ; 2 · Ou phénomène évitable ? — Projectile ou manifestation physiquement évitable : Défense physique. ; 3 · Défense passive — Occulte = Volonté + Force Mentale ; physique = Agilité + Esquive. ; 4 · Réaction permise ? — Dépenser 1 PA : ajouter 1d10e à la Défense du type retenu. ; 5 · Résolution — Comparer l’attaque à cette seule Défense ; égalité = statu quo.. Une même attaque ne sollicite jamais Défense physique et occulte ensemble.
+rule-diagram
+table
+Défense occulte
+Formule
+Passive
+Volonté + Force Mentale
+Active — 1 PA
+Volonté + Force Mentale + 1d10e
+table
+Puissance
+Valeur
+Jet de création connu
+résultat de création/maintien
+Source présente
+jet approprié de la Source
+Autonome
+12 mineur ; 15 courant ; 18 fort ; 21 majeur ; 25 exceptionnel
+

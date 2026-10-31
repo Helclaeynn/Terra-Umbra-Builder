@@ -1,0 +1,427 @@
+==== [Réalité — règles spécifiques › Économie & équipement] Économie, Compte, Train de vie & accès (regles-realite-v9-economie-compte-train-vie)
+### Économie et pouvoir d'achat
+2
+p
+L'économie combine prix réels, Compte disponible, [Train de vie](/compendium?article=realite-v9-vivre-en-2035#wiki-section-securite-niveau-vie) et Charges fixes.
+p
+Le symbole $ représente une unité de compte numérique. Les espèces sont rares ; paiements, crédits, abonnements et comptes sont principalement dématérialisés.
+p
+Le prix catalogue est le prix de référence normal d'un produit ou service terrestre disponible légalement. Il ne garantit ni stock, ni autorisation, ni absence de contrôle.
+p
+Le Compte représente l'argent explicitement disponible pour les gros achats. Les petites dépenses ordinaires couvertes par le Train de vie ne sont pas retirées une à une.
+### Lecture intuitive des montants
+2
+table
+Montant
+Lecture intuitive
+1 $
+Eau, micro-dépense, consommation triviale.
+10 $
+Repas populaire, petit service banal.
+50 $
+Petite prestation, munitions, sortie ordinaire.
+100 $
+Dépense personnelle notable.
+500 $
+Arme, armure ou gadget de base ; gros achat du quotidien.
+1 000 $
+Équipement professionnel sérieux.
+5 000 $
+Matériel haut de gamme, armure lourde, grosse dépense.
+10 000 $
+Véhicule bon marché ou augmentation importante.
+50 000 $
+Véhicule majeur, package augmentique lourd, technologie rare.
+100 000 $+
+Actif corporatif, blindé, prototype ou patrimoine lourd.
+### Revenus mensuels indicatifs
+2
+table
+Profil
+Revenu net / disponible mensuel indicatif
+Underlife / irrégulier
+0–900 $
+Précaire / exploité
+900–1 500 $
+Ouvrier / service
+1 500–2 300 $
+Ouvrier qualifié / agent public
+2 300–3 500 $
+Technicien / professionnel
+3 500–5 000 $
+Spécialiste / cadre junior
+5 000–8 000 $
+Cadre
+8 000–15 000 $
+Directeur / haut spécialiste
+15 000–30 000 $
+Élite
+30 000 $+
+p
+Le revenu en cash ne suffit pas à mesurer le niveau de vie : logement corporatif, véhicule de fonction, assurances, entretien augmentique et services peuvent représenter des milliers de dollars sans apparaître comme salaire.
+### Prix, disponibilité et marché
+2
+table
+Contexte
+Multiplicateur / lecture
+Légal courant
+Prix catalogue ; variation locale typique ±20 %.
+Contrôle, licence, zone chère
+×1 à ×1,2 selon frais et disponibilité.
+Marché noir courant
+×1,25 à ×1,5.
+Militaire / fortement restreint
+×1,5 à ×3 ; l'accès peut être le vrai problème.
+Volé / chaud / tracé
+×0,5 à ×0,8 avec un risque réel.
+Prototype / actif institutionnel
+Pas de prix automatique : accès, contrat, scénario ou dotation.
+### Train de vie
+2
+p
+Le Train de vie représente ce que le personnage peut consacrer à son quotidien après ses engagements : nourriture, sorties, vêtements courants, petits achats, loisirs et confort. Ce n'est pas son salaire.
+table
+Train de vie
+Référence mensuelle
+Quotidien typique
+Survie
+200 $
+Rations ou synthétique, récupération, presque aucun loisir.
+Modeste
+400 $
+Vie populaire, achats surveillés, quelques sorties bon marché.
+Standard
+650 $
+Quotidien confortable normal, services usuels.
+Confortable
+1 200 $
+Sorties et services réguliers, qualité choisie.
+Aisé
+2 500 $
+Consommation premium, vraie nourriture plus fréquente, services faciles.
+Luxe
+5 000 $+
+Standing, restauration haut de gamme, services et disponibilité privilégiés.
+### Charges fixes
+2
+p
+Logement principal, véhicule personnel ou leasing, abonnement de mobilité haut de gamme, entretien ou remboursement d'augmentations, dettes, pensions, assurances privées coûteuses, planque, second logement et tout engagement mensuel durable peuvent constituer des Charges fixes.
+image
+images/rules/regles-train-de-vie-v4.svg
+images/rules/regles-train-de-vie-v4-mobile.svg
+Train de vie : calculer le cran effectif : 1 · Choisir la base — Prendre la valeur mensuelle de référence du Train de vie de base. ; 2 · Additionner — Compter les Charges fixes durables ; un achat comptant unique n’en est pas une. ; 3 · Diviser — Nombre de crans perdus = tranches complètes de la référence dans les charges. ; 4 · Exemple — Référence 1 200 $ ; charges 2 500 $ → 2 tranches complètes → −2 crans. ; 5 · Dépenser — Quotidien selon le cran effectif ; biens durables ou rares payés par le Compte.. La référence du calcul reste celle du Train de vie de base après la baisse.
+rule-diagram
+p
+Pour chaque tranche complète de Charges fixes égale à la valeur de référence du Train de vie de base, le Train de vie effectif baisse d'un cran.
+p
+La référence reste toujours celle du Train de vie de base : les seuils ne sont pas recalculés après chaque baisse.
+p
+Le Train de vie effectif ne descend pas sous Survie. Au-delà, le personnage est en déficit structurel et doit puiser dans son Compte, s'endetter, vendre un actif, réduire ses charges ou perdre un service.
+p
+Un avantage pris en charge par une corporation, organisation ou Talent ne compte que pour le reste réellement payé par le personnage. Un abonnement annuel est divisé par 12 pour mesurer son poids mensuel.
+### Accès typique par Train de vie
+2
+table
+Base
+Logement normalement accessible
+Mobilité normalement accessible
+Planque / refuge
+Survie
+Squat, urgence, dortoir très bon marché
+Trajet unitaire, marche, récupération
+Cache improvisée ou squat
+Modeste
+Dortoir, micro-logement, vieux studio ou chambre
+Pass transports, MAS occasionnel, petit abonnement
+Pièce louée, box, squat discret
+Standard
+Studio urbain ancien, logement connecté simple
+Bull Basic/Standard, vieille voiture correcte, moto, CityPod financé
+Studio anonyme, garage ou local
+Confortable
+Bon appartement connecté ou logement protégé
+VAP familial, moto haut de gamme, Bull Premium
+Planque dédiée simple
+Aisé
+Résidence sécurisée de cadre ou grand appartement
+Nymphrover Executive, plusieurs solutions, Bull Executive
+Planque sécurisée et anonyme
+Luxe
+Penthouse, villa, résidence corporative premium
+Véhicules multiples, Nymphrover Security, blindé plausible
+Plusieurs planques spécialisées et haute sécurité
+p
+Accès n'est pas propriété. Un employeur peut fournir un logement ou véhicule bien au-dessus du Train de vie en cash ; perdre le statut peut faire disparaître l'avantage immédiatement.
+### Compte, achats et dotations
+2
+p
+Le Train de vie couvre alimentation, boissons ordinaires, hygiène, vêtements courants, transports usuels, petits loisirs et dépenses domestiques du niveau correspondant.
+p
+Le Compte paie les biens durables et les dépenses dont rareté ou quantité comptent : armes, munitions, N-Sta, drogues à effet mécanique, medkits, matériel de mission, pots-de-vin, achats clandestins et réparations significatives.
+p
+Un achat comptant payé une seule fois n'est pas une Charge fixe. Seuls remboursement, leasing, abonnement, entretien, assurance ou autre engagement mensuel durable l'alimentent.
+p
+Une dotation institutionnelle est un droit d'usage, pas un patrimoine revendable, sauf texte explicite contraire.
+### Logements, planques et sécurité
+2
+p
+La sécurité d'un logement utilise les Difficultés ordinaires 12 / 15 / 18 / 21 / 25 pour intrusion physique ou numérique selon le niveau.
+p
+Discrétion, isolement et sécurité sont trois axes distincts. Un logement ouvert offre de nombreuses commodités mais davantage de surface d'attaque ; un logement sécurisé durcit ses services ; un lieu isolé réduit sa surface de hack au prix du confort et des services.
+### Services et consommables
+2
+p
+Un service achète du temps, une compétence, un accès, une infrastructure ou une prise en charge réelle ; il ne produit pas automatiquement un bonus abstrait au personnage.
+p
+La nourriture ordinaire n'accorde ni PV ni bonus statistique. Un bon repas peut participer à la sortie de Tendu ou Paniqué dans un contexte de repos et de réconfort, mais n'est jamais un consommable de soin.
+p
+Les drogues ont des effets réels sans devenir une seconde économie de buffs permanents. Leurs risques passent par Constitution, Stress, dépendance, surcharge et conséquences de scène.
+### Crédit et économie Crawler
+2
+p
+Une corporation peut financer opération, implants, entretien, logement, repas, formation, assurance et emploi contre dette ou engagement de travail. Il n'existe pas de taux d'intérêt universel : la contrepartie peut être durée, propriété intellectuelle, clause de non-concurrence, saisie d'actif ou service.
+p
+Un personnage peut porter 120 000 $ d'augmentations tout en étant pauvre, endetté et incapable de payer une grosse facture en cash.
+table
+Contrat Crawler
+Prime brute indicative
+Petit boulot
+1 000–3 000 $
+Professionnel
+5 000–15 000 $
+Dangereux / armé
+20 000–50 000 $
+Très gros contrat
+50 000–200 000 $
+Majeur / Vérité / crise
+200 000 $+ ou considération spéciale
+p
+Un Fixer ou réseau peut prendre environ 10–25 % à titre indicatif. La Blanchisserie peut retenir une part importante des primes et demander un abonnement ; son taux dépend du contrat. Accès et réputation comptent autant que le prix.
+### Frontière économique avec Vérité
+2
+p
+Les marchés xéno peuvent utiliser Dykal, dettes, services et accès ; l'AIDH moderne fonctionne surtout par dotation et autorisation. Il n'existe aucune conversion forcée Dykal ↔ $. L'équipement terrestre reste technologiquement en dessous des bonnes technologies xéno et surtout de l'AIDH.
+
+==== [Réalité — règles spécifiques › Économie & équipement] Équipement terrestre — propriétés & protections (regles-realite-v9-equipement-proprietes-protections)
+### Règles communes
+2
+p
+Les vêtements ordinaires n'accordent pas de bonus fixe. Une tenue réellement adaptée ou inadaptée peut produire une circonstance favorable (+3) ou défavorable (−3).
+p
+Deux bonus substantiellement identiques ne se cumulent pas : utiliser le meilleur, sauf texte explicite contraire.
+p
+Les objets portant la propriété Encombrant suivent la règle de portage du Moteur : la capacité normale est liée à la Vigueur, et un objet massif peut compter pour plusieurs.
+### Propriétés d'armes
+2
+table
+Propriété
+Effet
+Rafale
+Autorise l'action Rafale du Moteur.
+Automatique
+Autorise l'action Suppression.
+Fiable
+Un 1 naturel reste un échec mais n'entraîne ni échec narratif ni enrayement lié à l'arme.
+Perforant X
+Ignore X points de protection matérielle applicable.
+Dispersion X
+Au-delà de la moitié de la portée nominale, DGT −X.
+Smartlink
+Compatible avec Interface de ciblage et Verrouillage.
+Autoguide
+Peut exploiter un Verrouillage maintenu par le tireur ou un désignateur compatible ; permet un tir guidé avec trajectoire plausible, jamais une touche automatique.
+EMP
+Permet aux Altérations de viser électronique, capteurs, interface, arme ou mobilité technologique.
+Zone X m
+Affecte toutes les cibles exposées dans la zone selon le moteur général.
+Encombrant
+Compte dans la limite de portage et peut exiger appui, harnais ou moyen adapté.
+### Portée et Verrouillage
+2
+table
+Distance
+Modificateur de Tir
+≤ 1/2 portée
++3
+≤ portée
+normal
+≤ 2 × portée
+−3
+> 2 × portée
+normalement impossible sans effet explicite
+p
+Verrouillage : 1 PA sur une cible détectée et suivie ; +3 au Tir tant que le suivi est maintenu. Une seule cible ou un seul système peut être verrouillé ; la perte du suivi annule le Verrouillage.
+p
+Viser et Verrouillage peuvent se cumuler si les deux actions sont payées et leurs conditions remplies. Certains niveaux de Camo peuvent annuler leurs bonus.
+### Armure de base et Réductions
+2
+p
+L'Armure est la couche matérielle de base et s'applique aux dégâts matériels lorsqu'une protection physique peut réellement s'interposer. Les Réductions typées s'ajoutent ensuite seulement contre leur vecteur. Aucun plafond global d'Armure 10 n'est imposé.
+image
+images/rules/regles-equipement-reel-v4.svg
+images/rules/regles-equipement-reel-v4-mobile.svg
+Couches de protection : retenir quoi ? : 1 · Identifier le vecteur — L’attaque concerne dégâts matériels, balistiques, choc, feu ou autre type explicite. ; 2 · Armure de base — Meilleure Armure portée + meilleure Armure corporelle applicables ; pas deux de chaque. ; 3 · Réduction typée — Appliquer seulement celles qui correspondent au vecteur et sont réellement compatibles. ; 4 · Perforant X — Ignorer X points de l’Armure matérielle concernée, jamais une Défense. ; 5 · Soustraire les PV — Le reliquat après protections atteint les PV ; vérifier ensuite les seuils de blessure.. Une protection ne s’ajoute jamais au score de Défense passive ou active.
+rule-diagram
+table
+Protection
+Couvre
+Armure
+Projectiles, armes de contact, impacts et autres dommages physiques lorsque la protection s'interpose.
+Réduction [Balistique]
+Protection supplémentaire contre projectiles et tirs physiques.
+Réduction [Mêlée]
+Protection supplémentaire contre armes de contact et armes naturelles de mêlée.
+Réduction [Antichoc]
+Pugilat non armé, chute, collision, écrasement, projection et impact brutal.
+Réduction [type]
+Feu, froid, électricité, Neuro, chimique ou autre vecteur explicitement indiqué.
+p
+Superposition : utiliser la meilleure Armure portée compatible et la meilleure Armure corporelle applicable ; ces deux couches peuvent se cumuler. Deux Armures portées ordinaires ne s'additionnent pas entre elles, pas plus que deux Armures corporelles. Une Réduction typée s'ajoute uniquement contre son vecteur.
+### Ablatif
+2
+p
+Ablatif X indique le nombre d'impacts pendant lesquels une protection supplémentaire est disponible. Chaque impact applicable consomme une charge d'Ablatif ; une fois les charges épuisées, le bonus disparaît jusqu'à remplacement ou recharge prévue par l'équipement.
+### Camo et tromperie électronique
+2
+table
+Niveau
+Effet
+Camo 1
++2 Furtivité lorsque le spectre de camouflage est pertinent.
+Camo 2
+Comme Camo 1 et annule le +3 de Viser lorsque le tireur dépend du spectre masqué.
+Camo 3
+Comme Camo 2 et annule le +3 de Verrouillage lorsque le suivi dépend du spectre masqué.
+Electro-trompeur
+Le Verrouillage électronique est ignoré contre le porteur ; la cible reste attaquable si elle est autrement détectée.
+p
+Camo n'agit que contre les sens et capteurs que l'équipement masque réellement. Une combinaison visuelle ne rend pas automatiquement invisible au radar, à l'odorat ou à un senseur biologique.
+### Holo-tissage et Deep Fake Live
+2
+p
+Holo-tissage : +2 Furtivité uniquement pour cacher ou falsifier l'identité, la silhouette ou l'apparence.
+p
+Deep Fake Live avec projecteur et modélisation compatibles : circonstance favorable (+3) en Représentation pour incarner l'identité simulée, ou en Furtivité si l'objectif est seulement de cacher qui est le porteur. L'effet ne s'applique pas deux fois au même test.
+p
+DFL simule l'apparence, pas la masse, la voix sans module dédié, la rétine, l'ADN, les empreintes ou une authentification physique réelle.
+### Capacité de personnalisation des armures
+2
+table
+Type d'armure
+Capacité standard
+Gilet basique
+1 module
+Armure légère
+2 modules
+Armure lourde
+3 modules
+Protection environnementale
+2 modules
+Armure de furtivité
+2 modules
+p
+Un même module ne se cumule pas avec lui-même. Les profils précis des modules, armures, armes, munitions et accessoires restent dans Équipement & Objets.
+
+==== [Réalité — règles spécifiques › Économie & équipement] Véhicules, poursuites & réparations (regles-realite-v9-vehicules-poursuites-reparations)
+### Le moteur véhicule
+2
+p
+Les véhicules utilisent le moteur général de Réalité. Il n'existe pas de sous-système de combat véhicule séparé. Une fiche utilise surtout Structure, [Blindage](/compendium?article=regles-realite-v9-equipement-proprietes-protections#wiki-section-armure-reductions), Défense, Sécurité réseau, Pilotage autonome, prix, entretien et places.
+### Structure, Blindage et Altérations
+2
+p
+Le Blindage réduit les dégâts matériels reçus. Perforant X ignore X points de Blindage lorsqu'il est applicable.
+p
+Les dégâts restant après Blindage réduisent la Structure. À 0 Structure, le véhicule est hors service et ne peut plus se déplacer normalement ; il n'explose pas automatiquement.
+p
+Un véhicule n'est ni Tendu ni Paniqué. Avant 0 Structure, les pertes fonctionnelles passent par des Altérations pouvant viser roue ou train roulant, propulsion, moteur, batterie, capteurs, arme embarquée, autopilote, liaison Holonet, portes ou autre sous-système réellement accessible.
+table
+Catégorie
+Structure indicative
+Moto / petit drone
+8
+Voiture
+15
+Gros SUV / utilitaire
+20
+Véhicule blindé léger
+25
+APC / blindé militaire
+35
+### Défense et conduite
+2
+p
+Un véhicule en mouvement piloté manuellement utilise Agilité + Pilotage comme Défense passive.
+p
+Évasion active : 1 PA du conducteur, Agilité + Pilotage + 1d10e. Le véhicule n'a pas de pool de PA séparé.
+p
+Un VAP autonome utilise son score fixe de Pilotage autonome comme Défense et pour ses manœuvres ordinaires sous pression. Il ne lance pas de dé et n'effectue pas de Défense active.
+p
+Sous pression, passer du pilotage autonome au manuel ou inversement est une Manipulation simple de 1 PA ; hors pression, c'est libre.
+p
+Un véhicule stationnaire, immobilisé ou abandonné ne bénéficie pas d'une Défense de Pilotage ; le tir se résout comme contre un objet selon taille, distance et circonstances.
+### Poursuites
+2
+p
+Une poursuite n'utilise pas de jauge. Chaque phase significative demande un test opposé Agilité + Pilotage + 1d10e ; un VAP autonome oppose son score fixe.
+p
+Le vainqueur gagne ou perd la distance ou position recherchée. Un nouveau jet n'intervient qu'à l'apparition d'un enjeu réel distinct.
+### Tir et occupants
+2
+p
+Les armes tirées depuis un véhicule utilisent leurs profils normaux. Une circonstance défavorable (−3) peut s'appliquer si le tireur conduit simultanément, subit une manœuvre violente ou dispose d'une mauvaise ligne de tir.
+image
+images/rules/regles-vehicules-v4.svg
+images/rules/regles-vehicules-v4-mobile.svg
+Véhicule attaqué : qui encaisse ? : 1 · Identifier la cible — Attaque dirigée contre le véhicule ou contre un occupant exposé ? ; 2 · Véhicule — Comparer l’attaque à sa Défense, puis appliquer son Blindage avant la Structure. ; 3 · Occupant — Si ciblé : couvert de carrosserie +3 Défense ; Blindage traversé puis Armure perso. ; 4 · Dommages annexes — Un choc ou accident peut blesser les passagers selon sa règle. ; 5 · Réparer — Les réparations portent sur la Structure et exigent les conditions indiquées.. Une attaque contre la carrosserie ne retranche pas automatiquement les PV de chaque passager.
+rule-diagram
+p
+Un occupant visible peut être visé directement. La carrosserie lui donne un couvert partiel (+3 Défense) lorsqu'elle masque réellement une partie du corps.
+p
+Si la trajectoire traverse une partie blindée ou une vitre blindée, le Blindage du véhicule réduit d'abord les dégâts, puis l'Armure personnelle de l'occupant s'applique.
+p
+La perte de Structure ne blesse pas automatiquement les occupants : attaque, collision, incendie ou Altération doivent réellement pouvoir les atteindre.
+### Collisions
+2
+table
+Collision
+DGT indicatif
+Choc léger / faible vitesse
+6
+Collision routière violente
+10
+Haute vitesse / véhicule lourd
+14
+Impact catastrophique
+18
+p
+Le Blindage s'applique normalement au véhicule. Les occupants ne subissent des dégâts Antichoc que si le choc est assez violent pour les atteindre malgré les dispositifs de sécurité ; le MJ choisit un DGT adapté plutôt que de recopier automatiquement les dégâts du véhicule.
+### Neurodive et véhicules
+2
+p
+La Sécurité réseau du véhicule est une Difficulté normale d'Intrusion Neurodive : 12 / 15 / 18 / 21 / 25.
+p
+Après avoir atteint le nœud, une action de Contrôle permet d'agir sur les fonctions accessibles : portes, destination, autopilote, capteurs, communication, ralentissement ou arrêt, ou arme automatisée connectée.
+p
+Neurodive ne remplace pas Pilotage. Le pirate peut commander l'autopilote et utiliser son score fixe ; s'il veut exécuter lui-même une manœuvre complexe ou tactique, il utilise Pilotage normalement.
+p
+Un vieux véhicule manuel ou un Gundriver déconnecté peut avoir Sécurité réseau « — » pour sa propulsion : il n'existe alors aucun contrôle à pirater à distance. Ses fonctions secondaires connectées peuvent conserver leur propre sécurité.
+p
+Le +2 de connexion Neurodive physique directe s'applique normalement au système exactement câblé.
+### Réparation
+2
+p
+Réparation d'urgence : avec un kit technique et environ 10 minutes, Esprit + Mécanique difficulté 15. En réussite, restaurer 1 + DR Structure OU remettre temporairement en service un sous-système non catastrophiquement détruit.
+p
+Une même avarie ne peut recevoir qu'une Réparation d'urgence avant un véritable passage en atelier ou remplacement de pièces.
+p
+Une remise en état complète demande temps, pièces et infrastructure. L'entretien mensuel ne couvre pas automatiquement les destructions de combat.
+### Longue distance
+2
+p
+Les vactrains magnétiques sous vide relient les grandes capitales à environ 7 000 km/h. L'aviation classique et supersonique, notamment à piles à combustible et hydrogène solide, domine les longues distances aériennes.
+p
+Transport balistique, cavitation, bateaux et aéroglisseurs restent disponibles selon les zones et usages.
+p
+Un voyage ordinaire peut rester absorbé par le Train de vie lorsque son coût n'est pas un enjeu. Un voyage exceptionnel, premium, clandestin ou orbital touche le Compte.
+

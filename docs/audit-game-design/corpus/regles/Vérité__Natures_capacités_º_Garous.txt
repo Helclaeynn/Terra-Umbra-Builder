@@ -1,0 +1,295 @@
+==== [Vérité — Natures & capacités › Garous] Nature Garou, formes, Frénésie & Pelages (regles-verite-v7-garou-nature-formes-frenesie-pelages)
+### Architecture du Garou
+2
+p
+Le Garou est un descendant de [Khinae](/compendium?article=regles-verite-v7-khinae-moteur-lignees#wiki-section-nature). Sa Nature exprime instincts, sens, régénération, Appel de la Meute et transformation. Les formes humaine révélée, animale et hybride sont distinctes de la simple Révélation. Le Pelage est une tradition culturelle et spirituelle ; le Sang vif une facette profonde de Khinae ; les Talents communs perfectionnent chasse, régénération et maîtrise du corps.
+p
+Sa puissance doit rester physiquement explosive mais coûteuse : l'hybride dépasse la Révélation vampirique commune, en échange d'une Mue lente et de l'épuisement des transformations répétées.
+### Nature commune et états du Voile
+2
+table
+État
+Expression
+Voilé
+Corps humain complet ; pas de régénération surnaturelle, transformation ou expression physique des dons.
+Semi-Révélé
+Toujours humain extérieurement ; instincts, sens et Talents SR commencent à percer.
+Révélé — humain
+Morphologie humaine avec véritable Nature présente ; petite régénération, Talents R et accès aux transformations ; peut être maintenu durablement.
+Révélé — animal
+Vraie forme animale ; chez le Garou classique, un loup anatomiquement lupin, souvent grand et impressionnant.
+Révélé — hybride
+Forme de guerre Khinae : puissance, régénération complète, griffes et instinct de combat.
+### Dons gratuits de la Nature Garou
+2
+table
+Don
+Règle
+Âme du Cycle
+À la mort véritable, rejoint normalement le Cycle.
+Appel de la Meute
+Peut reconnaître comme « les siens » des proches de toute espèce ; l'isolement durable est contre-nature et peut devenir source de Stress ou de malaise narratif.
+Hiérarchie instinctive — SR
+Ressent dominance et danger réels avant de les rationaliser. Le MJ transmet l'alarme face à un prédateur écrasant ; aucune obéissance n'est forcée et le titre seul ne suffit pas.
+Sens éveillés — SR
+Odorat et ouïe donnent les informations naturellement inaccessibles à un Humain : odeurs, sang, piste récente, présence proche ; aucun bonus universel.
+Bravoure lupine — SR
++3 uniquement pour résister à peur ou intimidation surnaturelle ; n'annule pas la Hiérarchie instinctive.
+Régénération lente — R
+Humain révélé ou animal : 1 PV/heure hors combat.
+Aura prédatrice — R
+Lorsqu'il traque ou approche une proie, peut tenter de masquer anormalement sa présence, y compris contre des perceptions animales ; autorise le test, sans bonus automatique.
+### Forme humaine révélée
+3
+p
+Mode polyvalent : mains, parole, équipement, armes, augmentations et Compétences restent disponibles. La Nature R et la Régénération lente s'appliquent, sans gros bonus automatique d'Attribut.
+### Forme animale — Loup
+3
+table
+Propriété
+Effet
+Agilité
++2 Agilité.
+Déplacement
+Environ ×2 sur terrain adapté.
+Sens
++3 Perception quand odorat ou ouïe sont réellement utiles ; une piste fraîche évidente ne demande pas de jet.
+Furtivité
++3 dans un environnement où un loup peut raisonnablement progresser discrètement.
+Attaque naturelle
+Morsure DGT 3.
+Régénération
+Régénération lente.
+Morphologie
+Pas de mains ni de parole humaine articulée ; l'équipement ordinaire ne fusionne pas.
+p
+Les autres formes animales acquises suivent le même principe : quelques propriétés évidentes et contextuelles, jamais une seconde fiche complète.
+### Forme hybride — corps de guerre Khinae
+3
+table
+Propriété
+Effet
+Puissance
++3 Vigueur.
+Vitesse
++2 Agilité.
+Instinct de combat
++3 Pugilat.
+Armes naturelles
+Griffes et crocs DGT 5.
+Armure corporelle
+Armure 2.
+Régénération monstrueuse
+Au début de chaque round : +2 PV tant que le Garou est vivant et reste hybride ; reconstruction hors combat très accélérée.
+Mobilité
+Déplacement environ ×2 sur terrain adapté ; prouesses évidentes pour ce corps sans jet.
+Machine de guerre
+À partir du round suivant la fin de la transformation : +1 PA par round au-delà du maximum normal.
+Morphologie
+Une action est possible selon le corps ; une arme adaptée peut être utilisée, un clavier standard ou une petite voiture posent les problèmes évidents.
+p
+L'hybride est volontairement le pic de puissance physique du Garou. Son équilibrage vient principalement du temps de transformation et de l'épuisement.
+### Transformation et épuisement de Mue
+2
+p
+La transformation hybride prend un round complet, sans autre action significative. La forme est achevée au début du round suivant et le +1 PA ne commence qu'aux rounds ultérieurs. Passer directement de V ou SR à R hybride utilise ce même round complet ; une interruption réelle peut demander Vigueur + Constitution.
+image
+images/rules/regles-garou-mue-v4.svg
+images/rules/regles-garou-mue-v4-mobile.svg
+Mue hybride : quand arrive le +1 PA ? : 1 · Déclarer la Mue — De V, SR ou humain révélé vers hybride : réserver un round entier. ; 2 · Compter les Mues — Depuis le dernier repos : 1re automatique ; 2e 15 ; 3e 18 ; 4e 21 ; 5e+ 25. ; 3 · Si le test échoue — Forcer : 3 PV irréductibles ; échec narratif : round perdu, plus de Mue cette scène. ; 4 · Round suivant — La forme hybride est achevée au début du round suivant. ; 5 · Rounds ultérieurs — Le +1 PA hybride commence seulement après ce round d’achèvement.. Passer de l’humain révélé à l’animal coûte 1 PA, sans épuisement hybride normal.
+rule-diagram
+p
+Passer de l'humain révélé à l'animal coûte 1 PA et ne compte normalement pas dans l'épuisement des Mues hybrides.
+table
+Mue hybride depuis le dernier repos réel
+Vigueur + Constitution
+1re
+Automatique
+2e
+Difficulté 15
+3e
+Difficulté 18
+4e
+Difficulté 21
+5e et suivantes
+Difficulté 25
+p
+Réussite : Mue normale. Échec : le Garou peut forcer et subit 3 PV irréductibles de fatigue organique. Échec narratif : le round est perdu et aucune nouvelle Mue hybride n'est possible durant la scène.
+### Frénésie
+2
+p
+La Frénésie n'est ni une jauge ni un état de Stress. Elle n'apparaît que lorsqu'un Talent, un Sang, un effet surnaturel ou une situation l'indique explicitement.
+table
+Règle
+Effet
+Impulsion
+Objet clair — proie, ennemi, menace, protection, vengeance. Au moins 1 PA par round doit être consacré à le poursuivre lorsque possible.
+Instinct contre raison
+−3 aux actions exigeant calme et concentration ; une action violente simple, y compris tirer, reste possible.
+Peur écrasée
+Les conséquences de Tendu/Paniqué dues uniquement à la peur sont ignorées pendant la Frénésie et reviennent ensuite.
+Meute
+Les membres restent normalement reconnus. S'ils empêchent physiquement l'Impulsion, Volonté + Maîtrise spirituelle difficulté 15 peut être requis ; en échec l'obstacle est hostile pour le round.
+Sortie volontaire
+Volonté + Maîtrise spirituelle difficulté 15 ; 12 si la cause a disparu.
+Rappel de la Meute
+Un membre reconnu peut dépenser 1 PA pour accorder +2 au test de sortie.
+p
+La Hiérarchie instinctive continue d'exister : la rage n'empêche pas le corps de sentir qu'un prédateur écrasant lui est supérieur.
+### Talents communs
+2
+p
+{{Talents|group=garou:garou-commun}}
+### Pelages — traditions gratuites et arbres
+2
+p
+Le Pelage est une appartenance culturelle, idéologique et spirituelle ; la couleur historique est un symbole.
+### Pelages Gris — Gardien de la Meute
+3
+p
+Tradition gratuite — Gardien de la Meute — R, Réaction 1 PA : lorsqu'un allié à moins d'un Déplacement est ciblé par une attaque physique et que l'interposition est possible, le Gris se déplace jusqu'à lui et devient la cible.
+p
+{{Talents|group=garou:pelages-gris-gardien-de-la-meute}}
+### Pelages Noirs — Territoire de la Meute
+3
+p
+Tradition gratuite — Territoire de la Meute — R : après avoir parcouru et marqué instinctivement un site cohérent, le Garou le considère comme son territoire jusqu'à en choisir un autre ; une créature vivante qui s'y introduit ne peut le Surprendre sans vaincre son instinct par une opposition appropriée.
+p
+{{Talents|group=garou:pelages-noirs-territoire-de-la-meute}}
+### Pelages Blancs — Discipline de Fenrir
+3
+p
+Tradition gratuite — Discipline de Fenrir — R : à la fin d'un round, peut conserver 1 PA inutilisé jusqu'au début du round suivant, exclusivement pour une Réaction — Défense active, déplacement d'urgence ou Talent explicitement réactif.
+p
+{{Talents|group=garou:pelages-blancs-discipline-de-fenrir}}
+### Pelages Roux — Mue partielle
+3
+p
+Tradition gratuite — Mue partielle — R, 1 PA : sous forme humaine révélée, manifeste jusqu'à la fin du round une propriété morphologique animale ou hybride. N'accorde jamais l'Armure 2, le +1 PA ou la régénération complète de l'hybride.
+p
+{{Talents|group=garou:pelages-roux-mue-partielle}}
+### Pelages Bruns — Accord des Kami
+3
+p
+Tradition gratuite — Accord des Kami — SR : perçoit les esprits/Keltas suffisamment présents et peut communiquer. 1/scène dans un lieu spirituellement marqué, peut obtenir une impression simple : danger, violence passée, perturbation surnaturelle, émotion dominante…
+p
+{{Talents|group=garou:pelages-bruns-accord-des-kami}}
+### Pelages Dorés — Dévoration occulte
+3
+p
+Tradition gratuite — Trace dévorée — R : après avoir mangé une quantité significative de chair ou un organe d'une créature surnaturelle récemment morte, conserve jusqu'au prochain repos une seule Trace ; une nouvelle Trace remplace l'ancienne.
+table
+Trace
+Effet
+Sens
+Acquiert temporairement un sens naturel ou surnaturel mineur réellement possédé par la proie.
+Chair
+Acquiert une adaptation physique simple ou +3 pour résister à une substance/énergie à laquelle la proie était naturellement adaptée.
+Essence
+Les attaques naturelles peuvent interagir avec le même type d'existence que la proie — esprit, corps partiellement immatériel, etc.
+p
+Une Trace ne copie jamais un sort complet, une mémoire, une Compétence ou un pouvoir unique.
+p
+{{Talents|group=garou:pelages-dores-devoration-occulte}}
+
+==== [Vérité — Natures & capacités › Garous] Sangs vifs (regles-verite-v7-garou-sangs-vifs)
+### Progression et éveil
+2
+p
+Le Sang vif est une expression raffinée de la Nature [Khinae](/compendium?article=regles-verite-v7-khinae-moteur-lignees#wiki-section-nature). Le premier Sang est généralement héréditaire et spontané ; expérience et exploration de sa Vérité permettent ensuite d'autres éveils. Chaque Sang possède deux voies.
+p
+Un Sang est maîtrisé lorsque le Garou possède au moins le Talent avancé de chacune de ses deux voies, soit généralement 6 PTV investis. Une fois ce Sang maîtrisé, 3 PTV permettent d'en éveiller un nouveau ; ce nouveau Sang doit lui-même être maîtrisé avant le suivant. Il n'existe pas de limite théorique, mais les cas altérés ou corrompus restent narratifs.
+### Sang Naturel — Vortigern
+3
+p
+Éléments et accord primordial avec le territoire.
+p
+{{Talents|group=garou:sang-naturel-vortigern}}
+### Sang Alpha — Ohtana
+3
+p
+Dominance et cohésion de meute.
+p
+{{Talents|group=garou:sang-alpha-ohtana}}
+### Sang Révélateur — Ceallachán
+3
+p
+Pensées et destruction des mensonges surnaturels.
+p
+{{Talents|group=garou:sang-revelateur-ceallachan}}
+### Sang Écarlate — Keyna
+3
+p
+Puissance physique et perception du sang.
+p
+{{Talents|group=garou:sang-ecarlate-keyna}}
+### Sang Sculpteur — Svenn
+3
+p
+Modelage de matière et de chair.
+p
+{{Talents|group=garou:sang-sculpteur-svenn}}
+### Sang Funeste — Verica
+3
+p
+Mort, spectres et violence immatérielle.
+p
+{{Talents|group=garou:sang-funeste-verica}}
+### Sang Primal — Khuyildar
+3
+p
+Assimilation animale et projection de brume.
+p
+{{Talents|group=garou:sang-primal-khuyildar}}
+### Sang Chasseur — Thorkel
+3
+p
+Traque absolue et disparition.
+p
+{{Talents|group=garou:sang-chasseur-thorkel}}
+### Sang de Sagesse — Tomoko
+3
+p
+Mémoire et assimilation des savoirs.
+p
+{{Talents|group=garou:sang-de-sagesse-tomoko}}
+### Sang Enragé — Asulf
+3
+p
+Frénésie volontaire et contamination de la rage.
+p
+{{Talents|group=garou:sang-enrage-asulf}}
+### Sang Enchaîné — Jayanti
+3
+p
+Puissance humaine révélée, sans forme hybride.
+p
+{{Talents|group=garou:sang-enchaine-jayanti}}
+### Sang Vengeur — Astaphium
+3
+p
+Plaies, douleur et violence de la Mue.
+p
+{{Talents|group=garou:sang-vengeur-astaphium}}
+### Cas particulier — Sang Enchaîné
+2
+p
+Le porteur du Sang Enchaîné ne peut pas prendre la forme hybride. Sa forme humaine révélée devient son corps de guerre et reste compatible avec toute la technologie TUC.
+table
+Corps Enchaîné — R
+Effet
+Vigueur
++2 Vigueur.
+Agilité
++2 Agilité.
+Rythme
++1 PA par round au-delà du maximum normal.
+Mobilité
+Déplacement environ ×2.
+Équipement
+Conserve mains, armes, armures, véhicules, augmentations et toutes les possibilités d'un corps humain.
+Ce qu'il n'a pas
+Pas d'Armure corporelle 2, pas de DGT 5 gratuit, pas de régénération de combat 2 PV/round et pas de Mue hybride.
+p
+Cette permanence explique qu'un vieux Enchaîné puisse devenir un combattant monstrueux tout en restant armé, équipé et techniquement précis.
+
