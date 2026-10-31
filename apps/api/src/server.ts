@@ -717,6 +717,7 @@ app.get("/api/admin/users", async (request, reply) => {
        display_name AS "displayName",
        role,
        is_active AS active,
+       truth_access AS "knowsTruth",
        created_at::text AS "createdAt",
        last_login_at::text AS "lastLoginAt"
      FROM users
@@ -728,7 +729,7 @@ app.get("/api/admin/users", async (request, reply) => {
 
 app.patch<{
   Params: { id: string };
-  Body: { role?: Role; active?: boolean };
+  Body: { role?: Role; active?: boolean; knowsTruth?: boolean };
 }>("/api/admin/users/:id", async (request, reply) => {
   const admin = await requireAdmin(request, reply);
   if (!admin) return;
@@ -748,12 +749,18 @@ app.patch<{
 
   const requestedRole = request.body?.role;
   const requestedActive = request.body?.active;
+  // Joueurs d'une campagne profane : ne voient pas le contenu « Vérité ».
+  const requestedTruth = request.body?.knowsTruth;
 
   if (requestedRole !== undefined && !ROLES.includes(requestedRole)) {
     return inputError(reply, "invalid_role");
   }
 
-  if (requestedRole === undefined && requestedActive === undefined) {
+  if (requestedTruth !== undefined && typeof requestedTruth !== "boolean") {
+    return inputError(reply, "invalid_truth_access");
+  }
+
+  if (requestedRole === undefined && requestedActive === undefined && requestedTruth === undefined) {
     return inputError(reply, "no_changes");
   }
 
@@ -772,8 +779,9 @@ app.patch<{
       display_name: string;
       role: Role;
       is_active: boolean;
+      truth_access: boolean;
     }>(
-      `SELECT id, email, display_name, role, is_active
+      `SELECT id, email, display_name, role, is_active, truth_access
        FROM users
        WHERE id = $1
        FOR UPDATE`,
@@ -788,6 +796,7 @@ app.patch<{
 
     const nextRole = requestedRole ?? target.role;
     const nextActive = requestedActive ?? target.is_active;
+    const nextTruth = requestedTruth ?? target.truth_access;
 
     if (
       target.role === "admin" &&
@@ -813,7 +822,8 @@ app.patch<{
       email: target.email,
       displayName: target.display_name,
       role: target.role,
-      active: target.is_active
+      active: target.is_active,
+      knowsTruth: target.truth_access
     };
 
     const updated = await client.query<{
@@ -822,11 +832,12 @@ app.patch<{
       displayName: string;
       role: Role;
       active: boolean;
+      knowsTruth: boolean;
       createdAt: string;
       lastLoginAt: string | null;
     }>(
       `UPDATE users
-       SET role = $1, is_active = $2, updated_at = now()
+       SET role = $1, is_active = $2, truth_access = $4, updated_at = now()
        WHERE id = $3
        RETURNING
          id,
@@ -834,9 +845,10 @@ app.patch<{
          display_name AS "displayName",
          role,
          is_active AS active,
+         truth_access AS "knowsTruth",
          created_at::text AS "createdAt",
          last_login_at::text AS "lastLoginAt"`,
-      [nextRole, nextActive, targetId]
+      [nextRole, nextActive, targetId, nextTruth]
     );
 
     if (nextRole !== "player") {
@@ -854,7 +866,7 @@ app.patch<{
           admin.id,
           targetId,
           JSON.stringify(beforeState),
-          JSON.stringify({ role: nextRole, active: nextActive })
+          JSON.stringify({ role: nextRole, active: nextActive, knowsTruth: nextTruth })
         ]
       );
     }

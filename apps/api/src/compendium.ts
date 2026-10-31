@@ -18,7 +18,10 @@ import { gunzipSync } from "node:zlib";
 import type { FastifyInstance, FastifyReply } from "fastify";
 import { currentUser, requireUser } from "./auth.js";
 import { pool } from "./db.js";
-import { syncArticlesWithContent } from "./content-articles.js";
+import {
+  archiveContentArticle, contentArticle, contentArticleExists, createContentArticle, publishContentArticle,
+  syncArticlesWithContent
+} from "./content-articles.js";
 import { contentRulesEnabled } from "./rules/content-rules.js";
 import {
   COMPENDIUM_GUIDE_ARTICLES,
@@ -912,7 +915,10 @@ function isPlaceholderMedia(media: unknown): boolean {
 function editableArticle(base: Article, input: unknown): Article {
   const source = input && typeof input === "object" ? (input as JsonObject) : {};
   const result = deepClone(base);
-  const simpleFields = ["title", "category", "source", "status", "tags", "sections", "pnj", "image", "illustration"];
+  const simpleFields = [
+    "title", "category", "source", "status", "tags", "truthTags", "secretTags", "audience",
+    "sections", "pnj", "image", "illustration"
+  ];
 
   for (const field of simpleFields) {
     if (!Object.prototype.hasOwnProperty.call(source, field)) continue;
@@ -946,6 +952,11 @@ async function editorBaseFor(
   id: string,
   corpus: Corpus
 ): Promise<{ hash: string; article: Article } | null> {
+  // Site d'essai : la base de contenu est la référence de l'éditeur.
+  if (contentRulesEnabled()) {
+    const article = await contentArticle(id);
+    return article ? { hash: articleHash(article), article } : null;
+  }
   if (corpus.retiredIds.has(id)) return null;
   const existing = corpus.editorBaseById.get(id);
   if (existing) return existing;
@@ -974,14 +985,19 @@ function validEditableArticle(value: unknown): value is Article {
   const title = String(article.title ?? "").trim();
   if (String(article.category ?? "").trim() === LEGACY_CATEGORY) return false;
   if (!title || title.length > 240) return false;
-  if (article.tags !== undefined) {
-    if (!Array.isArray(article.tags) || article.tags.length > 100) return false;
-    if (article.tags.some((tag: unknown) => typeof tag !== "string" || tag.length > 120)) return false;
+  for (const field of ["tags", "truthTags", "secretTags"]) {
+    const tags = article[field];
+    if (tags === undefined) continue;
+    if (!Array.isArray(tags) || tags.length > 100) return false;
+    if (tags.some((tag: unknown) => typeof tag !== "string" || tag.length > 120)) return false;
   }
+  // "" = public : l'éditeur l'envoie pour retirer une visibilité réservée.
+  if (article.audience !== undefined && !["", "mj", "verite"].includes(String(article.audience))) return false;
   if (article.sections !== undefined) {
     if (!Array.isArray(article.sections) || article.sections.length > 160) return false;
     for (const section of article.sections) {
       if (!section || typeof section !== "object") return false;
+      if (section.audience !== undefined && !["mj", "verite"].includes(String(section.audience))) return false;
       if (!Array.isArray(section.blocks) || section.blocks.length > 300) return false;
       for (const block of section.blocks) {
         if (!block || typeof block !== "object") return false;
@@ -4398,13 +4414,6 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
   await registerCanonicalNpcGenerator(app);
   // Site d'essai : les articles s'éditent dans Directus. L'ancien éditeur écrirait
   // dans des tables que le compendium ne lit plus ; ses écritures sont refusées.
-  app.addHook("onRequest", async (request, reply) => {
-    if (!contentRulesEnabled() || request.method === "GET" || !request.url.startsWith("/api/compendium/editor")) return;
-    return reply.code(409).send({
-      error: "editor_moved_to_directus",
-      message: "Les articles se modifient maintenant dans Directus : https://dev.terra-umbra.fr/cms"
-    });
-  });
   app.get("/api/compendium/meta", async () => {
     const corpus = await getCorpus();
     return {
@@ -4768,6 +4777,11 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
     if (!id || id.length > 240) return bad(reply, "invalid_compendium_article_id");
     const corpus = await getCorpus();
     if (!await editorBaseFor(id, corpus)) return reply.code(404).send({ error: "compendium_article_not_found" });
+    if (contentRulesEnabled()) {
+      await archiveContentArticle(id, user.id);
+      invalidateCompendiumCorpus();
+      return { articleId: id, deleted: true };
+    }
     await pool.query(
       `INSERT INTO compendium_deleted_articles (article_id, deleted_by) VALUES ($1, $2)
        ON CONFLICT (article_id) DO NOTHING`, [id, user.id]
@@ -5119,7 +5133,8 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
     let suffix = 2;
     while (
       corpus.byId.has(id) ||
-      (await pool.query("SELECT 1 FROM compendium_custom_articles WHERE article_id = $1", [id])).rowCount
+      (await pool.query("SELECT 1 FROM compendium_custom_articles WHERE article_id = $1", [id])).rowCount ||
+      (contentRulesEnabled() && await contentArticleExists(id))
     ) {
       id = `wiki-${slug}-${suffix}`;
       suffix += 1;
@@ -5136,6 +5151,18 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
       tags,
       sections: []
     };
+    if (contentRulesEnabled()) {
+      // Site d'essai : la page naît en brouillon dans la base de contenu.
+      await createContentArticle(base, user.id);
+      const created = (await contentArticle(id))!;
+      await pool.query(
+        `INSERT INTO compendium_article_edits
+           (article_id, base_hash, draft, draft_by, draft_updated_at, updated_at)
+         VALUES ($1, $2, $3::jsonb, $4, now(), now())`,
+        [id, articleHash(created), JSON.stringify(created), user.id]
+      );
+      return reply.code(201).send({ articleId: id, article: created });
+    }
     const baseHash = articleHash(base);
 
     const client = await pool.connect();
@@ -5309,6 +5336,23 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
         return bad(reply, "invalid_compendium_article");
       }
 
+      if (contentRulesEnabled()) {
+        // Site d'essai : la publication écrit dans la base de contenu (avec une
+        // révision) ; le brouillon de l'éditeur est vidé.
+        await publishContentArticle(client, editableArticle(base.article, row.draft), user.id);
+        await client.query(
+          `UPDATE compendium_article_edits
+           SET draft = NULL, draft_by = NULL, draft_updated_at = NULL, updated_at = now()
+           WHERE article_id = $1`,
+          [id]
+        );
+        await client.query("COMMIT");
+        invalidateCompendiumCorpus();
+        const result = deepClone(row.draft);
+        delete result.__searchText;
+        result.__wikiPublishedEdit = true;
+        return { article: result, published: true };
+      }
       await client.query(
         `INSERT INTO compendium_article_edit_revisions
            (article_id, base_hash, document, published_by)

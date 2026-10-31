@@ -39,6 +39,9 @@ type EditableArticle = {
   source?: string;
   status?: string;
   tags?: string[];
+  truthTags?: string[];
+  secretTags?: string[];
+  audience?: string;
   image?: string | MediaRef | null;
   illustration?: string | MediaRef | null;
   gallery?: MediaRef[];
@@ -96,6 +99,8 @@ const wikiLinkError = ref("");
 let wikiLinkRange = { start: 0, end: 0 };
 let wikiLinkRequest = 0;
 const tagsText = ref("");
+const truthTagsText = ref("");
+const secretTagsText = ref("");
 const mediaType = ref<"image" | "illustration">("image");
 const mediaSrc = ref("");
 const mediaAlt = ref("");
@@ -287,6 +292,7 @@ function sectionsToWiki(sections: ArticleSection[] = []): string {
   const out: string[] = [];
   for (const section of sections) {
     if (section.audience === "mj") out.push("{{MJ}}");
+    else if (section.audience === "verite") out.push("{{Vérité}}");
     if (section.title) {
       const level = Math.max(2, Math.min(4, Number(section.level ?? 2)));
       const mark = "=".repeat(level);
@@ -347,9 +353,9 @@ function wikiToSections(source: string): ArticleSection[] {
     const line = lines[index];
     const trim = line.trim();
 
-    if (trim === "{{MJ}}") {
+    if (trim === "{{MJ}}" || trim === "{{Vérité}}") {
       flush();
-      pendingAudience = "mj";
+      pendingAudience = trim === "{{MJ}}" ? "mj" : "verite";
       continue;
     }
     if (trim === "{{Lore}}") {
@@ -586,6 +592,10 @@ function insertMjSection() {
   return insertMarkup("{{MJ}}\n", "", "== Section MJ ==");
 }
 
+function insertTruthSection() {
+  return insertMarkup("{{Vérité}}\n", "", "== Section Vérité ==");
+}
+
 function insertLore() {
   return insertMarkup("{{Lore}}\n", "", "Texte de lore");
 }
@@ -808,6 +818,10 @@ function disablePnj() {
 
 function fillForms(source: EditableArticle) {
   tagsText.value = (source.tags ?? []).join(", ");
+  // "" = public : envoyé tel quel pour que le serveur retire une visibilité réservée.
+  if (article.value) article.value.audience = source.audience ?? "";
+  truthTagsText.value = (source.truthTags ?? []).join(", ");
+  secretTagsText.value = (source.secretTags ?? []).join(", ");
   wikiText.value = sectionsToWiki(source.sections ?? []);
 
   const media = normalizeMedia(source.illustration ?? source.image);
@@ -983,10 +997,10 @@ async function load() {
 function syncForms() {
   if (!article.value) return;
 
-  article.value.tags = tagsText.value
-    .split(/[,;\n]+/)
-    .map((value) => value.trim())
-    .filter(Boolean);
+  const splitTags = (text: string) => text.split(/[,;\n]+/).map((value) => value.trim()).filter(Boolean);
+  article.value.tags = splitTags(tagsText.value);
+  article.value.truthTags = splitTags(truthTagsText.value);
+  article.value.secretTags = splitTags(secretTagsText.value);
   article.value.sections = wikiToSections(wikiText.value);
 
   article.value.image = null;
@@ -1377,7 +1391,10 @@ onMounted(load);
                 <label>Rubrique<select v-model="article.category" aria-label="Rubrique"><option v-if="article.category&&!categories.includes(article.category)" :value="article.category">{{ article.category }} · rubrique existante</option><option v-for="item in categories" :key="item" :value="item">{{ item }}</option></select></label>
               </div>
               <label>Source<input v-model="article.source" /></label>
-              <label>Tags<textarea v-model="tagsText" rows="2" placeholder="Sépare les tags par une virgule : Vérité, Garous, Californie" /></label>
+              <label>Visibilité de la page<select v-model="article.audience" aria-label="Visibilité de la page"><option value="">Public : tout le monde</option><option value="verite">Vérité : joueurs qui connaissent la Vérité et MJ</option><option value="mj">MJ : meneurs seulement</option></select></label>
+              <label>Tags publics<textarea v-model="tagsText" rows="2" placeholder="Sépare les tags par une virgule : Garous, Californie" /></label>
+              <label>Tags Vérité<textarea v-model="truthTagsText" rows="2" placeholder="Vus des joueurs qui connaissent la Vérité et des MJ" /></label>
+              <label>Tags MJ<textarea v-model="secretTagsText" rows="2" placeholder="Vus des MJ seulement" /></label>
             </div>
 
             <div v-if="!isNew && builderSources.length" class="panel editor-card builder-source-card linked">
@@ -1509,6 +1526,7 @@ onMounted(load);
                 <button type="button" title="Insérer un lien wiki avec un alias" :class="{ active: wikiLinkOpen }" :aria-expanded="wikiLinkOpen" @click="openWikiLinkInsert">Lien wiki</button>
                 <button type="button" title="Insérer une illustration dans le texte" :class="{ active: imageInsertOpen }" @click="openImageInsert">Illustration</button>
                 <button type="button" title="Section MJ" @click="insertMjSection">MJ</button>
+                <button type="button" title="Section réservée aux joueurs qui connaissent la Vérité" @click="insertTruthSection">Vérité</button>
                 <button type="button" title="Encadré lore" @click="insertLore">Lore</button>
                 <button type="button" title="Bloc dynamique de Talents" :class="{ active: talentInsertOpen }" @click="toggleTalentInsert">Talents</button>
               </div>
@@ -1612,7 +1630,7 @@ Encore du texte.
               <span v-if="article.status">{{ article.status }}</span>
             </div>
 
-            <section v-for="(section, index) in previewSections" :key="section.id || index" :class="{ 'mj-preview': section.audience === 'mj' }">
+            <section v-for="(section, index) in previewSections" :key="section.id || index" :class="{ 'mj-preview': section.audience === 'mj', 'truth-preview': section.audience === 'verite' }">
               <h2 v-if="section.title && Number(section.level || 2) === 2">{{ section.title }}</h2>
               <h3 v-else-if="section.title && Number(section.level || 2) === 3">{{ section.title }}</h3>
               <h4 v-else-if="section.title">{{ section.title }}</h4>
@@ -1806,7 +1824,7 @@ Encore du texte.
 .wiki-editor-grid{gap:24px;grid-template-columns:minmax(0,1fr) minmax(340px,.85fr)}.editor-form-column{gap:24px;min-width:0}.editor-card,.editor-section-card,.editor-preview-column,.wiki-source-card{min-width:0;border:1px solid #2c4358;border-radius:8px;background:#0c1726;box-shadow:none}.editor-card,.editor-section-card,.editor-preview-column{padding:24px}.editor-card:hover{border-color:#43617b}.editor-card{gap:18px}.editor-card h2,.editor-sections-head h2{font-size:23px;line-height:1.3}.editor-card label,.editor-section-card label{color:#bbcee0;font-size:14px;gap:8px}.editor-card :is(input,textarea,select),.coverage-filters select,.talent-insert-panel select{min-width:0;min-height:46px;padding:11px 12px;border:1px solid #314d63;border-radius:6px;background:#07111e;color:#edf4ff;font-size:15px}.editor-card :is(input,textarea)::placeholder{color:#92a8be}.editor-two{gap:16px}.editor-hint{color:#a8bed4;font-size:14px;line-height:1.6}.editor-upload-field{border-color:#43617b;border-radius:6px;background:#101f30}.editor-upload-field small{color:#a8bed4;font-size:12px}.editor-media-preview{border-color:#314d63;border-radius:6px;background:#07111e}
 .builder-source-card{border-left:3px solid #b79aff}.builder-source-card.linked{border-left-color:#64def5}.builder-source-state{color:#bdd5e9;font-size:11px;border-radius:5px}.builder-source-state.ok{color:#97e4ce}.builder-source-record{padding:16px;background:#081321;border-color:#263c51;border-radius:6px}.builder-source-record :is(dt,dd){font-size:13px}.builder-source-record dt{color:#a1b5cc}.builder-source-record dd{color:#d6e5f5}.builder-source-record>header{flex-wrap:wrap}.builder-source-record>header span{color:#85dff1;font-size:11px}.builder-source-record>header small{color:#a1b5cc;font-size:12px}
 .builder-link-controls{display:grid;gap:12px;margin-top:18px;padding:16px;border:1px solid #34546e;border-radius:6px}.builder-link-controls label{display:grid;gap:7px}.builder-link-controls input,.builder-link-controls select{width:100%;min-height:44px;padding:10px;border:1px solid #45627c;border-radius:5px;background:#091828;color:#eef5ff;font:inherit}.builder-link-controls button{justify-self:start;min-height:44px}
-.editor-preview-column{top:104px;max-height:calc(100dvh - 204px);overflow-wrap:anywhere}.editor-preview-column .preview-title{font-size:32px;line-height:1.15;margin:16px 0}.editor-preview-column h2{font-size:23px;line-height:1.3}.editor-preview-column :is(h3,h4){font-size:19px}.editor-preview-column p{color:#c0d2e5;line-height:1.75}.editor-preview-column p.lore{color:#dce7f5}.preview-meta span{border-color:#314d63;border-radius:4px;color:#a8bed4;font-size:12px}.preview-figure figcaption{color:#a8bed4;font-size:13px}.editor-preview-column table{display:block;overflow:auto;max-width:100%;border-color:#314d63;font-size:14px}.editor-preview-column td{border-color:#314d63;color:#bfd2e7;min-width:100px}.editor-preview-column .mj-preview{border-color:#615078;background:#1d1a32;border-radius:6px}.editor-preview-column p.callout{border-left-color:#64def5;background:#102539}
+.editor-preview-column{top:104px;max-height:calc(100dvh - 204px);overflow-wrap:anywhere}.editor-preview-column .preview-title{font-size:32px;line-height:1.15;margin:16px 0}.editor-preview-column h2{font-size:23px;line-height:1.3}.editor-preview-column :is(h3,h4){font-size:19px}.editor-preview-column p{color:#c0d2e5;line-height:1.75}.editor-preview-column p.lore{color:#dce7f5}.preview-meta span{border-color:#314d63;border-radius:4px;color:#a8bed4;font-size:12px}.preview-figure figcaption{color:#a8bed4;font-size:13px}.editor-preview-column table{display:block;overflow:auto;max-width:100%;border-color:#314d63;font-size:14px}.editor-preview-column td{border-color:#314d63;color:#bfd2e7;min-width:100px}.editor-preview-column .mj-preview{border-color:#615078;background:#1d1a32;border-radius:6px}.editor-preview-column .truth-preview{border:1px solid #2f6b5e;background:#12271f;border-radius:6px;padding:0 12px}.editor-preview-column p.callout{border-left-color:#64def5;background:#102539}
 .editor-actions{padding:16px max(24px,calc((100vw - 1640px)/2));border-top-color:#314d63;background:rgba(5,11,19,.98)}.editor-actions button{padding:11px 16px}.editor-actions .primary{border:1px solid #9eeaff;background:#9eeaff;color:#05131e}.editor-actions .secondary,.editor-card .secondary,.talent-insert-panel .secondary{border:1px solid #43617b;background:#173148;color:#c9eeff}.danger-button{border-color:#805266;color:#ffb6c1;padding:10px 14px}.wiki-toolbar{padding:14px;gap:8px;border-bottom-color:#2c4358;background:#101f30}.wiki-toolbar button{min-width:44px;padding:9px 12px;border-color:#314d63;color:#c5d9ec;background:#081321}.wiki-toolbar button:hover,.wiki-toolbar button.active{border-color:#64def5;background:#173148;color:#b2efff}.wiki-source{padding:24px;background:#07111e;color:#dce7f5;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:15px}.wiki-source:focus{outline-offset:-3px}.syntax-help{padding:16px;color:#a1b5cc;font-size:12px;gap:12px}.syntax-help code{color:#85dff1}.talent-insert-panel{grid-template-columns:repeat(2,minmax(0,1fr));padding:18px;background:#132439}.talent-insert-panel>div{grid-column:1/-1}.talent-insert-panel :is(strong,small){font-size:13px;color:#bbcee0}.preview-talent-embed{border-color:#365a70;border-radius:6px;background:#102539}.preview-talent-embed span{color:#85dff1;font-size:11px}.preview-talent-embed strong{font-family:inherit}.preview-talent-embed small{color:#b1c7db}
 .coverage-drawer{left:auto;right:0;top:0;bottom:0;margin:0;width:min(640px,100vw);max-width:none;height:100dvh;max-height:none;padding:28px;border:0;border-left:1px solid #43617b;background:#0c1726;color:#edf4ff;transform:none;opacity:1;pointer-events:auto;transition:none}.coverage-drawer::backdrop{background:#030811bf;backdrop-filter:blur(4px)}.coverage-head{gap:20px;border-color:#2c4358}.coverage-head h2{font-size:26px;line-height:1.2}.coverage-head p:not(.eyebrow){color:#a8bed4;font-size:14px}.coverage-head button{flex:none;align-self:start;padding:10px 14px;border:1px solid #43617b;background:#14263a;color:#d9edff}.coverage-score>strong{font-size:48px;color:#9eeaff}.coverage-score small{color:#a1b5cc;font-size:13px}.coverage-stats article,.coverage-family-grid article,.coverage-list article{border-color:#2c4358;border-radius:6px;background:#101f30}.coverage-stats strong{font-size:26px}.coverage-stats span,.coverage-family-grid small{color:#a8bed4;font-size:12px}.coverage-family-grid strong{font-size:13px}.coverage-family-grid article>div:first-child span{font-size:12px;color:#9eeaff}.coverage-family-track{height:4px;border-radius:4px;background:#263c51}.coverage-family-track span{background:linear-gradient(90deg,#64def5,#b79aff)}.coverage-list article{padding:16px}.coverage-list article span{color:#85dff1;font-size:11px}.coverage-list article strong{color:#edf4ff;font-size:15px}.coverage-list article small,.coverage-item-state b{color:#a8bed4;font-size:12px}.coverage-matches a{border-color:#43617b;border-radius:4px;padding:10px}.coverage-create{font-size:13px;padding:10px 12px;border-color:#43617b;background:#173148;color:#c9eeff}.coverage-filters select{font-size:14px}.feedback{padding:18px 20px;border:1px solid #314d63;border-radius:8px;background:#102233;color:#c6e6f6}.feedback.error{border-color:#805266;background:#241824;color:#ffb6c1}
 @media(max-width:1100px){.wiki-editor-grid{grid-template-columns:1fr}.editor-preview-column{position:static;max-height:none}.wiki-editor-page{width:calc(100% - 40px)}}

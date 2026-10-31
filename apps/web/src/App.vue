@@ -22,6 +22,7 @@ type User = {
   displayName: string;
   role: Role;
   active: boolean;
+  knowsTruth?: boolean;
   createdAt: string;
   lastLoginAt: string | null;
 };
@@ -483,7 +484,7 @@ async function deleteAccount(target: User) {
 
 async function updateAdminUser(
   target: User,
-  changes: { role?: Role; active?: boolean }
+  changes: { role?: Role; active?: boolean; knowsTruth?: boolean }
 ) {
   resetFeedback();
 
@@ -930,6 +931,7 @@ onUnmounted(() => {sessionGeneration++; window.removeEventListener("focus", refr
                   <th>Utilisateur</th>
                   <th>Rôle</th>
                   <th>État</th>
+                  <th title="Décoché : le joueur ne voit ni les pages, ni les sections, ni les tags « Vérité ».">Connaît la Vérité</th>
                   <th>Dernière connexion</th>
                   <th>Actions</th>
                 </tr>
@@ -961,6 +963,15 @@ onUnmounted(() => {sessionGeneration++; window.removeEventListener("focus", refr
                     <span class="state" :class="{ disabled: !account.active }">
                       {{ account.active ? "Actif" : "Désactivé" }}
                     </span>
+                  </td>
+                  <td>
+                    <input
+                      type="checkbox"
+                      :checked="account.knowsTruth !== false"
+                      :disabled="account.id === user.id"
+                      :aria-label="`${account.displayName} connaît la Vérité`"
+                      @change="updateAdminUser(account, { knowsTruth: ($event.target as HTMLInputElement).checked })"
+                    />
                   </td>
                   <td>{{ formatDate(account.lastLoginAt) }}</td>
                   <td class="actions-cell">
