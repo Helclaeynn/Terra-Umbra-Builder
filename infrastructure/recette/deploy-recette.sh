@@ -5,7 +5,8 @@
 #   deploy-recette.sh <sha> <archive.tar.gz>
 #
 # Construit api et web depuis l'archive du commit, applique les migrations
-# nouvelles à la base d'essai et redémarre la pile tuc-recette. Au premier
+# nouvelles et le contenu (infrastructure/content/*.sql) à la base d'essai, et
+# redémarre la pile tuc-recette. Au premier
 # lancement, ou avec REFRESH_DATA=1, la base et les médias d'essai sont
 # remplacés par la dernière sauvegarde vérifiée de la production.
 # Ne touche jamais à la pile de production (tuc-v2).
@@ -86,6 +87,14 @@ for file in "$stage"/infrastructure/migrations/*.sql; do
     echo "Migration : $name"
     { cat "$file"; echo; echo "INSERT INTO deploy_migrations (name) VALUES ('$name');"; } | psql -q -1
   fi
+done
+
+# Contenu en base (étape 6) : rejoué à chaque mise à l'essai, idempotent.
+# Seulement en recette tant que l'auteur n'a pas validé l'import.
+for file in "$stage"/infrastructure/content/*.sql; do
+  [ -e "$file" ] || continue
+  echo "Contenu : $(basename "$file")"
+  psql -q < "$file"
 done
 
 echo "== Démarrage"
