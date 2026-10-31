@@ -24,7 +24,26 @@ const NATURES = {
     // Lot 04 : Décharge contrôlée et Ancrage du Mageius fusionnés au palier II ;
     // Sort reçu = deux variantes du palier II, coût inchangé (2 PTV chacune).
     fusions: { "tenir le conduit": ["Décharge contrôlée", "Ancrage du Mageius"] },
-    variantes: { "sort recu": ["Résonance héritée", "Héritage familial"] }
+    variantes: { "sort recu": ["Résonance héritée", "Héritage familial"] },
+    // Le moteur de sorts (non modifié, lot 04) fabrique ses identifiants par
+    // Affinité (apps/web/src/lib/truth.ts, mageProgression et mageAllTalents) :
+    // mage_<affinité>_<palier>, mage_awaken_<affinité>, mage_accord_…, mage_traversee_….
+    moteur: (structure) => {
+      const choice = structure.choices.find((c) => c.key === "dominantAffinity");
+      const affinites = Object.values(choice.optionsBy).flat().map((o) => o.id);
+      const paliers = { maitrise_affinee: "mastery_affinee", maitrise_superieure: "mastery_superieure", maitrise_magistrale: "mastery_magistrale", amplitude_significative: "amplitude_significative", amplitude_majeure: "amplitude_majeure", amplitude_cataclysmique: "amplitude_cataclysmique" };
+      return {
+        legacy: (t) => {
+          const suffix = Object.entries(paliers).find(([k]) => t.id.endsWith(k))?.[1];
+          return suffix ? affinites.map((a) => `mage_${a}_${suffix}`) : [];
+        },
+        extras: [
+          ["mage_eveil_affinite", "Éveiller une Affinité", 1, "Éveille une Affinité en Maîtrise Initiale / Amplitude Mineure (moteur de sorts).", affinites.map((a) => `mage_awaken_${a}`)],
+          ["mage_accord_adjacent", "Accord adjacent", 3, "Ouvre une Affinité d'un Mageius voisin sur la Roue (moteur de sorts).", affinites.map((a) => `mage_accord_${a}`)],
+          ["mage_traversee_roue", "Traversée de la Roue", 2, "Ouvre une Affinité d'un Mageius à deux pas sur la Roue, après un Accord (moteur de sorts).", affinites.map((a) => `mage_traversee_${a}`)]
+        ]
+      };
+    }
   },
   daemon: {
     lot: "05-daemon.md",
@@ -212,6 +231,7 @@ for (const [scope, conf] of Object.entries(NATURES)) {
   }
 
   // Entrées du catalogue laissées hors des voies par le lot.
+  const moteur = conf.moteur?.(structure);
   const horsVoie = catalog.filter((t) => !seen.has(t.id));
   for (const t of horsVoie) {
     set.entry("talent", t.id, t.name, {
@@ -219,8 +239,16 @@ for (const [scope, conf] of Object.entries(NATURES)) {
       acces: t.access, activation: t.activation ?? null, texte_court: t.effect, texte_reference: full(t),
       lore: t.runtimeLore ?? null, groupe_actuel: t.group ?? null, statut_regle: "origine",
       changements: "Laissé hors des voies par le lot (moteur, maîtrise ou rang)."
-    });
+    }, { legacy_ids: moteur?.legacy(t) ?? [] });
     set.relation(["talent", t.id], [conf.rootType ?? "nature", scope], "appartient_a");
+  }
+  for (const [id, titre, cout, texte, legacy] of moteur?.extras ?? []) {
+    set.entry("talent", id, titre, {
+      cout, cout_actuel: cout, palier: null, porte: null, hors_voie: true, moteur: true,
+      texte_court: texte, texte_reference: texte, statut_regle: "origine",
+      changements: "Entrée du moteur de sorts, fabriquée par Affinité côté site (lot 04 : moteur non modifié)."
+    }, { legacy_ids: legacy });
+    set.relation(["talent", id], ["nature", scope], "appartient_a");
   }
 
   // Un prérequis peut viser un identifiant fusionné : on le redirige vers
