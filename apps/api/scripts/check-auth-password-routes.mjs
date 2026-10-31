@@ -134,8 +134,8 @@ const stubs = new Map([
   [new URL("mail.js", dist).href, 'export function passwordResetMailAvailable() { return false; } export async function sendPasswordResetEmail() { throw new Error("SMTP must never be used by these tests"); }'],
   [new URL("characters.js", dist).href, 'export async function registerCharacterRoutes() {}'],
   [new URL("quality.js", dist).href, 'export async function registerQualityRoutes() {}'],
-  [new URL("compendium.js", dist).href, 'export async function registerCompendiumRoutes() {} export async function preloadCompendium() {}'],
-  [new URL("rules/index.js", dist).href, 'export async function registerRulesRoutes() {} export async function preloadBuilderRules() {}']
+  [new URL("compendium.js", dist).href, 'export async function registerCompendiumRoutes() {} export async function preloadCompendium() {} export function invalidateCompendiumCorpus() {}'],
+  [new URL("rules/index.js", dist).href, 'export async function registerRulesRoutes() {} export async function preloadBuilderRules() {} export function invalidateTruthRules() {}']
 ]);
 const serverUrl = new URL("server.js", dist).href;
 const hook = registerHooks({ load(url, context, nextLoad) {
