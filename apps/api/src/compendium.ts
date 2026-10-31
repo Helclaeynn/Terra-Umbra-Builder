@@ -5233,7 +5233,8 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
       draft: row?.draft ?? null,
       draftUpdatedAt: row?.draftUpdatedAt ?? null,
       publishedAt: row?.publishedAt ?? null,
-      conflict: Boolean(row && row.baseHash !== base.hash)
+      // Seul un brouillon en cours peut être en conflit avec la page publiée.
+      conflict: Boolean(row?.draft && row.baseHash !== base.hash)
     };
   });
 

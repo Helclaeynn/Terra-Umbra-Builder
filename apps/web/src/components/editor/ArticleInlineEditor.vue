@@ -230,7 +230,7 @@ async function loadRevision(revision: Revision) {
     );
     fill({ ...base.value, ...article, id: props.articleId });
     historyOpen.value = false;
-    notice.value = `Version ${revision.version} chargée. Publie pour la rétablir, ou abandonne pour revenir en arrière.`;
+    notice.value = `Version ${revision.version} chargée. Publie pour la rétablir, ou ferme sans enregistrer.`;
   } catch (cause) {
     error.value = humanError(cause);
   }
@@ -373,16 +373,54 @@ onBeforeUnmount(() => window.removeEventListener("beforeunload", beforeUnload));
 
 <template>
   <div class="inline-editor">
-    <div class="ie-bar" role="toolbar" aria-label="Édition de la page">
-      <strong class="ie-mode">✎ Modification</strong>
-      <span v-if="dirty" class="ie-state">Modifications non enregistrées</span>
-      <span v-else-if="hasDraft" class="ie-state">Brouillon enregistré, non publié</span>
-      <span class="ie-spacer"></span>
-      <button type="button" class="ghost" :disabled="busy" @click="openHistory">Historique</button>
-      <button v-if="hasDraft" type="button" class="ghost" :disabled="busy" @click="discardDraft">Abandonner le brouillon</button>
-      <button type="button" class="secondary" :disabled="busy || loading" @click="saveDraft()">Enregistrer le brouillon</button>
-      <button type="button" class="primary" :disabled="busy || loading" @click="publish">Publier</button>
-      <button type="button" class="ghost" :disabled="busy" @click="close">Fermer</button>
+    <div class="ie-sticky">
+      <div class="ie-bar" role="toolbar" aria-label="Édition de la page">
+        <strong class="ie-mode">✎ Modification</strong>
+        <span v-if="dirty" class="ie-state">Non enregistré</span>
+        <span v-else-if="hasDraft" class="ie-state">Brouillon non publié</span>
+        <span class="ie-spacer"></span>
+        <button type="button" class="ghost" :disabled="busy" @click="openHistory">Historique</button>
+        <button v-if="hasDraft" type="button" class="ghost" :disabled="busy" @click="discardDraft">Abandonner le brouillon</button>
+        <button type="button" class="secondary" :disabled="busy || loading" @click="saveDraft()">Enregistrer le brouillon</button>
+        <button type="button" class="primary" :disabled="busy || loading" @click="publish">Publier</button>
+        <button type="button" class="ghost" :disabled="busy" @click="close">Fermer</button>
+      </div>
+      <template v-if="base && !loading">
+        <div class="ie-toolbar" role="toolbar" aria-label="Mise en forme du texte">
+          <button type="button" title="Gras" :class="{ on: isActive('bold') }" @click="chain()?.toggleBold().run()"><b>G</b></button>
+          <button type="button" title="Italique" :class="{ on: isActive('italic') }" @click="chain()?.toggleItalic().run()"><i>I</i></button>
+          <button type="button" title="Liste à puces" :class="{ on: isActive('bulletList') }" @click="chain()?.toggleBulletList().run()">• Liste</button>
+          <button type="button" title="Texte d'ambiance (lore)" :class="{ on: isActive('paragraph', { blockStyle: 'lore' }) }" @click="toggleStyle('lore')">Lore</button>
+          <button type="button" title="Encadré" :class="{ on: isActive('paragraph', { blockStyle: 'callout' }) }" @click="toggleStyle('callout')">Encadré</button>
+          <button type="button" title="Lien vers une autre page" :class="{ on: isActive('link') }" @click="openLink">Lien</button>
+          <button v-if="isActive('link')" type="button" title="Retirer le lien" @click="chain()?.extendMarkRange('link').unsetLink().run()">Retirer le lien</button>
+          <button type="button" title="Insérer une image (ou glisse-la dans le texte)" @click="pickImage">Image</button>
+          <button type="button" title="Insérer un tableau" @click="chain()?.insertTable({ rows: 3, cols: 3, withHeaderRow: false }).run()">Tableau</button>
+          <template v-if="isActive('table')">
+            <button type="button" @click="chain()?.addRowAfter().run()">+ ligne</button>
+            <button type="button" @click="chain()?.addColumnAfter().run()">+ colonne</button>
+            <button type="button" @click="chain()?.deleteRow().run()">− ligne</button>
+            <button type="button" @click="chain()?.deleteColumn().run()">− colonne</button>
+            <button type="button" @click="chain()?.deleteTable().run()">Supprimer le tableau</button>
+          </template>
+          <span class="ie-spacer"></span>
+          <button type="button" title="Annuler" @click="chain()?.undo().run()">↶</button>
+          <button type="button" title="Rétablir" @click="chain()?.redo().run()">↷</button>
+          <input ref="imageInput" type="file" accept="image/png,image/jpeg,image/webp" multiple hidden @change="onImagePicked" />
+        </div>
+        <div v-if="isActive('image')" class="ie-image-props">
+          <label>Légende<input v-model="imageCaption" /></label>
+          <label>Description (pour l'accessibilité)<input v-model="imageAlt" /></label>
+        </div>
+        <div v-if="linkOpen" class="ie-link">
+          <label>Page à relier<input v-model="linkQuery" placeholder="Nom de la page" @input="searchLinks" @keydown.esc="linkOpen = false" /></label>
+          <ul>
+            <li v-for="item in linkResults" :key="item.id"><button type="button" @click="chooseLink(item)">{{ item.title }} <small>{{ item.category }}</small></button></li>
+          </ul>
+          <p v-if="!linkBusy && linkQuery.trim().length >= 2 && !linkResults.length">Aucune page trouvée.</p>
+          <button type="button" class="ghost compact" @click="linkOpen = false">Fermer</button>
+        </div>
+      </template>
     </div>
 
     <p v-if="error" class="ie-feedback error" role="alert">{{ error }}</p>
@@ -437,42 +475,8 @@ onBeforeUnmount(() => window.removeEventListener("beforeunload", beforeUnload));
         <TagChips v-model="secretTags" label="MJ" tone="mj" hint="Vus des MJ seulement" />
       </div>
 
-      <div class="ie-toolbar" role="toolbar" aria-label="Mise en forme du texte">
-        <button type="button" title="Gras" :class="{ on: isActive('bold') }" @click="chain()?.toggleBold().run()"><b>G</b></button>
-        <button type="button" title="Italique" :class="{ on: isActive('italic') }" @click="chain()?.toggleItalic().run()"><i>I</i></button>
-        <button type="button" title="Liste à puces" :class="{ on: isActive('bulletList') }" @click="chain()?.toggleBulletList().run()">• Liste</button>
-        <button type="button" title="Texte d'ambiance (lore)" :class="{ on: isActive('paragraph', { blockStyle: 'lore' }) }" @click="toggleStyle('lore')">Lore</button>
-        <button type="button" title="Encadré" :class="{ on: isActive('paragraph', { blockStyle: 'callout' }) }" @click="toggleStyle('callout')">Encadré</button>
-        <button type="button" title="Lien vers une autre page" :class="{ on: isActive('link') }" @click="openLink">Lien</button>
-        <button v-if="isActive('link')" type="button" title="Retirer le lien" @click="chain()?.extendMarkRange('link').unsetLink().run()">Retirer le lien</button>
-        <button type="button" title="Insérer une image (ou glisse-la dans le texte)" @click="pickImage">Image</button>
-        <button type="button" title="Insérer un tableau" @click="chain()?.insertTable({ rows: 3, cols: 3, withHeaderRow: false }).run()">Tableau</button>
-        <template v-if="isActive('table')">
-          <button type="button" @click="chain()?.addRowAfter().run()">+ ligne</button>
-          <button type="button" @click="chain()?.addColumnAfter().run()">+ colonne</button>
-          <button type="button" @click="chain()?.deleteRow().run()">− ligne</button>
-          <button type="button" @click="chain()?.deleteColumn().run()">− colonne</button>
-          <button type="button" @click="chain()?.deleteTable().run()">Supprimer le tableau</button>
-        </template>
-        <span class="ie-spacer"></span>
-        <button type="button" title="Annuler" @click="chain()?.undo().run()">↶</button>
-        <button type="button" title="Rétablir" @click="chain()?.redo().run()">↷</button>
-        <input ref="imageInput" type="file" accept="image/png,image/jpeg,image/webp" multiple hidden @change="onImagePicked" />
-      </div>
 
-      <div v-if="isActive('image')" class="ie-image-props">
-        <label>Légende<input v-model="imageCaption" /></label>
-        <label>Description (pour l'accessibilité)<input v-model="imageAlt" /></label>
-      </div>
 
-      <div v-if="linkOpen" class="ie-link">
-        <label>Page à relier<input v-model="linkQuery" placeholder="Nom de la page" @input="searchLinks" @keydown.esc="linkOpen = false" /></label>
-        <ul>
-          <li v-for="item in linkResults" :key="item.id"><button type="button" @click="chooseLink(item)">{{ item.title }} <small>{{ item.category }}</small></button></li>
-        </ul>
-        <p v-if="!linkBusy && linkQuery.trim().length >= 2 && !linkResults.length">Aucune page trouvée.</p>
-        <button type="button" class="ghost compact" @click="linkOpen = false">Fermer</button>
-      </div>
 
       <button type="button" class="ie-add" @click="addSection(0)">+ Ajouter une section ici</button>
       <template v-for="(section, index) in sections" :key="section.key">
@@ -521,8 +525,10 @@ onBeforeUnmount(() => window.removeEventListener("beforeunload", beforeUnload));
 
 <style scoped>
 .inline-editor { display: grid; gap: 14px; padding-bottom: 80px; }
-.ie-bar { position: sticky; top: 0; z-index: 20; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 10px 12px; background: #0a1520f2; border: 1px solid #263f54; border-radius: 8px; backdrop-filter: blur(6px); }
+.ie-sticky { position: sticky; top: 0; z-index: 20; display: grid; gap: 6px; }
+.ie-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 10px 12px; background: #0a1520f2; border: 1px solid #263f54; border-radius: 8px; backdrop-filter: blur(6px); }
 .ie-mode { color: #64def5; }
+.ie-bar button { min-height: 34px; padding: 4px 12px; }
 .ie-state { font-size: 13px; color: #f0c674; }
 .ie-spacer { flex: 1; }
 .ie-feedback { margin: 0; padding: 8px 12px; border-radius: 6px; background: #12324a; color: #cfe3f5; }
@@ -537,12 +543,12 @@ onBeforeUnmount(() => window.removeEventListener("beforeunload", beforeUnload));
 .ie-more[open] { display: grid; gap: 8px; padding: 8px 0; }
 .ie-full-link { font-size: 13px; color: #8fd3ff; }
 .ie-tags { display: grid; gap: 6px; }
-.ie-toolbar { position: sticky; top: 58px; z-index: 19; display: flex; flex-wrap: wrap; gap: 4px; padding: 6px; background: #0d1b29f2; border: 1px solid #263f54; border-radius: 8px; }
+.ie-toolbar { display: flex; flex-wrap: wrap; gap: 4px; padding: 6px; background: #0d1b29f2; border: 1px solid #263f54; border-radius: 8px; }
 .ie-toolbar button { min-height: 32px; padding: 4px 10px; background: #13283a; color: #cfe3f5; border: 1px solid #263f54; border-radius: 5px; cursor: pointer; }
 .ie-toolbar button.on { background: #1f4a66; border-color: #64def5; }
 .ie-image-props, .ie-link { display: grid; gap: 8px; padding: 10px; border: 1px solid #263f54; border-radius: 8px; background: #0b1724; }
 .ie-image-props label, .ie-link label { display: grid; gap: 4px; font-size: 13px; color: #8ea6bd; }
-.ie-link ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; max-height: 260px; overflow: auto; }
+.ie-link ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; max-height: 200px; overflow: auto; }
 .ie-link li button { width: 100%; text-align: left; background: #13283a; color: #dce7f5; border: 1px solid #263f54; border-radius: 5px; padding: 6px 10px; cursor: pointer; }
 .ie-link small { color: #8ea6bd; margin-left: 6px; }
 .ie-history { padding: 10px; border: 1px solid #263f54; border-radius: 8px; background: #0b1724; }
@@ -552,6 +558,8 @@ onBeforeUnmount(() => window.removeEventListener("beforeunload", beforeUnload));
 .ie-section.ie-verite { border-color: #2f6b5e; background: #0f2119; }
 .ie-section.ie-mj { border-color: #615078; background: #17152a; }
 .ie-section-head { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.ie-section-head select, .ie-section-head button { width: auto; flex: 0 0 auto; min-height: 32px; padding: 4px 8px; }
+.ie-settings select { width: auto; min-width: 200px; }
 .ie-section-title { flex: 1 1 220px; background: transparent; border: 0; border-bottom: 1px dashed #263f54; color: #eef5fc; font-weight: 700; padding: 4px 2px; }
 .ie-section-title.level-2 { font-size: 22px; }
 .ie-section-title.level-3 { font-size: 19px; }
@@ -564,6 +572,5 @@ onBeforeUnmount(() => window.removeEventListener("beforeunload", beforeUnload));
 .ie-builder dt { color: #8ea6bd; }
 @media (max-width: 640px) {
   .ie-title { font-size: 24px; }
-  .ie-toolbar { top: 96px; }
 }
 </style>

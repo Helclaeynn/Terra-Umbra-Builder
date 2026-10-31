@@ -490,6 +490,11 @@ const selectedIsFavorite = computed(() =>
 );
 
 const editing = ref(false);
+// Valeurs de jeu montrées dans l'éditeur, avec les mêmes libellés que la page.
+const editorMechanics = computed(() => builderSources.value.map((source) => ({
+  key: source.key, kind: source.kind, label: source.label,
+  mechanics: Object.fromEntries(visibleMechanics(source).map(([key, value]) => [mechanicalLabels[key] || key, mechanicalValue(key, value)]))
+})));
 watch(() => selected.value?.id, () => { editing.value = false; });
 async function onEditorPublished() {
   const id = selected.value?.id;
@@ -2221,7 +2226,7 @@ onBeforeUnmount(() => {
               <div v-if="editing && canEdit" class="wiki-inline-edit">
                 <ArticleInlineEditor
                   :article-id="selected.id"
-                  :builder-sources="builderSources"
+                  :builder-sources="editorMechanics"
                   @close="editing = false"
                   @published="onEditorPublished"
                 />
