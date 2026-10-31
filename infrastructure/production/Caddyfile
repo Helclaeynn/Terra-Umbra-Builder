@@ -22,7 +22,24 @@ terra-umbra.fr {
   }
 }
 
-www.terra-umbra.fr, dev.terra-umbra.fr {
+www.terra-umbra.fr {
   header >Alt-Svc "clear"
   redir https://terra-umbra.fr{uri} 308
+}
+
+# Site d'essai (infrastructure/recette), réservé à l'auteur.
+# Mot de passe : /opt/terra-umbra/secrets/recette-acces.txt sur le VPS.
+dev.terra-umbra.fr {
+  header >Alt-Svc "clear"
+  encode zstd gzip
+  header X-Robots-Tag "noindex, nofollow"
+  basic_auth {
+    recette $2a$14$UpvYBDwL7utoH2XYoRzPoO7kPRoAatWHUYJIH6eihMhu8JKhHeflS
+  }
+  handle /api/* {
+    reverse_proxy recette-api:3000
+  }
+  handle {
+    reverse_proxy recette-web:80
+  }
 }
