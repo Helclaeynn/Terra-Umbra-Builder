@@ -1191,7 +1191,7 @@ export function applyExileRevisions<T extends {id:string;name:string;cost:number
  const cleanGroup=(s:string)=>s.replace(/ — \d+ PTV/g,'');
  for(const old of catalog){const parts=cleanGroup(old.group).split(' › ');for(let n=1;n<=parts.length;n++){const k=parts.slice(0,n).join(' › ');totals.set(k,(totals.get(k)||0)+(changes.get(old.id)?.cost??old.cost));}}
  return catalog.map(old=>{
-  const change=changes.get(old.id);let effect=change?.effect??old.effect;let effectDetails=change?.effectDetails??old.effect;
+  const change=changes.get(old.id);let effect=change?.effect??old.effect;const effectDetails=change?.effectDetails??old.effect;
   if(old.id==='exile-fiabilisation')effect='Après préparation, ignorez la première défaillance matérielle ordinaire d’un objet compris ; un véritable travail d’atelier permet aussi de corriger durablement une cause de panne ou de stabiliser une amélioration plausible. L’échec narratif de l’utilisateur reste un échec et l’objet n’est ni indestructible ni protégé au-delà de sa conception.';
   const parts=old.group.split(' › '),group=parts.map((p,i)=>/ — \d+ PTV/.test(p)?p.replace(/ — \d+ PTV/,` — ${totals.get(cleanGroup(parts.slice(0,i+1).join(' › ')))} PTV`):p).join(' › ');
   return {...old,...change,name:displayNames[old.id]??old.name,group,effect,effectDetails,
