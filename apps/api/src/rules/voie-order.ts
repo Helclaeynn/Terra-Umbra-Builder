@@ -54,18 +54,27 @@ export function voieOrderViolations(catalogs: Catalogs, nature: string, before: 
   const previous = new Set(before);
   const added = after.filter((id) => !previous.has(id));
   if (!added.length) return [];
-  const owned = new Set(after);
-  for (const list of Object.values(catalogs)) for (const t of list) if (t.aliasOf && owned.has(t.id)) owned.add(t.aliasOf);
-  const own = catalogs[nature] ?? [];
-  const violations: Array<{ talentId: string; issues: string[] }> = [];
-  for (const id of added) {
-    const talent = own.find((t) => t.id === id) ?? Object.values(catalogs).flat().find((t) => t.id === id);
-    if (!talent?.voie) continue;
-    // Le talent vérifié ne compte pas comme son propre prérequis.
-    const others = new Set(owned);
-    others.delete(id);
-    const issues = issuesFor(catalogs, talent, others);
-    if (issues.length) violations.push({ talentId: id, issues });
+  const aliases = new Map<string, string>();
+  for (const list of Object.values(catalogs)) for (const t of list) if (t.aliasOf) aliases.set(t.id, t.aliasOf);
+  const owned = new Set<string>();
+  const own = (id: string) => { owned.add(id); const alias = aliases.get(id); if (alias) owned.add(alias); };
+  for (const id of after) if (previous.has(id)) own(id);
+  const mine = catalogs[nature] ?? [];
+  let pending = added.flatMap((id) => {
+    const talent = mine.find((t) => t.id === id) ?? Object.values(catalogs).flat().find((t) => t.id === id);
+    if (!talent?.voie) { own(id); return []; }
+    return [talent];
+  });
+  // Plusieurs talents ajoutés d'un coup : on les prend dans l'ordre d'achat
+  // possible (entrée, puis I, puis porte complète…), comme dans le Builder.
+  for (let progress = true; progress && pending.length;) {
+    progress = false;
+    pending = pending.filter((talent) => {
+      if (issuesFor(catalogs, talent, owned).length) return true;
+      own(talent.id);
+      progress = true;
+      return false;
+    });
   }
-  return violations;
+  return pending.map((talent) => ({ talentId: talent.id, issues: issuesFor(catalogs, talent, owned) }));
 }
