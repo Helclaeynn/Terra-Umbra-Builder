@@ -46,6 +46,9 @@ Une copie HTML de chaque page est dans `pages/`. Les fichiers `*-source.html` so
 17. **Espèces hors Natures** (Dhampire, Nephilim, Kelta, Dive, Nymphe, Amazone, Psychopompe, Astharès…) : non jouables par les PJ.
 18. **Fléaux hors des six** (Akryth, Sheroh, Zarpheth, Ira'Xiadror…) : des Fléaux venus d'ailleurs, pas des Patrons des six Anciens terrestres.
 19. **« Sept Fléaux majeurs »** : les six Anciens plus Delanial, le faux Septième ; le texte reste tel quel.
+20. **Droits acquis** (31/10) : les talents achetés avant le passage aux voies restent acquis, même si leur combinaison ne respecte plus l'ordre des paliers ou des portes. Les règles de voie valent pour les achats suivants.
+21. **Maîtrise d'un Sang (Vampire)** (31/10) : après 4 PTV investis dans sa voie, comme sur la carte Vampire (une porte complète plus le premier palier de l'autre) ; éveil d'un autre Sang : 3 PTV. Remplace la formule « voie au palier III », inapplicable aux Sangs à deux portes.
+22. **Vampire, propositions closes** (31/10) : Sang Condamné, entrée Semi-Révélée « Sens de la magie » (sentir une magie active à 10 m, présence et direction) ; Déferlement écarlate 1/scène ; Arme hématique, projectile à 10 m au plus.
 
 ## Méthode de travail souhaitée par l'auteur
 
