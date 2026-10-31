@@ -1,0 +1,62 @@
+# Site d'essai (recette) : seconde pile sur le même VPS, servie par le Caddy
+# de production sur dev.terra-umbra.fr (protégée par mot de passe).
+# Ses services ne s'appellent pas « api » ni « web » : sur le réseau partagé
+# avec Caddy, ces noms désignent la production.
+name: tuc-recette
+
+services:
+  recette-db:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - recette-postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - recette
+
+  recette-api:
+    image: tuc-recette-api:latest
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: "3000"
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@recette-db:5432/${POSTGRES_DB}
+      DB_POOL_SIZE: "3"
+      SESSION_TTL_DAYS: "30"
+      APP_BASE_URL: https://dev.terra-umbra.fr
+      # Pas d'envoi d'e-mails : la base est une copie de la production.
+      SMTP_HOST: ""
+      SMTP_USER: ""
+      COMPENDIUM_UPLOAD_DIR: /app/editor-media
+    volumes:
+      - recette-editor-media:/app/editor-media
+    depends_on:
+      recette-db:
+        condition: service_healthy
+    networks:
+      - recette
+      - caddy
+
+  recette-web:
+    image: tuc-recette-web:latest
+    restart: unless-stopped
+    networks:
+      - caddy
+
+volumes:
+  recette-postgres:
+  recette-editor-media:
+
+networks:
+  recette:
+  caddy:
+    external: true
+    name: tuc-v2_frontend

@@ -1,0 +1,54 @@
+# Mise à l'essai sur dev.terra-umbra.fr, uniquement à la main (onglet Actions →
+# « Mise à l'essai » → choisir la branche → Run workflow). Ne touche jamais au
+# site de production.
+name: Mise à l'essai
+
+on:
+  workflow_dispatch:
+    inputs:
+      refresh_data:
+        description: "Recopier les données du vrai site (dernière sauvegarde)"
+        type: boolean
+        default: false
+
+concurrency:
+  group: recette
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  recette:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      HOST: ${{ secrets.TUC_DEV_HOST }}
+      USER_NAME: ${{ secrets.TUC_DEV_USER }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Archive du commit
+        run: |
+          printf '%s\n' "${{ github.sha }}" > .release-sha
+          git archive --format=tar.gz --add-file=.release-sha -o release.tar.gz HEAD \
+            apps character-builder compendium infrastructure
+
+      - name: Accès au serveur
+        env:
+          SSH_KEY: ${{ secrets.TUC_DEV_SSH_KEY }}
+        run: |
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$SSH_KEY" > ~/.ssh/deploy
+          chmod 600 ~/.ssh/deploy
+          echo "$HOST ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ592nh2kHfUzyLk7b2ql9Xe1AO2jJWbWIWhw7Yu36KG" > ~/.ssh/known_hosts
+
+      - name: Mise à l'essai
+        run: |
+          remote="$USER_NAME@$HOST"
+          ssh_opts="-i $HOME/.ssh/deploy -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes"
+          archive="/opt/terra-umbra/releases/recette-${{ github.sha }}.tar.gz"
+          refresh=${{ inputs.refresh_data && '1' || '0' }}
+          scp $ssh_opts release.tar.gz "$remote:$archive"
+          ssh $ssh_opts "$remote" \
+            "tmp=\$(mktemp -d) && tar -xzf $archive -C \$tmp infrastructure/recette/deploy-recette.sh && REFRESH_DATA=$refresh bash \$tmp/infrastructure/recette/deploy-recette.sh ${{ github.sha }} $archive; status=\$?; rm -rf \$tmp; exit \$status"
