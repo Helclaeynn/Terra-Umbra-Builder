@@ -29,6 +29,7 @@ Les passations des agents précédents décrivent **l'existant**, pas ce qu'il f
 - Sauvegardes : `infrastructure/backup/daily-backup.sh` sur le VPS, copie sur le PC de l'auteur (disque H) avec `pull-backups-windows.ps1`.
 - Pas de changement de langage. Le contenu passe en base (`docs/audit-game-design/schema-contenu.md`).
 - **CMS : Directus** (audit du 30/10, recommandation A, confirmée par l'auteur le 01/11) pour le contenu éditorial (articles, PNJ, lieux, organisations, médias) ; l'application Vue garde le jeu. Ne pas proposer de garder l'éditeur maison à la place. Les règles (talents, voies, objets) sont visibles dans Directus ; une modification y passe « en relecture » et le site n'applique que ce qui est publié (décision du 01/11).
+- **Visibilité à trois niveaux** (décision du 01/11) : public < Vérité < MJ, pour les articles, les sections et les étiquettes (`tags`, `tags_verite`, `tags_mj`). Pas de niveau « joueurs connectés ». La case « Connaît la Vérité » (`users.truth_access`, vraie par défaut) se règle dans Directus, collection « Joueurs » : l'auteur prévoit une campagne de joueurs profanes. Mis à l'essai le 01/11 (`feat/etape-7`), reste à tester avec un compte joueur.
 - Audit technique v2 du 01/11 : https://claude.ai/artifact/G2hXWn58crmfnh4k3dgj7t (plan révisé).
 
 ## Pièges
