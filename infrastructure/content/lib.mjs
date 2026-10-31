@@ -19,54 +19,101 @@ export function readLot(name) {
   return readFileSync(new URL(`../../docs/audit-game-design/lots/${name}`, import.meta.url), "utf8").replace(/\r\n/g, "\n");
 }
 
-// Une voie de lot : un titre ###, une ligne de forme en italique, des puces
-// « **<palier> (<coût>) · <Nom>** (<accès>) : texte », des titres de porte
-// « **Porte A · … ** », un sommet « **Sommet · III (3 PTV) · <Nom>** … » et une
-// ligne « **Changements** : … ». Les lignes de profil avant la première porte
-// (Animal, Hybride, Variantes…) sont gardées telles quelles dans `profil`.
+// Une voie de lot : un titre ### ou ####, une forme (fin du titre « — 1 porte »
+// ou ligne en italique), des puces « **<palier> (<coût>) · <Nom>** (<accès>) :
+// texte », des portes (« **Porte A · … ** » ou « Porte A — **…** »), un sommet
+// « **Sommet · III (3 PTV) · <Nom>** … » et une ligne « **Changements** : … ».
+// Paliers : I, II, III (suivis ou non d'une lettre : II b, IIa…), « Entrée (n
+// PTV) », ou gratuits (Socle, Tradition, Signature, Don…). Une voie en ####
+// garde le titre ### qui la précède dans `parent`. Les lignes de profil avant
+// la première porte (Animal, Hybride, Variantes…) vont dans `profil`.
+const FORME_TITRE = /^(1 porte|2 portes|progression|collection|dons|deux portes|une porte|sommet)/i;
+
 export function parseLotVoies(markdown) {
   const voies = [];
   let voie = null;
   let porte = null;
+  let inChangements = false;
+  const stack = [];
   for (const line of markdown.split("\n")) {
-    const h = line.match(/^### (.+)$/);
+    const h = line.match(/^(#{3,5}) (.+)$/);
     if (h) {
-      voie = { titre: h[1].trim(), forme: null, talents: [], changements: null, portes: {}, profil: [] };
+      let titre = h[2].trim();
+      let forme = null;
+      const parts = titre.split(" — ");
+      if (parts.length > 1 && FORME_TITRE.test(parts.at(-1))) {
+        forme = parts.pop().trim();
+        titre = parts.join(" — ");
+      }
+      const niveau = h[1].length;
+      stack.length = niveau - 3;
+      const parents = stack.filter(Boolean);
+      stack[niveau - 3] = titre;
+      voie = { titre, niveau, parent: parents.at(-1) ?? null, parents, forme, talents: [], changements: null, portes: {}, profil: [] };
       porte = null;
+      inChangements = false;
       voies.push(voie);
       continue;
     }
-    if (/^## /.test(line)) {
+    if (/^#{1,2} /.test(line)) {
       voie = null;
+      stack.length = 0;
       continue;
     }
     if (!voie) continue;
+    // Voie écrite en ligne (lot Daemon) : « **Nom** · *forme* · identité ».
+    const bv = line.match(/^\*\*([^*]+)\*\* · \*([^*]+)\* · (.+)$/);
+    if (bv) {
+      const heading = voies.filter((x) => !x.inline).at(-1);
+      voie = {
+        titre: bv[1].trim(), niveau: heading.niveau + 1, parent: heading.titre, parents: [...heading.parents, heading.titre],
+        forme: bv[2].trim(), identite: bv[3].trim(), inline: true, talents: [], changements: null, portes: {}, profil: []
+      };
+      porte = null;
+      inChangements = false;
+      voies.push(voie);
+      continue;
+    }
+    if (inChangements) {
+      if (/^\s*- /.test(line)) {
+        voie.changements = [voie.changements, line.replace(/^\s*- /, "").trim()].filter(Boolean).join(" ");
+        continue;
+      }
+      if (line.trim()) inChangements = false;
+    }
     const forme = line.match(/^\*(1 porte|Progression[^*]*|2 portes|Collection[^*]*)\*/i);
     if (forme && !voie.forme) voie.forme = forme[1].trim();
-    const p = line.match(/^\*\*Porte ([AB]) · (.+?)\*\*/);
+    const p = line.match(/^(?:\*\*)?Porte ([AB])\s*[·—-]\s*\**(.+?)\**\s*$/);
     if (p) {
       porte = p[1];
       voie.portes[porte] = p[2].trim();
       continue;
     }
-    const ch = line.match(/^\*\*Changements\*\*\s*:\s*(.+)$/);
-    if (ch) voie.changements = ch[1].trim();
+    const ch = line.match(/^\*\*Changements\*\*\s*:\s*(.*)$/);
+    if (ch) {
+      voie.changements = ch[1].trim() || null;
+      inChangements = true;
+      continue;
+    }
     const t = line.match(/^(?:- )?\*\*(Sommet · )?(.+?) · (.+?)\*\*\s*(\*\(livre V6\)\*)?\s*(?:\(([^)]*)\))?\s*:\s*(.+)$/);
     if (t) {
       const sommet = Boolean(t[1]);
       const head = t[2].trim();
-      const pal = head.match(/^(I{1,3})( b)?\s*\((\d) PTV\)$/);
+      const pal = head.match(/^(I{1,3})\s?([a-d])?\s*\((\d) PTV\)$/);
+      const entree = head.match(/^Entrée \((\d) PTV\)$/);
+      const gratuit = !pal && !entree;
+      if (gratuit && !/^(Socle|Tradition|Signature|Don|Empreinte)/.test(head)) continue; // titres en gras d'autres blocs
       voie.talents.push({
         label: head,
-        palier: pal ? pal[1] : null,
-        palierDouble: pal && pal[2] ? "b" : null,
-        cout: pal ? Number(pal[3]) : 0,
-        gratuit: !pal,
+        palier: pal ? pal[1] : entree ? "entree" : null,
+        palierDouble: pal && pal[2] ? pal[2] : null,
+        cout: pal ? Number(pal[3]) : entree ? Number(entree[1]) : 0,
+        gratuit,
         nom: t[3].trim(),
         livreV6: Boolean(t[4]),
         acces: t[5] ?? null,
         texte: t[6].trim(),
-        porte: sommet ? "sommet" : pal ? porte : null
+        porte: sommet ? "sommet" : gratuit ? null : porte
       });
       continue;
     }
@@ -124,7 +171,19 @@ export class ContentSet {
           `updated_at = now();`
       );
     }
+    // Chaque bout de relation dans cette portée doit exister ; une relation en
+    // double (même origine, même cible, même sorte) n'est écrite qu'une fois.
+    const known = new Set(this.entries.map((e) => `${e.type}:${e.scope}:${e.slug}`));
+    const written = new Set();
     for (const r of this.relations) {
+      for (const [type, slug, scope = this.scope] of [r.from, r.to]) {
+        if (scope === this.scope && !known.has(`${type}:${scope}:${slug}`)) {
+          throw new Error(`Relation ${r.kind} vers une entrée absente : ${type} ${scope}/${slug}`);
+        }
+      }
+      const key = JSON.stringify([r.from, r.to, r.kind]);
+      if (written.has(key)) continue;
+      written.add(key);
       lines.push(
         `INSERT INTO content_relation (from_id, to_id, kind, position, meta) VALUES (${this.ref(r.from)}, ${this.ref(r.to)}, ${q(r.kind)}, ${r.position ?? "NULL"}, ${j(r.meta)});`
       );
