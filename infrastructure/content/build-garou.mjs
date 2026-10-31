@@ -10,6 +10,7 @@
 // ses propres identifiants.
 import { truthCatalogGarou } from "../../apps/api/src/rules/truth/catalog-garou.ts";
 import { applyKhinaeRevisions } from "../../apps/api/src/rules/truth/khinae-revision.ts";
+import { truthCatalogKhinae } from "../../apps/api/src/rules/truth/catalog-khinae.ts";
 import { truthRuntimeStructure } from "../../apps/api/src/rules/truth/runtime-structure.ts";
 import { ContentSet, PALIER_COUT, norm, parseLotVoies, readLot } from "./lib.mjs";
 
@@ -69,7 +70,7 @@ set.entry("couche", "garou_sang_vif", "Sang vif", { gratuit: null, choix: "uniqu
 set.entry("couche", "garou_voies_communes", "Voies communes", { gratuit: null, choix: "cumulable" });
 for (const c of ["garou_pelage", "garou_sang_vif", "garou_voies_communes"]) set.relation(["couche", c], ["nature", "garou"], "appartient_a");
 
-function addTalent(t, voie, position, voieChangements) {
+function addTalent(t, voie, position, voieChangements, target = set, extraLegacy = () => []) {
   const fusion = FUSIONS[norm(t.nom)];
   let id;
   let legacy = [];
@@ -98,7 +99,7 @@ function addTalent(t, voie, position, voieChangements) {
   if (voieChangements && norm(voieChangements).includes(norm(t.nom))) notes.push(voieChangements);
   const statut = notes.length ? "correction" : "origine";
 
-  set.entry("talent", id, t.nom, {
+  target.entry("talent", id, t.nom, {
     cout,
     cout_actuel: coutActuel,
     palier: t.gratuit ? (t.label.startsWith("Don") ? "don" : "tradition") : t.palier,
@@ -111,13 +112,23 @@ function addTalent(t, voie, position, voieChangements) {
     lore: source?.runtimeLore ?? null,
     statut_regle: statut,
     changements: notes.join(" ") || null
-  }, { legacy_ids: legacy });
-  set.relation(["talent", id], ["voie", voie], "appartient_a", position);
+  }, { legacy_ids: [...legacy, ...extraLegacy(t.nom)] });
+  target.relation(["talent", id], ["voie", voie], "appartient_a", position);
   if (source?.prerequisite && !legacy.includes(source.prerequisite) && source.prerequisite !== id) {
-    const target = Object.values(FUSIONS).find((f) => f.includes(source.prerequisite))?.[0] ?? source.prerequisite;
-    set.relation(["talent", id], ["talent", target], "prerequis");
+    const to = Object.values(FUSIONS).find((f) => f.includes(source.prerequisite))?.[0] ?? source.prerequisite;
+    target.relation(["talent", id], ["talent", to], "prerequis");
   }
 }
+
+// Sangs vifs : portée commune « sangs_vifs », rattachée au Garou et au Khinae
+// (décision 10). Slug = identifiant Garou ; identifiant Khinae en legacy_ids.
+const sangs = new ContentSet("sangs_vifs");
+const khinaeBlood = new Map(
+  applyKhinaeRevisions(truthCatalogKhinae)
+    .filter((t) => t.id.startsWith("khinae_blood_"))
+    .map((t) => [norm(t.name), t.id])
+);
+const khinaeIds = (nom) => (khinaeBlood.has(norm(nom)) ? [khinaeBlood.get(norm(nom))] : []);
 
 for (const v of voies) {
   let voie;
@@ -130,9 +141,15 @@ for (const v of voies) {
     couche = "garou_pelage";
     fields = { forme: FORMES[norm(v.forme).startsWith("progression") ? "progression" : v.forme], verrou: "ordre_paliers", pelage: pelage[1], description: option("pelage", pelage[1]).description };
   } else if (sang) {
-    voie = `garou_${sang[1]}`;
-    couche = "garou_sang_vif";
-    fields = { forme: "deux_portes", verrou: "ordre_paliers", sang: sang[1], portes: v.portes, identite: v.titre.split(" — ")[1] ?? null, description: option("blood", sang[1]).description };
+    const slug = sang[1];
+    sangs.entry("voie", slug, v.titre.split(" — ")[0], {
+      nature: "garou, khinae", forme: "deux_portes", verrou: "ordre_paliers", sang: slug, portes: v.portes,
+      identite: v.titre.split(" — ")[1] ?? null, description: option("blood", slug).description, changements: v.changements
+    });
+    sangs.relation(["voie", slug], ["couche", "garou_sang_vif", "garou"], "appartient_a");
+    sangs.relation(["voie", slug], ["couche", "khinae_sang_vif", "khinae"], "appartient_a");
+    v.talents.forEach((t, i) => addTalent(t, slug, t.gratuit ? 0 : i + 1, v.changements, sangs, khinaeIds));
+    continue;
   } else if (["Traque", "Instinct", "Survie", "Corps de Khinae"].includes(v.titre)) {
     voie = `garou_${slugify(v.titre)}`;
     couche = "garou_voies_communes";
@@ -155,3 +172,4 @@ for (const t of set.entries.filter((e) => e.type === "talent" && e.fields.palier
 }
 
 console.log(`${set.write("build-garou.mjs", "./garou.sql")} ; ${catalog.length} talents actuels tous repris.`);
+console.log(`${sangs.write("build-garou.mjs", "./sangs-vifs.sql")} ; ${sangs.entries.filter((e) => e.legacy_ids?.some((l) => l.startsWith("khinae_blood_"))).length} talents avec leur identifiant Khinae.`);
