@@ -1,3 +1,4 @@
+import {fileURLToPath} from 'node:url';
 import assert from 'node:assert/strict';
 import {readFile,writeFile,unlink} from 'node:fs/promises';
 import {resolve} from 'node:path';
@@ -10,7 +11,7 @@ export * from '../api/src/character-data';
 export * from './src/lib/character-sheet-model';
 export * from './src/lib/truth-sheet-details';
 export * from './src/lib/truth';
-`},bundle:true,platform:'node',format:'esm',outfile:temporary.pathname});
+`},bundle:true,platform:'node',format:'esm',outfile:fileURLToPath(temporary)});
 try{
  const p=await import(temporary.href);
  const {terraUmbraTruthRules:truth}=await import('../../api/dist/rules/truth/rules.js');
