@@ -21,7 +21,9 @@ export function readLot(name) {
 
 // Une voie de lot : un titre ###, une ligne de forme en italique, des puces
 // « **<palier> (<coût>) · <Nom>** (<accès>) : texte », des titres de porte
-// « **Porte A · … ** » et une ligne « **Changements** : … ».
+// « **Porte A · … ** », un sommet « **Sommet · III (3 PTV) · <Nom>** … » et une
+// ligne « **Changements** : … ». Les lignes de profil avant la première porte
+// (Animal, Hybride, Variantes…) sont gardées telles quelles dans `profil`.
 export function parseLotVoies(markdown) {
   const voies = [];
   let voie = null;
@@ -29,7 +31,7 @@ export function parseLotVoies(markdown) {
   for (const line of markdown.split("\n")) {
     const h = line.match(/^### (.+)$/);
     if (h) {
-      voie = { titre: h[1].trim(), forme: null, talents: [], changements: null, portes: {} };
+      voie = { titre: h[1].trim(), forme: null, talents: [], changements: null, portes: {}, profil: [] };
       porte = null;
       voies.push(voie);
       continue;
@@ -49,9 +51,10 @@ export function parseLotVoies(markdown) {
     }
     const ch = line.match(/^\*\*Changements\*\*\s*:\s*(.+)$/);
     if (ch) voie.changements = ch[1].trim();
-    const t = line.match(/^- \*\*(.+?) · (.+?)\*\*\s*(?:\(([^)]*)\))?\s*:\s*(.+)$/);
+    const t = line.match(/^(?:- )?\*\*(Sommet · )?(.+?) · (.+?)\*\*\s*(\*\(livre V6\)\*)?\s*(?:\(([^)]*)\))?\s*:\s*(.+)$/);
     if (t) {
-      const head = t[1].trim();
+      const sommet = Boolean(t[1]);
+      const head = t[2].trim();
       const pal = head.match(/^(I{1,3})( b)?\s*\((\d) PTV\)$/);
       voie.talents.push({
         label: head,
@@ -59,12 +62,15 @@ export function parseLotVoies(markdown) {
         palierDouble: pal && pal[2] ? "b" : null,
         cout: pal ? Number(pal[3]) : 0,
         gratuit: !pal,
-        nom: t[2].trim(),
-        acces: t[3] ?? null,
-        texte: t[4].trim(),
-        porte: pal ? porte : null
+        nom: t[3].trim(),
+        livreV6: Boolean(t[4]),
+        acces: t[5] ?? null,
+        texte: t[6].trim(),
+        porte: sommet ? "sommet" : pal ? porte : null
       });
+      continue;
     }
+    if (!porte && (/^- \*\*/.test(line) || /^\s+- /.test(line))) voie.profil.push(line);
   }
   return voies;
 }
@@ -123,6 +129,13 @@ export class ContentSet {
         `INSERT INTO content_relation (from_id, to_id, kind, position, meta) VALUES (${this.ref(r.from)}, ${this.ref(r.to)}, ${q(r.kind)}, ${r.position ?? "NULL"}, ${j(r.meta)});`
       );
     }
+    // Une entrée de cette portée que l'import ne produit plus est archivée
+    // (jamais supprimée : une fiche peut encore la citer).
+    const keep = this.entries.filter((e) => e.scope === this.scope).map((e) => `(${q(e.type)}, ${q(e.slug)})`);
+    lines.push(
+      `UPDATE content_entry SET status = 'archived', updated_at = now() WHERE scope = ${q(this.scope)} AND status <> 'archived'` +
+        (keep.length ? ` AND (type, slug) NOT IN (${keep.join(", ")});` : ";")
+    );
     lines.push(
       "INSERT INTO content_revision (entry_id, version, snapshot, comment)",
       `SELECT e.id, e.version, to_jsonb(e) - 'id', ${q(`Import ${this.scope} (voies à paliers)`)}`,
