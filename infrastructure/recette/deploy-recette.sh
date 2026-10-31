@@ -126,7 +126,8 @@ for _ in $(seq 1 30); do
         "fetch('http://recette-directus:8055/server/health').then(r=>process.exit(r.ok?0:1),()=>process.exit(1))" </dev/null && break
       sleep 3
     done
-    # Collections, relations et champs de Directus sur les tables de contenu.
+    # Collections, liens et champs de Directus sur les tables de contenu.
+    psql -q < "$stage/infrastructure/recette/directus-relations.sql"
     docker run --rm --network tuc-recette_recette \
       -e DIRECTUS_URL=http://recette-directus:8055 \
       -e DIRECTUS_ADMIN_EMAIL -e DIRECTUS_ADMIN_PASSWORD \

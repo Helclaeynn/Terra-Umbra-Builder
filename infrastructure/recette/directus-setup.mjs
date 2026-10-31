@@ -45,17 +45,22 @@ const COLLECTIONS = {
 
 for (const [collection, meta] of Object.entries(COLLECTIONS)) {
   const existing = await call("GET", `/collections/${collection}`);
-  if (existing.ok && existing.data?.meta) await must(call("PATCH", `/collections/${collection}`, { meta }), `Collection ${collection}`);
+  // Une table existante est déjà connue de Directus (sans réglages) : on la
+  // modifie, ce qui crée ses réglages ; on ne crée que ce qui manque vraiment.
+  if (existing.ok) await must(call("PATCH", `/collections/${collection}`, { meta }), `Collection ${collection}`);
   else await must(call("POST", "/collections", { collection, meta }), `Collection ${collection}`);
 }
 
 // ---------------------------------------------------------------- relations
+// Les réglages des liens sont écrits par directus-relations.sql (l'API refuse
+// de compléter un lien qui existe déjà dans la base) ; on recharge le cache de
+// Directus pour qu'il les lise, puis on vérifie qu'ils sont bien là.
 
-async function relation(collection, field, related_collection, meta = {}) {
-  const existing = await call("GET", `/relations/${collection}/${field}`);
-  const body = { collection, field, related_collection, meta: { one_field: null, sort_field: null, ...meta } };
-  if (existing.ok && existing.data) await must(call("PATCH", `/relations/${collection}/${field}`, { meta: body.meta }), `Relation ${collection}.${field}`);
-  else await must(call("POST", "/relations", body), `Relation ${collection}.${field}`);
+await must(call("POST", "/utils/cache/clear"), "Rechargement du cache de Directus");
+const LIENS = [["content_entry", "type"], ["content_relation", "from_id"], ["content_relation", "to_id"], ["content_revision", "entry_id"], ["content_media", "entry_id"], ["content_tag", "entry_id"]];
+for (const [collection, field] of LIENS) {
+  const r = await call("GET", `/relations/${collection}/${field}`);
+  if (!r.ok || !r.data?.meta) throw new Error(`Lien ${collection}.${field} sans réglages Directus : directus-relations.sql a-t-il tourné ?`);
 }
 
 // Champs « liens » côté contenu : les liens qui en partent et ceux qui y arrivent.
@@ -70,13 +75,6 @@ async function alias(collection, field, translation) {
 await alias("content_entry", "liens_sortants", "Liens sortants");
 await alias("content_entry", "liens_entrants", "Liens entrants");
 await alias("content_entry", "revisions", "Révisions");
-
-await relation("content_entry", "type", "content_type");
-await relation("content_relation", "from_id", "content_entry", { one_field: "liens_sortants" });
-await relation("content_relation", "to_id", "content_entry", { one_field: "liens_entrants" });
-await relation("content_revision", "entry_id", "content_entry", { one_field: "revisions" });
-await relation("content_media", "entry_id", "content_entry");
-await relation("content_tag", "entry_id", "content_entry");
 
 // ---------------------------------------------------------------- champs
 
@@ -131,4 +129,4 @@ for (const [collection, fields] of Object.entries(FIELDS)) {
   }
 }
 
-console.log("Directus configuré : 6 collections, 6 relations, champs en français.");
+console.log("Directus configuré : 6 collections, 6 liens, champs en français.");
