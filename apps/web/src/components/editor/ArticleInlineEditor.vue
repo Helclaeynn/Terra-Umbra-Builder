@@ -17,7 +17,7 @@ type EditorArticle = Record<string, any> & { id: string };
 type Revision = { version: number; createdAt: string; author: string | null; comment: string | null };
 type BuilderSource = { key: string; kind: string; label: string; mechanics: Record<string, unknown> };
 
-const props = defineProps<{ articleId: string; builderSources?: BuilderSource[] }>();
+const props = defineProps<{ articleId: string; builderSources?: BuilderSource[]; isNew?: boolean }>();
 const emit = defineEmits<{ (event: "close"): void; (event: "published"): void }>();
 
 const CATEGORIES = ["Règles", "Réalité", "Vérité", "Personnages", "Équipement & Objets", "Bestiaire"];
@@ -146,7 +146,11 @@ async function load() {
     conflict.value = payload.conflict;
     fill(payload.draft ?? payload.article);
     baseline = JSON.stringify(current.value);
-    if (payload.draft) notice.value = "Un brouillon non publié a été repris.";
+    if (props.isNew) {
+      if (!sections.value.length) addSection(0);
+      baseline = JSON.stringify(current.value);
+      notice.value = "Page créée en brouillon : écris le texte, puis publie-la.";
+    } else if (payload.draft) notice.value = "Un brouillon non publié a été repris.";
   } catch (cause) {
     error.value = humanError(cause);
   } finally {
