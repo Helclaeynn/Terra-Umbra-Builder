@@ -40,7 +40,12 @@ const COLLECTIONS = {
   content_relation: { icon: "link", note: "Liens entre contenus : appartient à, prérequis, voir aussi…", display_template: "{{kind}}", translations: fr("Lien", "Liens"), hidden: false },
   content_revision: { icon: "history", note: "Historique des versions publiées par les imports", display_template: "v{{version}} · {{comment}}", translations: fr("Révision", "Révisions") },
   content_media: { icon: "image", note: "Images et documents liés aux contenus", display_template: "{{file_path}}", translations: fr("Média", "Médias") },
-  content_tag: { icon: "sell", note: "Étiquettes et rubriques", display_template: "{{tag}}", translations: fr("Étiquette", "Étiquettes") }
+  content_tag: { icon: "sell", note: "Étiquettes et rubriques", display_template: "{{tag}}", translations: fr("Étiquette", "Étiquettes") },
+  // Comptes du site : seulement pour cocher qui connaît la Vérité.
+  users: {
+    icon: "group", note: "Comptes du site. Décocher « Connaît la Vérité » pour les joueurs d'une campagne profane.",
+    display_template: "{{display_name}} · {{email}}", translations: fr("Joueur", "Joueurs")
+  }
 };
 
 for (const [collection, meta] of Object.entries(COLLECTIONS)) {
@@ -80,6 +85,7 @@ await alias("content_entry", "revisions", "Révisions");
 
 const json = (translation, note) => ({ interface: "input-code", options: { language: "json", lineNumber: true }, translations: [{ language: "fr-FR", translation }], note });
 const text = (translation, extra = {}) => ({ interface: "input", translations: [{ language: "fr-FR", translation }], ...extra });
+const tags = (translation, note) => ({ interface: "tags", special: ["cast-json"], width: "full", translations: [{ language: "fr-FR", translation }], note });
 const FIELDS = {
   content_entry: {
     title: text("Titre", { width: "half", required: true }),
@@ -97,8 +103,12 @@ const FIELDS = {
     },
     visibility: {
       interface: "select-dropdown", width: "half", translations: [{ language: "fr-FR", translation: "Visibilité" }],
-      options: { choices: [{ text: "Public", value: "public" }, { text: "Joueurs connectés", value: "players" }, { text: "MJ", value: "gm" }] }
+      note: "Public : tout le monde. Vérité : joueurs qui connaissent la Vérité (et MJ). MJ : meneurs seulement.",
+      options: { choices: [{ text: "Public", value: "public" }, { text: "Vérité", value: "verite" }, { text: "MJ", value: "gm" }] }
     },
+    tags: tags("Étiquettes publiques", "Vues de tous."),
+    tags_verite: tags("Étiquettes Vérité", "Vues des joueurs qui connaissent la Vérité et des MJ."),
+    tags_mj: tags("Étiquettes MJ", "Vues des MJ seulement."),
     summary: { interface: "input-multiline", translations: [{ language: "fr-FR", translation: "Résumé" }] },
     body: json("Corps de l'article", "Blocs du texte (format du compendium)."),
     fields: json("Champs propres au type", "Coût, palier, porte, carte courte, texte de référence…"),
@@ -123,10 +133,24 @@ const FIELDS = {
   content_type: { json_schema: json("Schéma JSON") }
 };
 
+// Comptes : tout est masqué sauf le nom, l'adresse, le rôle et la case Vérité.
+const usersFields = await must(call("GET", "/fields/users"), "Champs des comptes");
+FIELDS.users = Object.fromEntries(usersFields.map((f) => [f.field, { hidden: true, readonly: true }]));
+Object.assign(FIELDS.users, {
+  display_name: { readonly: true, width: "half", translations: [{ language: "fr-FR", translation: "Nom" }] },
+  email: { readonly: true, width: "half", translations: [{ language: "fr-FR", translation: "Adresse" }] },
+  role: { readonly: true, width: "half", translations: [{ language: "fr-FR", translation: "Rôle" }] },
+  truth_access: {
+    interface: "boolean", display: "boolean", width: "half", special: ["cast-boolean"],
+    translations: [{ language: "fr-FR", translation: "Connaît la Vérité" }],
+    note: "Décoché : le joueur ne voit ni les articles, ni les sections, ni les étiquettes « Vérité »."
+  }
+});
+
 for (const [collection, fields] of Object.entries(FIELDS)) {
   for (const [field, meta] of Object.entries(fields)) {
     await must(call("PATCH", `/fields/${collection}/${field}`, { meta }), `Champ ${collection}.${field}`);
   }
 }
 
-console.log("Directus configuré : 6 collections, 6 liens, champs en français.");
+console.log("Directus configuré : 7 collections, 6 liens, champs en français.");

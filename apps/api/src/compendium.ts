@@ -398,8 +398,11 @@ type Corpus = {
   manifest: Manifest;
   articles: Article[];
   publicArticles: Article[];
+  /** Vue des joueurs qui connaissent la Vérité : public + niveau Vérité, sans le MJ. */
+  truthArticles: Article[];
   byId: Map<string, Article>;
   publicById: Map<string, Article>;
+  truthById: Map<string, Article>;
   wikiIndexCompact: Array<Record<string, unknown>>;
   editorBaseById: Map<string, { hash: string; article: Article }>;
   retiredIds: Set<string>;
@@ -543,16 +546,8 @@ export async function refreshCompendiumPortraits(articleId: string): Promise<voi
   corpus.byId.set(articleId, article);
   const sourceIndex = corpus.articles.findIndex((entry) => entry.id === articleId);
   if (sourceIndex !== -1) corpus.articles[sourceIndex] = article;
-  const publicArticle = isMjOnlyArticle(article) ? null : articleForAudience(article, false);
-  if (publicArticle) publicArticle.__searchText = norm(flattenText(publicArticle));
-  const previousPublic = corpus.publicById.get(PROTECTED_ARTICLE_PUBLIC_IDS[articleId] ?? articleId);
-  if (previousPublic) corpus.publicById.delete(previousPublic.id);
-  if (publicArticle) corpus.publicById.set(publicArticle.id, publicArticle);
-  const publicIndex = corpus.publicArticles.findIndex((entry) => entry.id === (previousPublic?.id ?? publicArticle?.id));
-  if (publicIndex !== -1) {
-    if (publicArticle) corpus.publicArticles[publicIndex] = publicArticle;
-    else corpus.publicArticles.splice(publicIndex, 1);
-  } else if (publicArticle) corpus.publicArticles.push(publicArticle);
+  replaceInView(corpus.publicArticles, corpus.publicById, articleId, audienceCopy(article, false));
+  replaceInView(corpus.truthArticles, corpus.truthById, articleId, audienceCopy(article, true));
 }
 
 type PortraitOverride = { articleId: string; src: string; visibility: "mj" | "public" | "removed"; uploaded: boolean };
@@ -612,7 +607,45 @@ function canReadMj(role: unknown): boolean {
   return role === "gm" || role === "editor" || role === "admin";
 }
 
+async function knowsTruth(userId: string): Promise<boolean> {
+  const { rows } = await pool.query<{ truth_access: boolean }>("SELECT truth_access FROM users WHERE id = $1", [userId]);
+  return rows[0]?.truth_access === true;
+}
+
+/**
+ * Ce qu'un lecteur voit : tout pour le MJ, la vue Vérité pour un joueur qui
+ * connaît la Vérité (users.truth_access, réglable dans Directus), sinon le public.
+ */
+async function readerView(corpus: Corpus, user: { id: string } | null, includeMj: boolean) {
+  if (includeMj) return { articles: corpus.articles, byId: corpus.byId };
+  if (user && await knowsTruth(user.id)) return { articles: corpus.truthArticles, byId: corpus.truthById };
+  return { articles: corpus.publicArticles, byId: corpus.publicById };
+}
+
 function isMjOnlyArticle(article: Article): boolean { return article?.audience === "mj"; }
+// Niveau intermédiaire : réservé aux joueurs qui connaissent la Vérité
+// (users.truth_access), invisible au public et aux joueurs d'une campagne profane.
+function isTruthOnlyArticle(article: Article): boolean { return article?.audience === "verite"; }
+
+/** Copie d'un article pour un lecteur non MJ, avec ou sans accès à la Vérité. */
+function audienceCopy(article: Article, truth: boolean): Article | null {
+  if (isMjOnlyArticle(article) || (!truth && isTruthOnlyArticle(article))) return null;
+  const copy = articleForAudience(article, false, truth);
+  copy.__searchText = norm(flattenText(copy));
+  return copy;
+}
+
+/** Remplace (ou retire) un article dans une vue de lecteur, liste et index. */
+function replaceInView(list: Article[], byId: Map<string, Article>, articleId: string, next: Article | null) {
+  const previous = byId.get(PROTECTED_ARTICLE_PUBLIC_IDS[articleId] ?? articleId);
+  if (previous) byId.delete(previous.id);
+  if (next) byId.set(next.id, next);
+  const index = list.findIndex((entry) => entry.id === (previous?.id ?? next?.id));
+  if (index !== -1) {
+    if (next) list[index] = next;
+    else list.splice(index, 1);
+  } else if (next) list.push(next);
+}
 function hasProtectedPnjIdentity(article: Article): boolean {
   if (article.category !== "Personnages" || !article.pnj || typeof article.pnj !== "object") return false;
   const pnj = article.pnj as JsonObject;
@@ -622,8 +655,11 @@ function hasProtectedPnjIdentity(article: Article): boolean {
   return Boolean(realName && truthName && realName !== truthName);
 }
 
-function articleForAudience(article: Article, includeMj: boolean): Article {
+function articleForAudience(article: Article, includeMj: boolean, includeTruth = includeMj): Article {
   const result = deepClone(article);
+  // Étiquettes de niveau Vérité : ajoutées aux étiquettes visibles pour qui y a accès.
+  const truthTags: string[] = Array.isArray(result.truthTags) ? result.truthTags : [];
+  delete result.truthTags;
   if (!includeMj) {
     const isPrivatePortrait = (media: unknown) =>
       (media as JsonObject | null)?.portraitVisibility === "mj" ||
@@ -643,7 +679,10 @@ function articleForAudience(article: Article, includeMj: boolean): Article {
     }
     if (Array.isArray(result.gallery)) result.gallery = result.gallery.filter((media) => !isPrivatePortrait(media));
     const protectedIdentity = hasProtectedPnjIdentity(article);
-    if (Array.isArray(result.sections)) result.sections = result.sections.filter((section) => section?.audience !== "mj");
+    if (Array.isArray(result.sections)) {
+      result.sections = result.sections.filter((section) =>
+        section?.audience !== "mj" && (includeTruth || section?.audience !== "verite"));
+    }
     if (result.pnj && typeof result.pnj === "object") {
       const pnj = result.pnj as JsonObject;
       const portrait = pnj.portrait && !isPrivatePortrait(pnj.portrait) ? pnj.portrait : String(publicPortrait?.src ?? "");
@@ -676,6 +715,7 @@ function articleForAudience(article: Article, includeMj: boolean): Article {
     }
   }
   else delete result.__searchText;
+  if (includeTruth && truthTags.length) result.tags = [...new Set([...(result.tags ?? []), ...truthTags])];
   if (!includeMj && PROTECTED_ARTICLE_PUBLIC_IDS[article.id]) result.id = PROTECTED_ARTICLE_PUBLIC_IDS[article.id];
   return result;
 }
@@ -4056,8 +4096,10 @@ async function loadCorpus(): Promise<Corpus> {
     console.log(`Compendium lu dans les tables de contenu : ${content.loaded} articles publiés${content.seeded ? ` (${content.seeded} versés au premier démarrage)` : ""}.`);
   }
   const articles = [...byId.values()].sort(compareArticles);
-  const publicArticles = articles.filter((article) => !isMjOnlyArticle(article)).map((article) => { const publicArticle=articleForAudience(article,false); publicArticle.__searchText=norm(flattenText(publicArticle)); return publicArticle; });
+  const publicArticles = articles.map((article) => audienceCopy(article, false)).filter((article): article is Article => article !== null);
   const publicById = new Map(publicArticles.map((article) => [article.id, article]));
+  const truthArticles = articles.map((article) => audienceCopy(article, true)).filter((article): article is Article => article !== null);
+  const truthById = new Map(truthArticles.map((article) => [article.id, article]));
   const wikiIndexCompact = articles
     .filter((article) => article.category !== LEGACY_CATEGORY)
     .map((article) => {
@@ -4097,8 +4139,10 @@ async function loadCorpus(): Promise<Corpus> {
     manifest,
     articles,
     publicArticles,
+    truthArticles,
     byId,
     publicById,
+    truthById,
     wikiIndexCompact,
     editorBaseById,
     retiredIds,
@@ -4134,16 +4178,21 @@ function addPublishedCustomArticle(corpus: Corpus, base: Article, draft: Article
   article.category = displayCategory(article);
   article.manufacturer = manufacturerFor(article);
   article.__searchText = norm(flattenText(article));
-  const publicArticle = isMjOnlyArticle(article) ? null : articleForAudience(article, false);
-  if (publicArticle) publicArticle.__searchText = norm(flattenText(publicArticle));
+  const publicArticle = audienceCopy(article, false);
+  const truthArticle = audienceCopy(article, true);
 
   const articles = [...corpus.articles, article].sort(compareArticles);
   const publicArticles = publicArticle
     ? [...corpus.publicArticles, publicArticle].sort(compareArticles)
     : corpus.publicArticles;
+  const truthArticles = truthArticle
+    ? [...corpus.truthArticles, truthArticle].sort(compareArticles)
+    : corpus.truthArticles;
   const byId = new Map(corpus.byId).set(article.id, article);
   const publicById = new Map(corpus.publicById);
   if (publicArticle) publicById.set(publicArticle.id, publicArticle);
+  const truthById = new Map(corpus.truthById);
+  if (truthArticle) truthById.set(truthArticle.id, truthArticle);
   const categories = corpus.categories.map((entry) => ({ ...entry }));
   const category = categories.find((entry) => entry.name === article.category);
   if (category) category.count += 1;
@@ -4153,7 +4202,7 @@ function addPublishedCustomArticle(corpus: Corpus, base: Article, draft: Article
     dataset: article.dataset ?? "", group: "", subgroup: "", manufacturer: article.manufacturer ?? ""
   }];
   corpusPromise = Promise.resolve({
-    ...corpus, articles, publicArticles, byId, publicById, categories,
+    ...corpus, articles, publicArticles, truthArticles, byId, publicById, truthById, categories,
     wikiIndexCompact,
     editorBaseById: new Map(corpus.editorBaseById).set(article.id, {
       hash: articleHash(base), article: deepClone(base)
@@ -4378,10 +4427,11 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
     const corpus = await getCorpus();
     const user = await currentUser(request);
     const includeMj = canReadMj(user?.role);
+    const view = await readerView(corpus, user, includeMj);
     if (request.query.compact === "1") {
       if (includeMj) return { entries: corpus.wikiIndexCompact };
       return {
-        entries: [...corpus.publicById.values()]
+        entries: [...view.byId.values()]
           .filter((article) => article.category !== LEGACY_CATEGORY)
           .map((article) => {
             const navigation = article.navigation as JsonObject | undefined;
@@ -4397,7 +4447,7 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
           })
       };
     }
-    const articles = (includeMj ? corpus.articles : corpus.publicArticles)
+    const articles = view.articles
       .filter((article) => article.category !== LEGACY_CATEGORY);
     return {
       entries: articles.map((article) => {
@@ -4428,9 +4478,10 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
     const user = await currentUser(request);
     const includeMj = canReadMj(user?.role);
     const canonicalId = MERGED_PNJ_ALIAS_IDS[id] ?? id;
+    const view = await readerView(corpus, user, includeMj);
     const resolved = includeMj
       ? corpus.byId.get(PROTECTED_ARTICLE_SOURCE_IDS[canonicalId] ?? canonicalId)
-      : corpus.publicById.get(PROTECTED_ARTICLE_PUBLIC_IDS[canonicalId] ?? canonicalId);
+      : view.byId.get(PROTECTED_ARTICLE_PUBLIC_IDS[canonicalId] ?? canonicalId);
     const article = resolved ? approvedAliasArticle(resolved,id) : undefined;
     if (!article) return reply.code(404).send({ error: "compendium_article_not_found" });
 
@@ -4485,7 +4536,7 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
     const offset = Math.max(0, Number.parseInt(request.query.offset ?? "0", 10) || 0);
     const tokens = normalizedQuery.split(" ").filter(Boolean);
 
-    let rows = includeMj ? corpus.articles : corpus.publicArticles;
+    let rows = (await readerView(corpus, user, includeMj)).articles;
     if (category) rows = rows.filter((article) => article.category === category);
     if (group) rows = rows.filter((article) => {
       const nav=article.navigation as JsonObject|undefined;
@@ -5316,9 +5367,10 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
     const user = await currentUser(request);
     const includeMj = canReadMj(user?.role);
     const canonicalId = MERGED_PNJ_ALIAS_IDS[id] ?? id;
+    const view = await readerView(corpus, user, includeMj);
     const resolved = includeMj
       ? corpus.byId.get(PROTECTED_ARTICLE_SOURCE_IDS[canonicalId] ?? canonicalId)
-      : corpus.publicById.get(PROTECTED_ARTICLE_PUBLIC_IDS[canonicalId] ?? canonicalId);
+      : view.byId.get(PROTECTED_ARTICLE_PUBLIC_IDS[canonicalId] ?? canonicalId);
     const article = resolved ? approvedAliasArticle(resolved,id) : undefined;
     if (!article) {
       return reply.code(404).send({ error: "compendium_article_not_found" });

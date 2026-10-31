@@ -19,8 +19,9 @@ async function seed(byId: Map<string, Article>, mjOnly: (article: Article) => bo
   for (let i = 0; i < articles.length; i += BATCH) {
     const batch = articles.slice(i, i + BATCH);
     await pool.query(
-      `INSERT INTO content_entry (type, scope, slug, title, body, fields, status, visibility, published_at)
-       SELECT 'article', $1, slug, title, body::jsonb, fields::jsonb, 'published', visibility, now()
+      `INSERT INTO content_entry (type, scope, slug, title, body, fields, status, visibility, tags, tags_mj, published_at)
+       SELECT 'article', $1, slug, title, body::jsonb, fields::jsonb, 'published', visibility,
+              coalesce(body::jsonb->'tags', '[]'::jsonb), coalesce(body::jsonb->'secretTags', '[]'::jsonb), now()
          FROM unnest($2::text[], $3::text[], $4::text[], $5::text[], $6::text[]) AS a(slug, title, body, fields, visibility)
        ON CONFLICT (type, scope, slug) DO NOTHING`,
       [
@@ -51,21 +52,34 @@ export async function syncArticlesWithContent(byId: Map<string, Article>, mjOnly
   );
   if (count.n === 0) return { seeded: await seed(byId, mjOnly), loaded: byId.size };
 
-  const { rows } = await pool.query<{ slug: string; title: string; status: string; body: Article | null; fields: Record<string, any> }>(
-    "SELECT slug, title, status, body, fields FROM content_entry WHERE type = 'article' AND scope = $1",
+  const { rows } = await pool.query<{
+    slug: string; title: string; status: string; visibility: string; body: Article | null; fields: Record<string, any>;
+    tags: string[]; tags_verite: string[]; tags_mj: string[];
+  }>(
+    `SELECT slug, title, status, visibility, body, fields, tags, tags_verite, tags_mj
+       FROM content_entry WHERE type = 'article' AND scope = $1`,
     [SCOPE]
   );
   const published = new Map(rows.filter((row) => row.status === "published").map((row) => [row.slug, row]));
   for (const id of [...byId.keys()]) if (!published.has(id)) byId.delete(id);
   for (const [slug, row] of published) {
     const body = row.body && typeof row.body === "object" ? row.body : ({} as Article);
-    byId.set(slug, {
+    // Les colonnes réglées dans Directus font foi : visibilité de l'article et
+    // étiquettes par niveau (public, Vérité, MJ). Les sections gardent la leur.
+    const article: Article = {
       ...body,
       category: body.category ?? row.fields?.category ?? "Divers",
       sections: Array.isArray(body.sections) ? body.sections : [],
+      tags: Array.isArray(row.tags) ? row.tags : [],
+      truthTags: Array.isArray(row.tags_verite) ? row.tags_verite : [],
+      secretTags: Array.isArray(row.tags_mj) ? row.tags_mj : [],
       id: slug,
       title: row.title
-    });
+    };
+    if (row.visibility === "gm") article.audience = "mj";
+    else if (row.visibility === "verite") article.audience = "verite";
+    else delete article.audience;
+    byId.set(slug, article);
   }
   return { seeded: 0, loaded: published.size };
 }
