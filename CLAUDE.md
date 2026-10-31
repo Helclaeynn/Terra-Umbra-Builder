@@ -17,7 +17,7 @@ Lu automatiquement à l'ouverture d'une session dans ce dépôt. À tenir à jou
 Les passations des agents précédents décrivent **l'existant**, pas ce qu'il faut suivre.
 
 ## Branches
-- Production : `main` (V2, terra-umbra.fr), depuis le 31/10. `feature/tuc-web-v2` est l'ancienne branche de production, à ne plus utiliser. La V1 complète est sous l'étiquette `v1-finale`.
+- Production : `main` (V2, terra-umbra.fr), depuis le 31/10. Depuis le 01/11, il ne reste que trois branches : `main`, `docs/audit-game-design-bb4kqb` (notes) et `feat/etape-7` ; les 68 anciennes (dont `feature/tuc-web-v2`) sont supprimées, copie complète dans `H:TerraUmbradepot-toutes-branches-2026-11-01.bundle`. La V1 complète est sous l'étiquette `v1-finale`.
 - Mettre en ligne : fusionner dans `main`, attendre que « TUC Web V2 dev » réussisse, puis lancer « Mise en ligne » (`gh workflow run deploy.yml --ref main`). Mettre à l'essai : `gh workflow run deploy-recette.yml --ref <branche>` (option `-f refresh_data=true` pour recopier les données).
 - **Délégation (31/10)** : l'auteur délègue à Claude les fusions dans `main`, les mises en ligne, les mises à l'essai et l'exploitation du VPS, jusqu'à nouvel ordre. `gh` est connecté sur son PC (`/c/Program Files/GitHub CLI`, à ajouter au PATH dans Git Bash) ; permissions dans `.claude/settings.local.json` (copie de `H:\TerraUmbra\delegation-claude.json`). Toujours lui demander avant toute suppression de données, et lui rendre compte simplement.
 - Le dossier `docs/audit-game-design` et ce fichier sont dans `main` depuis la PR #29 (01/11). La branche `docs/audit-game-design-bb4kqb` sert encore aux notes ; la remettre à jour avec `main` avant d'écrire, puis fusionner par PR.
