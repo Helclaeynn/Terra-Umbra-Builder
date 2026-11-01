@@ -70,8 +70,8 @@ for(const role of ['admin','editor']){
   assert.ok(identity,'Le bloc Identité apparente doit être généré.');
   const identityText=JSON.stringify(identity);
   for(const text of ['Le Scorpion','Nationalité d’origine','Rôle','Autre'])assert.ok(identityText.includes(text),`Identité générée incomplète : ${text}`);
-  assert.ok(saved.sections.some(s=>s.title==='Dossier MJ'&&s.audience==='mj'),'Le dossier MJ doit être généré et rester privé.');
-  assert.ok(saved.sections.some(s=>s.title==='Profil statistique'&&s.audience==='mj'),'Le tableau statistique doit être généré et rester privé.');
+  assert.ok(saved.sections.some(s=>s.title==='Vérité'&&s.audience==='mj'),'La section Vérité doit être généré et rester privé.');
+  assert.ok(saved.sections.some(s=>s.title==='Profils'&&s.audience==='mj'),'La section Profils doit être généré et rester privé.');
   assert.equal(calls.filter(c=>c.url.endsWith('/media')).length,1,'Retry must reuse uploaded image');
   assert.equal(calls.filter(c=>c.url==='/api/compendium/editor/articles').length,1,'Retry must reuse created page');
   const pub=JSON.stringify(saved.sections.filter(s=>s.audience!=='mj')),mj=JSON.stringify(saved.sections.filter(s=>s.audience==='mj'));
