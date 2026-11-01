@@ -23,7 +23,8 @@ for(const [oldId,id] of Object.entries(APPROVED_PNJ_ALIASES)){
  for(const path of [`/api/compendium/articles/${oldId}`,`/api/compendium/wiki-preview/${oldId}`]){const r=await app.inject({url:path});assert.equal(r.statusCode,200,r.body);assert.equal(r.json().article?.id??r.json().id,publicArticleId(id));assert.ok(!r.body.includes('SECRET-SECONDARY-ONLY'));}
 }
 const preview=await app.inject({url:`/api/compendium/wiki-preview/${alias}?section=section-2`});assert.equal(preview.statusCode,200,preview.body);assert.ok(preview.json().snippet.includes('Biographie publiée complémentaire'));
-const {approvedAliasArticle}=await import('../dist/compendium-pnj-approved-merges.js');assert.equal(approvedAliasArticle(map.get(primary),alias).sections[1].id,'section-2');
+const {approvedAliasArticle}=await import('../dist/compendium-pnj-approved-merges.js');// La section MJ de la fiche fusionnée est rangée dans le dossier MJ, avec sa provenance.
+const aliasView=approvedAliasArticle(map.get(primary),alias);assert.equal(aliasView.sections[1].id,'dossier-mj-consolide');assert.ok(aliasView.sections[1].blocks.some(b=>b.mergedFrom==='fusion-1-section-2'&&b.text==='Secret secondaire'));
 for(const q of ['Dragoslav','Feng','Niich','Karamov']){const r=await app.inject({url:`/api/compendium/search?category=Personnages&q=${q}`});assert.equal(r.statusCode,200);assert.equal(r.json().items.filter(a=>Object.values(APPROVED_PNJ_ALIASES).map(publicArticleId).includes(a.id)).length,1);}
 assert.ok(corpus.articles.some(a=>a.id==='pnj-portraits-corporations-nia-allen'));assert.ok(corpus.articles.some(a=>a.id==='pnj-temples-daemoniaques-nina-allen'));
 await app.close();await pool.end();console.log('APPROVED PNJ MERGES OK — four exact decisions, Nia/Nina separate, old article/editor/section links, published biography, private sources and portraits, unchanged base hashes and idempotence.');
