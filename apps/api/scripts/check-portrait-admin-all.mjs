@@ -32,7 +32,7 @@ pool.query = async (sql, values) => {
 };
 
 const { default: Fastify } = await import(pathToFileURL(resolve(root, 'apps/api/node_modules/fastify/fastify.js')).href);
-const { registerCompendiumRoutes, getCompendiumQualityCorpus } = await import(pathToFileURL(resolve(root, 'apps/api/dist/compendium.js')).href);
+const { registerCompendiumRoutes, getCompendiumQualityCorpus, publicArticleId } = await import(pathToFileURL(resolve(root, 'apps/api/dist/compendium.js')).href);
 const { registerQualityRoutes } = await import(pathToFileURL(resolve(root, 'apps/api/dist/quality.js')).href);
 const app = Fastify();
 try {
@@ -74,7 +74,7 @@ try {
     const switched = await app.inject({ method: 'PATCH', url, headers: auth, payload: { src, visibility: 'mj' } });
     assert.equal(switched.statusCode, 200, switched.body);
     assert.ok(switched.json().portraits.some(portrait => portrait.media === src && portrait.visibility === 'mj'));
-    const publicArticle = (await getCompendiumQualityCorpus()).publicArticles.find(item => item.id === id);
+    const publicArticle = (await getCompendiumQualityCorpus()).publicArticles.find(item => item.id === publicArticleId(id));
     assert.ok(!JSON.stringify(publicArticle).includes(src), `${id} leaked through the public article`);
     assert.equal((await getCompendiumQualityCorpus()).articles.find(item => item.id === untouched.id), untouched,
       'Switching one portrait must keep the rest of the loaded Compendium intact');
@@ -88,7 +88,7 @@ try {
     assert.ok(removed.json().portraits.some(portrait => portrait.media === src && portrait.visibility === 'removed'));
     assert.ok(!JSON.stringify((await getCompendiumQualityCorpus()).articles.find(item => item.id === id)).includes(src),
       'Removed portrait must disappear even from the private PNJ');
-    assert.ok(!JSON.stringify((await getCompendiumQualityCorpus()).publicArticles.find(item => item.id === id)).includes(src),
+    assert.ok(!JSON.stringify((await getCompendiumQualityCorpus()).publicArticles.find(item => item.id === publicArticleId(id))).includes(src),
       'Removed portrait must not remain publicly visible');
     const addedBack = await app.inject({ method: 'PATCH', url, headers: auth, payload: { src, visibility: 'public' } });
     assert.equal(addedBack.statusCode, 200, addedBack.body);
