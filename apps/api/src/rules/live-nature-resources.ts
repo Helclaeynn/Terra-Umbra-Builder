@@ -1,5 +1,5 @@
 import {terraUmbraCreationRules} from './terra-umbra-creation.js';
-import {terraUmbraTruthRules as truthRules} from './truth/rules.js';
+import {activeTruthRules as truthRules} from './truth/active.js';
 import {liveTruthState} from './play-truth.js';
 import {angelusAuraCapacity,angelusTalentIds,normalizeAngelusBuild,angelusConstructIssues} from './truth/angelus-build.js';
 import {daemonTalentIds,normalizeDaemonBuild,daemonDefinitionIssues,daemonPathologyIssues} from './truth/daemon-build.js';

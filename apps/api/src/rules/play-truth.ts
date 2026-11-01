@@ -1,6 +1,6 @@
 import {vampirePowerRules} from './live-vampire.js';
 import {normalizeExileBuild} from './truth/exile-build.js';
-import {terraUmbraTruthRules as truthRules} from './truth/rules.js';
+import {activeTruthRules as truthRules} from './truth/active.js';
 import {khinaeBodyProfile,khinaeUsableTalents} from './truth/khinae.js';
 import type {TruthRulesPackage,TruthState} from './truth/types.js';
 const pkg=truthRules as unknown as TruthRulesPackage;

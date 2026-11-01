@@ -1,6 +1,6 @@
 import {supernaturalHealingMaximum,lightningAutomaticSurvivalAllowed} from './lightning-wounds.js';
 import type {PlayState} from './play-state.js';
-import {terraUmbraTruthRules as truthRules} from './truth/rules.js';
+import {activeTruthRules as truthRules} from './truth/active.js';
 import {liveTruthState} from './play-truth.js';
 import type {TruthTalent} from './truth/types.js';
 

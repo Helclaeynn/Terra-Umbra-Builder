@@ -1,4 +1,4 @@
-import {terraUmbraTruthRules as truthRules} from './truth/rules.js';
+import {activeTruthRules as truthRules} from './truth/active.js';
 import {liveTruthState,powerAllowed,usableKhinaeTalent} from './play-truth.js';
 import {normalizeExileBuild,exileHordes} from './truth/exile-build.js';
 import {normalizeExtralBuild,extralNetworkAccess} from './truth/extral-build.js';

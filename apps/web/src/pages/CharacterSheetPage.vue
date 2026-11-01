@@ -10,6 +10,7 @@ import CharacterPdfActions from "../components/CharacterPdfActions.vue";
 import { buildCharacterSheet, type SheetCore } from "../lib/character-sheet-model";
 import { ensureTruthRulesPackage, type TruthRulesPackage } from "../lib/truth";
 import type { RealityRulesPackage } from "../lib/reality";
+import { useTruthRules } from "../../../api/src/rules/truth/active";
 
 import { usePageTitle } from "../lib/page-title";
 const route=useRoute();
@@ -66,7 +67,7 @@ async function load(){
       reality.value??api<RealityRulesPackage>("/api/rulesets/terra-umbra/reality",options)
     ]);
     if(current!==generation)return;
-    core.value=creationPkg;truth.value=ensureTruthRulesPackage(truthPkg);reality.value=realityPkg;
+    core.value=creationPkg;truth.value=ensureTruthRulesPackage(truthPkg);useTruthRules(truth.value);reality.value=realityPkg;
     character.value=result.character;owner.value=result.canEdit;ownerName.value=result.ownerName;
     if(owner.value&&shareOpen.value)void loadReaders();
   }catch(cause){

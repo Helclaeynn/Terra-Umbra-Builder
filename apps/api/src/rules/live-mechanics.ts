@@ -1,6 +1,6 @@
 import {registeredTruthPowers,usableRegisteredPower} from './live-power-registry.js';
 import {vampireTalent,vampireDefensePower} from './live-vampire.js';
-import {terraUmbraTruthRules as truthRules} from './truth/rules.js';
+import {activeTruthRules as truthRules} from './truth/active.js';
 import {liveTruthState,truthPowers,powerAllowed,usableKhinaeTalent,liveBody} from './play-truth.js';
 import type {PlayState} from './play-state.js';
 

@@ -9,6 +9,7 @@
 import { pool } from "../db.js";
 import { applyContentRules, contentRulesEnabled } from "./content-rules.js";
 import { invalidateTalentRegistry } from "./talent-registry.js";
+import { useTruthRules } from "./truth/active.js";
 import { terraUmbraTruthRules } from "./truth/rules.js";
 
 type Obj = Record<string, any>;
@@ -65,5 +66,6 @@ export async function loadTruthContent() {
   await applyContentRules(next);
   for (const key of KEYS) target[key] = next[key];
   target.contentSource = next.contentSource;
+  useTruthRules(next);
   invalidateTalentRegistry();
 }
