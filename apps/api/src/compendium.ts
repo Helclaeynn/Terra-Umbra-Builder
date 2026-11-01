@@ -4288,10 +4288,15 @@ async function loadUserLibrary(userId: string, corpus: Corpus, includeMj: boolea
     )
   ]);
 
+  // Même vue que la lecture d'une page : une page MJ mise en favori (ou dans
+  // l'historique) par quelqu'un qui n'y a pas accès n'apparaît pas.
   const visibleItem = (id: string) => {
-    const article = corpus.byId.get(MERGED_PNJ_ALIAS_IDS[id] ?? id);
+    const canonicalId = MERGED_PNJ_ALIAS_IDS[id] ?? id;
+    const article = includeMj
+      ? corpus.byId.get(canonicalId)
+      : corpus.publicById.get(PROTECTED_ARTICLE_PUBLIC_IDS[canonicalId] ?? canonicalId);
     if (!article || article.category === LEGACY_CATEGORY) return null;
-    return searchItem(articleForAudience(article, includeMj), "");
+    return searchItem(includeMj ? articleForAudience(article, true) : article, "");
   };
 
   const favorites = favoriteRows.rows.map((row) => row.articleId).filter((id) => visibleItem(id));
