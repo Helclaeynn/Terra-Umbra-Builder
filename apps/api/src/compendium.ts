@@ -2122,6 +2122,15 @@ async function loadCorpus(): Promise<Corpus> {
   // navigation en base, le compendium n'est plus composé depuis le code.
   const stored = await contentCorpusArticles();
   if (stored) {
+    // Décisions sur les portraits (MJ, public, retiré) : elles alimentent aussi
+    // portraitVisibilityBySrc, qui cache les portraits MJ aux joueurs.
+    const portraitRows = await portraitOverrides();
+    const overrideByArticle = new Map<string, PortraitOverride[]>();
+    for (const row of portraitRows) overrideByArticle.set(row.articleId, [...(overrideByArticle.get(row.articleId) ?? []), row]);
+    for (const [articleId, rows] of overrideByArticle) {
+      const article = stored.byId.get(articleId);
+      if (article) applyPortraitOverrides(article, rows);
+    }
     console.log(`Compendium lu dans les tables de contenu : ${stored.byId.size} articles publiés, sans composition.`);
     return deriveCorpus({
       manifest,
