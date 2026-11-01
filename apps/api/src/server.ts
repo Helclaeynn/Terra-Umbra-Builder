@@ -26,6 +26,7 @@ import { databaseStatus, pool } from "./db.js";
 import { registerCharacterRoutes } from "./characters.js";
 import { invalidateCompendiumCorpus, preloadCompendium, registerCompendiumRoutes } from "./compendium.js";
 import { startContentWatch } from "./content-articles.js";
+import { loadNpcFlavorContent } from "./npc-flavor-content.js";
 import { registerQualityRoutes } from "./quality.js";
 import { registerArbitrageRoutes } from "./arbitrage.js";
 import {
@@ -1025,7 +1026,7 @@ await registerGmAccessRoutes(app);
 await preloadCompendium();
 // Same strategy as the Compendium: build the static Builder catalogs once
 // during startup so no visitor becomes the cold-cache guinea pig.
-await preloadBuilderRules();
+await Promise.all([preloadBuilderRules(), loadNpcFlavorContent()]);
 // Site d'essai : une modification des tables de contenu (Directus) reconstruit
 // le compendium et les règles sans redémarrer.
 startContentWatch(() => {
@@ -1033,6 +1034,7 @@ startContentWatch(() => {
   invalidateCompendiumCorpus();
   invalidateTruthRules();
   void reloadContentRules().catch((error) => app.log.error(error));
+  void loadNpcFlavorContent().catch((error) => app.log.error(error));
 });
 
 const port = Number(process.env.PORT ?? 3000);

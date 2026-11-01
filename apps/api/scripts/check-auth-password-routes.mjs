@@ -135,7 +135,8 @@ const stubs = new Map([
   [new URL("characters.js", dist).href, 'export async function registerCharacterRoutes() {}'],
   [new URL("quality.js", dist).href, 'export async function registerQualityRoutes() {}'],
   [new URL("compendium.js", dist).href, 'export async function registerCompendiumRoutes() {} export async function preloadCompendium() {} export function invalidateCompendiumCorpus() {}'],
-  [new URL("rules/index.js", dist).href, 'export async function registerRulesRoutes() {} export async function preloadBuilderRules() {} export function invalidateTruthRules() {}']
+  [new URL("rules/index.js", dist).href, 'export async function registerRulesRoutes() {} export async function preloadBuilderRules() {} export function invalidateTruthRules() {} export async function reloadContentRules() {}'],
+  [new URL("npc-flavor-content.js", dist).href, 'export async function loadNpcFlavorContent() {}']
 ]);
 const serverUrl = new URL("server.js", dist).href;
 const hook = registerHooks({ load(url, context, nextLoad) {
