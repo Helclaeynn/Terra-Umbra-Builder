@@ -10,7 +10,8 @@ pg.Pool.prototype.query = async function (sql) {
   return { rows: [], rowCount: 0 };
 };
 
-const { registerCompendiumRoutes, getCompendiumQualityCorpus } = await import("../dist/compendium.js");
+const { registerCompendiumRoutes, getCompendiumQualityCorpus, publicArticleId } = await import("../dist/compendium.js");
+const seen = (id) => (item) => item.id === id || item.id === publicArticleId(id);
 const app = fastify();
 await registerCompendiumRoutes(app);
 
@@ -42,12 +43,12 @@ for (const audience of [null, "editor"]) {
   assert.ok(!(await search("Thar’lal Rark")).items.some((item) => item.title === "Thor"));
   assert.ok(!(await search("Siadara")).items.some((item) => item.title === "Sianna Danein"));
   assert.ok(!(await search("Morrighan")).items.some((item) => item.title === "Moira Blake"));
-  assert.ok(!(await search("Michabou")).items.some((item) => item.id === "pnj-loges-mages-mike-28"));
-  assert.ok(!(await search("triades")).items.some((item) => item.id === "pnj-loges-mages-zhao-guanyu-10"));
-  assert.ok(!(await search("Arianwen")).items.some((item) => item.id === "pnj-loges-mages-nike-celio-37"));
-  assert.ok((await search("Mike")).items.some((item) => item.id === "pnj-loges-mages-mike-28"));
-  assert.ok((await search("Thor")).items.some((item) => item.id === "personnages-verite-fantastiques-thor"));
-  assert.ok(!(await search("Viviane")).items.some((item) => item.id === "pnj-loges-mages-nina-le-guellec-03"));
+  assert.ok(!(await search("Michabou")).items.some(seen("pnj-loges-mages-mike-michabou-28")));
+  assert.ok(!(await search("triades")).items.some(seen("pnj-loges-mages-zhao-guanyu-10")));
+  assert.ok(!(await search("Arianwen")).items.some(seen("pnj-loges-mages-nike-celio-37")));
+  assert.ok((await search("Mike")).items.some(seen("pnj-loges-mages-mike-michabou-28")));
+  assert.ok((await search("Thor")).items.some(seen("personnages-verite-fantastiques-tharlal-rark")));
+  assert.ok(!(await search("Viviane")).items.some(seen("pnj-loges-mages-nina-le-guellec-03")));
   assert.ok((await search('tag:"réalité/faction/corporatiste"')).total > 0);
   const response = await app.inject({
     method: "GET",
@@ -107,9 +108,10 @@ assert.equal(amaya.secretTags, undefined);
 assert.equal((await article("pnj-crawlers-antisysteme-p52-ciara-macfarlane")).id,
   "pnj-religions-ciara-mcfarlane");
 assert.equal((await article("personnages-verite-fantastiques-tharlal-rark")).id,
-  "personnages-verite-fantastiques-thor");
+  publicArticleId("personnages-verite-fantastiques-tharlal-rark"));
+assert.equal((await article("personnages-verite-fantastiques-thor")).id, "pnj-thor");
 assert.equal((await article("pnj-loges-mages-mike-michabou-28")).id,
-  "pnj-loges-mages-mike-28");
+  publicArticleId("pnj-loges-mages-mike-michabou-28"));
 role = "gm";
 const gmMilda = await article("pnj-pegre-milda-tarasknovna");
 assert.ok(gmMilda.secretTags.includes("vérité/nom/Selaphielle"));

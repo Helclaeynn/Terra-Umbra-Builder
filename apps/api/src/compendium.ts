@@ -430,7 +430,7 @@ const PUBLIC_PNJ_TAGS = new Set([
 // Opaque public slugs for protected civilian identities. The source IDs stay
 // stable for editorial overrides and existing references; public indexes use
 // these slugs, while article lookups continue to accept older links.
-const PROTECTED_ARTICLE_PUBLIC_IDS: Record<string, string> = {
+const STATIC_PUBLIC_IDS: Record<string, string> = {
   "bestiaire-v15-delanial-le-faux-septieme-fleau": "bestiaire-v15-delanial-pere-de-l-ombre",
   "pnj-loges-mages-mike-michabou-28": "pnj-loges-mages-mike-28",
   "personnages-verite-fantastiques-tharlal-rark": "personnages-verite-fantastiques-thor",
@@ -442,9 +442,54 @@ const PROTECTED_ARTICLE_PUBLIC_IDS: Record<string, string> = {
   "pnj-fleaux-dagon": "pnj-fleaux-aberration-z-19",
   "pnj-fleaux-telipinu": "pnj-fleaux-aberration-z-75"
 };
-const PROTECTED_ARTICLE_SOURCE_IDS = Object.fromEntries(
-  Object.entries(PROTECTED_ARTICLE_PUBLIC_IDS).map(([source, publicId]) => [publicId, source])
-);
+// L'identifiant de nombreuses fiches de PNJ trahit leur nature
+// (personnages-verite-vampires-…, pnj-temples-daemoniaques-…). Pour les
+// joueurs, ces fiches prennent une adresse tirée de leur nom de Réalité
+// (pnj-anna-hita), calculée à chaque construction du corpus ; les liens des
+// textes sont réécrits, et les anciennes adresses restent acceptées.
+const REVEALING_PNJ_ID = /^(personnages-verite-|personnages-points-rencontre-|pnj-(truth|loges-mages|temples-daemoniaques|aseryns|grands-exiles|fleaux|portraits-chasseurs)-)/;
+const PROTECTED_ARTICLE_PUBLIC_IDS: Record<string, string> = { ...STATIC_PUBLIC_IDS };
+const PROTECTED_ARTICLE_SOURCE_IDS: Record<string, string> = {};
+
+function refreshPublicArticleIds(articles: Article[]) {
+  for (const key of Object.keys(PROTECTED_ARTICLE_PUBLIC_IDS)) delete PROTECTED_ARTICLE_PUBLIC_IDS[key];
+  for (const key of Object.keys(PROTECTED_ARTICLE_SOURCE_IDS)) delete PROTECTED_ARTICLE_SOURCE_IDS[key];
+  const taken = new Set(articles.map((article) => article.id));
+  for (const article of [...articles].sort((a, b) => a.id.localeCompare(b.id))) {
+    let publicId = STATIC_PUBLIC_IDS[article.id];
+    if (article.category === "Personnages" && REVEALING_PNJ_ID.test(article.id)) {
+      const base = `pnj-${norm(article.title ?? "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "personnage"}`;
+      publicId = base;
+      for (let n = 2; taken.has(publicId); n++) publicId = `${base}-${n}`;
+      taken.add(publicId);
+    }
+    if (publicId) PROTECTED_ARTICLE_PUBLIC_IDS[article.id] = publicId;
+  }
+  // Anciennes adresses publiques (liste fixe) gardées comme alias.
+  for (const [source, publicId] of Object.entries(STATIC_PUBLIC_IDS)) PROTECTED_ARTICLE_SOURCE_IDS[publicId] = source;
+  for (const [source, publicId] of Object.entries(PROTECTED_ARTICLE_PUBLIC_IDS)) PROTECTED_ARTICLE_SOURCE_IDS[publicId] = source;
+}
+
+/** Adresse d'une fiche pour un joueur, depuis son identifiant ou une ancienne adresse. */
+export function publicArticleId(id: string): string {
+  const source = PROTECTED_ARTICLE_SOURCE_IDS[id] ?? id;
+  return PROTECTED_ARTICLE_PUBLIC_IDS[source] ?? source;
+}
+
+/** Remplace, dans une copie de lecteur, les identifiants internes par les adresses publiques. */
+function withPublicArticleIds<T>(value: T): T {
+  if (typeof value === "string") {
+    const replaced = PROTECTED_ARTICLE_PUBLIC_IDS[value] ??
+      value.replace(/(article=)([a-z0-9-]+)/g, (match, prefix, id) =>
+        PROTECTED_ARTICLE_PUBLIC_IDS[id] ? prefix + PROTECTED_ARTICLE_PUBLIC_IDS[id] : match);
+    return replaced as T;
+  }
+  if (Array.isArray(value)) return value.map(withPublicArticleIds) as T;
+  if (value && typeof value === "object") {
+    return Object.fromEntries(Object.entries(value).map(([key, item]) => [key, withPublicArticleIds(item)])) as T;
+  }
+  return value;
+}
 const RELIGION_ARCHIVE_ID_REMAP: Record<string, string> = {
   "pnj-059-bhima-shiravadakar": "pnj-religions-bhima-shiravadakar",
   "pnj-062-ciara-mcfarlane": "pnj-religions-ciara-mcfarlane"
@@ -641,7 +686,7 @@ function audienceCopy(article: Article, truth: boolean): Article | null {
 
 /** Remplace (ou retire) un article dans une vue de lecteur, liste et index. */
 function replaceInView(list: Article[], byId: Map<string, Article>, articleId: string, next: Article | null) {
-  const previous = byId.get(PROTECTED_ARTICLE_PUBLIC_IDS[articleId] ?? articleId);
+  const previous = byId.get(publicArticleId(articleId));
   if (previous) byId.delete(previous.id);
   if (next) byId.set(next.id, next);
   const index = list.findIndex((entry) => entry.id === (previous?.id ?? next?.id));
@@ -730,7 +775,7 @@ function articleForAudience(article: Article, includeMj: boolean, includeTruth =
   }
   else delete result.__searchText;
   if (includeTruth && truthTags.length) result.tags = [...new Set([...(result.tags ?? []), ...truthTags])];
-  if (!includeMj && PROTECTED_ARTICLE_PUBLIC_IDS[article.id]) result.id = PROTECTED_ARTICLE_PUBLIC_IDS[article.id];
+  if (!includeMj) return withPublicArticleIds(result);
   return result;
 }
 
@@ -3407,7 +3452,7 @@ async function loadCorpus(): Promise<Corpus> {
   const bestiaryArt = await readFile(resolve(COMPENDIUM_MEDIA_DIR, "source/bestiary-art-direction-v2.json"), "utf8")
     .then((content) => JSON.parse(content) as { items?: Array<{ id: string; src: string; alt: string; caption: string }> })
     .then((data) => new Map((data.items ?? []).filter((item) =>
-      /^bestiaire-[a-z0-9-]+$/.test(item.id) && item.src === `images/manual/${PROTECTED_ARTICLE_PUBLIC_IDS[item.id] ?? item.id}.webp`
+      /^bestiaire-[a-z0-9-]+$/.test(item.id) && item.src === `images/manual/${STATIC_PUBLIC_IDS[item.id] ?? item.id}.webp`
     ).map((item) => [item.id, item])))
     .catch(() => new Map<string, { id: string; src: string; alt: string; caption: string }>());
   const portraitManifest = await readFile(resolve(COMPENDIUM_MEDIA_DIR, "images/portraits/manifest.json"), "utf8")
@@ -4167,6 +4212,7 @@ function deriveCorpus({ manifest, byId, navigation, retiredIds, editorBaseById, 
   databaseEditSummary: Corpus["databaseEditSummary"];
 }): Corpus {
   const articles = [...byId.values()].sort(compareArticles);
+  refreshPublicArticleIds(articles);
   const publicArticles = articles.map((article) => audienceCopy(article, false)).filter((article): article is Article => article !== null);
   const publicById = new Map(publicArticles.map((article) => [article.id, article]));
   const truthArticles = articles.map((article) => audienceCopy(article, true)).filter((article): article is Article => article !== null);
@@ -4420,7 +4466,7 @@ async function loadUserLibrary(userId: string, corpus: Corpus, includeMj: boolea
     const canonicalId = MERGED_PNJ_ALIAS_IDS[id] ?? id;
     const article = includeMj
       ? corpus.byId.get(canonicalId)
-      : view.byId.get(PROTECTED_ARTICLE_PUBLIC_IDS[canonicalId] ?? canonicalId);
+      : view.byId.get(publicArticleId(canonicalId));
     if (!article || article.category === LEGACY_CATEGORY) return null;
     return searchItem(includeMj ? articleForAudience(article, true) : article, "");
   };
@@ -4548,7 +4594,7 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
     const view = await readerView(corpus, user, includeMj);
     const resolved = includeMj
       ? corpus.byId.get(PROTECTED_ARTICLE_SOURCE_IDS[canonicalId] ?? canonicalId)
-      : view.byId.get(PROTECTED_ARTICLE_PUBLIC_IDS[canonicalId] ?? canonicalId);
+      : view.byId.get(publicArticleId(canonicalId));
     const article = resolved ? approvedAliasArticle(resolved,id) : undefined;
     if (!article) return reply.code(404).send({ error: "compendium_article_not_found" });
 
@@ -4682,7 +4728,8 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
     const rows = corpus.publicArticles
       .filter((article) => article.category === "Personnages")
       .map((article) => {
-        const source = corpus.byId.get(MERGED_PNJ_ALIAS_IDS[article.id] ?? article.id);
+        const sourceId = PROTECTED_ARTICLE_SOURCE_IDS[article.id] ?? article.id;
+        const source = corpus.byId.get(MERGED_PNJ_ALIAS_IDS[sourceId] ?? sourceId);
         const tierId = String(
           source?.__npcTier ?? source?.pnj?.generator_profile?.tierId ?? article.__npcTier ?? ""
         );
@@ -5498,7 +5545,7 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
     const view = await readerView(corpus, user, includeMj);
     const resolved = includeMj
       ? corpus.byId.get(PROTECTED_ARTICLE_SOURCE_IDS[canonicalId] ?? canonicalId)
-      : view.byId.get(PROTECTED_ARTICLE_PUBLIC_IDS[canonicalId] ?? canonicalId);
+      : view.byId.get(publicArticleId(canonicalId));
     const article = resolved ? approvedAliasArticle(resolved,id) : undefined;
     if (!article) {
       return reply.code(404).send({ error: "compendium_article_not_found" });
