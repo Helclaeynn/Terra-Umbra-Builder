@@ -476,12 +476,30 @@ export function publicArticleId(id: string): string {
   return PROTECTED_ARTICLE_PUBLIC_IDS[source] ?? source;
 }
 
+// Les fichiers d'image portent souvent l'identifiant interne de la fiche
+// (images/portraits/lot-2/mj/personnages-verite-angelus-….webp). Pour les
+// joueurs, ces chemins deviennent un alias neutre, retraduit par les routes
+// media et uploads (mêmes contrôles d'accès que le vrai fichier).
+const REVEALING_MEDIA_PART = /(personnages-verite-|personnages-points-rencontre-|pnj-(truth|loges-mages|temples-daemoniaques|aseryns|grands-exiles|fleaux|portraits-chasseurs)-)/;
+const MEDIA_ALIASES = new Map<string, string>();
+
+function mediaAlias(path: string): string {
+  if (!REVEALING_MEDIA_PART.test(path)) return path;
+  const extension = path.match(/\.[a-z0-9]+$/i)?.[0] ?? "";
+  const hash = createHash("sha256").update(path).digest("hex").slice(0, 20);
+  const upload = path.startsWith("/api/compendium/uploads/");
+  const key = upload ? `a-${hash}${extension}` : `images/a/${hash}${extension}`;
+  MEDIA_ALIASES.set(key, upload ? path.slice("/api/compendium/uploads/".length) : path);
+  return upload ? `/api/compendium/uploads/${key}` : key;
+}
+
 /** Remplace, dans une copie de lecteur, les identifiants internes par les adresses publiques. */
 function withPublicArticleIds<T>(value: T): T {
   if (typeof value === "string") {
     const replaced = PROTECTED_ARTICLE_PUBLIC_IDS[value] ??
       value.replace(/(article=)([a-z0-9-]+)/g, (match, prefix, id) =>
-        PROTECTED_ARTICLE_PUBLIC_IDS[id] ? prefix + PROTECTED_ARTICLE_PUBLIC_IDS[id] : match);
+        PROTECTED_ARTICLE_PUBLIC_IDS[id] ? prefix + PROTECTED_ARTICLE_PUBLIC_IDS[id] : match)
+        .replace(/(?:\/api\/compendium\/uploads\/|images\/)[A-Za-z0-9._\/-]+/g, mediaAlias);
     return replaced as T;
   }
   if (Array.isArray(value)) return value.map(withPublicArticleIds) as T;
@@ -5080,8 +5098,9 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
   app.get<{
     Params: { "*": string };
   }>("/api/compendium/media/*", async (request, reply) => {
-    const relative = safeMediaRelativePath(String(request.params["*"] ?? ""));
-    if (!relative) return bad(reply, "invalid_compendium_media_path");
+    const requested = safeMediaRelativePath(String(request.params["*"] ?? ""));
+    if (!requested) return bad(reply, "invalid_compendium_media_path");
+    const relative = MEDIA_ALIASES.get(requested) ?? requested;
     const isPortraitManifest = relative === "images/portraits/manifest.json";
     const isMjPortrait = /^images\/portraits\/lot-[^/]+\/mj\//.test(relative);
     // Editorial and imported portraits can live outside the portrait lots.
@@ -5108,7 +5127,7 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
               items: Array.isArray(lot?.items)
                 ? lot.items.filter((item: JsonObject) =>
                     (overrides.find((row) => row.src === item?.src)?.visibility ?? item?.visibility) === "public"
-                  ).map((item: JsonObject) => ({ ...item, visibility: "public" }))
+                  ).map((item: JsonObject) => withPublicArticleIds({ ...item, visibility: "public" }))
                 : []
             }
           ])
@@ -5130,8 +5149,9 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
   app.get<{
     Params: { "*": string };
   }>("/api/compendium/uploads/*", async (request, reply) => {
-    const filename = safeUploadFilename(String(request.params["*"] ?? ""));
-    if (!filename) return bad(reply, "invalid_compendium_upload_path");
+    const requested = safeUploadFilename(String(request.params["*"] ?? ""));
+    if (!requested) return bad(reply, "invalid_compendium_upload_path");
+    const filename = MEDIA_ALIASES.get(requested) ?? requested;
 
     const uploadRows = (await portraitOverrides()).filter((row) => row.src === `/api/compendium/uploads/${filename}`);
     if (uploadRows.length && uploadRows.every((row) => row.visibility === "removed")) {
