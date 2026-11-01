@@ -483,7 +483,7 @@ export function publicArticleId(id: string): string {
 const REVEALING_MEDIA_PART = /(personnages-verite-|personnages-points-rencontre-|pnj-(truth|loges-mages|temples-daemoniaques|aseryns|grands-exiles|fleaux|portraits-chasseurs)-)/;
 const MEDIA_ALIASES = new Map<string, string>();
 
-function mediaAlias(path: string): string {
+export function mediaAlias(path: string): string {
   if (!REVEALING_MEDIA_PART.test(path)) return path;
   const extension = path.match(/\.[a-z0-9]+$/i)?.[0] ?? "";
   const hash = createHash("sha256").update(path).digest("hex").slice(0, 20);
@@ -491,6 +491,11 @@ function mediaAlias(path: string): string {
   const key = upload ? `a-${hash}${extension}` : `images/a/${hash}${extension}`;
   MEDIA_ALIASES.set(key, upload ? path.slice("/api/compendium/uploads/".length) : path);
   return upload ? `/api/compendium/uploads/${key}` : key;
+}
+
+/** Vrai chemin d'une image, depuis son alias public. */
+export function mediaSourcePath(path: string): string {
+  return MEDIA_ALIASES.get(path) ?? path;
 }
 
 /** Remplace, dans une copie de lecteur, les identifiants internes par les adresses publiques. */

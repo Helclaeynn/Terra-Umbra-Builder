@@ -15,7 +15,7 @@ pool.query = async sql => {
   if (/FROM compendium_custom_articles|FROM compendium_portrait_visibility|FROM compendium_article_edits|(?:FROM|INTO) compendium_legacy_articles|FROM compendium_deleted_articles/.test(String(sql))) return {rows: []};
   throw Error('Unexpected DB query: ' + sql);
 };
-const {getCompendiumQualityCorpus, publicArticleId} = await import(pathToFileURL(resolve(root, 'apps/api/dist/compendium.js')).href);
+const {getCompendiumQualityCorpus, publicArticleId, mediaAlias} = await import(pathToFileURL(resolve(root, 'apps/api/dist/compendium.js')).href);
 const manifest = JSON.parse(await readFile(resolve(mediaDir, 'images/portraits/manifest.json'), 'utf8'));
 const newPages = JSON.parse(await readFile(resolve(mediaDir, 'source/portrait-only-lot2-v1.json'), 'utf8')).articles;
 const items = manifest.lot2.items;
@@ -53,7 +53,7 @@ for (const item of items) {
   }
   if (item.visibility === 'mj') {
     const exposed = publicById.get(publicArticleId(item.id));
-    if (exposed) assert.ok(!JSON.stringify(exposed).includes(item.src), `Private portrait leaked: ${item.id}`);
+    if (exposed) assert.ok(!JSON.stringify(exposed).includes(item.src) && !JSON.stringify(exposed).includes(mediaAlias(item.src)), `Private portrait leaked: ${item.id}`);
   }
 }
 for (const entry of newPages) {

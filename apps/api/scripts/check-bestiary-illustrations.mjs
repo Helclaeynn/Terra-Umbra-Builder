@@ -13,7 +13,7 @@ pool.query=async(sql)=>{
  if (/FROM compendium_custom_articles|FROM compendium_portrait_visibility|FROM compendium_article_edits|(?:FROM|INTO) compendium_legacy_articles|FROM compendium_deleted_articles/.test(String(sql))) return {rows:[]};
  throw new Error('Unexpected DB query: '+sql);
 };
-const {getCompendiumQualityCorpus,registerCompendiumRoutes}=await import(root+'/apps/api/dist/compendium.js');
+const {getCompendiumQualityCorpus,registerCompendiumRoutes,mediaSourcePath}=await import(root+'/apps/api/dist/compendium.js');
 const {default:Fastify}=await import(root+'/apps/api/node_modules/fastify/fastify.js');
 const manifest=JSON.parse(await readFile(root+'/compendium/source/bestiary-illustrations-20260923.json','utf8'));
 assert.equal(manifest.items.length,110,'Le lot doit contenir les 110 illustrations validées');
@@ -30,7 +30,7 @@ for(const article of corpus.publicArticles){
   if(src.startsWith('images/')||src.startsWith('assets/'))publicMedia.add(src);
  }
 }
-for(const src of publicMedia)await access(root+'/compendium/'+src);
+for(const src of publicMedia)await access(root+'/compendium/'+mediaSourcePath(src));
 const publicBestiary=corpus.publicArticles.filter(article=>article.category==='Bestiaire');
 assert.equal(publicBestiary.length,281,'Le Bestiaire public complet doit être disponible');
 assert.ok(publicBestiary.every(article=>{

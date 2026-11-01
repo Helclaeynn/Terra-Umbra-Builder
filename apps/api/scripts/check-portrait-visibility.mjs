@@ -32,17 +32,17 @@ pool.query = async (sql, values) => {
   throw Error('Unexpected DB query: ' + statement);
 };
 const { default: Fastify } = await import(pathToFileURL(resolve(root, 'apps/api/node_modules/fastify/fastify.js')).href);
-const { registerCompendiumRoutes, getCompendiumQualityCorpus, publicArticleId } = await import(pathToFileURL(resolve(root, 'apps/api/dist/compendium.js')).href);
+const { registerCompendiumRoutes, getCompendiumQualityCorpus, publicArticleId, mediaAlias } = await import(pathToFileURL(resolve(root, 'apps/api/dist/compendium.js')).href);
 const app = Fastify();
 try {
   await registerCompendiumRoutes(app);
   const corpus = await getCompendiumQualityCorpus();
   const publicById = new Map(corpus.publicArticles.map(article => [article.id, article]));
   const publicImages = article => [article?.image?.src, article?.illustration?.src, ...(article?.gallery ?? []).map(media => media.src)].filter(Boolean);
-  assert.ok(publicImages(publicById.get(publicArticleId(hidden.id))).includes(hidden.src), 'Promoted portrait must appear publicly');
+  assert.ok(publicImages(publicById.get(publicArticleId(hidden.id))).includes(mediaAlias(hidden.src)), 'Promoted portrait must appear publicly');
   assert.ok(!publicImages(publicById.get(publicArticleId(hidden.id))).includes('/api/compendium/uploads/private.jpg'));
-  assert.ok(!publicImages(publicById.get(publicArticleId(visible.id))).includes(visible.src), 'Private override must disappear publicly');
-  assert.notEqual(publicById.get(publicArticleId(visible.id))?.pnj?.portrait, visible.src, 'PNJ portrait metadata must not leak');
+  assert.ok(!publicImages(publicById.get(publicArticleId(visible.id))).some((src) => src === visible.src || src === mediaAlias(visible.src)), 'Private override must disappear publicly');
+  assert.notEqual(publicById.get(publicArticleId(visible.id))?.pnj?.portrait, mediaAlias(visible.src), 'PNJ portrait metadata must not leak');
   assert.equal((await app.inject({ method: 'GET', url: `/api/compendium/media/${hidden.src}` })).statusCode, 200);
   assert.equal((await app.inject({ method: 'GET', url: `/api/compendium/media/${visible.src}` })).statusCode, 403);
   assert.equal((await app.inject({ method: 'GET', url: '/api/compendium/uploads/private.jpg' })).statusCode, 403);

@@ -18,7 +18,7 @@ pool.query=async sql=>{
   if(/UPDATE sessions|FROM compendium_portrait_visibility|FROM compendium_custom_articles|FROM compendium_article_edits|(?:FROM|INTO) compendium_legacy_articles|FROM compendium_deleted_articles/.test(String(sql)))return {rows:[]};
   throw Error('Unexpected DB query: '+sql);
 };
-const {getCompendiumQualityCorpus,registerCompendiumRoutes,publicArticleId}=await import(pathToFileURL(resolve(root,'apps/api/dist/compendium.js')).href);
+const {getCompendiumQualityCorpus,registerCompendiumRoutes,publicArticleId,mediaAlias}=await import(pathToFileURL(resolve(root,'apps/api/dist/compendium.js')).href);
 const {default:Fastify}=await import(pathToFileURL(resolve(root,'apps/api/node_modules/fastify/fastify.js')).href);
 const manifest=JSON.parse(await readFile(resolve(root,'compendium/source/portrait-refresh-chasseurs-20260926.json'),'utf8'));
 assert.equal(manifest.articles.length,14);
@@ -29,7 +29,7 @@ const target=manifest.items.find(x=>x.id==='personnages-verite-especes-tokala');
 visibilityTarget={articleId:target.id,src:target.src};
 if(visibility)target.visibility=visibility;
 const corpus=await getCompendiumQualityCorpus();
-if(visibility)assert.equal(JSON.stringify(corpus.publicArticles).includes(target.src),visibility==='public','Admin visibility override ignored');
+if(visibility)assert.equal(JSON.stringify(corpus.publicArticles).includes(mediaAlias(target.src)),visibility==='public','Admin visibility override ignored');
 const byId=new Map(corpus.articles.map(a=>[a.id,a]));
 const app=Fastify();await registerCompendiumRoutes(app);
 const publicText=JSON.stringify(corpus.publicArticles);
@@ -43,7 +43,7 @@ for(const item of manifest.items){
    'Superseded portrait still visible in gallery: '+item.id);
  const bytes=await readFile(resolve(root,'compendium',item.src));
  assert.equal(bytes.subarray(0,4).toString(),'RIFF');assert.equal(bytes.subarray(8,12).toString(),'WEBP');
- if(item.visibility==='mj')assert.ok(!publicText.includes(item.src),'MJ image leaked: '+item.id);
+ if(item.visibility==='mj')assert.ok(!publicText.includes(item.src)&&!publicText.includes(mediaAlias(item.src)),'MJ image leaked: '+item.id);
 }
 for(const item of new Map(manifest.items.map(x=>[x.src,x])).values()){
  const res=await app.inject({url:'/api/compendium/media/'+item.src});
