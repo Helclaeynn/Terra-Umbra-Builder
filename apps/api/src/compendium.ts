@@ -659,6 +659,13 @@ function hasProtectedPnjIdentity(article: Article): boolean {
   return Boolean(realName && truthName && realName !== truthName);
 }
 
+const TRUTH_PNJ_GROUPS = new Set(["Personnages de Vérité", "Figures de Vérité", "Corruption & menaces", "Chasseurs"]);
+function hasTruthPnjNavigation(article: Article): boolean {
+  if (article.category !== "Personnages") return false;
+  const navigation = article.navigation as JsonObject | undefined;
+  return TRUTH_PNJ_GROUPS.has(String(navigation?.group ?? ""));
+}
+
 function articleForAudience(article: Article, includeMj: boolean, includeTruth = includeMj): Article {
   const result = deepClone(article);
   // Étiquettes de niveau Vérité : ajoutées aux étiquettes visibles pour qui y a accès.
@@ -682,7 +689,10 @@ function articleForAudience(article: Article, includeMj: boolean, includeTruth =
       else delete result.illustration;
     }
     if (Array.isArray(result.gallery)) result.gallery = result.gallery.filter((media) => !isPrivatePortrait(media));
-    const protectedIdentity = hasProtectedPnjIdentity(article);
+    // La rubrique d'un PNJ rangé par sa nature de Vérité (« Personnages de
+    // Vérité · Pelages roux ») trahirait son secret : même traitement qu'une
+    // identité protégée.
+    const protectedIdentity = hasProtectedPnjIdentity(article) || hasTruthPnjNavigation(article);
     if (Array.isArray(result.sections)) {
       result.sections = result.sections.filter((section) =>
         section?.audience !== "mj" && (includeTruth || section?.audience !== "verite"));
