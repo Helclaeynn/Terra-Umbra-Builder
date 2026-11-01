@@ -1,4 +1,4 @@
-import {APPROVED_PNJ_ALIASES} from "../dist/compendium-pnj-approved-merges.js";
+import {APPROVED_PNJ_ALIASES,mergedSectionPrefix} from "../dist/compendium-pnj-approved-merges.js";
 import assert from 'node:assert/strict';
 import pg from 'pg';
 import {NPC_TRUTH_TIERS} from '../dist/npc-truth-tiers.js';
@@ -18,9 +18,15 @@ const corpus=await getCompendiumQualityCorpus();
 const byId=new Map(corpus.articles.map(person=>[person.id,person]));
 const publicById=new Map(corpus.publicArticles.map(person=>[person.id,person]));
 for(const [alias,id] of Object.entries(APPROVED_PNJ_ALIASES)){
- const person=byId.get(id),prefix=`merged-${alias}-`;
+ const person=byId.get(id),prefix=mergedSectionPrefix(alias);
  if(!person)continue;
- const sourceSections=person.sections.filter(s=>s.id.startsWith(prefix)).map(s=>({...s,id:s.id.slice(prefix.length)}));
+ // Sections publiques reprises, et sections MJ rangées dans le dossier (blocs marqués mergedFrom).
+ const folded=new Map();
+ for(const block of person.sections.flatMap(s=>s.blocks??[]))if(String(block.mergedFrom??'').startsWith(prefix)){
+  if(!folded.has(block.mergedFrom))folded.set(block.mergedFrom,{id:block.mergedFrom.slice(prefix.length),title:String(block.text).replace(/^Fiche fusionnée · /,''),audience:'mj',blocks:[]});
+  else folded.get(block.mergedFrom).blocks.push(block);
+ }
+ const sourceSections=[...person.sections.filter(s=>s.id.startsWith(prefix)).map(s=>({...s,id:s.id.slice(prefix.length)})),...folded.values()];
  // Validate the preserved historical profile against its own historical rules.
  if(sourceSections.length)byId.set(alias,{...person,id:alias,sections:sourceSections});
  const publicPerson=publicById.get(publicArticleId(id));
@@ -112,7 +118,7 @@ const withoutCivilSkillTable=INDIVIDUALLY_REVIEWED_TRUTH_PNJ_IDS.filter(id=>{
 assert.deepEqual(withoutCivilSkillTable,[],'Truth profiles may inherit unlisted skills only when their Reality profile has actual ranks');
 for(const id of INDIVIDUALLY_REVIEWED_TRUTH_PNJ_IDS){
   const article=byId.get(id);
-  const ptv=article.sections.filter(section=>!section.id.startsWith('merged-')).flatMap(section=>section.blocks||[])
+  const ptv=article.sections.filter(section=>!section.id.startsWith('fusion-')).flatMap(section=>section.blocks||[]).filter(block=>!block.mergedFrom)
     .filter(block=>block.type==='table'&&block.rows[0]?.[0]==='Talent de Vérité PNJ acheté');
   assert.equal(ptv.length,1,id);
   assert.ok([6,13,25,41,61].includes(Number(ptv[0].rows.at(-1)[1])),id);
