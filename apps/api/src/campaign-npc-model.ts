@@ -68,5 +68,5 @@ export function validNpcData(value:unknown,catalog:Pick<NpcCatalog,'attributes'|
 }
 export function cleanNpcData(d:NpcData):NpcData{return {sex:d.sex??'unspecified',name:d.name.trim(),firstName:d.firstName?.trim()??'',lastName:d.lastName?.trim()??'',nationality:d.nationality?.trim()??'',truth:d.truth??null,tierId:d.tierId,presetId:d.presetId,role:d.role,faction:d.faction,appearance:d.appearance,personality:d.personality,motivation:d.motivation,secret:d.secret,notes:d.notes,equipment:d.equipment,equipmentIds:[...new Set(d.equipmentIds??[])],truthNotes:d.truthNotes,tags:[...new Set(d.tags.map(t=>t.trim()))],attributes:d.attributes,skills:d.skills,talentIds:d.talentIds,expertiseSkill:d.expertiseSkill,apexSkill:d.apexSkill,apexReason:d.apexReason,armor:d.armor,portrait:d.portrait};}
 
-export type NpcArticleBlock={type:'p';text:string}|{type:'table';rows:string[][]};
+export type NpcArticleBlock={type:'p';text:string;style?:string}|{type:'table';rows:string[][]};
 export type NpcArticleDraft={id:string;title:string;category:string;source:string;status:string;tags:string[];pnj:Record<string,unknown>;sections:{id:string;title:string;level:number;audience?:string;blocks:NpcArticleBlock[]}[]};

@@ -83,7 +83,7 @@ for(const power of c.truthPowers){const truthRange=c.truthRanges[`${power.id}:pr
 }
 const secretTruth=structuredClone(selectedNationality);secretTruth.truth.notes='MJ ONLY KING';secretTruth.truth.abilities='MJ ONLY POWER';
 const truthDraft=canonicalNpcDraft(secretTruth);
-assert.equal(truthDraft.sections.find(s=>s.id==='profil-verite').audience,'mj');
+const profiles=truthDraft.sections.find(s=>s.id==='profil-statistique');assert.equal(profiles.audience,'mj');assert.ok(profiles.blocks.some(b=>b.style==='profil-titre'&&/révélé/.test(b.text)));assert.ok(!truthDraft.sections.some(s=>s.id==='profil-verite'));
 assert.ok(!JSON.stringify(truthDraft.sections.filter(s=>s.audience!=='mj')).includes('MJ ONLY'));
 assert.ok(JSON.stringify(truthDraft.sections.filter(s=>s.audience==='mj')).includes('MJ ONLY KING'));
 const npc={...refNpc,faction:'PRIVATE FACTION',secret:'PRIVATE SECRET',truthNotes:'PRIVATE TRUTH',portrait:'data:image/png;base64,test'};

@@ -108,6 +108,8 @@ const presentation = computed(() => props.blocks.map(block => ({
 .npc-stat-profile{--npc-line:var(--tu-border,#2c4858);--npc-muted:var(--tu-muted,#9fb4c3);--npc-accent:var(--tu-accent,#8cd7de);display:grid;gap:24px;min-width:0;color:inherit}
 .npc-profile-block{min-width:0}
 .npc-profile-paragraph{margin:0;line-height:1.8;overflow-wrap:anywhere}
+/* Intertitre de la section « Profils » : profil de Réalité, puis profil révélé. */
+.npc-profile-paragraph.profil-titre{margin-top:12px;padding-bottom:4px;border-bottom:1px solid var(--npc-line);font-weight:700;letter-spacing:.02em;color:var(--npc-accent)}
 .npc-profile-labels{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:12px;min-width:0}
 .npc-profile-labels h4{margin:0;color:var(--npc-accent);font-size:15px;font-weight:600;line-height:1.5}
 .npc-profile-column-label,.npc-profile-column-key{color:var(--npc-muted);font-size:12px;line-height:1.6}

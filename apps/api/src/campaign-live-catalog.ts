@@ -19,10 +19,30 @@ function articleReference(article:any){
 export function capabilityRolls(data:any){
  return combatReference(data).abilities.flatMap((text:string,i:number)=>{const matches=[...text.matchAll(/1d10e?\s*\+\s*(\d+)/gi)];if(matches.length!==1)return [];const score=Number(matches[0][1]);return [{id:'capability:'+i,label:text.split(/[—–]/).slice(0,2).join(' — ').trim().slice(0,120),modifier:score,attack:false,description:text,components:{profileScore:score,profileName:'Capacité',bonus:0}}];});
 }
+// La section « Profils » d'un PNJ réunit le profil de Réalité et le profil
+// révélé, séparés par un intertitre (style profil-titre) : chaque partie donne
+// son propre profil de combat, comme les anciennes sections séparées.
+function profileSegments(sections:any[]){
+ return sections.flatMap((section:any)=>{
+  const blocks=section.blocks??[];
+  if(!blocks.some((b:any)=>b.style==='profil-titre'))return [section];
+  const out:any[]=[];
+  for(const block of blocks){
+   if(block.style==='profil-titre'){
+    const revealed=/verite|revele/.test(norm(block.text));
+    out.push({id:revealed?'profil-verite':section.id,title:String(block.text??''),blocks:[]});
+    continue;
+   }
+   if(!out.length)out.push({id:section.id,title:section.title,blocks:[]});
+   out[out.length-1].blocks.push(block);
+  }
+  return out;
+ });
+}
 export function articleCombatProfiles(article:any){
  const profiles:any[]=[];
  const sections=article.sections??[];
- for(const section of sections){
+ for(const section of profileSegments(sections)){
   if(!/stat|profil|verite|realite/.test(norm(section.id+' '+section.title)))continue;
   const attributes:Record<string,number>={},skills:Record<string,number>={};let armor=0,attributesRead=false;
   const revealed=/verite|revele/.test(norm(section.id+' '+section.title));
