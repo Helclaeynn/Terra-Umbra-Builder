@@ -32,7 +32,7 @@ import {
   approvePendingGmRequest,
   registerGmAccessRoutes
 } from "./gm-access.js";
-import { invalidateTruthRules, preloadBuilderRules, registerRulesRoutes, reloadRealityRules } from "./rules/index.js";
+import { invalidateTruthRules, preloadBuilderRules, registerRulesRoutes, reloadContentRules } from "./rules/index.js";
 import { passwordResetMailAvailable, sendPasswordResetEmail } from "./mail.js";
 
 const app = Fastify({
@@ -1032,7 +1032,7 @@ startContentWatch(() => {
   app.log.info("Tables de contenu modifiées : compendium et règles relus.");
   invalidateCompendiumCorpus();
   invalidateTruthRules();
-  void reloadRealityRules().catch((error) => app.log.error(error));
+  void reloadContentRules().catch((error) => app.log.error(error));
 });
 
 const port = Number(process.env.PORT ?? 3000);

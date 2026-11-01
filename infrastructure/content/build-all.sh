@@ -6,6 +6,6 @@
 set -euo pipefail
 cd "$(dirname "$0")/../.."
 export TUC_TRUTH_EQUIPMENT_SOURCE=compendium/source/verite-catalog-v6.json.gz.b64
-for generator in vampire garou khinae natures objets realite equipement; do
+for generator in vampire garou khinae natures objets realite equipement creation; do
   node --import ./infrastructure/content/ts-register.mjs "infrastructure/content/build-$generator.mjs"
 done
