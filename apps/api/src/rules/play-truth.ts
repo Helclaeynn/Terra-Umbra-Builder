@@ -1,9 +1,9 @@
 import {vampirePowerRules} from './live-vampire.js';
 import {normalizeExileBuild} from './truth/exile-build.js';
-import {truthCoreRules} from './truth/core-rules.js';
+import {terraUmbraTruthRules as truthRules} from './truth/rules.js';
 import {khinaeBodyProfile,khinaeUsableTalents} from './truth/khinae.js';
 import type {TruthRulesPackage,TruthState} from './truth/types.js';
-const pkg=truthCoreRules as unknown as TruthRulesPackage;
+const pkg=truthRules as unknown as TruthRulesPackage;
 export type BodyForm='human'|'animal'|'hybrid';
 export type ActivePower={id:string;until:number|null;skill:string;amount:number;note:string};
 export function liveTruthState(data:any):TruthState{return {...data.truth,choices:data.truth?.choices??{},truthTalents:[...new Set<string>([...(data.truth?.truthTalents??[]),...(data.progression?.truthTalents??[])])]};}

@@ -1,12 +1,12 @@
 import {terraUmbraCreationRules} from './terra-umbra-creation.js';
-import {truthCoreRules} from './truth/core-rules.js';
+import {terraUmbraTruthRules as truthRules} from './truth/rules.js';
 import {liveTruthState} from './play-truth.js';
 import {angelusAuraCapacity,angelusTalentIds,normalizeAngelusBuild,angelusConstructIssues} from './truth/angelus-build.js';
 import {daemonTalentIds,normalizeDaemonBuild,daemonDefinitionIssues,daemonPathologyIssues} from './truth/daemon-build.js';
 import {mageMasteries,mageAmplitudes} from './truth/mage-techniques.js';
 import type {TruthTalent,TruthNature} from './truth/types.js';
 
-const pkg=truthCoreRules as unknown as {structure:{natures:Record<string,TruthNature>};catalogs:Record<string,TruthTalent[]>};
+const pkg=truthRules as unknown as {structure:{natures:Record<string,TruthNature>};catalogs:Record<string,TruthTalent[]>};
 const cap='capacites_et_talents_communs_talents_communs_';
 export const natureResourceIds={equilibrium:cap+'equilibrage_du_flux',discharge:cap+'decharge_controlee',boost:'nature_commune_pouvoirs_angeliques_talents_communs_recharge_fulgurante',egide:'nature_commune_pouvoirs_angeliques_talents_communs_egide_renforcee',offering:'les_dix_sephiroth_tiph_ereth_la_beaute_facette_sacrifice_offrande',resonance:'daemon_clean_talents_communs_de_nature_resonance_profonde'} as const;
 export type NatureSpell={intent?:'hostile'|'support'|'narrative';affinity:string;amplitude:'mineure'|'significative'|'majeure'|'cataclysmique';range:'contact'|'will'|'sight';channel:number;opposed:boolean;urgent:boolean;contextDifficult:boolean;forceAmplitude:boolean;forceMastery:boolean;note:string};

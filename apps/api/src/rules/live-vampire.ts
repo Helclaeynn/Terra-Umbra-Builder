@@ -1,6 +1,6 @@
 import {supernaturalHealingMaximum,lightningAutomaticSurvivalAllowed} from './lightning-wounds.js';
 import type {PlayState} from './play-state.js';
-import {truthCoreRules} from './truth/core-rules.js';
+import {terraUmbraTruthRules as truthRules} from './truth/rules.js';
 import {liveTruthState} from './play-truth.js';
 import type {TruthTalent} from './truth/types.js';
 
@@ -18,9 +18,10 @@ const copy=(state:VampireState):VampireState=>({...state,powerUses:{...state.pow
 const usage=(state:PlayState,period:string,id:string)=>(state.powerUses?.[period+':'+id]??0)>0;
 const consume=(state:PlayState,period:string,id:string)=>{state.powerUses??={};state.powerUses[period+':'+id]=(state.powerUses[period+':'+id]??0)+1;};
 const vampire=(data:any,state:PlayState)=>data.truth?.nature==='vampire'&&data.truth?.consciousness==='initie'&&state.revelation==='r';
-const catalog=truthCoreRules.catalogs.vampire as unknown as readonly TruthTalent[];
+// Lu à chaque appel : le catalogue peut être rechargé depuis la base.
+const catalog=()=>truthRules.catalogs.vampire as unknown as readonly TruthTalent[];
 export function vampireTalent(data:any,state:PlayState,id:string){
- const t=liveTruthState(data),row=catalog.find(p=>p.id===id);
+ const t=liveTruthState(data),row=catalog().find(p=>p.id===id);
  if(t.nature!=='vampire'||t.consciousness!=='initie'||!row||!t.truthTalents.includes(id))return false;
  const prerequisite=row.prerequisite;
  if(prerequisite&&prerequisite!=='echo_des_morts'&&!t.truthTalents.includes(prerequisite))return false;
@@ -178,7 +179,7 @@ export const vampirePowerRules:Record<string,{cost:number;maintenance?:number;li
  lecture_superficielle:{cost:1,route:'assisted'},lecture_profonde:{cost:2,route:'assisted'},sang_de_verite:{cost:1,route:'assisted'},dissipation_revelatrice:{cost:1,route:'assisted'},
  faim_condamnee:{cost:1,route:'assisted'},faim_magique:{cost:1,route:'defense'},changement_de_corps:{cost:0,limit:'scenario',route:'assisted'}
 };
-export const vampireBloodTalent=(id:string)=>catalog.find(p=>p.id===id)?.group?.startsWith('Sang ')??false;
+export const vampireBloodTalent=(id:string)=>catalog().find(p=>p.id===id)?.group?.startsWith('Sang ')??false;
 /** Charge only after all other cost reductions; callers execute the resulting ability atomically. */
 export function prepareVampireBlood(data:any,original:VampireState,request:{id:string;cost:number;offering?:boolean;test?:boolean},ctx:VampireContext):VampireResult{
  const state=copy(original),v=state.vampire!,hp=state.hp??ctx.maximum;

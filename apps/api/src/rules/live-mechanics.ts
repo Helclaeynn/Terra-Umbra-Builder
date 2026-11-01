@@ -1,6 +1,6 @@
 import {registeredTruthPowers,usableRegisteredPower} from './live-power-registry.js';
 import {vampireTalent,vampireDefensePower} from './live-vampire.js';
-import {truthCoreRules} from './truth/core-rules.js';
+import {terraUmbraTruthRules as truthRules} from './truth/rules.js';
 import {liveTruthState,truthPowers,powerAllowed,usableKhinaeTalent,liveBody} from './play-truth.js';
 import type {PlayState} from './play-state.js';
 
@@ -14,7 +14,7 @@ export const defenseMechanics=[
 export const cycleId='extral-cycle-de-reparation',reserveId='extral-reserve-nanitique';
 export const dedicatedPowerIds=new Set<string>([...defenseMechanics.map(p=>p.id),cycleId,reserveId]);
 export function usableLiveTalent(data:any,state:Pick<PlayState,'revelation'>,id:string){
- const t=liveTruthState(data),entry=(truthCoreRules.catalogs as Record<string,readonly any[]>)[t.nature]?.find(p=>p.id===id);
+ const t=liveTruthState(data),entry=(truthRules.catalogs as Record<string,readonly any[]>)[t.nature]?.find(p=>p.id===id);
  if(!entry||!t.truthTalents.includes(id)||t.consciousness==='profane')return false;
  if(['garou','khinae'].includes(t.nature)&&!usableKhinaeTalent(data,id.replace(/^khinae_blood_/,'')))return false;
  if(entry.when&&!Object.entries(entry.when).every(([k,v])=>Array.isArray(v)?v.includes(t.choices[k]):v===t.choices[k]))return false;

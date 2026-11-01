@@ -4,10 +4,10 @@
 //
 // Comme pour la création (creation-content.ts), on remplace le contenu de
 // l'objet exporté, en gardant les catalogues du code pour y revenir si la base
-// est vide. Les voies, cartes et coûts des lots s'ajoutent ensuite
+// est vide. Les voies, cartes, coûts et textes des lots s'y ajoutent
 // (applyContentRules, content-rules.ts).
 import { pool } from "../db.js";
-import { contentRulesEnabled } from "./content-rules.js";
+import { applyContentRules, contentRulesEnabled } from "./content-rules.js";
 import { invalidateTalentRegistry } from "./talent-registry.js";
 import { terraUmbraTruthRules } from "./truth/rules.js";
 
@@ -60,6 +60,10 @@ export async function loadTruthContent() {
       requiresMj: row.fields.mj
     }));
   }
+  // Voies, coûts des paliers, textes des entrées « talent » et talents rétablis :
+  // le Builder et la fiche en partie lisent ainsi les mêmes talents.
+  await applyContentRules(next);
   for (const key of KEYS) target[key] = next[key];
+  target.contentSource = next.contentSource;
   invalidateTalentRegistry();
 }

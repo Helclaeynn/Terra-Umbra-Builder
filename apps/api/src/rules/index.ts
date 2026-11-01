@@ -196,7 +196,8 @@ async function enrichTruthRules(){
       })
     );
   }
-  return applyContentRules(truth);
+  // Déjà appliqué au paquet chargé depuis la base (truth-content.ts).
+  return truth.contentSource==="db"?truth:applyContentRules(truth);
 }
 
 async function enrichRealityRules(){

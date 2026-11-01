@@ -75,6 +75,25 @@ function voieOf(row: Row): TalentVoie | undefined {
   };
 }
 
+/**
+ * Les textes d'un talent viennent de son entrée « talent » (un seul endroit à
+ * modifier) : nom, règle de référence, ambiance, activation. `resume` est le
+ * texte court affiché au-dessus de la règle ; sans lui, la règle sert de résumé.
+ * Ce que l'entrée n'a pas reste celui du catalogue (catalogue_<nature>).
+ */
+function talentTexts(row: Row, talent: any) {
+  const f = row.fields;
+  if (f.texte_reference == null) return { name: row.title };
+  const resume = f.resume ?? (talent.effect && talent.effect !== f.texte_reference ? talent.effect : undefined);
+  return {
+    name: row.title,
+    effect: resume ?? f.texte_reference,
+    effectDetails: resume ? f.texte_reference : undefined,
+    runtimeLore: f.lore ?? talent.runtimeLore,
+    activation: f.activation ?? talent.activation
+  };
+}
+
 /** Les Sangs vifs sont communs au Garou et au Khinae (décision 10). */
 const SHARED_SCOPES: Record<string, string[]> = { garou: ["sangs_vifs"], khinae: ["sangs_vifs"] };
 
@@ -92,6 +111,7 @@ export async function applyContentRules(truth: any) {
   const overlay = (scope: string, talents: any[]) => {
     const scopes = [scope, ...(SHARED_SCOPES[scope] ?? [])];
     const seen = new Set<string>();
+    const renamed = new Map<string, string>();
     const out = talents.map((talent) => {
       let row: Row | undefined;
       for (const s of scopes) row ??= byScope.get(s)?.get(talent.id) ?? legacy.get(`${s}:${talent.id}`);
@@ -101,6 +121,8 @@ export async function applyContentRules(truth: any) {
       const next = { ...talent, voie, card: row.fields.texte_court ?? undefined };
       // Fusion dans la même Nature : l'ancien identifiant reste connu, au coût payé.
       if (row.scope === scope && row.slug !== talent.id) return { ...next, aliasOf: row.slug };
+      Object.assign(next, talentTexts(row, talent));
+      if (talent.name && next.name !== talent.name) renamed.set(talent.name, next.name);
       if (PAID.has(String(row.fields.palier)) && Number.isFinite(row.fields.cout)) next.cost = row.fields.cout;
       return next;
     });
@@ -122,6 +144,11 @@ export async function applyContentRules(truth: any) {
         card: row.fields.texte_court ?? undefined,
         restored: true
       });
+    }
+    // Les prérequis désignent leur talent par son nom : suivre les renommages.
+    for (const talent of out) {
+      const name = talent.prerequisiteName && renamed.get(talent.prerequisiteName);
+      if (name) talent.prerequisiteName = name;
     }
     return out;
   };

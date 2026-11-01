@@ -1,4 +1,4 @@
-import {truthCoreRules} from './truth/core-rules.js';
+import {terraUmbraTruthRules as truthRules} from './truth/rules.js';
 import {liveTruthState,powerAllowed,usableKhinaeTalent} from './play-truth.js';
 import {normalizeExileBuild,exileHordes} from './truth/exile-build.js';
 import {normalizeExtralBuild,extralNetworkAccess} from './truth/extral-build.js';
@@ -23,7 +23,7 @@ export type RegisteredPowerRule={
 type RuleInput=Omit<RegisteredPowerRule,'name'|'nature'>;
 const list:RegisteredPowerRule[]=[];
 const add=(nature:string,input:RuleInput)=>{
- const entry=(truthCoreRules.catalogs as Record<string,readonly any[]>)[nature]?.find(t=>t.id===input.id);
+ const entry=(truthRules.catalogs as Record<string,readonly any[]>)[nature]?.find(t=>t.id===input.id);
  if(!entry)throw new Error('Unknown canonical power: '+input.id);
  list.push({...input,nature,name:entry.name,allowedForms:input.id==='deplacement_agile'?['animal','hybrid']:input.allowedForms,requiresFunctionalSwarm:['extral-cycle-de-reparation','extral-reserve-nanitique','extral-surcadence-somatique'].includes(input.id)||input.requiresFunctionalSwarm,params:{skill:input.effects.some(e=>e.kind==='skill'&&(!e.skills||e.skills.length>1))}});
 };
@@ -58,7 +58,7 @@ defense('garou','dechainement_elementaire',1,3,null,false,'Un élément en quant
 list[list.length-1].notes+=' L’attaque alternative DGT 6 à 20 m est une autre résolution à 1 PA, Volonté + Force mentale contre Défense physique ; aucun double effet.';
 for(const rule of [...list].filter(p=>p.nature==='garou')){
  const id='khinae_blood_'+rule.id;
- if((truthCoreRules.catalogs.khinae as readonly any[]).some(t=>t.id===id))add('khinae',{...rule,id});
+ if((truthRules.catalogs.khinae as readonly any[]).some(t=>t.id===id))add('khinae',{...rule,id});
 }
 
 // Extrals: reviewed species and organizational techniques.
@@ -194,14 +194,14 @@ function whenAllowed(data:any,entry:any){
  }
  const networks=new Set<string>([String(t.choices.network??'')]);
  if(t.nature==='exile'){
-  const valid=(truthCoreRules.structure.natures.exile.choices as readonly any[]).find(c=>c.key==='network')?.optionsBy?.[String(t.choices.people??'')]??[];
+  const valid=(truthRules.structure.natures.exile.choices as readonly any[]).find(c=>c.key==='network')?.optionsBy?.[String(t.choices.people??'')]??[];
   if(!valid.some((n:any)=>n.id===t.choices.network))networks.clear();
   for(const training of normalizeExileBuild(t.choices.exileBuild).trainings)if(training.learned&&training.mentor.trim()&&training.conditions.trim())networks.add(training.network);
   if(exileHordes.some(h=>networks.has(h)))networks.add('horde_commune');
  }
  if(entry.when&&!Object.entries(entry.when).every(([key,value])=>key==='network'&&t.nature==='exile'?typeof value==='string'&&networks.has(value):Array.isArray(value)?value.includes(t.choices[key]):value===t.choices[key]))return false;
  if(t.nature==='aseryn'){
-  const group=normal(entry.group),needles=truthCoreRules.visibility.needles.aseryn as Record<string,readonly string[]>;
+  const group=normal(entry.group),needles=truthRules.visibility.needles.aseryn as Record<string,readonly string[]>;
   if(group.includes('routes communes aserynes'))return true;
   const origins=new Set([String(t.choices.origin??'')]);
   const inherited='aseryn_origines_jouables_seratheen_empreinte_sang_mele_';
@@ -218,7 +218,7 @@ export type RegisteredPowerState={revelation:string;powerUses?:Record<string,num
 export function usableRegisteredPower(data:any,state:RegisteredPowerState,id:string){
  const rule=indexed.get(id);if(!rule||rule.requiresFunctionalSwarm&&state.swarmFunctional===false||rule.allowedForms&&!rule.allowedForms.includes(state.form??'human'))return false;
  const t=liveTruthState(data);if(t.consciousness==='profane'||t.nature!==rule.nature||!t.truthTalents.includes(id))return false;
- const catalog=(truthCoreRules.catalogs as Record<string,readonly any[]>)[rule.nature]??[],byId=new Map(catalog.map(entry=>[entry.id,entry]));
+ const catalog=(truthRules.catalogs as Record<string,readonly any[]>)[rule.nature]??[],byId=new Map(catalog.map(entry=>[entry.id,entry]));
  const ready=(key:string,ancestors=new Set<string>()):boolean=>{
   const entry=byId.get(key);if(!entry||!t.truthTalents.includes(key)||ancestors.has(key)||!whenAllowed(data,entry))return false;
   const chain=new Set([...ancestors,key]);
