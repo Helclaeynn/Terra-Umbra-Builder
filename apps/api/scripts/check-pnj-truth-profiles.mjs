@@ -118,7 +118,7 @@ const withoutCivilSkillTable=INDIVIDUALLY_REVIEWED_TRUTH_PNJ_IDS.filter(id=>{
 assert.deepEqual(withoutCivilSkillTable,[],'Truth profiles may inherit unlisted skills only when their Reality profile has actual ranks');
 for(const id of INDIVIDUALLY_REVIEWED_TRUTH_PNJ_IDS){
   const article=byId.get(id);
-  const ptv=article.sections.filter(section=>!section.id.startsWith('fusion-')).flatMap(section=>section.blocks||[]).filter(block=>!block.mergedFrom)
+  const ptv=article.sections.filter(section=>!section.id.startsWith('fusion-')).flatMap(section=>section.blocks||[]).filter(block=>!block.mergedFrom||APPROVED_PNJ_ALIASES[id])
     .filter(block=>block.type==='table'&&block.rows[0]?.[0]==='Talent de Vérité PNJ acheté');
   assert.equal(ptv.length,1,id);
   assert.ok([6,13,25,41,61].includes(Number(ptv[0].rows.at(-1)[1])),id);
