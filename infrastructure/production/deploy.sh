@@ -29,7 +29,10 @@ dry_run=${DRY_RUN:-0}
 exec 9>"$root/.production-release.lock"
 flock -w 60 9 || { echo "Une autre mise en ligne est en cours" >&2; exit 1; }
 
+# Le cache de construction (commun aux deux sites) peut dépasser 15 Go après
+# un essai interrompu : on le vide d'abord si la place manque.
 free_gb=$(df --output=avail -BG / | tail -1 | tr -dc 0-9)
+if (( free_gb < 10 + 4 )); then docker builder prune -af >/dev/null; free_gb=$(df --output=avail -BG / | tail -1 | tr -dc 0-9); fi
 if (( free_gb < 10 )); then
   echo "Moins de 10 Go libres sur le serveur ($free_gb Go) : arrêt." >&2
   exit 1
@@ -148,8 +151,8 @@ docker images --format '{{.Repository}}:{{.Tag}}' |
   grep -vE ":(latest|rollback|$short)$" |
   xargs -r docker rmi >/dev/null 2>&1 || true
 docker image prune -f >/dev/null
-# Cache de construction commun avec le site d'essai : plafonné à 4 Go.
-docker builder prune -f --max-used-space 4gb >/dev/null
+# Cache de construction commun avec le site d'essai : vidé (--max-used-space ne le réduit pas).
+docker builder prune -af >/dev/null
 
 echo "EN LIGNE : $sha"
 df -h / | awk 'NR==2{print "Disque : "$4" libres ("$5" utilisés)"}'

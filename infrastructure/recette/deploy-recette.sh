@@ -24,7 +24,10 @@ refresh=${REFRESH_DATA:-0}
 exec 9>"$root/.recette.lock"
 flock -w 60 9 || { echo "Une mise à l'essai est déjà en cours" >&2; exit 1; }
 
+# Le cache de construction (commun aux deux sites) peut dépasser 15 Go après
+# un essai interrompu : on le vide d'abord si la place manque.
 free_gb=$(df --output=avail -BG / | tail -1 | tr -dc 0-9)
+if (( free_gb < 8 + 4 )); then docker builder prune -af >/dev/null; free_gb=$(df --output=avail -BG / | tail -1 | tr -dc 0-9); fi
 if (( free_gb < 8 )); then
   echo "Moins de 8 Go libres sur le serveur ($free_gb Go) : arrêt." >&2
   exit 1
@@ -136,8 +139,8 @@ for _ in $(seq 1 30); do
       node:24-alpine node /setup.mjs </dev/null
     docker image prune -f >/dev/null
     # Le cache de construction grossit de 2 à 3 Go à chaque essai (17 Go le
-    # 01/11) : on le plafonne à 4 Go, assez pour accélérer l'essai suivant.
-    docker builder prune -f --max-used-space 4gb >/dev/null
+    # 01/11) et --max-used-space ne le réduit pas : on le vide.
+    docker builder prune -af >/dev/null
     printf '%s\n' "$sha" > "$dir/.recette-sha"
     echo "À L'ESSAI : $sha sur https://dev.terra-umbra.fr"
     exit 0
