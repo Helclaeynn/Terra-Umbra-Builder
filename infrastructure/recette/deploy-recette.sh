@@ -101,18 +101,19 @@ for file in "$stage"/infrastructure/migrations/*.sql; do
   fi
 done
 
-# Contenu en base (étape 6) : importé quand la base d'essai n'en a pas, ou
-# quand on recopie les données. Jamais par-dessus : depuis Directus, c'est
-# là qu'on modifie le contenu, et un import écraserait ces modifications.
-if [ "$refresh" = 1 ] || [ "$(psql -Atc "SELECT count(*) FROM content_entry" </dev/null)" = 0 ]; then
-  for file in "$stage"/infrastructure/content/*.sql; do
-    [ -e "$file" ] || continue
-    echo "Contenu : $(basename "$file")"
+# Contenu en base : chaque fichier infrastructure/content/*.sql couvre une
+# portée (vampire, objets, equipement…). Il n'est importé que si sa portée est
+# vide dans la base d'essai, ou quand on recopie les données. Jamais
+# par-dessus : le contenu se modifie sur le site (passe éditoriale), et un
+# import écraserait ces modifications.
+for file in "$stage"/infrastructure/content/*.sql; do
+  [ -e "$file" ] || continue
+  scope=$(grep -om1 "WHERE scope = '[a-z_]*'" "$file" | cut -d"'" -f2)
+  if [ "$refresh" = 1 ] || [ "$(psql -Atc "SELECT count(*) FROM content_entry WHERE scope = '$scope'" </dev/null)" = 0 ]; then
+    echo "Contenu : $(basename "$file") (portée $scope)"
     psql -q < "$file"
-  done
-else
-  echo "Contenu : déjà en base, non réimporté (REFRESH_DATA=1 pour repartir des lots)"
-fi
+  fi
+done
 
 echo "== Démarrage"
 compose up -d --force-recreate recette-api recette-web </dev/null

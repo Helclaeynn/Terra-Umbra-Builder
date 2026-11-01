@@ -14,6 +14,7 @@
 // Les talents rétablis par les lots (sans identifiant au catalogue) sont
 // ajoutés, avec le groupe d'un talent de la même voie pour garder leur visibilité.
 import { pool } from "../db.js";
+import { useRealityContent } from "./reality.js";
 
 type Row = {
   scope: string;
@@ -129,4 +130,30 @@ export async function applyContentRules(truth: any) {
   if (truth.corruption?.talents) truth.corruption.talents = overlay("corruption", truth.corruption.talents);
   truth.contentSource = "db";
   return truth;
+}
+
+/**
+ * Équipement et augmentations de Réalité (portée « equipement »,
+ * infrastructure/content/build-equipement.mjs), dans l'ordre de l'import.
+ * Sans entrée publiée, les catalogues du code restent en service.
+ */
+export async function loadRealityContent() {
+  if (!contentRulesEnabled()) return;
+  const { rows } = await pool.query<{ type: string; slug: string; title: string; fields: Record<string, any> }>(`
+    SELECT e.type, e.slug, e.title, e.fields
+      FROM content_entry e
+      LEFT JOIN content_relation r ON r.from_id = e.id AND r.kind = 'appartient_a'
+     WHERE e.scope = 'equipement' AND e.status = 'published'
+     ORDER BY r.position NULLS FIRST, e.slug`);
+  const item = (row: (typeof rows)[number]) => {
+    const { nature: _scope, ...fields } = row.fields;
+    return { id: row.slug, name: row.title, ...fields } as any;
+  };
+  const equipment = rows.filter((row) => row.type === "equipement").map(item);
+  if (!equipment.length) return useRealityContent(null);
+  useRealityContent({
+    equipment,
+    augmentations: rows.filter((row) => row.type === "augmentation").map(item),
+    economy: rows.find((row) => row.type === "regle" && row.slug === "economie")?.fields.economy
+  });
 }

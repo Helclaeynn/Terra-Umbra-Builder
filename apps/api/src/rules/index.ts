@@ -6,7 +6,7 @@ import { terraUmbraCreationRules } from "./terra-umbra-creation.js";
 import { terraUmbraCreationLore, terraUmbraTalentChoiceSpecs, terraUmbraRealitySkillTalentMap } from "./terra-umbra-creation-lore.js";
 import { terraUmbraDisadvantages, terraUmbraDisadvantageLore, terraUmbraEdgeRules } from "./terra-umbra-disadvantages-edge.js";
 import { terraUmbraTruthRules } from "./truth/rules.js";
-import { applyContentRules } from "./content-rules.js";
+import { applyContentRules, loadRealityContent } from "./content-rules.js";
 import { getRealityRules } from "./reality.js";
 import {
   findActiveCompendiumArticleById,
@@ -244,8 +244,16 @@ function getEnrichedReality(){
   return realityPromise;
 }
 
+/** Équipement de Réalité à relire (tables de contenu modifiées). */
+export async function reloadRealityRules(){
+  await loadRealityContent();
+  realityPromise=null;
+  void getEnrichedReality();
+}
+
 export async function preloadBuilderRules():Promise<void>{
   const started=performance.now();
+  await loadRealityContent();
   const [creation,truth,reality]=await Promise.all([
     getEnrichedCreation(),
     getEnrichedTruth(),
