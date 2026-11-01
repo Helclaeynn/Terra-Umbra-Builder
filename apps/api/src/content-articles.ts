@@ -180,6 +180,40 @@ export async function syncArticlesWithContent(byId: Map<string, Article>, mjOnly
   return { seeded: 0, loaded: published.size };
 }
 
+// Titres d'affichage de l'arbre de navigation (seule donnée de la composition
+// du code encore utile une fois les articles en base) : relevés une fois.
+const NAVIGATION_TITLES = "navigation-titres";
+
+export async function saveContentNavigationTitles(titles: Record<string, string>) {
+  if (!contentRulesEnabled()) return;
+  await pool.query(
+    `INSERT INTO content_entry (type, scope, slug, title, fields, status, published_at)
+     VALUES ('regle', $1, $2, 'Compendium : titres de navigation', $3::jsonb, 'published', now())
+     ON CONFLICT (type, scope, slug) DO NOTHING`,
+    [SCOPE, NAVIGATION_TITLES, JSON.stringify({ titres: titles })]
+  );
+}
+
+/**
+ * Compendium entièrement lu dans la base : articles publiés et titres de
+ * navigation. null si la base n'a pas encore tout (premier démarrage) : le
+ * compendium est alors composé depuis le code, puis versé.
+ */
+export async function contentCorpusArticles(): Promise<{ byId: Map<string, Article>; titles: Record<string, string> } | null> {
+  if (!contentRulesEnabled()) return null;
+  const { rows: [nav] } = await pool.query<{ fields: { titres?: Record<string, string> } }>(
+    "SELECT fields FROM content_entry WHERE type = 'regle' AND scope = $1 AND slug = $2",
+    [SCOPE, NAVIGATION_TITLES]
+  );
+  if (!nav?.fields.titres) return null;
+  const { rows } = await pool.query<ContentRow>(
+    `SELECT ${COLUMNS} FROM content_entry WHERE type = 'article' AND scope = $1 AND status = 'published'`,
+    [SCOPE]
+  );
+  if (!rows.length) return null;
+  return { byId: new Map(rows.map((row) => [row.slug, rowToArticle(row)])), titles: nav.fields.titres };
+}
+
 /**
  * Surveille les tables de contenu (dernière modification et nombre d'entrées)
  * et prévient quand elles changent, pour reconstruire le compendium et les

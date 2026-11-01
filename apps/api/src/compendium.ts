@@ -21,7 +21,7 @@ import { pool } from "./db.js";
 import {
   archiveContentArticle, contentArticle, contentArticleExists, contentArticleRevision, contentArticleRevisions,
   createContentArticle, publishContentArticle,
-  syncArticlesWithContent
+  contentCorpusArticles, saveContentNavigationTitles, syncArticlesWithContent
 } from "./content-articles.js";
 import { contentRulesEnabled } from "./rules/content-rules.js";
 import {
@@ -2118,6 +2118,22 @@ async function loadCorpus(): Promise<Corpus> {
 
   if (!Array.isArray(manifest.datasets)) throw new Error("Manifest Compendium V3 invalide");
 
+  // Site d'essai (CONTENT_SOURCE=db) : une fois les articles et les titres de
+  // navigation en base, le compendium n'est plus composé depuis le code.
+  const stored = await contentCorpusArticles();
+  if (stored) {
+    console.log(`Compendium lu dans les tables de contenu : ${stored.byId.size} articles publiés, sans composition.`);
+    return deriveCorpus({
+      manifest,
+      byId: stored.byId,
+      navigation: new Map(Object.entries(stored.titles).map(([id, displayTitle]) => [id, { id, displayTitle }])),
+      retiredIds: new Set(),
+      editorBaseById: new Map(),
+      overrideSummary: { applied: 0, conflicts: 0, missing: 0 },
+      databaseEditSummary: { applied: 0, conflicts: 0 }
+    });
+  }
+
   const byId = new Map<string, Article>();
   const extraterrestrialPnjResolvedIds = new Map<string, string>();
   const extralsGroupsPnjResolvedIds = new Map<string, string>();
@@ -4111,7 +4127,26 @@ async function loadCorpus(): Promise<Corpus> {
   if (content) {
     for (const id of navigation.keys()) if (!byId.has(id)) navigation.delete(id);
     console.log(`Compendium lu dans les tables de contenu : ${content.loaded} articles publiés${content.seeded ? ` (${content.seeded} versés au premier démarrage)` : ""}.`);
+    const titles: Record<string, string> = {};
+    for (const [id, entry] of navigation) if (entry.displayTitle) titles[id] = entry.displayTitle;
+    await saveContentNavigationTitles(titles);
   }
+  return deriveCorpus({
+    manifest, byId, navigation, retiredIds, editorBaseById, overrideSummary,
+    databaseEditSummary: { applied: databaseEditApplied, conflicts: databaseEditConflicts }
+  });
+}
+
+/** Vues de lecture, index et décomptes, à partir des articles retenus. */
+function deriveCorpus({ manifest, byId, navigation, retiredIds, editorBaseById, overrideSummary, databaseEditSummary }: {
+  manifest: Manifest;
+  byId: Map<string, Article>;
+  navigation: Map<string, NavigationEntry>;
+  retiredIds: Set<string>;
+  editorBaseById: Map<string, { hash: string; article: Article }>;
+  overrideSummary: Corpus["overrideSummary"];
+  databaseEditSummary: Corpus["databaseEditSummary"];
+}): Corpus {
   const articles = [...byId.values()].sort(compareArticles);
   const publicArticles = articles.map((article) => audienceCopy(article, false)).filter((article): article is Article => article !== null);
   const publicById = new Map(publicArticles.map((article) => [article.id, article]));
@@ -4167,10 +4202,7 @@ async function loadCorpus(): Promise<Corpus> {
     categories,
     manufacturers,
     overrideSummary,
-    databaseEditSummary: {
-      applied: databaseEditApplied,
-      conflicts: databaseEditConflicts
-    }
+    databaseEditSummary
   };
 }
 
