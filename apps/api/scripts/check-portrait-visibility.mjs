@@ -47,7 +47,10 @@ try {
   assert.equal((await app.inject({ method: 'GET', url: `/api/compendium/media/${visible.src}` })).statusCode, 403);
   assert.equal((await app.inject({ method: 'GET', url: '/api/compendium/uploads/private.jpg' })).statusCode, 403);
   const response = await app.inject({ method: 'GET', url: '/api/compendium/media/images/portraits/manifest.json' });
-  assert.ok(!Object.values(response.json()).flatMap(lot => lot.items ?? []).some(item => item.src === visible.src));
-  assert.ok(Object.values(response.json()).flatMap(lot => lot.items ?? []).some(item => item.src === hidden.src));
+  assert.ok(!Object.values(response.json()).flatMap(lot => lot.items ?? []).some(item => item.src === visible.src || item.src === mediaAlias(visible.src)));
+  assert.ok(Object.values(response.json()).flatMap(lot => lot.items ?? []).some(item => item.src === mediaAlias(hidden.src)));
+  // Un alias neutre suit les mêmes droits que le vrai fichier.
+  assert.equal((await app.inject({ method: 'GET', url: `/api/compendium/media/${mediaAlias(hidden.src)}` })).statusCode, 200);
+  assert.equal((await app.inject({ method: 'GET', url: `/api/compendium/media/${mediaAlias(visible.src)}` })).statusCode, 403);
   console.log('Portrait visibility overrides: corpus, files, and public manifest verified.');
 } finally { await app.close(); await pool.end(); await rm(uploadDir, { recursive: true, force: true }); }
