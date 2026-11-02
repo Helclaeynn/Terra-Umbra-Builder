@@ -10,7 +10,7 @@ import { registerCharacterSheetRoutes } from "./character-sheets.js";
 import { requireUser } from "./auth.js";
 import { contentRulesEnabled } from "./rules/content-rules.js";
 import { creationRulesForChecks, truthRulesForChecks } from "./rules/index.js";
-import { creationBudgetViolations, newBudgetViolations } from "./rules/creation-check.js";
+import { creationBudgetViolations, newBudgetViolations, truthBudgetViolations } from "./rules/creation-check.js";
 import { voieOrderViolations } from "./rules/voie-order.js";
 import {
   blankCharacterData,
@@ -92,8 +92,11 @@ async function insertCharacter(
 
 /** Budgets de création dépassés par cet enregistrement (pas ceux d'avant). */
 async function budgetViolations(before: unknown, after: Record<string, unknown>) {
-  const { rules, edgeRules, reality } = await creationRulesForChecks();
-  const check = (data: unknown) => creationBudgetViolations((data ?? {}) as Record<string, unknown>, rules as any, edgeRules as any, reality as any);
+  const [{ rules, edgeRules, reality }, truth] = await Promise.all([creationRulesForChecks(), truthRulesForChecks()]);
+  const check = (data: unknown) => {
+    const record = (data ?? {}) as Record<string, unknown>;
+    return [...creationBudgetViolations(record, rules as any, edgeRules as any, reality as any), ...truthBudgetViolations(record, truth)];
+  };
   return newBudgetViolations(before ? check(before) : [], check(after));
 }
 

@@ -5,6 +5,8 @@
 // Seules les entorses nouvelles sont refusées : une fiche déjà hors budget
 // avant ce contrôle reste enregistrable tant qu'elle ne s'aggrave pas.
 import { realityEconomic } from "./economy-model.js";
+import { khinaeAwakeningTalents } from "./truth/khinae.js";
+import type { TruthRulesPackage, TruthState, TruthTalent } from "./truth/types.js";
 
 type Num = Record<string, unknown>;
 type CreationRules = {
@@ -87,6 +89,37 @@ export function creationBudgetViolations(data: Num, rules: CreationRules, edgeRu
     if (economy.account < 0) add("account_negative", `Compte de création à ${economy.account} $`);
   }
   return out;
+}
+
+// Coûts fabriqués par le Builder hors des catalogues (mêmes prix que apps/web/src/lib).
+const SYNTHETIC_COSTS: Array<[RegExp, number]> = [
+  [/^vampire_awaken_/, 3], [/^mage_awaken_/, 1], [/^mage_accord_/, 3], [/^mage_traversee_/, 2]
+];
+
+/** PTV de création dépensés, comme truthPtvSpent du site (apps/web/src/lib/truth.ts) :
+ *  la Nature du personnage d'abord (identifiants communs Vampire / Garou), puis les
+ *  autres catalogues, les éveils et la Corruption. Prudent : un identifiant inconnu
+ *  compte 0, pour ne jamais refuser une fiche juste ; il peut donc sous-estimer. */
+export function truthCreationPtvSpent(pkg: TruthRulesPackage, state: TruthState) {
+  const costs = new Map<string, number>();
+  const remember = (rows: TruthTalent[]) => { for (const t of rows) if (!costs.has(t.id)) costs.set(t.id, Number(t.cost) || 0); };
+  remember(pkg.catalogs[state.nature] ?? []);
+  for (const [nature, rows] of Object.entries(pkg.catalogs)) if (nature !== state.nature) remember(rows);
+  remember(khinaeAwakeningTalents(pkg, state, true));
+  const cost = (id: string) => costs.get(id) ?? SYNTHETIC_COSTS.find(([re]) => re.test(id))?.[1] ?? 0;
+  const native = [...new Set(state.truthTalents ?? [])].reduce((sum, id) => sum + cost(id), 0);
+  const corruption = new Map((pkg.corruption?.talents ?? []).map((t) => [t.id, Number(t.cost) || 0]));
+  return native + (state.corruptionTalents ?? []).reduce((sum, id) => sum + (corruption.get(id) ?? 0), 0);
+}
+
+/** PTV de création au-delà de la réserve initiale (5). */
+export function truthBudgetViolations(data: Num, pkg: TruthRulesPackage | null): BudgetViolation[] {
+  const truth = data.truth as TruthState | undefined;
+  if (!pkg || !truth || typeof truth !== "object" || !Array.isArray(truth.truthTalents)) return [];
+  const state: TruthState = { ...truth, choices: truth.choices ?? {}, corruptionTalents: Array.isArray(truth.corruptionTalents) ? truth.corruptionTalents : [] };
+  const spent = truthCreationPtvSpent(pkg, state);
+  const budget = Number(pkg.structure?.ptvInitial) || 0;
+  return spent > budget ? [{ code: "ptv_budget", detail: `${spent} PTV dépensés à la création pour ${budget}` }] : [];
 }
 
 /** Entorses présentes après l'enregistrement et absentes avant. */
