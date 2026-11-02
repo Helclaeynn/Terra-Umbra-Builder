@@ -1633,12 +1633,18 @@ function handleBuilderKeydown(event:KeyboardEvent){
   if(event.shiftKey&&document.activeElement===first){event.preventDefault();last?.focus();}
   else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first?.focus();}
 }
+// Phone: the export block folds behind one line so the step starts near the top.
+const phoneQuery=typeof window.matchMedia==="function"?window.matchMedia("(max-width: 620px)"):null;
+const isPhone=ref(Boolean(phoneQuery?.matches));
+const syncPhone=(event:MediaQueryListEvent)=>{isPhone.value=event.matches;};
 onMounted(()=>{
+  phoneQuery?.addEventListener("change",syncPhone);
   window.addEventListener("beforeunload",beforeUnload);
   window.addEventListener("keydown",handleBuilderKeydown);
   void loadCharacter();
 });
 onBeforeUnmount(()=>{
+  phoneQuery?.removeEventListener("change",syncPhone);
   window.removeEventListener("beforeunload",beforeUnload);
   window.removeEventListener("keydown",handleBuilderKeydown);
 });
@@ -1687,7 +1693,11 @@ onBeforeUnmount(()=>{
       </div>
     </header>
 
-    <CharacterPdfActions class="builder-pdf-actions" :input="pdfInput" :draft="dirty" />
+    <details v-if="isPhone" class="builder-pdf-disclosure">
+      <summary>PDF et impression</summary>
+      <CharacterPdfActions class="builder-pdf-actions" :input="pdfInput" :draft="dirty" />
+    </details>
+    <CharacterPdfActions v-else class="builder-pdf-actions" :input="pdfInput" :draft="dirty" />
 
     <button
       v-if="knowledgeOpen"
@@ -3411,9 +3421,26 @@ textarea:focus{border-color:#6cb5ff;box-shadow:0 0 0 2px rgba(108,181,255,.14)}
  .builder-topbar .top-actions :is(button,a){min-height:44px}
 }
 @media(max-width:620px){
+ /* Téléphone : une ligne d'actions qui défile, PDF replié, résumé compact. */
+ .builder-topbar{padding-block:8px;gap:8px}
+ .builder-topbar .top-actions{flex-wrap:nowrap;overflow-x:auto;width:100%;padding-bottom:2px;scrollbar-width:thin}
+ .builder-topbar .top-actions>*{flex:0 0 auto}
+ .builder-topbar .api-pill{display:none}
+ .builder-pdf-disclosure{margin:0 12px}
+ .builder-pdf-disclosure>summary{min-height:44px;padding:12px 4px;color:#9eeaff;cursor:pointer}
+ .builder-pdf-disclosure .builder-pdf-actions{margin-top:0}
+ .builder-workspace{padding-top:8px;gap:12px}
+ .builder-character{padding:10px 14px;gap:10px}
+ .builder-character{display:block}
+ .builder-character .eyebrow,.builder-mini-portrait{display:none}
+ .builder-topbar .top-actions .primary{order:-1}
+ .builder-character h1{font-size:20px;margin:0}
+ .builder-quick-summary{grid-template-columns:repeat(4,minmax(0,1fr))}
+ .builder-quick-summary>div{padding:6px 8px}
+ .builder-quick-summary small{font-size:10px}
+ .builder-quick-summary strong{font-size:13px}
  .builder-card{padding:18px 14px}
  .builder-character{padding:14px 16px}
- .builder-quick-summary{grid-template-columns:repeat(2,minmax(0,1fr))}
  .builder-nav button{grid-template-columns:24px minmax(0,1fr) auto}
  .builder-nav button span,.builder-nav button small{font-size:12px}
  .selected-disadvantage-head{flex-wrap:wrap}
