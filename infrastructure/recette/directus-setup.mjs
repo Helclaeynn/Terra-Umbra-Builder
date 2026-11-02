@@ -110,7 +110,10 @@ const FIELDS = {
     tags_verite: tags("Étiquettes Vérité", "Vues des joueurs qui connaissent la Vérité et des MJ."),
     tags_mj: tags("Étiquettes MJ", "Vues des MJ seulement."),
     summary: { interface: "input-multiline", translations: [{ language: "fr-FR", translation: "Résumé" }] },
-    body: json("Corps de l'article", "Blocs du texte (format du compendium)."),
+    // Éditeur maison (directus-extensions/terra-umbra-corps) : sections, paragraphes,
+    // tableaux, images ; le JSON complet reste accessible.
+    body: { interface: "terra-umbra-corps", options: null, width: "full", translations: [{ language: "fr-FR", translation: "Corps de l'article" }],
+      note: "Sections et paragraphes de l'article. Un lien s'écrit [texte](/compendium?article=identifiant)." },
     fields: json("Champs propres au type", "Coût, palier, porte, carte courte, texte de référence…"),
     // Liste PostgreSQL native (text[]) : Directus ne sait pas l'éditer, on l'affiche seulement.
     legacy_ids: { readonly: true, translations: [{ language: "fr-FR", translation: "Anciens identifiants" }], note: "Identifiants fondus dans cette entrée : les fiches qui les portent la retrouvent." },

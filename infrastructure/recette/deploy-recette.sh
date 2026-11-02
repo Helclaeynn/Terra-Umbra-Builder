@@ -118,9 +118,17 @@ for file in "$stage"/infrastructure/content/*.sql; do
   fi
 done
 
+# Extensions de Directus (éditeur du corps des articles) : Directus ne les lit
+# qu'au démarrage, on le redémarre seulement si elles ont changé.
+extensions_before=$(cd "$dir" && find directus-extensions -type f -exec sha256sum {} + 2>/dev/null | sort | sha256sum)
+rm -rf "$dir/directus-extensions"
+cp -r "$stage/infrastructure/recette/directus-extensions" "$dir/directus-extensions"
+extensions_after=$(cd "$dir" && find directus-extensions -type f -exec sha256sum {} + | sort | sha256sum)
+
 echo "== Démarrage"
 compose up -d --force-recreate recette-api recette-web </dev/null
 compose up -d recette-directus </dev/null
+if [ "$extensions_before" != "$extensions_after" ]; then compose restart recette-directus </dev/null; fi
 for _ in $(seq 1 30); do
   if compose exec -T recette-api node -e \
       "fetch('http://127.0.0.1:3000/api/ready').then(r=>process.exit(r.ok?0:1),()=>process.exit(1))" </dev/null; then

@@ -82,6 +82,8 @@ services:
       EMAIL_SENDMAIL_PATH: /bin/false
     volumes:
       - recette-directus-uploads:/directus/uploads
+      # Éditeur du corps des articles (infrastructure/recette/directus-extensions).
+      - ./directus-extensions:/directus/extensions:ro
     depends_on:
       recette-db:
         condition: service_healthy
