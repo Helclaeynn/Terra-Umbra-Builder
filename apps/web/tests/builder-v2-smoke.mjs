@@ -472,7 +472,8 @@ await page.locator('.talent-detail').filter({hasText:'Brave'}).getByText('Test c
 const expertise=page.locator('.expertise-talent-section');
 await expertise.getByRole('heading',{name:'Talent d’Expertise · 1 seul choix'}).waitFor();
 if(await expertise.locator('.talent-group').count()!==2)throw new Error('Les deux familles d’Expertise doivent partager un seul conteneur de choix.');
-for(const group of await expertise.locator('.talent-group').all())await group.locator('summary').click();
+// A list with nothing chosen yet starts open: only open the closed ones.
+for(const group of await expertise.locator('.talent-group').all())if((await group.getAttribute('open'))===null)await group.locator('summary').click();
 // The earlier style-switch regression left Smoke Style Alt (Esprit / Volonté) active.
 await expertise.getByRole('button',{name:/Analyste/}).click();
 await expertise.locator('.talent-detail').filter({hasText:'Analyste'}).waitFor();

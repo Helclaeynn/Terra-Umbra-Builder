@@ -467,6 +467,7 @@ function humanError(code:string){
     character_version_conflict:"Cette fiche a été modifiée ailleurs. Recharge-la avant d’enregistrer de nouveau.",
     invalid_character_data:"Les données de cette fiche ne sont pas valides.",
     truth_voie_order:"Un talent de Vérité ne respecte pas l’ordre de sa voie (paliers ou portes). Regarde l’avertissement affiché sous le talent.",
+    creation_budget_exceeded:"Cette fiche dépasse un budget de création (points, Edge ou Compte). Rien n’a été enregistré ; corrige l’étape signalée en rouge puis enregistre de nouveau.",
     character_update_failed:"La sauvegarde a échoué."
   };
   return labels[code]??"Une erreur est survenue.";
@@ -1218,6 +1219,8 @@ async function saveCharacter(){
   }catch(cause){
     const err=cause as Error;
     error.value=humanError(err.message);
+    const violations=cause instanceof ApiError&&Array.isArray(cause.body.violations)?cause.body.violations as Array<{detail?:string}>:[];
+    if(err.message==="creation_budget_exceeded"&&violations.length)error.value+=` Détail : ${violations.map(v=>v.detail).filter(Boolean).join(" ; ")}.`;
     if(cause instanceof ApiError&&cause.status===409){
       notice.value="Aucune donnée locale n’a été écrasée.";
     }

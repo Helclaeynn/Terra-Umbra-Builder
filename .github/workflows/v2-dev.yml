@@ -81,6 +81,10 @@ jobs:
         working-directory: apps/api
         run: node scripts/check-api-container-assets.mjs
 
+      - name: Check creation budgets enforced by the server
+        working-directory: apps/api
+        run: node scripts/check-creation-budget.mjs
+
       - name: Check published PNJ biography corpus reload
         working-directory: apps/api
         env:

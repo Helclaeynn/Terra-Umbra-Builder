@@ -238,6 +238,11 @@ export function invalidateTruthRules(){
   truthPromise=null;
   void getEnrichedTruth();
 }
+/** Règles de création, Edge et Réalité, pour le contrôle des budgets d'une fiche. */
+export async function creationRulesForChecks(){
+  const [creation,reality]=await Promise.all([getEnrichedCreation(),getEnrichedReality()]);
+  return {rules:creation.rules,edgeRules:terraUmbraEdgeRules,reality};
+}
 /** Règles de Vérité enrichies, pour les contrôles du serveur (ordre des voies). */
 export function truthRulesForChecks():Promise<any>{
   return getEnrichedTruth();
