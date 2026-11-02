@@ -94,7 +94,7 @@ onBeforeUnmount(()=>{sequence++;if(timer)clearTimeout(timer);});
     <div class="contact-heading">
       <div><strong>{{ label }}</strong><small>{{ help }}</small></div>
       <button
-        v-if="allowCreate && !creating"
+        v-if="allowCreate && !creating && !selected"
         type="button"
         @click="creating=true"
       >Créer un PNJ ({{ maxTier==='entraine'?'Entraîné':'Élite' }} maximum)</button>
