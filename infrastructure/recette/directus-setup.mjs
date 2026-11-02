@@ -156,4 +156,46 @@ for (const [collection, fields] of Object.entries(FIELDS)) {
   }
 }
 
-console.log("Directus configuré : 7 collections, 6 liens, champs en français.");
+// ---------------------------------------------------------------- formulaire
+// Ce qu'on écrit en haut (titre, statut, visibilité, corps, étiquettes) ;
+// les réglages techniques dans un groupe replié en bas.
+
+const GROUPE = "reglages_techniques";
+if (!(await call("GET", `/fields/content_entry/${GROUPE}`)).ok) {
+  await must(call("POST", "/fields/content_entry", {
+    field: GROUPE, type: "alias", schema: null,
+    meta: { special: ["alias", "no-data", "group"], interface: "group-detail", options: { start: "closed", headerIcon: "tune" },
+      translations: [{ language: "fr-FR", translation: "Réglages techniques" }] }
+  }), "Groupe des réglages techniques");
+}
+const ORDRE = ["title", "status", "visibility", "type", "summary", "body", "tags", "tags_verite", "tags_mj", GROUPE];
+const TECHNIQUES = ["slug", "scope", "fields", "legacy_ids", "version", "created_at", "updated_at", "published_at", "liens_sortants", "liens_entrants", "revisions"];
+for (const [i, field] of ORDRE.entries()) await must(call("PATCH", `/fields/content_entry/${field}`, { meta: { sort: i + 1, group: null } }), `Place de ${field}`);
+for (const [i, field] of TECHNIQUES.entries()) await must(call("PATCH", `/fields/content_entry/${field}`, { meta: { sort: i + 1, group: GROUPE } }), `Place de ${field}`);
+await must(call("PATCH", "/fields/content_entry/status", { meta: { width: "half" } }), "Largeur du statut");
+
+// ---------------------------------------------------------------- listes enregistrées
+// Signets communs à tous les comptes, dans le menu de gauche de « Contenus ».
+
+const COLONNES = ["title", "type", "status", "visibility", "updated_at"];
+const LISTES = [
+  ["Articles", "article", { type: { _eq: "article" } }],
+  ["Articles MJ", "visibility_off", { type: { _eq: "article" }, visibility: { _eq: "gm" } }],
+  ["Articles Vérité", "visibility", { type: { _eq: "article" }, visibility: { _eq: "verite" } }],
+  ["En relecture", "rate_review", { status: { _eq: "review" } }],
+  ["Talents", "bolt", { type: { _in: ["talent", "talent_realite"] } }],
+  ["Voies", "route", { type: { _eq: "voie" } }],
+  ["Équipement et objets", "inventory_2", { type: { _in: ["equipement", "objet", "augmentation"] } }],
+  ["Modifiés récemment", "history", null, ["-updated_at"]]
+];
+for (const [bookmark, icon, filter, sort = ["title"]] of LISTES) {
+  const preset = {
+    bookmark, icon, collection: "content_entry", user: null, role: null, layout: "tabular", filter,
+    layout_query: { tabular: { fields: COLONNES, sort, limit: 50 } }
+  };
+  const found = await must(call("GET", `/presets?filter=${encodeURIComponent(JSON.stringify({ bookmark: { _eq: bookmark }, collection: { _eq: "content_entry" }, user: { _null: true } }))}`), `Liste ${bookmark}`);
+  if (found.length) await must(call("PATCH", `/presets/${found[0].id}`, preset), `Liste ${bookmark}`);
+  else await must(call("POST", "/presets", preset), `Liste ${bookmark}`);
+}
+
+console.log(`Directus configuré : 7 collections, 6 liens, champs en français, ${LISTES.length} listes.`);
