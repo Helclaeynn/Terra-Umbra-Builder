@@ -304,7 +304,7 @@ const disadvantageCategories=computed(()=>{
   const rows=[{id:"common",name:"Communs"}];
   if(draft.value?.creation.sphere)rows.push({id:"sphere",name:`Sphère — ${selectedSphere.value?.name||"actuelle"}`});
   for(const attribute of rules.value?.attributes??[]){
-    rows.push({id:`attr:${attribute.id}`,name:`Faiblesse de ${attribute.name}`});
+    rows.push({id:`attr:${attribute.id}`,name:`Faiblesse ${/^[aeiouyàâéèêëîïôöûüh]/i.test(attribute.name)?"d’":"de "}${attribute.name}`});
   }
   return rows;
 });
@@ -1776,9 +1776,10 @@ onBeforeUnmount(()=>{
 
         <div class="builder-quick-summary" aria-label="Résumé des ressources">
           <div><small>Edge</small><strong>{{ edgeRemaining }}/{{ edgeTotal }}</strong></div>
-          <div><small>PTV</small><strong>{{ progressionMode ? (characterSheet?.ptvRemaining ?? truthPtvRemaining) : truthPtvRemaining }}</strong></div>
-          <div><small>Train de vie</small><strong>{{ lifestylePressureValue?.effective || lifestyleBaseValue }}</strong></div>
-          <div><small>Compte</small><strong>{{ formatMoney(Math.max(0,realityEconomyValue?.account || 0)) }}</strong></div>
+          <!-- Vérité et Réalité arrivent après la fiche : « … » plutôt qu'une valeur fausse. -->
+          <div><small>PTV</small><strong>{{ !truthRules ? "…" : progressionMode ? (characterSheet?.ptvRemaining ?? truthPtvRemaining) : truthPtvRemaining }}</strong></div>
+          <div><small>Train de vie</small><strong>{{ !realityRules ? "…" : lifestylePressureValue?.effective || lifestyleBaseValue }}</strong></div>
+          <div><small>Compte</small><strong>{{ !realityRules ? "…" : formatMoney(Math.max(0,realityEconomyValue?.account || 0)) }}</strong></div>
         </div>
 
         <button
@@ -2088,9 +2089,9 @@ onBeforeUnmount(()=>{
                   <div class="allocator-point-line">
                     <span>Points du Style</span>
                     <div class="stepper">
-                      <button type="button" @click="changeStylePoint(skillId,-1)">−</button>
+                      <button type="button" :aria-label="`Retirer un point de Style en ${skillName(skillId)}`" @click="changeStylePoint(skillId,-1)">−</button>
                       <strong>{{ draft.skills[skillId]?.style || 0 }}</strong>
-                      <button type="button" @click="changeStylePoint(skillId,1)">+</button>
+                      <button type="button" :aria-label="`Ajouter un point de Style en ${skillName(skillId)}`" @click="changeStylePoint(skillId,1)">+</button>
                     </div>
                   </div>
                 </div>
@@ -2129,9 +2130,9 @@ onBeforeUnmount(()=>{
               </div>
               <p>{{ lore.attribute[attribute.id] }}</p>
               <div class="stepper large">
-                <button type="button" @click="changeAttribute(attribute.id,-1)">−</button>
+                <button type="button" :aria-label="`Retirer un point en ${attribute.name}`" @click="changeAttribute(attribute.id,-1)">−</button>
                 <span>{{ draft.attributes[attribute.id] }}</span>
-                <button type="button" @click="changeAttribute(attribute.id,1)">+</button>
+                <button type="button" :aria-label="`Ajouter un point en ${attribute.name}`" @click="changeAttribute(attribute.id,1)">+</button>
               </div>
             </div>
           </div>
@@ -2207,9 +2208,9 @@ onBeforeUnmount(()=>{
                   <div class="skill-free-line">
                     <span>Points libres</span>
                     <div class="stepper">
-                      <button type="button" @click="changeFreeSkillPoint(skill.id,-1)">−</button>
+                      <button type="button" :aria-label="`Retirer un point libre en ${skill.name}`" @click="changeFreeSkillPoint(skill.id,-1)">−</button>
                       <strong>{{ draft.skills[skill.id]?.free || 0 }}</strong>
-                      <button type="button" @click="changeFreeSkillPoint(skill.id,1)">+</button>
+                      <button type="button" :aria-label="`Ajouter un point libre en ${skill.name}`" @click="changeFreeSkillPoint(skill.id,1)">+</button>
                     </div>
                   </div>
                 </div>
@@ -2434,7 +2435,7 @@ onBeforeUnmount(()=>{
                         :value="truthChoiceValue(choice)"
                         @change="setTruthChoice(choice.key,($event.target as HTMLSelectElement).value)"
                       >
-                        <option value="">{{ choice.optional ? "— Aucun —" : "— Choisir —" }}</option>
+                        <option v-if="!(choice.optional&&truthChoiceValue(choice)&&resolvedTruthChoiceOptions(choice).some(option=>option.id==='aucune'))" value="">{{ choice.optional ? "— Aucun —" : "— Choisir —" }}</option>
                         <option
                           v-for="option in resolvedTruthChoiceOptions(choice)"
                           :key="option.id"
@@ -2804,12 +2805,14 @@ onBeforeUnmount(()=>{
                 <div class="stepper">
                   <button
                     type="button"
+                    :aria-label="`Retirer un achat ${option.label}`"
                     :disabled="edgePurchaseMinusDisabled(option.key)"
                     @click="changeEdgePurchase(option.key,-1)"
                   >−</button>
                   <strong>{{ Number(draft.edge[option.key] || 0) }}</strong>
                   <button
                     type="button"
+                    :aria-label="`Acheter ${option.label}`"
                     :disabled="edgePurchasePlusDisabled(option.key)"
                     @click="changeEdgePurchase(option.key,1)"
                   >+</button>
@@ -2840,9 +2843,9 @@ onBeforeUnmount(()=>{
                   </div>
                   <p>{{ lore.attribute[attribute.id] }}</p>
                   <div class="stepper">
-                    <button type="button" @click="changeEdgeAttribute(attribute.id,-1)">−</button>
+                    <button type="button" :aria-label="`Retirer un point Edge en ${attribute.name}`" @click="changeEdgeAttribute(attribute.id,-1)">−</button>
                     <strong>+{{ Number(draft.edgeAttributes[attribute.id] || 0) }}</strong>
-                    <button type="button" @click="changeEdgeAttribute(attribute.id,1)">+</button>
+                    <button type="button" :aria-label="`Ajouter un point Edge en ${attribute.name}`" @click="changeEdgeAttribute(attribute.id,1)">+</button>
                   </div>
                 </div>
               </div>
@@ -2882,9 +2885,9 @@ onBeforeUnmount(()=>{
                     </div>
                     <p>{{ lore.skill[skill.id] }}</p>
                     <div class="stepper">
-                      <button type="button" @click="changeEdgeSkill(skill.id,-1)">−</button>
+                      <button type="button" :aria-label="`Retirer un point Edge en ${skill.name}`" @click="changeEdgeSkill(skill.id,-1)">−</button>
                       <strong>+{{ Number(draft.skills[skill.id]?.edge || 0) }}</strong>
-                      <button type="button" @click="changeEdgeSkill(skill.id,1)">+</button>
+                      <button type="button" :aria-label="`Ajouter un point Edge en ${skill.name}`" @click="changeEdgeSkill(skill.id,1)">+</button>
                     </div>
                   </div>
                 </div>

@@ -76,7 +76,7 @@ function setContacts(value:string){
   <article class="finish-step">
     <div class="section-heading">
       <div>
-        <p class="eyebrow">11 · FINALISATION</p>
+        <p class="eyebrow">12 · FINALISATION</p>
         <h2>Contrôle final de la fiche</h2>
       </div>
       <span class="schema-badge" :class="{bad:!valid}">{{ valid ? "Fiche valide" : "À corriger" }}</span>

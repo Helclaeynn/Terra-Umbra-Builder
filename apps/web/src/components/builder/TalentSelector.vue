@@ -62,6 +62,8 @@ const selected=computed(()=>
 );
 const allGroups=computed(()=>props.groups.filter(group=>group.items.length));
 const chosenCategory=ref('');
+// Nothing chosen yet: the list starts open, so the required choice is seen.
+const startOpen=!props.modelValue;
 const available=computed(()=>props.categoryPicker?allGroups.value.filter(group=>group.label===chosenCategory.value):allGroups.value);
 
 function updateChoice(event:Event){
@@ -73,7 +75,7 @@ function updateChoice(event:Event){
   <section class="talent-selector">
     <label v-if="categoryPicker">Catégorie de talents<select v-model="chosenCategory"><option value="">— Choisir une catégorie —</option><option v-for="group in allGroups" :key="group.label" :value="group.label">{{ group.label }} · {{ group.items.length }}</option></select></label>
     <p v-if="categoryPicker && modelValue && !available.length" class="catalog-guidance">Talent sélectionné : {{ allGroups.flatMap(group=>group.items).find(item=>item.id===modelValue)?.name || modelValue }}</p>
-    <details v-for="group in available" :key="group.label" class="talent-group" :open="categoryPicker?true:undefined">
+    <details v-for="group in available" :key="group.label" class="talent-group" :open="categoryPicker||startOpen?true:undefined">
       <summary>{{ group.label || label }} · {{ group.items.length }} talent{{ group.items.length>1?'s':'' }}</summary>
       <div class="talent-card-grid">
         <button v-for="talent in sortedNames(group.items)" :key="talent.id" type="button" class="talent-choice-card" :class="{chosen:talent.id===modelValue}" :aria-pressed="talent.id===modelValue" @click="emit('update:modelValue',talent.id)">

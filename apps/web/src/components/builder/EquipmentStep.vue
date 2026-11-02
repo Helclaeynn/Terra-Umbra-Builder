@@ -86,6 +86,14 @@ function compareCatalogItems(a:RealityItem,b:RealityItem,sort:CatalogSort,monthl
 const state=computed(()=>props.modelValue as unknown as import("../../lib/reality").RealityState);
 function housingArtwork(item:RealityItem){return /^equipement-(?:219|22\d|23[0-4])-/.test(item.compendiumId||"")||/logement|studio|dortoir|résidence|appartement|penthouse|villa|squat|planque|cache improvisée/i.test(item.name);}
 const items=computed(()=>realityItemMap(props.rules));
+// The unspent part of the envelopes comes back to the account at the refund
+// rate: say so, or « Reste » looks larger than the starting account.
+const refundNote=computed(()=>{
+  const rate=Number(props.rules?.economy?.unusedEnvelopeRefundRate||0);
+  const unused=Number(economy.value?.augUnused||0)+Number(economy.value?.vehUnused||0);
+  if(!rate||!unused)return "";
+  return `dont ${money(unused*rate)} : ${Math.round(rate*100)} % de l’enveloppe et du capital véhicule non dépensés, rendus au Compte`;
+});
 const economy=computed(()=>props.style
   ?realityEconomic(props.rules,state.value,props.style,props.edge)
   :null
@@ -492,7 +500,7 @@ function benefitUpdate(value:Record<string,unknown>){emit('update:modelValue',va
   <article class="equipment-step">
     <div class="section-heading">
       <div>
-        <p class="eyebrow">10 · ÉQUIPEMENT</p>
+        <p class="eyebrow">11 · ÉQUIPEMENT</p>
         <h2>Réalité, équipement & augmentations</h2>
       </div>
       <span class="schema-badge" :class="{ bad: !valid }">{{ valid ? "cohérent" : "à vérifier" }}</span>
@@ -514,6 +522,7 @@ function benefitUpdate(value:Record<string,unknown>){emit('update:modelValue',va
           <small>Compte de départ</small>
           <strong>{{ money(economy?.startAccount) }}</strong>
           <span>Reste {{ money(economy?.account) }}</span>
+          <span v-if="refundNote" class="refund-note">{{ refundNote }}</span>
         </div>
         <div>
           <small>Enveloppe augmentique</small>
@@ -1075,6 +1084,7 @@ function benefitUpdate(value:Record<string,unknown>){emit('update:modelValue',va
 .economy-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
 .economy-grid>div{display:grid;align-content:start;gap:6px;padding:18px;border:1px solid var(--equipment-border);border-radius:8px;background:linear-gradient(135deg,#132638,#0d1927)}
 .economy-grid small{color:#b4c7d9;font-size:13px}
+.economy-grid .refund-note{color:#9fb3c8;font-size:12px;line-height:1.45}
 .economy-grid strong{color:#b1edfb;font:600 clamp(20px,2vw,26px)/1.2 Inter,"Segoe UI",sans-serif;font-variant-numeric:tabular-nums}
 .economy-grid span{color:var(--equipment-muted);font-size:14px}
 .reality-panel{min-width:0;margin:0;padding:22px;border:1px solid var(--equipment-border);border-radius:9px;background:#0e1a28}

@@ -310,12 +310,26 @@ function availableMageTalents(pkg:TruthRulesPackage,state:TruthState){
   });
 }
 
+// Every catalog, the character's own Nature first, each id once: seven ids are
+// shared by the Vampire and the Garou (Sangs vifs), and a character must get
+// its own Nature's version (text, voie), not the last catalog read.
+function natureFirstCatalogs(pkg:TruthRulesPackage,state:TruthState):TruthTalent[]{
+  const seen=new Set<string>();
+  const others=Object.entries(pkg.catalogs).filter(([nature])=>nature!==state.nature).map(([,rows])=>rows);
+  return [pkg.catalogs[state.nature]??[],...others].flat().filter(talent=>{
+    if(seen.has(talent.id))return false;
+    seen.add(talent.id);
+    return true;
+  });
+}
+
 /** Full price index: unavailable saved purchases must not turn into free PTV. */
 export function truthKnownTalents(pkg:TruthRulesPackage,state:TruthState):TruthTalent[]{
-  if(state.nature==="vampire")return [...Object.values(pkg.catalogs).flat(),...vampireAwakeningTalents(pkg,state,true)];
-  if(isKhinae(state))return [...Object.values(pkg.catalogs).flat(),...khinaeAwakeningTalents(pkg,state,true)];
-  if(state.nature==="daemon")return [...Object.values(pkg.catalogs).flat(),...daemonAdditionalTalents(pkg)];
-  if(state.nature!=="mage")return Object.values(pkg.catalogs).flat();
+  const catalogs=natureFirstCatalogs(pkg,state);
+  if(state.nature==="vampire")return [...catalogs,...vampireAwakeningTalents(pkg,state,true)];
+  if(isKhinae(state))return [...catalogs,...khinaeAwakeningTalents(pkg,state,true)];
+  if(state.nature==="daemon")return [...catalogs,...daemonAdditionalTalents(pkg)];
+  if(state.nature!=="mage")return catalogs;
   const rows=new Map(mageAllTalents(pkg,state).map(t=>[t.id,t]));
   for(const a of mageAffinities(pkg))for(const [prefix,cost,label] of [["awaken",1,"Éveiller"],["accord",3,"Accord adjacent"],["traversee",2,"Traversée de la Roue"]] as const){
     const id=`mage_${prefix}_${a.id}`;
