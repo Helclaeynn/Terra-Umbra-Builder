@@ -21,7 +21,7 @@ import {permanentSkillBonus,pruneBenefits,uniqueTalents,renownScore as computeRe
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, shallowRef, watch } from "vue";
 import { onBeforeRouteLeave, onBeforeRouteUpdate, useRoute } from "vue-router";
 import { builderDraftFingerprint, normalizeBuilderDraft, reconcileBuilderSave } from "../lib/builder-draft";
-import { compareLabels, compareTruthTalents } from "../lib/catalog-order";
+import { compareTruthTalents } from "../lib/catalog-order";
 import { api, ApiError } from "../lib/api";
 import TalentSelector, {
   type TalentChoiceOption,
@@ -64,7 +64,8 @@ import {
   truthAvailableTalents,
   truthChoiceOptions,
   truthChoicesValid,
-  truthGroups,
+  truthCreationGroups,
+  truthVoieStep,
   truthPrerequisiteSatisfied,
   truthPrerequisiteIssues,
   truthEquipmentAccess,
@@ -423,7 +424,7 @@ const truthPtvRemaining=computed(()=>
 );
 
 const creationTruthChoices=computed(()=>(selectedTruthNature.value?.choices??[]).filter(c=>c.key!=='hunterTradition'||currentTruthState.value?.nature==='humain'));
-const truthGroupOptions=computed(()=>truthGroups(availableTruthTalents.value).map(group=>({...group,items:[...group.items].sort(compareTruthTalents)})).sort((a,b)=>compareLabels(a.name,b.name)));
+const truthGroupOptions=computed(()=>truthCreationGroups(availableTruthTalents.value).map(group=>({...group,items:[...group.items].sort(compareTruthTalents)})));
 const selectedTruthTalents=computed(()=>{const state=currentTruthState.value;return state&&truthRules.value?truthKnownTalents(truthRules.value,state).filter(t=>state.truthTalents.includes(t.id)):[];});
 const visibleTruthGroups=computed(()=>{
   const groups=truthGroupOptions.value
@@ -2599,7 +2600,7 @@ onBeforeUnmount(()=>{
                     <summary>
                       <span>
                         <strong>{{ group.name }}</strong>
-                        <small>{{ group.items.length }} Talent{{ group.items.length > 1 ? "s" : "" }}</small>
+                        <small><template v-if="group.couche">{{ group.couche }} · </template>{{ group.items.length }} Talent{{ group.items.length > 1 ? "s" : "" }}</small>
                       </span>
                     </summary>
 
@@ -2622,6 +2623,7 @@ onBeforeUnmount(()=>{
                             <span>{{ talent.cost }} PTV</span>
                           </div>
                           <div class="truth-talent-meta">
+                            <span v-if="talent.voie && truthVoieStep(talent.voie)" class="truth-voie-step" data-voie-step>{{ truthVoieStep(talent.voie) }}</span>
                             <span v-if="talent.access">{{ talent.access }}</span>
                             <span v-if="talent.prerequisiteName">
                               Prérequis : {{ talent.prerequisiteName }}

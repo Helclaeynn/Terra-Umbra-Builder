@@ -785,6 +785,27 @@ export function truthSanitizeCorruptionTalents(pkg:TruthRulesPackage,state:Truth
   return [...new Set((state.corruptionTalents??[]).filter(id=>known.has(id)))];
 }
 
+/** Palier et porte d'un talent de voie, pour les cartes : « Palier I · Porte A ». */
+export function truthVoieStep(voie:NonNullable<TruthTalent["voie"]>){
+  const palier=voie.palier==="entree"?"Entrée":voie.palier?`Palier ${voie.palier}`:"";
+  const porte=voie.porte==="sommet"?"Sommet":voie.porte?`Porte ${voie.porte}`:"";
+  return [palier,porte].filter(Boolean).join(" · ");
+}
+
+/** Création : un groupe par voie quand les règles en ont (sinon la famille), les
+ *  voies d'abord, puis les autres familles, et en dernier les éveils et autres
+ *  acquisitions de progression, qu'on ne peut pas prendre à la création. */
+export function truthCreationGroups(talents:TruthTalent[]){
+  const groups=new Map<string,{name:string;couche:string;voie:boolean;items:TruthTalent[]}>();
+  for(const talent of talents){
+    const name=talent.voie?.title?`Voie ${talent.voie.title}`:talent.group||"Talents";
+    if(!groups.has(name))groups.set(name,{name,couche:talent.voie?.couche??"",voie:Boolean(talent.voie?.title),items:[]});
+    groups.get(name)!.items.push(talent);
+  }
+  const rank=(group:{voie:boolean;items:TruthTalent[]})=>group.items.every(talent=>talent.access==="Progression")?2:group.voie?0:1;
+  return [...groups.values()].sort((a,b)=>rank(a)-rank(b)||a.name.localeCompare(b.name,"fr"));
+}
+
 export function truthGroups(talents:TruthTalent[]){
   const groups=new Map<string,TruthTalent[]>();
   for(const talent of talents){
