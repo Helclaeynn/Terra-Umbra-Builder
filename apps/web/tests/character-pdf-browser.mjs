@@ -34,6 +34,8 @@ context.on('page',opened=>opened.on('pageerror',error=>errors.push(String(error)
 await context.addInitScript(()=>{window.print=()=>{};});
 let current;
 await context.route('**/api/**',async route=>{
+ // Flux temps réel indisponible ici : les écrans gardent leur rafraîchissement de secours.
+ if(/\/events$/.test(new URL(route.request().url()).pathname))return route.fulfill({status:404,contentType:'application/json',body:'{"error":"not_found"}'});
   const request=route.request(),path=new URL(request.url()).pathname;
   if(!path.startsWith('/api/'))return route.continue();
   if(!['GET','HEAD'].includes(request.method())){writes.push(request.method()+' '+path);return route.abort('blockedbyclient');}

@@ -7,6 +7,8 @@ const cid='11111111-1111-4111-8111-111111111111',gid='22222222-2222-4222-8222-22
 const base=process.env.TUC_V2_SMOKE_BASE_URL||'http://127.0.0.1:4173';let role='gm',session=null,saves=0;const records=new Map();
 const summary=n=>({id:n.id,name:n.data.name,tierId:n.data.tierId,role:n.data.role,faction:n.data.faction,tags:n.data.tags,hasPortrait:!!n.data.portrait,version:n.version,archived:n.archived});
 await page.route('**/api/**',async route=>{
+ // Flux temps réel indisponible ici : les écrans gardent leur rafraîchissement de secours.
+ if(/\/events$/.test(new URL(route.request().url()).pathname))return route.fulfill({status:404,contentType:'application/json',body:'{"error":"not_found"}'});
  const req=route.request(),url=new URL(req.url()),path=url.pathname,method=req.method();let body={},status=200;
  if(path===`/api/campaigns/${cid}`)body={campaign:{id:cid,name:'Table des PNJ',description:'',gmName:'Morgan',ownerId:gid,canManage:role==='gm',membershipStatus:role==='gm'?null:'accepted',memberCount:0,archivedAt:null,version:1,gmNotes:''},members:[],userId:gid};
  else if(path===`/api/campaigns/${cid}/play`&&method==='GET')body={characters:[],events:[]};

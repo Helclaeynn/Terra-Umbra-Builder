@@ -254,6 +254,8 @@ page.on("console",message=>{
 page.on("requestfailed",request=>failedRequests.push(request.method()+" "+request.url()+" · "+String(request.failure()?.errorText||"")));
 
 await page.route("**/api/**",async route=>{
+ // Flux temps réel indisponible ici : les écrans gardent leur rafraîchissement de secours.
+ if(/\/events$/.test(new URL(route.request().url()).pathname))return route.fulfill({status:404,contentType:'application/json',body:'{"error":"not_found"}'});
   const request=route.request();
   const url=new URL(request.url());
   const method=request.method();

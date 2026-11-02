@@ -108,6 +108,8 @@ try {
     });
     page.on("pageerror", error => errors.push(String(error)));
     await page.route("**/api/**", async route => {
+ // Flux temps réel indisponible ici : les écrans gardent leur rafraîchissement de secours.
+ if(/\/events$/.test(new URL(route.request().url()).pathname))return route.fulfill({status:404,contentType:'application/json',body:'{"error":"not_found"}'});
       const request = route.request();
       const path = new URL(request.url()).pathname;
       const method = request.method();
