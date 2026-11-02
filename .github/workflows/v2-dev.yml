@@ -170,6 +170,7 @@ jobs:
           node scripts/check-campaign-bestiary.mjs
           node scripts/check-campaign-npcs.mjs
           node scripts/check-npc-proposals.mjs
+          node scripts/check-live-events.mjs
           node scripts/check-campaign-bestiary-db.mjs
 
       - name: Check password hashing and account migration

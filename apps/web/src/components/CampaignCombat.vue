@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {computed,nextTick,onMounted,onUnmounted,ref,watch} from 'vue';
+import {useLiveUpdates} from '../lib/live-updates';
 import {damageCalculation,weaponMechanics} from '../../../api/src/rules/combat-damage';
 import {api,ApiError} from '../lib/api';
 const props=defineProps<{campaignId:string;room:any;showComposer?:boolean}>(),emit=defineEmits<{changed:[];attention:[count:number]}>();
@@ -37,7 +38,7 @@ function launchPayload(){return {attackerId:attackerId.value,optionId:optionId.v
 function launchAttack(){if(launchReady.value)void send('launch',launchPayload());}
 
 const eventId=ref(''),targetId=ref(''),damage=ref<number|null>(null),bonusDamage=ref(0),penetration=ref(0),damageType=ref('melee'),attackMode=ref('melee'),surprise=ref(false);
-const drafts=ref<Record<string,any>>({});let alive=true,timer:ReturnType<typeof setInterval>;
+const drafts=ref<Record<string,any>>({});let alive=true,timer:ReturnType<typeof setInterval>|undefined;
 const rolls=computed(()=>props.room.events.filter((e:any)=>['roll','gm-roll'].includes(e.kind)&&e.payload.total!==undefined));
 const targets=computed(()=>[...props.room.characters,...props.room.combatants]);
 watch(weaponId,()=>{const w=weapons.value.find(w=>w.id===weaponId.value);if(w){damage.value=w.damage;penetration.value=Number(/Perforant\s+(\d+)/i.exec(w.properties)?.[1]??0);damageType.value=weaponMechanics(w).damageType;attackMode.value=weaponMechanics(w).attackMode;}});
@@ -72,7 +73,8 @@ function preview(a:any):any{const d=drafts.value[a.id],items=(a.target.protectio
 
 async function prepareAttack(id:string,rollId=''){category.value='';weaponSearch.value='';attackerId.value=id;await nextTick();optionId.value=attacker.value?.options.some((o:any)=>o.id===rollId)?rollId:'';document.querySelector('.combat-resolution')?.scrollIntoView({behavior:'smooth',block:'start'});}
 defineExpose({prepareAttack});
-onMounted(()=>{void load();timer=setInterval(()=>void load(),3000);});onUnmounted(()=>{alive=false;clearInterval(timer);});
+onMounted(()=>{void load();});
+useLiveUpdates(()=>`/api/campaigns/${props.campaignId}/events`,()=>void load(),3000);onUnmounted(()=>{alive=false;clearInterval(timer);});
 </script>
 <template>
 <section class="combat-resolution" aria-label="Résolution des attaques">

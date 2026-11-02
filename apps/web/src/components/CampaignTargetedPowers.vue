@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {computed,onMounted,onUnmounted,ref,watch} from 'vue';
+import {useLiveUpdates} from '../lib/live-updates';
 import {api,ApiError} from '../lib/api';
 const props=defineProps<{campaignId:string;room:any}>(),emit=defineEmits<{changed:[];attention:[count:number]}>();
 const endpoint=`/api/campaigns/${props.campaignId}/targeted-powers`;
@@ -18,7 +19,8 @@ watch(pursuesImpulse,()=>{confirmed.value=false;});
 watch(()=>source.value?.frenzy?.impulseRequired,()=>{pursuesImpulse.value=false;confirmed.value=false;});
 async function load(){if(!alive||loading||document.visibilityState==='hidden')return;loading=true;try{const next=await api(endpoint);if(!alive)return;snapshot.value=next;loadError.value='';if(!sources.value.some((s:any)=>s.id===sourceId.value))sourceId.value=sources.value[0]?.id??'';}catch(cause){if(alive){loadError.value='Impossible de charger les pouvoirs ciblés.';if(cause instanceof ApiError&&[403,404].includes(cause.status))snapshot.value=null;}}finally{loading=false;}}
 watch(open,value=>{if(value)void load();});
-onMounted(()=>{void load();timer=setInterval(()=>void load(),3000);});
+onMounted(()=>{void load();});
+useLiveUpdates(()=>`/api/campaigns/${props.campaignId}/events`,()=>void load(),3000);
 onUnmounted(()=>{alive=false;clearInterval(timer);});
 const messages:Record<string,string>={frenzy_impulse_pa_required:'La Frénésie exige de garder 1 PA pour son impulsion. Confirme si ce pouvoir la poursuit.',targeted_state_changed:'Une fiche a changé. Actualise et propose à nouveau le pouvoir.',targeted_offer_closed:'Cette proposition a expiré ou a déjà été traitée.',targeted_beneficiary_used:'Ce bénéficiaire a déjà reçu ce pouvoir dans le scénario.',targeted_source_unavailable:'Le lanceur ne peut pas agir : vérifie ses PA, son initiative et son état.',targeted_beneficiary_dead:'Ce pouvoir ne ramène pas un personnage mort à la vie.',targeted_no_healable_wound:'Aucune blessure ne peut être soignée avec ce pouvoir actuellement.',targeted_rune_already_active:'Ce runiste a déjà une Rune de Garde active.',targeted_inscription_outside_combat:'Termine le combat avant cette inscription de dix minutes.',targeted_context_required:'Confirme les conditions réelles du pouvoir.'};
 async function send(action:string,extra:any){if(busy.value||pending.value)return;pending.value={requestId:crypto.randomUUID(),action,...extra};await retry();}

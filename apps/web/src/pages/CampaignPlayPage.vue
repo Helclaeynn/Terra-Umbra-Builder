@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {computed,nextTick,onMounted,onUnmounted,ref,watch} from 'vue';
+import {useLiveUpdates} from '../lib/live-updates';
 import {RouterLink,useRoute} from 'vue-router';
 import {api,ApiError} from '../lib/api';
 import {usePageTitle} from '../lib/page-title';
@@ -81,7 +82,9 @@ watch([sourceKind,sourceCatalog],()=>{++sourceGeneration;sources.value=[];source
 watch(sourceId,()=>{sourceName.value=sources.value.find(s=>s.id===sourceId.value)?.name??'';});
 const date=(v:string)=>new Date(v).toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
 function focus(){void load();}
-onMounted(()=>{void load();timer=setInterval(()=>void load(),3000);window.addEventListener('focus',focus);document.addEventListener('visibilitychange',focus);});
+onMounted(()=>{void load();window.addEventListener('focus',focus);document.addEventListener('visibilitychange',focus);});
+// Temps réel : rechargé dès qu'une action a lieu à la table (3 s seulement sans flux).
+useLiveUpdates(()=>`/api/campaigns/${id}/events`,()=>void load(),3000);
 onUnmounted(()=>{alive=false;++sourceGeneration;clearInterval(timer);window.removeEventListener('focus',focus);document.removeEventListener('visibilitychange',focus);});
 </script>
 <template>

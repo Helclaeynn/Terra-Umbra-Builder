@@ -37,7 +37,7 @@ import { appearanceGallery,playPortrait } from './character-appearances.js';
 const uuid=/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const gm=(role:string)=>['gm','editor','admin'].includes(role);
 // Full-sheet read grant; owner controls the sheet, campaign MJ may run dedicated mechanics.
-async function characterAccess(db:Pick<PoolClient,'query'>,id:string,user:{id:string;role:string},lock=false){
+export async function characterAccess(db:Pick<PoolClient,'query'>,id:string,user:{id:string;role:string},lock=false){
   if(!uuid.test(id))return null;
   const r=await db.query(`SELECT c.* FROM characters c WHERE c.id=$1 AND c.archived_at IS NULL AND
     (c.owner_id=$2 OR ($3::boolean AND (EXISTS(SELECT 1 FROM character_sheet_readers r WHERE r.character_id=c.id AND r.reader_id=$2)

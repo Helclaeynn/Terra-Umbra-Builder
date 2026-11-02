@@ -24,6 +24,7 @@ import {
 } from "./auth.js";
 import { databaseStatus, pool } from "./db.js";
 import { registerCharacterRoutes } from "./characters.js";
+import { registerLiveEventRoutes } from "./live-events.js";
 import { invalidateCompendiumCorpus, preloadCompendium, registerCompendiumRoutes } from "./compendium.js";
 import { startContentWatch } from "./content-articles.js";
 import { loadNpcFlavorContent } from "./npc-flavor-content.js";
@@ -1014,6 +1015,7 @@ app.get("/api/admin/audit", async (request, reply) => {
   return { events: result.rows };
 });
 
+await registerLiveEventRoutes(app);
 await registerCharacterRoutes(app);
 await registerRulesRoutes(app);
 await registerCompendiumRoutes(app);

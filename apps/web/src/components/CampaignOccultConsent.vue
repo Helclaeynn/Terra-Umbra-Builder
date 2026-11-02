@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import {onMounted,onUnmounted,ref,watch} from 'vue';
+import {useLiveUpdates} from '../lib/live-updates';
 import {api,ApiError} from '../lib/api';
 const props=defineProps<{campaignId:string}>(),emit=defineEmits<{refresh:[];attention:[count:number]}>();
 const impulse=ref<Record<string,boolean>>({}),edgeChoice=ref<Record<string,boolean>>({}),offers=ref<any[]>([]),results=ref<any[]>([]),loadingError=ref(''),error=ref(''),notice=ref(''),busy=ref(false),pending=ref<any>(null);
 let alive=true,loading=false,timer:ReturnType<typeof setInterval>|undefined;
 watch(offers,list=>{emit('attention',list.length);if(!pending.value)for(const offer of list)if((offer.edge??0)<1)edgeChoice.value[offer.sourceEventId+offer.actorId]=false;},{immediate:true});
 async function load(){if(!alive||loading||document.visibilityState==='hidden')return;loading=true;try{const result=await api<any>(`/api/campaigns/${props.campaignId}/occult-consents`);if(alive){offers.value=result.offers??[];results.value=result.results??[];loadingError.value='';}}catch{if(alive)loadingError.value='Les propositions privées ne sont pas à jour.';}finally{loading=false;}}
-onMounted(()=>{void load();timer=setInterval(()=>void load(),3000);});onUnmounted(()=>{alive=false;clearInterval(timer);});
+onMounted(()=>{void load();});
+useLiveUpdates(()=>`/api/campaigns/${props.campaignId}/events`,()=>void load(),3000);onUnmounted(()=>{alive=false;clearInterval(timer);});
 async function accept(offer:any,active=false){if(busy.value||pending.value)return;const key=offer.sourceEventId+offer.actorId,edge=edgeChoice.value[key]===true&&(offer.edge??0)>0;pending.value={requestId:crypto.randomUUID(),action:offer.type==='decree'?'resist-decree':offer.type==='defense'?'defend':'consent',sourceEventId:offer.sourceEventId,actorId:offer.actorId,version:offer.version,offerId:offer.offerId,...(offer.type==='defense'?{active,defenseKind:offer.defenseKind,contextConfirmed:true,pursuesImpulse:impulse.value[key]===true,...(active?{edge}:{})}:offer.type==='decree'?{effectId:offer.effectId,violationConfirmed:true,edge}:{})};await retry();}
 async function force(result:any){if(busy.value||pending.value)return;pending.value={requestId:crypto.randomUUID(),action:'force-defense',eventId:result.eventId,actorId:result.actorId,version:result.version};await retry();}
 function resultRollTotal(result:any){return result.modifier+(result.sum??result.dice.reduce((total:number,die:number)=>total+die,0));}

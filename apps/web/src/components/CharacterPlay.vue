@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import CompendiumItemLink from './CompendiumItemLink.vue';
+import {useLiveUpdates} from '../lib/live-updates';
 import LiveMechanicsPanel from './LiveMechanicsPanel.vue';
 import {isExtendedPlayAction} from '../../../api/src/rules/extended-actions';
 import {explicitPower} from '../../../api/src/rules/live-power-registry';
@@ -103,7 +104,9 @@ function toggleAutomatic(id:string,enabled:boolean){state.value.disabled=enabled
 function toggleContext(id:string,enabled:boolean){state.value.contexts=enabled?[...state.value.contexts,id]:state.value.contexts.filter(x=>x!==id);dirty.value=true;}
 const sourceOptions=computed(()=>[...props.sheet.realityTalents.map(s=>({name:s.name,truth:false})),...props.sheet.inventory.map(s=>({name:s.name,truth:s.group?.startsWith('Objet de Vérité')??false})),...props.sheet.truthTalents.map(s=>({name:s.name,truth:true}))]);
 function sourceChanged(){bonusTruth.value=sourceOptions.value.find(s=>s.name===bonusLabel.value)?.truth??false;}
-onMounted(()=>{void load();timer=setInterval(()=>{if(document.visibilityState==='visible')void load();},5000);});
+onMounted(()=>{void load();});
+// Temps réel : la fiche suit ses propres changements et ceux de sa campagne.
+useLiveUpdates(()=>`/api/characters/${props.id}/events`,()=>void load(),5000);
 onUnmounted(()=>{alive=false;clearInterval(timer);});
 </script>
 <template>

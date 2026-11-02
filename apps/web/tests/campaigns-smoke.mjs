@@ -15,6 +15,8 @@ let session=null,effectConflict=false,admissionStatus='pending',admissionVersion
 const effectTarget={id:chid,name:'Alexandra',version:1,money:1000,corruption:0,integrity:4,source:''};
 const errors=[];const page=await browser.newPage();page.on('pageerror',e=>errors.push(e.message));page.on('dialog',d=>acceptDialogs?d.accept():d.dismiss());
 await page.route('**/api/**',async route=>{
+ // Flux temps réel indisponible ici : les écrans gardent leur rafraîchissement de secours.
+ if(/\/events$/.test(new URL(route.request().url()).pathname))return route.fulfill({status:404,contentType:'application/json',body:'{"error":"not_found"}'});
  const req=route.request(),url=new URL(req.url()),path=url.pathname,method=req.method();let body={},code=200;
  if(path==='/api/campaigns'&&method==='GET')body={campaigns:deleted?[]:[campaign()],canCreate:role==='gm',userId:role==='gm'?gid:pid};
  else if(path==='/api/campaigns'&&method==='POST'){assert.equal(req.postDataJSON().name,'Nouvelle table');body={campaign:{id:cid}};code=201;}

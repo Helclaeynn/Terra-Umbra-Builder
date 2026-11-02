@@ -25,6 +25,8 @@ const page=await browser.newPage({viewport:{width:1440,height:1000},hasTouch:tru
 const id='11111111-1111-4111-8111-111111111111';
 await page.route('https://character-ux.invalid/',route=>route.fulfill({contentType:'text/html',body:'<!doctype html><html lang="fr"><head><meta name="viewport" content="width=device-width,initial-scale=1"></head><body><div id="app"></div></body></html>'}));
 await page.route('**/api/**',async route=>{
+ // Flux temps réel indisponible ici : les écrans gardent leur rafraîchissement de secours.
+ if(/\/events$/.test(new URL(route.request().url()).pathname))return route.fulfill({status:404,contentType:'application/json',body:'{"error":"not_found"}'});
  const p=new URL(route.request().url()).pathname,b=route.request().postDataJSON();
  if(p==='/api/characters/ux-character/play'){
   if(b){requests.push(b);await page.evaluate(input=>{window.playVersion=(window.playVersion??0)+1;if(input.action==='save')window.playState=input.state;if(input.action==='roll'){const skill=window.serverSnapshot().profile.skills.find(s=>s.id===input.skill);window.playEvents=[{id:input.requestId,kind:'roll',createdAt:'2026-10-12T12:00:00Z',payload:{label:skill.name,modifier:skill.total,dice:[10,4],sum:14,total:skill.total+14,exploded:true,narrativeFailure:false}},...(window.playEvents??[])];}},b);}

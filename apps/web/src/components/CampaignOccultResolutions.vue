@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {computed,onMounted,onUnmounted,ref,watch} from 'vue';
+import {useLiveUpdates} from '../lib/live-updates';
 import {terraUmbraCreationRules} from '../../../api/src/rules/terra-umbra-creation';
 import {api,ApiError} from '../lib/api';
 const props=defineProps<{campaignId:string;room:any}>(),emit=defineEmits<{changed:[];attention:[count:number]}>();
@@ -9,7 +10,7 @@ const source=computed(()=>sources.value.find(s=>s.id===sourceId.value)),targets=
 const skills=terraUmbraCreationRules.skills;
 const sovereignty=computed(()=>source.value?.payload.powerId==='belial_la_reine_des_dieux_facette_domination_souverainete_de_belial'),phantasm=computed(()=>source.value?.payload.powerId==='daemon_clean_oracle_tentateur_fantasmagorie_fantasmagorie');
 const resolveReady=computed(()=>!busy.value&&confirmed.value&&!!targetId.value&&!!note.value.trim()&&(kind.value!=='condition'||Number.isFinite(effectDistance.value)&&effectDistance.value>=0&&(!sovereignty.value||effectDistance.value<=15))&&(!(kind.value==='effects'||kind.value==='condition'&&phantasm.value)||duration.value!=='round'||Number.isSafeInteger(rounds.value)&&rounds.value>=1&&rounds.value<=100));
-let alive=true,timer:ReturnType<typeof setInterval>;
+let alive=true,timer:ReturnType<typeof setInterval>|undefined;
 async function load(){if(!alive||document.visibilityState==='hidden')return;try{const r=await api<any>(endpoint);if(!alive)return;sources.value=r.sources??[];maintained.value=r.maintained??[];consent.value=r.consent??[];emit('attention',sources.value.length);if(!sources.value.some(s=>s.id===sourceId.value))sourceId.value=sources.value[0]?.id??'';}catch{error.value='Impossible de charger les effets à résoudre.';}}
 watch([sourceId,targetId,kind,hostile,defenseKind,protection,amount,effectName,scope,skill,effectAmount,duration,rounds,rollId,effectDistance,note,sustain,()=>additionalTargets.value.join('|')],()=>{confirmed.value=false;});
 watch(sourceId,()=>{rollId.value='';sustain.value=false;});
@@ -17,7 +18,8 @@ async function send(action:string,extra:any){if(busy.value)return;if(!request.va
 async function targetVersion(){const target=targets.value.find((t:any)=>t.id===targetId.value);if(!target)throw Error('target');if((props.room.characters??[]).some((t:any)=>t.id===targetId.value))return (await api<any>(`/api/characters/${targetId.value}/play`)).version;return target.version;}
 async function resolve(){if(!resolveReady.value||!sourceId.value)return;try{const version=await targetVersion();const target:any={actorId:targetId.value,version,hostile:hostile.value,function:kind.value,defenseKind:defenseKind.value,defenseConfirmed:true,protection:protection.value,protectionConfirmed:true,protectionNote:note.value};if(kind.value==='condition'&&phantasm.value)target.duration=duration.value==='round'?{unit:'round',value:rounds.value}:{unit:'scene'};if(kind.value==='healing'){target.amount=amount.value;target.healingConfirmed=true;}if(kind.value==='effects')target.effects=[{name:effectName.value,kind:'modifier',scope:scope.value,amount:effectAmount.value,...(scope.value==='skill'?{skill:skill.value}:{}),duration:duration.value==='round'?{unit:'round',value:rounds.value}:{unit:'scene'}}];await send('resolve',{sourceEventId:sourceId.value,...(rollId.value?{rollEventId:rollId.value}:{}),confirmed:true,ruling:note.value,maintained:sustain.value,targets:[{...target,distance:effectDistance.value,contextConfirmed:confirmed.value},...await Promise.all(additionalTargets.value.filter(id=>id!==targetId.value).map(async(id)=>{const row=targets.value.find(t=>t.id===id),pc=(props.room.characters??[]).some((t:any)=>t.id===id);return {...target,actorId:id,version:pc?(await api<any>(`/api/characters/${id}/play`)).version:row.version,distance:effectDistance.value,contextConfirmed:confirmed.value};}))]});}catch{error.value='Impossible de lire la version de la cible.';}}
 function requestConsent(){void send('request-consent',{sourceEventId:sourceId.value,targets:[...new Set([targetId.value,...additionalTargets.value])].map(actorId=>({actorId})),note:note.value});}
-onMounted(()=>{void load();timer=setInterval(()=>void load(),5000);});onUnmounted(()=>{alive=false;clearInterval(timer);});
+onMounted(()=>{void load();});
+useLiveUpdates(()=>`/api/campaigns/${props.campaignId}/events`,()=>void load(),5000);onUnmounted(()=>{alive=false;clearInterval(timer);});
 </script>
 <template>
 <section class="occult-resolutions" aria-label="Résolution des effets occultes">
