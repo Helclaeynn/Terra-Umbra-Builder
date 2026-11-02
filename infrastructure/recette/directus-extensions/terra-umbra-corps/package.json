@@ -6,8 +6,8 @@
   "private": true,
   "directus:extension": {
     "type": "interface",
-    "path": "dist/index.js",
-    "source": "dist/index.js",
+    "path": "index.js",
+    "source": "index.js",
     "host": "^11.0.0"
   }
 }
