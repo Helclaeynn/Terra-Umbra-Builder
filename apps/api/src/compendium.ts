@@ -10,6 +10,7 @@ import { applyReviewedCatalogueBatch04, REVIEWED_CATALOGUE_BATCH_04_TAGS } from 
 import { applyReviewedCatalogueBatch05, REVIEWED_CATALOGUE_BATCH_05_TAGS } from "./compendium-reviewed-catalogue-batch-05.js";
 import { applyReviewedCatalogueBatch06, REVIEWED_CATALOGUE_BATCH_06_TAGS } from "./compendium-reviewed-catalogue-batch-06.js";
 import {registerCanonicalNpcGenerator} from './canonical-npc-generator.js';
+import {registerNpcProposalRoutes} from './npc-proposals.js';
 import { addPortraitRefreshArticles, applyRefreshedPortrait, portraitRefreshNavigation, type PortraitRefresh } from "./compendium-portrait-refresh.js";
 import { createHash, randomBytes } from "node:crypto";
 import { mkdir, readFile, readdir, writeFile } from "node:fs/promises";
@@ -4539,6 +4540,8 @@ async function ownedCollection(collectionId: string, userId: string): Promise<bo
 
 export async function registerCompendiumRoutes(app: FastifyInstance) {
   await registerCanonicalNpcGenerator(app);
+  // PNJ proposés par les joueurs : « publié » = la page validée est au Compendium public.
+  await registerNpcProposalRoutes(app, async (articleId) => (await getCorpus()).publicById.has(articleId));
   // Site d'essai : les articles s'éditent dans Directus. L'ancien éditeur écrirait
   // dans des tables que le compendium ne lit plus ; ses écritures sont refusées.
   app.get("/api/compendium/meta", async () => {

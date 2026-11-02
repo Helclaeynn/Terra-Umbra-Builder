@@ -1223,7 +1223,29 @@ async function deletePage() {
   }
 }
 
-onMounted(load);
+// Un PNJ proposé par un joueur (écran « PNJ proposés ») : l'administrateur
+// l'ouvre ici en brouillon, la proposition est liée à la page, puis il relit
+// et publie comme d'habitude.
+async function openNpcProposal() {
+  const proposalId = String(route.query.proposal ?? "");
+  if (!isNew.value || !isAdmin.value || !/^[0-9a-f-]{36}$/i.test(proposalId)) return;
+  try {
+    const { article: draft } = await api<{ article: NpcArticleDraft }>(`/api/admin/npc-proposals/${encodeURIComponent(proposalId)}/preview`, { method: "POST" });
+    await applyNpcDraft(draft, (saved) => {
+      if (!saved || !pageId.value) return;
+      void api(`/api/admin/npc-proposals/${encodeURIComponent(proposalId)}/link`, { method: "POST", body: JSON.stringify({ articleId: pageId.value }) })
+        .then(() => { notice.value = "PNJ proposé repris en brouillon et lié à sa proposition. Relis la partie publique et les blocs MJ, puis publie."; })
+        .catch(() => { error.value = "Le brouillon est créé, mais la proposition n’a pas pu y être liée. Réessaie depuis « PNJ proposés »."; });
+    });
+  } catch (cause) {
+    error.value = humanError(cause);
+  }
+}
+
+onMounted(async () => {
+  await load();
+  await openNpcProposal();
+});
 </script>
 
 <template>

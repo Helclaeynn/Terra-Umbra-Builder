@@ -2,8 +2,13 @@
 import { computed, onBeforeUnmount, onMounted, ref, watch } from "vue";
 import { api } from "../../lib/api";
 import BuilderWikiLink from "./BuilderWikiLink.vue";
+import CanonicalNpcGenerator from "../CanonicalNpcGenerator.vue";
+import type { NpcData } from "../../../../api/src/campaign-npc-model";
 
-export type NpcContactChoice={articleId:string;title:string;tierId:string;tierLabel:string;snippet?:string};
+// A contact is a published NPC (articleId) or one the player proposed from the
+// Builder (proposalId) while the admins have not validated it yet.
+export type NpcContactChoice={articleId:string;title:string;tierId:string;tierLabel:string;snippet?:string;proposalId?:string;status?:"pending"|"approved"|"rejected"};
+type ProposalSummary={proposalId:string;title:string;tierId:string;tierLabel:string;status:"pending"|"approved"|"rejected";articleId:string|null;published:boolean;reviewNote:string};
 
 const props=withDefaults(defineProps<{
   modelValue?:NpcContactChoice|null;
@@ -12,7 +17,8 @@ const props=withDefaults(defineProps<{
   maxTier:"entraine"|"elite"|"superieur";
   minTier?:"haute-elite";
   allowCreate?:boolean;
-}>(),{modelValue:null,allowCreate:false});
+  characterId?:string;
+}>(),{modelValue:null,allowCreate:false,characterId:undefined});
 
 const emit=defineEmits<{"update:modelValue":[value:NpcContactChoice|null]}>();
 const query=ref("");
@@ -22,7 +28,39 @@ const error=ref("");
 let timer:ReturnType<typeof setTimeout>|undefined;
 let sequence=0;
 
-const selected=computed(()=>props.modelValue?.articleId?props.modelValue:null);
+const selected=computed(()=>props.modelValue?.articleId||props.modelValue?.proposalId?props.modelValue:null);
+const creating=ref(false);
+const proposal=ref<ProposalSummary|null>(null);
+
+// The proposal's current state: validated and published -> it becomes an
+// ordinary contact; refused -> the reason is shown and the player chooses again.
+async function refreshProposal(){
+  const id=props.modelValue?.proposalId;
+  proposal.value=null;
+  if(!id)return;
+  try{
+    const payload=await api<{proposal:ProposalSummary}>(`/api/npc-proposals/${encodeURIComponent(id)}`);
+    proposal.value=payload.proposal;
+    const current=props.modelValue!;
+    const next:NpcContactChoice={...current,status:payload.proposal.status,
+      articleId:payload.proposal.published&&payload.proposal.articleId?payload.proposal.articleId:current.articleId};
+    if(next.status!==current.status||next.articleId!==current.articleId)emit("update:modelValue",next);
+  }catch{/* keep the saved contact as it is */}
+}
+
+async function propose(npc:NpcData,finish:(saved:boolean)=>void){
+  try{
+    const payload=await api<{proposal:ProposalSummary}>("/api/npc-proposals",{method:"POST",body:JSON.stringify({
+      npc,maxTier:props.maxTier,...(props.characterId?{characterId:props.characterId}:{})
+    })});
+    finish(true);
+    creating.value=false;
+    const p=payload.proposal;
+    emit("update:modelValue",{articleId:"",proposalId:p.proposalId,title:p.title,tierId:p.tierId,tierLabel:p.tierLabel,status:p.status});
+  }catch{
+    finish(false);
+  }
+}
 
 async function search(){
   const current=++sequence;
@@ -46,7 +84,8 @@ function schedule(){
 }
 
 watch(query,schedule);
-onMounted(()=>void search());
+watch(()=>props.modelValue?.proposalId,()=>void refreshProposal());
+onMounted(()=>{void search();void refreshProposal();});
 onBeforeUnmount(()=>{sequence++;if(timer)clearTimeout(timer);});
 </script>
 
@@ -54,15 +93,31 @@ onBeforeUnmount(()=>{sequence++;if(timer)clearTimeout(timer);});
   <section class="contact-picker">
     <div class="contact-heading">
       <div><strong>{{ label }}</strong><small>{{ help }}</small></div>
-      <a
-        v-if="allowCreate"
-        :href="`/compendium/new?category=Personnages&template=npc&maxTier=${maxTier}`"
-        target="_blank"
-        rel="noopener"
-      >Créer un PNJ ({{ maxTier==='entraine'?'Entraîné':'Élite' }} maximum)</a>
+      <button
+        v-if="allowCreate && !creating"
+        type="button"
+        @click="creating=true"
+      >Créer un PNJ ({{ maxTier==='entraine'?'Entraîné':'Élite' }} maximum)</button>
     </div>
 
-    <div v-if="selected" class="selected-contact">
+    <CanonicalNpcGenerator
+      v-if="creating"
+      proposal
+      :max-tier="maxTier"
+      @propose="propose"
+      @close="creating=false"
+    />
+
+    <div v-if="selected && selected.proposalId && !selected.articleId" class="selected-contact" :class="{refused:selected.status==='rejected'}">
+      <span>
+        <strong>{{ selected.title }}</strong>
+        <small>{{ selected.tierLabel }} · PNJ proposé
+          · {{ selected.status==='rejected' ? 'refusé par les administrateurs' : selected.status==='approved' ? 'validé, publication en cours' : 'en attente de validation par un administrateur' }}</small>
+        <small v-if="selected.status==='rejected' && proposal?.reviewNote">Raison : {{ proposal.reviewNote }}</small>
+      </span>
+      <button type="button" @click="emit('update:modelValue',null)">Changer</button>
+    </div>
+    <div v-else-if="selected" class="selected-contact">
       <span>
         <BuilderWikiLink
           :label="selected.title"
@@ -134,6 +189,7 @@ onBeforeUnmount(()=>{sequence++;if(timer)clearTimeout(timer);});
 .contact-result p{display:-webkit-box;margin:.2rem 0 0;overflow:hidden;color:#9fb4c8;font-size:.78rem;line-height:1.45;-webkit-box-orient:vertical;-webkit-line-clamp:3}
 .contact-result>button{align-self:center}
 .selected-contact{padding:.7rem;border:1px solid rgba(100,222,245,.2);border-radius:7px;background:rgba(100,222,245,.035)}
+.selected-contact.refused{border-color:#e07a7a;background:rgba(224,122,122,.06)}
 .contact-picker button{min-height:44px;padding:9px 12px;border:1px solid #405875;border-radius:6px;background:#13283b;color:#edf4ff;font:inherit;cursor:pointer}
 .contact-picker :focus-visible{outline:2px solid #a3eaff;outline-offset:3px}
 </style>

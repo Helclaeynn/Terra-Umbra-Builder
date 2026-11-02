@@ -4,21 +4,24 @@ import {onBeforeRouteLeave} from 'vue-router';
 import {api} from '../lib/api';
 import {NPC_SEXES,validNpcData,type NpcCatalog,type NpcData,type NpcArticleDraft} from '../../../api/src/campaign-npc-model';
 import CampaignNpcSheet from './CampaignNpcSheet.vue';
-const props=defineProps<{disabled?:boolean;maxTier?:string}>();
-const emit=defineEmits<{(e:'apply',article:NpcArticleDraft,finish:(saved:boolean)=>void):void;(e:'close'):void}>();
+// proposal: a player creates a contact from the Builder. Same NPC creation rules,
+// player endpoints; the NPC is emitted as data and sent to the admins for validation.
+const props=defineProps<{disabled?:boolean;maxTier?:string;minTier?:string;proposal?:boolean}>();
+const emit=defineEmits<{(e:'apply',article:NpcArticleDraft,finish:(saved:boolean)=>void):void;(e:'propose',npc:NpcData,finish:(saved:boolean)=>void):void;(e:'close'):void}>();
 const catalog=ref<NpcCatalog|null>(null),draft=ref<NpcData|null>(null),mode=ref<'custom'|'assisted'>('assisted'),tierId=ref('lambda'),presetId=ref('garde'),sex=ref('random'),nationality=ref('random'),truthEnabled=ref(false),natureId=ref('vampire'),truthPowerId=ref('recent'),truthArchetypeId=ref('veilleur'),faction=ref(''),busy=ref(false),imageBusy=ref(false),error=ref('');
 let live=true,applied=false;
-const endpoint='/api/compendium/editor/npc-generator';
+const endpoint=props.proposal?'/api/npc-proposals':'/api/compendium/editor/npc-generator';
 const locked=computed(()=>busy.value||props.disabled||imageBusy.value);
 const valid=computed(()=>!!draft.value&&!!catalog.value&&validNpcData(draft.value,catalog.value));
 const tierOptions=computed(()=>{
  const tiers=catalog.value?.tiers??[];
  if(!props.maxTier)return tiers;
  const maximum=tiers.findIndex(t=>t.id===props.maxTier);
- return maximum<0?tiers:tiers.slice(0,maximum+1);
+ const minimum=props.minTier?Math.max(0,tiers.findIndex(t=>t.id===props.minTier)):0;
+ return maximum<0?tiers.slice(minimum):tiers.slice(minimum,maximum+1);
 });
-async function load(){try{const c=await api<NpcCatalog>(endpoint+'/catalog');if(live){catalog.value=c;if(!tierOptions.value.some(t=>t.id===tierId.value))tierId.value=tierOptions.value.at(-1)?.id??'lambda';}}catch{if(live)error.value='Le générateur canonique est réservé aux administrateurs. Impossible de le charger.';}}
-async function generate(){if(locked.value||draft.value&&!window.confirm('Remplacer cet aperçu et ses modifications ?'))return;busy.value=true;error.value='';try{const r=await api<{npcs:NpcData[]}>(endpoint+'/generate',{method:'POST',body:JSON.stringify({tierId:tierId.value,presetId:presetId.value,sex:sex.value,nationality:nationality.value,faction:faction.value,count:1,seed:crypto.randomUUID(),truth:truthEnabled.value?{natureId:natureId.value,powerId:truthPowerId.value,archetypeId:truthArchetypeId.value}:null})});if(live){draft.value=r.npcs[0];applied=false;}}catch{if(live)error.value='Impossible de générer ce PNJ. Réessaie.';}finally{busy.value=false;}}
+async function load(){try{const c=await api<NpcCatalog>(endpoint+'/catalog');if(live){catalog.value=c;if(!tierOptions.value.some(t=>t.id===tierId.value))tierId.value=tierOptions.value.at(-1)?.id??'lambda';}}catch{if(live)error.value=props.proposal?'Impossible de charger les règles de création des PNJ.':'Le générateur canonique est réservé aux administrateurs. Impossible de le charger.';}}
+async function generate(){if(locked.value||draft.value&&!window.confirm('Remplacer cet aperçu et ses modifications ?'))return;busy.value=true;error.value='';try{const r=await api<{npcs:NpcData[]}>(endpoint+'/generate',{method:'POST',body:JSON.stringify({...(props.proposal?{maxTier:props.maxTier??'elite'}:{}),tierId:tierId.value,presetId:presetId.value,sex:sex.value,nationality:nationality.value,faction:faction.value,count:1,seed:crypto.randomUUID(),truth:truthEnabled.value?{natureId:natureId.value,powerId:truthPowerId.value,archetypeId:truthArchetypeId.value}:null})});if(live){draft.value=r.npcs[0];applied=false;}}catch{if(live)error.value='Impossible de générer ce PNJ. Réessaie.';}finally{busy.value=false;}}
 function chooseMode(next:'custom'|'assisted'){
  if(locked.value||draft.value&&!applied&&!window.confirm('Remplacer ce PNJ et ses modifications ?'))return;
  mode.value=next;draft.value=null;applied=false;error.value='';
@@ -29,7 +32,7 @@ function createBlank(){
  draft.value={name:'',firstName:'',lastName:'',sex:'unspecified',nationality:'',truth:null,tierId:tierId.value,presetId:'custom',role:'',faction:'',appearance:'',personality:'',motivation:'',secret:'',notes:'',equipment:'',equipmentIds:[],truthNotes:'',tags:[],attributes:Object.fromEntries(catalog.value.attributes.map(a=>[a.id,1])),skills:Object.fromEntries(catalog.value.skills.map(s=>[s.id,0])),talentIds:[],expertiseSkill:'',apexSkill:'',apexReason:'',armor:0,portrait:''};
 }
 function changeTier(){if(mode.value==='custom'&&draft.value)draft.value={...draft.value,tierId:tierId.value};}
-async function apply(){if(!valid.value||locked.value)return;busy.value=true;error.value='';try{const r=await api<{article:NpcArticleDraft}>(endpoint+'/preview',{method:'POST',body:JSON.stringify({npc:draft.value})});if(live)emit('apply',r.article,(saved)=>{if(!live)return;applied=saved;busy.value=false;if(!saved)error.value='Le brouillon n’a pas été enregistré. Ton PNJ est conservé : réessaie ici.';});}catch{if(live){busy.value=false;error.value='Impossible de préparer le brouillon. Tes modifications sont conservées ici.';}}}
+async function apply(){if(!valid.value||locked.value)return;busy.value=true;error.value='';if(props.proposal){emit('propose',draft.value!,(saved)=>{if(!live)return;applied=saved;busy.value=false;if(!saved)error.value='La proposition n’a pas été envoyée. Ton PNJ est conservé : réessaie ici.';});return;}try{const r=await api<{article:NpcArticleDraft}>(endpoint+'/preview',{method:'POST',body:JSON.stringify({npc:draft.value})});if(live)emit('apply',r.article,(saved)=>{if(!live)return;applied=saved;busy.value=false;if(!saved)error.value='Le brouillon n’a pas été enregistré. Ton PNJ est conservé : réessaie ici.';});}catch{if(live){busy.value=false;error.value='Impossible de préparer le brouillon. Tes modifications sont conservées ici.';}}}
 function close(){if(draft.value&&!applied&&!window.confirm('Quitter la préparation sans conserver ce PNJ ?'))return;emit('close');}
 function beforeUnload(e:BeforeUnloadEvent){if(draft.value&&!applied){e.preventDefault();e.returnValue='';}}
 onBeforeRouteLeave(()=>applied||!draft.value||window.confirm('Quitter sans conserver cet aperçu de PNJ ?'));
@@ -38,8 +41,9 @@ onUnmounted(()=>{live=false;window.removeEventListener('beforeunload',beforeUnlo
 </script>
 <template>
  <section class="canonical-generator" aria-label="Générateur de PNJ canonique">
-  <div class="generator-heading"><h2>Préparer un PNJ canonique</h2><button type="button" :disabled="busy" @click="close">Revenir à la page vierge</button></div>
-  <p>Choisis une fiche vierge ou une base assistée, ajuste les champs, puis crée un brouillon dans l’éditeur.</p>
+  <div class="generator-heading"><h2>{{ proposal?'Créer ce PNJ':'Préparer un PNJ canonique' }}</h2><button type="button" :disabled="busy" @click="close">{{ proposal?'Annuler':'Revenir à la page vierge' }}</button></div>
+  <p v-if="proposal">Le PNJ suit les règles de création des PNJ. Il est envoyé aux administrateurs, qui le relisent avant de l’ajouter au Compendium ; en attendant, ta fiche le garde comme contact « en attente de validation ».</p>
+  <p v-else>Choisis une fiche vierge ou une base assistée, ajuste les champs, puis crée un brouillon dans l’éditeur.</p>
   <p>Après publication, le nom, le rôle, le sexe, l’apparence, le caractère et le portrait seront publics. Faction, motivation, secrets, équipement, statistiques, talents et notes de Vérité restent dans les blocs MJ.</p>
   <p v-if="error" role="alert">{{ error }} <button v-if="!catalog" type="button" @click="load">Réessayer</button></p>
   <template v-if="catalog">
@@ -51,7 +55,7 @@ onUnmounted(()=>{live=false;window.removeEventListener('beforeunload',beforeUnlo
     <label>Nationalité d’origine<select v-model="nationality"><option value="random">Aléatoire</option><option v-for="n in catalog.nationalities" :key="n.id" :value="n.id">{{ n.name }}</option></select></label>
     <label>Faction ou groupe suggéré<input v-model="faction" maxlength="160" list="canonical-npc-factions" placeholder="Choisir ou saisir une faction · bloc MJ" /><datalist id="canonical-npc-factions"><option>AIDH</option><option>Crawler</option><option>Chasseurs</option><option>Xenoshield</option><option>Loges des Mages</option></datalist></label>
    </div><label class="check"><input v-model="truthEnabled" type="checkbox" />Profil de Vérité MJ</label><div v-if="truthEnabled" class="choices"><label>Nature<select v-model="natureId"><option v-for="n in catalog.truthNatures" :key="n.id" :value="n.id">{{ n.name }}</option></select></label><label>Puissance de Vérité<select v-model="truthPowerId"><option v-for="t in catalog.truthPowers" :key="t.id" :value="t.id">{{ t.name }}</option></select></label><label>Archétype de Vérité<select v-model="truthArchetypeId"><option v-for="a in catalog.truthArchetypes" :key="a.id" :value="a.id">{{ a.name }}</option></select></label></div><p>Archétype : un profil de répartition des statistiques de Vérité, indépendant de la Nature et de la Puissance. {{ catalog?.presets.find(p=>p.id===catalog?.truthArchetypes.find(a=>a.id===truthArchetypeId)?.presetId)?.description }}</p><p>{{ catalog.presets.find(p=>p.id===presetId)?.description }}</p><button type="button" @click="generate">{{ draft?'Générer un autre aperçu':'Générer un aperçu' }}</button></fieldset>
-   <form v-if="draft" @submit.prevent="apply"><fieldset :disabled="busy||disabled"><CampaignNpcSheet v-model:data="draft" :catalog="catalog" editable @image-busy="imageBusy=$event" /></fieldset><button class="primary" :disabled="locked||!valid">Créer le brouillon PNJ</button><small>Le brouillon n’apparaîtra pas dans le Compendium public avant sa publication.</small></form>
+   <form v-if="draft" @submit.prevent="apply"><fieldset :disabled="busy||disabled"><CampaignNpcSheet v-model:data="draft" :catalog="catalog" editable @image-busy="imageBusy=$event" /></fieldset><button class="primary" :disabled="locked||!valid">{{ proposal?'Envoyer pour validation':'Créer le brouillon PNJ' }}</button><small>{{ proposal?'Le PNJ n’apparaîtra dans le Compendium qu’après validation par un administrateur.':'Le brouillon n’apparaîtra pas dans le Compendium public avant sa publication.' }}</small></form>
   </template>
  </section>
 </template>

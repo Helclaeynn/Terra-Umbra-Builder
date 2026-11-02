@@ -40,6 +40,7 @@ const router=createRouter({
     { path:"/compendium/new", component:()=>import("./pages/CompendiumEditorPage.vue") },
     { path:"/compendium/edit/:id", component:()=>import("./pages/CompendiumEditorPage.vue") },
     { path:"/admin/quality", component:()=>import("./pages/AdminQualityPage.vue") },
+    { path:"/admin/pnj-proposes", component:()=>import("./pages/AdminNpcProposalsPage.vue") },
     { path:"/admin/arbitrage", component:()=>import("./pages/CompendiumArbitragePage.vue") },
     { path:"/:pathMatch(.*)*", redirect:"/" }
   ]

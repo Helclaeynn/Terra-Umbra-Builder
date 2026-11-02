@@ -737,10 +737,13 @@ function socialLanguages(){
     : [];
   return values;
 }
+// A published NPC, or one proposed from the Builder and not refused: the
+// player can finish the sheet while the admins validate it.
 function selectedNpcContact(value:unknown){
-  return !!value&&typeof value==="object"&&!Array.isArray(value)&&
-    typeof (value as Record<string,unknown>).articleId==="string"&&
-    String((value as Record<string,unknown>).articleId).trim().length>0;
+  if(!value||typeof value!=="object"||Array.isArray(value))return false;
+  const contact=value as Record<string,unknown>;
+  if(typeof contact.articleId==="string"&&contact.articleId.trim().length>0)return true;
+  return typeof contact.proposalId==="string"&&contact.proposalId.length>0&&contact.status!=="rejected";
 }
 const socialValidation=computed(()=>{
   if(!draft.value)return {languages:false,crawler:false,renownContact:false,minorContacts:false,corporatiste:false};
@@ -2968,6 +2971,7 @@ onBeforeUnmount(()=>{
           v-else-if="activeStep === 'finish'"
           class="panel builder-card"
           :social="draft.social"
+          :character-id="character?.id"
           :sphere-id="draft.creation.sphere"
           :required-language-count="requiredLanguageCount"
           :statuses="finalValidationStatuses"

@@ -16,6 +16,7 @@ const props=defineProps<{
   renownScore:number;
   renownContactRequired:boolean;
   talentIds:string[];
+  characterId?:string;
 }>();
 
 const emit=defineEmits<{
@@ -190,17 +191,19 @@ function setContacts(value:string){
         v-if="sphereId==='crawler'"
         :model-value="crawlerContact"
         label="Contact fiable de Sphère"
-        help="Choisis un PNJ existant de palier Élite maximum. La création ouvre le Builder PNJ dans un nouvel onglet ; le PNJ devra être publié avant de pouvoir être sélectionné ici."
+        help="Choisis un PNJ existant de palier Élite maximum, ou crée-le ici : il sera validé par un administrateur avant d’entrer au Compendium."
         max-tier="elite"
         allow-create
+        :character-id="characterId"
         @update:model-value="updateSocial({crawlerContact:$event})"
       />
       <NpcContactPicker
         v-for="talent in minorContacts" :key="talent.id"
         :model-value="minorContact(talent.id)"
         :label="talent.label"
-        help="Choisis un PNJ existant jusqu’au palier Entraîné, ou crée une fiche PNJ de ce palier maximum."
+        help="Choisis un PNJ existant jusqu’au palier Entraîné, ou crée-le ici : il sera validé par un administrateur."
         max-tier="entraine" allow-create
+        :character-id="characterId"
         @update:model-value="setMinorContact(talent.id,$event)"
       />
 
