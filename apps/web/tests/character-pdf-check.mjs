@@ -268,7 +268,7 @@ for(const slug of ['realite','angelus','mage','garou','homo-superior']){
   assert.ok(!access.getText().startsWith('Suite de V2, capacité 07'));
   await writeFile(new URL('progression-20-powers.pdf',cache),result.bytes);
 }
-const builder=await readFile(new URL('src/pages/CharacterBuilderPage.vue',root),'utf8');
+const builder=(await readFile(new URL('src/pages/CharacterBuilderPage.vue',root),'utf8'))+await readFile(new URL('src/lib/character-builder.ts',root),'utf8');
 const sheet=await readFile(new URL('src/pages/CharacterSheetPage.vue',root),'utf8');
 assert.match(builder,/data:draft\.value/);assert.match(builder,/campaign:progressionMode/);assert.match(builder,/<CharacterPdfActions/);
 assert.match(sheet,/<CharacterPdfActions/);
