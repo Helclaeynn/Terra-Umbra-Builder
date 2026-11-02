@@ -120,7 +120,7 @@ done
 
 # Extensions de Directus (éditeur du corps des articles) : Directus ne les lit
 # qu'au démarrage, on le redémarre seulement si elles ont changé.
-extensions_before=$(cd "$dir" && find directus-extensions -type f -exec sha256sum {} + 2>/dev/null | sort | sha256sum)
+extensions_before=$(cd "$dir" && { find directus-extensions -type f -exec sha256sum {} + 2>/dev/null || true; } | sort | sha256sum)
 rm -rf "$dir/directus-extensions"
 cp -r "$stage/infrastructure/recette/directus-extensions" "$dir/directus-extensions"
 extensions_after=$(cd "$dir" && find directus-extensions -type f -exec sha256sum {} + | sort | sha256sum)
