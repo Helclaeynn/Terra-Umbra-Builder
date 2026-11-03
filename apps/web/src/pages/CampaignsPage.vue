@@ -533,8 +533,6 @@ onUnmounted(() => {
   <div class="campaign-page">
     <header class="campaign-nav"><RouterLink to="/" aria-label="Accueil Terra Umbra"><TerraUmbraBrand /></RouterLink><nav aria-label="Navigation"><RouterLink to="/account">Mon espace</RouterLink><RouterLink to="/campaigns">Mes campagnes</RouterLink></nav></header>
     <main>
-      <RouterLink class="campaign-return" to="/account">← Retour à Mon espace</RouterLink>
-      <RouterLink v-if="id" class="campaign-return" to="/campaigns">← Retour à mes campagnes</RouterLink>
       <p v-if="error" role="alert" class="error">{{ error }} <RouterLink v-if="login" to="/account">Se connecter</RouterLink><button v-else type="button" @click="load">Réessayer</button></p>
       <p v-if="notice" role="status" class="notice">{{ notice }}</p>
       <p v-if="loading" role="status">Chargement des campagnes…</p>

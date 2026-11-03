@@ -184,7 +184,8 @@ try{
  assert.equal(await page.getByText('BROUILLON DU PORT',{exact:true}).count(),0);
  assert.equal(await page.getByRole('button',{name:'Préparer une séance',exact:true}).count(),0);
  assert.equal(await page.getByRole('button',{name:'Supprimer la campagne',exact:true}).count(),0);
- assert.equal(await page.getByRole('link',{name:'← Retour à Mon espace',exact:true}).count(),2);
+ // Un seul retour, en bas : la barre de navigation du haut mène déjà à Mon espace.
+ assert.equal(await page.getByRole('link',{name:'← Retour à Mon espace',exact:true}).count(),1);
  role='gm';await page.goto(base+'/campaigns/'+cid);await page.getByText('La piste du port',{exact:true}).waitFor();
  await page.getByText('Gérer la campagne',{exact:true}).click();
  await page.getByRole('button',{name:'Préparer une séance',exact:true}).click();
