@@ -918,6 +918,9 @@ onUnmounted(() => {sessionGeneration++; window.removeEventListener("focus", refr
               <RouterLink class="ghost" to="/admin/pnj-proposes">
                 PNJ proposés
               </RouterLink>
+              <RouterLink class="ghost" to="/admin">
+                Administration
+              </RouterLink>
               <button class="ghost" type="button" @click="loadAdmin">
                 Actualiser
               </button>

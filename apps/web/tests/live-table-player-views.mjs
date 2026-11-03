@@ -25,7 +25,8 @@ const page=await browser.newPage({viewport:{width:1440,height:1000},hasTouch:tru
 const id='11111111-1111-4111-8111-111111111111';
 await page.route('https://character-ux.invalid/',route=>route.fulfill({contentType:'text/html',body:'<!doctype html><html lang="fr"><head><meta name="viewport" content="width=device-width,initial-scale=1"></head><body><div id="app"></div></body></html>'}));
 await page.route('**/api/**',async route=>{
- // Flux temps réel indisponible ici : les écrans gardent leur rafraîchissement de secours.
+ // Flux temps réel et pastille indisponibles ici : rafraîchissement de secours, pas de pastille.
+ if(new URL(route.request().url()).pathname==='/api/attention')return route.fulfill({status:200,contentType:'application/json',body:'{"items":[],"total":0,"role":"player"}'});
  if(/\/events$/.test(new URL(route.request().url()).pathname))return route.fulfill({status:404,contentType:'application/json',body:'{"error":"not_found"}'});
  const p=new URL(route.request().url()).pathname,b=route.request().postDataJSON();
  if(p==='/api/characters/ux-character/play'){

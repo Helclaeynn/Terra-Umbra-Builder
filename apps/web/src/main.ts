@@ -1,4 +1,5 @@
 import { createApp, h } from "vue";
+import AttentionPill from "./components/AttentionPill.vue";
 import { createRouter, createWebHistory, RouterView } from "vue-router";
 import "./style.css";
 import { pageTitle } from "./lib/page-title";
@@ -41,6 +42,7 @@ const router=createRouter({
     { path:"/compendium/edit/:id", component:()=>import("./pages/CompendiumEditorPage.vue") },
     { path:"/admin/quality", component:()=>import("./pages/AdminQualityPage.vue") },
     { path:"/admin/pnj-proposes", component:()=>import("./pages/AdminNpcProposalsPage.vue") },
+    { path:"/admin", component:()=>import("./pages/AdminPage.vue") },
     { path:"/admin/arbitrage", component:()=>import("./pages/CompendiumArbitragePage.vue") },
     { path:"/:pathMatch(.*)*", redirect:"/" }
   ]
@@ -64,7 +66,7 @@ router.afterEach((to)=>{
 });
 
 createApp({
-  render:()=>h(RouterView,null,{
+  render:()=>[h(RouterView,null,{
     default:({Component,route}:any)=>h(Component,{key:route.path === '/' || route.path === '/compendium' ? '/compendium' : route.path})
-  })
+  }),h(AttentionPill)]
 }).use(router).mount("#app");

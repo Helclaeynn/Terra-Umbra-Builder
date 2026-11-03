@@ -253,7 +253,8 @@ page.on("console",message=>{
 page.on("requestfailed",request=>failedRequests.push(request.method()+" "+request.url()+" · "+String(request.failure()?.errorText||"")));
 
 await page.route("**/api/**",async route=>{
- // Flux temps réel indisponible ici : les écrans gardent leur rafraîchissement de secours.
+ // Flux temps réel et pastille indisponibles ici : rafraîchissement de secours, pas de pastille.
+ if(new URL(route.request().url()).pathname==='/api/attention')return route.fulfill({status:200,contentType:'application/json',body:'{"items":[],"total":0,"role":"player"}'});
  if(/\/events$/.test(new URL(route.request().url()).pathname))return route.fulfill({status:404,contentType:'application/json',body:'{"error":"not_found"}'});
   const request=route.request();
   const url=new URL(request.url());
