@@ -36,4 +36,4 @@ onUnmounted(() => {
 });
 </script>
 <template><div class="npc-preview"><p v-if="error" role="alert">{{ error }} <button type="button" @click="load">Réessayer</button></p><CampaignNpcSheet v-else-if="npc&&catalog" :data="npc.data" :catalog="catalog" /><p v-else role="status">Chargement de la fiche PNJ…</p></div></template>
-<style scoped>.npc-preview{padding:14px;border:1px solid #405875;border-radius:6px;background:#0b1725;margin:10px 0;min-width:0}</style>
+<style scoped>.npc-preview{padding:14px;border:1px solid var(--ui-line);border-radius:6px;background:var(--ui-panel);margin:10px 0;min-width:0}</style>

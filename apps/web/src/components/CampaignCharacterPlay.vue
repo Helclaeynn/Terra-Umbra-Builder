@@ -89,4 +89,4 @@ onUnmounted(() => {
 });
 </script>
 <template><section class="character-at-table"><p v-if="error" role="alert">{{ error }}</p><template v-else-if="sheet&&character"><CharacterPlay :id="characterId" :data="character.data" :sheet="sheet" :can-edit="canEdit" :combat-mode="combatMode" :focus-tab="focusTab" :compact="compact" @changed="emit('changed')" @navigate="emit('navigate',$event)" /><details class="full-character-sheet"><summary>Fiche complète de {{ character.name }}</summary><a :href="`/characters/${characterId}/play?campaign=${campaignId}`" target="_blank" rel="noopener">Ouvrir la fiche dans un nouvel onglet ↗</a><CharacterSummary :sheet="sheet" /></details></template><p v-else role="status">Chargement de la fiche en jeu…</p></section></template>
-<style scoped>.character-at-table{min-width:0}.full-character-sheet>a{display:inline-block;padding:12px;color:#b7efff}.character-at-table summary{padding:16px;cursor:pointer}</style>
+<style scoped>.character-at-table{min-width:0}.full-character-sheet>a{display:inline-block;padding:12px;color:var(--ui-link)}.character-at-table summary{padding:16px;cursor:pointer}</style>

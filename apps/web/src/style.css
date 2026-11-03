@@ -718,3 +718,39 @@ input:focus,select:focus,textarea:focus{border-color:#2b92ff;box-shadow:0 0 0 2p
 .ghost{border-color:rgba(91,139,157,.25);color:#adc0c8}
 .link-button{color:#6fcff1}
 .role-badge{color:#d5e3e7;border-color:#365663;background:#13222b}
+
+/* Palette de la table en jeu (02/11) : une couleur = un rôle. */
+:root {
+  --ui-input: #08131f;
+  --ui-panel: #0d1b2b;
+  --ui-panel-2: #102334;
+  --ui-raised: #153144;
+  --ui-btn: #143247;
+  --ui-line: #355267;
+  --ui-line-strong: #52758b;
+  --ui-ink: #e6eef8;
+  --ui-ink-soft: #b6cadb;
+  --ui-muted: #93aaa9;
+  --ui-link: #b7efff;
+  --ui-link-soft: #78bcd0;
+  --ui-accent: #81cbbb;
+  --ui-accent-soft: #a4ceb4;
+  --ui-reveal: #dec891;
+  --ui-accent-bg: #1b3540;
+  --ui-ally: #72b8a0;
+  --ui-success-ink: #a7e7c3;
+  --ui-success-bg: #20372f;
+  --ui-enemy: #d58b84;
+  --ui-danger-ink: #ffb4b4;
+  --ui-danger-bg: #302626;
+  --ui-warn: #d1a064;
+  --ui-warn-ink: #ffdd96;
+  --ui-warn-bg: #4d3d16;
+  --ui-neutral: #a1a7b6;
+  --ui-accent-on: #071725;
+  --ui-text-xs: .72rem;
+  --ui-text-sm: .82rem;
+  --ui-text-md: .9rem;
+  --ui-text-base: 1rem;
+  --ui-text-lg: 1.2rem;
+}

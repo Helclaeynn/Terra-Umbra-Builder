@@ -38,4 +38,4 @@ onUnmounted(() => {
 });
 </script>
 <template><div class="creature-preview"><p v-if="error" role="alert">{{ error }} <button type="button" @click="load">Réessayer</button></p><CampaignCreatureSheet v-else-if="record&&catalog" :data="record.data" :catalog="catalog" /><p v-else role="status">Chargement de la créature…</p></div></template>
-<style scoped>.creature-preview{padding:14px;border:1px solid #405875;border-radius:6px;background:#0b1725;margin:10px 0;min-width:0}</style>
+<style scoped>.creature-preview{padding:14px;border:1px solid var(--ui-line);border-radius:6px;background:var(--ui-panel);margin:10px 0;min-width:0}</style>
