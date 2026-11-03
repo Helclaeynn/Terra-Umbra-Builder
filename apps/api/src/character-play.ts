@@ -1165,6 +1165,10 @@ export async function registerCharacterPlayRoutes(app: FastifyInstance) {
                 round: state.round,
                 stress: profile.stress,
                 revelation: state.revelation,
+                effects: (state.effects ?? []).map((e: any) => ({
+                  id: e.id,
+                  name: e.name
+                })),
                 canReadSheet: true
               }
             : {})
