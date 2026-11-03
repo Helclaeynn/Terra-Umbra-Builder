@@ -36,6 +36,24 @@ export const exilePlayBonuses:ReadonlyArray<{id:string;skills:string[];bonus:num
  {id:'exile-ancrage-de-realite',skills:['force_mentale'],bonus:3,label:'Transition V/SR/R forcée ou entravée, pas observation par capteur'}
 ];
 
+// Passifs « +N à une Compétence dans telle situation » des autres Natures : cases à
+// cocher sous la Compétence au moment du jet (même règle : le meilleur bonus, pas la somme).
+export const truthPlayBonuses:Readonly<Record<string,ReadonlyArray<{id:string;skills:string[];bonus:number;label:string}>>>={
+ vampire:[
+  {id:'faveur_de_la_nuit',skills:['furtivite'],bonus:3,label:'Dans les ombres ou l’obscurité'},
+  {id:'sens_du_chasseur',skills:['perception'],bonus:3,label:'Repérer, poursuivre ou retrouver une créature vivante ou blessée'},
+  {id:'insensibilite_amelioree',skills:['constitution'],bonus:3,label:'Contre les poisons et drogues ordinaires'},
+  {id:'charme_inhumain',skills:['seduction','diplomatie','commerce','representation','autorite'],bonus:3,label:'Avec une cible déjà Fascinée, jusqu’à la fin de la scène'}
+ ],
+ garou:[
+  {id:'predateur_debout',skills:['pugilat'],bonus:3,label:'Corps Enchaîné'}
+ ],
+ khinae:[
+  {id:'khinae_blood_predateur_debout',skills:['pugilat'],bonus:3,label:'Corps Enchaîné'},
+  {id:'requins_les_independants_des_abysses_talents_de_lignee_lecture_electrique_1_ptv_lecture_electrique',skills:['perception'],bonus:3,label:'SR/R dans l’eau : distinguer une activité bioélectrique à 10 m'}
+ ]
+};
+
 export const augmentationPlayBonuses:ReadonlyArray<{id:string;skills:string[];bonus:number;label:string}>=[
  {id:'analyseur_chimique_g1',skills:['savoirs','investigation'],bonus:3,label:'Analyseur chimique G1 · analyse chimique par le goût'},
  {id:'analyseur_chimique_g2',skills:['savoirs','investigation'],bonus:2,label:'Analyseur chimique G2 · analyse chimique par le goût'},

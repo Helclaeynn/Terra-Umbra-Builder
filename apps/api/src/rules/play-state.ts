@@ -10,7 +10,7 @@ import {effectModifiers} from './live-effects.js';
 import {registeredSkillBonus,registeredBodyArmor,registeredNaturalDamage,type RegisteredActivePower} from './registered-power-state.js';
 import {liveBody,activeTruthPowers,truthPowers,powerAllowed,type BodyForm,type ActivePower} from './play-truth.js';
 import {truthRevelationRules} from './truth/revelation.js';
-import {extralPlayBonuses,exilePlayBonuses,augmentationPlayBonuses} from './play-bonuses.js';
+import {extralPlayBonuses,exilePlayBonuses,augmentationPlayBonuses,truthPlayBonuses} from './play-bonuses.js';
 import { terraUmbraCreationRules as rules } from './terra-umbra-creation.js';
 import { terraUmbraTalentChoiceSpecs as specs, terraUmbraRealitySkillTalentMap as skillMap } from './terra-umbra-creation-lore.js';
 import { contextualSkillBonuses } from './reality-conditional-bonuses.js';
@@ -79,7 +79,7 @@ export function playProfile(data:any,state:PlayState){
     const extras=state.bonuses.filter(b=>b.skill===s.id&&b.enabled&&(!b.truth||state.revelation==='r'));
     const prepared=[
       ...[...augmentationPlayBonuses,...realityAugmentationBonuses].filter(b=>b.id!=='realignement_spinal'&&implants.has(b.id)&&b.skills.includes(s.id)).map(b=>({...b,truth:false})),
-      ...(data.truth?.nature==='extral'?extralPlayBonuses.map(b=>({...b,id:'extral-'+b.id})):data.truth?.nature==='exile'?exilePlayBonuses.filter(b=>b.id!=='exile-pas-leger'):[]).filter(b=>truthIds.has(b.id)&&b.skills.includes(s.id)).map(b=>({...b,truth:true}))
+      ...(data.truth?.nature==='extral'?extralPlayBonuses.map(b=>({...b,id:'extral-'+b.id})):data.truth?.nature==='exile'?exilePlayBonuses.filter(b=>b.id!=='exile-pas-leger'):truthPlayBonuses[data.truth?.nature]??[]).filter(b=>truthIds.has(b.id)&&b.skills.includes(s.id)).map(b=>({...b,truth:true}))
     ].filter(b=>!b.truth||explicitPower(b.id)?.nature!==data.truth?.nature).map(b=>({...b,enabled:state.contexts.includes(b.id),active:state.contexts.includes(b.id)&&(!b.truth||availablePowers.some(p=>p.id===b.id&&powerAllowed(p,state.revelation)))}));
     const preparedBonus=Math.max(0,...prepared.filter(b=>b.active).map(b=>b.bonus));
     const favor=normalizedNatureResources(state.natureResources).daemon.pendingFavor;

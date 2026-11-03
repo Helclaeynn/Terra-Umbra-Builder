@@ -87,7 +87,9 @@ jobs:
 
       - name: Check live power registry
         working-directory: apps/api
-        run: node scripts/check-live-power-registry.mjs
+        run: |
+          node scripts/check-live-power-registry.mjs
+          node scripts/check-truth-play-bonuses.mjs
 
       - name: Check published PNJ biography corpus reload
         working-directory: apps/api
