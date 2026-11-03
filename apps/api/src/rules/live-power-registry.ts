@@ -168,6 +168,14 @@ list[list.length-1].testExpiresRounds=1;
 one('humain','chasseurs_independants_heritages_modulaires_marque_par_la_proie_resonance_etrangere',3,null,'Résistance contre un pouvoir de la famille réelle de votre marque ; en échec la source apprend cette résonance.',['force_mentale','maitrise_spirituelle','constitution'],1);
 one('humain','table_ronde_lignees_et_armes_de_merlin_heritage_chevaleresque_aucun_enchantement_ne_detourne',3,null,'Serment de Quête toujours valable ; influence surnaturelle vous contraignant directement à le trahir.',['force_mentale','maitrise_spirituelle']);
 
+// Attaques naturelles dont le texte fixe la valeur de dégâts (« inflige DGT 3 ») : la
+// valeur remplace celle de l'attaque si elle est plus haute. L'effet secondaire
+// (malus, régénération suspendue) reste appliqué par le MJ.
+const naturalStrike=(nature:string,id:string,amount:number,limit:RegisteredPowerLimit,context:string,notes:string)=>add(nature,{id,route:'attack',cost:0,limit,duration:'test',effects:[{kind:'damage',amount,mode:'replace',skills:['pugilat'],stacking:'named',target:'self'}],context,physicalOnly:true,notes});
+naturalStrike('vampire','toucher_glacial',3,null,'Attaque de contact (Pugilat) normalement payée.','Si elle retire au moins 1 PV réel : −3 au prochain test physique de la cible avant la fin de son prochain round, une fois par round (à appliquer).');
+for(const [nature,id] of [['garou','griffe_d_entrave'],['khinae','khinae_blood_griffe_d_entrave']] as const)naturalStrike(nature,id,3,'round','Attaque naturelle normalement payée ; la griffe ne modifie pas une arme tenue.','Si elle retire au moins 1 PV réel : régénération surnaturelle automatique de la cible suspendue jusqu’à la fin de son prochain round (à appliquer) ; les soins payés restent possibles.');
+add('khinae',{id:'boudas_hommes_hyenes_talents_de_lignee_machoire_broyeuse_1_ptv_machoire_broyeuse',route:'attack',cost:0,limit:null,duration:'test',effects:[{kind:'piercing',amount:1,skills:['pugilat'],target:'self'}],context:'Morsure en forme Animal ou Hybride contre une Armure matérielle (os, bois, plastique rigide, protection portée).',allowedForms:['animal','hybrid'],physicalOnly:true,notes:'Perforant 1 contre l’Armure matérielle seulement : aucun effet contre une Protection surnaturelle ou une existence immatérielle.'});
+
 const explicitPrerequisites:Record<string,readonly string[]>={
  'extral-carapace-de-combat':['extral-osteodermes-renforces','extral-angle-de-cuirasse'],
  'extral-vieux-cuir':['extral-densification-osseuse','extral-muscle-tasse'],

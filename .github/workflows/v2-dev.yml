@@ -85,6 +85,10 @@ jobs:
         working-directory: apps/api
         run: node scripts/check-creation-budget.mjs
 
+      - name: Check live power registry
+        working-directory: apps/api
+        run: node scripts/check-live-power-registry.mjs
+
       - name: Check published PNJ biography corpus reload
         working-directory: apps/api
         env:
