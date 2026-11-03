@@ -251,6 +251,7 @@ jobs:
         working-directory: apps/web
         run: |
           npm ci
+          npm run lint
           npm run build
 
       - name: Check V2 UI behavior
