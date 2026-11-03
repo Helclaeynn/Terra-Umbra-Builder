@@ -1,91 +1,538 @@
 <script setup lang="ts">
-import {computed,nextTick,onMounted,onUnmounted,ref,watch} from 'vue';
-import {useLiveUpdates} from '../lib/live-updates';
-import {RouterLink,useRoute} from 'vue-router';
-import {api,ApiError} from '../lib/api';
-import {usePageTitle} from '../lib/page-title';
-import {prepareNpcPortrait} from '../lib/npc-portrait';
-import PortraitZoom from '../components/PortraitZoom.vue';
-import CampaignLiveSessions from '../components/CampaignLiveSessions.vue';
-import CampaignRewards from '../components/CampaignRewards.vue';
-import CampaignEffects from '../components/CampaignEffects.vue';
-import CampaignOccultResolutions from '../components/CampaignOccultResolutions.vue';
-import CampaignLightningEffects from '../components/CampaignLightningEffects.vue';
-import CampaignOccultConsent from '../components/CampaignOccultConsent.vue';
-import CampaignTargetedPowers from '../components/CampaignTargetedPowers.vue';
-import CampaignCombat from '../components/CampaignCombat.vue';
-import CampaignCharacterPlay from '../components/CampaignCharacterPlay.vue';
-import CampaignNpcPreview from '../components/CampaignNpcPreview.vue';
-import CampaignCreaturePreview from '../components/CampaignCreaturePreview.vue';
-const route=useRoute(),id=String(route.params.id),endpoint=`/api/campaigns/${id}/play`;
-const room=ref<any>(null),error=ref(''),actionError=ref(''),busy=ref(false),notice=ref(''),selected=ref(typeof route.query.actor==='string'?route.query.actor:''),filter=ref('all');
-const feedCollapsed=ref(false),gmToolsOpen=ref(false),edgeRequest=ref<any>(null),unreadEvents=ref(0),occultAttention=ref(0);
-let feedSeen=new Set<string>(),feedInitialized=false,feedSession:string|null=null;
-function toggleFeed(){feedCollapsed.value=!feedCollapsed.value;if(!feedCollapsed.value)unreadEvents.value=0;}
-function openRevelations(){filter.value='messages';feedCollapsed.value=false;unreadEvents.value=0;}
-function toggleGmTools(){void openPanel('gm');gmToolsOpen.value=true;}
-async function forceFeed(eventId:string){if(busy.value||!room.value?.ownCharacterId)return;busy.value=true;actionError.value='';try{const path=`/api/characters/${room.value.ownCharacterId}/play`;if(!edgeRequest.value){const p=await api<any>(path);edgeRequest.value={requestId:crypto.randomUUID(),version:p.version,action:'edge-force',eventId};}await api(path,{method:'POST',body:JSON.stringify(edgeRequest.value)});edgeRequest.value=null;await load();}catch(e){actionError.value=e instanceof ApiError&&e.message==='insufficient_edge'?'Tu n’as plus d’Edge.':e instanceof ApiError&&e.message==='edge_roll_resolved'?'Ce jet est déjà résolu.':'Dépense non confirmée. Réessaie le même jet.';if(e instanceof ApiError&&e.status<500)edgeRequest.value=null;}finally{busy.value=false;}}
-async function rollOwnInitiative(){if(busy.value||!room.value?.ownCharacterId)return;busy.value=true;actionError.value='';try{const path=`/api/characters/${room.value.ownCharacterId}/play`,p=await api<any>(path);await api(path,{method:'POST',body:JSON.stringify({requestId:crypto.randomUUID(),version:p.version,action:'initiative'})});await load();}catch(e){actionError.value=e instanceof ApiError&&e.message==='initiative_already_rolled'?'Ton initiative est déjà lancée.':'Initiative non confirmée : actualise avant de réessayer.';}finally{busy.value=false;}}
-const ownActor=computed(()=>room.value?.characters.find((c:any)=>c.id===room.value?.ownCharacterId));
-const sideLabel=(side:string)=>({ally:'Allié',enemy:'Ennemi',neutral:'Neutre'}[side]??'Neutre');
-const availableRolls=computed(()=>chosen.value?.rolls?.filter((r:any)=>room.value?.combat?.active||!r.attack&&!r.requiresWeapon&&!r.defense)??[]);
-const latest=computed(()=>room.value?.events?.find((e:any)=>e.payload.dice));
-const latestRevelation=computed(()=>room.value?.events?.find((e:any)=>e.kind==='message'));
-const initiativeCount=computed(()=>roster.value.filter(c=>c.participating!==false&&c.initiativePending).length);
-const passOf=(actorId:string)=>room.value?.passes?.find((p:any)=>p.id===actorId)?.pass??null;
-function passHeading(index:number){if(!room.value?.combat?.active)return '';const pass=passOf(roster.value[index].id);if(index&&pass===passOf(roster.value[index-1].id))return '';return pass===null?'Sans action disponible':`Passe ${pass}`;}
-const text=ref(''),link=ref(''),image=ref(''),imageBusy=ref(false);
-const sourceCatalog=ref('compendium'),globalSources=ref<any[]>([]);
-const sourceKind=ref('npc'),sourceQuery=ref(''),sources=ref<any[]>([]),sourceId=ref(''),sourceName=ref(''),hasMore=ref(false),sourceLoading=ref(false);
-const graceHp=ref(1),graceReason=ref('Annulation d’une mort pendant un test');
-const actorName=ref(''),actorPa=ref(0),actorVisible=ref(false),actorDirty=ref(false),amount=ref(1);
-const gmMode=ref('explosive'),gmFaces=ref(20),gmCount=ref(1);
-const gmLabel=ref('Jet libre'),gmBonus=ref(0),gmStress=ref(0),gmPublic=ref(true);
-const combatPanel=ref<InstanceType<typeof CampaignCombat>|null>(null);
-const panel=ref<HTMLDialogElement|null>(null),panelMode=ref('character'),characterTab=ref('jets'),combatAttention=ref(0),supportAttention=ref(0),preparedActor=ref('');
-const sceneImage=computed(()=>room.value?.events?.find((e:any)=>e.kind==='message'&&e.image));
-const panelTitle=computed(()=>panelMode.value==='character'&&!room.value?.canManage&&chosen.value?.id!==room.value?.ownCharacterId?'Participant':panelMode.value==='gm'?'Mener la partie':panelMode.value==='attack'?'Attaquer':panelMode.value==='response'?'Répondre à une attaque':({jets:'Lancer un jet',truth:'Utiliser une capacité',equipment:'Mon sac',states:'État & soins',rules:'Mes règles',rest:'Se reposer',history:'Historique'}[characterTab.value]??'Personnage'));
-async function openPanel(mode:string,tabKey='jets'){
- panelMode.value=mode;characterTab.value=tabKey;
- if(mode==='character'&&!selected.value)selected.value=room.value?.ownCharacterId??'';
- await nextTick();if(panel.value&&!panel.value.open)panel.value.showModal();
+import { computed, nextTick, onMounted, onUnmounted, ref, watch } from "vue";
+import { useLiveUpdates } from "../lib/live-updates";
+import { RouterLink, useRoute } from "vue-router";
+import { api, ApiError } from "../lib/api";
+import { usePageTitle } from "../lib/page-title";
+import { prepareNpcPortrait } from "../lib/npc-portrait";
+import PortraitZoom from "../components/PortraitZoom.vue";
+import CampaignLiveSessions from "../components/CampaignLiveSessions.vue";
+import CampaignRewards from "../components/CampaignRewards.vue";
+import CampaignEffects from "../components/CampaignEffects.vue";
+import CampaignOccultResolutions from "../components/CampaignOccultResolutions.vue";
+import CampaignLightningEffects from "../components/CampaignLightningEffects.vue";
+import CampaignOccultConsent from "../components/CampaignOccultConsent.vue";
+import CampaignTargetedPowers from "../components/CampaignTargetedPowers.vue";
+import CampaignCombat from "../components/CampaignCombat.vue";
+import CampaignCharacterPlay from "../components/CampaignCharacterPlay.vue";
+import CampaignNpcPreview from "../components/CampaignNpcPreview.vue";
+import CampaignCreaturePreview from "../components/CampaignCreaturePreview.vue";
+const route = useRoute(),
+  id = String(route.params.id),
+  endpoint = `/api/campaigns/${id}/play`;
+const room = ref<any>(null),
+  error = ref(""),
+  actionError = ref(""),
+  busy = ref(false),
+  notice = ref(""),
+  selected = ref(
+    typeof route.query.actor === "string" ? route.query.actor : ""
+  ),
+  filter = ref("all");
+const feedCollapsed = ref(false),
+  gmToolsOpen = ref(false),
+  edgeRequest = ref<any>(null),
+  unreadEvents = ref(0),
+  occultAttention = ref(0);
+let feedSeen = new Set<string>(),
+  feedInitialized = false,
+  feedSession: string | null = null;
+function toggleFeed() {
+  feedCollapsed.value = !feedCollapsed.value;
+  if (!feedCollapsed.value) unreadEvents.value = 0;
 }
-function inspectActor(actorId:string){selected.value=actorId;void openPanel('character','jets');}
-function ownPanel(tabKey:string){if(room.value?.ownCharacterId)selected.value=room.value.ownCharacterId;void openPanel('character',tabKey);}
-async function openAttack(){await openPanel('attack');const actor=room.value?.canManage?chosen.value?.id:room.value?.ownCharacterId;if(actor&&actor!==preparedActor.value){await combatPanel.value?.prepareAttack(actor);preparedActor.value=actor;}}
-function closePanel(){panel.value?.close();}
-watch(()=>room.value?.combat?.active,active=>{if(!active){combatAttention.value=0;if(['attack','response'].includes(panelMode.value))closePanel();}});
+function openRevelations() {
+  filter.value = "messages";
+  feedCollapsed.value = false;
+  unreadEvents.value = 0;
+}
+function toggleGmTools() {
+  void openPanel("gm");
+  gmToolsOpen.value = true;
+}
+async function forceFeed(eventId: string) {
+  if (busy.value || !room.value?.ownCharacterId) return;
+  busy.value = true;
+  actionError.value = "";
+  try {
+    const path = `/api/characters/${room.value.ownCharacterId}/play`;
+    if (!edgeRequest.value) {
+      const p = await api<any>(path);
+      edgeRequest.value = {
+        requestId: crypto.randomUUID(),
+        version: p.version,
+        action: "edge-force",
+        eventId
+      };
+    }
+    await api(path, {
+      method: "POST",
+      body: JSON.stringify(edgeRequest.value)
+    });
+    edgeRequest.value = null;
+    await load();
+  } catch (e) {
+    actionError.value =
+      e instanceof ApiError && e.message === "insufficient_edge"
+        ? "Tu n’as plus d’Edge."
+        : e instanceof ApiError && e.message === "edge_roll_resolved"
+          ? "Ce jet est déjà résolu."
+          : "Dépense non confirmée. Réessaie le même jet.";
+    if (e instanceof ApiError && e.status < 500) edgeRequest.value = null;
+  } finally {
+    busy.value = false;
+  }
+}
+async function rollOwnInitiative() {
+  if (busy.value || !room.value?.ownCharacterId) return;
+  busy.value = true;
+  actionError.value = "";
+  try {
+    const path = `/api/characters/${room.value.ownCharacterId}/play`,
+      p = await api<any>(path);
+    await api(path, {
+      method: "POST",
+      body: JSON.stringify({
+        requestId: crypto.randomUUID(),
+        version: p.version,
+        action: "initiative"
+      })
+    });
+    await load();
+  } catch (e) {
+    actionError.value =
+      e instanceof ApiError && e.message === "initiative_already_rolled"
+        ? "Ton initiative est déjà lancée."
+        : "Initiative non confirmée : actualise avant de réessayer.";
+  } finally {
+    busy.value = false;
+  }
+}
+const ownActor = computed(() =>
+  room.value?.characters.find((c: any) => c.id === room.value?.ownCharacterId)
+);
+const sideLabel = (side: string) =>
+  ({ ally: "Allié", enemy: "Ennemi", neutral: "Neutre" })[side] ?? "Neutre";
+const availableRolls = computed(
+  () =>
+    chosen.value?.rolls?.filter(
+      (r: any) =>
+        room.value?.combat?.active ||
+        (!r.attack && !r.requiresWeapon && !r.defense)
+    ) ?? []
+);
+const latest = computed(() =>
+  room.value?.events?.find((e: any) => e.payload.dice)
+);
+const latestRevelation = computed(() =>
+  room.value?.events?.find((e: any) => e.kind === "message")
+);
+const initiativeCount = computed(
+  () =>
+    roster.value.filter((c) => c.participating !== false && c.initiativePending)
+      .length
+);
+const passOf = (actorId: string) =>
+  room.value?.passes?.find((p: any) => p.id === actorId)?.pass ?? null;
+function passHeading(index: number) {
+  if (!room.value?.combat?.active) return "";
+  const pass = passOf(roster.value[index].id);
+  if (index && pass === passOf(roster.value[index - 1].id)) return "";
+  return pass === null ? "Sans action disponible" : `Passe ${pass}`;
+}
+const text = ref(""),
+  link = ref(""),
+  image = ref(""),
+  imageBusy = ref(false);
+const sourceCatalog = ref("compendium"),
+  globalSources = ref<any[]>([]);
+const sourceKind = ref("npc"),
+  sourceQuery = ref(""),
+  sources = ref<any[]>([]),
+  sourceId = ref(""),
+  sourceName = ref(""),
+  hasMore = ref(false),
+  sourceLoading = ref(false);
+const graceHp = ref(1),
+  graceReason = ref("Annulation d’une mort pendant un test");
+const actorName = ref(""),
+  actorPa = ref(0),
+  actorVisible = ref(false),
+  actorDirty = ref(false),
+  amount = ref(1);
+const gmMode = ref("explosive"),
+  gmFaces = ref(20),
+  gmCount = ref(1);
+const gmLabel = ref("Jet libre"),
+  gmBonus = ref(0),
+  gmStress = ref(0),
+  gmPublic = ref(true);
+const combatPanel = ref<InstanceType<typeof CampaignCombat> | null>(null);
+const panel = ref<HTMLDialogElement | null>(null),
+  panelMode = ref("character"),
+  characterTab = ref("jets"),
+  combatAttention = ref(0),
+  supportAttention = ref(0),
+  preparedActor = ref("");
+const sceneImage = computed(() =>
+  room.value?.events?.find((e: any) => e.kind === "message" && e.image)
+);
+const panelTitle = computed(() =>
+  panelMode.value === "character" &&
+  !room.value?.canManage &&
+  chosen.value?.id !== room.value?.ownCharacterId
+    ? "Participant"
+    : panelMode.value === "gm"
+      ? "Mener la partie"
+      : panelMode.value === "attack"
+        ? "Attaquer"
+        : panelMode.value === "response"
+          ? "Répondre à une attaque"
+          : ({
+              jets: "Lancer un jet",
+              truth: "Utiliser une capacité",
+              equipment: "Mon sac",
+              states: "État & soins",
+              rules: "Mes règles",
+              rest: "Se reposer",
+              history: "Historique"
+            }[characterTab.value] ?? "Personnage")
+);
+async function openPanel(mode: string, tabKey = "jets") {
+  panelMode.value = mode;
+  characterTab.value = tabKey;
+  if (mode === "character" && !selected.value)
+    selected.value = room.value?.ownCharacterId ?? "";
+  await nextTick();
+  if (panel.value && !panel.value.open) panel.value.showModal();
+}
+function inspectActor(actorId: string) {
+  selected.value = actorId;
+  void openPanel("character", "jets");
+}
+function ownPanel(tabKey: string) {
+  if (room.value?.ownCharacterId) selected.value = room.value.ownCharacterId;
+  void openPanel("character", tabKey);
+}
+async function openAttack() {
+  await openPanel("attack");
+  const actor = room.value?.canManage
+    ? chosen.value?.id
+    : room.value?.ownCharacterId;
+  if (actor && actor !== preparedActor.value) {
+    await combatPanel.value?.prepareAttack(actor);
+    preparedActor.value = actor;
+  }
+}
+function closePanel() {
+  panel.value?.close();
+}
+watch(
+  () => room.value?.combat?.active,
+  (active) => {
+    if (!active) {
+      combatAttention.value = 0;
+      if (["attack", "response"].includes(panelMode.value)) closePanel();
+    }
+  }
+);
 
-function participantRoll(){if(rollOption.value?.attack||rollOption.value?.requiresWeapon){void openPanel('attack').then(()=>combatPanel.value?.prepareAttack(chosen.value.id,rollId.value));return;}actorAction('roll',{rollId:rollId.value,label:rollLabel.value,bonus:rollBonus.value,stress:rollStress.value,public:rollPublic.value,paCost:room.value?.combat?.active?rollPa.value:0});}
-const rollId=ref(''),rollBonus=ref(0),rollStress=ref(0),rollPublic=ref(true),rollPa=ref(0),rollLabel=ref('');
-const pending=ref<any>(null);let alive=true,loading=false,timer:ReturnType<typeof setInterval>|undefined,sourceGeneration=0;
-usePageTitle(()=>room.value?`${room.value.campaignName} — En jeu`:'En jeu · Campagne');
-const roster=computed(()=>{const all=[...(room.value?.characters??[]),...(room.value?.combatants??[])];const ranks=new Map((room.value?.order??[]).map((key:string,i:number)=>[key,i]));return all.sort((a,b)=>Number(ranks.get(a.id)??999)-Number(ranks.get(b.id)??999));});
-const chosen=computed(()=>roster.value.find(c=>c.id===selected.value));
-watch(availableRolls,rows=>{if(!rows.some((r:any)=>r.id===rollId.value))rollId.value=rows[0]?.id??'';});
-const rollOption=computed(()=>chosen.value?.rolls?.find((r:any)=>r.id===rollId.value));
-watch(()=>chosen.value?.id,()=>{rollId.value=chosen.value?.rolls?.[0]?.id??'';rollBonus.value=0;rollStress.value=0;});
-watch(rollOption,(r,old)=>{if(r?.id!==old?.id){rollLabel.value=r?.label??'';rollPa.value=r?.attack?1:0;}});
-const feed=computed(()=>(room.value?.events??[]).filter((e:any)=>filter.value==='all'||(filter.value==='rolls'?Array.isArray(e.payload.dice):e.kind==='message')));
-async function load(){if(!alive||loading||document.visibilityState==='hidden')return;loading=true;try{const r=await api<any>(endpoint);if(!alive)return;const session=r.session?.id??null;if(feedSession!==session){feedSeen=new Set();feedInitialized=false;unreadEvents.value=0;feedSession=session;}const received=(r.events??[]).map((e:any)=>e.id);if(feedInitialized&&feedCollapsed.value)unreadEvents.value+=received.filter((key:string)=>!feedSeen.has(key)).length;if(!feedCollapsed.value)unreadEvents.value=0;received.forEach((key:string)=>feedSeen.add(key));feedInitialized=true;room.value=r;error.value='';if(!selected.value)selected.value=r.ownCharacterId??'';if(selected.value&&!roster.value.some(c=>c.id===selected.value))selected.value=r.ownCharacterId??'';}catch{if(alive){room.value=null;error.value='La campagne est inaccessible. Vérifie ta connexion et ton invitation.';}}finally{loading=false;}}
-watch(()=>({id:chosen.value?.id,version:chosen.value?.version}),(next,previous)=>{if(next.id!==previous?.id)actorDirty.value=false;if(chosen.value&&!actorDirty.value){actorName.value=chosen.value.name;actorPa.value=chosen.value.pa??0;actorVisible.value=chosen.value.visible??false;}});
-async function act(action:string,extra:Record<string,unknown>={}){
- if(busy.value||!room.value?.canManage&&action!=='spend')return;
- if(pending.value){actionError.value='Réessaie l’action non confirmée avant une autre modification.';return;}
- pending.value={requestId:crypto.randomUUID(),action,...extra};await sendPending();
+function participantRoll() {
+  if (rollOption.value?.attack || rollOption.value?.requiresWeapon) {
+    void openPanel("attack").then(() =>
+      combatPanel.value?.prepareAttack(chosen.value.id, rollId.value)
+    );
+    return;
+  }
+  actorAction("roll", {
+    rollId: rollId.value,
+    label: rollLabel.value,
+    bonus: rollBonus.value,
+    stress: rollStress.value,
+    public: rollPublic.value,
+    paCost: room.value?.combat?.active ? rollPa.value : 0
+  });
 }
-async function sendPending(){if(busy.value||!pending.value)return;busy.value=true;actionError.value='';notice.value='';try{const action=pending.value.action;await api(['spend','grace'].includes(action)?`/api/campaigns/${id}/combat`:endpoint+'/actions',{method:'POST',body:JSON.stringify(pending.value)});pending.value=null;if(!alive)return;if(action==='message'){text.value='';link.value='';image.value='';}actorDirty.value=false;notice.value='Enregistré.';await load();}catch(e){if(alive){actionError.value=e instanceof ApiError&&e.status===409?'Une autre fenêtre a modifié cet état. Les valeurs ont été actualisées.':e instanceof ApiError&&e.message==='finish_combat_first'?'Termine le combat et résous les attaques en attente avant de changer de scène ou de scénario.':e instanceof ApiError&&e.message==='pending_attacks'?'Résous ou annule les attaques en attente avant de changer de round ou de terminer le combat.':e instanceof ApiError&&e.message==='campaign_combat_mj_only'?'Le MJ contrôle les rounds du groupe.':e instanceof ApiError&&e.message==='initiatives_pending'?'Il reste des initiatives à lancer. Lance-les ou sors les participants absents des tours.':e instanceof ApiError&&e.message==='participant_out'?'Ce participant est hors des tours. Le MJ peut le réintégrer.':e instanceof ApiError&&e.message==='combat_not_started'?'Lance l’initiative de ce participant pour commencer son combat.':e instanceof ApiError&&e.message==='insufficient_pa'?'Ce participant n’a pas assez de PA.':e instanceof ApiError&&['character_dead','character_agonizing'].includes(e.message)?'L’état du participant empêche ce jet.':'La modification n’a pas été confirmée. Réessaie.';if(e instanceof ApiError&&e.status<500){pending.value=null;actorDirty.value=false;await load();}}}finally{busy.value=false;}}
-function actorAction(action:string,extra:Record<string,unknown>={}){if(chosen.value)void act(action,{combatantId:chosen.value.id,version:chosen.value.version,...extra});}
-async function upload(event:Event){const input=event.target as HTMLInputElement,file=input.files?.[0];if(!file)return;imageBusy.value=true;try{image.value=await prepareNpcPortrait(file,1600);actionError.value='';}catch(e){actionError.value=e instanceof Error?e.message:'Image illisible.';}finally{imageBusy.value=false;input.value='';}}
-async function findSources(more=false){if(sourceLoading.value)return;const generation=++sourceGeneration;sourceLoading.value=true;try{if(sourceCatalog.value==='compendium'){if(!globalSources.value.length){const r=await api<any>(endpoint+'/catalog');globalSources.value=r.entries;}if(!alive||generation!==sourceGeneration)return;sources.value=globalSources.value.filter(s=>s.kind===sourceKind.value&&s.name.toLocaleLowerCase().includes(sourceQuery.value.toLocaleLowerCase()));hasMore.value=false;sourceId.value='';sourceName.value='';return;}const kind=sourceKind.value,r=await api<any>(`/api/campaigns/${id}/${kind==='npc'?'npcs':'bestiary'}?q=${encodeURIComponent(sourceQuery.value)}&offset=${more?sources.value.length:0}`);if(!alive||generation!==sourceGeneration)return;sources.value=more?[...sources.value,...(r.npcs??r.creatures)]:r.npcs??r.creatures;hasMore.value=r.hasMore;if(!more){sourceId.value='';sourceName.value='';}}catch{actionError.value='Impossible de charger le catalogue de la campagne.';}finally{sourceLoading.value=false;if(alive&&generation!==sourceGeneration)void findSources();}}
-watch([sourceKind,sourceCatalog],()=>{++sourceGeneration;sources.value=[];sourceId.value='';sourceName.value='';hasMore.value=false;void findSources();});
-watch(sourceId,()=>{sourceName.value=sources.value.find(s=>s.id===sourceId.value)?.name??'';});
-const date=(v:string)=>new Date(v).toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
-function focus(){void load();}
-onMounted(()=>{void load();window.addEventListener('focus',focus);document.addEventListener('visibilitychange',focus);});
+const rollId = ref(""),
+  rollBonus = ref(0),
+  rollStress = ref(0),
+  rollPublic = ref(true),
+  rollPa = ref(0),
+  rollLabel = ref("");
+const pending = ref<any>(null);
+let alive = true,
+  loading = false,
+  timer: ReturnType<typeof setInterval> | undefined,
+  sourceGeneration = 0;
+usePageTitle(() =>
+  room.value ? `${room.value.campaignName} — En jeu` : "En jeu · Campagne"
+);
+const roster = computed(() => {
+  const all = [
+    ...(room.value?.characters ?? []),
+    ...(room.value?.combatants ?? [])
+  ];
+  const ranks = new Map(
+    (room.value?.order ?? []).map((key: string, i: number) => [key, i])
+  );
+  return all.sort(
+    (a, b) => Number(ranks.get(a.id) ?? 999) - Number(ranks.get(b.id) ?? 999)
+  );
+});
+const chosen = computed(() =>
+  roster.value.find((c) => c.id === selected.value)
+);
+watch(availableRolls, (rows) => {
+  if (!rows.some((r: any) => r.id === rollId.value))
+    rollId.value = rows[0]?.id ?? "";
+});
+const rollOption = computed(() =>
+  chosen.value?.rolls?.find((r: any) => r.id === rollId.value)
+);
+watch(
+  () => chosen.value?.id,
+  () => {
+    rollId.value = chosen.value?.rolls?.[0]?.id ?? "";
+    rollBonus.value = 0;
+    rollStress.value = 0;
+  }
+);
+watch(rollOption, (r, old) => {
+  if (r?.id !== old?.id) {
+    rollLabel.value = r?.label ?? "";
+    rollPa.value = r?.attack ? 1 : 0;
+  }
+});
+const feed = computed(() =>
+  (room.value?.events ?? []).filter(
+    (e: any) =>
+      filter.value === "all" ||
+      (filter.value === "rolls"
+        ? Array.isArray(e.payload.dice)
+        : e.kind === "message")
+  )
+);
+async function load() {
+  if (!alive || loading || document.visibilityState === "hidden") return;
+  loading = true;
+  try {
+    const r = await api<any>(endpoint);
+    if (!alive) return;
+    const session = r.session?.id ?? null;
+    if (feedSession !== session) {
+      feedSeen = new Set();
+      feedInitialized = false;
+      unreadEvents.value = 0;
+      feedSession = session;
+    }
+    const received = (r.events ?? []).map((e: any) => e.id);
+    if (feedInitialized && feedCollapsed.value)
+      unreadEvents.value += received.filter(
+        (key: string) => !feedSeen.has(key)
+      ).length;
+    if (!feedCollapsed.value) unreadEvents.value = 0;
+    received.forEach((key: string) => feedSeen.add(key));
+    feedInitialized = true;
+    room.value = r;
+    error.value = "";
+    if (!selected.value) selected.value = r.ownCharacterId ?? "";
+    if (selected.value && !roster.value.some((c) => c.id === selected.value))
+      selected.value = r.ownCharacterId ?? "";
+  } catch {
+    if (alive) {
+      room.value = null;
+      error.value =
+        "La campagne est inaccessible. Vérifie ta connexion et ton invitation.";
+    }
+  } finally {
+    loading = false;
+  }
+}
+watch(
+  () => ({ id: chosen.value?.id, version: chosen.value?.version }),
+  (next, previous) => {
+    if (next.id !== previous?.id) actorDirty.value = false;
+    if (chosen.value && !actorDirty.value) {
+      actorName.value = chosen.value.name;
+      actorPa.value = chosen.value.pa ?? 0;
+      actorVisible.value = chosen.value.visible ?? false;
+    }
+  }
+);
+async function act(action: string, extra: Record<string, unknown> = {}) {
+  if (busy.value || (!room.value?.canManage && action !== "spend")) return;
+  if (pending.value) {
+    actionError.value =
+      "Réessaie l’action non confirmée avant une autre modification.";
+    return;
+  }
+  pending.value = { requestId: crypto.randomUUID(), action, ...extra };
+  await sendPending();
+}
+async function sendPending() {
+  if (busy.value || !pending.value) return;
+  busy.value = true;
+  actionError.value = "";
+  notice.value = "";
+  try {
+    const action = pending.value.action;
+    await api(
+      ["spend", "grace"].includes(action)
+        ? `/api/campaigns/${id}/combat`
+        : endpoint + "/actions",
+      { method: "POST", body: JSON.stringify(pending.value) }
+    );
+    pending.value = null;
+    if (!alive) return;
+    if (action === "message") {
+      text.value = "";
+      link.value = "";
+      image.value = "";
+    }
+    actorDirty.value = false;
+    notice.value = "Enregistré.";
+    await load();
+  } catch (e) {
+    if (alive) {
+      actionError.value =
+        e instanceof ApiError && e.status === 409
+          ? "Une autre fenêtre a modifié cet état. Les valeurs ont été actualisées."
+          : e instanceof ApiError && e.message === "finish_combat_first"
+            ? "Termine le combat et résous les attaques en attente avant de changer de scène ou de scénario."
+            : e instanceof ApiError && e.message === "pending_attacks"
+              ? "Résous ou annule les attaques en attente avant de changer de round ou de terminer le combat."
+              : e instanceof ApiError && e.message === "campaign_combat_mj_only"
+                ? "Le MJ contrôle les rounds du groupe."
+                : e instanceof ApiError && e.message === "initiatives_pending"
+                  ? "Il reste des initiatives à lancer. Lance-les ou sors les participants absents des tours."
+                  : e instanceof ApiError && e.message === "participant_out"
+                    ? "Ce participant est hors des tours. Le MJ peut le réintégrer."
+                    : e instanceof ApiError &&
+                        e.message === "combat_not_started"
+                      ? "Lance l’initiative de ce participant pour commencer son combat."
+                      : e instanceof ApiError && e.message === "insufficient_pa"
+                        ? "Ce participant n’a pas assez de PA."
+                        : e instanceof ApiError &&
+                            ["character_dead", "character_agonizing"].includes(
+                              e.message
+                            )
+                          ? "L’état du participant empêche ce jet."
+                          : "La modification n’a pas été confirmée. Réessaie.";
+      if (e instanceof ApiError && e.status < 500) {
+        pending.value = null;
+        actorDirty.value = false;
+        await load();
+      }
+    }
+  } finally {
+    busy.value = false;
+  }
+}
+function actorAction(action: string, extra: Record<string, unknown> = {}) {
+  if (chosen.value)
+    void act(action, {
+      combatantId: chosen.value.id,
+      version: chosen.value.version,
+      ...extra
+    });
+}
+async function upload(event: Event) {
+  const input = event.target as HTMLInputElement,
+    file = input.files?.[0];
+  if (!file) return;
+  imageBusy.value = true;
+  try {
+    image.value = await prepareNpcPortrait(file, 1600);
+    actionError.value = "";
+  } catch (e) {
+    actionError.value = e instanceof Error ? e.message : "Image illisible.";
+  } finally {
+    imageBusy.value = false;
+    input.value = "";
+  }
+}
+async function findSources(more = false) {
+  if (sourceLoading.value) return;
+  const generation = ++sourceGeneration;
+  sourceLoading.value = true;
+  try {
+    if (sourceCatalog.value === "compendium") {
+      if (!globalSources.value.length) {
+        const r = await api<any>(endpoint + "/catalog");
+        globalSources.value = r.entries;
+      }
+      if (!alive || generation !== sourceGeneration) return;
+      sources.value = globalSources.value.filter(
+        (s) =>
+          s.kind === sourceKind.value &&
+          s.name
+            .toLocaleLowerCase()
+            .includes(sourceQuery.value.toLocaleLowerCase())
+      );
+      hasMore.value = false;
+      sourceId.value = "";
+      sourceName.value = "";
+      return;
+    }
+    const kind = sourceKind.value,
+      r = await api<any>(
+        `/api/campaigns/${id}/${kind === "npc" ? "npcs" : "bestiary"}?q=${encodeURIComponent(sourceQuery.value)}&offset=${more ? sources.value.length : 0}`
+      );
+    if (!alive || generation !== sourceGeneration) return;
+    sources.value = more
+      ? [...sources.value, ...(r.npcs ?? r.creatures)]
+      : (r.npcs ?? r.creatures);
+    hasMore.value = r.hasMore;
+    if (!more) {
+      sourceId.value = "";
+      sourceName.value = "";
+    }
+  } catch {
+    actionError.value = "Impossible de charger le catalogue de la campagne.";
+  } finally {
+    sourceLoading.value = false;
+    if (alive && generation !== sourceGeneration) void findSources();
+  }
+}
+watch([sourceKind, sourceCatalog], () => {
+  ++sourceGeneration;
+  sources.value = [];
+  sourceId.value = "";
+  sourceName.value = "";
+  hasMore.value = false;
+  void findSources();
+});
+watch(sourceId, () => {
+  sourceName.value =
+    sources.value.find((s) => s.id === sourceId.value)?.name ?? "";
+});
+const date = (v: string) =>
+  new Date(v).toLocaleTimeString("fr-FR", {
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit"
+  });
+function focus() {
+  void load();
+}
+onMounted(() => {
+  void load();
+  window.addEventListener("focus", focus);
+  document.addEventListener("visibilitychange", focus);
+});
 // Temps réel : rechargé dès qu'une action a lieu à la table (3 s seulement sans flux).
-useLiveUpdates(()=>`/api/campaigns/${id}/events`,()=>void load(),3000);
-onUnmounted(()=>{alive=false;++sourceGeneration;clearInterval(timer);window.removeEventListener('focus',focus);document.removeEventListener('visibilitychange',focus);});
+useLiveUpdates(
+  () => `/api/campaigns/${id}/events`,
+  () => void load(),
+  3000
+);
+onUnmounted(() => {
+  alive = false;
+  ++sourceGeneration;
+  clearInterval(timer);
+  window.removeEventListener("focus", focus);
+  document.removeEventListener("visibilitychange", focus);
+});
 </script>
 <template>
  <div class="live-page"><header class="live-header"><div><p class="eyebrow">TERRA UMBRA · EN JEU</p><h1>{{ room?.campaignName??'Table de jeu' }}</h1></div><nav><RouterLink :to="`/campaigns/${id}`">← Campagne</RouterLink><RouterLink to="/account">Mon espace</RouterLink></nav></header>

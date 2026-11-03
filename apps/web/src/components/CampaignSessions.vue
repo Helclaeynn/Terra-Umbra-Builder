@@ -1,100 +1,455 @@
 <script setup lang="ts">
-import {computed,onMounted,onUnmounted,ref} from 'vue';
-import {onBeforeRouteLeave} from 'vue-router';
-import CampaignNotebook from './CampaignNotebook.vue';
-import CampaignAttendance,{type Attendance} from './CampaignAttendance.vue';
-import CampaignPreparation from './CampaignPreparation.vue';
-import CampaignSessionEffects from './CampaignSessionEffects.vue';
-import type {CampaignScene} from '../../../api/src/campaign-preparation';
-import {api,ApiError} from '../lib/api';
-type Reward={edge?:number;characterId:string;characterName:string;xp:number;ptv:number;awardedAt:string};
-type Session={attendance?:Attendance[];startsAt?:string|null;endsAt?:string|null;location?:string;scenes?:CampaignScene[];effects?:any[];id:string;title:string;playedOn:string|null;status:'planned'|'played';preparation?:string;report:string;published:boolean;version:number;rewards:Reward[]};
-const props=defineProps<{campaignId:string;userId?:string;canManage:boolean;archived:boolean;members:{userId?:string;admissionStatus?:string;status:string;characterId:string|null;characterName:string|null}[]}>();
-const sessions=ref<Session[]>([]),hasMore=ref(false),loading=ref(false),busy=ref(false),error=ref(''),notice=ref('');
-const editing=ref<string|null>(null),baseline=ref('');
-const notebook=ref<Session|null|undefined>(undefined),notebookPlaying=ref(false);
-function prepare(s?:Session,play=false){if(dirty.value&&!window.confirm('Abandonner les modifications non enregistrées ?'))return;editing.value=null;awarding.value=null;notebookPlaying.value=play;notebook.value=s||null;}
-function prepared(v:{id:string;title:string;preparation?:string;scenes?:CampaignScene[];version:number}){const old=sessions.value.find(s=>s.id===v.id);if(old)Object.assign(old,v);else sessions.value.unshift({playedOn:null,status:'planned',report:'',published:false,rewards:[],...v});}
-function closeNotebook(){notebook.value=undefined;void load();}
-function schedule(id:string){notebook.value=undefined;const s=sessions.value.find(s=>s.id===id);if(s)edit(s);}
-const mailAvailable=ref(false),notifyPlayers=ref(false);
-const localTimezone=Intl.DateTimeFormat().resolvedOptions().timeZone;
-function localInput(value?:string|null){if(!value)return '';const d=new Date(value);return new Date(d.getTime()-d.getTimezoneOffset()*60000).toISOString().slice(0,16);}
-const blank=()=>({startsAt:'',endsAt:'',location:'',scenes:[] as CampaignScene[],title:'',playedOn:'',status:'planned' as 'planned'|'played',preparation:'',report:'',published:false,version:1});
-const draft=ref(blank()),dirty=computed(()=>editing.value!==null&&JSON.stringify(draft.value)!==baseline.value);
-function dateOffset(start:string,end:string){return start&&end?Math.max(0,Math.round((Date.parse(end.slice(0,10)+'T00:00:00Z')-Date.parse(start.slice(0,10)+'T00:00:00Z'))/86400000)):0;}
-function dateAfter(date:string,days:number){const d=new Date(date+'T00:00:00Z');d.setUTCDate(d.getUTCDate()+days);return d.toISOString().slice(0,10);}
-function plannedDate(e:Event){
- const date=(e.target as HTMLInputElement).value;
- if(!date){draft.value.playedOn='';draft.value.startsAt='';draft.value.endsAt='';return;}
- const startTime=draft.value.startsAt.slice(11)||'20:00',endTime=draft.value.endsAt.slice(11)||'23:00';
- const days=dateOffset(draft.value.startsAt||draft.value.playedOn,draft.value.endsAt)||(endTime<=startTime?1:0);
- draft.value.playedOn=date;draft.value.startsAt=date+'T'+startTime;draft.value.endsAt=dateAfter(date,days)+'T'+endTime;
+import { computed, onMounted, onUnmounted, ref } from "vue";
+import { onBeforeRouteLeave } from "vue-router";
+import CampaignNotebook from "./CampaignNotebook.vue";
+import CampaignAttendance, { type Attendance } from "./CampaignAttendance.vue";
+import CampaignPreparation from "./CampaignPreparation.vue";
+import CampaignSessionEffects from "./CampaignSessionEffects.vue";
+import type { CampaignScene } from "../../../api/src/campaign-preparation";
+import { api, ApiError } from "../lib/api";
+type Reward = {
+  edge?: number;
+  characterId: string;
+  characterName: string;
+  xp: number;
+  ptv: number;
+  awardedAt: string;
+};
+type Session = {
+  attendance?: Attendance[];
+  startsAt?: string | null;
+  endsAt?: string | null;
+  location?: string;
+  scenes?: CampaignScene[];
+  effects?: any[];
+  id: string;
+  title: string;
+  playedOn: string | null;
+  status: "planned" | "played";
+  preparation?: string;
+  report: string;
+  published: boolean;
+  version: number;
+  rewards: Reward[];
+};
+const props = defineProps<{
+  campaignId: string;
+  userId?: string;
+  canManage: boolean;
+  archived: boolean;
+  members: {
+    userId?: string;
+    admissionStatus?: string;
+    status: string;
+    characterId: string | null;
+    characterName: string | null;
+  }[];
+}>();
+const sessions = ref<Session[]>([]),
+  hasMore = ref(false),
+  loading = ref(false),
+  busy = ref(false),
+  error = ref(""),
+  notice = ref("");
+const editing = ref<string | null>(null),
+  baseline = ref("");
+const notebook = ref<Session | null | undefined>(undefined),
+  notebookPlaying = ref(false);
+function prepare(s?: Session, play = false) {
+  if (
+    dirty.value &&
+    !window.confirm("Abandonner les modifications non enregistrées ?")
+  )
+    return;
+  editing.value = null;
+  awarding.value = null;
+  notebookPlaying.value = play;
+  notebook.value = s || null;
 }
-function startDate(e:Event){
- const value=(e.target as HTMLInputElement).value,previous=draft.value.startsAt;
- if(value){
-  if(draft.value.endsAt){const endTime=draft.value.endsAt.slice(11),days=dateOffset(previous||draft.value.playedOn,draft.value.endsAt)||(endTime<=value.slice(11)?1:0);draft.value.endsAt=dateAfter(value.slice(0,10),days)+'T'+endTime;}
-  draft.value.playedOn=value.slice(0,10);
- }
- draft.value.startsAt=value;
+function prepared(v: {
+  id: string;
+  title: string;
+  preparation?: string;
+  scenes?: CampaignScene[];
+  version: number;
+}) {
+  const old = sessions.value.find((s) => s.id === v.id);
+  if (old) Object.assign(old, v);
+  else
+    sessions.value.unshift({
+      playedOn: null,
+      status: "planned",
+      report: "",
+      published: false,
+      rewards: [],
+      ...v
+    });
 }
-function clearTimes(){draft.value.startsAt='';draft.value.endsAt='';}
-const awarding=ref<string|null>(null),selected=ref<string[]>([]),xp=ref(3),ptv=ref(0),amounts=ref<Record<string,{xp:number;ptv:number;edge:number}>>({});
-const eligible=computed(()=>props.members.filter(m=>m.status==='accepted'&&m.admissionStatus==='approved'&&m.characterId&&!sessions.value.find(s=>s.id===awarding.value)?.rewards.some(r=>r.characterId===m.characterId)));
-function common(kind:'xp'|'ptv',value:number){if(kind==='xp')xp.value=value;else ptv.value=value;for(const row of Object.values(amounts.value))row[kind]=value;}
-const rewardRows=computed(()=>selected.value.map(characterId=>({characterId,...amounts.value[characterId]})));
-const endpoint=`/api/campaigns/${props.campaignId}/sessions`;
-let generation=0;
-function failure(e:unknown){
- const messages:Record<string,string>={edge_limit:'Le personnage dépasserait le maximum de 8 Edge.',session_version_conflict:'Cette séance a changé ailleurs. Ton texte est conservé : copie-le avant de recharger.',rewards_already_applied:'Une des fiches a déjà reçu les récompenses de cette séance. Actualise la liste avant de réessayer.',reward_recipient_unavailable:'Une fiche n’est plus rattachée à cette campagne. Actualise la page.',invalid_character_progression:'Une fiche contient un total de progression invalide. Aucune récompense n’a été appliquée.',session_not_played:'Marque d’abord la séance comme jouée.',calendar_date_required:'Une date et une séance à jouer sont nécessaires pour envoyer les invitations.',calendar_mail_unavailable:'L’envoi d’e-mails est indisponible. La séance reste enregistrée.',calendar_send_in_progress:'Un envoi est déjà en cours pour cette séance.',invalid_session:'Vérifie les champs et la date de la séance.',invalid_rewards:'Choisis au moins un personnage et des montants entiers positifs.'};
- error.value=messages[e instanceof Error?e.message:'']||'Impossible de terminer cette action. Réessaie.';
- if(e instanceof ApiError&&[401,403,404].includes(e.status)){sessions.value=[];editing.value=null;draft.value=blank();awarding.value=null;error.value='Ces séances ne sont plus accessibles avec ton compte.';}
+function closeNotebook() {
+  notebook.value = undefined;
+  void load();
 }
-async function load(more=false){
- const seq=++generation;loading.value=true;error.value='';
- try{const r=await api<{sessions:Session[];hasMore:boolean;calendarMailAvailable:boolean}>(`${endpoint}?offset=${more?sessions.value.length:0}`);if(seq!==generation)return;sessions.value=more?[...sessions.value,...r.sessions.filter(s=>!sessions.value.some(old=>old.id===s.id))]:r.sessions;hasMore.value=r.hasMore;mailAvailable.value=r.calendarMailAvailable;}
- catch(e){if(seq===generation)failure(e);}finally{if(seq===generation)loading.value=false;}
+function schedule(id: string) {
+  notebook.value = undefined;
+  const s = sessions.value.find((s) => s.id === id);
+  if (s) edit(s);
 }
-function edit(s?:Session){
- notebook.value=undefined;
- if(dirty.value&&!window.confirm('Abandonner les modifications de séance non enregistrées ?'))return;
- notifyPlayers.value=!s&&mailAvailable.value;
- draft.value=s?{startsAt:localInput(s.startsAt),endsAt:localInput(s.endsAt),location:s.location||'',scenes:JSON.parse(JSON.stringify(s.scenes||[])),title:s.title,playedOn:s.playedOn||'',status:s.status,preparation:s.preparation||'',report:s.report,published:s.published,version:s.version}:blank();
- baseline.value=JSON.stringify(draft.value);editing.value=s?.id||'new';awarding.value=null;error.value='';notice.value='';
+const mailAvailable = ref(false),
+  notifyPlayers = ref(false);
+const localTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+function localInput(value?: string | null) {
+  if (!value) return "";
+  const d = new Date(value);
+  return new Date(d.getTime() - d.getTimezoneOffset() * 60000)
+    .toISOString()
+    .slice(0, 16);
 }
-function cancel(){if(dirty.value&&!window.confirm('Abandonner les modifications non enregistrées ?'))return;editing.value=null;}
-async function sendInvitations(s:{id:string;version:number}){
- const r=await api<{sent:number;failed:number;alreadySent:number;uncertain:number;total:number}>(`${endpoint}/${s.id}/calendar-invitations`,{method:'POST',body:JSON.stringify({version:s.version})});
- notice.value=`Séance enregistrée. Invitations : ${r.sent} envoyée(s), ${r.alreadySent} déjà envoyée(s).`;
- if(!r.total)notice.value+=' Aucun joueur n’a encore accepté la campagne.';
- if(r.failed)error.value=`${r.failed} invitation(s) non envoyée(s). Tu peux réessayer : les envois réussis seront conservés.`;
- if(r.uncertain)error.value=`${r.uncertain} envoi(s) en cours ou à vérifier. Aucun doublon n’a été envoyé.`;
+const blank = () => ({
+  startsAt: "",
+  endsAt: "",
+  location: "",
+  scenes: [] as CampaignScene[],
+  title: "",
+  playedOn: "",
+  status: "planned" as "planned" | "played",
+  preparation: "",
+  report: "",
+  published: false,
+  version: 1
+});
+const draft = ref(blank()),
+  dirty = computed(
+    () =>
+      editing.value !== null && JSON.stringify(draft.value) !== baseline.value
+  );
+function dateOffset(start: string, end: string) {
+  return start && end
+    ? Math.max(
+        0,
+        Math.round(
+          (Date.parse(end.slice(0, 10) + "T00:00:00Z") -
+            Date.parse(start.slice(0, 10) + "T00:00:00Z")) /
+            86400000
+        )
+      )
+    : 0;
 }
-async function invite(s:Session){if(busy.value)return;busy.value=true;error.value='';try{await sendInvitations(s);}catch(e){failure(e);}finally{busy.value=false;}}
-async function save(){
- if(busy.value)return;busy.value=true;error.value='';notice.value='';
- try{
-  const body={...draft.value,playedOn:draft.value.startsAt?draft.value.startsAt.slice(0,10):draft.value.playedOn||null,startsAt:draft.value.startsAt?new Date(draft.value.startsAt).toISOString():null,endsAt:draft.value.endsAt?new Date(draft.value.endsAt).toISOString():null};
-  const send=notifyPlayers.value&&draft.value.status==='planned'&&!!(draft.value.playedOn||draft.value.startsAt);
-  const r=await api<{session:{id:string;version:number}}>(editing.value==='new'?endpoint:`${endpoint}/${editing.value}`,{method:editing.value==='new'?'POST':'PATCH',body:JSON.stringify(body)});
-  editing.value=null;notice.value='Séance enregistrée.';await load();
-  if(send)await sendInvitations(r.session);
- }catch(e){failure(e);}finally{busy.value=false;}
+function dateAfter(date: string, days: number) {
+  const d = new Date(date + "T00:00:00Z");
+  d.setUTCDate(d.getUTCDate() + days);
+  return d.toISOString().slice(0, 10);
 }
-function prepareRewards(s:Session){awarding.value=s.id;xp.value=3;ptv.value=0;selected.value=eligible.value.filter(m=>s.attendance?.some(a=>a.userId===m.userId&&a.response==='present')).map(m=>m.characterId!);amounts.value=Object.fromEntries(eligible.value.map(m=>[m.characterId!,{xp:3,ptv:0,edge:0}]));notice.value='';error.value='';}
-const validRewards=computed(()=>rewardRows.value.length>0&&rewardRows.value.every(r=>[r.xp,r.ptv].every(n=>Number.isSafeInteger(n)&&n>=0&&n<=100000)&&Number.isSafeInteger(r.edge)&&r.edge>=0&&r.edge<=8&&r.xp+r.ptv+r.edge>0));
-async function award(){
- if(busy.value||!validRewards.value)return;
- const lines=rewardRows.value.map(r=>`${eligible.value.find(m=>m.characterId===r.characterId)?.characterName||'Personnage'} : ${r.xp} XP · ${r.ptv} PTV · ${r.edge} Edge`).join('\n');
- if(!window.confirm(`Attribuer ces récompenses ?\n\n${lines}\n\nCes points seront ajoutés aux fiches et à leur historique. Cette attribution ne peut pas être répétée pour la même séance.`))return;
- busy.value=true;error.value='';notice.value='';
- try{await api(`${endpoint}/${awarding.value}/rewards`,{method:'POST',body:JSON.stringify({rewards:rewardRows.value})});awarding.value=null;notice.value='Récompenses ajoutées aux fiches et à leur historique.';await load();}catch(e){failure(e);}finally{busy.value=false;}
+function plannedDate(e: Event) {
+  const date = (e.target as HTMLInputElement).value;
+  if (!date) {
+    draft.value.playedOn = "";
+    draft.value.startsAt = "";
+    draft.value.endsAt = "";
+    return;
+  }
+  const startTime = draft.value.startsAt.slice(11) || "20:00",
+    endTime = draft.value.endsAt.slice(11) || "23:00";
+  const days =
+    dateOffset(
+      draft.value.startsAt || draft.value.playedOn,
+      draft.value.endsAt
+    ) || (endTime <= startTime ? 1 : 0);
+  draft.value.playedOn = date;
+  draft.value.startsAt = date + "T" + startTime;
+  draft.value.endsAt = dateAfter(date, days) + "T" + endTime;
 }
-function beforeUnload(e:BeforeUnloadEvent){if(dirty.value){e.preventDefault();e.returnValue='';}}
-onBeforeRouteLeave(()=>!dirty.value||window.confirm('Quitter sans enregistrer la séance ?'));
-onMounted(()=>{void load();window.addEventListener('beforeunload',beforeUnload);});
-onUnmounted(()=>{generation++;window.removeEventListener('beforeunload',beforeUnload);});
+function startDate(e: Event) {
+  const value = (e.target as HTMLInputElement).value,
+    previous = draft.value.startsAt;
+  if (value) {
+    if (draft.value.endsAt) {
+      const endTime = draft.value.endsAt.slice(11),
+        days =
+          dateOffset(previous || draft.value.playedOn, draft.value.endsAt) ||
+          (endTime <= value.slice(11) ? 1 : 0);
+      draft.value.endsAt = dateAfter(value.slice(0, 10), days) + "T" + endTime;
+    }
+    draft.value.playedOn = value.slice(0, 10);
+  }
+  draft.value.startsAt = value;
+}
+function clearTimes() {
+  draft.value.startsAt = "";
+  draft.value.endsAt = "";
+}
+const awarding = ref<string | null>(null),
+  selected = ref<string[]>([]),
+  xp = ref(3),
+  ptv = ref(0),
+  amounts = ref<Record<string, { xp: number; ptv: number; edge: number }>>({});
+const eligible = computed(() =>
+  props.members.filter(
+    (m) =>
+      m.status === "accepted" &&
+      m.admissionStatus === "approved" &&
+      m.characterId &&
+      !sessions.value
+        .find((s) => s.id === awarding.value)
+        ?.rewards.some((r) => r.characterId === m.characterId)
+  )
+);
+function common(kind: "xp" | "ptv", value: number) {
+  if (kind === "xp") xp.value = value;
+  else ptv.value = value;
+  for (const row of Object.values(amounts.value)) row[kind] = value;
+}
+const rewardRows = computed(() =>
+  selected.value.map((characterId) => ({
+    characterId,
+    ...amounts.value[characterId]
+  }))
+);
+const endpoint = `/api/campaigns/${props.campaignId}/sessions`;
+let generation = 0;
+function failure(e: unknown) {
+  const messages: Record<string, string> = {
+    edge_limit: "Le personnage dépasserait le maximum de 8 Edge.",
+    session_version_conflict:
+      "Cette séance a changé ailleurs. Ton texte est conservé : copie-le avant de recharger.",
+    rewards_already_applied:
+      "Une des fiches a déjà reçu les récompenses de cette séance. Actualise la liste avant de réessayer.",
+    reward_recipient_unavailable:
+      "Une fiche n’est plus rattachée à cette campagne. Actualise la page.",
+    invalid_character_progression:
+      "Une fiche contient un total de progression invalide. Aucune récompense n’a été appliquée.",
+    session_not_played: "Marque d’abord la séance comme jouée.",
+    calendar_date_required:
+      "Une date et une séance à jouer sont nécessaires pour envoyer les invitations.",
+    calendar_mail_unavailable:
+      "L’envoi d’e-mails est indisponible. La séance reste enregistrée.",
+    calendar_send_in_progress: "Un envoi est déjà en cours pour cette séance.",
+    invalid_session: "Vérifie les champs et la date de la séance.",
+    invalid_rewards:
+      "Choisis au moins un personnage et des montants entiers positifs."
+  };
+  error.value =
+    messages[e instanceof Error ? e.message : ""] ||
+    "Impossible de terminer cette action. Réessaie.";
+  if (e instanceof ApiError && [401, 403, 404].includes(e.status)) {
+    sessions.value = [];
+    editing.value = null;
+    draft.value = blank();
+    awarding.value = null;
+    error.value = "Ces séances ne sont plus accessibles avec ton compte.";
+  }
+}
+async function load(more = false) {
+  const seq = ++generation;
+  loading.value = true;
+  error.value = "";
+  try {
+    const r = await api<{
+      sessions: Session[];
+      hasMore: boolean;
+      calendarMailAvailable: boolean;
+    }>(`${endpoint}?offset=${more ? sessions.value.length : 0}`);
+    if (seq !== generation) return;
+    sessions.value = more
+      ? [
+          ...sessions.value,
+          ...r.sessions.filter(
+            (s) => !sessions.value.some((old) => old.id === s.id)
+          )
+        ]
+      : r.sessions;
+    hasMore.value = r.hasMore;
+    mailAvailable.value = r.calendarMailAvailable;
+  } catch (e) {
+    if (seq === generation) failure(e);
+  } finally {
+    if (seq === generation) loading.value = false;
+  }
+}
+function edit(s?: Session) {
+  notebook.value = undefined;
+  if (
+    dirty.value &&
+    !window.confirm("Abandonner les modifications de séance non enregistrées ?")
+  )
+    return;
+  notifyPlayers.value = !s && mailAvailable.value;
+  draft.value = s
+    ? {
+        startsAt: localInput(s.startsAt),
+        endsAt: localInput(s.endsAt),
+        location: s.location || "",
+        scenes: JSON.parse(JSON.stringify(s.scenes || [])),
+        title: s.title,
+        playedOn: s.playedOn || "",
+        status: s.status,
+        preparation: s.preparation || "",
+        report: s.report,
+        published: s.published,
+        version: s.version
+      }
+    : blank();
+  baseline.value = JSON.stringify(draft.value);
+  editing.value = s?.id || "new";
+  awarding.value = null;
+  error.value = "";
+  notice.value = "";
+}
+function cancel() {
+  if (
+    dirty.value &&
+    !window.confirm("Abandonner les modifications non enregistrées ?")
+  )
+    return;
+  editing.value = null;
+}
+async function sendInvitations(s: { id: string; version: number }) {
+  const r = await api<{
+    sent: number;
+    failed: number;
+    alreadySent: number;
+    uncertain: number;
+    total: number;
+  }>(`${endpoint}/${s.id}/calendar-invitations`, {
+    method: "POST",
+    body: JSON.stringify({ version: s.version })
+  });
+  notice.value = `Séance enregistrée. Invitations : ${r.sent} envoyée(s), ${r.alreadySent} déjà envoyée(s).`;
+  if (!r.total) notice.value += " Aucun joueur n’a encore accepté la campagne.";
+  if (r.failed)
+    error.value = `${r.failed} invitation(s) non envoyée(s). Tu peux réessayer : les envois réussis seront conservés.`;
+  if (r.uncertain)
+    error.value = `${r.uncertain} envoi(s) en cours ou à vérifier. Aucun doublon n’a été envoyé.`;
+}
+async function invite(s: Session) {
+  if (busy.value) return;
+  busy.value = true;
+  error.value = "";
+  try {
+    await sendInvitations(s);
+  } catch (e) {
+    failure(e);
+  } finally {
+    busy.value = false;
+  }
+}
+async function save() {
+  if (busy.value) return;
+  busy.value = true;
+  error.value = "";
+  notice.value = "";
+  try {
+    const body = {
+      ...draft.value,
+      playedOn: draft.value.startsAt
+        ? draft.value.startsAt.slice(0, 10)
+        : draft.value.playedOn || null,
+      startsAt: draft.value.startsAt
+        ? new Date(draft.value.startsAt).toISOString()
+        : null,
+      endsAt: draft.value.endsAt
+        ? new Date(draft.value.endsAt).toISOString()
+        : null
+    };
+    const send =
+      notifyPlayers.value &&
+      draft.value.status === "planned" &&
+      !!(draft.value.playedOn || draft.value.startsAt);
+    const r = await api<{ session: { id: string; version: number } }>(
+      editing.value === "new" ? endpoint : `${endpoint}/${editing.value}`,
+      {
+        method: editing.value === "new" ? "POST" : "PATCH",
+        body: JSON.stringify(body)
+      }
+    );
+    editing.value = null;
+    notice.value = "Séance enregistrée.";
+    await load();
+    if (send) await sendInvitations(r.session);
+  } catch (e) {
+    failure(e);
+  } finally {
+    busy.value = false;
+  }
+}
+function prepareRewards(s: Session) {
+  awarding.value = s.id;
+  xp.value = 3;
+  ptv.value = 0;
+  selected.value = eligible.value
+    .filter((m) =>
+      s.attendance?.some(
+        (a) => a.userId === m.userId && a.response === "present"
+      )
+    )
+    .map((m) => m.characterId!);
+  amounts.value = Object.fromEntries(
+    eligible.value.map((m) => [m.characterId!, { xp: 3, ptv: 0, edge: 0 }])
+  );
+  notice.value = "";
+  error.value = "";
+}
+const validRewards = computed(
+  () =>
+    rewardRows.value.length > 0 &&
+    rewardRows.value.every(
+      (r) =>
+        [r.xp, r.ptv].every(
+          (n) => Number.isSafeInteger(n) && n >= 0 && n <= 100000
+        ) &&
+        Number.isSafeInteger(r.edge) &&
+        r.edge >= 0 &&
+        r.edge <= 8 &&
+        r.xp + r.ptv + r.edge > 0
+    )
+);
+async function award() {
+  if (busy.value || !validRewards.value) return;
+  const lines = rewardRows.value
+    .map(
+      (r) =>
+        `${eligible.value.find((m) => m.characterId === r.characterId)?.characterName || "Personnage"} : ${r.xp} XP · ${r.ptv} PTV · ${r.edge} Edge`
+    )
+    .join("\n");
+  if (
+    !window.confirm(
+      `Attribuer ces récompenses ?\n\n${lines}\n\nCes points seront ajoutés aux fiches et à leur historique. Cette attribution ne peut pas être répétée pour la même séance.`
+    )
+  )
+    return;
+  busy.value = true;
+  error.value = "";
+  notice.value = "";
+  try {
+    await api(`${endpoint}/${awarding.value}/rewards`, {
+      method: "POST",
+      body: JSON.stringify({ rewards: rewardRows.value })
+    });
+    awarding.value = null;
+    notice.value = "Récompenses ajoutées aux fiches et à leur historique.";
+    await load();
+  } catch (e) {
+    failure(e);
+  } finally {
+    busy.value = false;
+  }
+}
+function beforeUnload(e: BeforeUnloadEvent) {
+  if (dirty.value) {
+    e.preventDefault();
+    e.returnValue = "";
+  }
+}
+onBeforeRouteLeave(
+  () => !dirty.value || window.confirm("Quitter sans enregistrer la séance ?")
+);
+onMounted(() => {
+  void load();
+  window.addEventListener("beforeunload", beforeUnload);
+});
+onUnmounted(() => {
+  generation++;
+  window.removeEventListener("beforeunload", beforeUnload);
+});
 </script>
 <template>
  <section class="sessions" aria-label="Séances de campagne">

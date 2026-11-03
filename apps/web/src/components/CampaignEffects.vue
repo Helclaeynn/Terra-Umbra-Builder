@@ -1,91 +1,544 @@
 <script setup lang="ts">
-import {computed,onUnmounted,ref,watch} from 'vue';
-import {effectScopes,validateEffectDraft,type LiveEffect,type LiveEffectDraft,type EffectScope} from '../../../api/src/rules/live-effects';
-import {terraUmbraCreationRules} from '../../../api/src/rules/terra-umbra-creation';
-import {api,ApiError} from '../lib/api';
+import { computed, onUnmounted, ref, watch } from "vue";
+import {
+  effectScopes,
+  validateEffectDraft,
+  type LiveEffect,
+  type LiveEffectDraft,
+  type EffectScope
+} from "../../../api/src/rules/live-effects";
+import { terraUmbraCreationRules } from "../../../api/src/rules/terra-umbra-creation";
+import { api, ApiError } from "../lib/api";
 
-const props=defineProps<{campaignId:string;room:any}>(),emit=defineEmits<{changed:[]}>();
-type Actor={id:string;name:string;isCharacter:boolean;[key:string]:any};
-type Snapshot={version:number;effects:LiveEffect[];activation:number;activationOpen:boolean;effectArmor:number};
-const actors=computed<Actor[]>(()=>[...(props.room.characters??[]).map((a:any)=>({...a,isCharacter:true})),...(props.room.combatants??[]).map((a:any)=>({...a,isCharacter:false}))]);
-const actorId=ref(''),sourceId=ref(''),snapshot=ref<Snapshot|null>(null),busy=ref(false),loading=ref(false),error=ref(''),notice=ref(''),pending=ref<Record<string,any>|null>(null);
-const selected=computed(()=>actors.value.find(a=>a.id===actorId.value)),blocked=computed(()=>busy.value||loading.value||!snapshot.value||!!pending.value);
-let alive=true,loadSequence=0,npcMinimumVersion=0;
+const props = defineProps<{ campaignId: string; room: any }>(),
+  emit = defineEmits<{ changed: [] }>();
+type Actor = {
+  id: string;
+  name: string;
+  isCharacter: boolean;
+  [key: string]: any;
+};
+type Snapshot = {
+  version: number;
+  effects: LiveEffect[];
+  activation: number;
+  activationOpen: boolean;
+  effectArmor: number;
+};
+const actors = computed<Actor[]>(() => [
+  ...(props.room.characters ?? []).map((a: any) => ({
+    ...a,
+    isCharacter: true
+  })),
+  ...(props.room.combatants ?? []).map((a: any) => ({
+    ...a,
+    isCharacter: false
+  }))
+]);
+const actorId = ref(""),
+  sourceId = ref(""),
+  snapshot = ref<Snapshot | null>(null),
+  busy = ref(false),
+  loading = ref(false),
+  error = ref(""),
+  notice = ref(""),
+  pending = ref<Record<string, any> | null>(null);
+const selected = computed(() =>
+    actors.value.find((a) => a.id === actorId.value)
+  ),
+  blocked = computed(
+    () => busy.value || loading.value || !snapshot.value || !!pending.value
+  );
+let alive = true,
+  loadSequence = 0,
+  npcMinimumVersion = 0;
 
-const scopeNames:Record<EffectScope,string>={physical:'Tests physiques',mental:'Tests mentaux',social:'Tests sociaux',intellectual:'Tests intellectuels',visual:'Tests visuels',skill:'Compétence précise','defense-physical':'Défense physique','defense-neuro':'Défense Neuro','defense-occult':'Défense occulte',armor:'Armure',damage:'Dégâts',reduction:'Réduction de dégâts','pa-physical':'Limite de PA physiques',regeneration:'Régénération contrariée',condition:'État suivi'};
-const periodNames:Record<string,string>={'round-start':'Début de round','round-end':'Fin de round','activation-start':'Début d’activation','activation-end':'Fin d’activation'};
-const skills=terraUmbraCreationRules.skills;
-const name=ref(''),kind=ref<LiveEffectDraft['kind']>('modifier'),scope=ref<EffectScope>('physical'),skill=ref(skills[0].id),amount=ref(3),stackKey=ref(''),duration=ref<LiveEffectDraft['duration']['unit']>('scene'),durationValue=ref(1),period=ref('round-end'),delay=ref(1),ticks=ref<number|null>(null),ignoreArmor=ref(true),damageType=ref('physique'),healingKind=ref<'regeneration'|'external'>('external'),zone=ref(''),contextConfirmed=ref(false),armor=ref(0);
-const periodic=computed(()=>kind.value==='damage'||kind.value==='healing');
-const scopes=computed(()=>kind.value==='condition'?(['condition','pa-physical','regeneration'] as EffectScope[]):periodic.value?(['condition'] as EffectScope[]):effectScopes.filter(s=>!['condition','pa-physical','regeneration'].includes(s)));
-watch(kind,value=>{scope.value=value==='condition'||periodic.value?'condition':'physical';amount.value=value==='condition'?0:3;if(value==='healing')healingKind.value='external';contextConfirmed.value=false;});
-watch(scope,()=>{contextConfirmed.value=false;});
-const effectDraft=computed<LiveEffectDraft>(()=>({name:name.value.trim(),sourceId:sourceId.value,targetId:actorId.value,kind:kind.value,scope:scope.value,amount:amount.value,stackKey:stackKey.value.trim()||`mj:${name.value.trim().toLocaleLowerCase('fr')}`,stackMode:'best',duration:duration.value==='scene'||duration.value==='manual'?{unit:duration.value}:{unit:duration.value,value:durationValue.value},...(scope.value==='skill'?{skill:skill.value}:{}),...(scope.value==='armor'&&zone.value.trim()?{zone:zone.value.trim()}:{}),...(periodic.value?{period:period.value as LiveEffectDraft['period'],delay:delay.value,...(ticks.value!==null&&String(ticks.value)!==''?{ticks:Number(ticks.value)}:{})}:{}),...(kind.value==='healing'?{healingKind:healingKind.value}:{}),...(kind.value==='damage'?{armorMode:ignoreArmor.value?'ignore':'normal',damageType:damageType.value as LiveEffectDraft['damageType']}:{} )}));
-const draftValid=computed(()=>validateEffectDraft(effectDraft.value)&&actors.value.some(a=>a.id===sourceId.value));
-watch(effectDraft,()=>{contextConfirmed.value=false;});
+const scopeNames: Record<EffectScope, string> = {
+  physical: "Tests physiques",
+  mental: "Tests mentaux",
+  social: "Tests sociaux",
+  intellectual: "Tests intellectuels",
+  visual: "Tests visuels",
+  skill: "Compétence précise",
+  "defense-physical": "Défense physique",
+  "defense-neuro": "Défense Neuro",
+  "defense-occult": "Défense occulte",
+  armor: "Armure",
+  damage: "Dégâts",
+  reduction: "Réduction de dégâts",
+  "pa-physical": "Limite de PA physiques",
+  regeneration: "Régénération contrariée",
+  condition: "État suivi"
+};
+const periodNames: Record<string, string> = {
+  "round-start": "Début de round",
+  "round-end": "Fin de round",
+  "activation-start": "Début d’activation",
+  "activation-end": "Fin d’activation"
+};
+const skills = terraUmbraCreationRules.skills;
+const name = ref(""),
+  kind = ref<LiveEffectDraft["kind"]>("modifier"),
+  scope = ref<EffectScope>("physical"),
+  skill = ref(skills[0].id),
+  amount = ref(3),
+  stackKey = ref(""),
+  duration = ref<LiveEffectDraft["duration"]["unit"]>("scene"),
+  durationValue = ref(1),
+  period = ref("round-end"),
+  delay = ref(1),
+  ticks = ref<number | null>(null),
+  ignoreArmor = ref(true),
+  damageType = ref("physique"),
+  healingKind = ref<"regeneration" | "external">("external"),
+  zone = ref(""),
+  contextConfirmed = ref(false),
+  armor = ref(0);
+const periodic = computed(
+  () => kind.value === "damage" || kind.value === "healing"
+);
+const scopes = computed(() =>
+  kind.value === "condition"
+    ? (["condition", "pa-physical", "regeneration"] as EffectScope[])
+    : periodic.value
+      ? (["condition"] as EffectScope[])
+      : effectScopes.filter(
+          (s) => !["condition", "pa-physical", "regeneration"].includes(s)
+        )
+);
+watch(kind, (value) => {
+  scope.value =
+    value === "condition" || periodic.value ? "condition" : "physical";
+  amount.value = value === "condition" ? 0 : 3;
+  if (value === "healing") healingKind.value = "external";
+  contextConfirmed.value = false;
+});
+watch(scope, () => {
+  contextConfirmed.value = false;
+});
+const effectDraft = computed<LiveEffectDraft>(() => ({
+  name: name.value.trim(),
+  sourceId: sourceId.value,
+  targetId: actorId.value,
+  kind: kind.value,
+  scope: scope.value,
+  amount: amount.value,
+  stackKey:
+    stackKey.value.trim() || `mj:${name.value.trim().toLocaleLowerCase("fr")}`,
+  stackMode: "best",
+  duration:
+    duration.value === "scene" || duration.value === "manual"
+      ? { unit: duration.value }
+      : { unit: duration.value, value: durationValue.value },
+  ...(scope.value === "skill" ? { skill: skill.value } : {}),
+  ...(scope.value === "armor" && zone.value.trim()
+    ? { zone: zone.value.trim() }
+    : {}),
+  ...(periodic.value
+    ? {
+        period: period.value as LiveEffectDraft["period"],
+        delay: delay.value,
+        ...(ticks.value !== null && String(ticks.value) !== ""
+          ? { ticks: Number(ticks.value) }
+          : {})
+      }
+    : {}),
+  ...(kind.value === "healing" ? { healingKind: healingKind.value } : {}),
+  ...(kind.value === "damage"
+    ? {
+        armorMode: ignoreArmor.value ? "ignore" : "normal",
+        damageType: damageType.value as LiveEffectDraft["damageType"]
+      }
+    : {})
+}));
+const draftValid = computed(
+  () =>
+    validateEffectDraft(effectDraft.value) &&
+    actors.value.some((a) => a.id === sourceId.value)
+);
+watch(effectDraft, () => {
+  contextConfirmed.value = false;
+});
 
-const presets=[
- {id:'maitre_des_lames',name:'Maître des lames · plaie persistante',summary:'2 PV à chaque fin de round dès le suivant, sans Armure, jusqu’à traitement. Altération avec marge ≥ 6 et au moins 1 dégât ; la cible saigne.',fields:['hit','alteration','damage','margin','bleeds']},
- {id:'khinae-serpent-vipere',name:'Khinae Vipère · venin hémotoxique',summary:'1 PV sans Armure au début des deux prochaines activations. Morsure ayant blessé, venin reçu et résistance échouée ; quota par cible et par scène.',fields:['hit','damage','exposed','resistanceFailed']},
- {id:'khinae-serpent-cobra',name:'Khinae Cobra · venin neurotoxique',summary:'1 PA physique au maximum pendant la prochaine activation. Morsure réussie, venin reçu et résistance échouée ; quota par cible et par scène.',fields:['hit','exposed','resistanceFailed']},
- {id:'extral-venin-rocreen',name:'Rocréen · venin',summary:'−3 aux tests physiques jusqu’à la fin du prochain round ; 1 PA, 1/scène. Attaque réussie, venin reçu et résistance échouée.',fields:['hit','exposed','resistanceFailed']},
- {id:'munitions-speciales-phoenix-hack',name:'Phoenix Hack · Défense Neuro',summary:'−3 en Défense Neuro jusqu’à la fin de la prochaine activation. Altération et connexion réellement affectée.',fields:['alteration','connected']},
- {id:'munitions-lourdes-consommables-grenade-flash-doorbell',name:'Flash Doorbell · vision',summary:'−3 aux tests visuels jusqu’à la fin de la prochaine activation. Altération et exposition confirmées.',fields:['alteration','exposed']},
- {id:'extral-jet-d-encre',name:'Jet d’encre · vision gênée',summary:'−3 aux tests visuels jusqu’au nettoyage ; 1 PA, 1/scène. La cible a réellement reçu l’encre.',fields:['exposed']},
- {id:'extral-ouvrir-la-cuirasse',name:'Ouvrir la cuirasse · brèche localisée',summary:'−2 à l’Armure de la zone touchée jusqu’à la fin de scène. Altération sur une arme physique, zone explicitement arbitrée.',fields:['alteration','physicalWeapon','affectedZone']}
+const presets = [
+  {
+    id: "maitre_des_lames",
+    name: "Maître des lames · plaie persistante",
+    summary:
+      "2 PV à chaque fin de round dès le suivant, sans Armure, jusqu’à traitement. Altération avec marge ≥ 6 et au moins 1 dégât ; la cible saigne.",
+    fields: ["hit", "alteration", "damage", "margin", "bleeds"]
+  },
+  {
+    id: "khinae-serpent-vipere",
+    name: "Khinae Vipère · venin hémotoxique",
+    summary:
+      "1 PV sans Armure au début des deux prochaines activations. Morsure ayant blessé, venin reçu et résistance échouée ; quota par cible et par scène.",
+    fields: ["hit", "damage", "exposed", "resistanceFailed"]
+  },
+  {
+    id: "khinae-serpent-cobra",
+    name: "Khinae Cobra · venin neurotoxique",
+    summary:
+      "1 PA physique au maximum pendant la prochaine activation. Morsure réussie, venin reçu et résistance échouée ; quota par cible et par scène.",
+    fields: ["hit", "exposed", "resistanceFailed"]
+  },
+  {
+    id: "extral-venin-rocreen",
+    name: "Rocréen · venin",
+    summary:
+      "−3 aux tests physiques jusqu’à la fin du prochain round ; 1 PA, 1/scène. Attaque réussie, venin reçu et résistance échouée.",
+    fields: ["hit", "exposed", "resistanceFailed"]
+  },
+  {
+    id: "munitions-speciales-phoenix-hack",
+    name: "Phoenix Hack · Défense Neuro",
+    summary:
+      "−3 en Défense Neuro jusqu’à la fin de la prochaine activation. Altération et connexion réellement affectée.",
+    fields: ["alteration", "connected"]
+  },
+  {
+    id: "munitions-lourdes-consommables-grenade-flash-doorbell",
+    name: "Flash Doorbell · vision",
+    summary:
+      "−3 aux tests visuels jusqu’à la fin de la prochaine activation. Altération et exposition confirmées.",
+    fields: ["alteration", "exposed"]
+  },
+  {
+    id: "extral-jet-d-encre",
+    name: "Jet d’encre · vision gênée",
+    summary:
+      "−3 aux tests visuels jusqu’au nettoyage ; 1 PA, 1/scène. La cible a réellement reçu l’encre.",
+    fields: ["exposed"]
+  },
+  {
+    id: "extral-ouvrir-la-cuirasse",
+    name: "Ouvrir la cuirasse · brèche localisée",
+    summary:
+      "−2 à l’Armure de la zone touchée jusqu’à la fin de scène. Altération sur une arme physique, zone explicitement arbitrée.",
+    fields: ["alteration", "physicalWeapon", "affectedZone"]
+  }
 ] as const;
-const presetId=ref(''),preset=computed(()=>presets.find(p=>p.id===presetId.value)),proof=ref<Record<string,any>>({hit:false,alteration:false,damage:1,margin:6,bleeds:false,exposed:false,resistanceFailed:false,connected:false,physicalWeapon:false,affectedZone:''}),sourceActionId=ref(''),presetConfirmed=ref(false);
-const impulseProof=ref<Record<string,{pursues:boolean;impossible:boolean;confirmed:boolean}>>({});
-const frenzyActors=computed(()=>props.room.combat?.active?actors.value.filter(a=>[actorId.value,sourceId.value].includes(a.id)&&a.frenzy?.impulseRequired):[]);
-watch(()=>frenzyActors.value.map(a=>`${a.id}:${props.room.combat?.round}:${JSON.stringify(a.frenzy)}`).join('|'),()=>{for(const actor of frenzyActors.value)impulseProof.value[actor.id]={pursues:false,impossible:false,confirmed:false};},{immediate:true});
-function frenzyReady(id:string){const proof=impulseProof.value[id];return !frenzyActors.value.some(a=>a.id===id)||!proof?.pursues&&!proof?.impossible||proof.confirmed;}
-function frenzyPayload(id:string){if(!frenzyActors.value.some(a=>a.id===id))return {};const proof=impulseProof.value[id];return {pursuesImpulse:proof.pursues,impulseImpossibleConfirmed:proof.impossible,contextConfirmed:proof.confirmed};}
-function chooseImpulse(id:string,which:'pursues'|'impossible'){const proof=impulseProof.value[id];proof.confirmed=false;if(proof[which])proof[which==='pursues'?'impossible':'pursues']=false;}
-const proofLabels:Record<string,string>={hit:'Attaque réussie',alteration:'Altération obtenue et applicable',damage:'Dégâts réellement subis',margin:'Marge obtenue',bleeds:'La cible peut saigner',exposed:'Exposition à l’effet confirmée',resistanceFailed:'Test de résistance échoué',connected:'Connexion affectée',physicalWeapon:'Arme physique concernée',affectedZone:'Zone d’Armure touchée'};
-const paidAttacks=computed(()=>(props.room.events??[]).filter((e:any)=>e.kind==='attack'&&e.payload?.attackerId===sourceId.value&&e.payload?.targetId===actorId.value));
-watch(presetId,()=>{presetConfirmed.value=false;sourceActionId.value='';});
-watch(proof,()=>{presetConfirmed.value=false;},{deep:true});
-watch(sourceId,()=>{contextConfirmed.value=false;presetConfirmed.value=false;sourceActionId.value='';});
+const presetId = ref(""),
+  preset = computed(() => presets.find((p) => p.id === presetId.value)),
+  proof = ref<Record<string, any>>({
+    hit: false,
+    alteration: false,
+    damage: 1,
+    margin: 6,
+    bleeds: false,
+    exposed: false,
+    resistanceFailed: false,
+    connected: false,
+    physicalWeapon: false,
+    affectedZone: ""
+  }),
+  sourceActionId = ref(""),
+  presetConfirmed = ref(false);
+const impulseProof = ref<
+  Record<string, { pursues: boolean; impossible: boolean; confirmed: boolean }>
+>({});
+const frenzyActors = computed(() =>
+  props.room.combat?.active
+    ? actors.value.filter(
+        (a) =>
+          [actorId.value, sourceId.value].includes(a.id) &&
+          a.frenzy?.impulseRequired
+      )
+    : []
+);
+watch(
+  () =>
+    frenzyActors.value
+      .map(
+        (a) => `${a.id}:${props.room.combat?.round}:${JSON.stringify(a.frenzy)}`
+      )
+      .join("|"),
+  () => {
+    for (const actor of frenzyActors.value)
+      impulseProof.value[actor.id] = {
+        pursues: false,
+        impossible: false,
+        confirmed: false
+      };
+  },
+  { immediate: true }
+);
+function frenzyReady(id: string) {
+  const proof = impulseProof.value[id];
+  return (
+    !frenzyActors.value.some((a) => a.id === id) ||
+    (!proof?.pursues && !proof?.impossible) ||
+    proof.confirmed
+  );
+}
+function frenzyPayload(id: string) {
+  if (!frenzyActors.value.some((a) => a.id === id)) return {};
+  const proof = impulseProof.value[id];
+  return {
+    pursuesImpulse: proof.pursues,
+    impulseImpossibleConfirmed: proof.impossible,
+    contextConfirmed: proof.confirmed
+  };
+}
+function chooseImpulse(id: string, which: "pursues" | "impossible") {
+  const proof = impulseProof.value[id];
+  proof.confirmed = false;
+  if (proof[which])
+    proof[which === "pursues" ? "impossible" : "pursues"] = false;
+}
+const proofLabels: Record<string, string> = {
+  hit: "Attaque réussie",
+  alteration: "Altération obtenue et applicable",
+  damage: "Dégâts réellement subis",
+  margin: "Marge obtenue",
+  bleeds: "La cible peut saigner",
+  exposed: "Exposition à l’effet confirmée",
+  resistanceFailed: "Test de résistance échoué",
+  connected: "Connexion affectée",
+  physicalWeapon: "Arme physique concernée",
+  affectedZone: "Zone d’Armure touchée"
+};
+const paidAttacks = computed(() =>
+  (props.room.events ?? []).filter(
+    (e: any) =>
+      e.kind === "attack" &&
+      e.payload?.attackerId === sourceId.value &&
+      e.payload?.targetId === actorId.value
+  )
+);
+watch(presetId, () => {
+  presetConfirmed.value = false;
+  sourceActionId.value = "";
+});
+watch(
+  proof,
+  () => {
+    presetConfirmed.value = false;
+  },
+  { deep: true }
+);
+watch(sourceId, () => {
+  contextConfirmed.value = false;
+  presetConfirmed.value = false;
+  sourceActionId.value = "";
+});
 
-function failure(cause:unknown){
- const code=cause instanceof Error?cause.message:'',messages:Record<string,string>={frenzy_impulse_pa_required:'La Frénésie exige de garder 1 PA pour son impulsion. Confirme une action qui la poursuit, ou arbitre son impossibilité réelle.',mechanics_version_conflict:'L’état de ce personnage a changé. Il a été actualisé ; vérifie puis relance ton action.',mechanics_request_conflict:'Cette référence de requête correspond à une autre action. Actualise avant de recommencer.',pending_attacks:'Résous les attaques en attente avant de modifier les effets.',effect_source_unavailable:'Le lanceur ne possède pas cette capacité ou elle est indisponible dans son état actuel.',effect_conditions_not_met:'Les conditions de cet effet ne sont pas réunies. Vérifie l’attaque et les décisions d’arbitrage.',power_already_used:'Cette capacité a déjà atteint son quota pour cette période.',effect_does_not_stack:'Un effet exclusif identique est déjà présent. Retire-le avant de le remplacer.',effect_stacking_conflict:'Ce groupe d’effets suit déjà une autre règle de cumul. Vérifie son groupe avant de recommencer.',invalid_effect:'Vérifie la valeur, la compétence, la durée et la périodicité de l’effet.',effect_not_found:'Cet effet a déjà été retiré. L’état a été actualisé.',combat_not_started:'Les activations se suivent pendant un combat lancé.',activation_phase_conflict:'Cette phase a déjà été effectuée. L’état a été actualisé.',insufficient_pa:'Le lanceur ne dispose pas des PA requis ou ne participe pas à ce combat.',effect_source_cannot_act:'Le lanceur est incapable d’agir dans son état actuel.',invalid_paid_effect_attack:'Cette attaque ne justifie pas un coût déjà payé. Choisis une attaque récente du lanceur contre cette cible.',actor_not_found:'Ce personnage n’est plus disponible dans cette campagne.'};
- return messages[code]??(cause instanceof ApiError&&cause.status<500?'L’action a été refusée. Actualise les informations et vérifie les conditions.':'Action non confirmée. Réessaie la même action pour vérifier son enregistrement.');
+function failure(cause: unknown) {
+  const code = cause instanceof Error ? cause.message : "",
+    messages: Record<string, string> = {
+      frenzy_impulse_pa_required:
+        "La Frénésie exige de garder 1 PA pour son impulsion. Confirme une action qui la poursuit, ou arbitre son impossibilité réelle.",
+      mechanics_version_conflict:
+        "L’état de ce personnage a changé. Il a été actualisé ; vérifie puis relance ton action.",
+      mechanics_request_conflict:
+        "Cette référence de requête correspond à une autre action. Actualise avant de recommencer.",
+      pending_attacks:
+        "Résous les attaques en attente avant de modifier les effets.",
+      effect_source_unavailable:
+        "Le lanceur ne possède pas cette capacité ou elle est indisponible dans son état actuel.",
+      effect_conditions_not_met:
+        "Les conditions de cet effet ne sont pas réunies. Vérifie l’attaque et les décisions d’arbitrage.",
+      power_already_used:
+        "Cette capacité a déjà atteint son quota pour cette période.",
+      effect_does_not_stack:
+        "Un effet exclusif identique est déjà présent. Retire-le avant de le remplacer.",
+      effect_stacking_conflict:
+        "Ce groupe d’effets suit déjà une autre règle de cumul. Vérifie son groupe avant de recommencer.",
+      invalid_effect:
+        "Vérifie la valeur, la compétence, la durée et la périodicité de l’effet.",
+      effect_not_found: "Cet effet a déjà été retiré. L’état a été actualisé.",
+      combat_not_started: "Les activations se suivent pendant un combat lancé.",
+      activation_phase_conflict:
+        "Cette phase a déjà été effectuée. L’état a été actualisé.",
+      insufficient_pa:
+        "Le lanceur ne dispose pas des PA requis ou ne participe pas à ce combat.",
+      effect_source_cannot_act:
+        "Le lanceur est incapable d’agir dans son état actuel.",
+      invalid_paid_effect_attack:
+        "Cette attaque ne justifie pas un coût déjà payé. Choisis une attaque récente du lanceur contre cette cible.",
+      actor_not_found:
+        "Ce personnage n’est plus disponible dans cette campagne."
+    };
+  return (
+    messages[code] ??
+    (cause instanceof ApiError && cause.status < 500
+      ? "L’action a été refusée. Actualise les informations et vérifie les conditions."
+      : "Action non confirmée. Réessaie la même action pour vérifier son enregistrement.")
+  );
 }
-function fromState(state:any,version:number):Snapshot{return {version,effects:state.effects??state.liveEffects??[],activation:state.activation??0,activationOpen:!!state.activationOpen,effectArmor:state.effectArmor??0};}
-async function load(){
- if(!alive||!props.room.canManage||!selected.value||pending.value)return;
- const actor=selected.value,sequence=++loadSequence;loading.value=true;
- try{
-  if(actor.isCharacter){const response=await api<any>(`/api/characters/${actor.id}/play`);if(alive&&sequence===loadSequence&&actorId.value===actor.id){snapshot.value=fromState(response.state,response.version);armor.value=snapshot.value.effectArmor;}}
-  else if(Number.isInteger(actor.version)&&actor.version>=npcMinimumVersion){snapshot.value=fromState(actor,actor.version);armor.value=snapshot.value.effectArmor;}
-  else snapshot.value=null;
- }catch(cause){if(alive&&sequence===loadSequence){snapshot.value=null;error.value='Impossible de charger l’état de ce personnage. Actualise pour réessayer.';}}
- finally{if(alive&&sequence===loadSequence)loading.value=false;}
+function fromState(state: any, version: number): Snapshot {
+  return {
+    version,
+    effects: state.effects ?? state.liveEffects ?? [],
+    activation: state.activation ?? 0,
+    activationOpen: !!state.activationOpen,
+    effectArmor: state.effectArmor ?? 0
+  };
 }
-watch(()=>[props.room.canManage,...actors.value.map(a=>a.id)].join('|'),()=>{if(!actors.value.some(a=>a.id===actorId.value))actorId.value=actors.value[0]?.id??'';},{immediate:true});
-watch(actorId,()=>{loadSequence++;snapshot.value=null;npcMinimumVersion=0;contextConfirmed.value=false;presetConfirmed.value=false;error.value='';notice.value='';sourceId.value=actorId.value;if(!pending.value)void load();},{immediate:true});
-watch(()=>[props.room.combat?.version,props.room.events?.[0]?.id,...actors.value.map(a=>`${a.id}:${a.version??''}:${a.activation??''}:${a.activationOpen??''}`)].join('|'),()=>{if(!pending.value&&!busy.value)void load();});
-function refresh(){if(busy.value||pending.value)return;error.value='';notice.value='';emit('changed');void load();}
-async function send(action:string,extra:Record<string,any>={}){
- if(blocked.value||!selected.value||!props.room.canManage)return;
- pending.value={requestId:crypto.randomUUID(),actorId:actorId.value,version:snapshot.value!.version,action,...extra};await retry();
+async function load() {
+  if (!alive || !props.room.canManage || !selected.value || pending.value)
+    return;
+  const actor = selected.value,
+    sequence = ++loadSequence;
+  loading.value = true;
+  try {
+    if (actor.isCharacter) {
+      const response = await api<any>(`/api/characters/${actor.id}/play`);
+      if (alive && sequence === loadSequence && actorId.value === actor.id) {
+        snapshot.value = fromState(response.state, response.version);
+        armor.value = snapshot.value.effectArmor;
+      }
+    } else if (
+      Number.isInteger(actor.version) &&
+      actor.version >= npcMinimumVersion
+    ) {
+      snapshot.value = fromState(actor, actor.version);
+      armor.value = snapshot.value.effectArmor;
+    } else snapshot.value = null;
+  } catch (cause) {
+    if (alive && sequence === loadSequence) {
+      snapshot.value = null;
+      error.value =
+        "Impossible de charger l’état de ce personnage. Actualise pour réessayer.";
+    }
+  } finally {
+    if (alive && sequence === loadSequence) loading.value = false;
+  }
 }
-async function retry(){
- if(busy.value||!pending.value||!props.room.canManage)return;
- busy.value=true;error.value='';notice.value='';const request=pending.value;
- try{
-  const response=await api<any>(`/api/campaigns/${props.campaignId}/mechanics`,{method:'POST',body:JSON.stringify(request)});
-  if(!alive)return;pending.value=null;contextConfirmed.value=false;presetConfirmed.value=false;notice.value='Enregistré. Les effets détaillés restent réservés au MJ et au personnage concerné.';
-  if(selected.value&&!selected.value.isCharacter){npcMinimumVersion=response.version??request.version+1;snapshot.value=null;}
-  busy.value=false;emit('changed');await load();
- }catch(cause){if(alive){error.value=failure(cause);if(cause instanceof ApiError&&cause.status<500){pending.value=null;busy.value=false;emit('changed');await load();}}}
- finally{busy.value=false;}
+watch(
+  () => [props.room.canManage, ...actors.value.map((a) => a.id)].join("|"),
+  () => {
+    if (!actors.value.some((a) => a.id === actorId.value))
+      actorId.value = actors.value[0]?.id ?? "";
+  },
+  { immediate: true }
+);
+watch(
+  actorId,
+  () => {
+    loadSequence++;
+    snapshot.value = null;
+    npcMinimumVersion = 0;
+    contextConfirmed.value = false;
+    presetConfirmed.value = false;
+    error.value = "";
+    notice.value = "";
+    sourceId.value = actorId.value;
+    if (!pending.value) void load();
+  },
+  { immediate: true }
+);
+watch(
+  () =>
+    [
+      props.room.combat?.version,
+      props.room.events?.[0]?.id,
+      ...actors.value.map(
+        (a) =>
+          `${a.id}:${a.version ?? ""}:${a.activation ?? ""}:${a.activationOpen ?? ""}`
+      )
+    ].join("|"),
+  () => {
+    if (!pending.value && !busy.value) void load();
+  }
+);
+function refresh() {
+  if (busy.value || pending.value) return;
+  error.value = "";
+  notice.value = "";
+  emit("changed");
+  void load();
 }
-function addEffect(){if(contextConfirmed.value&&draftValid.value)void send('effect-add',{effect:effectDraft.value});}
-function addPreset(){if(!preset.value||!presetConfirmed.value||!frenzyReady(sourceId.value))return;const checked:Record<string,any>={};for(const field of preset.value.fields)checked[field]=proof.value[field];void send('effect-add',{preset:preset.value.id,sourceId:sourceId.value,proof:checked,...frenzyPayload(sourceId.value),...(sourceActionId.value?{sourceActionId:sourceActionId.value}:{})});}
-function expiry(effect:LiveEffect){return effect.expires.unit==='round'?`Fin du round ${effect.expires.at}`:effect.expires.unit==='activation'?`Fin de l’activation ${effect.expires.at}`:effect.expires.unit==='scene'?'Fin de scène':'Jusqu’au retrait';}
-function value(effect:LiveEffect){return effect.kind==='damage'?`${effect.amount} PV perdus${effect.armorMode==='ignore'?' sans Armure':''}`:effect.kind==='healing'?`+${effect.amount} PV · ${effect.healingKind==='regeneration'?'Régénération':'Soin extérieur'}`:effect.kind==='modifier'?`${effect.amount>0?'+':''}${effect.amount} · ${effect.scope==='skill'?skills.find(s=>s.id===effect.skill)?.name??effect.skill:scopeNames[effect.scope]}`:effect.scope==='pa-physical'?`${effect.amount} PA physiques au maximum`:effect.name;}
-onUnmounted(()=>{alive=false;loadSequence++;});
+async function send(action: string, extra: Record<string, any> = {}) {
+  if (blocked.value || !selected.value || !props.room.canManage) return;
+  pending.value = {
+    requestId: crypto.randomUUID(),
+    actorId: actorId.value,
+    version: snapshot.value!.version,
+    action,
+    ...extra
+  };
+  await retry();
+}
+async function retry() {
+  if (busy.value || !pending.value || !props.room.canManage) return;
+  busy.value = true;
+  error.value = "";
+  notice.value = "";
+  const request = pending.value;
+  try {
+    const response = await api<any>(
+      `/api/campaigns/${props.campaignId}/mechanics`,
+      { method: "POST", body: JSON.stringify(request) }
+    );
+    if (!alive) return;
+    pending.value = null;
+    contextConfirmed.value = false;
+    presetConfirmed.value = false;
+    notice.value =
+      "Enregistré. Les effets détaillés restent réservés au MJ et au personnage concerné.";
+    if (selected.value && !selected.value.isCharacter) {
+      npcMinimumVersion = response.version ?? request.version + 1;
+      snapshot.value = null;
+    }
+    busy.value = false;
+    emit("changed");
+    await load();
+  } catch (cause) {
+    if (alive) {
+      error.value = failure(cause);
+      if (cause instanceof ApiError && cause.status < 500) {
+        pending.value = null;
+        busy.value = false;
+        emit("changed");
+        await load();
+      }
+    }
+  } finally {
+    busy.value = false;
+  }
+}
+function addEffect() {
+  if (contextConfirmed.value && draftValid.value)
+    void send("effect-add", { effect: effectDraft.value });
+}
+function addPreset() {
+  if (!preset.value || !presetConfirmed.value || !frenzyReady(sourceId.value))
+    return;
+  const checked: Record<string, any> = {};
+  for (const field of preset.value.fields) checked[field] = proof.value[field];
+  void send("effect-add", {
+    preset: preset.value.id,
+    sourceId: sourceId.value,
+    proof: checked,
+    ...frenzyPayload(sourceId.value),
+    ...(sourceActionId.value ? { sourceActionId: sourceActionId.value } : {})
+  });
+}
+function expiry(effect: LiveEffect) {
+  return effect.expires.unit === "round"
+    ? `Fin du round ${effect.expires.at}`
+    : effect.expires.unit === "activation"
+      ? `Fin de l’activation ${effect.expires.at}`
+      : effect.expires.unit === "scene"
+        ? "Fin de scène"
+        : "Jusqu’au retrait";
+}
+function value(effect: LiveEffect) {
+  return effect.kind === "damage"
+    ? `${effect.amount} PV perdus${effect.armorMode === "ignore" ? " sans Armure" : ""}`
+    : effect.kind === "healing"
+      ? `+${effect.amount} PV · ${effect.healingKind === "regeneration" ? "Régénération" : "Soin extérieur"}`
+      : effect.kind === "modifier"
+        ? `${effect.amount > 0 ? "+" : ""}${effect.amount} · ${effect.scope === "skill" ? (skills.find((s) => s.id === effect.skill)?.name ?? effect.skill) : scopeNames[effect.scope]}`
+        : effect.scope === "pa-physical"
+          ? `${effect.amount} PA physiques au maximum`
+          : effect.name;
+}
+onUnmounted(() => {
+  alive = false;
+  loadSequence++;
+});
 </script>
 
 <template>

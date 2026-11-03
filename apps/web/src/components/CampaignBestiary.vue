@@ -1,37 +1,357 @@
 <script setup lang="ts">
-import {computed,onMounted,onUnmounted,ref,watch} from 'vue';
-import {onBeforeRouteLeave} from 'vue-router';
-import {api,ApiError} from '../lib/api';
-import {bestiaryIssues,type BestiaryCatalog,type BestiaryData,type BestiaryRecord,type BestiarySummary} from '../../../api/src/campaign-bestiary-model';
-import CampaignCreatureSheet from './CampaignCreatureSheet.vue';
-const props=defineProps<{campaignId:string;archived?:boolean;selectable?:boolean;selectedIds?:string[];selectionFull?:boolean;groupSize?:number}>();
-const emit=defineEmits<{(e:'select',creature:BestiarySummary):void;(e:'dirty',value:boolean):void}>();
-const catalog=ref<BestiaryCatalog|null>(null),creatures=ref<BestiarySummary[]>([]),hasMore=ref(false),query=ref(''),showArchived=ref(false),loading=ref(false),busy=ref(false),imageBusy=ref(false),playerCount=ref(4),error=ref(''),notice=ref('');
-const creator=ref(false),mode=ref<'quick'|'custom'>('quick'),realm=ref<'realite'|'verite'>('realite'),difficultyId=ref('standard'),archetypeId=ref('combattant'),weaponGroup=ref('Pistolet léger'),count=ref(1),drafts=ref<{id:string;data:BestiaryData}[]>([]),editing=ref<BestiaryRecord|null>(null),viewed=ref<BestiaryRecord|null>(null),baseline=ref('');
-const endpoint=`/api/campaigns/${props.campaignId}/bestiary`;
-watch(()=>props.groupSize,size=>{if(size&&Number.isSafeInteger(size))playerCount.value=size;},{immediate:true});
-const dirty=computed(()=>drafts.value.length>0&&(editing.value?JSON.stringify(drafts.value)!==baseline.value:true));
-const valid=computed(()=>drafts.value.length>0&&drafts.value.every(row=>!bestiaryIssues(row.data).length));
-const encounter=computed(()=>{const weights:Record<string,number>={figurant:1,standard:2,dangereux:4,majeur:7,exceptionnel:12};const total=drafts.value.reduce((sum,row)=>sum+(weights[row.data.difficultyId]||0),0),size=Number.isFinite(playerCount.value)?Math.max(1,playerCount.value):4;return total<=size?'Légère':total<=size*2?'Soutenue':total<=size*3?'Périlleuse':'Extrême';});
-let live=true,seq=0,detailSeq=0,timer:ReturnType<typeof setTimeout>|undefined;
-function failure(e:unknown){const code=e instanceof Error?e.message:'';error.value=({creature_version_conflict:'Cette créature a changé ailleurs. Tes modifications restent ici.',creature_creation_conflict:'Cette fiche existe déjà avec un contenu différent.',invalid_creature:'Vérifie les valeurs, l’arme et les capacités.',invalid_bestiary_generator:'Choisis un archétype et une arme compatibles.'} as Record<string,string>)[code]||'Action impossible. Réessaie.';if(e instanceof ApiError&&[401,403,404].includes(e.status)){error.value='Bestiaire inaccessible avec ton compte.';creatures.value=[];}}
-async function load(more=false){const n=++seq;loading.value=true;try{const r=await api<{creatures:BestiarySummary[];hasMore:boolean}>(`${endpoint}?q=${encodeURIComponent(query.value.trim())}&archived=${showArchived.value}&offset=${more?creatures.value.length:0}`);if(n===seq&&live){creatures.value=more?[...creatures.value,...r.creatures.filter(a=>!creatures.value.some(b=>a.id===b.id))]:r.creatures;hasMore.value=r.hasMore;}}catch(e){if(n===seq&&live)failure(e);}finally{if(n===seq)loading.value=false;}}
-async function start(){try{catalog.value=await api<BestiaryCatalog>(endpoint+'/catalog');await load();}catch(e){failure(e);}}
-function discard(){return !dirty.value||window.confirm('Abandonner les créatures ou modifications non enregistrées ?');}
-function create(next:'quick'|'custom'){if(!discard())return;mode.value=next;drafts.value=[];viewed.value=null;editing.value=null;creator.value=true;error.value='';notice.value='';}
-function chooseRealm(next:'realite'|'verite'){realm.value=next;archetypeId.value=catalog.value?.archetypes.find(a=>a.realm===next)?.id||'';weaponGroup.value='Aucune';}
-function request(){return {seed:crypto.randomUUID(),count:mode.value==='quick'&&!props.selectable?count.value:1,difficultyId:difficultyId.value,archetypeId:archetypeId.value,weaponGroup:realm.value==='realite'?weaponGroup.value:'Aucune'};}
-async function generate(){if(busy.value||!discard())return;busy.value=true;error.value='';try{const r=await api<{creatures:BestiaryData[]}>(endpoint+'/generate',{method:'POST',body:JSON.stringify(request())});if(!live)return;const rows=r.creatures.map(data=>({id:crypto.randomUUID(),data}));if(mode.value==='custom'){const d=rows[0].data;d.source='custom';d.name='Nouvelle créature';d.description='';d.hook='';d.abilities=[];d.weaknesses=[];d.tags=[];}
-  drafts.value=rows;editing.value=null;creator.value=false;viewed.value=null;notice.value=mode.value==='quick'?'Fiche prête pour la scène. Conserve-la, rejette-la ou regénère. Rien n’est encore enregistré.':'';
- }catch(e){if(live)failure(e);}finally{busy.value=false;}}
-function reject(){drafts.value=[];editing.value=null;creator.value=false;notice.value='Fiche rejetée, rien n’a été enregistré.';}
-function regenerate(){drafts.value=[];void generate();}
-async function save(){if(busy.value||imageBusy.value||!valid.value)return;busy.value=true;error.value='';try{const selected=mode.value==='quick'&&props.selectable&&drafts.value.length===1?drafts.value[0]:null;if(editing.value)await api(`${endpoint}/${editing.value.id}`,{method:'PATCH',body:JSON.stringify({data:drafts.value[0].data,version:editing.value.version,archived:editing.value.archived})});else await api(endpoint,{method:'POST',body:JSON.stringify({creatures:drafts.value})});if(!live)return;notice.value=`${drafts.value.length} créature(s) enregistrée(s).`;drafts.value=[];editing.value=null;creator.value=false;showArchived.value=false;query.value='';await load();if(selected&&!props.selectionFull){const d=selected.data;emit('select',{id:selected.id,name:d.name,realm:d.realm,difficultyId:d.difficultyId,role:d.role,version:1,archived:false});}}catch(e){if(live)failure(e);}finally{busy.value=false;}}
-async function open(summary:BestiarySummary,edit=false,copy=false){if(!discard())return;const n=++detailSeq;busy.value=true;error.value='';try{const r=await api<{creature:BestiaryRecord}>(`${endpoint}/${summary.id}`);if(!live||n!==detailSeq)return;creator.value=false;drafts.value=[];editing.value=null;if(edit||copy){mode.value='custom';const d=structuredClone(r.creature.data);if(copy)d.name=(d.name+' · copie').slice(0,120);drafts.value=[{id:copy?crypto.randomUUID():summary.id,data:d}];editing.value=copy?null:r.creature;baseline.value=JSON.stringify(drafts.value);viewed.value=null;}else viewed.value=r.creature;}catch(e){if(live&&n===detailSeq)failure(e);}finally{busy.value=false;}}
-async function archive(summary:BestiarySummary){if(busy.value||!discard()||!window.confirm(summary.archived?'Réactiver cette créature ?':'Archiver cette créature ? Les scènes existantes restent consultables.'))return;busy.value=true;try{const r=await api<{creature:BestiaryRecord}>(`${endpoint}/${summary.id}`);await api(`${endpoint}/${summary.id}`,{method:'PATCH',body:JSON.stringify({data:r.creature.data,version:r.creature.version,archived:!summary.archived})});drafts.value=[];viewed.value=null;await load();}catch(e){failure(e);}finally{busy.value=false;}}
-function beforeUnload(e:BeforeUnloadEvent){if(dirty.value||busy.value){e.preventDefault();e.returnValue='';}}
-watch([query,showArchived],()=>{clearTimeout(timer);timer=setTimeout(()=>void load(),250);});watch(dirty,v=>emit('dirty',v),{immediate:true});
-onBeforeRouteLeave(()=>discard());onMounted(()=>{void start();window.addEventListener('beforeunload',beforeUnload);});onUnmounted(()=>{live=false;seq++;detailSeq++;clearTimeout(timer);emit('dirty',false);window.removeEventListener('beforeunload',beforeUnload);});
+import { computed, onMounted, onUnmounted, ref, watch } from "vue";
+import { onBeforeRouteLeave } from "vue-router";
+import { api, ApiError } from "../lib/api";
+import {
+  bestiaryIssues,
+  type BestiaryCatalog,
+  type BestiaryData,
+  type BestiaryRecord,
+  type BestiarySummary
+} from "../../../api/src/campaign-bestiary-model";
+import CampaignCreatureSheet from "./CampaignCreatureSheet.vue";
+const props = defineProps<{
+  campaignId: string;
+  archived?: boolean;
+  selectable?: boolean;
+  selectedIds?: string[];
+  selectionFull?: boolean;
+  groupSize?: number;
+}>();
+const emit = defineEmits<{
+  (e: "select", creature: BestiarySummary): void;
+  (e: "dirty", value: boolean): void;
+}>();
+const catalog = ref<BestiaryCatalog | null>(null),
+  creatures = ref<BestiarySummary[]>([]),
+  hasMore = ref(false),
+  query = ref(""),
+  showArchived = ref(false),
+  loading = ref(false),
+  busy = ref(false),
+  imageBusy = ref(false),
+  playerCount = ref(4),
+  error = ref(""),
+  notice = ref("");
+const creator = ref(false),
+  mode = ref<"quick" | "custom">("quick"),
+  realm = ref<"realite" | "verite">("realite"),
+  difficultyId = ref("standard"),
+  archetypeId = ref("combattant"),
+  weaponGroup = ref("Pistolet léger"),
+  count = ref(1),
+  drafts = ref<{ id: string; data: BestiaryData }[]>([]),
+  editing = ref<BestiaryRecord | null>(null),
+  viewed = ref<BestiaryRecord | null>(null),
+  baseline = ref("");
+const endpoint = `/api/campaigns/${props.campaignId}/bestiary`;
+watch(
+  () => props.groupSize,
+  (size) => {
+    if (size && Number.isSafeInteger(size)) playerCount.value = size;
+  },
+  { immediate: true }
+);
+const dirty = computed(
+  () =>
+    drafts.value.length > 0 &&
+    (editing.value ? JSON.stringify(drafts.value) !== baseline.value : true)
+);
+const valid = computed(
+  () =>
+    drafts.value.length > 0 &&
+    drafts.value.every((row) => !bestiaryIssues(row.data).length)
+);
+const encounter = computed(() => {
+  const weights: Record<string, number> = {
+    figurant: 1,
+    standard: 2,
+    dangereux: 4,
+    majeur: 7,
+    exceptionnel: 12
+  };
+  const total = drafts.value.reduce(
+      (sum, row) => sum + (weights[row.data.difficultyId] || 0),
+      0
+    ),
+    size = Number.isFinite(playerCount.value)
+      ? Math.max(1, playerCount.value)
+      : 4;
+  return total <= size
+    ? "Légère"
+    : total <= size * 2
+      ? "Soutenue"
+      : total <= size * 3
+        ? "Périlleuse"
+        : "Extrême";
+});
+let live = true,
+  seq = 0,
+  detailSeq = 0,
+  timer: ReturnType<typeof setTimeout> | undefined;
+function failure(e: unknown) {
+  const code = e instanceof Error ? e.message : "";
+  error.value =
+    (
+      {
+        creature_version_conflict:
+          "Cette créature a changé ailleurs. Tes modifications restent ici.",
+        creature_creation_conflict:
+          "Cette fiche existe déjà avec un contenu différent.",
+        invalid_creature: "Vérifie les valeurs, l’arme et les capacités.",
+        invalid_bestiary_generator:
+          "Choisis un archétype et une arme compatibles."
+      } as Record<string, string>
+    )[code] || "Action impossible. Réessaie.";
+  if (e instanceof ApiError && [401, 403, 404].includes(e.status)) {
+    error.value = "Bestiaire inaccessible avec ton compte.";
+    creatures.value = [];
+  }
+}
+async function load(more = false) {
+  const n = ++seq;
+  loading.value = true;
+  try {
+    const r = await api<{ creatures: BestiarySummary[]; hasMore: boolean }>(
+      `${endpoint}?q=${encodeURIComponent(query.value.trim())}&archived=${showArchived.value}&offset=${more ? creatures.value.length : 0}`
+    );
+    if (n === seq && live) {
+      creatures.value = more
+        ? [
+            ...creatures.value,
+            ...r.creatures.filter(
+              (a) => !creatures.value.some((b) => a.id === b.id)
+            )
+          ]
+        : r.creatures;
+      hasMore.value = r.hasMore;
+    }
+  } catch (e) {
+    if (n === seq && live) failure(e);
+  } finally {
+    if (n === seq) loading.value = false;
+  }
+}
+async function start() {
+  try {
+    catalog.value = await api<BestiaryCatalog>(endpoint + "/catalog");
+    await load();
+  } catch (e) {
+    failure(e);
+  }
+}
+function discard() {
+  return (
+    !dirty.value ||
+    window.confirm(
+      "Abandonner les créatures ou modifications non enregistrées ?"
+    )
+  );
+}
+function create(next: "quick" | "custom") {
+  if (!discard()) return;
+  mode.value = next;
+  drafts.value = [];
+  viewed.value = null;
+  editing.value = null;
+  creator.value = true;
+  error.value = "";
+  notice.value = "";
+}
+function chooseRealm(next: "realite" | "verite") {
+  realm.value = next;
+  archetypeId.value =
+    catalog.value?.archetypes.find((a) => a.realm === next)?.id || "";
+  weaponGroup.value = "Aucune";
+}
+function request() {
+  return {
+    seed: crypto.randomUUID(),
+    count: mode.value === "quick" && !props.selectable ? count.value : 1,
+    difficultyId: difficultyId.value,
+    archetypeId: archetypeId.value,
+    weaponGroup: realm.value === "realite" ? weaponGroup.value : "Aucune"
+  };
+}
+async function generate() {
+  if (busy.value || !discard()) return;
+  busy.value = true;
+  error.value = "";
+  try {
+    const r = await api<{ creatures: BestiaryData[] }>(endpoint + "/generate", {
+      method: "POST",
+      body: JSON.stringify(request())
+    });
+    if (!live) return;
+    const rows = r.creatures.map((data) => ({ id: crypto.randomUUID(), data }));
+    if (mode.value === "custom") {
+      const d = rows[0].data;
+      d.source = "custom";
+      d.name = "Nouvelle créature";
+      d.description = "";
+      d.hook = "";
+      d.abilities = [];
+      d.weaknesses = [];
+      d.tags = [];
+    }
+    drafts.value = rows;
+    editing.value = null;
+    creator.value = false;
+    viewed.value = null;
+    notice.value =
+      mode.value === "quick"
+        ? "Fiche prête pour la scène. Conserve-la, rejette-la ou regénère. Rien n’est encore enregistré."
+        : "";
+  } catch (e) {
+    if (live) failure(e);
+  } finally {
+    busy.value = false;
+  }
+}
+function reject() {
+  drafts.value = [];
+  editing.value = null;
+  creator.value = false;
+  notice.value = "Fiche rejetée, rien n’a été enregistré.";
+}
+function regenerate() {
+  drafts.value = [];
+  void generate();
+}
+async function save() {
+  if (busy.value || imageBusy.value || !valid.value) return;
+  busy.value = true;
+  error.value = "";
+  try {
+    const selected =
+      mode.value === "quick" && props.selectable && drafts.value.length === 1
+        ? drafts.value[0]
+        : null;
+    if (editing.value)
+      await api(`${endpoint}/${editing.value.id}`, {
+        method: "PATCH",
+        body: JSON.stringify({
+          data: drafts.value[0].data,
+          version: editing.value.version,
+          archived: editing.value.archived
+        })
+      });
+    else
+      await api(endpoint, {
+        method: "POST",
+        body: JSON.stringify({ creatures: drafts.value })
+      });
+    if (!live) return;
+    notice.value = `${drafts.value.length} créature(s) enregistrée(s).`;
+    drafts.value = [];
+    editing.value = null;
+    creator.value = false;
+    showArchived.value = false;
+    query.value = "";
+    await load();
+    if (selected && !props.selectionFull) {
+      const d = selected.data;
+      emit("select", {
+        id: selected.id,
+        name: d.name,
+        realm: d.realm,
+        difficultyId: d.difficultyId,
+        role: d.role,
+        version: 1,
+        archived: false
+      });
+    }
+  } catch (e) {
+    if (live) failure(e);
+  } finally {
+    busy.value = false;
+  }
+}
+async function open(summary: BestiarySummary, edit = false, copy = false) {
+  if (!discard()) return;
+  const n = ++detailSeq;
+  busy.value = true;
+  error.value = "";
+  try {
+    const r = await api<{ creature: BestiaryRecord }>(
+      `${endpoint}/${summary.id}`
+    );
+    if (!live || n !== detailSeq) return;
+    creator.value = false;
+    drafts.value = [];
+    editing.value = null;
+    if (edit || copy) {
+      mode.value = "custom";
+      const d = structuredClone(r.creature.data);
+      if (copy) d.name = (d.name + " · copie").slice(0, 120);
+      drafts.value = [{ id: copy ? crypto.randomUUID() : summary.id, data: d }];
+      editing.value = copy ? null : r.creature;
+      baseline.value = JSON.stringify(drafts.value);
+      viewed.value = null;
+    } else viewed.value = r.creature;
+  } catch (e) {
+    if (live && n === detailSeq) failure(e);
+  } finally {
+    busy.value = false;
+  }
+}
+async function archive(summary: BestiarySummary) {
+  if (
+    busy.value ||
+    !discard() ||
+    !window.confirm(
+      summary.archived
+        ? "Réactiver cette créature ?"
+        : "Archiver cette créature ? Les scènes existantes restent consultables."
+    )
+  )
+    return;
+  busy.value = true;
+  try {
+    const r = await api<{ creature: BestiaryRecord }>(
+      `${endpoint}/${summary.id}`
+    );
+    await api(`${endpoint}/${summary.id}`, {
+      method: "PATCH",
+      body: JSON.stringify({
+        data: r.creature.data,
+        version: r.creature.version,
+        archived: !summary.archived
+      })
+    });
+    drafts.value = [];
+    viewed.value = null;
+    await load();
+  } catch (e) {
+    failure(e);
+  } finally {
+    busy.value = false;
+  }
+}
+function beforeUnload(e: BeforeUnloadEvent) {
+  if (dirty.value || busy.value) {
+    e.preventDefault();
+    e.returnValue = "";
+  }
+}
+watch([query, showArchived], () => {
+  clearTimeout(timer);
+  timer = setTimeout(() => void load(), 250);
+});
+watch(dirty, (v) => emit("dirty", v), { immediate: true });
+onBeforeRouteLeave(() => discard());
+onMounted(() => {
+  void start();
+  window.addEventListener("beforeunload", beforeUnload);
+});
+onUnmounted(() => {
+  live = false;
+  seq++;
+  detailSeq++;
+  clearTimeout(timer);
+  emit("dirty", false);
+  window.removeEventListener("beforeunload", beforeUnload);
+});
 </script>
 <template>
  <section class="bestiary-manager" aria-label="Bestiaire de la campagne"><h3>Mes créatures de campagne</h3><div v-if="!archived" class="actions"><button class="primary" type="button" :disabled="busy||!catalog||selectionFull&&selectable" @click="create('quick')">Générateur de bestiaire</button><button type="button" :disabled="busy||!catalog" @click="create('custom')">Créer une créature</button></div><p v-if="error" role="alert">{{ error }}</p><p v-if="notice" role="status">{{ notice }}</p>

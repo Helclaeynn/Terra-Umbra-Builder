@@ -1,18 +1,122 @@
 <script setup lang="ts">
-import {ref,watch} from 'vue';
-import CharacterSessionVersion from './CharacterSessionVersion.vue';
-import {api,ApiError} from '../lib/api';
-const props=defineProps<{campaignId:string;canManage:boolean;current:any}>(),emit=defineEmits<{changed:[]}>();
-const nextBefore=ref<string|null>(null),archiveBusy=ref(false);let generation=0;
-const expanded=ref<Record<string,boolean>>({});
-const sessions=ref<any[]>([]),selected=ref(''),planned=ref(''),title=ref(''),label=ref('Point de sauvegarde'),versions=ref<any[]>([]),events=ref<any[]>([]),error=ref(''),busy=ref(false),request=ref<any>(null);
-const url=`/api/campaigns/${props.campaignId}/play`;
-async function load(){try{sessions.value=(await api<any>(url+'/sessions')).sessions;}catch{error.value='Impossible de charger les séances.';}}
-async function archive(){const seq=++generation;if(!selected.value)return;try{const [v,r]=await Promise.all([api<any>(`${url}/sessions/${selected.value}/versions`),api<any>(`${url}?session=${selected.value}`)]);if(seq!==generation)return;versions.value=v.versions;events.value=r.events;nextBefore.value=r.nextBefore;}catch{error.value='Cette archive est indisponible.';}}
-async function more(){if(archiveBusy.value||!nextBefore.value)return;archiveBusy.value=true;const seq=generation;try{const r=await api<any>(`${url}?session=${selected.value}&before=${encodeURIComponent(nextBefore.value)}`);if(seq===generation){events.value.push(...r.events);nextBefore.value=r.nextBefore;}}catch{error.value='Impossible de charger la suite du journal.';}finally{archiveBusy.value=false;}}
-async function send(action:string){if(busy.value||request.value)return;request.value={requestId:crypto.randomUUID(),action,title:action==='start'?(planned.value?sessions.value.find(s=>s.id===planned.value)?.title:title.value):label.value,expectedSession:props.current?.id??null,...(action==='start'&&planned.value?{sessionId:planned.value}:{})};await retry();}
-async function retry(){if(busy.value||!request.value)return;busy.value=true;error.value='';try{await api(url+'/sessions',{method:'POST',body:JSON.stringify(request.value)});request.value=null;title.value='';planned.value='';emit('changed');await load();if(selected.value)await archive();}catch(e){error.value=e instanceof ApiError&&e.message==='finish_combat_first'?'Résous ou annule les attaques en attente avant de changer de séance.':e instanceof ApiError&&e.status===409?'La séance a changé : actualise avant de recommencer.':'Action non confirmée. Réessaie pour vérifier son enregistrement.';if(e instanceof ApiError&&e.status<500){request.value=null;emit('changed');await load();}}finally{busy.value=false;}}
-watch(selected,()=>{versions.value=[];events.value=[];nextBefore.value=null;void archive();});
+import { ref, watch } from "vue";
+import CharacterSessionVersion from "./CharacterSessionVersion.vue";
+import { api, ApiError } from "../lib/api";
+const props = defineProps<{
+    campaignId: string;
+    canManage: boolean;
+    current: any;
+  }>(),
+  emit = defineEmits<{ changed: [] }>();
+const nextBefore = ref<string | null>(null),
+  archiveBusy = ref(false);
+let generation = 0;
+const expanded = ref<Record<string, boolean>>({});
+const sessions = ref<any[]>([]),
+  selected = ref(""),
+  planned = ref(""),
+  title = ref(""),
+  label = ref("Point de sauvegarde"),
+  versions = ref<any[]>([]),
+  events = ref<any[]>([]),
+  error = ref(""),
+  busy = ref(false),
+  request = ref<any>(null);
+const url = `/api/campaigns/${props.campaignId}/play`;
+async function load() {
+  try {
+    sessions.value = (await api<any>(url + "/sessions")).sessions;
+  } catch {
+    error.value = "Impossible de charger les séances.";
+  }
+}
+async function archive() {
+  const seq = ++generation;
+  if (!selected.value) return;
+  try {
+    const [v, r] = await Promise.all([
+      api<any>(`${url}/sessions/${selected.value}/versions`),
+      api<any>(`${url}?session=${selected.value}`)
+    ]);
+    if (seq !== generation) return;
+    versions.value = v.versions;
+    events.value = r.events;
+    nextBefore.value = r.nextBefore;
+  } catch {
+    error.value = "Cette archive est indisponible.";
+  }
+}
+async function more() {
+  if (archiveBusy.value || !nextBefore.value) return;
+  archiveBusy.value = true;
+  const seq = generation;
+  try {
+    const r = await api<any>(
+      `${url}?session=${selected.value}&before=${encodeURIComponent(nextBefore.value)}`
+    );
+    if (seq === generation) {
+      events.value.push(...r.events);
+      nextBefore.value = r.nextBefore;
+    }
+  } catch {
+    error.value = "Impossible de charger la suite du journal.";
+  } finally {
+    archiveBusy.value = false;
+  }
+}
+async function send(action: string) {
+  if (busy.value || request.value) return;
+  request.value = {
+    requestId: crypto.randomUUID(),
+    action,
+    title:
+      action === "start"
+        ? planned.value
+          ? sessions.value.find((s) => s.id === planned.value)?.title
+          : title.value
+        : label.value,
+    expectedSession: props.current?.id ?? null,
+    ...(action === "start" && planned.value ? { sessionId: planned.value } : {})
+  };
+  await retry();
+}
+async function retry() {
+  if (busy.value || !request.value) return;
+  busy.value = true;
+  error.value = "";
+  try {
+    await api(url + "/sessions", {
+      method: "POST",
+      body: JSON.stringify(request.value)
+    });
+    request.value = null;
+    title.value = "";
+    planned.value = "";
+    emit("changed");
+    await load();
+    if (selected.value) await archive();
+  } catch (e) {
+    error.value =
+      e instanceof ApiError && e.message === "finish_combat_first"
+        ? "Résous ou annule les attaques en attente avant de changer de séance."
+        : e instanceof ApiError && e.status === 409
+          ? "La séance a changé : actualise avant de recommencer."
+          : "Action non confirmée. Réessaie pour vérifier son enregistrement.";
+    if (e instanceof ApiError && e.status < 500) {
+      request.value = null;
+      emit("changed");
+      await load();
+    }
+  } finally {
+    busy.value = false;
+  }
+}
+watch(selected, () => {
+  versions.value = [];
+  events.value = [];
+  nextBefore.value = null;
+  void archive();
+});
 </script>
 <template><details class="live-sessions" @toggle="($event.target as HTMLDetailsElement).open&&load()"><summary>Séances & versions · {{current?.title??'Aucune séance ouverte'}}</summary>
 <p v-if="error" role="alert">{{error}} <button v-if="request" :disabled="busy" @click="retry">Réessayer</button></p>

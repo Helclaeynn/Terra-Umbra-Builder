@@ -1,18 +1,142 @@
 <script setup lang="ts">
-import {onMounted,onUnmounted,ref,watch} from 'vue';
-import {useLiveUpdates} from '../lib/live-updates';
-import {api,ApiError} from '../lib/api';
-const props=defineProps<{campaignId:string}>(),emit=defineEmits<{refresh:[];attention:[count:number]}>();
-const impulse=ref<Record<string,boolean>>({}),edgeChoice=ref<Record<string,boolean>>({}),offers=ref<any[]>([]),results=ref<any[]>([]),loadingError=ref(''),error=ref(''),notice=ref(''),busy=ref(false),pending=ref<any>(null);
-let alive=true,loading=false,timer:ReturnType<typeof setInterval>|undefined;
-watch(offers,list=>{emit('attention',list.length);if(!pending.value)for(const offer of list)if((offer.edge??0)<1)edgeChoice.value[offer.sourceEventId+offer.actorId]=false;},{immediate:true});
-async function load(){if(!alive||loading||document.visibilityState==='hidden')return;loading=true;try{const result=await api<any>(`/api/campaigns/${props.campaignId}/occult-consents`);if(alive){offers.value=result.offers??[];results.value=result.results??[];loadingError.value='';}}catch{if(alive)loadingError.value='Les propositions privées ne sont pas à jour.';}finally{loading=false;}}
-onMounted(()=>{void load();});
-useLiveUpdates(()=>`/api/campaigns/${props.campaignId}/events`,()=>void load(),3000);onUnmounted(()=>{alive=false;clearInterval(timer);});
-async function accept(offer:any,active=false){if(busy.value||pending.value)return;const key=offer.sourceEventId+offer.actorId,edge=edgeChoice.value[key]===true&&(offer.edge??0)>0;pending.value={requestId:crypto.randomUUID(),action:offer.type==='decree'?'resist-decree':offer.type==='defense'?'defend':'consent',sourceEventId:offer.sourceEventId,actorId:offer.actorId,version:offer.version,offerId:offer.offerId,...(offer.type==='defense'?{active,defenseKind:offer.defenseKind,contextConfirmed:true,pursuesImpulse:impulse.value[key]===true,...(active?{edge}:{})}:offer.type==='decree'?{effectId:offer.effectId,violationConfirmed:true,edge}:{})};await retry();}
-async function force(result:any){if(busy.value||pending.value)return;pending.value={requestId:crypto.randomUUID(),action:'force-defense',eventId:result.eventId,actorId:result.actorId,version:result.version};await retry();}
-function resultRollTotal(result:any){return result.modifier+(result.sum??result.dice.reduce((total:number,die:number)=>total+die,0));}
-async function retry(){if(busy.value||!pending.value)return;busy.value=true;error.value='';try{const sent=pending.value,result=await api<any>(`/api/campaigns/${props.campaignId}/occult-resolutions`,{method:'POST',body:JSON.stringify(sent)});delete edgeChoice.value[sent.sourceEventId+sent.actorId];pending.value=null;notice.value=typeof result.total==='number'?`${sent.action==='force-defense'?'Forcer le Destin':sent.action==='resist-decree'?'Résister au Décret':'Défense retenue'} · résultat ${result.total}${typeof result.success==='boolean'?(result.success?' · résistance réussie':' · résistance échouée'):''}`:'Choix transmis au MJ.';await load();emit('refresh');}catch(cause){error.value=cause instanceof ApiError?'Cette proposition a changé. Actualise avant de l’accepter.':'Accord non confirmé. Réessaie le même envoi.';if(cause instanceof ApiError&&cause.status<500){pending.value=null;await load();}}finally{busy.value=false;}}
+import { onMounted, onUnmounted, ref, watch } from "vue";
+import { useLiveUpdates } from "../lib/live-updates";
+import { api, ApiError } from "../lib/api";
+const props = defineProps<{ campaignId: string }>(),
+  emit = defineEmits<{ refresh: []; attention: [count: number] }>();
+const impulse = ref<Record<string, boolean>>({}),
+  edgeChoice = ref<Record<string, boolean>>({}),
+  offers = ref<any[]>([]),
+  results = ref<any[]>([]),
+  loadingError = ref(""),
+  error = ref(""),
+  notice = ref(""),
+  busy = ref(false),
+  pending = ref<any>(null);
+let alive = true,
+  loading = false,
+  timer: ReturnType<typeof setInterval> | undefined;
+watch(
+  offers,
+  (list) => {
+    emit("attention", list.length);
+    if (!pending.value)
+      for (const offer of list)
+        if ((offer.edge ?? 0) < 1)
+          edgeChoice.value[offer.sourceEventId + offer.actorId] = false;
+  },
+  { immediate: true }
+);
+async function load() {
+  if (!alive || loading || document.visibilityState === "hidden") return;
+  loading = true;
+  try {
+    const result = await api<any>(
+      `/api/campaigns/${props.campaignId}/occult-consents`
+    );
+    if (alive) {
+      offers.value = result.offers ?? [];
+      results.value = result.results ?? [];
+      loadingError.value = "";
+    }
+  } catch {
+    if (alive)
+      loadingError.value = "Les propositions privées ne sont pas à jour.";
+  } finally {
+    loading = false;
+  }
+}
+onMounted(() => {
+  void load();
+});
+useLiveUpdates(
+  () => `/api/campaigns/${props.campaignId}/events`,
+  () => void load(),
+  3000
+);
+onUnmounted(() => {
+  alive = false;
+  clearInterval(timer);
+});
+async function accept(offer: any, active = false) {
+  if (busy.value || pending.value) return;
+  const key = offer.sourceEventId + offer.actorId,
+    edge = edgeChoice.value[key] === true && (offer.edge ?? 0) > 0;
+  pending.value = {
+    requestId: crypto.randomUUID(),
+    action:
+      offer.type === "decree"
+        ? "resist-decree"
+        : offer.type === "defense"
+          ? "defend"
+          : "consent",
+    sourceEventId: offer.sourceEventId,
+    actorId: offer.actorId,
+    version: offer.version,
+    offerId: offer.offerId,
+    ...(offer.type === "defense"
+      ? {
+          active,
+          defenseKind: offer.defenseKind,
+          contextConfirmed: true,
+          pursuesImpulse: impulse.value[key] === true,
+          ...(active ? { edge } : {})
+        }
+      : offer.type === "decree"
+        ? { effectId: offer.effectId, violationConfirmed: true, edge }
+        : {})
+  };
+  await retry();
+}
+async function force(result: any) {
+  if (busy.value || pending.value) return;
+  pending.value = {
+    requestId: crypto.randomUUID(),
+    action: "force-defense",
+    eventId: result.eventId,
+    actorId: result.actorId,
+    version: result.version
+  };
+  await retry();
+}
+function resultRollTotal(result: any) {
+  return (
+    result.modifier +
+    (result.sum ??
+      result.dice.reduce((total: number, die: number) => total + die, 0))
+  );
+}
+async function retry() {
+  if (busy.value || !pending.value) return;
+  busy.value = true;
+  error.value = "";
+  try {
+    const sent = pending.value,
+      result = await api<any>(
+        `/api/campaigns/${props.campaignId}/occult-resolutions`,
+        { method: "POST", body: JSON.stringify(sent) }
+      );
+    delete edgeChoice.value[sent.sourceEventId + sent.actorId];
+    pending.value = null;
+    notice.value =
+      typeof result.total === "number"
+        ? `${sent.action === "force-defense" ? "Forcer le Destin" : sent.action === "resist-decree" ? "Résister au Décret" : "Défense retenue"} · résultat ${result.total}${typeof result.success === "boolean" ? (result.success ? " · résistance réussie" : " · résistance échouée") : ""}`
+        : "Choix transmis au MJ.";
+    await load();
+    emit("refresh");
+  } catch (cause) {
+    error.value =
+      cause instanceof ApiError
+        ? "Cette proposition a changé. Actualise avant de l’accepter."
+        : "Accord non confirmé. Réessaie le même envoi.";
+    if (cause instanceof ApiError && cause.status < 500) {
+      pending.value = null;
+      await load();
+    }
+  } finally {
+    busy.value = false;
+  }
+}
 </script>
 <template>
 <section v-if="offers.length||results.length||loadingError||error||notice" class="occult-consent" aria-label="Effets alliés proposés">

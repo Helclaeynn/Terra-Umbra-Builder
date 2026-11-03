@@ -1,13 +1,43 @@
 <script setup lang="ts">
-import {computed,ref} from 'vue';
-import {api} from '../lib/api';
-export type Attendance={userId:string;displayName:string;characterId:string|null;response:'present'|'uncertain'|'absent'|null};
-const props=defineProps<{campaignId:string;sessionId:string;rows:Attendance[];userId:string;canManage:boolean;archived:boolean;played:boolean}>();
-const emit=defineEmits<{(e:'updated'):void}>();
-const busy=ref(false),error=ref('');
-const labels={present:'Présent',uncertain:'Incertain',absent:'Absent'};
-const mine=computed(()=>props.rows.find(r=>r.userId===props.userId));
-async function respond(userId:string,response:string){if(busy.value)return;busy.value=true;error.value='';try{await api(`/api/campaigns/${props.campaignId}/sessions/${props.sessionId}/attendance/${userId}`,{method:'PUT',body:JSON.stringify({response})});emit('updated');}catch{error.value='Réponse non enregistrée. Actualise les présences et réessaie.';}finally{busy.value=false;}}
+import { computed, ref } from "vue";
+import { api } from "../lib/api";
+export type Attendance = {
+  userId: string;
+  displayName: string;
+  characterId: string | null;
+  response: "present" | "uncertain" | "absent" | null;
+};
+const props = defineProps<{
+  campaignId: string;
+  sessionId: string;
+  rows: Attendance[];
+  userId: string;
+  canManage: boolean;
+  archived: boolean;
+  played: boolean;
+}>();
+const emit = defineEmits<{ (e: "updated"): void }>();
+const busy = ref(false),
+  error = ref("");
+const labels = { present: "Présent", uncertain: "Incertain", absent: "Absent" };
+const mine = computed(() => props.rows.find((r) => r.userId === props.userId));
+async function respond(userId: string, response: string) {
+  if (busy.value) return;
+  busy.value = true;
+  error.value = "";
+  try {
+    await api(
+      `/api/campaigns/${props.campaignId}/sessions/${props.sessionId}/attendance/${userId}`,
+      { method: "PUT", body: JSON.stringify({ response }) }
+    );
+    emit("updated");
+  } catch {
+    error.value =
+      "Réponse non enregistrée. Actualise les présences et réessaie.";
+  } finally {
+    busy.value = false;
+  }
+}
 </script>
 <template>
  <section class="attendance" aria-label="Présences à la séance">

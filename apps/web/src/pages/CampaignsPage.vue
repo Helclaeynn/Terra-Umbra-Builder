@@ -1,138 +1,532 @@
 <script setup lang="ts">
 import { usePageTitle } from "../lib/page-title";
-import { computed, onMounted, onUnmounted, ref, watch } from 'vue';
-import { onBeforeRouteLeave, RouterLink, useRoute, useRouter } from 'vue-router';
-import { api, ApiError } from '../lib/api';
-import CampaignNpcs from '../components/CampaignNpcs.vue';
-import CampaignBestiary from '../components/CampaignBestiary.vue';
-import CampaignAdmissions from '../components/CampaignAdmissions.vue';
-import CampaignSessions from '../components/CampaignSessions.vue';
-import CampaignPlay from '../components/CampaignPlay.vue';
-import CampaignRewards from '../components/CampaignRewards.vue';
-import TerraUmbraBrand from '../components/TerraUmbraBrand.vue';
-type Campaign={admissionRules?:string;id:string;name:string;description:string;gmName:string;ownerId:string;canManage:boolean;membershipStatus:'invited'|'accepted'|null;memberCount?:number;archivedAt:string|null;version:number;gmNotes?:string};
-type Member={admissionStatus?:string;userId:string;displayName:string;status:string;characterId:string|null;characterName:string|null;canReadSheet:boolean;updatedAt:string|null};
-type Account={id:string;displayName:string};
-const router=useRouter(),id=String(useRoute().params.id||''),endpoint='/api/campaigns';
-type CharacterChoice={id:string;name:string;version:number;campaignName?:string};
-type CharacterRevision={revision:number;createdAt:string;reason:string;xpEarned:number;ptvEarned:number};
-const campaigns=ref<Campaign[]>([]),campaign=ref<Campaign|null>(null),members=ref<Member[]>([]),characters=ref<CharacterChoice[]>([]);
-const userId=ref(''),canCreate=ref(false),loading=ref(true),busy=ref(false),error=ref(''),notice=ref(''),login=ref(false);
-const showCreate=ref(false),createName=ref(''),createDescription=ref(''),query=ref(''),accounts=ref<Account[]>([]),searching=ref(false),searchError=ref('');
-const accountsOpen=ref(false),accountsMore=ref(false),moreSearching=ref(false);
-const chosenCharacter=ref(''),editing=ref(false),draft=ref({name:'',description:'',gmNotes:'',admissionRules:''}),baseline=ref(''),editVersion=ref(0);
-const chosenRevision=ref('current'),revisions=ref<CharacterRevision[]>([]),revisionsLoading=ref(false),revisionsError=ref('');
-let revisionRequest=0;
-const admissionRefresh=ref(0),npcsOpen=ref(false),npcDirty=ref(false),bestiaryOpen=ref(false),bestiaryDirty=ref(false);
-function toggleNpcs(e:Event){const el=e.target as HTMLDetailsElement;if(!el.open&&npcDirty.value&&!window.confirm('Abandonner les PNJ non enregistrés ?')){el.open=true;return;}npcsOpen.value=el.open;}
-function toggleBestiary(e:Event){const el=e.target as HTMLDetailsElement;if(!el.open&&bestiaryDirty.value&&!window.confirm('Abandonner les créatures non enregistrées ?')){el.open=true;return;}bestiaryOpen.value=el.open;}
-const dirty=computed(()=>editing.value&&JSON.stringify(draft.value)!==baseline.value);
-const me=computed(()=>members.value.find(m=>m.userId===userId.value));
+import { computed, onMounted, onUnmounted, ref, watch } from "vue";
+import {
+  onBeforeRouteLeave,
+  RouterLink,
+  useRoute,
+  useRouter
+} from "vue-router";
+import { api, ApiError } from "../lib/api";
+import CampaignNpcs from "../components/CampaignNpcs.vue";
+import CampaignBestiary from "../components/CampaignBestiary.vue";
+import CampaignAdmissions from "../components/CampaignAdmissions.vue";
+import CampaignSessions from "../components/CampaignSessions.vue";
+import CampaignPlay from "../components/CampaignPlay.vue";
+import CampaignRewards from "../components/CampaignRewards.vue";
+import TerraUmbraBrand from "../components/TerraUmbraBrand.vue";
+type Campaign = {
+  admissionRules?: string;
+  id: string;
+  name: string;
+  description: string;
+  gmName: string;
+  ownerId: string;
+  canManage: boolean;
+  membershipStatus: "invited" | "accepted" | null;
+  memberCount?: number;
+  archivedAt: string | null;
+  version: number;
+  gmNotes?: string;
+};
+type Member = {
+  admissionStatus?: string;
+  userId: string;
+  displayName: string;
+  status: string;
+  characterId: string | null;
+  characterName: string | null;
+  canReadSheet: boolean;
+  updatedAt: string | null;
+};
+type Account = { id: string; displayName: string };
+const router = useRouter(),
+  id = String(useRoute().params.id || ""),
+  endpoint = "/api/campaigns";
+type CharacterChoice = {
+  id: string;
+  name: string;
+  version: number;
+  campaignName?: string;
+};
+type CharacterRevision = {
+  revision: number;
+  createdAt: string;
+  reason: string;
+  xpEarned: number;
+  ptvEarned: number;
+};
+const campaigns = ref<Campaign[]>([]),
+  campaign = ref<Campaign | null>(null),
+  members = ref<Member[]>([]),
+  characters = ref<CharacterChoice[]>([]);
+const userId = ref(""),
+  canCreate = ref(false),
+  loading = ref(true),
+  busy = ref(false),
+  error = ref(""),
+  notice = ref(""),
+  login = ref(false);
+const showCreate = ref(false),
+  createName = ref(""),
+  createDescription = ref(""),
+  query = ref(""),
+  accounts = ref<Account[]>([]),
+  searching = ref(false),
+  searchError = ref("");
+const accountsOpen = ref(false),
+  accountsMore = ref(false),
+  moreSearching = ref(false);
+const chosenCharacter = ref(""),
+  editing = ref(false),
+  draft = ref({ name: "", description: "", gmNotes: "", admissionRules: "" }),
+  baseline = ref(""),
+  editVersion = ref(0);
+const chosenRevision = ref("current"),
+  revisions = ref<CharacterRevision[]>([]),
+  revisionsLoading = ref(false),
+  revisionsError = ref("");
+let revisionRequest = 0;
+const admissionRefresh = ref(0),
+  npcsOpen = ref(false),
+  npcDirty = ref(false),
+  bestiaryOpen = ref(false),
+  bestiaryDirty = ref(false);
+function toggleNpcs(e: Event) {
+  const el = e.target as HTMLDetailsElement;
+  if (
+    !el.open &&
+    npcDirty.value &&
+    !window.confirm("Abandonner les PNJ non enregistrés ?")
+  ) {
+    el.open = true;
+    return;
+  }
+  npcsOpen.value = el.open;
+}
+function toggleBestiary(e: Event) {
+  const el = e.target as HTMLDetailsElement;
+  if (
+    !el.open &&
+    bestiaryDirty.value &&
+    !window.confirm("Abandonner les créatures non enregistrées ?")
+  ) {
+    el.open = true;
+    return;
+  }
+  bestiaryOpen.value = el.open;
+}
+const dirty = computed(
+  () => editing.value && JSON.stringify(draft.value) !== baseline.value
+);
+const me = computed(() => members.value.find((m) => m.userId === userId.value));
 
-usePageTitle(()=>campaign.value?.name || 'Campagnes');
-const invited=computed(()=>campaigns.value.filter(c=>c.membershipStatus==='invited'));
-const active=computed(()=>campaigns.value.filter(c=>!c.archivedAt&&c.membershipStatus!=='invited'));
-const archived=computed(()=>campaigns.value.filter(c=>c.archivedAt));
-let refreshTimer:ReturnType<typeof setInterval>|undefined;
-let generation=0,searchGeneration=0,timer:ReturnType<typeof setTimeout>|undefined;
-function failure(e:unknown){
-  const messages:Record<string,string>={campaign_version_conflict:'La campagne a changé ailleurs. Ton texte est conservé : copie-le avant de recharger la dernière version.',invalid_campaign:'Vérifie le nom (120 caractères), la présentation (2 000) et les notes (20 000).',gm_required:'Le rôle MJ est nécessaire pour créer une campagne.',invitation_unavailable:'Ce compte est déjà invité ou la campagne n’est plus disponible.',membership_unavailable:'La campagne ou la fiche choisie n’est plus disponible.',campaign_not_found:'Cette campagne n’est pas accessible avec ton compte.',authentication_required:'Connecte-toi pour retrouver tes campagnes.'};
-  messages.campaign_delete_conflict='La campagne a changé depuis son affichage. Actualise-la avant de confirmer sa suppression.';
-  messages.campaign_progression_already_awarded='Des récompenses sont déjà liées à cette fiche de campagne. Elles ne peuvent pas être effacées en proposant une ancienne sauvegarde.';
-  messages.character_version_conflict='La fiche source a changé depuis le choix de sa version. Recharge la page et choisis à nouveau la sauvegarde.';
-  messages.character_revision_not_found='Cette sauvegarde n’est plus disponible. Choisis une autre version.';
-  error.value=messages[e instanceof Error?e.message:'']||'Impossible de terminer cette action. Réessaie.';
-  if(e instanceof ApiError&&[401,403,404].includes(e.status)){
-    campaign.value=null;campaigns.value=[];members.value=[];characters.value=[];accounts.value=[];canCreate.value=false;editing.value=false;draft.value={name:'',description:'',gmNotes:'',admissionRules:''};login.value=e.status===401;
+usePageTitle(() => campaign.value?.name || "Campagnes");
+const invited = computed(() =>
+  campaigns.value.filter((c) => c.membershipStatus === "invited")
+);
+const active = computed(() =>
+  campaigns.value.filter(
+    (c) => !c.archivedAt && c.membershipStatus !== "invited"
+  )
+);
+const archived = computed(() => campaigns.value.filter((c) => c.archivedAt));
+let refreshTimer: ReturnType<typeof setInterval> | undefined;
+let generation = 0,
+  searchGeneration = 0,
+  timer: ReturnType<typeof setTimeout> | undefined;
+function failure(e: unknown) {
+  const messages: Record<string, string> = {
+    campaign_version_conflict:
+      "La campagne a changé ailleurs. Ton texte est conservé : copie-le avant de recharger la dernière version.",
+    invalid_campaign:
+      "Vérifie le nom (120 caractères), la présentation (2 000) et les notes (20 000).",
+    gm_required: "Le rôle MJ est nécessaire pour créer une campagne.",
+    invitation_unavailable:
+      "Ce compte est déjà invité ou la campagne n’est plus disponible.",
+    membership_unavailable:
+      "La campagne ou la fiche choisie n’est plus disponible.",
+    campaign_not_found: "Cette campagne n’est pas accessible avec ton compte.",
+    authentication_required: "Connecte-toi pour retrouver tes campagnes."
+  };
+  messages.campaign_delete_conflict =
+    "La campagne a changé depuis son affichage. Actualise-la avant de confirmer sa suppression.";
+  messages.campaign_progression_already_awarded =
+    "Des récompenses sont déjà liées à cette fiche de campagne. Elles ne peuvent pas être effacées en proposant une ancienne sauvegarde.";
+  messages.character_version_conflict =
+    "La fiche source a changé depuis le choix de sa version. Recharge la page et choisis à nouveau la sauvegarde.";
+  messages.character_revision_not_found =
+    "Cette sauvegarde n’est plus disponible. Choisis une autre version.";
+  error.value =
+    messages[e instanceof Error ? e.message : ""] ||
+    "Impossible de terminer cette action. Réessaie.";
+  if (e instanceof ApiError && [401, 403, 404].includes(e.status)) {
+    campaign.value = null;
+    campaigns.value = [];
+    members.value = [];
+    characters.value = [];
+    accounts.value = [];
+    canCreate.value = false;
+    editing.value = false;
+    draft.value = {
+      name: "",
+      description: "",
+      gmNotes: "",
+      admissionRules: ""
+    };
+    login.value = e.status === 401;
   }
 }
-async function load(){
-  const seq=++generation;loading.value=true;error.value='';
-  try{
-    if(id){
-      const r=await api<{campaign:Campaign;members:Member[];userId:string}>(`${endpoint}/${id}`);if(seq!==generation)return;
-      campaign.value=r.campaign;members.value=r.members;userId.value=r.userId;
-      chosenCharacter.value=r.members.find(m=>m.userId===r.userId)?.characterId||'';
-      if(!r.campaign.canManage){const own=await api<{characters:CharacterChoice[]}>('/api/characters?summary=1');if(seq!==generation)return;characters.value=own.characters;}
-    }else{
-      const r=await api<{campaigns:Campaign[];canCreate:boolean;userId:string}>(endpoint);if(seq!==generation)return;
-      campaigns.value=r.campaigns;canCreate.value=r.canCreate;userId.value=r.userId;
+async function load() {
+  const seq = ++generation;
+  loading.value = true;
+  error.value = "";
+  try {
+    if (id) {
+      const r = await api<{
+        campaign: Campaign;
+        members: Member[];
+        userId: string;
+      }>(`${endpoint}/${id}`);
+      if (seq !== generation) return;
+      campaign.value = r.campaign;
+      members.value = r.members;
+      userId.value = r.userId;
+      chosenCharacter.value =
+        r.members.find((m) => m.userId === r.userId)?.characterId || "";
+      if (!r.campaign.canManage) {
+        const own = await api<{ characters: CharacterChoice[] }>(
+          "/api/characters?summary=1"
+        );
+        if (seq !== generation) return;
+        characters.value = own.characters;
+      }
+    } else {
+      const r = await api<{
+        campaigns: Campaign[];
+        canCreate: boolean;
+        userId: string;
+      }>(endpoint);
+      if (seq !== generation) return;
+      campaigns.value = r.campaigns;
+      canCreate.value = r.canCreate;
+      userId.value = r.userId;
     }
-  }catch(e){if(seq===generation)failure(e);}finally{if(seq===generation)loading.value=false;}
+  } catch (e) {
+    if (seq === generation) failure(e);
+  } finally {
+    if (seq === generation) loading.value = false;
+  }
 }
-async function action(work:()=>Promise<unknown>,message:string){
-  if(busy.value)return;busy.value=true;error.value='';notice.value='';
-  try{await work();notice.value=message;await load();}catch(e){failure(e);}finally{busy.value=false;}
+async function action(work: () => Promise<unknown>, message: string) {
+  if (busy.value) return;
+  busy.value = true;
+  error.value = "";
+  notice.value = "";
+  try {
+    await work();
+    notice.value = message;
+    await load();
+  } catch (e) {
+    failure(e);
+  } finally {
+    busy.value = false;
+  }
 }
-async function create(){
-  await action(async()=>{const r=await api<{campaign:{id:string}}>(endpoint,{method:'POST',body:JSON.stringify({name:createName.value,description:createDescription.value})});await router.push(`/campaigns/${r.campaign.id}`);},'Campagne créée.');
+async function create() {
+  await action(async () => {
+    const r = await api<{ campaign: { id: string } }>(endpoint, {
+      method: "POST",
+      body: JSON.stringify({
+        name: createName.value,
+        description: createDescription.value
+      })
+    });
+    await router.push(`/campaigns/${r.campaign.id}`);
+  }, "Campagne créée.");
 }
-async function searchAccounts(more=false){
-  if(more&&(searching.value||moreSearching.value||!accountsMore.value))return;
-  const seq=more?searchGeneration:++searchGeneration;
-  if(more)moreSearching.value=true;else{accounts.value=[];searching.value=true;accountsMore.value=false;}
-  searchError.value='';
-  try{const r=await api<{accounts:Account[];hasMore:boolean}>(`${endpoint}/${id}/accounts?q=${encodeURIComponent(query.value.trim())}&offset=${more?accounts.value.length:0}`);if(seq===searchGeneration){accounts.value=more?[...accounts.value,...r.accounts.filter(a=>!accounts.value.some(old=>old.id===a.id))]:r.accounts;accountsMore.value=!!r.hasMore;}}
-  catch(e){if(seq===searchGeneration){searchError.value='Recherche indisponible. Réessaie.';if(e instanceof ApiError&&[401,403,404].includes(e.status))failure(e);}}
-  finally{if(seq===searchGeneration){searching.value=false;moreSearching.value=false;}}
+async function searchAccounts(more = false) {
+  if (more && (searching.value || moreSearching.value || !accountsMore.value))
+    return;
+  const seq = more ? searchGeneration : ++searchGeneration;
+  if (more) moreSearching.value = true;
+  else {
+    accounts.value = [];
+    searching.value = true;
+    accountsMore.value = false;
+  }
+  searchError.value = "";
+  try {
+    const r = await api<{ accounts: Account[]; hasMore: boolean }>(
+      `${endpoint}/${id}/accounts?q=${encodeURIComponent(query.value.trim())}&offset=${more ? accounts.value.length : 0}`
+    );
+    if (seq === searchGeneration) {
+      accounts.value = more
+        ? [
+            ...accounts.value,
+            ...r.accounts.filter(
+              (a) => !accounts.value.some((old) => old.id === a.id)
+            )
+          ]
+        : r.accounts;
+      accountsMore.value = !!r.hasMore;
+    }
+  } catch (e) {
+    if (seq === searchGeneration) {
+      searchError.value = "Recherche indisponible. Réessaie.";
+      if (e instanceof ApiError && [401, 403, 404].includes(e.status))
+        failure(e);
+    }
+  } finally {
+    if (seq === searchGeneration) {
+      searching.value = false;
+      moreSearching.value = false;
+    }
+  }
 }
-function browseAccounts(){if(!accountsOpen.value){accountsOpen.value=true;void searchAccounts();}}
-function accountScroll(e:Event){const el=e.target as HTMLElement;if(el.scrollTop+el.clientHeight>=el.scrollHeight-100)void searchAccounts(true);}
-watch(query,()=>{searchGeneration++;clearTimeout(timer);accounts.value=[];accountsMore.value=false;moreSearching.value=false;searching.value=accountsOpen.value;if(accountsOpen.value)timer=setTimeout(()=>{void searchAccounts();},250);});
-async function invite(a:Account){await action(async()=>{await api(`${endpoint}/${id}/invitations`,{method:'POST',body:JSON.stringify({userId:a.id})});await searchAccounts();},`${a.displayName} a été invité. L’invitation apparaît dans ses campagnes.`);}
-async function loadRevisions(){
-  const source=chosenCharacter.value,request=++revisionRequest;
-  chosenRevision.value='current';revisions.value=[];revisionsError.value='';
-  if(!source)return;
-  revisionsLoading.value=true;
-  try{
-    const result=await api<{revisions:CharacterRevision[]}>(`/api/characters/${encodeURIComponent(source)}/revisions`);
-    if(request===revisionRequest&&chosenCharacter.value===source)revisions.value=result.revisions;
-  }catch{if(request===revisionRequest)revisionsError.value='Impossible de charger les versions enregistrées.';}
-  finally{if(request===revisionRequest)revisionsLoading.value=false;}
+function browseAccounts() {
+  if (!accountsOpen.value) {
+    accountsOpen.value = true;
+    void searchAccounts();
+  }
 }
-watch(chosenCharacter,()=>{void loadRevisions();});
-async function join(){
-  const source=chosenCharacter.value;
-  const choice=characters.value.find(c=>c.id===source);
-  const revision=chosenRevision.value==='current'?undefined:Number(chosenRevision.value);
-  if(revision!==undefined&&(!choice||!revisions.value.some(r=>r.revision===revision)))return;
-  if(revision!==undefined&&members.value.some(m=>m.userId===userId.value&&m.characterId)&&
-    !window.confirm('Remplacer la version proposée pour cette campagne par cette sauvegarde ? Les modifications faites depuis sur cette version seront conservées dans son historique, mais ne figureront plus dans la fiche proposée. La fiche source ne changera pas.'))return;
-  await action(async()=>{
-    await api(`${endpoint}/${id}/membership`,{method:'PUT',body:JSON.stringify({characterId:source||null,...(revision!==undefined?{sourceRevision:revision,sourceVersion:choice?.version}:{})})});
-    admissionRefresh.value++;
-  },source?'Version de campagne proposée au MJ.':'Participation enregistrée.');
+function accountScroll(e: Event) {
+  const el = e.target as HTMLElement;
+  if (el.scrollTop + el.clientHeight >= el.scrollHeight - 100)
+    void searchAccounts(true);
 }
-async function remove(m:Member){
-  const own=m.userId===userId.value;
-  if(!window.confirm(own?'Quitter cette campagne ? Son MJ perdra l’accès à ta fiche accordé par cette campagne.':`Retirer ${m.displayName} de la campagne ?`))return;
-  await action(async()=>{await api(`${endpoint}/${id}/members/${m.userId}`,{method:'DELETE'});if(own)await router.push('/campaigns');},'Participation retirée.');
+watch(query, () => {
+  searchGeneration++;
+  clearTimeout(timer);
+  accounts.value = [];
+  accountsMore.value = false;
+  moreSearching.value = false;
+  searching.value = accountsOpen.value;
+  if (accountsOpen.value)
+    timer = setTimeout(() => {
+      void searchAccounts();
+    }, 250);
+});
+async function invite(a: Account) {
+  await action(async () => {
+    await api(`${endpoint}/${id}/invitations`, {
+      method: "POST",
+      body: JSON.stringify({ userId: a.id })
+    });
+    await searchAccounts();
+  }, `${a.displayName} a été invité. L’invitation apparaît dans ses campagnes.`);
 }
-async function decline(){await action(async()=>{await api(`${endpoint}/${id}/members/${userId.value}`,{method:'DELETE'});await router.push('/campaigns');},'Invitation déclinée.');}
-function edit(){const c=campaign.value!;draft.value={name:c.name,description:c.description,gmNotes:c.gmNotes||'',admissionRules:c.admissionRules||''};baseline.value=JSON.stringify(draft.value);editVersion.value=c.version;editing.value=true;}
-function cancel(){if(dirty.value&&!window.confirm('Abandonner les modifications non enregistrées ?'))return;editing.value=false;}
-async function save(){await action(async()=>{await api(`${endpoint}/${id}`,{method:'PATCH',body:JSON.stringify({...draft.value,version:editVersion.value,archived:!!campaign.value?.archivedAt})});editing.value=false;},'Campagne enregistrée.');}
-async function archive(){
-  const c=campaign.value!;if(!window.confirm(c.archivedAt?'Réactiver cette campagne et ses partages de fiches ?':'Archiver cette campagne ? Les invitations et les accès aux fiches par cette campagne seront suspendus.'))return;
-  await action(()=>api(`${endpoint}/${id}`,{method:'PATCH',body:JSON.stringify({name:c.name,description:c.description,gmNotes:c.gmNotes||'',version:c.version,archived:!c.archivedAt})}),c.archivedAt?'Campagne réactivée.':'Campagne archivée.');
+async function loadRevisions() {
+  const source = chosenCharacter.value,
+    request = ++revisionRequest;
+  chosenRevision.value = "current";
+  revisions.value = [];
+  revisionsError.value = "";
+  if (!source) return;
+  revisionsLoading.value = true;
+  try {
+    const result = await api<{ revisions: CharacterRevision[] }>(
+      `/api/characters/${encodeURIComponent(source)}/revisions`
+    );
+    if (request === revisionRequest && chosenCharacter.value === source)
+      revisions.value = result.revisions;
+  } catch {
+    if (request === revisionRequest)
+      revisionsError.value = "Impossible de charger les versions enregistrées.";
+  } finally {
+    if (request === revisionRequest) revisionsLoading.value = false;
+  }
 }
-async function deleteCampaign(){
-  const c=campaign.value;if(!c||busy.value)return;
-  if(!window.confirm(`Supprimer définitivement « ${c.name} » ?\n\nLes séances, notes, invitations, PNJ et créatures de cette campagne seront supprimés. Les fiches des joueurs et leurs acquis seront conservés dans leurs personnages. Cette action est irréversible.`))return;
-  busy.value=true;error.value='';
-  try{
-    await api(`${endpoint}/${id}`,{method:'DELETE',body:JSON.stringify({version:c.version})});
-    editing.value=false;npcDirty.value=false;bestiaryDirty.value=false;campaign.value=null;
-    await router.push('/campaigns');
-  }catch(e){failure(e);}finally{busy.value=false;}
+watch(chosenCharacter, () => {
+  void loadRevisions();
+});
+async function join() {
+  const source = chosenCharacter.value;
+  const choice = characters.value.find((c) => c.id === source);
+  const revision =
+    chosenRevision.value === "current"
+      ? undefined
+      : Number(chosenRevision.value);
+  if (
+    revision !== undefined &&
+    (!choice || !revisions.value.some((r) => r.revision === revision))
+  )
+    return;
+  if (
+    revision !== undefined &&
+    members.value.some((m) => m.userId === userId.value && m.characterId) &&
+    !window.confirm(
+      "Remplacer la version proposée pour cette campagne par cette sauvegarde ? Les modifications faites depuis sur cette version seront conservées dans son historique, mais ne figureront plus dans la fiche proposée. La fiche source ne changera pas."
+    )
+  )
+    return;
+  await action(
+    async () => {
+      await api(`${endpoint}/${id}/membership`, {
+        method: "PUT",
+        body: JSON.stringify({
+          characterId: source || null,
+          ...(revision !== undefined
+            ? { sourceRevision: revision, sourceVersion: choice?.version }
+            : {})
+        })
+      });
+      admissionRefresh.value++;
+    },
+    source
+      ? "Version de campagne proposée au MJ."
+      : "Participation enregistrée."
+  );
 }
-function beforeUnload(e:BeforeUnloadEvent){if(dirty.value||npcDirty.value||bestiaryDirty.value){e.preventDefault();e.returnValue='';}}
-onBeforeRouteLeave(()=>!(dirty.value||npcDirty.value||bestiaryDirty.value)||window.confirm('Quitter avec des modifications non enregistrées ?'));
-function focus(){if(document.visibilityState!=='hidden'&&!dirty.value&&!busy.value&&!loading.value)void load();}
-function visible(){if(document.visibilityState!=='hidden')focus();}
-onMounted(()=>{void load();refreshTimer=setInterval(()=>{if(!id)focus();},30000);document.addEventListener('visibilitychange',visible);window.addEventListener('focus',focus);window.addEventListener('beforeunload',beforeUnload);});
-onUnmounted(()=>{clearInterval(refreshTimer);document.removeEventListener('visibilitychange',visible);window.removeEventListener('focus',focus);generation++;searchGeneration++;clearTimeout(timer);window.removeEventListener('beforeunload',beforeUnload);});
+async function remove(m: Member) {
+  const own = m.userId === userId.value;
+  if (
+    !window.confirm(
+      own
+        ? "Quitter cette campagne ? Son MJ perdra l’accès à ta fiche accordé par cette campagne."
+        : `Retirer ${m.displayName} de la campagne ?`
+    )
+  )
+    return;
+  await action(async () => {
+    await api(`${endpoint}/${id}/members/${m.userId}`, { method: "DELETE" });
+    if (own) await router.push("/campaigns");
+  }, "Participation retirée.");
+}
+async function decline() {
+  await action(async () => {
+    await api(`${endpoint}/${id}/members/${userId.value}`, {
+      method: "DELETE"
+    });
+    await router.push("/campaigns");
+  }, "Invitation déclinée.");
+}
+function edit() {
+  const c = campaign.value!;
+  draft.value = {
+    name: c.name,
+    description: c.description,
+    gmNotes: c.gmNotes || "",
+    admissionRules: c.admissionRules || ""
+  };
+  baseline.value = JSON.stringify(draft.value);
+  editVersion.value = c.version;
+  editing.value = true;
+}
+function cancel() {
+  if (
+    dirty.value &&
+    !window.confirm("Abandonner les modifications non enregistrées ?")
+  )
+    return;
+  editing.value = false;
+}
+async function save() {
+  await action(async () => {
+    await api(`${endpoint}/${id}`, {
+      method: "PATCH",
+      body: JSON.stringify({
+        ...draft.value,
+        version: editVersion.value,
+        archived: !!campaign.value?.archivedAt
+      })
+    });
+    editing.value = false;
+  }, "Campagne enregistrée.");
+}
+async function archive() {
+  const c = campaign.value!;
+  if (
+    !window.confirm(
+      c.archivedAt
+        ? "Réactiver cette campagne et ses partages de fiches ?"
+        : "Archiver cette campagne ? Les invitations et les accès aux fiches par cette campagne seront suspendus."
+    )
+  )
+    return;
+  await action(
+    () =>
+      api(`${endpoint}/${id}`, {
+        method: "PATCH",
+        body: JSON.stringify({
+          name: c.name,
+          description: c.description,
+          gmNotes: c.gmNotes || "",
+          version: c.version,
+          archived: !c.archivedAt
+        })
+      }),
+    c.archivedAt ? "Campagne réactivée." : "Campagne archivée."
+  );
+}
+async function deleteCampaign() {
+  const c = campaign.value;
+  if (!c || busy.value) return;
+  if (
+    !window.confirm(
+      `Supprimer définitivement « ${c.name} » ?\n\nLes séances, notes, invitations, PNJ et créatures de cette campagne seront supprimés. Les fiches des joueurs et leurs acquis seront conservés dans leurs personnages. Cette action est irréversible.`
+    )
+  )
+    return;
+  busy.value = true;
+  error.value = "";
+  try {
+    await api(`${endpoint}/${id}`, {
+      method: "DELETE",
+      body: JSON.stringify({ version: c.version })
+    });
+    editing.value = false;
+    npcDirty.value = false;
+    bestiaryDirty.value = false;
+    campaign.value = null;
+    await router.push("/campaigns");
+  } catch (e) {
+    failure(e);
+  } finally {
+    busy.value = false;
+  }
+}
+function beforeUnload(e: BeforeUnloadEvent) {
+  if (dirty.value || npcDirty.value || bestiaryDirty.value) {
+    e.preventDefault();
+    e.returnValue = "";
+  }
+}
+onBeforeRouteLeave(
+  () =>
+    !(dirty.value || npcDirty.value || bestiaryDirty.value) ||
+    window.confirm("Quitter avec des modifications non enregistrées ?")
+);
+function focus() {
+  if (
+    document.visibilityState !== "hidden" &&
+    !dirty.value &&
+    !busy.value &&
+    !loading.value
+  )
+    void load();
+}
+function visible() {
+  if (document.visibilityState !== "hidden") focus();
+}
+onMounted(() => {
+  void load();
+  refreshTimer = setInterval(() => {
+    if (!id) focus();
+  }, 30000);
+  document.addEventListener("visibilitychange", visible);
+  window.addEventListener("focus", focus);
+  window.addEventListener("beforeunload", beforeUnload);
+});
+onUnmounted(() => {
+  clearInterval(refreshTimer);
+  document.removeEventListener("visibilitychange", visible);
+  window.removeEventListener("focus", focus);
+  generation++;
+  searchGeneration++;
+  clearTimeout(timer);
+  window.removeEventListener("beforeunload", beforeUnload);
+});
 </script>
 
 <template>

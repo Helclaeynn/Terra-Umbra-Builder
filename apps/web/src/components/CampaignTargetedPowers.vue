@@ -1,31 +1,177 @@
 <script setup lang="ts">
-import {computed,onMounted,onUnmounted,ref,watch} from 'vue';
-import {useLiveUpdates} from '../lib/live-updates';
-import {api,ApiError} from '../lib/api';
-const props=defineProps<{campaignId:string;room:any}>(),emit=defineEmits<{changed:[];attention:[count:number]}>();
-const endpoint=`/api/campaigns/${props.campaignId}/targeted-powers`;
-const open=ref(false),snapshot=ref<any>(null),sourceId=ref(''),targetId=ref(''),powerId=ref('');
-const confirmed=ref(false),inscribed=ref(false),pursuesImpulse=ref(false),edge=ref(false),busy=ref(false),error=ref(''),loadError=ref(''),notice=ref(''),pending=ref<any>(null);
-let loading=false,alive=true,timer:ReturnType<typeof setInterval>|undefined;
-const attention=computed(()=>(snapshot.value?.offers??[]).filter((offer:any)=>offer.canAccept).length);
-watch(attention,count=>emit('attention',count),{immediate:true});
-const sources=computed(()=>(snapshot.value?.sources??[]).filter((s:any)=>s.powers.length));
-const source=computed(()=>sources.value.find((s:any)=>s.id===sourceId.value));
-const power=computed(()=>source.value?.powers.find((p:any)=>p.id===powerId.value));
-const target=computed(()=>snapshot.value?.targets.find((t:any)=>t.id===targetId.value));
-const ready=computed(()=>!busy.value&&!pending.value&&!!power.value&&!!target.value&&!loadError.value&&confirmed.value&&(powerId.value!=='exile-rune-de-garde'||inscribed.value&&!props.room.combat?.active));
-watch([sourceId,powerId,targetId],()=>{confirmed.value=false;inscribed.value=false;edge.value=false;pursuesImpulse.value=false;});
-watch(pursuesImpulse,()=>{confirmed.value=false;});
-watch(()=>source.value?.frenzy?.impulseRequired,()=>{pursuesImpulse.value=false;confirmed.value=false;});
-async function load(){if(!alive||loading||document.visibilityState==='hidden')return;loading=true;try{const next=await api(endpoint);if(!alive)return;snapshot.value=next;loadError.value='';if(!sources.value.some((s:any)=>s.id===sourceId.value))sourceId.value=sources.value[0]?.id??'';}catch(cause){if(alive){loadError.value='Impossible de charger les pouvoirs ciblés.';if(cause instanceof ApiError&&[403,404].includes(cause.status))snapshot.value=null;}}finally{loading=false;}}
-watch(open,value=>{if(value)void load();});
-onMounted(()=>{void load();});
-useLiveUpdates(()=>`/api/campaigns/${props.campaignId}/events`,()=>void load(),3000);
-onUnmounted(()=>{alive=false;clearInterval(timer);});
-const messages:Record<string,string>={frenzy_impulse_pa_required:'La Frénésie exige de garder 1 PA pour son impulsion. Confirme si ce pouvoir la poursuit.',targeted_state_changed:'Une fiche a changé. Actualise et propose à nouveau le pouvoir.',targeted_offer_closed:'Cette proposition a expiré ou a déjà été traitée.',targeted_beneficiary_used:'Ce bénéficiaire a déjà reçu ce pouvoir dans le scénario.',targeted_source_unavailable:'Le lanceur ne peut pas agir : vérifie ses PA, son initiative et son état.',targeted_beneficiary_dead:'Ce pouvoir ne ramène pas un personnage mort à la vie.',targeted_no_healable_wound:'Aucune blessure ne peut être soignée avec ce pouvoir actuellement.',targeted_rune_already_active:'Ce runiste a déjà une Rune de Garde active.',targeted_inscription_outside_combat:'Termine le combat avant cette inscription de dix minutes.',targeted_context_required:'Confirme les conditions réelles du pouvoir.'};
-async function send(action:string,extra:any){if(busy.value||pending.value)return;pending.value={requestId:crypto.randomUUID(),action,...extra};await retry();}
-async function retry(){if(busy.value||!pending.value)return;busy.value=true;error.value='';notice.value='';try{const r=await api<any>(endpoint,{method:'POST',body:JSON.stringify(pending.value)});pending.value=null;notice.value=r.pendingAcceptance?'Proposition envoyée : le bénéficiaire ou le MJ doit l’accepter.':'Action enregistrée.';confirmed.value=false;inscribed.value=false;await load();emit('changed');}catch(e){error.value=e instanceof ApiError?messages[e.message]??'Action refusée. Vérifie les conditions et actualise.':'Action non confirmée. Réessaie le même envoi.';if(e instanceof ApiError&&e.status<500){pending.value=null;await load();}}finally{busy.value=false;}}
-function request(){if(!ready.value)return;void send('request',{sourceId:sourceId.value,targetId:targetId.value,powerId:powerId.value,sourceVersion:source.value.version,targetVersion:target.value.version,contextConfirmed:confirmed.value,pursuesImpulse:pursuesImpulse.value,inscriptionConfirmed:inscribed.value,edge:edge.value});}
+import { computed, onMounted, onUnmounted, ref, watch } from "vue";
+import { useLiveUpdates } from "../lib/live-updates";
+import { api, ApiError } from "../lib/api";
+const props = defineProps<{ campaignId: string; room: any }>(),
+  emit = defineEmits<{ changed: []; attention: [count: number] }>();
+const endpoint = `/api/campaigns/${props.campaignId}/targeted-powers`;
+const open = ref(false),
+  snapshot = ref<any>(null),
+  sourceId = ref(""),
+  targetId = ref(""),
+  powerId = ref("");
+const confirmed = ref(false),
+  inscribed = ref(false),
+  pursuesImpulse = ref(false),
+  edge = ref(false),
+  busy = ref(false),
+  error = ref(""),
+  loadError = ref(""),
+  notice = ref(""),
+  pending = ref<any>(null);
+let loading = false,
+  alive = true,
+  timer: ReturnType<typeof setInterval> | undefined;
+const attention = computed(
+  () =>
+    (snapshot.value?.offers ?? []).filter((offer: any) => offer.canAccept)
+      .length
+);
+watch(attention, (count) => emit("attention", count), { immediate: true });
+const sources = computed(() =>
+  (snapshot.value?.sources ?? []).filter((s: any) => s.powers.length)
+);
+const source = computed(() =>
+  sources.value.find((s: any) => s.id === sourceId.value)
+);
+const power = computed(() =>
+  source.value?.powers.find((p: any) => p.id === powerId.value)
+);
+const target = computed(() =>
+  snapshot.value?.targets.find((t: any) => t.id === targetId.value)
+);
+const ready = computed(
+  () =>
+    !busy.value &&
+    !pending.value &&
+    !!power.value &&
+    !!target.value &&
+    !loadError.value &&
+    confirmed.value &&
+    (powerId.value !== "exile-rune-de-garde" ||
+      (inscribed.value && !props.room.combat?.active))
+);
+watch([sourceId, powerId, targetId], () => {
+  confirmed.value = false;
+  inscribed.value = false;
+  edge.value = false;
+  pursuesImpulse.value = false;
+});
+watch(pursuesImpulse, () => {
+  confirmed.value = false;
+});
+watch(
+  () => source.value?.frenzy?.impulseRequired,
+  () => {
+    pursuesImpulse.value = false;
+    confirmed.value = false;
+  }
+);
+async function load() {
+  if (!alive || loading || document.visibilityState === "hidden") return;
+  loading = true;
+  try {
+    const next = await api(endpoint);
+    if (!alive) return;
+    snapshot.value = next;
+    loadError.value = "";
+    if (!sources.value.some((s: any) => s.id === sourceId.value))
+      sourceId.value = sources.value[0]?.id ?? "";
+  } catch (cause) {
+    if (alive) {
+      loadError.value = "Impossible de charger les pouvoirs ciblés.";
+      if (cause instanceof ApiError && [403, 404].includes(cause.status))
+        snapshot.value = null;
+    }
+  } finally {
+    loading = false;
+  }
+}
+watch(open, (value) => {
+  if (value) void load();
+});
+onMounted(() => {
+  void load();
+});
+useLiveUpdates(
+  () => `/api/campaigns/${props.campaignId}/events`,
+  () => void load(),
+  3000
+);
+onUnmounted(() => {
+  alive = false;
+  clearInterval(timer);
+});
+const messages: Record<string, string> = {
+  frenzy_impulse_pa_required:
+    "La Frénésie exige de garder 1 PA pour son impulsion. Confirme si ce pouvoir la poursuit.",
+  targeted_state_changed:
+    "Une fiche a changé. Actualise et propose à nouveau le pouvoir.",
+  targeted_offer_closed: "Cette proposition a expiré ou a déjà été traitée.",
+  targeted_beneficiary_used:
+    "Ce bénéficiaire a déjà reçu ce pouvoir dans le scénario.",
+  targeted_source_unavailable:
+    "Le lanceur ne peut pas agir : vérifie ses PA, son initiative et son état.",
+  targeted_beneficiary_dead:
+    "Ce pouvoir ne ramène pas un personnage mort à la vie.",
+  targeted_no_healable_wound:
+    "Aucune blessure ne peut être soignée avec ce pouvoir actuellement.",
+  targeted_rune_already_active: "Ce runiste a déjà une Rune de Garde active.",
+  targeted_inscription_outside_combat:
+    "Termine le combat avant cette inscription de dix minutes.",
+  targeted_context_required: "Confirme les conditions réelles du pouvoir."
+};
+async function send(action: string, extra: any) {
+  if (busy.value || pending.value) return;
+  pending.value = { requestId: crypto.randomUUID(), action, ...extra };
+  await retry();
+}
+async function retry() {
+  if (busy.value || !pending.value) return;
+  busy.value = true;
+  error.value = "";
+  notice.value = "";
+  try {
+    const r = await api<any>(endpoint, {
+      method: "POST",
+      body: JSON.stringify(pending.value)
+    });
+    pending.value = null;
+    notice.value = r.pendingAcceptance
+      ? "Proposition envoyée : le bénéficiaire ou le MJ doit l’accepter."
+      : "Action enregistrée.";
+    confirmed.value = false;
+    inscribed.value = false;
+    await load();
+    emit("changed");
+  } catch (e) {
+    error.value =
+      e instanceof ApiError
+        ? (messages[e.message] ??
+          "Action refusée. Vérifie les conditions et actualise.")
+        : "Action non confirmée. Réessaie le même envoi.";
+    if (e instanceof ApiError && e.status < 500) {
+      pending.value = null;
+      await load();
+    }
+  } finally {
+    busy.value = false;
+  }
+}
+function request() {
+  if (!ready.value) return;
+  void send("request", {
+    sourceId: sourceId.value,
+    targetId: targetId.value,
+    powerId: powerId.value,
+    sourceVersion: source.value.version,
+    targetVersion: target.value.version,
+    contextConfirmed: confirmed.value,
+    pursuesImpulse: pursuesImpulse.value,
+    inscriptionConfirmed: inscribed.value,
+    edge: edge.value
+  });
+}
 </script>
 <template>
 <details class="targeted-powers" :open="open" @toggle="open=($event.target as HTMLDetailsElement).open">

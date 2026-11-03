@@ -1,21 +1,106 @@
 <script setup lang="ts">
-import {computed,ref} from 'vue';
-import {BESTIARY_STAT_KEYS,bestiaryIssues,weaponAttack,type BestiaryCatalog,type BestiaryData,type BestiaryStat,type BestiaryAttack} from '../../../api/src/campaign-bestiary-model';
-import {prepareNpcPortrait} from '../lib/npc-portrait';
-const props=defineProps<{data:BestiaryData;catalog:BestiaryCatalog;editable?:boolean}>();
-const emit=defineEmits<{(e:'update:data',v:BestiaryData):void;(e:'image-busy',v:boolean):void}>();
-const imageBusy=ref(false),imageError=ref('');
-const labels:Record<BestiaryStat,string>={movement:'Mouvement (m)',actions:'Actions (PA)',initiative:'Initiative',perception:'Perception',mastery:'Maîtrise',physicalDefense:'Défense physique',occultDefense:'Défense occulte',pv:'PV',armor:'Armure',attack:'Attaque de base'};
-const ranges=computed(()=>props.catalog.ranges[`${props.data.difficultyId}:${props.data.archetypeId}`]);
-const issues=computed(()=>bestiaryIssues(props.data));
-const value=(e:Event)=>(e.target as HTMLInputElement).value;
-function patch(v:Partial<BestiaryData>){emit('update:data',{...props.data,...v});}
-function stat(k:BestiaryStat,e:Event){patch({stats:{...props.data.stats,[k]:Number(value(e))}});}
-function attack(i:number,v:Partial<BestiaryAttack>){const attacks=props.data.attacks.map((a,n)=>n===i?{...a,...v}:a);patch({attacks});}
-function weapon(i:number,id:string){const w=props.catalog.weapons.find(w=>w.id===id);const score=props.data.attacks[i].score;attack(i,w?weaponAttack(w,score):{weaponId:''});if(w)patch({attacks:props.data.attacks.map((a,n)=>n===i?weaponAttack(w,score):a),equipment:w.name});}
-function group(i:number,group:string){const choices=props.catalog.weapons.filter(w=>w.group===group),w=choices[Math.floor(Math.random()*choices.length)];if(w)weapon(i,w.id);else attack(i,{name:'Coup naturel',damage:2,range:'Contact',properties:'',weaponId:''});}
-function list(k:'abilities'|'weaknesses'|'tags',e:Event){patch({[k]:value(e).split('\n').map(s=>s.trim()).filter(Boolean)});}
-async function setImage(event:Event){const input=event.target as HTMLInputElement,file=input.files?.[0];if(!file)return;imageBusy.value=true;imageError.value='';emit('image-busy',true);try{patch({image:await prepareNpcPortrait(file)});}catch(e){imageError.value=(e as Error).message;}finally{imageBusy.value=false;emit('image-busy',false);input.value='';}}
+import { computed, ref } from "vue";
+import {
+  BESTIARY_STAT_KEYS,
+  bestiaryIssues,
+  weaponAttack,
+  type BestiaryCatalog,
+  type BestiaryData,
+  type BestiaryStat,
+  type BestiaryAttack
+} from "../../../api/src/campaign-bestiary-model";
+import { prepareNpcPortrait } from "../lib/npc-portrait";
+const props = defineProps<{
+  data: BestiaryData;
+  catalog: BestiaryCatalog;
+  editable?: boolean;
+}>();
+const emit = defineEmits<{
+  (e: "update:data", v: BestiaryData): void;
+  (e: "image-busy", v: boolean): void;
+}>();
+const imageBusy = ref(false),
+  imageError = ref("");
+const labels: Record<BestiaryStat, string> = {
+  movement: "Mouvement (m)",
+  actions: "Actions (PA)",
+  initiative: "Initiative",
+  perception: "Perception",
+  mastery: "Maîtrise",
+  physicalDefense: "Défense physique",
+  occultDefense: "Défense occulte",
+  pv: "PV",
+  armor: "Armure",
+  attack: "Attaque de base"
+};
+const ranges = computed(
+  () =>
+    props.catalog.ranges[`${props.data.difficultyId}:${props.data.archetypeId}`]
+);
+const issues = computed(() => bestiaryIssues(props.data));
+const value = (e: Event) => (e.target as HTMLInputElement).value;
+function patch(v: Partial<BestiaryData>) {
+  emit("update:data", { ...props.data, ...v });
+}
+function stat(k: BestiaryStat, e: Event) {
+  patch({ stats: { ...props.data.stats, [k]: Number(value(e)) } });
+}
+function attack(i: number, v: Partial<BestiaryAttack>) {
+  const attacks = props.data.attacks.map((a, n) =>
+    n === i ? { ...a, ...v } : a
+  );
+  patch({ attacks });
+}
+function weapon(i: number, id: string) {
+  const w = props.catalog.weapons.find((w) => w.id === id);
+  const score = props.data.attacks[i].score;
+  attack(i, w ? weaponAttack(w, score) : { weaponId: "" });
+  if (w)
+    patch({
+      attacks: props.data.attacks.map((a, n) =>
+        n === i ? weaponAttack(w, score) : a
+      ),
+      equipment: w.name
+    });
+}
+function group(i: number, group: string) {
+  const choices = props.catalog.weapons.filter((w) => w.group === group),
+    w = choices[Math.floor(Math.random() * choices.length)];
+  if (w) weapon(i, w.id);
+  else
+    attack(i, {
+      name: "Coup naturel",
+      damage: 2,
+      range: "Contact",
+      properties: "",
+      weaponId: ""
+    });
+}
+function list(k: "abilities" | "weaknesses" | "tags", e: Event) {
+  patch({
+    [k]: value(e)
+      .split("\n")
+      .map((s) => s.trim())
+      .filter(Boolean)
+  });
+}
+async function setImage(event: Event) {
+  const input = event.target as HTMLInputElement,
+    file = input.files?.[0];
+  if (!file) return;
+  imageBusy.value = true;
+  imageError.value = "";
+  emit("image-busy", true);
+  try {
+    patch({ image: await prepareNpcPortrait(file) });
+  } catch (e) {
+    imageError.value = (e as Error).message;
+  } finally {
+    imageBusy.value = false;
+    emit("image-busy", false);
+    input.value = "";
+  }
+}
 </script>
 <template>
  <div class="creature-sheet">

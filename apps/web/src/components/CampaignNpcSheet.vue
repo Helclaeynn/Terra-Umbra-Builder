@@ -1,48 +1,221 @@
 <script setup lang="ts">
-import {computed,ref,onUnmounted} from 'vue';
-import {NPC_SEXES,npcBudgetIssues,npcTruthIssues,npcTalentEligible,type NpcData,type NpcSex,type NpcCatalog,type NpcTruth} from '../../../api/src/campaign-npc-model';
-import {characterDerivedStats} from '../lib/character-sheet';
-import {prepareNpcPortrait} from '../lib/npc-portrait';
-const props=defineProps<{data:NpcData;catalog:NpcCatalog;editable?:boolean}>();
-const emit=defineEmits<{(e:'update:data',value:NpcData):void;(e:'image-busy',value:boolean):void}>();
-const imageBusy=ref(false),imageError=ref('');let imageSeq=0;
-const tier=computed(()=>props.catalog.tiers.find(t=>t.id===props.data.tierId));
-const ranges=computed(()=>props.catalog.ranges[`${props.data.tierId}:${props.data.presetId}`]);
-const truthRanges=computed(()=>props.data.truth?props.catalog.truthRanges[`${props.data.truth.powerId}:${props.data.truth.archetypeId}`]:null);
-const totals=computed(()=>({attributes:Object.values(props.data.attributes).reduce((a,b)=>a+b,0),skills:Object.values(props.data.skills).reduce((a,b)=>a+b,0)}));
-const issues=computed(()=>npcBudgetIssues(props.data));
-const truthIssues=computed(()=>props.data.truth?npcTruthIssues(props.data.truth,props.catalog):[]);
-const derived=computed(()=>characterDerivedStats(id=>props.data.attributes[id]||0,id=>props.data.skills[id]||0,[]));
-const truthDerived=computed(()=>props.data.truth?characterDerivedStats(id=>props.data.truth!.attributes[id]||0,id=>props.data.truth!.skills[id]||0,[]):null);
-const descriptionFields=[{key:'appearance',label:'Apparence',max:1000},{key:'personality',label:'Caractère et façon de parler',max:1000},{key:'motivation',label:'Motivation',max:1000},{key:'secret',label:'Secret ou accroche MJ',max:3000},{key:'truthNotes',label:'Vérité et pouvoirs particuliers · notes MJ',max:3000},{key:'notes',label:'Notes de campagne',max:6000}] as const;
-const equipmentPick=ref(''),truthTalentPick=ref('');
-const selectedEquipment=computed(()=>(props.data.equipmentIds??[]).map(id=>props.catalog.equipment.find(item=>item.id===id)).filter((item):item is NonNullable<typeof item>=>!!item));
-const equipmentGroups=computed(()=>{
- const groups=new Map<string,typeof props.catalog.equipment>();
- for(const item of props.catalog.equipment){const rows=groups.get(item.category)??[];rows.push(item);groups.set(item.category,rows);}
- return [...groups.entries()].map(([category,items])=>({category,items}));
+import { computed, ref, onUnmounted } from "vue";
+import {
+  NPC_SEXES,
+  npcBudgetIssues,
+  npcTruthIssues,
+  npcTalentEligible,
+  type NpcData,
+  type NpcSex,
+  type NpcCatalog,
+  type NpcTruth
+} from "../../../api/src/campaign-npc-model";
+import { characterDerivedStats } from "../lib/character-sheet";
+import { prepareNpcPortrait } from "../lib/npc-portrait";
+const props = defineProps<{
+  data: NpcData;
+  catalog: NpcCatalog;
+  editable?: boolean;
+}>();
+const emit = defineEmits<{
+  (e: "update:data", value: NpcData): void;
+  (e: "image-busy", value: boolean): void;
+}>();
+const imageBusy = ref(false),
+  imageError = ref("");
+let imageSeq = 0;
+const tier = computed(() =>
+  props.catalog.tiers.find((t) => t.id === props.data.tierId)
+);
+const ranges = computed(
+  () => props.catalog.ranges[`${props.data.tierId}:${props.data.presetId}`]
+);
+const truthRanges = computed(() =>
+  props.data.truth
+    ? props.catalog.truthRanges[
+        `${props.data.truth.powerId}:${props.data.truth.archetypeId}`
+      ]
+    : null
+);
+const totals = computed(() => ({
+  attributes: Object.values(props.data.attributes).reduce((a, b) => a + b, 0),
+  skills: Object.values(props.data.skills).reduce((a, b) => a + b, 0)
+}));
+const issues = computed(() => npcBudgetIssues(props.data));
+const truthIssues = computed(() =>
+  props.data.truth ? npcTruthIssues(props.data.truth, props.catalog) : []
+);
+const derived = computed(() =>
+  characterDerivedStats(
+    (id) => props.data.attributes[id] || 0,
+    (id) => props.data.skills[id] || 0,
+    []
+  )
+);
+const truthDerived = computed(() =>
+  props.data.truth
+    ? characterDerivedStats(
+        (id) => props.data.truth!.attributes[id] || 0,
+        (id) => props.data.truth!.skills[id] || 0,
+        []
+      )
+    : null
+);
+const descriptionFields = [
+  { key: "appearance", label: "Apparence", max: 1000 },
+  { key: "personality", label: "Caractère et façon de parler", max: 1000 },
+  { key: "motivation", label: "Motivation", max: 1000 },
+  { key: "secret", label: "Secret ou accroche MJ", max: 3000 },
+  {
+    key: "truthNotes",
+    label: "Vérité et pouvoirs particuliers · notes MJ",
+    max: 3000
+  },
+  { key: "notes", label: "Notes de campagne", max: 6000 }
+] as const;
+const equipmentPick = ref(""),
+  truthTalentPick = ref("");
+const selectedEquipment = computed(() =>
+  (props.data.equipmentIds ?? [])
+    .map((id) => props.catalog.equipment.find((item) => item.id === id))
+    .filter((item): item is NonNullable<typeof item> => !!item)
+);
+const equipmentGroups = computed(() => {
+  const groups = new Map<string, typeof props.catalog.equipment>();
+  for (const item of props.catalog.equipment) {
+    const rows = groups.get(item.category) ?? [];
+    rows.push(item);
+    groups.set(item.category, rows);
+  }
+  return [...groups.entries()].map(([category, items]) => ({
+    category,
+    items
+  }));
 });
-function patch(value:Partial<NpcData>){emit('update:data',{...props.data,...value});}
-const value=(e:Event)=>(e.target as HTMLInputElement).value;
-function stat(group:'attributes'|'skills',id:string,e:Event){patch({[group]:{...props.data[group],[id]:Number(value(e))}});}
-function identity(key:'firstName'|'lastName',text:string){const first=(key==='firstName'?text:props.data.firstName||'').trim(),last=(key==='lastName'?text:props.data.lastName||'').trim();const previous=[props.data.firstName,props.data.lastName].filter(Boolean).join(' ').trim();const next=[first,last].filter(Boolean).join(' ');patch({[key]:text,...(!props.data.name.trim()||props.data.name.trim()===previous?{name:next||props.data.name}:{})});}
-function truthPatch(value:Partial<NpcTruth>){if(props.data.truth)patch({truth:{...props.data.truth,...value}});}
-function truthStat(group:'attributes'|'skills',id:string,e:Event){if(props.data.truth)truthPatch({[group]:{...props.data.truth[group],[id]:Number(value(e))}});}
-function truthTalent(name:string,on:boolean){if(!props.data.truth)return;const ids=on?[...props.data.truth.talentIds,name]:props.data.truth.talentIds.filter(id=>id!==name);const cost=ids.reduce((sum,id)=>sum+(props.catalog.truthTalents.find(t=>t.name===id)?.cost||0),0);truthPatch({talentIds:ids,ptv:Math.max(props.data.truth.ptv,cost)});}
-function addTruth(){patch({truth:{natureId:'autre',powerId:'recent',archetypeId:'custom',state:'revele',attributes:{...props.data.attributes},skills:{...props.data.skills},talentIds:[],ptv:0,specialtySkill:'',secondSpecialtySkill:'',notes:'',abilities:''}});}
-function talent(id:string,on:boolean){patch({talentIds:on?[...props.data.talentIds,id]:props.data.talentIds.filter(t=>t!==id)});}
-function addEquipment(){
- const id=equipmentPick.value;if(!id||props.data.equipmentIds?.includes(id))return;
- const ids=[...(props.data.equipmentIds??[]),id],armor=Math.max(0,...ids.map(value=>props.catalog.equipment.find(item=>item.id===value)?.armor??0));
- patch({equipmentIds:ids,armor});equipmentPick.value='';
+function patch(value: Partial<NpcData>) {
+  emit("update:data", { ...props.data, ...value });
 }
-function removeEquipment(id:string){
- const ids=(props.data.equipmentIds??[]).filter(value=>value!==id),armor=Math.max(0,...ids.map(value=>props.catalog.equipment.find(item=>item.id===value)?.armor??0));
- patch({equipmentIds:ids,armor});
+const value = (e: Event) => (e.target as HTMLInputElement).value;
+function stat(group: "attributes" | "skills", id: string, e: Event) {
+  patch({ [group]: { ...props.data[group], [id]: Number(value(e)) } });
 }
-function addTruthTalent(){if(!truthTalentPick.value)return;truthTalent(truthTalentPick.value,true);truthTalentPick.value='';}
-async function image(event:Event){const input=event.target as HTMLInputElement,file=input.files?.[0];if(!file)return;const n=++imageSeq;imageBusy.value=true;emit('image-busy',true);imageError.value='';try{const portrait=await prepareNpcPortrait(file);if(n===imageSeq)patch({portrait});}catch(e){if(n===imageSeq)imageError.value=(e as Error).message;}finally{if(n===imageSeq){imageBusy.value=false;emit('image-busy',false);}input.value='';}}
-onUnmounted(()=>{imageSeq++;});
+function identity(key: "firstName" | "lastName", text: string) {
+  const first = (
+      key === "firstName" ? text : props.data.firstName || ""
+    ).trim(),
+    last = (key === "lastName" ? text : props.data.lastName || "").trim();
+  const previous = [props.data.firstName, props.data.lastName]
+    .filter(Boolean)
+    .join(" ")
+    .trim();
+  const next = [first, last].filter(Boolean).join(" ");
+  patch({
+    [key]: text,
+    ...(!props.data.name.trim() || props.data.name.trim() === previous
+      ? { name: next || props.data.name }
+      : {})
+  });
+}
+function truthPatch(value: Partial<NpcTruth>) {
+  if (props.data.truth) patch({ truth: { ...props.data.truth, ...value } });
+}
+function truthStat(group: "attributes" | "skills", id: string, e: Event) {
+  if (props.data.truth)
+    truthPatch({
+      [group]: { ...props.data.truth[group], [id]: Number(value(e)) }
+    });
+}
+function truthTalent(name: string, on: boolean) {
+  if (!props.data.truth) return;
+  const ids = on
+    ? [...props.data.truth.talentIds, name]
+    : props.data.truth.talentIds.filter((id) => id !== name);
+  const cost = ids.reduce(
+    (sum, id) =>
+      sum + (props.catalog.truthTalents.find((t) => t.name === id)?.cost || 0),
+    0
+  );
+  truthPatch({ talentIds: ids, ptv: Math.max(props.data.truth.ptv, cost) });
+}
+function addTruth() {
+  patch({
+    truth: {
+      natureId: "autre",
+      powerId: "recent",
+      archetypeId: "custom",
+      state: "revele",
+      attributes: { ...props.data.attributes },
+      skills: { ...props.data.skills },
+      talentIds: [],
+      ptv: 0,
+      specialtySkill: "",
+      secondSpecialtySkill: "",
+      notes: "",
+      abilities: ""
+    }
+  });
+}
+function talent(id: string, on: boolean) {
+  patch({
+    talentIds: on
+      ? [...props.data.talentIds, id]
+      : props.data.talentIds.filter((t) => t !== id)
+  });
+}
+function addEquipment() {
+  const id = equipmentPick.value;
+  if (!id || props.data.equipmentIds?.includes(id)) return;
+  const ids = [...(props.data.equipmentIds ?? []), id],
+    armor = Math.max(
+      0,
+      ...ids.map(
+        (value) =>
+          props.catalog.equipment.find((item) => item.id === value)?.armor ?? 0
+      )
+    );
+  patch({ equipmentIds: ids, armor });
+  equipmentPick.value = "";
+}
+function removeEquipment(id: string) {
+  const ids = (props.data.equipmentIds ?? []).filter((value) => value !== id),
+    armor = Math.max(
+      0,
+      ...ids.map(
+        (value) =>
+          props.catalog.equipment.find((item) => item.id === value)?.armor ?? 0
+      )
+    );
+  patch({ equipmentIds: ids, armor });
+}
+function addTruthTalent() {
+  if (!truthTalentPick.value) return;
+  truthTalent(truthTalentPick.value, true);
+  truthTalentPick.value = "";
+}
+async function image(event: Event) {
+  const input = event.target as HTMLInputElement,
+    file = input.files?.[0];
+  if (!file) return;
+  const n = ++imageSeq;
+  imageBusy.value = true;
+  emit("image-busy", true);
+  imageError.value = "";
+  try {
+    const portrait = await prepareNpcPortrait(file);
+    if (n === imageSeq) patch({ portrait });
+  } catch (e) {
+    if (n === imageSeq) imageError.value = (e as Error).message;
+  } finally {
+    if (n === imageSeq) {
+      imageBusy.value = false;
+      emit("image-busy", false);
+    }
+    input.value = "";
+  }
+}
+onUnmounted(() => {
+  imageSeq++;
+});
 </script>
 <template>
  <div class="npc-sheet">

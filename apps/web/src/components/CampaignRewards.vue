@@ -1,85 +1,318 @@
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue';
-import { builderPurchaseAllowed } from '../../../api/src/rules/builder-equipment-policy';
-import type {RealityRulesPackage,RealityItem} from '../lib/reality';
-import { api, ApiError } from '../lib/api';
+import { computed, ref, watch } from "vue";
+import { builderPurchaseAllowed } from "../../../api/src/rules/builder-equipment-policy";
+import type { RealityRulesPackage, RealityItem } from "../lib/reality";
+import { api, ApiError } from "../lib/api";
 
-type Target = { edge?:number; id:string; name:string; version:number; unavailable?:boolean; xpEarned:number; ptvEarned:number; money:number; renown:number; corruption:number; integrity:number };
-type Source = { id:string; name:string; corruption?:string };
-type Award = { edge?:number; equipment?:Array<{name:string;quantity:number}>; requestId:string; characterId:string; characterName:string; reason:string; createdAt:string; xp:number; ptv:number; money:number; renownDelta:number; corruptionDelta:number; revision:number };
-const props = defineProps<{ campaignId:string; canManage:boolean; archived?:boolean;inPlay?:boolean }>();
-const emit=defineEmits<{changed:[]}>();
-const edge=ref(0);
-const open=ref(false), loading=ref(false), sending=ref(false), error=ref(''), notice=ref('');
-const targets=ref<Target[]>([]), sources=ref<Source[]>([]), history=ref<Award[]>([]), selected=ref<string[]>([]);
-const reason=ref(''), xp=ref(0), ptv=ref(0), money=ref(0), renown=ref(0), corruption=ref(0), source=ref('');
-const equipment=ref<RealityItem[]>([]),giftId=ref(''),giftQuantity=ref(1),giftSearch=ref(''),giftCategory=ref('');
-const giftCategories=computed(()=>[...new Set(equipment.value.map(i=>i.category))].sort((a,b)=>a.localeCompare(b,'fr')));
-const giftOptions=computed(()=>equipment.value.filter(i=>(!giftCategory.value||i.category===giftCategory.value)&&i.name.toLocaleLowerCase('fr').includes(giftSearch.value.toLocaleLowerCase('fr'))).sort((a,b)=>a.category.localeCompare(b.category,'fr')||a.name.localeCompare(b.name,'fr')).slice(0,80));
-const requestId=ref('');
-let generation=0;
-const recipients=computed(()=>targets.value.filter(row=>selected.value.includes(row.id)&&!row.unavailable));
-const amounts=computed(()=>({edge:Number(edge.value),xp:Number(xp.value),ptv:Number(ptv.value),money:Number(money.value),renownDelta:Number(renown.value),corruptionDelta:Number(corruption.value)}));
-const problem=computed(()=>{
-  if(!recipients.value.length)return 'Choisissez au moins un personnage dont la fiche est acceptée.';
-  if(!reason.value.trim())return 'Indiquez le motif de cette récompense.';
-  const a=amounts.value;
-  if(Object.values(a).some(n=>!Number.isSafeInteger(n)||n<0)||a.xp>100000||a.ptv>100000||a.money>1e9||a.edge>8||a.renownDelta>5||a.corruptionDelta>100)return 'Les montants doivent être des entiers positifs dans les limites indiquées.';
-  if(giftId.value&&(!Number.isInteger(giftQuantity.value)||giftQuantity.value<1||giftQuantity.value>20))return 'Choisir une quantité entre 1 et 20.';
-  if(!Object.values(a).some(n=>n>0)&&!giftId.value)return 'Indiquez au moins une récompense.';
-  if(a.corruptionDelta&&!source.value)return 'Choisissez la Source de Corruption.';
-  const capped=recipients.value.find(row=>row.renown+a.renownDelta>5);
-  if(capped)return `${capped.name} dépasserait 5 en Renommée.`;
-  const edgeCapped=recipients.value.find(row=>row.edge!==undefined&&row.edge+a.edge>8);
-  if(edgeCapped)return `${edgeCapped.name} dépasserait 8 Edge.`;
-  const fragile=recipients.value.find(row=>a.corruptionDelta>0&&row.corruption+a.corruptionDelta>row.integrity);
-  return fragile?`${fragile.name} dépasserait son Intégrité.`:'';
+type Target = {
+  edge?: number;
+  id: string;
+  name: string;
+  version: number;
+  unavailable?: boolean;
+  xpEarned: number;
+  ptvEarned: number;
+  money: number;
+  renown: number;
+  corruption: number;
+  integrity: number;
+};
+type Source = { id: string; name: string; corruption?: string };
+type Award = {
+  edge?: number;
+  equipment?: Array<{ name: string; quantity: number }>;
+  requestId: string;
+  characterId: string;
+  characterName: string;
+  reason: string;
+  createdAt: string;
+  xp: number;
+  ptv: number;
+  money: number;
+  renownDelta: number;
+  corruptionDelta: number;
+  revision: number;
+};
+const props = defineProps<{
+  campaignId: string;
+  canManage: boolean;
+  archived?: boolean;
+  inPlay?: boolean;
+}>();
+const emit = defineEmits<{ changed: [] }>();
+const edge = ref(0);
+const open = ref(false),
+  loading = ref(false),
+  sending = ref(false),
+  error = ref(""),
+  notice = ref("");
+const targets = ref<Target[]>([]),
+  sources = ref<Source[]>([]),
+  history = ref<Award[]>([]),
+  selected = ref<string[]>([]);
+const reason = ref(""),
+  xp = ref(0),
+  ptv = ref(0),
+  money = ref(0),
+  renown = ref(0),
+  corruption = ref(0),
+  source = ref("");
+const equipment = ref<RealityItem[]>([]),
+  giftId = ref(""),
+  giftQuantity = ref(1),
+  giftSearch = ref(""),
+  giftCategory = ref("");
+const giftCategories = computed(() =>
+  [...new Set(equipment.value.map((i) => i.category))].sort((a, b) =>
+    a.localeCompare(b, "fr")
+  )
+);
+const giftOptions = computed(() =>
+  equipment.value
+    .filter(
+      (i) =>
+        (!giftCategory.value || i.category === giftCategory.value) &&
+        i.name
+          .toLocaleLowerCase("fr")
+          .includes(giftSearch.value.toLocaleLowerCase("fr"))
+    )
+    .sort(
+      (a, b) =>
+        a.category.localeCompare(b.category, "fr") ||
+        a.name.localeCompare(b.name, "fr")
+    )
+    .slice(0, 80)
+);
+const requestId = ref("");
+let generation = 0;
+const recipients = computed(() =>
+  targets.value.filter(
+    (row) => selected.value.includes(row.id) && !row.unavailable
+  )
+);
+const amounts = computed(() => ({
+  edge: Number(edge.value),
+  xp: Number(xp.value),
+  ptv: Number(ptv.value),
+  money: Number(money.value),
+  renownDelta: Number(renown.value),
+  corruptionDelta: Number(corruption.value)
+}));
+const problem = computed(() => {
+  if (!recipients.value.length)
+    return "Choisissez au moins un personnage dont la fiche est acceptée.";
+  if (!reason.value.trim()) return "Indiquez le motif de cette récompense.";
+  const a = amounts.value;
+  if (
+    Object.values(a).some((n) => !Number.isSafeInteger(n) || n < 0) ||
+    a.xp > 100000 ||
+    a.ptv > 100000 ||
+    a.money > 1e9 ||
+    a.edge > 8 ||
+    a.renownDelta > 5 ||
+    a.corruptionDelta > 100
+  )
+    return "Les montants doivent être des entiers positifs dans les limites indiquées.";
+  if (
+    giftId.value &&
+    (!Number.isInteger(giftQuantity.value) ||
+      giftQuantity.value < 1 ||
+      giftQuantity.value > 20)
+  )
+    return "Choisir une quantité entre 1 et 20.";
+  if (!Object.values(a).some((n) => n > 0) && !giftId.value)
+    return "Indiquez au moins une récompense.";
+  if (a.corruptionDelta && !source.value)
+    return "Choisissez la Source de Corruption.";
+  const capped = recipients.value.find((row) => row.renown + a.renownDelta > 5);
+  if (capped) return `${capped.name} dépasserait 5 en Renommée.`;
+  const edgeCapped = recipients.value.find(
+    (row) => row.edge !== undefined && row.edge + a.edge > 8
+  );
+  if (edgeCapped) return `${edgeCapped.name} dépasserait 8 Edge.`;
+  const fragile = recipients.value.find(
+    (row) =>
+      a.corruptionDelta > 0 &&
+      row.corruption + a.corruptionDelta > row.integrity
+  );
+  return fragile ? `${fragile.name} dépasserait son Intégrité.` : "";
 });
-watch([reason,edge,xp,ptv,money,renown,corruption,source,giftId,giftQuantity,()=>selected.value.join('|')],()=>{if(!sending.value)requestId.value='';});
-watch(()=>props.campaignId,()=>{generation++;targets.value=[];history.value=[];selected.value=[];requestId.value='';notice.value='';if(open.value)void load();});
-function describe(cause:unknown){
-  const messages:Record<string,string>={
-    character_version_conflict:'Une fiche a changé depuis cet aperçu. Actualisez les personnages avant de confirmer à nouveau.',
-    reward_recipient_unavailable:'Une fiche n’est plus acceptée ou n’est plus liée à cette campagne. Actualisez la liste.',
-    reward_request_conflict:'Cette référence désigne déjà une autre attribution. Actualisez avant de recommencer.',
-    campaign_not_found:'Seul le MJ de cette campagne active peut distribuer ces récompenses.',
-    edge_limit:'Le personnage dépasserait le maximum de 8 Edge.',renown_limit:'La Renommée ne peut pas dépasser 5.',corruption_integrity_limit:'La Corruption dépasserait l’Intégrité.',
-    invalid_campaign_rewards:'Vérifiez les destinataires, les montants et le motif.'
+watch(
+  [
+    reason,
+    edge,
+    xp,
+    ptv,
+    money,
+    renown,
+    corruption,
+    source,
+    giftId,
+    giftQuantity,
+    () => selected.value.join("|")
+  ],
+  () => {
+    if (!sending.value) requestId.value = "";
+  }
+);
+watch(
+  () => props.campaignId,
+  () => {
+    generation++;
+    targets.value = [];
+    history.value = [];
+    selected.value = [];
+    requestId.value = "";
+    notice.value = "";
+    if (open.value) void load();
+  }
+);
+function describe(cause: unknown) {
+  const messages: Record<string, string> = {
+    character_version_conflict:
+      "Une fiche a changé depuis cet aperçu. Actualisez les personnages avant de confirmer à nouveau.",
+    reward_recipient_unavailable:
+      "Une fiche n’est plus acceptée ou n’est plus liée à cette campagne. Actualisez la liste.",
+    reward_request_conflict:
+      "Cette référence désigne déjà une autre attribution. Actualisez avant de recommencer.",
+    campaign_not_found:
+      "Seul le MJ de cette campagne active peut distribuer ces récompenses.",
+    edge_limit: "Le personnage dépasserait le maximum de 8 Edge.",
+    renown_limit: "La Renommée ne peut pas dépasser 5.",
+    corruption_integrity_limit: "La Corruption dépasserait l’Intégrité.",
+    invalid_campaign_rewards:
+      "Vérifiez les destinataires, les montants et le motif."
   };
-  return messages[cause instanceof Error?cause.message:'']||'La confirmation n’a pas été reçue. Réessayez sans modifier les champs : la même attribution ne sera pas appliquée deux fois.';
+  return (
+    messages[cause instanceof Error ? cause.message : ""] ||
+    "La confirmation n’a pas été reçue. Réessayez sans modifier les champs : la même attribution ne sera pas appliquée deux fois."
+  );
 }
-async function load(){
-  const seq=++generation;loading.value=true;error.value='';
-  try{
-    const [ledger,roster,catalog]=await Promise.all([
-      api<{rewards:Award[]}>(`/api/campaigns/${props.campaignId}/rewards`),
-      props.canManage?api<{characters:Target[];sources:Source[]}>(`/api/campaigns/${props.campaignId}/effect-targets`):Promise.resolve({characters:[],sources:[]}),
-      props.canManage?api<RealityRulesPackage>('/api/rulesets/terra-umbra/reality'):Promise.resolve(null)
+async function load() {
+  const seq = ++generation;
+  loading.value = true;
+  error.value = "";
+  try {
+    const [ledger, roster, catalog] = await Promise.all([
+      api<{ rewards: Award[] }>(`/api/campaigns/${props.campaignId}/rewards`),
+      props.canManage
+        ? api<{ characters: Target[]; sources: Source[] }>(
+            `/api/campaigns/${props.campaignId}/effect-targets`
+          )
+        : Promise.resolve({ characters: [], sources: [] }),
+      props.canManage
+        ? api<RealityRulesPackage>("/api/rulesets/terra-umbra/reality")
+        : Promise.resolve(null)
     ]);
-    if(seq!==generation)return;
-    equipment.value=catalog?.equipment.filter(i=>builderPurchaseAllowed(i)&&!['monthly','annual','per_use'].includes(i.recurring))??[];
-    history.value=ledger.rewards;targets.value=roster.characters;sources.value=roster.sources;
-    selected.value=selected.value.filter(id=>targets.value.some(row=>row.id===id&&!row.unavailable));
-  }catch(cause){if(seq===generation){if(cause instanceof ApiError&&[401,403,404].includes(cause.status)){targets.value=[];history.value=[];selected.value=[];}error.value=notice.value?'Récompense enregistrée ; l’actualisation de la liste a échoué.':describe(cause);}}
-  finally{if(seq===generation)loading.value=false;}
+    if (seq !== generation) return;
+    equipment.value =
+      catalog?.equipment.filter(
+        (i) =>
+          builderPurchaseAllowed(i) &&
+          !["monthly", "annual", "per_use"].includes(i.recurring)
+      ) ?? [];
+    history.value = ledger.rewards;
+    targets.value = roster.characters;
+    sources.value = roster.sources;
+    selected.value = selected.value.filter((id) =>
+      targets.value.some((row) => row.id === id && !row.unavailable)
+    );
+  } catch (cause) {
+    if (seq === generation) {
+      if (cause instanceof ApiError && [401, 403, 404].includes(cause.status)) {
+        targets.value = [];
+        history.value = [];
+        selected.value = [];
+      }
+      error.value = notice.value
+        ? "Récompense enregistrée ; l’actualisation de la liste a échoué."
+        : describe(cause);
+    }
+  } finally {
+    if (seq === generation) loading.value = false;
+  }
 }
-function toggle(){open.value=!open.value;if(open.value)void load();}
-function all(){selected.value=targets.value.filter(row=>!row.unavailable).map(row=>row.id);}
-async function grant(){
-  if(!props.canManage||props.archived||sending.value||loading.value||problem.value)return;
-  const summary=Object.entries(amounts.value).filter(([,n])=>n>0).map(([key,n])=>`+${n} ${{edge:'Edge',xp:'XP',ptv:'PTV',money:'$',renownDelta:'Renommée',corruptionDelta:'Corruption'}[key]}`).join(', ')+(giftId.value?` · ${giftQuantity.value} × ${equipment.value.find(i=>i.id===giftId.value)?.name}`:'');
-  if(!window.confirm(`Attribuer ${summary} à chaque personnage sélectionné (${recipients.value.map(row=>row.name).join(', ')}) ?`))return;
+function toggle() {
+  open.value = !open.value;
+  if (open.value) void load();
+}
+function all() {
+  selected.value = targets.value
+    .filter((row) => !row.unavailable)
+    .map((row) => row.id);
+}
+async function grant() {
+  if (
+    !props.canManage ||
+    props.archived ||
+    sending.value ||
+    loading.value ||
+    problem.value
+  )
+    return;
+  const summary =
+    Object.entries(amounts.value)
+      .filter(([, n]) => n > 0)
+      .map(
+        ([key, n]) =>
+          `+${n} ${{ edge: "Edge", xp: "XP", ptv: "PTV", money: "$", renownDelta: "Renommée", corruptionDelta: "Corruption" }[key]}`
+      )
+      .join(", ") +
+    (giftId.value
+      ? ` · ${giftQuantity.value} × ${equipment.value.find((i) => i.id === giftId.value)?.name}`
+      : "");
+  if (
+    !window.confirm(
+      `Attribuer ${summary} à chaque personnage sélectionné (${recipients.value.map((row) => row.name).join(", ")}) ?`
+    )
+  )
+    return;
   requestId.value ||= crypto.randomUUID();
-  const body={requestId:requestId.value,reason:reason.value.trim(),rewards:recipients.value.map(row=>({characterId:row.id,version:row.version,...amounts.value,corruptionSource:amounts.value.corruptionDelta?source.value:'',equipment:giftId.value?[{itemId:giftId.value,quantity:giftQuantity.value}]:[]}))};
-  sending.value=true;error.value='';notice.value='';
-  try{
-    const result=await api<{ok:boolean;alreadyApplied:boolean}>(`/api/campaigns/${props.campaignId}/rewards`,{method:'POST',body:JSON.stringify(body)});
-    notice.value=result.alreadyApplied?'Cette récompense était déjà enregistrée : aucun doublon n’a été ajouté.':'Récompense enregistrée sur les copies de campagne et dans leur historique.';
-    emit('changed');edge.value=0;giftId.value='';giftQuantity.value=1;selected.value=[];xp.value=0;ptv.value=0;money.value=0;renown.value=0;corruption.value=0;source.value='';reason.value='';requestId.value='';
+  const body = {
+    requestId: requestId.value,
+    reason: reason.value.trim(),
+    rewards: recipients.value.map((row) => ({
+      characterId: row.id,
+      version: row.version,
+      ...amounts.value,
+      corruptionSource: amounts.value.corruptionDelta ? source.value : "",
+      equipment: giftId.value
+        ? [{ itemId: giftId.value, quantity: giftQuantity.value }]
+        : []
+    }))
+  };
+  sending.value = true;
+  error.value = "";
+  notice.value = "";
+  try {
+    const result = await api<{ ok: boolean; alreadyApplied: boolean }>(
+      `/api/campaigns/${props.campaignId}/rewards`,
+      { method: "POST", body: JSON.stringify(body) }
+    );
+    notice.value = result.alreadyApplied
+      ? "Cette récompense était déjà enregistrée : aucun doublon n’a été ajouté."
+      : "Récompense enregistrée sur les copies de campagne et dans leur historique.";
+    emit("changed");
+    edge.value = 0;
+    giftId.value = "";
+    giftQuantity.value = 1;
+    selected.value = [];
+    xp.value = 0;
+    ptv.value = 0;
+    money.value = 0;
+    renown.value = 0;
+    corruption.value = 0;
+    source.value = "";
+    reason.value = "";
+    requestId.value = "";
     await load();
-  }catch(cause){error.value=describe(cause);}finally{sending.value=false;}
+  } catch (cause) {
+    error.value = describe(cause);
+  } finally {
+    sending.value = false;
+  }
 }
-const moneyText=(n:number)=>`${n.toLocaleString('fr-FR')} $`;
+const moneyText = (n: number) => `${n.toLocaleString("fr-FR")} $`;
 </script>
 
 <template>

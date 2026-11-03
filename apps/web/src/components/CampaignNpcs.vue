@@ -1,52 +1,395 @@
 <script setup lang="ts">
-import {computed,onMounted,onUnmounted,ref,watch} from 'vue';
-import {onBeforeRouteLeave} from 'vue-router';
-import {api,ApiError} from '../lib/api';
-import {NPC_SEXES,npcBudgetIssues,npcTruthIssues,type NpcCatalog,type NpcData,type NpcRecord,type NpcSummary} from '../../../api/src/campaign-npc-model';
-import CampaignNpcSheet from './CampaignNpcSheet.vue';
-const props=defineProps<{campaignId:string;archived?:boolean;selectable?:boolean;selectedIds?:string[];selectionFull?:boolean}>();
-const emit=defineEmits<{(e:'select',npc:NpcSummary):void;(e:'dirty',value:boolean):void}>();
-const catalog=ref<NpcCatalog|null>(null),npcs=ref<NpcSummary[]>([]),hasMore=ref(false),query=ref(''),showArchived=ref(false),busy=ref(false),loading=ref(false),imageWorkers=ref<string[]>([]),error=ref(''),notice=ref('');
-const generator=ref(false),mode=ref<'quick'|'custom'>('quick'),tierId=ref('lambda'),presetId=ref('garde'),sex=ref('random'),nationality=ref('random'),faction=ref(''),count=ref(1),truthEnabled=ref(false),natureId=ref('vampire'),truthPowerId=ref('recent'),truthArchetypeId=ref('veilleur'),drafts=ref<{id:string;data:NpcData}[]>([]),editing=ref<NpcRecord|null>(null),viewed=ref<NpcRecord|null>(null),baseline=ref('');
-const imageBusy=computed(()=>imageWorkers.value.length>0);
-function imageWork(id:string,busy:boolean){imageWorkers.value=busy?[...new Set([...imageWorkers.value,id])]:imageWorkers.value.filter(n=>n!==id);}
-const endpoint=`/api/campaigns/${props.campaignId}/npcs`;
-const selectedTier=computed(()=>catalog.value?.tiers.find(t=>t.id===tierId.value));
-const draftState=()=>JSON.stringify(drafts.value);
-const dirty=computed(()=>drafts.value.length>0&&(editing.value?draftState()!==baseline.value:true));
-const valid=computed(()=>drafts.value.length>0&&drafts.value.every(n=>n.data.name.trim()&&!npcBudgetIssues(n.data).length&&(!n.data.truth||!npcTruthIssues(n.data.truth,catalog.value!).length)&&n.data.tags.length<=12&&n.data.tags.every(t=>t.length<=60)));
-let seq=0,detailsSeq=0,live=true,timer:ReturnType<typeof setTimeout>|undefined;
-function failure(e:unknown){const code=e instanceof Error?e.message:'';error.value=({npc_version_conflict:'Ce PNJ a changé ailleurs. Tes modifications restent ici : copie-les avant de recharger.',npc_creation_conflict:'Un PNJ de ce lot est déjà enregistré avec un contenu différent. Tes modifications restent ici.',invalid_npc:'Vérifie les budgets, les prérequis, les champs et le format de l’image.',invalid_npc_generator:'Vérifie le palier, le prétiré et le nombre de PNJ.'} as Record<string,string>)[code]||'Action impossible. Réessaie.';if(e instanceof ApiError&&[401,403,404].includes(e.status)){error.value='Ces PNJ ne sont plus accessibles avec ton compte.';npcs.value=[];viewed.value=null;}}
-async function load(more=false){const n=++seq;loading.value=true;try{const r=await api<{npcs:NpcSummary[];hasMore:boolean}>(`${endpoint}?q=${encodeURIComponent(query.value.trim())}&archived=${showArchived.value}&offset=${more?npcs.value.length:0}`);if(n===seq&&live){npcs.value=more?[...npcs.value,...r.npcs.filter(a=>!npcs.value.some(b=>a.id===b.id))]:r.npcs;hasMore.value=r.hasMore;}}catch(e){if(n===seq&&live)failure(e);}finally{if(n===seq)loading.value=false;}}
-async function start(){error.value='';try{catalog.value=await api<NpcCatalog>(endpoint+'/catalog');await load();}catch(e){failure(e);}}
-function discard(){if(imageBusy.value)return false;return !dirty.value||window.confirm('Abandonner les PNJ ou modifications non enregistrés ?');}
-function create(next:'quick'|'custom'){if(!discard())return;drafts.value=[];editing.value=null;viewed.value=null;mode.value=next;generator.value=true;error.value='';notice.value='';}
-function cancel(){if(!discard())return;drafts.value=[];editing.value=null;generator.value=false;imageWorkers.value=[];}
-function reject(){if(imageBusy.value)return;drafts.value=[];editing.value=null;generator.value=false;notice.value='Fiche rejetée, rien n’a été enregistré.';}
-function regenerate(){if(imageBusy.value)return;drafts.value=[];generator.value=true;void generate();}
-function creationRequest(size:number){return {tierId:tierId.value,presetId:presetId.value,sex:sex.value,nationality:nationality.value,faction:faction.value,count:size,seed:crypto.randomUUID(),truth:truthEnabled.value?{natureId:natureId.value,powerId:truthPowerId.value,archetypeId:truthArchetypeId.value}:null};}
-async function generate(){if(busy.value||imageBusy.value||!discard())return;busy.value=true;error.value='';try{
- const r=await api<{npcs:NpcData[]}>(endpoint+'/generate',{method:'POST',body:JSON.stringify(creationRequest(mode.value==='quick'?props.selectable?1:count.value:1))});
- if(!live)return;
- if(mode.value==='custom'){
-  const data=r.npcs[0];data.name='Nouveau PNJ';data.firstName='';data.lastName='';data.nationality=nationality.value==='random'?'':nationality.value;data.role='';data.appearance='';data.personality='';data.motivation='';data.secret='';data.tags=[];data.talentIds=[];data.expertiseSkill='';data.truthNotes='';
-  if(data.truth){data.truth.talentIds=[];data.truth.ptv=0;data.truth.abilities='';data.truth.notes='';}
-  drafts.value=[{id:crypto.randomUUID(),data}];generator.value=false;return;
- }
- const rows=r.npcs.map(data=>({id:crypto.randomUUID(),data}));
- drafts.value=rows;editing.value=null;generator.value=false;viewed.value=null;
- notice.value='PNJ prêt à jouer. Conserve sa fiche si elle te plaît, ou rejette-la et regénère.';
- }catch(e){if(live)failure(e);}finally{busy.value=false;}}
-async function open(npc:NpcSummary,edit=false,copy=false){if(!discard())return;const n=++detailsSeq;busy.value=true;error.value='';try{const r=await api<{npc:NpcRecord}>(`${endpoint}/${npc.id}`);if(!live||n!==detailsSeq)return;generator.value=false;mode.value='custom';drafts.value=[];editing.value=null;if(edit||copy){const data=JSON.parse(JSON.stringify(r.npc.data)) as NpcData;if(copy)data.name=(data.name+' · copie').slice(0,120);drafts.value=[{id:copy?crypto.randomUUID():npc.id,data}];editing.value=copy?null:r.npc;baseline.value=draftState();viewed.value=null;}else viewed.value=r.npc;}catch(e){if(live&&n===detailsSeq)failure(e);}finally{busy.value=false;}}
-async function save(){if(busy.value||imageBusy.value||!valid.value)return;busy.value=true;error.value='';try{const selected=mode.value==='quick'&&props.selectable&&drafts.value.length===1?drafts.value[0]:null;if(editing.value)await api(`${endpoint}/${editing.value.id}`,{method:'PATCH',body:JSON.stringify({data:drafts.value[0].data,version:editing.value.version,archived:editing.value.archived})});else await api(endpoint,{method:'POST',body:JSON.stringify({npcs:drafts.value})});if(!live)return;notice.value=`${drafts.value.length} PNJ enregistré(s) dans la campagne.`;drafts.value=[];editing.value=null;generator.value=false;showArchived.value=false;query.value='';await load();if(selected&&!props.selectionFull){const n=selected.data;emit('select',{id:selected.id,name:n.name,tierId:n.tierId,role:n.role,faction:n.faction,tags:n.tags,hasPortrait:!!n.portrait,version:1,archived:false});}}catch(e){if(live)failure(e);}finally{busy.value=false;}}
-async function archive(npc:NpcSummary){if(busy.value||!discard()||!window.confirm(npc.archived?'Réactiver ce PNJ ?':'Archiver ce PNJ ? Il restera consultable depuis les scènes qui l’utilisent.'))return;busy.value=true;error.value='';try{const r=await api<{npc:NpcRecord}>(`${endpoint}/${npc.id}`);await api(`${endpoint}/${npc.id}`,{method:'PATCH',body:JSON.stringify({data:r.npc.data,version:r.npc.version,archived:!npc.archived})});drafts.value=[];editing.value=null;viewed.value=null;await load();}catch(e){failure(e);}finally{busy.value=false;}}
-function scroll(e:Event){const el=e.target as HTMLElement;if(!loading.value&&hasMore.value&&el.scrollTop+el.clientHeight>=el.scrollHeight-100)void load(true);}
-function beforeUnload(e:BeforeUnloadEvent){if(dirty.value||busy.value&&drafts.value.length){e.preventDefault();e.returnValue='';}}
-watch([query,showArchived],()=>{seq++;clearTimeout(timer);npcs.value=[];hasMore.value=false;timer=setTimeout(()=>{void load();},250);});
-watch(dirty,v=>emit('dirty',v));
-onBeforeRouteLeave(()=>discard());
-onMounted(()=>{void start();window.addEventListener('beforeunload',beforeUnload);});
-onUnmounted(()=>{live=false;seq++;detailsSeq++;clearTimeout(timer);emit('dirty',false);window.removeEventListener('beforeunload',beforeUnload);});
+import { computed, onMounted, onUnmounted, ref, watch } from "vue";
+import { onBeforeRouteLeave } from "vue-router";
+import { api, ApiError } from "../lib/api";
+import {
+  NPC_SEXES,
+  npcBudgetIssues,
+  npcTruthIssues,
+  type NpcCatalog,
+  type NpcData,
+  type NpcRecord,
+  type NpcSummary
+} from "../../../api/src/campaign-npc-model";
+import CampaignNpcSheet from "./CampaignNpcSheet.vue";
+const props = defineProps<{
+  campaignId: string;
+  archived?: boolean;
+  selectable?: boolean;
+  selectedIds?: string[];
+  selectionFull?: boolean;
+}>();
+const emit = defineEmits<{
+  (e: "select", npc: NpcSummary): void;
+  (e: "dirty", value: boolean): void;
+}>();
+const catalog = ref<NpcCatalog | null>(null),
+  npcs = ref<NpcSummary[]>([]),
+  hasMore = ref(false),
+  query = ref(""),
+  showArchived = ref(false),
+  busy = ref(false),
+  loading = ref(false),
+  imageWorkers = ref<string[]>([]),
+  error = ref(""),
+  notice = ref("");
+const generator = ref(false),
+  mode = ref<"quick" | "custom">("quick"),
+  tierId = ref("lambda"),
+  presetId = ref("garde"),
+  sex = ref("random"),
+  nationality = ref("random"),
+  faction = ref(""),
+  count = ref(1),
+  truthEnabled = ref(false),
+  natureId = ref("vampire"),
+  truthPowerId = ref("recent"),
+  truthArchetypeId = ref("veilleur"),
+  drafts = ref<{ id: string; data: NpcData }[]>([]),
+  editing = ref<NpcRecord | null>(null),
+  viewed = ref<NpcRecord | null>(null),
+  baseline = ref("");
+const imageBusy = computed(() => imageWorkers.value.length > 0);
+function imageWork(id: string, busy: boolean) {
+  imageWorkers.value = busy
+    ? [...new Set([...imageWorkers.value, id])]
+    : imageWorkers.value.filter((n) => n !== id);
+}
+const endpoint = `/api/campaigns/${props.campaignId}/npcs`;
+const selectedTier = computed(() =>
+  catalog.value?.tiers.find((t) => t.id === tierId.value)
+);
+const draftState = () => JSON.stringify(drafts.value);
+const dirty = computed(
+  () =>
+    drafts.value.length > 0 &&
+    (editing.value ? draftState() !== baseline.value : true)
+);
+const valid = computed(
+  () =>
+    drafts.value.length > 0 &&
+    drafts.value.every(
+      (n) =>
+        n.data.name.trim() &&
+        !npcBudgetIssues(n.data).length &&
+        (!n.data.truth ||
+          !npcTruthIssues(n.data.truth, catalog.value!).length) &&
+        n.data.tags.length <= 12 &&
+        n.data.tags.every((t) => t.length <= 60)
+    )
+);
+let seq = 0,
+  detailsSeq = 0,
+  live = true,
+  timer: ReturnType<typeof setTimeout> | undefined;
+function failure(e: unknown) {
+  const code = e instanceof Error ? e.message : "";
+  error.value =
+    (
+      {
+        npc_version_conflict:
+          "Ce PNJ a changé ailleurs. Tes modifications restent ici : copie-les avant de recharger.",
+        npc_creation_conflict:
+          "Un PNJ de ce lot est déjà enregistré avec un contenu différent. Tes modifications restent ici.",
+        invalid_npc:
+          "Vérifie les budgets, les prérequis, les champs et le format de l’image.",
+        invalid_npc_generator:
+          "Vérifie le palier, le prétiré et le nombre de PNJ."
+      } as Record<string, string>
+    )[code] || "Action impossible. Réessaie.";
+  if (e instanceof ApiError && [401, 403, 404].includes(e.status)) {
+    error.value = "Ces PNJ ne sont plus accessibles avec ton compte.";
+    npcs.value = [];
+    viewed.value = null;
+  }
+}
+async function load(more = false) {
+  const n = ++seq;
+  loading.value = true;
+  try {
+    const r = await api<{ npcs: NpcSummary[]; hasMore: boolean }>(
+      `${endpoint}?q=${encodeURIComponent(query.value.trim())}&archived=${showArchived.value}&offset=${more ? npcs.value.length : 0}`
+    );
+    if (n === seq && live) {
+      npcs.value = more
+        ? [
+            ...npcs.value,
+            ...r.npcs.filter((a) => !npcs.value.some((b) => a.id === b.id))
+          ]
+        : r.npcs;
+      hasMore.value = r.hasMore;
+    }
+  } catch (e) {
+    if (n === seq && live) failure(e);
+  } finally {
+    if (n === seq) loading.value = false;
+  }
+}
+async function start() {
+  error.value = "";
+  try {
+    catalog.value = await api<NpcCatalog>(endpoint + "/catalog");
+    await load();
+  } catch (e) {
+    failure(e);
+  }
+}
+function discard() {
+  if (imageBusy.value) return false;
+  return (
+    !dirty.value ||
+    window.confirm("Abandonner les PNJ ou modifications non enregistrés ?")
+  );
+}
+function create(next: "quick" | "custom") {
+  if (!discard()) return;
+  drafts.value = [];
+  editing.value = null;
+  viewed.value = null;
+  mode.value = next;
+  generator.value = true;
+  error.value = "";
+  notice.value = "";
+}
+function cancel() {
+  if (!discard()) return;
+  drafts.value = [];
+  editing.value = null;
+  generator.value = false;
+  imageWorkers.value = [];
+}
+function reject() {
+  if (imageBusy.value) return;
+  drafts.value = [];
+  editing.value = null;
+  generator.value = false;
+  notice.value = "Fiche rejetée, rien n’a été enregistré.";
+}
+function regenerate() {
+  if (imageBusy.value) return;
+  drafts.value = [];
+  generator.value = true;
+  void generate();
+}
+function creationRequest(size: number) {
+  return {
+    tierId: tierId.value,
+    presetId: presetId.value,
+    sex: sex.value,
+    nationality: nationality.value,
+    faction: faction.value,
+    count: size,
+    seed: crypto.randomUUID(),
+    truth: truthEnabled.value
+      ? {
+          natureId: natureId.value,
+          powerId: truthPowerId.value,
+          archetypeId: truthArchetypeId.value
+        }
+      : null
+  };
+}
+async function generate() {
+  if (busy.value || imageBusy.value || !discard()) return;
+  busy.value = true;
+  error.value = "";
+  try {
+    const r = await api<{ npcs: NpcData[] }>(endpoint + "/generate", {
+      method: "POST",
+      body: JSON.stringify(
+        creationRequest(
+          mode.value === "quick" ? (props.selectable ? 1 : count.value) : 1
+        )
+      )
+    });
+    if (!live) return;
+    if (mode.value === "custom") {
+      const data = r.npcs[0];
+      data.name = "Nouveau PNJ";
+      data.firstName = "";
+      data.lastName = "";
+      data.nationality =
+        nationality.value === "random" ? "" : nationality.value;
+      data.role = "";
+      data.appearance = "";
+      data.personality = "";
+      data.motivation = "";
+      data.secret = "";
+      data.tags = [];
+      data.talentIds = [];
+      data.expertiseSkill = "";
+      data.truthNotes = "";
+      if (data.truth) {
+        data.truth.talentIds = [];
+        data.truth.ptv = 0;
+        data.truth.abilities = "";
+        data.truth.notes = "";
+      }
+      drafts.value = [{ id: crypto.randomUUID(), data }];
+      generator.value = false;
+      return;
+    }
+    const rows = r.npcs.map((data) => ({ id: crypto.randomUUID(), data }));
+    drafts.value = rows;
+    editing.value = null;
+    generator.value = false;
+    viewed.value = null;
+    notice.value =
+      "PNJ prêt à jouer. Conserve sa fiche si elle te plaît, ou rejette-la et regénère.";
+  } catch (e) {
+    if (live) failure(e);
+  } finally {
+    busy.value = false;
+  }
+}
+async function open(npc: NpcSummary, edit = false, copy = false) {
+  if (!discard()) return;
+  const n = ++detailsSeq;
+  busy.value = true;
+  error.value = "";
+  try {
+    const r = await api<{ npc: NpcRecord }>(`${endpoint}/${npc.id}`);
+    if (!live || n !== detailsSeq) return;
+    generator.value = false;
+    mode.value = "custom";
+    drafts.value = [];
+    editing.value = null;
+    if (edit || copy) {
+      const data = JSON.parse(JSON.stringify(r.npc.data)) as NpcData;
+      if (copy) data.name = (data.name + " · copie").slice(0, 120);
+      drafts.value = [{ id: copy ? crypto.randomUUID() : npc.id, data }];
+      editing.value = copy ? null : r.npc;
+      baseline.value = draftState();
+      viewed.value = null;
+    } else viewed.value = r.npc;
+  } catch (e) {
+    if (live && n === detailsSeq) failure(e);
+  } finally {
+    busy.value = false;
+  }
+}
+async function save() {
+  if (busy.value || imageBusy.value || !valid.value) return;
+  busy.value = true;
+  error.value = "";
+  try {
+    const selected =
+      mode.value === "quick" && props.selectable && drafts.value.length === 1
+        ? drafts.value[0]
+        : null;
+    if (editing.value)
+      await api(`${endpoint}/${editing.value.id}`, {
+        method: "PATCH",
+        body: JSON.stringify({
+          data: drafts.value[0].data,
+          version: editing.value.version,
+          archived: editing.value.archived
+        })
+      });
+    else
+      await api(endpoint, {
+        method: "POST",
+        body: JSON.stringify({ npcs: drafts.value })
+      });
+    if (!live) return;
+    notice.value = `${drafts.value.length} PNJ enregistré(s) dans la campagne.`;
+    drafts.value = [];
+    editing.value = null;
+    generator.value = false;
+    showArchived.value = false;
+    query.value = "";
+    await load();
+    if (selected && !props.selectionFull) {
+      const n = selected.data;
+      emit("select", {
+        id: selected.id,
+        name: n.name,
+        tierId: n.tierId,
+        role: n.role,
+        faction: n.faction,
+        tags: n.tags,
+        hasPortrait: !!n.portrait,
+        version: 1,
+        archived: false
+      });
+    }
+  } catch (e) {
+    if (live) failure(e);
+  } finally {
+    busy.value = false;
+  }
+}
+async function archive(npc: NpcSummary) {
+  if (
+    busy.value ||
+    !discard() ||
+    !window.confirm(
+      npc.archived
+        ? "Réactiver ce PNJ ?"
+        : "Archiver ce PNJ ? Il restera consultable depuis les scènes qui l’utilisent."
+    )
+  )
+    return;
+  busy.value = true;
+  error.value = "";
+  try {
+    const r = await api<{ npc: NpcRecord }>(`${endpoint}/${npc.id}`);
+    await api(`${endpoint}/${npc.id}`, {
+      method: "PATCH",
+      body: JSON.stringify({
+        data: r.npc.data,
+        version: r.npc.version,
+        archived: !npc.archived
+      })
+    });
+    drafts.value = [];
+    editing.value = null;
+    viewed.value = null;
+    await load();
+  } catch (e) {
+    failure(e);
+  } finally {
+    busy.value = false;
+  }
+}
+function scroll(e: Event) {
+  const el = e.target as HTMLElement;
+  if (
+    !loading.value &&
+    hasMore.value &&
+    el.scrollTop + el.clientHeight >= el.scrollHeight - 100
+  )
+    void load(true);
+}
+function beforeUnload(e: BeforeUnloadEvent) {
+  if (dirty.value || (busy.value && drafts.value.length)) {
+    e.preventDefault();
+    e.returnValue = "";
+  }
+}
+watch([query, showArchived], () => {
+  seq++;
+  clearTimeout(timer);
+  npcs.value = [];
+  hasMore.value = false;
+  timer = setTimeout(() => {
+    void load();
+  }, 250);
+});
+watch(dirty, (v) => emit("dirty", v));
+onBeforeRouteLeave(() => discard());
+onMounted(() => {
+  void start();
+  window.addEventListener("beforeunload", beforeUnload);
+});
+onUnmounted(() => {
+  live = false;
+  seq++;
+  detailsSeq++;
+  clearTimeout(timer);
+  emit("dirty", false);
+  window.removeEventListener("beforeunload", beforeUnload);
+});
 </script>
 <template>
  <section class="npc-manager" aria-label="PNJ de la campagne">
