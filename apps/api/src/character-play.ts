@@ -1189,7 +1189,8 @@ export async function registerCharacterPlayRoutes(app: FastifyInstance) {
       req.params.id,
       manager,
       selectedSession,
-      cursor ? { at: cursor[0], id: cursor[1] } : null
+      cursor ? { at: cursor[0], id: cursor[1] } : null,
+      user.id
     );
     live.combatants = live.combatants.map((c) => ({
       ...c,

@@ -143,7 +143,31 @@ function passHeading(index: number) {
 const text = ref(""),
   link = ref(""),
   image = ref(""),
-  imageBusy = ref(false);
+  imageBusy = ref(false),
+  // Révélation à un seul joueur (id du personnage), ou au groupe si vide.
+  recipient = ref(""),
+  noteText = ref(""),
+  noteBusy = ref(false),
+  noteNotice = ref("");
+// Note privée d'un joueur au MJ (lue par le MJ et par lui seul).
+async function sendNote() {
+  if (noteBusy.value || !noteText.value.trim()) return;
+  noteBusy.value = true;
+  noteNotice.value = "";
+  try {
+    await api(`/api/campaigns/${id}/play/notes`, {
+      method: "POST",
+      body: JSON.stringify({ requestId: crypto.randomUUID(), text: noteText.value })
+    });
+    noteText.value = "";
+    noteNotice.value = "Note envoyée au MJ.";
+    void load();
+  } catch {
+    noteNotice.value = "La note n’a pas pu être envoyée : réessaie.";
+  } finally {
+    noteBusy.value = false;
+  }
+}
 const sourceCatalog = ref("compendium"),
   globalSources = ref<any[]>([]);
 const sourceKind = ref("npc"),
@@ -587,7 +611,8 @@ onUnmounted(() => {
     <details class="combat-controls"><summary>Rythme du combat & aide</summary><label>Passage des rounds<select :value="room.combat?.mode??'manual'" :disabled="busy" @change="act('combat-mode',{version:room.combat?.version??0,mode:($event.target as HTMLSelectElement).value})"><option value="manual">Manuel · le MJ décide</option><option value="automatic">Automatique · plus aucun PA visible</option></select></label><p>L’initiative reste la même pendant tout le combat. Lance celles des PNJ et créatures ; chaque joueur lance la sienne. Les attaques en attente doivent être résolues avant de passer au round suivant. « Action hors attaque » dépense 1 PA pour une autre action.</p></details>
    <details v-if="room.canManage" @toggle="($event.target as HTMLDetailsElement).open&&findSources()"><summary>Ajouter un PNJ ou une créature</summary><label>Source<select v-model="sourceCatalog"><option value="compendium">Compendium</option><option value="campaign">Cette campagne</option></select></label><label>Catalogue<select v-model="sourceKind"><option value="npc">PNJ</option><option value="creature">Bestiaire</option></select></label><form @submit.prevent="findSources()"><label>Filtrer la liste (facultatif)<input v-model="sourceQuery" maxlength="100" @input="sourceCatalog==='compendium'&&findSources()" /></label><button :disabled="sourceLoading">Rechercher dans le catalogue</button></form><p v-if="sourceLoading" role="status">Chargement du catalogue…</p><label>Fiche source<select v-model="sourceId" aria-label="Fiche source"><option value="">Choisir…</option><option v-for="s in sources" :key="s.id" :value="s.id">{{ s.name }}</option></select></label><button v-if="hasMore" :disabled="sourceLoading" @click="findSources(true)">Afficher la suite</button><label>Nom affiché<input v-model="sourceName" maxlength="120" placeholder="Ex. Garde du portail" /></label><button :disabled="busy||!sourceId||!sourceName.trim()" @click="act('add',{catalog:sourceCatalog,kind:sourceKind,sourceId,name:sourceName,visible:false})">Ajouter à la table, caché</button><p>Révèle ensuite le participant depuis sa fiche. Tu peux ajouter plusieurs exemplaires d’une créature.</p></details>
     <details v-if="room.canManage" class="gm-roll"><summary>Jet libre du MJ</summary><form @submit.prevent="act(gmMode==='player'?'random-player':'gm-roll',{label:gmLabel,bonus:gmBonus,stress:gmStress,public:gmPublic,mode:gmMode,faces:gmFaces,count:gmCount})"><div class="actor-controls"><label>Type de tirage<select v-model="gmMode" aria-label="Type de tirage"><option value="explosive">d10 explosif · règles de jeu</option><option value="dice">Dés libres</option><option value="player">Un joueur au hasard</option></select></label><template v-if="gmMode==='dice'"><label>Nombre de dés<input v-model.number="gmCount" type="number" min="1" max="50" /></label><label>Faces par dé<input v-model.number="gmFaces" type="number" min="2" max="1000" list="gm-dice-faces" /><datalist id="gm-dice-faces"><option v-for="n in [4,6,8,10,12,20,100]" :key="n" :value="n" /></datalist></label></template><label>Intitulé du jet MJ<input v-model="gmLabel" maxlength="120" required /></label><label>Modificateur MJ<input v-model.number="gmBonus" type="number" min="-100" max="100" required /></label><label>Stress du jet MJ<select v-model.number="gmStress"><option :value="0">Neutre</option><option :value="1">Tendu</option><option :value="2">Paniqué</option></select></label><label class="check"><input v-model="gmPublic" type="checkbox" /> Jet MJ visible par les joueurs</label><button :disabled="busy||!gmLabel.trim()">{{ gmMode==='player'?'Tirer un joueur au hasard':'Lancer les dés · MJ' }}</button></div></form></details>
-    <details v-if="room.canManage" class="compose"><summary>Révéler quelque chose au groupe</summary><form @submit.prevent="act('message',{text,link,image})"><label>Message ou information révélée<textarea v-model="text" maxlength="5000" rows="3" /></label><label>Lien vers une page du Compendium<input v-model="link" maxlength="1000" placeholder="https://terra-umbra.fr/compendium?article=…" /></label><small>Le lien conserve les droits de lecture de la page. Pour révéler une information réservée au MJ, partage ici le texte ou l’image choisis.</small><label>Image à révéler<input type="file" accept="image/png,image/jpeg,image/webp" :disabled="imageBusy||busy" @change="upload" /></label><img v-if="image" :src="image" alt="Aperçu avant révélation" class="image-preview" /><button v-if="image" type="button" @click="image=''">Retirer l’image jointe</button><button :disabled="busy||imageBusy||(!text.trim()&&!link&&!image)">Révéler au groupe</button></form></details>
+    <details v-if="room.canManage" class="compose"><summary>Révéler quelque chose au groupe</summary><form @submit.prevent="act('message',{text,link,image,...(recipient?{recipientCharacterId:recipient}:{})})"><label>Pour<select v-model="recipient"><option value="">Tout le groupe</option><option v-for="c in room.characters" :key="c.id" :value="c.id">{{ c.name }} seulement (privé)</option></select></label><label>Message ou information révélée<textarea v-model="text" maxlength="5000" rows="3" /></label><label>Lien vers une page du Compendium<input v-model="link" maxlength="1000" placeholder="https://terra-umbra.fr/compendium?article=…" /></label><small>Le lien conserve les droits de lecture de la page. Pour révéler une information réservée au MJ, partage ici le texte ou l’image choisis.</small><label>Image à révéler<input type="file" accept="image/png,image/jpeg,image/webp" :disabled="imageBusy||busy" @change="upload" /></label><img v-if="image" :src="image" alt="Aperçu avant révélation" class="image-preview" /><button v-if="image" type="button" @click="image=''">Retirer l’image jointe</button><button :disabled="busy||imageBusy||(!text.trim()&&!link&&!image)">{{ recipient ? 'Révéler à ce joueur seulement' : 'Révéler au groupe' }}</button></form></details>
+    <details v-if="!room.canManage" class="compose"><summary>Écrire au MJ (privé)</summary><form @submit.prevent="sendNote"><label>Message pour le MJ seul<textarea v-model="noteText" maxlength="2000" rows="3" /></label><small>Seul le MJ le lit ; il apparaît aussi dans ton journal de la table.</small><button :disabled="noteBusy||!noteText.trim()">Envoyer au MJ</button><p v-if="noteNotice" role="status">{{ noteNotice }}</p></form></details>
    <details v-if="room.canManage&&!room.combat?.active" class="combat-controls"><summary>Scènes & usages des capacités · MJ</summary><p>Déclare une nouvelle scène ou un nouveau scénario lorsque la fiction le justifie. Une séance ou un combat ne renouvelle pas automatiquement les capacités. Les PV, l’Edge, l’inventaire et le compteur de Mues depuis le repos restent inchangés.</p><button :disabled="busy" @click="act('combat-scene',{version:room.combat.version})">Nouvelle scène · renouveler les usages de scène</button><button :disabled="busy" @click="act('combat-scenario',{version:room.combat.version})">Nouveau scénario · renouveler tous les usages</button></details>
     <CampaignEffects :campaign-id="id" :room="room" @changed="load" />
     <CampaignLightningEffects :campaign-id="id" :room="room" @changed="load" />

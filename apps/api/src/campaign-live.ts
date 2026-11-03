@@ -164,7 +164,8 @@ export async function liveSnapshot(
   id: string,
   manager: boolean,
   sessionId: string | null = null,
-  before: { at: string; id: string } | null = null
+  before: { at: string; id: string } | null = null,
+  userId: string | null = null
 ) {
   const result = await pool.query(
     "SELECT * FROM campaign_live_combatants WHERE campaign_id=$1 AND NOT removed AND ($2::boolean OR visible) ORDER BY created_at,id",
@@ -209,8 +210,8 @@ export async function liveSnapshot(
       : {})
   }));
   const messages = await pool.query(
-    `SELECT e.id,e.kind,e.payload,e.created_at::text AS "createdAt",u.display_name AS "playerName",e.image IS NOT NULL AS "hasImage" FROM campaign_live_events e JOIN users u ON u.id=e.created_by WHERE e.campaign_id=$1 AND e.live_session_id IS NOT DISTINCT FROM $3::uuid AND ($4::timestamptz IS NULL OR (e.created_at,e.id)<($4::timestamptz,$5::uuid)) AND NOT e.withdrawn AND ($2::boolean OR e.public) ORDER BY e.created_at DESC,e.id DESC LIMIT 101`,
-    [id, manager, sessionId, before?.at ?? null, before?.id ?? null]
+    `SELECT e.id,e.kind,e.payload,e.created_at::text AS "createdAt",u.display_name AS "playerName",e.image IS NOT NULL AS "hasImage",e.recipient_id IS NOT NULL AS private FROM campaign_live_events e JOIN users u ON u.id=e.created_by WHERE e.campaign_id=$1 AND e.live_session_id IS NOT DISTINCT FROM $3::uuid AND ($4::timestamptz IS NULL OR (e.created_at,e.id)<($4::timestamptz,$5::uuid)) AND NOT e.withdrawn AND ($2::boolean OR e.public OR e.recipient_id=$6::uuid OR (e.recipient_id IS NOT NULL AND e.created_by=$6::uuid)) ORDER BY e.created_at DESC,e.id DESC LIMIT 101`,
+    [id, manager, sessionId, before?.at ?? null, before?.id ?? null, userId]
   );
   return {
     combatants,
@@ -298,6 +299,26 @@ export async function registerCampaignLiveRoutes(app: FastifyInstance) {
       reply.header("Cache-Control", "private, no-store");
     return payload;
   });
+  // Note privée d'un joueur à son MJ : lue seulement par le MJ et son auteur. Rejouer la même
+  // requête (même requestId) ne crée pas de doublon.
+  app.post<{ Params: { id: string }; Body: any }>(
+    "/api/campaigns/:id/play/notes",
+    async (req, reply) => {
+      const user = await requireUser(req, reply);
+      if (!user) return;
+      const b: any = req.body;
+      if (!b || !validId(b.requestId) || typeof b.text !== "string" || !b.text.trim() || b.text.length > 2000)
+        return reply.code(400).send({ error: "invalid_live_note" });
+      const a = await access(pool, req.params.id, user.id);
+      if (!a || a.manager) return reply.code(404).send({ error: "campaign_not_found" });
+      const owner = await pool.query("SELECT owner_id FROM campaigns WHERE id=$1", [req.params.id]);
+      await pool.query(
+        "INSERT INTO campaign_live_events(id,campaign_id,created_by,kind,payload,request_payload,public,recipient_id) VALUES($1,$2,$3,'message',$4::jsonb,$5::jsonb,false,$6) ON CONFLICT (id) DO NOTHING",
+        [b.requestId, req.params.id, user.id, JSON.stringify({ label: "Note privée au MJ", text: b.text.trim() }), JSON.stringify(b), owner.rows[0].owner_id]
+      );
+      return { ok: true };
+    }
+  );
   // All mutations are MJ-only, serialized and idempotent; duplicate retries never spend or heal twice.
   app.post<{ Params: { id: string }; Body: any }>(
     "/api/campaigns/:id/play/actions",
@@ -364,7 +385,8 @@ export async function registerCampaignLiveRoutes(app: FastifyInstance) {
         let payload: any = {},
           publicEvent = false,
           image: Buffer | null = null,
-          mime: string | null = null;
+          mime: string | null = null,
+          recipient: string | null = null;
         if (b.action.startsWith("combat-")) {
           const error = await manageCombat(db, req.params.id, user.id, b);
           if (error)
@@ -459,12 +481,29 @@ export async function registerCampaignLiveRoutes(app: FastifyInstance) {
             image = pic.buffer;
             mime = pic.mime;
           }
-          payload = {
-            label: "Révélation du MJ",
-            text: b.text.trim(),
-            link: url
-          };
-          publicEvent = true;
+          if (b.recipientCharacterId !== undefined) {
+            if (!validId(b.recipientCharacterId))
+              return await fail(400, "invalid_live_recipient");
+            const to = await db.query(
+              "SELECT m.user_id,c.name FROM campaign_members m JOIN characters c ON c.id=m.character_id WHERE m.campaign_id=$1 AND m.character_id=$2 AND m.status='accepted'",
+              [req.params.id, b.recipientCharacterId]
+            );
+            if (!to.rowCount) return await fail(400, "invalid_live_recipient");
+            recipient = to.rows[0].user_id;
+            payload = {
+              label: "Révélation privée du MJ · pour " + to.rows[0].name,
+              text: b.text.trim(),
+              link: url
+            };
+            publicEvent = false;
+          } else {
+            payload = {
+              label: "Révélation du MJ",
+              text: b.text.trim(),
+              link: url
+            };
+            publicEvent = true;
+          }
         } else if (b.action === "withdraw") {
           if (!validId(b.eventId)) return await fail(400, "invalid_live_event");
           const r = await db.query(
@@ -708,7 +747,7 @@ export async function registerCampaignLiveRoutes(app: FastifyInstance) {
           );
         }
         await db.query(
-          "INSERT INTO campaign_live_events(id,campaign_id,created_by,kind,payload,request_payload,public,image,mime) VALUES($1,$2,$3,$4,$5::jsonb,$6::jsonb,$7,$8,$9)",
+          "INSERT INTO campaign_live_events(id,campaign_id,created_by,kind,payload,request_payload,public,image,mime,recipient_id) VALUES($1,$2,$3,$4,$5::jsonb,$6::jsonb,$7,$8,$9,$10)",
           [
             b.requestId,
             req.params.id,
@@ -718,7 +757,8 @@ export async function registerCampaignLiveRoutes(app: FastifyInstance) {
             JSON.stringify(b),
             publicEvent,
             image,
-            mime
+            mime,
+            recipient
           ]
         );
         await maybeAdvanceCombat(db, req.params.id, user.id);
@@ -744,8 +784,8 @@ export async function registerCampaignLiveRoutes(app: FastifyInstance) {
         let pic: { mime: string; buffer: Buffer } | null = null;
         if (category === "messages") {
           const r = await pool.query(
-            "SELECT image,mime FROM campaign_live_events WHERE campaign_id=$1 AND id=$2 AND NOT withdrawn AND ($3::boolean OR public)",
-            [req.params.id, req.params.itemId, a.manager]
+            "SELECT image,mime FROM campaign_live_events WHERE campaign_id=$1 AND id=$2 AND NOT withdrawn AND ($3::boolean OR public OR recipient_id=$4 OR (recipient_id IS NOT NULL AND created_by=$4))",
+            [req.params.id, req.params.itemId, a.manager, user.id]
           );
           if (r.rows[0]?.image)
             pic = { mime: r.rows[0].mime, buffer: r.rows[0].image };
