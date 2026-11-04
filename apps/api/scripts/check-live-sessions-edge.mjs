@@ -92,6 +92,16 @@ export async function checkLiveSessionsEdge({pool,call,player,other,manager,camp
  // The fixture has future-dated pagination events: fetch the next page if needed.
  let log=peerLog;if(!log){const firstPage=await call(other,'GET',roomPath);log=(await call(other,'GET',roomPath+'?before='+encodeURIComponent(firstPage.nextBefore))).events.find(e=>e.id===grace.requestId);}
  assert.ok(log);assert.equal(log.payload.before,undefined);assert.equal(log.payload.after,undefined);assert.equal(log.payload.text,grace.reason);
+ // Dégâts et soins rapides du MJ : bornés, protégés contre un état périmé, rejouables, réservés au MJ.
+ const hurt={requestId:randomUUID(),action:'adjust',actorId:character,delta:-3,beforeHp:grace.hp};
+ await call(player,'POST',combat,hurt,403);await call(manager,'POST',combat,{...hurt,requestId:randomUUID(),delta:0},400);
+ await call(manager,'POST',combat,{...hurt,requestId:randomUUID(),beforeHp:grace.hp+1},409);
+ await call(manager,'POST',combat,hurt);await call(manager,'POST',combat,hurt);assert.equal((await call(player,'GET',cp)).profile.hp,grace.hp-3,'Un seul retrait malgré le rejeu');
+ await call(manager,'POST',combat,{requestId:randomUUID(),action:'adjust',actorId:character,delta:50,beforeHp:grace.hp-3});assert.equal((await call(player,'GET',cp)).profile.hp,grace.hp,'Soins plafonnés au maximum');
+ await call(manager,'POST',combat,{requestId:randomUUID(),action:'adjust',actorId:character,delta:-1000,beforeHp:grace.hp});const down=await call(player,'GET',cp);assert.equal(down.profile.hp,down.profile.derived.death,'Dégâts bornés à la mort');
+ await call(manager,'POST',combat,{requestId:randomUUID(),action:'adjust',actorId:character,delta:5,beforeHp:down.profile.hp},400);
+ await call(manager,'POST',combat,{...grace,requestId:randomUUID(),beforeHp:down.profile.hp});
+ console.log('GM ADJUST OK — manager-only damage/heal, bounds, stale-state protection, replay, dead needs grace.');
  console.log('GM GRACE OK — manager-only revival, explicit HP bounds, stale-state protection, replay, private HP and unchanged Edge/PA/initiative.');
  console.log('LIVE SESSIONS / EDGE OK — forced dice, unique spends, survival, capped MJ rewards, replay, archived logs, immutable snapshots, owner/MJ privacy and persistent Edge.');
 }

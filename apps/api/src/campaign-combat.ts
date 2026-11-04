@@ -1002,6 +1002,7 @@ export async function registerCampaignCombatRoutes(app: FastifyInstance) {
         !uuid(b.requestId) ||
         ![
           "grace",
+          "adjust",
           "spend",
           "launch",
           "attack",
@@ -1083,6 +1084,46 @@ export async function registerCampaignCombatRoutes(app: FastifyInstance) {
             before,
             after: actor.hp,
             text: b.reason.trim()
+          };
+          publicEvent = !!actor.visible;
+        } else if (b.action === "adjust") {
+          // Arbitrage du MJ : dégâts ou soins directs, bornés entre la mort et le maximum.
+          // Ce n'est pas une attaque : aucune capacité automatique ne se déclenche.
+          if (!access.manager) return await fail(403, "mj_only");
+          if (
+            !uuid(b.actorId) ||
+            !integer(b.delta, -1000, 1000) ||
+            b.delta === 0 ||
+            !integer(b.beforeHp, -10000, 10000) ||
+            (b.reason !== undefined &&
+              (typeof b.reason !== "string" || b.reason.length > 500))
+          )
+            return await fail(400, "invalid_adjust");
+          const actor = await target(db, req.params.id, b.actorId, true);
+          if (!actor) return await fail(404, "target_not_found");
+          if (actor.hp !== b.beforeHp)
+            return await fail(409, "adjust_state_changed");
+          // Relever un mort passe par la Grâce du MJ, qui demande un motif.
+          if (b.delta > 0 && actor.hp <= actor.death)
+            return await fail(400, "adjust_dead_use_grace");
+          const before = actor.hp;
+          actor.hp = Math.min(
+            actor.pv_max,
+            Math.max(actor.death, actor.hp + b.delta)
+          );
+          if (actor.kind === "character" && b.delta < 0)
+            actor.state.stabilized = false;
+          await saveTarget(db, actor);
+          payload = {
+            label:
+              b.delta < 0
+                ? `Dégâts du MJ · ${-b.delta} PV`
+                : `Soins du MJ · ${b.delta} PV`,
+            characterName: actor.name,
+            targetId: actor.id,
+            before,
+            after: actor.hp,
+            ...(b.reason?.trim() ? { text: b.reason.trim() } : {})
           };
           publicEvent = !!actor.visible;
         } else if (b.action === "spend") {
@@ -2690,7 +2731,7 @@ export async function registerCampaignCombatRoutes(app: FastifyInstance) {
           ]
         );
         await pruneOccultMaintenance(db, req.params.id);
-        if (b.action !== "grace")
+        if (b.action !== "grace" && b.action !== "adjust")
           await maybeAdvanceCombat(db, req.params.id, user.id);
         await db.query("COMMIT");
         return {

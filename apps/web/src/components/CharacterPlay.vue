@@ -578,7 +578,9 @@ async function perform(action: string, extra: Record<string, unknown> = {}) {
       notice.value =
         r.event.payload.recovered !== undefined
           ? `${r.event.payload.recovered} PV récupérés.`
-          : "Enregistré.";
+          : r.event.payload.dice
+            ? ""
+            : "Enregistré.";
     }
     busy.value = false;
     emit("changed");
