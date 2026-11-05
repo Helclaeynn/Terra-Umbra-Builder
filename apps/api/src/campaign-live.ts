@@ -319,6 +319,50 @@ export async function registerCampaignLiveRoutes(app: FastifyInstance) {
       return { ok: true };
     }
   );
+  // Notes de scène privées du MJ : un seul texte par campagne, réécrit à chaque enregistrement.
+  app.put<{ Params: { id: string }; Body: any }>(
+    "/api/campaigns/:id/play/scene-notes",
+    async (req, reply) => {
+      const user = await requireUser(req, reply);
+      if (!user) return;
+      const b: any = req.body;
+      if (!b || typeof b.text !== "string" || b.text.length > 20000)
+        return reply.code(400).send({ error: "invalid_scene_notes" });
+      const a = await access(pool, req.params.id, user.id);
+      if (!a?.manager) return reply.code(404).send({ error: "campaign_not_found" });
+      await pool.query("UPDATE campaigns SET live_notes=$2 WHERE id=$1", [req.params.id, b.text]);
+      return { ok: true };
+    }
+  );
+  // Réaction d'un participant sur une entrée du journal de la campagne (ajout ou retrait, sans doublon).
+  app.post<{ Params: { id: string }; Body: any }>(
+    "/api/campaigns/:id/play/reactions",
+    async (req, reply) => {
+      const user = await requireUser(req, reply);
+      if (!user) return;
+      const b: any = req.body;
+      if (!b || !validId(b.eventId) || !["bravo", "aie", "tension"].includes(b.kind) || typeof b.on !== "boolean")
+        return reply.code(400).send({ error: "invalid_reaction" });
+      const a = await access(pool, req.params.id, user.id);
+      if (!a) return reply.code(404).send({ error: "campaign_not_found" });
+      const known = await pool.query(
+        "SELECT 1 FROM campaign_live_events WHERE id=$1 AND campaign_id=$2 AND NOT withdrawn UNION ALL SELECT 1 FROM character_play_events WHERE id=$1 AND campaign_id=$2",
+        [b.eventId, req.params.id]
+      );
+      if (!known.rowCount) return reply.code(404).send({ error: "live_event_not_found" });
+      if (b.on)
+        await pool.query(
+          "INSERT INTO campaign_live_reactions(campaign_id,event_id,user_id,kind) VALUES($1,$2,$3,$4) ON CONFLICT DO NOTHING",
+          [req.params.id, b.eventId, user.id, b.kind]
+        );
+      else
+        await pool.query(
+          "DELETE FROM campaign_live_reactions WHERE campaign_id=$1 AND event_id=$2 AND user_id=$3 AND kind=$4",
+          [req.params.id, b.eventId, user.id, b.kind]
+        );
+      return { ok: true };
+    }
+  );
   // All mutations are MJ-only, serialized and idempotent; duplicate retries never spend or heal twice.
   app.post<{ Params: { id: string }; Body: any }>(
     "/api/campaigns/:id/play/actions",
@@ -340,6 +384,8 @@ export async function registerCampaignLiveRoutes(app: FastifyInstance) {
           "combat-mode",
           "message",
           "roll-request",
+          "timer",
+          "ambience",
           "withdraw",
           "add",
           "roll",
@@ -532,6 +578,35 @@ export async function registerCampaignLiveRoutes(app: FastifyInstance) {
             payload = { label: `Jet demandé par le MJ · ${asked}`, request: asked };
             publicEvent = true;
           }
+        } else if (b.action === "timer") {
+          if (
+            !Number.isSafeInteger(b.seconds) ||
+            (b.seconds !== 0 && (b.seconds < 10 || b.seconds > 600))
+          )
+            return await fail(400, "invalid_timer");
+          payload = b.seconds
+            ? {
+                label: `Minuteur · ${b.seconds} s`,
+                seconds: b.seconds,
+                endsAt: new Date(Date.now() + b.seconds * 1000).toISOString()
+              }
+            : { label: "Minuteur arrêté", seconds: 0, endsAt: null };
+          publicEvent = true;
+        } else if (b.action === "ambience") {
+          const names: Record<string, string> = {
+            off: "",
+            pluie: "Pluie",
+            vent: "Vent",
+            tension: "Tension",
+            foule: "Foule lointaine"
+          };
+          if (typeof b.sound !== "string" || !(b.sound in names))
+            return await fail(400, "invalid_ambience");
+          payload = {
+            label: b.sound === "off" ? "Ambiance coupée" : `Ambiance · ${names[b.sound]}`,
+            sound: b.sound
+          };
+          publicEvent = true;
         } else if (b.action === "withdraw") {
           if (!validId(b.eventId)) return await fail(400, "invalid_live_event");
           const r = await db.query(

@@ -2,6 +2,7 @@
 import { computed, nextTick, onMounted, onUnmounted, ref, watch } from "vue";
 import { useLiveUpdates } from "../lib/live-updates";
 import { provideLiveTable } from "../lib/live-table";
+import { playAmbience, type AmbienceSound } from "../lib/ambience";
 import ParticipantRail from "../components/ParticipantRail.vue";
 import TableJournal from "../components/TableJournal.vue";
 import GmDock from "../components/GmDock.vue";
@@ -193,6 +194,99 @@ const sourceKind = ref("npc"),
   hasMore = ref(false),
   sourceLoading = ref(false);
 const adjustAmount = ref(1);
+const dockTab = ref("reveal");
+// Notes de scène du MJ : brouillon local, enregistré à la demande ou en quittant le champ.
+const sceneDraft = ref(""),
+  sceneSaved = ref(""),
+  sceneDirty = ref(false);
+watch(
+  () => room.value?.sceneNotes,
+  (v) => {
+    if (typeof v === "string" && !sceneDirty.value) sceneDraft.value = v;
+  },
+  { immediate: true }
+);
+async function saveSceneNotes() {
+  if (!sceneDirty.value) return;
+  try {
+    await api(`/api/campaigns/${id}/play/scene-notes`, { method: "PUT", body: JSON.stringify({ text: sceneDraft.value }) });
+    sceneDirty.value = false;
+    sceneSaved.value = `Enregistré à ${new Date().toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })}`;
+  } catch {
+    sceneSaved.value = "Enregistrement impossible : réessaie.";
+  }
+}
+// Minuteur : la fin vient du serveur ; l'écart d'horloge avec ce navigateur est corrigé.
+const clockOffset = ref(0),
+  now = ref(Date.now());
+watch(
+  () => room.value?.serverNow,
+  (v) => {
+    if (v) clockOffset.value = new Date(v).getTime() - Date.now();
+  }
+);
+const timerLeft = computed(() => {
+  const end = room.value?.tableState?.timer?.endsAt;
+  if (!end) return 0;
+  return Math.max(0, Math.ceil((new Date(end).getTime() - (now.value + clockOffset.value)) / 1000));
+});
+const timerTotal = computed(() => room.value?.tableState?.timer?.seconds ?? 0);
+const timerText = computed(() => `${Math.floor(timerLeft.value / 60)}:${String(timerLeft.value % 60).padStart(2, "0")}`);
+let ticker: ReturnType<typeof setInterval> | undefined;
+watch(
+  () => room.value?.tableState?.timer?.endsAt,
+  () => {
+    clearInterval(ticker);
+    now.value = Date.now();
+    if (timerLeft.value > 0)
+      ticker = setInterval(() => {
+        now.value = Date.now();
+        if (!timerLeft.value) clearInterval(ticker);
+      }, 1000);
+  }
+);
+// Ambiance : le MJ choisit, chacun active le son sur son appareil (choix gardé sur cet appareil).
+const soundOn = ref(false);
+try {
+  soundOn.value = localStorage.getItem("tuc-table-son") === "1";
+} catch {
+  /* stockage indisponible : son coupé */
+}
+const ambience = computed<AmbienceSound>(() => room.value?.tableState?.ambience?.sound ?? "off");
+watch([ambience, soundOn], ([sound, on]) => playAmbience(sound, on), { immediate: false });
+function toggleSound() {
+  soundOn.value = !soundOn.value;
+  try {
+    localStorage.setItem("tuc-table-son", soundOn.value ? "1" : "0");
+  } catch {
+    /* sans stockage, le choix vaut pour cette page */
+  }
+}
+// Réactions sur le journal.
+async function react(e: any, kind: string) {
+  try {
+    await api(`/api/campaigns/${id}/play/reactions`, {
+      method: "POST",
+      body: JSON.stringify({ eventId: e.id, kind, on: !e.reactions?.[kind]?.mine })
+    });
+    await load();
+  } catch {
+    notice.value = "Réaction impossible pour le moment.";
+  }
+}
+// À qui le tour : la passe en cours.
+const turnNames = computed(() =>
+  currentPass.value === null
+    ? []
+    : roster.value.filter((c) => c.participating !== false && passOf(c.id) === currentPass.value).map((c) => c.name)
+);
+const myTurn = computed(
+  () =>
+    !!room.value?.ownCharacterId &&
+    currentPass.value !== null &&
+    ownActor.value?.participating !== false &&
+    passOf(room.value.ownCharacterId) === currentPass.value
+);
 const requestLabel = ref(""),
   requestFor = ref(""),
   dismissedRequest = ref("");
@@ -380,7 +474,11 @@ function onEscape(e: KeyboardEvent) {
     e.preventDefault();
     if (r.ownCharacterId) ownPanel("jets");
     else if (r.canManage && chosen.value) inspectActor(chosen.value.id);
-  } else if ((k === "r" || k === "R") && r.canManage) focusDock("textarea");
+  } else if ((k === "r" || k === "R") && r.canManage) {
+    e.preventDefault();
+    dockTab.value = "reveal";
+    void nextTick(() => document.querySelector<HTMLElement>(".gm-dock .dock-reveal textarea")?.focus());
+  }
   else if ((k === "d" || k === "D") && r.canManage) focusDock(".dock-hp input");
   else if (k === "N" && e.shiftKey && r.canManage && r.combat?.active && !busy.value) {
     e.preventDefault();
@@ -498,10 +596,11 @@ watch(rollOption, (r, old) => {
 const feed = computed(() =>
   (room.value?.events ?? []).filter(
     (e: any) =>
-      filter.value === "all" ||
+      !["timer", "ambience"].includes(e.kind) &&
+      (filter.value === "all" ||
       (filter.value === "rolls"
         ? Array.isArray(e.payload.dice)
-        : e.kind === "message")
+        : e.kind === "message"))
   )
 );
 async function load() {
@@ -726,6 +825,15 @@ onUnmounted(() => {
   document.removeEventListener("visibilitychange", focus);
 });
 provideLiveTable({
+  dockTab,
+  sceneDraft,
+  sceneDirty,
+  sceneSaved,
+  saveSceneNotes,
+  timerLeft,
+  timerText,
+  ambience,
+  react,
   requestLabel,
   requestFor,
   requestRoll,
@@ -772,19 +880,20 @@ provideLiveTable({
 });
 </script>
 <template>
- <div class="live-page" :class="{'drawer-open':panelOpen}"><p class="sr-only" aria-live="polite">{{ announcement }}</p><header class="live-header"><div><p class="eyebrow">TERRA UMBRA · EN JEU</p><h1>{{ room?.campaignName??'Table de jeu' }}</h1></div><nav><RouterLink :to="`/campaigns/${id}`">← Campagne</RouterLink><RouterLink to="/account">Mon espace</RouterLink></nav></header>
+ <div class="live-page" :class="{'drawer-open':panelOpen}"><p class="sr-only" aria-live="polite">{{ announcement }}</p><header class="live-header"><div><p class="eyebrow">TERRA UMBRA · EN JEU</p><h1>{{ room?.campaignName??'Table de jeu' }}</h1></div><nav><button v-if="room&&ambience!=='off'" type="button" class="sound-toggle" :aria-pressed="soundOn" @click="toggleSound">{{ soundOn?'Son de la table : activé':'Activer le son de la table' }}</button><RouterLink :to="`/campaigns/${id}`">← Campagne</RouterLink><RouterLink to="/account">Mon espace</RouterLink></nav></header>
  <div v-if="error" role="alert"><p>{{ error }}</p><RouterLink :to="`/account?redirect=${encodeURIComponent(route.fullPath)}`">Se connecter</RouterLink><button @click="load">Réessayer</button></div>
  <p v-else-if="!room" role="status">Ouverture de la table…</p>
  <div v-else class="live-layout">
   <ParticipantRail />
   <main class="live-main"><section class="mode-heading" aria-label="Situation de la table"><div><p class="mode-label">{{room.combat?.active?'Combat':'Exploration'}}<span v-if="room.session?.title"> · {{room.session.title}}</span></p><h2>{{room.combat?.active?'Round '+room.combat.round:'En jeu'}}</h2><p>{{room.combat?.active?(initiativeCount?initiativeCount+' initiative'+(initiativeCount>1?'s':'')+' à lancer':room.combat.mode==='automatic'?'Round suivant quand les PA sont épuisés':'Rounds dirigés par le MJ'):room.canManage?'Mener la scène : participants, révélations et jets':'Jets, ressources et capacités de ton personnage'}}</p></div><div v-if="room.canManage" class="table-primary-actions combat-controls"><button v-if="!room.combat?.active" class="ui-primary" :disabled="busy" @click="act('combat-start',{version:room.combat?.version??0})">Lancer le combat</button><template v-else><button class="ui-primary" :disabled="busy" @click="act('combat-round',{version:room.combat.version})">Round suivant pour tous</button><button class="ui-danger" :disabled="busy" @click="act('combat-stop',{version:room.combat.version})">Arrêter le combat</button></template><button :aria-expanded="gmToolsOpen" aria-controls="campaign-gm-tools" @click="toggleGmTools">Outils du MJ <span v-if="occultAttention" class="attention-badge">{{occultAttention}} à résoudre</span></button></div></section>
+   <div v-if="myTurn&&!ownActor?.initiativePending" class="turn-banner" role="status"><span><strong>C’est ton tour.</strong> {{ ownActor?.pa ?? 0 }} PA disponible{{ (ownActor?.pa ?? 0) > 1 ? 's' : '' }}<template v-if="timerLeft"> · {{ timerText }} restantes</template></span><span class="turn-banner-actions"><button class="ui-primary" @click="openAttack">Attaquer</button><button @click="ownPanel('jets')">Lancer un jet</button></span></div>
    <div v-if="room.combat?.active&&ownActor?.initiativePending&&ownActor?.participating!==false" class="combat-controls"><strong>À toi : lance ton initiative pour ce combat.</strong> <button class="ui-primary" :disabled="busy" @click="rollOwnInitiative">◈ Lancer mon initiative</button><button @click="selected=room.ownCharacterId">Ma fiche / dépenser de l’Edge</button></div>
 
 
    <section class="table-stage" aria-label="Scène de la campagne" :class="{'has-scene-image':sceneImage}">
     <img v-if="sceneImage" class="scene-art" :src="sceneImage.image" alt="Scène partagée par le MJ" />
-    <div v-if="sceneImage" class="scene-image-actions"><a :href="sceneImage.image" target="_blank" rel="noopener">Voir l’image en grand ↗</a><button v-if="room.canManage" type="button" class="ui-quiet" :disabled="busy" @click="act('withdraw',{eventId:sceneImage.id})">Retirer l’image</button></div><div class="scene-caption"><span class="stage-kicker">{{room.combat?.active?'Combat en cours':'À la table'}}</span><h2>{{sceneImage?.payload.label??room.session?.title??'La scène'}}</h2><p v-if="latestRevelation?.payload.text">{{latestRevelation.payload.text}}</p><p v-else-if="!sceneImage">{{room.canManage?'Partage une scène, puis fais vivre la partie.':'La scène, les révélations et vos actions se retrouvent ici.'}}</p><button v-if="room.canManage&&!sceneImage" @click="toggleGmTools">Partager une scène</button></div>
-    <button v-if="latest" class="stage-roll" @click="feedCollapsed=false"><span>{{latest.characterName??latest.payload.characterName??'MJ'}} · {{latest.payload.label}}</span><strong>{{latest.payload.total}}</strong><small>{{latest.payload.narrativeFailure?'Échec narratif':latest.payload.exploded?'Explosion !':'Voir le détail dans le journal'}}</small></button>
+    <div v-if="sceneImage" class="scene-image-actions"><a :href="sceneImage.image" target="_blank" rel="noopener">Voir l’image en grand ↗</a><button v-if="room.canManage" type="button" class="ui-quiet" :disabled="busy" @click="act('withdraw',{eventId:sceneImage.id})">Retirer l’image</button></div><div v-if="turnNames.length||timerLeft" class="stage-top"><div v-if="turnNames.length" class="turn-chip"><span>Au tour de</span><strong>{{ turnNames.join(', ') }}</strong></div><div v-if="timerLeft" class="turn-timer" role="timer" :aria-label="`Minuteur : ${timerText} restantes`" :style="{'--timer-ratio':timerTotal?timerLeft/timerTotal:0}"><span>{{ timerText }}</span></div></div><div class="scene-caption"><span class="stage-kicker">{{room.combat?.active?'Combat en cours':'À la table'}}</span><h2>{{sceneImage?.payload.label??room.session?.title??'La scène'}}</h2><p v-if="latestRevelation?.payload.text" :key="latestRevelation.id" class="revealed">{{latestRevelation.payload.text}}</p><p v-else-if="!sceneImage">{{room.canManage?'Partage une scène, puis fais vivre la partie.':'La scène, les révélations et vos actions se retrouvent ici.'}}</p><button v-if="room.canManage&&!sceneImage" @click="toggleGmTools">Partager une scène</button></div>
+    <button v-if="latest" :key="latest.id" class="stage-roll" @click="feedCollapsed=false"><span>{{latest.characterName??latest.payload.characterName??'MJ'}} · {{latest.payload.label}}</span><strong>{{latest.payload.total}}</strong><small>{{latest.payload.narrativeFailure?'Échec narratif':latest.payload.exploded?'Explosion !':'Voir le détail dans le journal'}}</small></button>
    </section>
 
    <GmDock />
@@ -849,4 +958,4 @@ provideLiveTable({
 
 <style scoped>.workspace-tabs{display:flex;gap:6px;padding:10px 20px;background:var(--ui-panel-2);border-bottom:1px solid var(--ui-line)}.workspace-tabs button{flex:1;background:var(--ui-accent-bg);border:1px solid var(--ui-line);border-radius:8px;padding:8px}.workspace-tabs button[aria-pressed="true"]{background:var(--ui-line);border-color:var(--ui-accent-soft)}</style>
 <style scoped>
-@media(min-width:851px){.table-workspace{inset:0 0 0 auto;margin:0;width:min(500px,100vw);height:100dvh;max-height:none;border-radius:16px 0 0 16px;z-index:50;box-shadow:-20px 0 60px #0009}}@media(min-width:1300px){.live-page.drawer-open{padding-right:516px;max-width:none}}@media(max-width:850px){.table-workspace{inset:auto 0 0 0;margin:0;width:100vw;max-height:82dvh;border-radius:16px 16px 0 0;z-index:50;box-shadow:0 -20px 60px #0009}}.roll-request{background:var(--ui-accent-bg);border-color:var(--ui-accent);align-items:center;flex-wrap:wrap}.roll-request-actions{display:flex;gap:8px}.scene-image-actions{position:absolute;top:12px;right:12px;display:flex;gap:10px;align-items:center;padding:4px 10px;border-radius:999px;background:#040c14cc;font-size:var(--ui-text-sm)}.session-summary{display:grid;gap:10px}.session-summary textarea{font:var(--ui-text-sm)/1.5 ui-monospace,Consolas,monospace;white-space:pre-wrap}</style>
+@media(min-width:851px){.table-workspace{inset:0 0 0 auto;margin:0;width:min(500px,100vw);height:100dvh;max-height:none;border-radius:16px 0 0 16px;z-index:50;box-shadow:-20px 0 60px #0009}}@media(min-width:1300px){.live-page.drawer-open{padding-right:516px;max-width:none}}@media(max-width:850px){.table-workspace{inset:auto 0 0 0;margin:0;width:100vw;max-height:82dvh;border-radius:16px 16px 0 0;z-index:50;box-shadow:0 -20px 60px #0009}}.roll-request{background:var(--ui-accent-bg);border-color:var(--ui-accent);align-items:center;flex-wrap:wrap}.roll-request-actions{display:flex;gap:8px}.scene-image-actions{position:absolute;top:12px;right:12px;display:flex;gap:10px;align-items:center;padding:4px 10px;border-radius:999px;background:#040c14cc;font-size:var(--ui-text-sm)}.session-summary{display:grid;gap:10px}.session-summary textarea{font:var(--ui-text-sm)/1.5 ui-monospace,Consolas,monospace;white-space:pre-wrap}.sound-toggle{min-height:36px!important;padding:6px 12px!important;font-size:var(--ui-text-sm)!important}.turn-banner{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;padding:12px 16px;border-radius:12px;background:var(--ui-accent-bg);border:1px solid var(--ui-accent)}.turn-banner-actions{display:flex;gap:8px}.stage-top{position:absolute;top:16px;left:16px;right:16px;display:flex;justify-content:space-between;align-items:flex-start;gap:12px;pointer-events:none}.stage-top>*{pointer-events:auto}.turn-chip{display:flex;align-items:center;gap:10px;padding:8px 14px;border-radius:12px;background:#081520e6;border:1px solid var(--ui-accent)}.turn-chip span{font-size:var(--ui-text-xs);letter-spacing:.1em;text-transform:uppercase;color:var(--ui-accent)}.turn-timer{margin-left:auto;width:60px;height:60px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--ui-accent) calc(var(--timer-ratio) * 360deg),var(--ui-raised) 0)}.turn-timer span{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;background:var(--ui-panel);font-weight:700;font-size:var(--ui-text-sm)}.has-scene-image .stage-top{top:56px}@keyframes roll-pop{0%{transform:scale(.6);opacity:0}55%{transform:scale(1.18);opacity:1;text-shadow:0 0 22px var(--ui-accent)}100%{transform:none;text-shadow:none}}@keyframes reveal-in{from{filter:blur(6px);opacity:0}to{filter:none;opacity:1}}@keyframes rise-in{from{transform:translateY(8px);opacity:0}to{transform:none;opacity:1}}.stage-roll{animation:rise-in .3s ease-out}.stage-roll>strong{animation:roll-pop .5s cubic-bezier(.2,.8,.2,1)}.scene-caption p.revealed{animation:reveal-in .6s ease-out}.turn-banner,.turn-chip{animation:rise-in .3s ease-out}.table-workspace[open]{animation:drawer-in .25s ease-out}@keyframes drawer-in{from{transform:translateX(24px);opacity:0}to{transform:none;opacity:1}}@media(max-width:850px){.table-workspace[open]{animation-name:sheet-in}@keyframes sheet-in{from{transform:translateY(24px);opacity:0}to{transform:none;opacity:1}}}@media(prefers-reduced-motion:reduce){.stage-roll,.stage-roll>strong,.scene-caption p.revealed,.turn-banner,.turn-chip,.table-workspace[open]{animation:none}}</style>

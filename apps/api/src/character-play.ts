@@ -117,6 +117,26 @@ const uuid =
   /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const gm = (role: string) => ["gm", "editor", "admin"].includes(role);
 // Full-sheet read grant; owner controls the sheet, campaign MJ may run dedicated mechanics.
+// Minuteur et ambiance en cours : le dernier événement de chaque sorte.
+export async function liveTableState(campaignId: string) {
+  const r = await pool.query(
+    "SELECT DISTINCT ON (kind) kind,payload FROM campaign_live_events WHERE campaign_id=$1 AND kind IN ('timer','ambience') AND NOT withdrawn ORDER BY kind,created_at DESC,id DESC",
+    [campaignId]
+  );
+  return Object.fromEntries(r.rows.map((row) => [row.kind, row.payload]));
+}
+// Réactions du journal : { bravo: { n, mine }, … } sur chaque entrée affichée.
+export async function withReactions(campaignId: string, userId: string, events: any[]) {
+  if (!events.length) return events;
+  const r = await pool.query(
+    "SELECT event_id,kind,count(*)::int AS n,bool_or(user_id=$2) AS mine FROM campaign_live_reactions WHERE campaign_id=$1 AND event_id=ANY($3::uuid[]) GROUP BY event_id,kind",
+    [campaignId, userId, events.map((e) => e.id)]
+  );
+  const by = new Map<string, Record<string, { n: number; mine: boolean }>>();
+  for (const row of r.rows)
+    by.set(row.event_id, { ...(by.get(row.event_id) ?? {}), [row.kind]: { n: row.n, mine: row.mine } });
+  return events.map((e) => (by.has(e.id) ? { ...e, reactions: by.get(e.id) } : e));
+}
 export async function characterAccess(
   db: Pick<PoolClient, "query">,
   id: string,
@@ -1084,7 +1104,7 @@ export async function registerCharacterPlayRoutes(app: FastifyInstance) {
     if (!uuid.test(req.params.id))
       return reply.code(404).send({ error: "campaign_not_found" });
     const access = await pool.query(
-      `SELECT c.owner_id,c.name FROM campaigns c WHERE c.id=$1 AND c.archived_at IS NULL AND
+      `SELECT c.owner_id,c.name,c.live_notes FROM campaigns c WHERE c.id=$1 AND c.archived_at IS NULL AND
       ((c.owner_id=$2 AND $3::boolean) OR EXISTS(SELECT 1 FROM campaign_members m WHERE m.campaign_id=c.id AND m.user_id=$2 AND m.status='accepted'))`,
       [req.params.id, user.id, gm(user.role)]
     );
@@ -1253,11 +1273,15 @@ export async function registerCharacterPlayRoutes(app: FastifyInstance) {
       passes: queue.map(({ id, pass }) => ({ id, pass })),
       campaignName: access.rows[0].name,
       canManage: manager,
+      ...(manager ? { sceneNotes: access.rows[0].live_notes } : {}),
+      // Minuteur et ambiance en cours : le dernier événement de chaque sorte, quel que soit le journal affiché.
+      tableState: await liveTableState(req.params.id),
+      serverNow: new Date().toISOString(),
       ownCharacterId: rows.rows.find((c) => c.owner_id === user.id)?.id ?? null,
       characters,
       combatants: live.combatants,
       order,
-      events: combined.slice(0, 100)
+      events: await withReactions(req.params.id, user.id, combined.slice(0, 100))
     };
   });
 }

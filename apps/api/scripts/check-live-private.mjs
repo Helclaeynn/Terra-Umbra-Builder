@@ -38,5 +38,25 @@ try{
  assert.ok(!(await labels(cid,alice)).some(l=>l.includes('Perception')),'Le MJ peut retirer un jet demandé');
  assert.ok(forBob.includes('Révélation du MJ'),'Bob voit la révélation publique');
  assert.equal(forGm.filter(l=>l==='Note privée au MJ').length,1,'Le MJ lit la note, sans doublon');
+ // Minuteur, ambiance, notes de scène, réactions.
+ const {liveTableState,withReactions}=await import('../dist/character-play.js');
+ await post(gm,base+'/actions',{requestId:randomUUID(),action:'timer',seconds:5},400);
+ await post(gm,base+'/actions',{requestId:randomUUID(),action:'timer',seconds:60});
+ await post(gm,base+'/actions',{requestId:randomUUID(),action:'ambience',sound:'orage'},400);
+ await post(gm,base+'/actions',{requestId:randomUUID(),action:'ambience',sound:'pluie'});
+ await post(alice,base+'/actions',{requestId:randomUUID(),action:'ambience',sound:'off'},404);
+ const put=async(who,payload,status=200)=>{const r=await app.inject({method:'PUT',url:base+'/scene-notes',headers:{cookie:who.cookie},payload});assert.equal(r.statusCode,status,r.body);};
+ await put(gm,{text:'Le garde se rendra sous 5 PV.'});await put(alice,{text:'piratage'},404);
+ const react=async(who,payload,status=200)=>{const r=await app.inject({method:'POST',url:base+'/reactions',headers:{cookie:who.cookie},payload});assert.equal(r.statusCode,status,r.body);};
+ const pub=(await pool.query("SELECT id FROM campaign_live_events WHERE campaign_id=$1 AND kind='message' AND public ORDER BY created_at LIMIT 1",[cid])).rows[0].id;
+ await react(alice,{eventId:pub,kind:'bravo',on:true});await react(alice,{eventId:pub,kind:'bravo',on:true});await react(bob,{eventId:pub,kind:'bravo',on:true});
+ await react(bob,{eventId:pub,kind:'feu',on:true},400);await react(bob,{eventId:randomUUID(),kind:'bravo',on:true},404);
+ assert.equal((await pool.query('SELECT count(*)::int n FROM campaign_live_reactions WHERE event_id=$1',[pub])).rows[0].n,2,'Une réaction par personne');
+ await react(alice,{eventId:pub,kind:'bravo',on:false});
+ assert.equal((await pool.query('SELECT count(*)::int n FROM campaign_live_reactions WHERE event_id=$1',[pub])).rows[0].n,1,'Retrait de sa propre réaction');
+ assert.equal((await pool.query('SELECT live_notes FROM campaigns WHERE id=$1',[cid])).rows[0].live_notes,'Le garde se rendra sous 5 PV.');
+ const state=await liveTableState(cid);assert.equal(state.timer.seconds,60);assert.equal(state.ambience.sound,'pluie');
+ assert.deepEqual((await withReactions(cid,bob.id,[{id:pub}]))[0].reactions,{bravo:{n:1,mine:true}});assert.deepEqual((await withReactions(cid,alice.id,[{id:pub}]))[0].reactions,{bravo:{n:1,mine:false}});
+ console.log('MINUTEUR, AMBIANCE, NOTES DE SCÈNE ET RÉACTIONS OK');
  console.log('MESSAGES PRIVÉS OK — révélation à un joueur et note au MJ lues par eux seuls, aucun doublon, destinataire hors campagne refusé');
 }finally{await app.close();if(ids.length)await pool.query("DELETE FROM users WHERE id=ANY($1::uuid[]) AND email LIKE 'ci-private-%@example.invalid'",[ids]);await pool.end();}
