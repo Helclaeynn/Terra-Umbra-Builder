@@ -1115,10 +1115,7 @@ export async function registerCampaignCombatRoutes(app: FastifyInstance) {
             actor.state.stabilized = false;
           await saveTarget(db, actor);
           payload = {
-            label:
-              b.delta < 0
-                ? `Dégâts du MJ · ${-b.delta} PV`
-                : `Soins du MJ · ${b.delta} PV`,
+            label: b.delta < 0 ? "Dégâts du MJ" : "Soins du MJ",
             characterName: actor.name,
             targetId: actor.id,
             before,

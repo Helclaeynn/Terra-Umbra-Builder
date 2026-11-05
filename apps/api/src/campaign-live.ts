@@ -334,35 +334,6 @@ export async function registerCampaignLiveRoutes(app: FastifyInstance) {
       return { ok: true };
     }
   );
-  // Réaction d'un participant sur une entrée du journal de la campagne (ajout ou retrait, sans doublon).
-  app.post<{ Params: { id: string }; Body: any }>(
-    "/api/campaigns/:id/play/reactions",
-    async (req, reply) => {
-      const user = await requireUser(req, reply);
-      if (!user) return;
-      const b: any = req.body;
-      if (!b || !validId(b.eventId) || !["bravo", "aie", "tension"].includes(b.kind) || typeof b.on !== "boolean")
-        return reply.code(400).send({ error: "invalid_reaction" });
-      const a = await access(pool, req.params.id, user.id);
-      if (!a) return reply.code(404).send({ error: "campaign_not_found" });
-      const known = await pool.query(
-        "SELECT 1 FROM campaign_live_events WHERE id=$1 AND campaign_id=$2 AND NOT withdrawn UNION ALL SELECT 1 FROM character_play_events WHERE id=$1 AND campaign_id=$2",
-        [b.eventId, req.params.id]
-      );
-      if (!known.rowCount) return reply.code(404).send({ error: "live_event_not_found" });
-      if (b.on)
-        await pool.query(
-          "INSERT INTO campaign_live_reactions(campaign_id,event_id,user_id,kind) VALUES($1,$2,$3,$4) ON CONFLICT DO NOTHING",
-          [req.params.id, b.eventId, user.id, b.kind]
-        );
-      else
-        await pool.query(
-          "DELETE FROM campaign_live_reactions WHERE campaign_id=$1 AND event_id=$2 AND user_id=$3 AND kind=$4",
-          [req.params.id, b.eventId, user.id, b.kind]
-        );
-      return { ok: true };
-    }
-  );
   // All mutations are MJ-only, serialized and idempotent; duplicate retries never spend or heal twice.
   app.post<{ Params: { id: string }; Body: any }>(
     "/api/campaigns/:id/play/actions",

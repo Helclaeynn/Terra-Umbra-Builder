@@ -125,18 +125,6 @@ export async function liveTableState(campaignId: string) {
   );
   return Object.fromEntries(r.rows.map((row) => [row.kind, row.payload]));
 }
-// Réactions du journal : { bravo: { n, mine }, … } sur chaque entrée affichée.
-export async function withReactions(campaignId: string, userId: string, events: any[]) {
-  if (!events.length) return events;
-  const r = await pool.query(
-    "SELECT event_id,kind,count(*)::int AS n,bool_or(user_id=$2) AS mine FROM campaign_live_reactions WHERE campaign_id=$1 AND event_id=ANY($3::uuid[]) GROUP BY event_id,kind",
-    [campaignId, userId, events.map((e) => e.id)]
-  );
-  const by = new Map<string, Record<string, { n: number; mine: boolean }>>();
-  for (const row of r.rows)
-    by.set(row.event_id, { ...(by.get(row.event_id) ?? {}), [row.kind]: { n: row.n, mine: row.mine } });
-  return events.map((e) => (by.has(e.id) ? { ...e, reactions: by.get(e.id) } : e));
-}
 export async function characterAccess(
   db: Pick<PoolClient, "query">,
   id: string,
@@ -1281,7 +1269,7 @@ export async function registerCharacterPlayRoutes(app: FastifyInstance) {
       characters,
       combatants: live.combatants,
       order,
-      events: await withReactions(req.params.id, user.id, combined.slice(0, 100))
+      events: combined.slice(0, 100)
     };
   });
 }

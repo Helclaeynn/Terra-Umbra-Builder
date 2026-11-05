@@ -12,14 +12,21 @@ const effectLeft = (e: any, round: number) =>
       : "";
 const hit = ref<Record<string, boolean>>({});
 const lastHp = new Map<string, number>();
+const lastHealth = new Map<string, number>();
+const healthOrder = ["Indemne", "Légèrement blessé", "Blessé", "Gravement blessé", "Agonisant", "Mort"];
 const { roster: rosterRef } = useLiveTable();
 // Carte touchée : un éclair rouge quand ses PV baissent (pas au premier affichage).
 watch(
-  () => rosterRef.value.map((c: any) => [c.id, c.hp] as const),
+  () => rosterRef.value.map((c: any) => [c.id, c.hp, healthOrder.indexOf(c.health)] as const),
   (rows) => {
-    for (const [cid, hp] of rows) {
-      const before = lastHp.get(cid);
-      if (typeof hp === "number" && typeof before === "number" && hp < before) {
+    for (const [cid, hp, level] of rows) {
+      const before = lastHp.get(cid),
+        beforeLevel = lastHealth.get(cid);
+      if (level >= 0) lastHealth.set(cid, level);
+      if (
+        (typeof hp === "number" && typeof before === "number" && hp < before) ||
+        (typeof hp !== "number" && level >= 0 && beforeLevel !== undefined && level > beforeLevel)
+      ) {
         hit.value = { ...hit.value, [cid]: true };
         setTimeout(() => (hit.value = { ...hit.value, [cid]: false }), 800);
       }
