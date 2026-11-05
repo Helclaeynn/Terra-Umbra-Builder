@@ -193,6 +193,89 @@ const sourceKind = ref("npc"),
   hasMore = ref(false),
   sourceLoading = ref(false);
 const adjustAmount = ref(1);
+const requestLabel = ref(""),
+  requestFor = ref(""),
+  dismissedRequest = ref("");
+// Dernier jet demandé au joueur, tant qu'il n'a pas lancé de dé depuis.
+const rollRequest = computed(() => {
+  const r = room.value;
+  if (!r?.ownCharacterId) return null;
+  const events = r.events ?? [];
+  const asked = events.find((e: any) => e.kind === "roll-request");
+  if (!asked || asked.id === dismissedRequest.value) return null;
+  const since = new Date(asked.createdAt).getTime();
+  const answered = events.some(
+    (e: any) =>
+      e.payload.dice &&
+      (e.characterId ?? e.payload.characterId) === r.ownCharacterId &&
+      new Date(e.createdAt).getTime() > since
+  );
+  return answered ? null : asked;
+});
+async function answerRollRequest() {
+  const asked = rollRequest.value?.payload.request ?? "";
+  ownPanel("jets");
+  await nextTick();
+  await nextTick();
+  // shortcut: pré-remplit la recherche de compétence par le DOM ; passer par une prop de CharacterPlay si elle évolue.
+  const search = [...(panel.value?.querySelectorAll("label") ?? [])]
+    .find((l) => l.textContent?.includes("Retrouver une compétence"))
+    ?.querySelector("input");
+  if (search) {
+    search.value = asked;
+    search.dispatchEvent(new Event("input"));
+    search.focus();
+  }
+}
+function requestRoll() {
+  void act("roll-request", {
+    label: requestLabel.value,
+    ...(requestFor.value ? { recipientCharacterId: requestFor.value } : {})
+  });
+  requestLabel.value = "";
+}
+const summaryText = ref(""),
+  summaryBusy = ref(false);
+// Résumé de séance : tout le journal de la séance affichée, du plus ancien au plus récent.
+async function openSummary() {
+  summaryBusy.value = true;
+  summaryText.value = "";
+  void openPanel("summary");
+  try {
+    const all: any[] = [];
+    let before: string | null = null;
+    for (let page = 0; page < 30; page++) {
+      const r: any = await api<any>(endpoint + (before ? "?before=" + encodeURIComponent(before) : ""));
+      all.push(...(r.events ?? []));
+      before = r.nextBefore;
+      if (!before) break;
+    }
+    const lines = [...new Map(all.map((e) => [e.id, e])).values()]
+      .reverse()
+      .map((e) => {
+        const who = e.characterName ?? e.payload.characterName ?? "MJ";
+        const total = e.payload.total !== undefined ? ` → ${e.payload.total}` : "";
+        const hp = e.payload.before !== undefined ? ` (${e.payload.before} → ${e.payload.after} PV)` : "";
+        const text = e.payload.text ? `\n    ${e.payload.text}` : "";
+        return `${date(e.createdAt)} · ${who} → ${e.payload.label}${total}${hp}${text}`;
+      });
+    summaryText.value =
+      `${room.value?.campaignName ?? "Partie"}${room.value?.session?.title ? " · " + room.value.session.title : ""}\n\n` +
+      (lines.join("\n") || "Aucun événement dans cette séance.");
+  } catch {
+    summaryText.value = "Impossible de charger le journal de la séance.";
+  } finally {
+    summaryBusy.value = false;
+  }
+}
+async function copySummary() {
+  try {
+    await navigator.clipboard.writeText(summaryText.value);
+    notice.value = "Résumé copié.";
+  } catch {
+    notice.value = "Copie impossible : sélectionne le texte à la main.";
+  }
+}
 const graceHp = ref(1),
   graceReason = ref("Annulation d’une mort pendant un test");
 const actorName = ref(""),
@@ -224,7 +307,9 @@ const panelTitle = computed(() =>
     ? "Participant"
     : panelMode.value === "character" && chosen.value && chosen.value.kind !== "character"
       ? chosen.value.kind === "npc" ? "Fiche du PNJ" : "Fiche de la créature"
-    : panelMode.value === "gm"
+    : panelMode.value === "summary"
+      ? "Résumé de séance"
+      : panelMode.value === "gm"
       ? "Mener la partie"
       : panelMode.value === "attack"
         ? "Attaquer"
@@ -237,7 +322,8 @@ const panelTitle = computed(() =>
               states: "État & soins",
               rules: "Mes règles",
               rest: "Se reposer",
-              history: "Historique"
+              history: "Historique",
+              summary: "Résumé de séance"
             }[characterTab.value] ?? "Personnage")
 );
 async function openPanel(mode: string, tabKey = "jets") {
@@ -640,6 +726,10 @@ onUnmounted(() => {
   document.removeEventListener("visibilitychange", focus);
 });
 provideLiveTable({
+  requestLabel,
+  requestFor,
+  requestRoll,
+  openSummary,
   room,
   roster,
   selected,
@@ -693,12 +783,13 @@ provideLiveTable({
 
    <section class="table-stage" aria-label="Scène de la campagne" :class="{'has-scene-image':sceneImage}">
     <img v-if="sceneImage" class="scene-art" :src="sceneImage.image" alt="Scène partagée par le MJ" />
-    <div class="scene-caption"><span class="stage-kicker">{{room.combat?.active?'Combat en cours':'À la table'}}</span><h2>{{sceneImage?.payload.label??room.session?.title??'La scène'}}</h2><p v-if="latestRevelation?.payload.text">{{latestRevelation.payload.text}}</p><p v-else-if="!sceneImage">{{room.canManage?'Partage une scène, puis fais vivre la partie.':'La scène, les révélations et vos actions se retrouvent ici.'}}</p><button v-if="room.canManage&&!sceneImage" @click="toggleGmTools">Partager une scène</button></div>
+    <div v-if="sceneImage" class="scene-image-actions"><a :href="sceneImage.image" target="_blank" rel="noopener">Voir l’image en grand ↗</a><button v-if="room.canManage" type="button" class="ui-quiet" :disabled="busy" @click="act('withdraw',{eventId:sceneImage.id})">Retirer l’image</button></div><div class="scene-caption"><span class="stage-kicker">{{room.combat?.active?'Combat en cours':'À la table'}}</span><h2>{{sceneImage?.payload.label??room.session?.title??'La scène'}}</h2><p v-if="latestRevelation?.payload.text">{{latestRevelation.payload.text}}</p><p v-else-if="!sceneImage">{{room.canManage?'Partage une scène, puis fais vivre la partie.':'La scène, les révélations et vos actions se retrouvent ici.'}}</p><button v-if="room.canManage&&!sceneImage" @click="toggleGmTools">Partager une scène</button></div>
     <button v-if="latest" class="stage-roll" @click="feedCollapsed=false"><span>{{latest.characterName??latest.payload.characterName??'MJ'}} · {{latest.payload.label}}</span><strong>{{latest.payload.total}}</strong><small>{{latest.payload.narrativeFailure?'Échec narratif':latest.payload.exploded?'Explosion !':'Voir le détail dans le journal'}}</small></button>
    </section>
 
    <GmDock />
    <button v-if="supportAttention" class="support-prompt response-prompt" @click="openPanel('character','truth')">{{supportAttention}} demande{{supportAttention>1?'s':''}} de soin ou de protection <span>Répondre →</span></button>
+   <div v-if="rollRequest" class="response-prompt roll-request" role="status"><span>Le MJ te demande un jet : <strong>{{ rollRequest.payload.request }}</strong></span><span class="roll-request-actions"><button class="ui-primary" @click="answerRollRequest">Lancer ce jet</button><button class="ui-quiet" @click="dismissedRequest=rollRequest.id">Plus tard</button></span></div>
    <button v-if="combatAttention" class="response-prompt" @click="openPanel('response')">{{combatAttention}} réponse{{combatAttention>1?'s':''}} de combat à traiter <span>Choisir ma défense →</span></button>
    <p v-if="actionError" role="alert">{{ actionError }} <button v-if="pending" :disabled="busy" @click="sendPending">Réessayer l’action</button></p><p v-if="notice" role="status">{{ notice }}</p>
    <CampaignOccultConsent v-if="!room.canManage" :campaign-id="id" @refresh="load" />
@@ -718,8 +809,8 @@ provideLiveTable({
   </nav>
 
    <dialog ref="panel" class="table-workspace" aria-labelledby="table-workspace-title" @close="onPanelClosed">
-    <header class="workspace-header"><div><small>{{panelMode==='gm'?'MJ':chosen?.name??'Table de jeu'}}</small><h2 id="table-workspace-title">{{panelTitle}}</h2></div><button type="button" class="workspace-close" aria-label="Fermer le panneau" @click="closePanel">✕</button></header>
-    <nav v-if="panelMode==='character'&&chosen?.kind==='character'&&(room.canManage||chosen.id===room.ownCharacterId)" class="workspace-tabs" aria-label="Actions du personnage"><button v-for="[key,label] in [['jets','Jets'],['truth','Pouvoirs'],['equipment','Sac'],['states','État']]" :key="key" :aria-pressed="characterTab===key" @click="characterTab=key">{{label}}</button></nav><div class="workspace-body"><CampaignTargetedPowers @attention="supportAttention=$event" v-show="panelMode==='character'&&characterTab==='truth'" :campaign-id="id" :room="room" @changed="load" />   <details v-if="room.canManage" v-show="panelMode==='gm'" id="campaign-gm-tools" class="gm-tools" :open="gmToolsOpen" @toggle="gmToolsOpen=($event.target as HTMLDetailsElement).open"><summary>Outils du MJ <span v-if="occultAttention" class="attention-badge">{{occultAttention}} à résoudre</span><span>Participants, révélations, effets & séance</span></summary><div class="gm-tools-content">
+    <header class="workspace-header"><div><small>{{panelMode==='gm'||panelMode==='summary'?'MJ':chosen?.name??'Table de jeu'}}</small><h2 id="table-workspace-title">{{panelTitle}}</h2></div><button type="button" class="workspace-close" aria-label="Fermer le panneau" @click="closePanel">✕</button></header>
+    <nav v-if="panelMode==='character'&&chosen?.kind==='character'&&(room.canManage||chosen.id===room.ownCharacterId)" class="workspace-tabs" aria-label="Actions du personnage"><button v-for="[key,label] in [['jets','Jets'],['truth','Pouvoirs'],['equipment','Sac'],['states','État']]" :key="key" :aria-pressed="characterTab===key" @click="characterTab=key">{{label}}</button></nav><div class="workspace-body"><section v-if="panelMode==='summary'" class="session-summary"><p v-if="summaryBusy" role="status">Lecture du journal de la séance…</p><template v-else><p>Tout le journal de la séance affichée, du plus ancien au plus récent. Copie-le dans tes notes de campagne et retouche-le.</p><textarea :value="summaryText" readonly rows="18" aria-label="Résumé de séance" /><button type="button" class="ui-primary" @click="copySummary">Copier le résumé</button></template></section><CampaignTargetedPowers @attention="supportAttention=$event" v-show="panelMode==='character'&&characterTab==='truth'" :campaign-id="id" :room="room" @changed="load" />   <details v-if="room.canManage" v-show="panelMode==='gm'" id="campaign-gm-tools" class="gm-tools" :open="gmToolsOpen" @toggle="gmToolsOpen=($event.target as HTMLDetailsElement).open"><summary>Outils du MJ <span v-if="occultAttention" class="attention-badge">{{occultAttention}} à résoudre</span><span>Participants, révélations, effets & séance</span></summary><div class="gm-tools-content">
     <details class="combat-controls"><summary>Rythme du combat & aide</summary><label>Passage des rounds<select :value="room.combat?.mode??'manual'" :disabled="busy" @change="act('combat-mode',{version:room.combat?.version??0,mode:($event.target as HTMLSelectElement).value})"><option value="manual">Manuel · le MJ décide</option><option value="automatic">Automatique · plus aucun PA visible</option></select></label><p>L’initiative reste la même pendant tout le combat. Lance celles des PNJ et créatures ; chaque joueur lance la sienne. Les attaques en attente doivent être résolues avant de passer au round suivant. « Action hors attaque » dépense 1 PA pour une autre action.</p></details>
    <details v-if="room.canManage" @toggle="($event.target as HTMLDetailsElement).open&&findSources()"><summary>Ajouter un PNJ ou une créature</summary><label>Source<select v-model="sourceCatalog"><option value="compendium">Compendium</option><option value="campaign">Cette campagne</option></select></label><label>Catalogue<select v-model="sourceKind"><option value="npc">PNJ</option><option value="creature">Bestiaire</option></select></label><form @submit.prevent="findSources()"><label>Filtrer la liste (facultatif)<input v-model="sourceQuery" maxlength="100" @input="sourceCatalog==='compendium'&&findSources()" /></label><button :disabled="sourceLoading">Rechercher dans le catalogue</button></form><p v-if="sourceLoading" role="status">Chargement du catalogue…</p><label>Fiche source<select v-model="sourceId" aria-label="Fiche source"><option value="">Choisir…</option><option v-for="s in sources" :key="s.id" :value="s.id">{{ s.name }}</option></select></label><button v-if="hasMore" :disabled="sourceLoading" @click="findSources(true)">Afficher la suite</button><label>Nom affiché<input v-model="sourceName" maxlength="120" placeholder="Ex. Garde du portail" /></label><button class="ui-primary" :disabled="busy||!sourceId||!sourceName.trim()" @click="act('add',{catalog:sourceCatalog,kind:sourceKind,sourceId,name:sourceName,visible:false})">Ajouter à la table, caché</button><p>Révèle ensuite le participant depuis sa fiche. Tu peux ajouter plusieurs exemplaires d’une créature.</p></details>
     <details v-if="room.canManage" class="gm-roll"><summary>Jet libre du MJ</summary><form @submit.prevent="act(gmMode==='player'?'random-player':'gm-roll',{label:gmLabel,bonus:gmBonus,stress:gmStress,public:gmPublic,mode:gmMode,faces:gmFaces,count:gmCount})"><div class="actor-controls"><label>Type de tirage<select v-model="gmMode" aria-label="Type de tirage"><option value="explosive">d10 explosif · règles de jeu</option><option value="dice">Dés libres</option><option value="player">Un joueur au hasard</option></select></label><template v-if="gmMode==='dice'"><label>Nombre de dés<input v-model.number="gmCount" type="number" min="1" max="50" /></label><label>Faces par dé<input v-model.number="gmFaces" type="number" min="2" max="1000" list="gm-dice-faces" /><datalist id="gm-dice-faces"><option v-for="n in [4,6,8,10,12,20,100]" :key="n" :value="n" /></datalist></label></template><label>Intitulé du jet<input v-model="gmLabel" maxlength="120" required /></label><label>Modificateur<input v-model.number="gmBonus" type="number" min="-100" max="100" required /></label><label>Stress du jet<select v-model.number="gmStress"><option :value="0">Neutre</option><option :value="1">Tendu</option><option :value="2">Paniqué</option></select></label><label class="check"><input v-model="gmPublic" type="checkbox" /> Visible par les joueurs</label><button class="ui-primary" :disabled="busy||!gmLabel.trim()">{{ gmMode==='player'?'Tirer un joueur au hasard':'Lancer les dés' }}</button></div></form></details>
@@ -758,4 +849,4 @@ provideLiveTable({
 
 <style scoped>.workspace-tabs{display:flex;gap:6px;padding:10px 20px;background:var(--ui-panel-2);border-bottom:1px solid var(--ui-line)}.workspace-tabs button{flex:1;background:var(--ui-accent-bg);border:1px solid var(--ui-line);border-radius:8px;padding:8px}.workspace-tabs button[aria-pressed="true"]{background:var(--ui-line);border-color:var(--ui-accent-soft)}</style>
 <style scoped>
-@media(min-width:851px){.table-workspace{inset:0 0 0 auto;margin:0;width:min(500px,100vw);height:100dvh;max-height:none;border-radius:16px 0 0 16px;z-index:50;box-shadow:-20px 0 60px #0009}}@media(min-width:1300px){.live-page.drawer-open{padding-right:516px;max-width:none}}@media(max-width:850px){.table-workspace{inset:auto 0 0 0;margin:0;width:100vw;max-height:82dvh;border-radius:16px 16px 0 0;z-index:50;box-shadow:0 -20px 60px #0009}}</style>
+@media(min-width:851px){.table-workspace{inset:0 0 0 auto;margin:0;width:min(500px,100vw);height:100dvh;max-height:none;border-radius:16px 0 0 16px;z-index:50;box-shadow:-20px 0 60px #0009}}@media(min-width:1300px){.live-page.drawer-open{padding-right:516px;max-width:none}}@media(max-width:850px){.table-workspace{inset:auto 0 0 0;margin:0;width:100vw;max-height:82dvh;border-radius:16px 16px 0 0;z-index:50;box-shadow:0 -20px 60px #0009}}.roll-request{background:var(--ui-accent-bg);border-color:var(--ui-accent);align-items:center;flex-wrap:wrap}.roll-request-actions{display:flex;gap:8px}.scene-image-actions{position:absolute;top:12px;right:12px;display:flex;gap:10px;align-items:center;padding:4px 10px;border-radius:999px;background:#040c14cc;font-size:var(--ui-text-sm)}.session-summary{display:grid;gap:10px}.session-summary textarea{font:var(--ui-text-sm)/1.5 ui-monospace,Consolas,monospace;white-space:pre-wrap}</style>

@@ -1167,7 +1167,8 @@ export async function registerCharacterPlayRoutes(app: FastifyInstance) {
                 revelation: state.revelation,
                 effects: (state.effects ?? []).map((e: any) => ({
                   id: e.id,
-                  name: e.name
+                  name: e.name,
+                  expires: e.expires
                 })),
                 canReadSheet: true
               }

@@ -339,6 +339,7 @@ export async function registerCampaignLiveRoutes(app: FastifyInstance) {
           "combat-round",
           "combat-mode",
           "message",
+          "roll-request",
           "withdraw",
           "add",
           "roll",
@@ -367,6 +368,15 @@ export async function registerCampaignLiveRoutes(app: FastifyInstance) {
         await db.query("SELECT pg_advisory_xact_lock(hashtext($1))", [
           b.requestId
         ]);
+        // Destinataire d'un message privé : le joueur d'un personnage accepté dans la campagne.
+        const recipientOf = async (characterId: unknown) => {
+          if (!validId(characterId)) return null;
+          const to = await db.query(
+            "SELECT m.user_id,c.name FROM campaign_members m JOIN characters c ON c.id=m.character_id WHERE m.campaign_id=$1 AND m.character_id=$2 AND m.status='accepted'",
+            [req.params.id, characterId]
+          );
+          return to.rows[0] ?? null;
+        };
         const seen = await db.query(
           "SELECT campaign_id,created_by,request_payload FROM campaign_live_events WHERE id=$1",
           [b.requestId]
@@ -482,16 +492,11 @@ export async function registerCampaignLiveRoutes(app: FastifyInstance) {
             mime = pic.mime;
           }
           if (b.recipientCharacterId !== undefined) {
-            if (!validId(b.recipientCharacterId))
-              return await fail(400, "invalid_live_recipient");
-            const to = await db.query(
-              "SELECT m.user_id,c.name FROM campaign_members m JOIN characters c ON c.id=m.character_id WHERE m.campaign_id=$1 AND m.character_id=$2 AND m.status='accepted'",
-              [req.params.id, b.recipientCharacterId]
-            );
-            if (!to.rowCount) return await fail(400, "invalid_live_recipient");
-            recipient = to.rows[0].user_id;
+            const to = await recipientOf(b.recipientCharacterId);
+            if (!to) return await fail(400, "invalid_live_recipient");
+            recipient = to.user_id;
             payload = {
-              label: "Révélation privée du MJ · pour " + to.rows[0].name,
+              label: "Révélation privée du MJ · pour " + to.name,
               text: b.text.trim(),
               link: url
             };
@@ -504,10 +509,33 @@ export async function registerCampaignLiveRoutes(app: FastifyInstance) {
             };
             publicEvent = true;
           }
+        } else if (b.action === "roll-request") {
+          // Le MJ demande un jet : les joueurs concernés voient une invitation à lancer.
+          if (
+            typeof b.label !== "string" ||
+            !b.label.trim() ||
+            b.label.length > 120
+          )
+            return await fail(400, "invalid_roll_request");
+          const asked = b.label.trim();
+          if (b.recipientCharacterId !== undefined) {
+            const to = await recipientOf(b.recipientCharacterId);
+            if (!to) return await fail(400, "invalid_live_recipient");
+            recipient = to.user_id;
+            payload = {
+              label: `Jet demandé par le MJ · ${asked} · pour ${to.name}`,
+              request: asked,
+              forCharacterId: b.recipientCharacterId
+            };
+            publicEvent = false;
+          } else {
+            payload = { label: `Jet demandé par le MJ · ${asked}`, request: asked };
+            publicEvent = true;
+          }
         } else if (b.action === "withdraw") {
           if (!validId(b.eventId)) return await fail(400, "invalid_live_event");
           const r = await db.query(
-            "UPDATE campaign_live_events SET withdrawn=true WHERE id=$1 AND campaign_id=$2 AND kind='message' RETURNING id",
+            "UPDATE campaign_live_events SET withdrawn=true WHERE id=$1 AND campaign_id=$2 AND kind IN ('message','roll-request') RETURNING id",
             [b.eventId, req.params.id]
           );
           if (!r.rowCount) return await fail(404, "live_event_not_found");

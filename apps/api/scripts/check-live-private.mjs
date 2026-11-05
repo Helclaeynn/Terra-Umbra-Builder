@@ -20,6 +20,10 @@ try{
  await post(gm,base+'/actions',{requestId:randomUUID(),action:'message',text:'Pour toute la table'});
  await post(gm,base+'/actions',{requestId:randomUUID(),action:'message',text:'Secret pour Alice',recipientCharacterId:aliceChar});
  await post(gm,base+'/actions',{requestId:randomUUID(),action:'message',text:'x',recipientCharacterId:randomUUID()},400);
+ const ask=randomUUID();await post(gm,base+'/actions',{requestId:ask,action:'roll-request',label:'Perception',recipientCharacterId:aliceChar});
+ await post(gm,base+'/actions',{requestId:randomUUID(),action:'roll-request',label:'Discrétion'});
+ await post(gm,base+'/actions',{requestId:randomUUID(),action:'roll-request',label:' '},400);
+ await post(alice,base+'/actions',{requestId:randomUUID(),action:'roll-request',label:'Triche'},404);
  const note=randomUUID();
  await post(alice,base+'/notes',{requestId:note,text:'Je trahis le groupe'});
  await post(alice,base+'/notes',{requestId:note,text:'Je trahis le groupe'});
@@ -28,6 +32,10 @@ try{
  const forAlice=await labels(cid,alice),forBob=await labels(cid,bob),forGm=await labels(cid,gm,true);
  assert.ok(forAlice.includes('Révélation privée du MJ · pour Alice CI')&&forAlice.includes('Note privée au MJ'),'Alice lit son secret et sa note');
  assert.ok(!forBob.some(l=>/privée/i.test(l)),'Bob ne voit aucun message privé');
+ assert.ok(forAlice.includes('Jet demandé par le MJ · Perception · pour Alice CI'),'Alice voit le jet qui lui est demandé');
+ assert.ok(!forBob.some(l=>l.includes('Perception'))&&forBob.includes('Jet demandé par le MJ · Discrétion'),'Bob ne voit que le jet demandé à tous');
+ await post(gm,base+'/actions',{requestId:randomUUID(),action:'withdraw',eventId:ask});
+ assert.ok(!(await labels(cid,alice)).some(l=>l.includes('Perception')),'Le MJ peut retirer un jet demandé');
  assert.ok(forBob.includes('Révélation du MJ'),'Bob voit la révélation publique');
  assert.equal(forGm.filter(l=>l==='Note privée au MJ').length,1,'Le MJ lit la note, sans doublon');
  console.log('MESSAGES PRIVÉS OK — révélation à un joueur et note au MJ lues par eux seuls, aucun doublon, destinataire hors campagne refusé');
