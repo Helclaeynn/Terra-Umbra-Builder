@@ -51,6 +51,10 @@ services:
   recette-web:
     image: tuc-recette-web:latest
     restart: unless-stopped
+    # Dossiers PDF et cartes rangés à part (.dockerignore), copiés par deploy-recette.sh.
+    volumes:
+      - ./static/pdf-dossiers:/usr/share/nginx/html/pdf/dossiers:ro
+      - ./static/map-assets:/usr/share/nginx/html/map-assets:ro
     networks:
       - caddy
 

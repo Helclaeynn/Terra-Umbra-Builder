@@ -53,6 +53,11 @@ services:
       context: ..
       dockerfile: apps/web/Dockerfile
     restart: unless-stopped
+    # Dossiers PDF et cartes rangés à part (.dockerignore) : la copie des sources
+    # du serveur, mise à jour par deploy.sh avant chaque bascule.
+    volumes:
+      - ../apps/web/public/pdf/dossiers:/usr/share/nginx/html/pdf/dossiers:ro
+      - ../apps/web/public/map-assets:/usr/share/nginx/html/map-assets:ro
     networks:
       - frontend
 

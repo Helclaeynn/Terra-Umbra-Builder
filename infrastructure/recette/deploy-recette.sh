@@ -67,6 +67,13 @@ if ! grep -q '^DIRECTUS_DB_PASSWORD=' "$dir/.env"; then
 ' "$(head -c 48 /dev/urandom | base64 | tr -dc A-Za-z0-9 | head -c 32)" >> "$dir/.env"
 fi
 
+# Dossiers PDF et cartes : hors de l'image du site, servis depuis static/
+# (seuls les fichiers changés sont réécrits).
+mkdir -p "$dir/static/pdf-dossiers" "$dir/static/map-assets"
+rsync -a --delete "$stage/apps/web/public/pdf/dossiers/" "$dir/static/pdf-dossiers/"
+rsync -a --delete "$stage/apps/web/public/map-assets/" "$dir/static/map-assets/"
+chmod -R a+rX "$dir/static"
+
 echo "== Construction des images"
 docker build --pull=false -f "$stage/apps/api/Dockerfile" \
   --label "org.opencontainers.image.revision=$sha" -t tuc-recette-api:latest "$stage" </dev/null

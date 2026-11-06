@@ -98,6 +98,8 @@ echo "== Sources du serveur"
 for dir in apps character-builder compendium; do
   rsync -a --delete --exclude node_modules --exclude dist "$stage/src/$dir/" "$root/$dir/"
 done
+# Dossiers PDF et cartes servis depuis cette copie (volumes de docker-compose.yml).
+chmod -R a+rX "$root/apps/web/public/pdf/dossiers" "$root/apps/web/public/map-assets"
 rsync -a --delete --exclude .env --exclude Caddyfile --exclude backup/ \
   "$stage/src/infrastructure/" "$root/infrastructure/"
 caddy_changed=false
@@ -146,6 +148,8 @@ printf '%s\n' "$sha" > "$root/.production-sha"
 rm -f "$archive"
 # Garde les deux derniers dossiers de mise en ligne et une image de retour arrière.
 ls -dt "$root"/releases/deploy-* | tail -n +3 | xargs -r rm -rf
+# Les dossiers PDF et cartes y sont déjà dans $root/apps : inutile de les garder deux fois de plus.
+rm -rf "$stage/src/apps/web/public/pdf/dossiers" "$stage/src/apps/web/public/map-assets"
 docker images --format '{{.Repository}}:{{.Tag}}' |
   grep -E '^tuc-v2-(api|web):' |
   grep -vE ":(latest|rollback|$short)$" |
