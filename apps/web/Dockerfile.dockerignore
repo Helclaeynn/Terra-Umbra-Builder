@@ -1,0 +1,6 @@
+# Poids du site (06/11) : dossiers PDF (~400 Mo) et cartes (~130 Mo) ne sont plus
+# copiés dans l'image du site à chaque version (Docker lit ce fichier à côté du
+# Dockerfile ; chemins depuis la racine du dépôt). Le serveur les range une fois à
+# part et les sert tels quels (volumes des docker-compose.yml). Adresses inchangées.
+apps/web/public/pdf/dossiers
+apps/web/public/map-assets
