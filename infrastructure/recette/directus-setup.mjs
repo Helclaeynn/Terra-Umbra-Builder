@@ -198,4 +198,39 @@ for (const [bookmark, icon, filter, sort = ["title"]] of LISTES) {
   else await must(call("POST", "/presets", preset), `Liste ${bookmark}`);
 }
 
-console.log(`Directus configuré : 7 collections, 6 liens, champs en français, ${LISTES.length} listes.`);
+// ---------------------------------------------------------------- charte
+// Directus aux couleurs du site (charte du 06/11) : logo TU, cyan de Réalité,
+// fond nuit, français, thème sombre. Pas de police Google : Directus garde Inter.
+
+const LOGO_TITRE = "Logo Terra Umbra";
+const LOGO = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="12" fill="#080f17"/><rect x="3" y="3" width="58" height="58" rx="10" fill="none" stroke="#58dcc5" stroke-width="2.5"/><text x="32" y="41" text-anchor="middle" font-family="Arial, sans-serif" font-weight="700" font-size="24" fill="#58dcc5">TU</text></svg>`;
+let [logo] = await must(call("GET", `/files?filter=${encodeURIComponent(JSON.stringify({ title: { _eq: LOGO_TITRE } }))}&fields=id`), "Recherche du logo");
+if (!logo) {
+  const form = new FormData();
+  form.append("title", LOGO_TITRE);
+  form.append("file", new Blob([LOGO], { type: "image/svg+xml" }), "terra-umbra-logo.svg");
+  const res = await fetch(`${base}/files`, { method: "POST", headers: { Authorization: `Bearer ${token}` }, body: form });
+  if (!res.ok) throw new Error(`Envoi du logo : ${res.status} ${await res.text()}`);
+  logo = (await res.json()).data;
+}
+
+const NUIT = "#080f17", SURFACE = "#0f1b26", RELIEF = "#172838", TRAIT = "#2a4250", TEXTE = "#eef6f8", DOUX = "#91a7b1", REALITE = "#58dcc5";
+await must(call("PATCH", "/settings", {
+  project_name: "Terra Umbra",
+  project_descriptor: "Atelier du contenu",
+  project_color: REALITE,
+  project_logo: logo.id,
+  public_foreground: null,
+  public_note: "Édition du compendium de Terra Umbra. Une modification passe « en relecture » ; le site n'affiche que ce qui est publié.",
+  default_language: "fr-FR",
+  default_appearance: "dark",
+  theme_dark_overrides: {
+    background: NUIT, backgroundNormal: SURFACE, backgroundAccent: RELIEF, backgroundSubdued: NUIT,
+    foreground: TEXTE, foregroundSubdued: DOUX, borderColor: TRAIT, borderColorSubdued: TRAIT,
+    primary: REALITE, success: REALITE, warning: "#e8b65c", danger: "#e07b74",
+    navigation: { background: NUIT, backgroundAccent: SURFACE, project: { background: NUIT }, modules: { background: "#050a10" } },
+    public: { background: NUIT, art: { background: "#0b2333", primary: REALITE, secondary: "#a98bff" } }
+  }
+}), "Charte de Directus");
+
+console.log(`Directus configuré : 7 collections, 6 liens, champs en français, ${LISTES.length} listes, charte du site.`);
