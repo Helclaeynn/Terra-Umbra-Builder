@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { confirmDialog } from "../../lib/confirm-dialog";
 import EverydayEquipment from "./EverydayEquipment.vue";
 import {builderPurchaseAllowed} from "../../../../api/src/rules/builder-equipment-policy";
 import { computed, nextTick, ref } from "vue";
@@ -483,8 +484,8 @@ function setCorporateSupportItem(itemId:string){
   notify();
 }
 
-function repriceCreation(){
-  if(!window.confirm('Recalculer uniquement les achats de création avec les Talents actuels ? Les transactions de campagne sont conservées.'))return;
+async function repriceCreation(){
+  if(!await confirmDialog('Recalculer uniquement les achats de création avec les Talents actuels ? Les transactions de campagne sont conservées.'))return;
   for(const p of [...state.value.equipment,...state.value.augmentations]){
     if(p.acquiredInCampaign||p.sphereSupport||p.talentGrant)continue;
     const item=items.value.get(p.itemId);if(!item)continue;

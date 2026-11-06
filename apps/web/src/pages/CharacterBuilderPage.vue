@@ -40,7 +40,7 @@ const {
   edgePurchaseDisabled, edgePurchasePlusDisabled, edgePurchaseMinusDisabled, edgeOptionResult, edgeSkillPointsForAttribute, edgeSkillsForAttribute,
   selectedDisadvantageItems, finalAttribute, skillPermanent, ownedRealityTalentIds, derivedStats, realityState, realityItems, realityEconomyValue,
   lifestyleBaseValue, lifestylePressureValue, augmentationLoadValue, requiredLanguageCount, socialLanguages, selectedNpcContact, socialValidation,
-  equipmentValidation, formatMoney, validationReasons, creationStepIds, creationValidationMap, finalValidationStatuses, progressionSkillBases,
+  equipmentValidation, formatMoney, validationReasons, stepReason, creationStepIds, creationValidationMap, finalValidationStatuses, progressionSkillBases,
   progressionSkillFinalBases, progressionAttributeBases, truthConsciousnessName, originNameValue, sphereNameValue, styleNameValue, renownScore,
   campaignCashValue, pdfInput, characterSheet, knowledgeRefs, knowledgeGroups, navigateFromFinalization, builderProgress, stepDone, loadCharacter,
   saveCharacter, readImage, loadImage, canvasData, resizePortrait, setPortrait, removePortrait, selectOrigin, selectOriginTalent,
@@ -235,13 +235,16 @@ const {
           >
             <span>{{ index + 1 }}.</span>
             <strong>{{ label }}</strong>
-            <small v-if="enabled">{{ stepDone(id) ? "ok" : "à compléter" }}</small>
+            <small v-if="enabled" :title="stepDone(id) ? undefined : stepReason(id)">{{ stepDone(id) ? "ok" : "à compléter" }}</small>
             <small v-else>à reconstruire</small>
           </button>
         </nav>
       </aside>
 
       <section class="builder-main">
+        <p v-if="!progressionMode && creationStepIds.includes(activeStep) && !stepDone(activeStep) && stepReason(activeStep)" class="step-reason">
+          <span aria-hidden="true">◇</span> Pour terminer cette étape : {{ stepReason(activeStep) }}
+        </p>
         <div v-if="localDraft" class="feedback local-draft" role="status">
           <span>Une création non enregistrée du {{ new Date(localDraft.savedAt).toLocaleString('fr-FR', { dateStyle: 'short', timeStyle: 'short' }) }} est gardée dans ce navigateur.<template v-if="character && localDraft.version !== character.version"> La fiche a été enregistrée ailleurs depuis : la reprendre remplacera ces changements quand tu enregistreras.</template></span>
           <button type="button" class="primary" @click="restoreLocalDraft">Reprendre</button>
@@ -424,6 +427,8 @@ const {
 .builder-v2-shell .builder-compendium-return:hover:where(:not(:is(.aseryn-choices,.builder-wiki-ref,.character-gallery,.character-pdf-actions,.character-sheet,.threshold-note,.corruption-authorization,.corruption-panel,.equipment-step,.finish-step,.nature-start-guide,.progression-step,.talent-selector,.tu-orbital-brand,.guided-choice,.truth-equipment-panel,.truth-talent-text,.training-choice) *)){color:var(--c-text)}
 .builder-v2-shell .back-link:where(:not(:is(.aseryn-choices,.builder-wiki-ref,.character-gallery,.character-pdf-actions,.character-sheet,.threshold-note,.corruption-authorization,.corruption-panel,.equipment-step,.finish-step,.nature-start-guide,.progression-step,.talent-selector,.tu-orbital-brand,.guided-choice,.truth-equipment-panel,.truth-talent-text,.training-choice) *)){text-decoration:none;display:inline-flex;align-items:center}
 .builder-v2-shell .builder-loading:where(:not(:is(.aseryn-choices,.builder-wiki-ref,.character-gallery,.character-pdf-actions,.character-sheet,.threshold-note,.corruption-authorization,.corruption-panel,.equipment-step,.finish-step,.nature-start-guide,.progression-step,.talent-selector,.tu-orbital-brand,.guided-choice,.truth-equipment-panel,.truth-talent-text,.training-choice) *)){min-height:calc(100vh - 74px);display:grid;place-content:center;gap:1rem;color:var(--c-text-soft);text-align:center}
+.step-reason{margin:0 0 12px;padding:8px 12px;border-left:3px solid var(--c-attention);border-radius:4px;background:color-mix(in srgb,var(--c-attention) 8%,transparent);color:var(--c-text-soft);font-size:14px}
+.step-reason span{color:var(--c-attention)}
 .local-draft{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 .local-draft span{flex:1 1 260px}
 .builder-v2-shell .error-state strong:where(:not(:is(.aseryn-choices,.builder-wiki-ref,.character-gallery,.character-pdf-actions,.character-sheet,.threshold-note,.corruption-authorization,.corruption-panel,.equipment-step,.finish-step,.nature-start-guide,.progression-step,.talent-selector,.tu-orbital-brand,.guided-choice,.truth-equipment-panel,.truth-talent-text,.training-choice) *)){color:#e2b0aa}
@@ -787,4 +792,11 @@ to{opacity:1;transform:none}
 .builder-v2-shell .truth-owned-card:where(:not(:is(.aseryn-choices,.builder-wiki-ref,.character-gallery,.character-pdf-actions,.character-sheet,.threshold-note,.corruption-authorization,.corruption-panel,.equipment-step,.finish-step,.nature-start-guide,.progression-step,.talent-selector,.tu-orbital-brand,.guided-choice,.truth-equipment-panel,.truth-talent-text,.training-choice) *)){min-width:0;overflow-wrap:anywhere}
 .builder-v2-shell [data-common-truth-talents] .truth-owned-card:where(:not(:is(.aseryn-choices,.builder-wiki-ref,.character-gallery,.character-pdf-actions,.character-sheet,.threshold-note,.corruption-authorization,.corruption-panel,.equipment-step,.finish-step,.nature-start-guide,.progression-step,.talent-selector,.tu-orbital-brand,.guided-choice,.truth-equipment-panel,.truth-talent-text,.training-choice) *)){flex:1 1 280px;max-width:100%;box-sizing:border-box;grid-template-columns:minmax(0,1fr)}
 .builder-v2-shell [data-common-truth-talents] .truth-owned-card>button:where(:not(:is(.aseryn-choices,.builder-wiki-ref,.character-gallery,.character-pdf-actions,.character-sheet,.threshold-note,.corruption-authorization,.corruption-panel,.equipment-step,.finish-step,.nature-start-guide,.progression-step,.talent-selector,.tu-orbital-brand,.guided-choice,.truth-equipment-panel,.truth-talent-text,.training-choice) *)){grid-column:1;grid-row:auto}
+/* Téléphone : Précédent / Suivant restent sous le pouce, collés en bas de l'écran (lot Builder, 06/11). */
+@media(max-width:620px){
+  .builder-v2-shell nav.builder-step-controls{position:sticky;bottom:0;z-index:15;grid-template-columns:1fr 1.4fr;gap:8px;margin:1rem -12px 0;padding:8px 12px calc(8px + env(safe-area-inset-bottom));background:color-mix(in srgb,var(--c-night) 92%,transparent);backdrop-filter:blur(10px);border-top:1px solid var(--c-line)}
+  .builder-v2-shell nav.builder-step-controls>span{display:block}
+  .builder-v2-shell nav.builder-step-controls>button{min-height:48px;padding:.5rem .7rem;flex-direction:column;align-items:flex-start;justify-content:center;gap:2px}
+  .builder-v2-shell nav.builder-step-controls small{overflow:hidden;max-width:100%;text-overflow:ellipsis;white-space:nowrap}
+}
 </style>

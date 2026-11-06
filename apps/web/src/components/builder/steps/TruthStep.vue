@@ -8,6 +8,7 @@ import CharacterGallery from "../../CharacterGallery.vue";
 import BuilderWikiLink from "../BuilderWikiLink.vue";
 import TruthEquipmentPanel from "../TruthEquipmentPanel.vue";
 import CorruptionPanel from "../CorruptionPanel.vue";
+import { ref } from "vue";
 import { useBuilder } from "../../../lib/character-builder";
 
 const {
@@ -48,6 +49,29 @@ const {
   truthRevelationProfile, truthSanitizeChoices, truthSanitizeCorruptionTalents, truthSanitizeTalents, truthCorruptionPrerequisiteSatisfied,
   truthEquipmentInvalidIds, truthSelectedFreeTraits, buildCharacterSheet
 } = useBuilder();
+// Paliers d'une voie, allumés dans la couleur de la Nature dès qu'un de leurs Talents est pris.
+function voieTrack(name: string) {
+  const group = truthGroupOptions.value.find((item) => item.name === name);
+  if (!group?.voie) return [];
+  const tiers = new Map<string, { label: string; lit: boolean; order: number }>();
+  for (const talent of group.items) {
+    if (!talent.voie) continue;
+    const label = truthVoieStep(talent.voie) || talent.name;
+    const palier = talent.voie.palier === "entree" ? 0 : Number(talent.voie.palier) || 50;
+    const porte = talent.voie.porte === "sommet" ? 9 : Number(talent.voie.porte) || 0;
+    const tier = tiers.get(label) ?? { label, lit: false, order: palier * 10 + porte };
+    tier.lit ||= truthTalentSelected(talent.id);
+    tiers.set(label, tier);
+  }
+  return [...tiers.values()].sort((a, b) => a.order - b.order);
+}
+
+// Changement refusé dans la fenêtre de confirmation : les cartes reviennent à la Nature actuelle.
+const natureCardsKey = ref(0);
+async function pickNature(id: string) {
+  await setTruthNature(id);
+  if (currentTruthState.value?.nature !== id) natureCardsKey.value++;
+}
 </script>
 
 <template>
@@ -74,25 +98,28 @@ const {
 
     <template v-else>
       <section v-if="activeStep === 'truth'" class="truth-picker" :style="{ '--nature': `var(--nature-${currentTruthState.nature}, var(--c-truth))` }">
-        <div class="truth-picker-grid">
-          <label>
-            <span>Nature</span>
-            <div class="v1-select-shell">
-              <select
-                :value="currentTruthState.nature"
-                @change="setTruthNature(($event.target as HTMLSelectElement).value)"
-              >
-                <option
-                  v-for="nature in Object.values(truthRules.structure.natures)"
-                  :key="nature.id"
-                  :value="nature.id"
-                  :title="nature.description"
-                >
-                  {{ nature.name }}
-                </option>
-              </select>
-            </div>
+        <!-- Choix de la Nature en cartes, chacune dans sa couleur (lot Builder, 06/11). -->
+        <fieldset :key="natureCardsKey" class="nature-cards">
+          <legend>Nature</legend>
+          <label
+            v-for="nature in Object.values(truthRules.structure.natures)"
+            :key="nature.id"
+            class="nature-card"
+            :class="{ on: currentTruthState.nature === nature.id }"
+            :style="{ '--card': `var(--nature-${nature.id}, var(--c-truth))` }"
+          >
+            <input
+              type="radio"
+              name="truth-nature"
+              :value="nature.id"
+              :checked="currentTruthState.nature === nature.id"
+              @change="pickNature(nature.id)"
+            />
+            <strong>{{ nature.name }}</strong>
+            <small v-if="nature.description">{{ nature.description }}</small>
           </label>
+        </fieldset>
+        <div class="truth-picker-grid">
 
           <label>
             <span>Conscience</span>
@@ -319,11 +346,15 @@ const {
               v-for="group in visibleTruthGroups"
               :key="group.name"
               class="truth-group"
+              :style="{ '--nature': `var(--nature-${currentTruthState.nature}, var(--c-truth))` }"
             >
               <summary>
                 <span>
                   <strong>{{ group.name }}</strong>
                   <small><template v-if="group.couche">{{ group.couche }} · </template>{{ group.items.length }} Talent{{ group.items.length > 1 ? "s" : "" }}</small>
+                </span>
+                <span v-if="voieTrack(group.name).length > 1" class="voie-track" :aria-label="`Paliers pris : ${voieTrack(group.name).filter((tier) => tier.lit).length} sur ${voieTrack(group.name).length}`">
+                  <i v-for="tier in voieTrack(group.name)" :key="tier.label" :class="{ lit: tier.lit }" :title="tier.label + (tier.lit ? ' · pris' : '')"></i>
                 </span>
               </summary>
 
@@ -401,4 +432,25 @@ const {
 
 <style scoped>
 .truth-picker{border-left:3px solid var(--nature);padding-left:14px;transition:border-color .3s}
+.nature-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:8px;margin:0 0 16px;padding:0;border:0}
+.nature-cards legend{margin-bottom:8px;font:600 12px var(--font-label);letter-spacing:.14em;text-transform:uppercase;color:var(--c-muted)}
+.nature-card{position:relative;display:grid;gap:4px;align-content:start;padding:12px 12px 12px 15px;border:1px solid var(--c-line);border-radius:8px;background:var(--c-surface);cursor:pointer;transition:border-color .2s,background .2s,transform .2s}
+.nature-card::before{content:"";position:absolute;inset:8px auto 8px 0;width:3px;border-radius:0 3px 3px 0;background:var(--card)}
+.nature-card:hover{border-color:color-mix(in srgb,var(--card) 60%,var(--c-line))}
+.nature-card.on{border-color:var(--card);background:color-mix(in srgb,var(--card) 12%,var(--c-surface));box-shadow:0 0 0 1px var(--card) inset}
+.nature-card input{position:absolute;opacity:0;pointer-events:none}
+.nature-card:has(input:focus-visible){outline:2px solid var(--card);outline-offset:2px}
+.nature-card strong{color:var(--c-text);font:600 15px var(--font-title)}
+.nature-card.on strong{color:var(--card)}
+.nature-card small{color:var(--c-text-soft);font-size:13px;line-height:1.35;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+@media(prefers-reduced-motion:no-preference){.nature-card.on{animation:nature-pick .35s ease-out}}
+@keyframes nature-pick{from{transform:scale(.97)}to{transform:none}}
+.truth-group>summary>span.voie-track{display:inline-flex;flex:none;justify-content:flex-start;align-items:center;gap:0;margin-left:auto;padding-left:12px}
+.voie-track i{position:relative;width:10px;height:10px;border-radius:50%;border:1.5px solid color-mix(in srgb,var(--nature) 45%,var(--c-line-strong));background:var(--c-night);transition:background .35s,border-color .35s,box-shadow .35s}
+.voie-track i+i{margin-left:14px}
+.voie-track i+i::before{content:"";position:absolute;right:100%;top:50%;width:14px;height:2px;margin-right:1.5px;transform:translateY(-50%);background:var(--c-line)}
+.voie-track i.lit{background:var(--nature);border-color:var(--nature);box-shadow:0 0 8px color-mix(in srgb,var(--nature) 70%,transparent)}
+.voie-track i.lit+i.lit::before{background:var(--nature)}
+@media(prefers-reduced-motion:no-preference){.voie-track i.lit{animation:voie-light .6s ease-out}}
+@keyframes voie-light{0%{transform:scale(.6);box-shadow:0 0 0 transparent}50%{transform:scale(1.35);box-shadow:0 0 14px var(--nature)}100%{transform:none}}
 </style>

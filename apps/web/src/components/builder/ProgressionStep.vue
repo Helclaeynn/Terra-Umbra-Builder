@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { confirmDialog } from "../../lib/confirm-dialog";
 import NatureStartGuide from './NatureStartGuide.vue';
 import {vampireUnavailable,vampireNativeBlood} from "../../lib/vampire";
 import {khinaeUnavailable} from "../../lib/khinae";
@@ -379,10 +380,10 @@ function buyRealityTalent(talent:RuleTalent){
   if(choiceDrafts.value[talent.id]!==undefined)next.realityTalentChoices[talent.id]=choiceDrafts.value[talent.id];
   emitProgression(next);
 }
-function removeRealityTalent(id:string){
+async function removeRealityTalent(id:string){
   const next=structuredClone(state.value);
   const affected=realityState.value.equipment.some(p=>p.talentGrant===id)||realityState.value.fixedChargeItems.some(c=>c.talentGrant===id);
-  if(affected&&!window.confirm('Retirer ce Talent et restituer ses prêts/prestations ? Vos achats personnels restent conservés.'))return;
+  if(affected&&!await confirmDialog('Retirer ce Talent et restituer ses prêts/prestations ? Vos achats personnels restent conservés.'))return;
   freezeCampaignCash(next,props.creationAccount);
   next.realityTalents=next.realityTalents.filter(item=>item!==id);
   const real=structuredClone(realityState.value);pruneBenefits(real,uniqueTalents(props.creationTalentIds,next.realityTalents),props.sphereId);
@@ -448,9 +449,9 @@ function removeTruthTalent(id:string){
   }
   emitProgression(next);
 }
-function initiateTruth(){
+async function initiateTruth(){
   if(props.truthState.consciousness!=="profane")return;
-  if(!window.confirm("Confirmer que le personnage a été initié à la Vérité en campagne ?"))return;
+  if(!await confirmDialog("Le personnage a-t-il bien été initié à la Vérité en campagne ?",{title:"Initiation à la Vérité",confirm:"Oui, il est initié"}))return;
   emit("update:truth",{...props.truthState,consciousness:"initie"});
 }
 
@@ -595,10 +596,10 @@ const salePreview=computed(()=>{
   const troc=combinedRealityIds.value.includes('maitre_du_troc');
   return {degree,reference,troc,total:saleWithTalents(reference,degree.sale,troc)};
 });
-function sellCampaignItem(){
+async function sellCampaignItem(){
   const row=saleRow.value;
   if(!row||!saleAllowed(row.purchase)||!salePreview.value.reference)return;
-  if(!window.confirm("Revendre "+row.item.name+" pour "+money(salePreview.value.total)+" ?"))return;
+  if(!await confirmDialog("Revendre "+row.item.name+" pour "+money(salePreview.value.total)+" ?"))return;
   const progress=structuredClone(state.value);
   const reality=structuredClone(realityState.value);
   const list=row.kind==="augmentation"?reality.augmentations:reality.equipment;

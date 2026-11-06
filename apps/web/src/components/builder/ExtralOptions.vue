@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { confirmDialog } from "../../lib/confirm-dialog";
 import {computed} from 'vue';
 import type {TruthState,TruthRulesPackage} from '../../lib/truth';
 import {normalizeExtralBuild,extralTalentIds as ids,extralInventory,extralUsableTalents,extralSheetDetails,extralNetworkAccess,extralAccessLabels,type ExtralBuild,type ExtralPreparation,type ExtralDefinition} from '../../lib/extral';
@@ -21,7 +22,7 @@ function addPreparation(){if(config.value.preparations.length>=capacity.value)re
 function setPatch(id:string,value:string){const other=config.value.patches.filter(p=>p.uid!==id);patch({patches:value?[...other,{uid:id,state:value==='phased'?'phased':'materialized'}]:other});}
 function addProject(){if(config.value.projects.length>=12)return;patch({projects:[...config.value.projects,{uid:uid(),name:'',talentId:'',effect:'',materials:'',duration:'',limits:'',pa:null}]});}
 function project(i:number,key:keyof ExtralDefinition,value:string|number|null){patch({projects:config.value.projects.map((p,index)=>index===i?{...p,[key]:value}:p)});}
-function resetScenario(){if(window.confirm('Un nouveau scénario commence : réinitialiser les deux compteurs de suivi nanitique, sans rendre de PV ?'))patch({reserveUsed:false,repairUsed:false});}
+async function resetScenario(){if(await confirmDialog('Un nouveau scénario commence : réinitialiser les deux compteurs de suivi nanitique, sans rendre de PV ?'))patch({reserveUsed:false,repairUsed:false});}
 </script>
 <template>
  <section v-if="state.nature==='extral'" class="extral-options" aria-label="Physiologie et configurations Extrals">

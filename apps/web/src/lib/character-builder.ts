@@ -1,6 +1,7 @@
 // État et règles du Builder de personnage, partagés par la page et ses étapes
 // (components/builder/steps). Extrait tel quel de CharacterBuilderPage.vue.
 import { inject, type InjectionKey } from "vue";
+import { confirmDialog } from "./confirm-dialog";
 import { usePageTitle } from "./page-title";
 import {truthUnavailableHunters} from "./truth";
 import {vampireUnavailable,vampireNativeBlood} from "./vampire";
@@ -894,6 +895,54 @@ const creationValidationMap=computed<Record<string,boolean>>(()=>{
   return result;
 });
 
+// Ce qui manque précisément à une étape (lot Builder, 06/11), à la place du seul « à compléter ».
+const plural=(n:number,word:string)=>`${n} ${word}${Math.abs(n)>1?"s":""}`;
+function stepReason(id:StepId):string{
+  const d=draft.value,r=rules.value;
+  if(!d||!r)return validationReasons[id]??"À compléter";
+  const missing:string[]=[];
+  if(["truth","disadvantages","edge"].includes(id)&&!reviewedOptionalSteps.value.includes(id))return "Ouvre cette étape pour la valider, même sans rien y changer.";
+  if(id==="identity"){
+    if(!d.identity.name.trim())missing.push("le nom");
+    if(!d.identity.age.trim())missing.push("l’âge");
+    return missing.length?`Il manque ${missing.join(" et ")}.`:"";
+  }
+  if(id==="origin"){
+    if(!d.creation.origin)return "Choisis une Origine.";
+    if(!d.talents.origin)return "Choisis le Talent d’Origine.";
+    if(!talentChoiceValid(d.talents.origin))return "Précise le choix demandé par le Talent d’Origine.";
+    return "";
+  }
+  if(id==="sphere"){
+    if(!d.creation.sphere)return "Choisis une Sphère.";
+    if(!d.creation.style)return "Choisis un Style.";
+    const left=r.creation.skills.stylePoints-stylePointsUsed.value;
+    return left?(left>0?`Il reste ${plural(left,"point")} guidé${left>1?"s":""} à placer.`:`${plural(-left,"point")} guidé${-left>1?"s":""} de trop.`):"";
+  }
+  if(id==="attributes"){
+    const left=attributeBudget.value-attributeTotal.value;
+    return left>0?`Il reste ${plural(left,"point")} d’Attribut à répartir.`:left<0?`${plural(-left,"point")} d’Attribut de trop.`:creationValidationMap.value.attributes?"":(validationReasons.attributes??"");
+  }
+  if(id==="skills"){
+    const left=freeSkillBudget.value-freeSkillPointsUsed.value;
+    if(left>0)return `Il reste ${plural(left,"point")} de Compétence à répartir.`;
+    if(left<0)return `${plural(-left,"point")} de Compétence de trop.`;
+    const over=r.skills.filter(skill=>skillRaw(skill.id)>r.creation.skills.rawMax).map(skill=>skillName(skill.id));
+    if(over.length)return `Au-dessus du maximum (${r.creation.skills.rawMax}) : ${over.join(", ")}.`;
+  }
+  if(id==="talents"){
+    const slots:["origin"|"sphere"|"expertise"|"common",string][]=[["origin","d’Origine"],["sphere","de Sphère"],["expertise","d’Expertise"],["common","commun"]];
+    const empty=slots.filter(([key])=>!d.talents[key]).map(([,label])=>label);
+    if(empty.length)return `Choisis le Talent ${empty.join(", le Talent ")}.`;
+  }
+  if(id==="disadvantages"&&d.disadvantages.length>3)return `${d.disadvantages.length} Désavantages : 3 au plus.`;
+  if(id==="edge"&&edgeRemaining.value<0)return `${plural(-edgeRemaining.value,"point")} d’Edge dépensé${-edgeRemaining.value>1?"s":""} en trop.`;
+  if(id==="truth-talents"&&truthRules.value&&truthPtvSpentValue.value>truthRules.value.structure.ptvInitial){
+    return `${plural(truthPtvSpentValue.value-truthRules.value.structure.ptvInitial,"PTV")} dépensé${truthPtvSpentValue.value-truthRules.value.structure.ptvInitial>1?"s":""} en trop.`;
+  }
+  return creationValidationMap.value[id]?"":(validationReasons[id]??"À compléter");
+}
+
 const finalValidationStatuses=computed(()=>
   creationStepIds.map(id=>{
     const section=sections.find(([step])=>step===id);
@@ -901,7 +950,7 @@ const finalValidationStatuses=computed(()=>
       id,
       label:section?.[1]??id,
       ok:!!creationValidationMap.value[id],
-      reason:validationReasons[id]??"À compléter"
+      reason:stepReason(id)||validationReasons[id]||"À compléter"
     };
   })
 );
@@ -1250,8 +1299,8 @@ function readLocalDraft(){
     localDraft.value=stored;
   }catch{/* copie illisible : ignorée */}
 }
-function discardLocalDraft(){
-  if(window.confirm("Effacer la création gardée dans ce navigateur ? Elle ne pourra pas être reprise."))removeLocalDraft();
+async function discardLocalDraft(){
+  if(await confirmDialog("Elle ne pourra pas être reprise.",{title:"Effacer la création gardée dans ce navigateur ?",confirm:"Effacer",danger:true}))removeLocalDraft();
 }
 function restoreLocalDraft(){
   if(!localDraft.value||!draft.value)return;
@@ -1420,11 +1469,18 @@ function writeTruthState(state:TruthState){
   };
 }
 
-function setTruthNature(id:string){
+async function setTruthNature(id:string){
   if(!draft.value||!truthRules.value)return;
   const nature=truthRules.value.structure.natures[id];
   if(!nature)return;
   const current=currentTruthState.value;
+  const currentNature=current?truthRules.value.structure.natures[current.nature]:undefined;
+  const madeChoices=!!current&&!!currentNature&&JSON.stringify(current.choices)!==JSON.stringify(truthSanitizeChoices(currentNature,{}));
+  if(current&&current.nature!==id&&(current.truthTalents.length||madeChoices)){
+    const name=currentNature?.name??current.nature;
+    const ok=await confirmDialog(`Les choix et les Talents de Vérité de ${name} seront retirés (${current.truthTalents.length} Talent${current.truthTalents.length>1?"s":""}). L’équipement et la Corruption restent.`,{title:`Passer à ${nature.name} ?`,confirm:`Passer à ${nature.name}`,danger:true});
+    if(!ok)return;
+  }
   const next:TruthState={
     nature:id,
     consciousness:current?.consciousness??"profane",
@@ -1649,7 +1705,7 @@ function beforeUnload(event:BeforeUnloadEvent){
 }
 
 function confirmBuilderLeave(){
-  return !dirty.value||window.confirm("Des modifications ne sont pas enregistrées. Quitter quand même ?");
+  return !dirty.value||confirmDialog("Tes modifications ne sont pas enregistrées. Elles restent gardées dans ce navigateur et te seront proposées à ton retour.",{title:"Quitter la fiche ?",confirm:"Quitter",cancel:"Rester"});
 }
 onBeforeRouteLeave(confirmBuilderLeave);
 onBeforeRouteUpdate((to,from)=>to.path===from.path||confirmBuilderLeave());
@@ -1702,7 +1758,7 @@ onBeforeUnmount(()=>{
     edgeTalentValid, edgePurchaseDisabled, edgePurchasePlusDisabled, edgePurchaseMinusDisabled, edgeOptionResult, edgeSkillPointsForAttribute,
     edgeSkillsForAttribute, selectedDisadvantageItems, finalAttribute, skillPermanent, ownedRealityTalentIds, derivedStats, realityState,
     realityItems, realityEconomyValue, lifestyleBaseValue, lifestylePressureValue, augmentationLoadValue, requiredLanguageCount, socialLanguages,
-    selectedNpcContact, socialValidation, equipmentValidation, formatMoney, validationReasons, creationStepIds, creationValidationMap,
+    selectedNpcContact, socialValidation, equipmentValidation, formatMoney, validationReasons, stepReason, creationStepIds, creationValidationMap,
     finalValidationStatuses, progressionSkillBases, progressionSkillFinalBases, progressionAttributeBases, truthConsciousnessName, originNameValue,
     sphereNameValue, styleNameValue, renownScore, campaignCashValue, pdfInput, characterSheet, knowledgeRefs, knowledgeGroups,
     navigateFromFinalization, builderProgress, stepDone, loadCharacter, saveCharacter, readImage, loadImage, canvasData, resizePortrait, setPortrait,

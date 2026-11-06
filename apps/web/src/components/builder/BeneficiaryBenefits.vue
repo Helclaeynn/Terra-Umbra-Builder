@@ -1,10 +1,11 @@
 <script setup lang="ts">
+import { confirmDialog } from "../../lib/confirm-dialog";
 import {computed} from 'vue';
 import {normalizeBeneficiaryBenefits,type BeneficiaryBenefits} from '../../lib/exile';
 const props=defineProps<{value:unknown}>();const emit=defineEmits<{change:[value:BeneficiaryBenefits]}>();
 const config=computed(()=>normalizeBeneficiaryBenefits(props.value));
 function patch(p:Partial<BeneficiaryBenefits>){emit('change',normalizeBeneficiaryBenefits({...config.value,...p}));}
-function reset(){if(window.confirm('Un nouveau scénario commence : remettre à zéro uniquement le suivi des soins et protections reçus, sans rendre de PV ni recharger une Rune ?'))patch({refectionReceived:false,guardReceived:false,refectionSource:'',guardSource:''});}
+async function reset(){if(await confirmDialog('Un nouveau scénario commence : remettre à zéro uniquement le suivi des soins et protections reçus, sans rendre de PV ni recharger une Rune ?'))patch({refectionReceived:false,guardReceived:false,refectionSource:'',guardSource:''});}
 </script>
 <template>
  <details class="beneficiary-benefits" data-exile-section="received"><summary><strong>Soins et protections reçus — suivi par scénario</strong></summary>

@@ -1,5 +1,6 @@
 import { createApp, h } from "vue";
 import AttentionPill from "./components/AttentionPill.vue";
+import ConfirmDialog from "./components/ConfirmDialog.vue";
 import { createRouter, createWebHistory, RouterView } from "vue-router";
 import "./tokens.css";
 import "./style.css";
@@ -69,5 +70,5 @@ router.afterEach((to)=>{
 createApp({
   render:()=>[h(RouterView,null,{
     default:({Component,route}:any)=>h(Component,{key:route.path === '/' || route.path === '/compendium' ? '/compendium' : route.path})
-  }),h(AttentionPill)]
+  }),h(AttentionPill),h(ConfirmDialog)]
 }).use(router).mount("#app");

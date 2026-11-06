@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { confirmDialog } from "../../lib/confirm-dialog";
 import {computed,ref} from 'vue';
 import type {TruthState,TruthRulesPackage} from '../../lib/truth';
 import {normalizeExileBuild,exileNetworks,exileRuneIds,exileTalentIds as ids,exileInventory,exileUsableTalents,exileRuneIssues,exileRuneDuration,exileTechniqueCosts,type ExileBuild} from '../../lib/exile';
@@ -11,7 +12,7 @@ const title=(id:string)=>catalogue.value.find(t=>t.id===id)?.name??id;
 const uid=()=>globalThis.crypto?.randomUUID?.()??'exile-'+Date.now()+'-'+Math.random().toString(36).slice(2);
 function patch(p:Partial<ExileBuild>){emit('change',normalizeExileBuild({...config.value,...p}));}
 function row(kind:keyof ExileBuild,index:number,key:string,value:unknown){const values=config.value[kind] as unknown as Record<string,unknown>[];patch({[kind]:values.map((r,i)=>i===index?{...r,[key]:value}:r)});}
-function remove(kind:keyof ExileBuild,index:number){if(window.confirm('Retirer cette description ? Aucun talent, objet, compteur reçu ni PTV ne sera supprimé.'))patch({[kind]:config.value[kind].filter((_,i)=>i!==index)});}
+async function remove(kind:keyof ExileBuild,index:number){if(await confirmDialog('Retirer cette description ? Aucun talent, objet, compteur reçu ni PTV ne sera supprimé.'))patch({[kind]:config.value[kind].filter((_,i)=>i!==index)});}
 function add(kind:keyof ExileBuild){const limit={trainings:24,runes:20,techniques:24,works:40,projects:40,landmarks:3,supplies:3}[kind];if(config.value[kind].length>=limit)return;patch({[kind]:[...config.value[kind],{uid:uid()}]});}
 function rune(i:number,id:string,yes:boolean){const r=config.value.runes[i];if(yes&&r.runeIds.length>=2)return;row('runes',i,'runeIds',yes?[...r.runeIds,id]:r.runeIds.filter(v=>v!==id));}
 const maintain=ref<'none'|'instinct'|'natural'>('none'),fulgurant=ref(false);

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { confirmDialog } from "../../lib/confirm-dialog";
 import {computed} from 'vue';
 import type {TruthState,TruthRulesPackage} from '../../lib/truth';
 import {mageAffinities} from '../../lib/mage';
@@ -16,11 +17,11 @@ function patch(value:Partial<DaemonBuild>){emit('change',normalizeDaemonBuild({.
 function text(key:keyof DaemonBuild,e:Event){patch({[key]:(e.target as HTMLInputElement).value});}
 function property(id:string,e:Event){const checked=(e.target as HTMLInputElement).checked;patch({formProperties:checked?[...config.value.formProperties,id]:config.value.formProperties.filter(p=>p!==id)});}
 function rite(value:DaemonDefinition,index:number){patch({rites:config.value.rites.map((r,i)=>i===index?value:r)});}
-function removeRite(index:number){if(window.confirm('Retirer ce rite du répertoire ? Le talent et sa dépense restent conservés.'))patch({rites:config.value.rites.filter((_,i)=>i!==index)});}
+async function removeRite(index:number){if(await confirmDialog('Retirer ce rite du répertoire ? Le talent et sa dépense restent conservés.'))patch({rites:config.value.rites.filter((_,i)=>i!==index)});}
 function addRite(){if(config.value.rites.length<8)patch({rites:[...config.value.rites,normalizeDaemonDefinition({})]});}
 function addPathology(){if(config.value.pathologies.length<6){const blank=normalizeDaemonBuild({pathologies:[{kind:props.state.choices.divinity==='belzebuth'?'contagion':'disease'}]}).pathologies[0]!;patch({pathologies:[...config.value.pathologies,blank]});}}
 function disease(index:number,key:keyof DaemonPathology,e:Event){const value=(e.target as HTMLInputElement).value;patch({pathologies:config.value.pathologies.map((p,i)=>i===index?{...p,[key]:value}:p)});}
-function removeDisease(index:number){if(window.confirm('Retirer ce profil de pathologie ? Le talent et sa dépense restent conservés.'))patch({pathologies:config.value.pathologies.filter((_,i)=>i!==index)});}
+async function removeDisease(index:number){if(await confirmDialog('Retirer ce profil de pathologie ? Le talent et sa dépense restent conservés.'))patch({pathologies:config.value.pathologies.filter((_,i)=>i!==index)});}
 </script>
 <template><section v-if="state.nature==='daemon'" class="daemon-options" aria-label="Choix et manifestations du Daemon">
  <h3>Fonctions, Spectres et manifestations</h3>
