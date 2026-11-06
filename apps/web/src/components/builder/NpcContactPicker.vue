@@ -178,18 +178,18 @@ onBeforeUnmount(()=>{sequence++;if(timer)clearTimeout(timer);});
 .contact-picker{display:grid;gap:.75rem;padding:.9rem;border:1px solid #36546b;border-radius:9px;background:#0b1827}
 .contact-heading,.selected-contact{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.7rem}
 .contact-heading>div,.selected-contact>span{display:grid;gap:.2rem}
-.contact-picker small{color:#a1b5cc;line-height:1.45}
-.contact-picker a{color:#9eeaff}
+.contact-picker small{color:var(--c-text-soft);line-height:1.45}
+.contact-picker a{color:var(--c-reality-soft)}
 .contact-picker label{display:grid;gap:.4rem}
-.contact-picker input{box-sizing:border-box;width:100%;min-height:44px;padding:10px;border:1px solid #405875;border-radius:6px;background:#08131f;color:#edf4ff;font:inherit}
+.contact-picker input{box-sizing:border-box;width:100%;min-height:44px;padding:10px;border:1px solid var(--c-line-strong);border-radius:6px;background:var(--c-night);color:var(--c-text);font:inherit}
 .contact-count{display:block}
 .contact-results{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:.5rem;max-height:360px;padding-right:.2rem;overflow:auto;overscroll-behavior:contain}
-.contact-result{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:start;gap:.65rem;padding:.7rem;border:1px solid #2c4358;border-radius:7px;background:#0d1c2b}
+.contact-result{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:start;gap:.65rem;padding:.7rem;border:1px solid var(--c-line);border-radius:7px;background:#0d1c2b}
 .contact-result>div{display:grid;gap:.18rem}
 .contact-result p{display:-webkit-box;margin:.2rem 0 0;overflow:hidden;color:#9fb4c8;font-size:.78rem;line-height:1.45;-webkit-box-orient:vertical;-webkit-line-clamp:3}
 .contact-result>button{align-self:center}
 .selected-contact{padding:.7rem;border:1px solid rgba(100,222,245,.2);border-radius:7px;background:rgba(100,222,245,.035)}
 .selected-contact.refused{border-color:#e07a7a;background:rgba(224,122,122,.06)}
-.contact-picker button{min-height:44px;padding:9px 12px;border:1px solid #405875;border-radius:6px;background:#13283b;color:#edf4ff;font:inherit;cursor:pointer}
-.contact-picker :focus-visible{outline:2px solid #a3eaff;outline-offset:3px}
+.contact-picker button{min-height:44px;padding:9px 12px;border:1px solid var(--c-line-strong);border-radius:6px;background:#13283b;color:var(--c-text);font:inherit;cursor:pointer}
+.contact-picker :focus-visible{outline:2px solid var(--c-reality-soft);outline-offset:3px}
 </style>

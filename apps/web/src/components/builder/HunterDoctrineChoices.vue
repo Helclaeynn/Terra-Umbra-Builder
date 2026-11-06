@@ -29,5 +29,5 @@ function description(id:string){
  </details>
 </template>
 <style scoped>
-.doctrine-panel{padding:1rem;border:1px solid var(--border,#36536b);border-radius:.5rem;margin:1rem 0;min-width:0}.doctrine-panel summary{display:flex;gap:1rem;justify-content:space-between;cursor:pointer}.doctrine-panel label{display:flex;gap:.75rem;padding:.65rem 0;align-items:start}.doctrine-panel small{display:block;line-height:1.5}.doctrine-panel input{width:20px;height:20px;flex-shrink:0}.doctrine-panel :focus-visible{outline:2px solid var(--accent,#a6e9ff)}
+.doctrine-panel{padding:1rem;border:1px solid var(--border,var(--c-line-strong));border-radius:.5rem;margin:1rem 0;min-width:0}.doctrine-panel summary{display:flex;gap:1rem;justify-content:space-between;cursor:pointer}.doctrine-panel label{display:flex;gap:.75rem;padding:.65rem 0;align-items:start}.doctrine-panel small{display:block;line-height:1.5}.doctrine-panel input{width:20px;height:20px;flex-shrink:0}.doctrine-panel :focus-visible{outline:2px solid var(--accent,#a6e9ff)}
 </style>

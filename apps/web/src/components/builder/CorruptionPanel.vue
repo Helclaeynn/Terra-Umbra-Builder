@@ -573,7 +573,7 @@ function talentState(talent:CorruptionTalent){
 }
 .corruption-heading :is(h2, h3) {
   font:
-    650 clamp(26px, 4cqi, 34px)/1.2 Inter,
+    650 clamp(26px, 4cqi, 34px)/1.2 "Inter Variable",Inter,
     "Segoe UI",
     sans-serif;
   letter-spacing: -.02em;
@@ -636,7 +636,7 @@ function talentState(talent:CorruptionTalent){
 }
 .gauge-heading :is(h3, h4) {
   color: #e7d9f7;
-  font: 400 26px/1.25 Inter, "Segoe UI", sans-serif;
+  font: 400 26px/1.25 "Inter Variable",Inter, "Segoe UI", sans-serif;
 }
 .gauge-heading .eyebrow {
   color: var(--corruption-muted);
@@ -764,7 +764,7 @@ function talentState(talent:CorruptionTalent){
 }
 .source-identity > :is(p, h3, h4) {
   color: #e3d8ef;
-  font: 400 23px/1.3 Inter, "Segoe UI", sans-serif;
+  font: 400 23px/1.3 "Inter Variable",Inter, "Segoe UI", sans-serif;
 }
 .source-principle {
   display: grid;
@@ -930,7 +930,7 @@ function talentState(talent:CorruptionTalent){
 }
 .catalog-heading :is(h3, h4) {
   color: #e6edf7;
-  font: 400 28px/1.25 Inter, "Segoe UI", sans-serif;
+  font: 400 28px/1.25 "Inter Variable",Inter, "Segoe UI", sans-serif;
 }
 .catalog-heading .eyebrow {
   color: #8ad8d7;
@@ -1082,7 +1082,7 @@ function talentState(talent:CorruptionTalent){
 }
 .corruption-talent-head > div > strong {
   color: #e1ebf6;
-  font: 400 21px/1.3 Inter, "Segoe UI", sans-serif;
+  font: 400 21px/1.3 "Inter Variable",Inter, "Segoe UI", sans-serif;
 }
 .corruption-talent-head > div > span {
   color: #c3adda;
@@ -1180,7 +1180,7 @@ function talentState(talent:CorruptionTalent){
   justify-content: space-between;
   gap: 10px;
   color: #e0e8f3;
-  font: 400 21px/1.35 Inter, "Segoe UI", sans-serif;
+  font: 400 21px/1.35 "Inter Variable",Inter, "Segoe UI", sans-serif;
 }
 .owned-heading .eyebrow {
   color: #9ac9d6;
@@ -1272,7 +1272,7 @@ function talentState(talent:CorruptionTalent){
 }
 .catalog-empty h4 {
   color: #d9e7f2;
-  font: 400 23px/1.3 Inter, "Segoe UI", sans-serif;
+  font: 400 23px/1.3 "Inter Variable",Inter, "Segoe UI", sans-serif;
 }
 .sr-only {
   position: absolute;

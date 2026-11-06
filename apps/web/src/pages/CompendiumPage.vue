@@ -2680,7 +2680,7 @@ onBeforeUnmount(() => {
             </section>
 
             <section v-else-if="hasCategorySurface" class="category-overview">
-              <header class="surface-heading">
+              <header :key="category" class="surface-heading" :class="{ 'tu-decode': category === 'Réalité' || category === 'Vérité' }" :data-world="category === 'Vérité' ? 'truth' : undefined">
                 <img v-if="category === 'Réalité' || category === 'Vérité'" class="category-orbital-art" :src="orbitalImage" alt="" width="1536" height="1024" decoding="async" />
                 <div>
                   <p class="eyebrow">RUBRIQUE</p>
@@ -2903,7 +2903,7 @@ onBeforeUnmount(() => {
 .compendium-hero p:not(.eyebrow) {
   max-width: 72ch;
   margin: 0;
-  color: #a6bac2;
+  color: var(--c-text-soft);
   line-height: 1.65;
 }
 
@@ -2923,7 +2923,7 @@ onBeforeUnmount(() => {
 
 .compendium-stats span,
 .compendium-stats small {
-  color: #91a7b1;
+  color: var(--c-muted);
 }
 
 .compendium-feedback {
@@ -2953,14 +2953,14 @@ onBeforeUnmount(() => {
 .search-line>select{min-width:0}
 @media(max-width:1100px){.search-line{grid-template-columns:repeat(2,minmax(0,1fr))}.search-line input[type="search"]{grid-column:1/-1}}
 .search-line input[type="search"]{min-height:50px;font-size:1rem;border-color:rgba(88,220,197,.2);background:rgba(8,8,7,.38)}
-.search-line input[type="search"]:focus{border-color:#2b92ff;box-shadow:0 0 0 2px rgba(43,146,255,.12),0 12px 30px rgba(0,0,0,.18)}
+.search-line input[type="search"]:focus{border-color:var(--c-reality);box-shadow:0 0 0 2px rgba(43,146,255,.12),0 12px 30px rgba(0,0,0,.18)}
 .search-line .primary{min-height:50px}
 
 .compendium-search form{position:relative}
 .search-suggestions{position:absolute;left:0;right:0;top:calc(100% + .45rem);z-index:30;display:grid;max-height:min(520px,62vh);overflow:auto;border:1px solid rgba(88,220,197,.24);background:#081119;box-shadow:0 22px 60px rgba(0,0,0,.42)}
-.search-suggestions a{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:1rem;padding:.7rem .85rem;border:0;border-bottom:1px solid rgba(255,255,255,.055);text-align:left;color:#c5d4d9;background:transparent}
+.search-suggestions a{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:1rem;padding:.7rem .85rem;border:0;border-bottom:1px solid rgba(255,255,255,.055);text-align:left;color:var(--c-text-soft);background:transparent}
 .search-suggestions a:last-child{border-bottom:0}.search-suggestions a.active,.search-suggestions a:hover{background:rgba(43,146,255,.09)}
-.search-suggestions a>span{display:grid;gap:.2rem}.search-suggestions strong{color:#dce8ec;font-size:.84rem}.search-suggestions small{color:#6fb9d6;font-size:.65rem}.search-suggestions em{color:#718a95;font-size:.69rem;line-height:1.4;font-style:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.search-suggestions a>span{display:grid;gap:.2rem}.search-suggestions strong{color:#dce8ec;font-size:.84rem}.search-suggestions small{color:var(--c-reality);font-size:.65rem}.search-suggestions em{color:#718a95;font-size:.69rem;line-height:1.4;font-style:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .search-suggestion-loading{padding:.9rem;color:#718a95;font-size:.75rem}
 .category-strip {
   display: flex;
@@ -2977,7 +2977,7 @@ onBeforeUnmount(() => {
   padding: .45rem .7rem;
   border: 1px solid rgba(255, 255, 255, .11);
   background: rgba(255,255,255,.012);
-  color: #afc1c8;
+  color: var(--c-text-soft);
   transition:transform .16s ease,border-color .16s ease,background .16s ease,color .16s ease;
 }
 .category-chip:hover{transform:translateY(-1px);border-color:rgba(88,220,197,.34);background:rgba(43,146,255,.055)}
@@ -2987,7 +2987,7 @@ onBeforeUnmount(() => {
 }
 
 .category-chip.active {
-  border-color: #2b92ff;
+  border-color: var(--c-reality);
   color: #c7eaf2;
   background: rgba(43,146,255, .11);
 }
@@ -3027,21 +3027,21 @@ onBeforeUnmount(() => {
 
 .library-clear:hover {
   border-color: rgba(88,220,197, .25);
-  color: #afc1c8;
+  color: var(--c-text-soft);
 }
 
 .library-scope {
   min-height: 38px;
   padding: .45rem .7rem;
   border: 1px solid rgba(255, 255, 255, .11);
-  color: #afc1c8;
+  color: var(--c-text-soft);
   background: transparent;
 }
 
 .library-scope.active,
 .favorite-button.active,
 .collection-toggle.active {
-  border-color: #2b92ff;
+  border-color: var(--c-reality);
   color: #c7eaf2;
   background: rgba(43,146,255, .11);
 }
@@ -3066,14 +3066,14 @@ onBeforeUnmount(() => {
 }
 
 .collection-row.active {
-  border-color: #365f73;
+  border-color: var(--c-line-strong);
 }
 
 .collection-open,
 .collection-action {
   border: 0;
   background: transparent;
-  color: #afc1c8;
+  color: var(--c-text-soft);
 }
 
 .collection-open {
@@ -3113,7 +3113,7 @@ onBeforeUnmount(() => {
   min-height: 34px;
   padding: .35rem .55rem;
   border: 1px solid rgba(255, 255, 255, .10);
-  color: #a6bac2;
+  color: var(--c-text-soft);
   background: transparent;
   font-size: .72rem;
 }
@@ -3175,7 +3175,7 @@ onBeforeUnmount(() => {
   border: 1px solid transparent;
   border-bottom-color: rgba(255, 255, 255, .06);
   text-align: left;
-  color: #c5d4d9;
+  color: var(--c-text-soft);
   background: transparent;
   transition:background .16s ease,border-color .16s ease,transform .16s ease;
 }
@@ -3187,7 +3187,7 @@ onBeforeUnmount(() => {
 .result-card:hover{transform:translateX(2px)}
 
 .result-card.active {
-  box-shadow: inset 3px 0 #2b92ff;
+  box-shadow: inset 3px 0 var(--c-reality);
 }
 
 .result-card strong {
@@ -3197,14 +3197,14 @@ onBeforeUnmount(() => {
 
 .result-card p {
   margin: 0;
-  color: #91a7b1;
+  color: var(--c-muted);
   font-size: .8rem;
   line-height: 1.45;
 }
 
 .result-meta,
 .result-card small {
-  color: #6fb9d6;
+  color: var(--c-reality);
   font-size: .68rem;
   letter-spacing: .06em;
   text-transform: uppercase;
@@ -3325,7 +3325,7 @@ onBeforeUnmount(() => {
 .wiki-featured-media figcaption {
   width: 100%;
   padding: .65rem .9rem;
-  color: #91a7b1;
+  color: var(--c-muted);
   font-size: .78rem;
   line-height: 1.5;
   text-align: center;
@@ -3344,7 +3344,7 @@ onBeforeUnmount(() => {
 .wiki-media figcaption,
 .wiki-gallery figcaption {
   padding: .55rem .65rem;
-  color: #91a7b1;
+  color: var(--c-muted);
   font-size: .72rem;
   line-height: 1.4;
 }
@@ -3371,7 +3371,7 @@ onBeforeUnmount(() => {
 
 .wiki-infobox-card dd {
   margin: 0;
-  color: #afc1c8;
+  color: var(--c-text-soft);
   font-size: .76rem;
 }
 
@@ -3380,13 +3380,13 @@ onBeforeUnmount(() => {
 .talent-wiki-card{display:flex;flex-direction:column;gap:.7rem;padding:1rem;border:1px solid rgba(88,220,197,.16);background:linear-gradient(145deg,rgba(43,146,255,.055),rgba(255,255,255,.012));box-shadow:0 10px 28px rgba(0,0,0,.12)}
 .talent-wiki-card header{display:flex;align-items:flex-start;justify-content:space-between;gap:.8rem}.talent-wiki-card header span{color:#709aad;font-size:.6rem;text-transform:uppercase;letter-spacing:.06em}.talent-wiki-card h3{margin:.16rem 0 0;color:#dce8ec;font:500 1.05rem/1.2 var(--tu-font)}.talent-wiki-card header>strong{flex:0 0 auto;color:#91cfe0;font-size:.72rem}
 .talent-wiki-meta{display:flex;flex-wrap:wrap;gap:.35rem}.talent-wiki-meta span{padding:.24rem .38rem;border:1px solid rgba(255,255,255,.07);color:#718a95;font-size:.62rem}
-.talent-wiki-lore{margin:0;color:#91a7b1;font-size:.76rem;line-height:1.55}
-.talent-wiki-mechanics{margin-top:auto;padding:.7rem .75rem;border-left:2px solid rgba(88,220,197,.36);background:rgba(0,0,0,.13)}.talent-wiki-mechanics small{display:block;margin-bottom:.28rem;color:#6fb9d6;font-size:.58rem;letter-spacing:.08em}.talent-wiki-mechanics p{margin:0;color:#afc1c8;font-size:.72rem;line-height:1.5}
+.talent-wiki-lore{margin:0;color:var(--c-muted);font-size:.76rem;line-height:1.55}
+.talent-wiki-mechanics{margin-top:auto;padding:.7rem .75rem;border-left:2px solid rgba(88,220,197,.36);background:rgba(0,0,0,.13)}.talent-wiki-mechanics small{display:block;margin-bottom:.28rem;color:var(--c-reality);font-size:.58rem;letter-spacing:.08em}.talent-wiki-mechanics p{margin:0;color:var(--c-text-soft);font-size:.72rem;line-height:1.5}
 .talent-registry-empty{padding:.9rem;border:1px dashed rgba(255,255,255,.1);color:#718a95;font-size:.75rem}
 .wiki-mechanics-card{padding:1rem;border:1px solid rgba(88,220,197,.24);background:linear-gradient(145deg,rgba(43,146,255,.08),rgba(255,255,255,.014));box-shadow:inset 0 1px rgba(255,255,255,.025)}
 .wiki-mechanics-head{display:flex;justify-content:space-between;gap:.8rem;align-items:flex-start;margin-bottom:.7rem}.wiki-mechanics-head strong{display:block;color:#dce8ec;font:500 1rem/1.2 var(--tu-font)}.wiki-mechanics-head>span{padding:.2rem .38rem;border:1px solid rgba(112,168,121,.22);color:#9fbd9d;font-size:.58rem;text-transform:uppercase;letter-spacing:.05em}
-.wiki-mechanics-record+.wiki-mechanics-record{margin-top:.8rem;padding-top:.8rem;border-top:1px solid rgba(255,255,255,.07)}.wiki-mechanics-record header{display:flex;justify-content:space-between;gap:.6rem;margin-bottom:.5rem}.wiki-mechanics-record header strong{color:#c5d4d9;font-size:.76rem}.wiki-mechanics-record header small{color:#718a95;font-size:.62rem}
-.wiki-mechanics-record dl{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:.34rem .65rem;margin:0}.wiki-mechanics-record dt{color:#718a95;font-size:.64rem}.wiki-mechanics-record dd{margin:0;color:#afc1c8;font-size:.68rem;text-align:right;overflow-wrap:anywhere}.wiki-mechanics-note{margin:.75rem 0 0;padding-top:.65rem;border-top:1px solid rgba(255,255,255,.06);color:#667f8b;font-size:.62rem;line-height:1.4}
+.wiki-mechanics-record+.wiki-mechanics-record{margin-top:.8rem;padding-top:.8rem;border-top:1px solid rgba(255,255,255,.07)}.wiki-mechanics-record header{display:flex;justify-content:space-between;gap:.6rem;margin-bottom:.5rem}.wiki-mechanics-record header strong{color:var(--c-text-soft);font-size:.76rem}.wiki-mechanics-record header small{color:#718a95;font-size:.62rem}
+.wiki-mechanics-record dl{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:.34rem .65rem;margin:0}.wiki-mechanics-record dt{color:#718a95;font-size:.64rem}.wiki-mechanics-record dd{margin:0;color:var(--c-text-soft);font-size:.68rem;text-align:right;overflow-wrap:anywhere}.wiki-mechanics-note{margin:.75rem 0 0;padding-top:.65rem;border-top:1px solid rgba(255,255,255,.06);color:#667f8b;font-size:.62rem;line-height:1.4}
 .wiki-builder-usage{padding:1rem;border:1px solid rgba(88,220,197,.18);background:rgba(43,146,255,.045)}
 .wiki-builder-intro{margin:.1rem 0 .75rem;color:#718a95;font-size:.72rem;line-height:1.45}
 .wiki-builder-usage-list{display:grid;gap:.45rem}
@@ -3402,7 +3402,7 @@ onBeforeUnmount(() => {
 .wiki-toc a {
   padding: .35rem .2rem;
   border: 0;
-  color: #a6bac2;
+  color: var(--c-text-soft);
   background: transparent;
   text-align: left;
   font-size: .78rem;
@@ -3443,7 +3443,7 @@ onBeforeUnmount(() => {
   padding: .8rem;
   border: 1px solid rgba(255,255,255,.09);
   background: rgba(255,255,255,.018);
-  color: #afc1c8;
+  color: var(--c-text-soft);
   text-align: left;
   text-decoration: none;
 }
@@ -3454,7 +3454,7 @@ onBeforeUnmount(() => {
 }
 
 .wiki-related-grid span {
-  color: #6fb9d6;
+  color: var(--c-reality);
   font-size: .65rem;
   text-transform: uppercase;
   letter-spacing: .06em;
@@ -3501,7 +3501,7 @@ onBeforeUnmount(() => {
 .article-tags button {
   padding: .3rem .5rem;
   border: 1px solid rgba(255, 255, 255, .10);
-  color: #a6bac2;
+  color: var(--c-text-soft);
   background: transparent;
   font-size: .72rem;
 }
@@ -3545,13 +3545,13 @@ onBeforeUnmount(() => {
 }
 
 .article-paragraph {
-  color: #afc1c8;
+  color: var(--c-text-soft);
   line-height: 1.72;
   white-space: pre-line;
 }
 
 .article-paragraph.lore {
-  color: #c5d4d9;
+  color: var(--c-text-soft);
 }
 
 .article-paragraph.source-heading {
@@ -3603,7 +3603,7 @@ onBeforeUnmount(() => {
 .article-table td {
   padding: .6rem .7rem;
   border: 1px solid rgba(255, 255, 255, .09);
-  color: #afc1c8;
+  color: var(--c-text-soft);
   vertical-align: top;
 }
 
@@ -3630,7 +3630,7 @@ onBeforeUnmount(() => {
   place-content: center;
   max-width: 55ch;
   margin: 0 auto;
-  color: #91a7b1;
+  color: var(--c-muted);
   text-align: center;
 }
 
@@ -3658,7 +3658,7 @@ onBeforeUnmount(() => {
 }
 
 .wiki-hover-preview {
-  --preview-accent: #64def5;
+  --preview-accent: var(--c-reality);
   position: fixed;
   z-index: 80;
   display: grid;
@@ -3667,12 +3667,12 @@ onBeforeUnmount(() => {
   max-height: calc(100dvh - 24px);
   overflow: hidden;
   padding: 20px;
-  border: 1px solid #36536b;
+  border: 1px solid var(--c-line-strong);
   border-top: 2px solid var(--preview-accent);
   border-radius: 8px;
   background: #101e2e;
   color: #dce8f5;
-  font-family: Inter, "Segoe UI", Arial, sans-serif;
+  font-family:var(--font-text);
   text-align: left;
   overflow-wrap: anywhere;
   box-shadow: 0 16px 48px rgba(0, 0, 0, .45);
@@ -3680,7 +3680,7 @@ onBeforeUnmount(() => {
 }
 
 .wiki-hover-preview[data-layer="truth"] {
-  --preview-accent: #b79aff;
+  --preview-accent: var(--c-truth);
   border-color: #524669;
   border-top-color: var(--preview-accent);
   background: #171b2b;
@@ -3700,7 +3700,7 @@ onBeforeUnmount(() => {
 
 .wiki-hover-preview strong {
   color: #eef5ff;
-  font: 600 18px/1.35 Inter, "Segoe UI", Arial, sans-serif;
+  font: 600 18px/1.35 "Inter Variable",Inter, "Segoe UI", Arial, sans-serif;
 }
 
 .wiki-hover-preview small {
@@ -3828,11 +3828,11 @@ onBeforeUnmount(() => {
   background:linear-gradient(145deg,rgba(13,25,34,.96),rgba(8,17,24,.94));
 }
 .category-chip.active,.favorite-button.active,.collection-toggle.active{
-  border-color:#2b92ff;
+  border-color:var(--c-reality);
   color:#c7eaf2;
   background:rgba(43,146,255,.10);
 }
-.result-card.active{box-shadow:inset 3px 0 #58dcc5}
+.result-card.active{box-shadow:inset 3px 0 var(--c-reality)}
 
 
 
@@ -3872,7 +3872,7 @@ onBeforeUnmount(() => {
 
 .navigation-heading > span {
   max-width: 46%;
-  color: #6fb9d6;
+  color: var(--c-reality);
   font-size: .68rem;
   text-align: right;
 }
@@ -3961,7 +3961,7 @@ onBeforeUnmount(() => {
 .navigation-group > summary::before {
   content: "›";
   margin-right: .25rem;
-  color: #58dcc5;
+  color: var(--c-reality);
   transform: rotate(0deg);
   transition: transform .15s ease;
 }
@@ -3995,7 +3995,7 @@ onBeforeUnmount(() => {
   justify-content: space-between;
   gap: .5rem;
   padding: 0 .35rem .2rem;
-  color: #6fb9d6;
+  color: var(--c-reality);
   font-size: .63rem;
   text-transform: uppercase;
   letter-spacing: .055em;
@@ -4023,7 +4023,7 @@ onBeforeUnmount(() => {
 }
 
 .navigation-page.active {
-  border-left-color: #2b92ff;
+  border-left-color: var(--c-reality);
   color: #d9f0f3;
   background: rgba(43,146,255,.09);
 }
@@ -4143,7 +4143,7 @@ onBeforeUnmount(() => {
 }
 
 .result-path {
-  color: #6fb9d6;
+  color: var(--c-reality);
   font-size: .63rem;
   line-height: 1.35;
 }
@@ -4273,20 +4273,20 @@ onBeforeUnmount(() => {
 
 
 /* Orbital Compendium — scoped presentation; canonical blocks remain unchanged. */
-.compendium-shell{--tu-accent:#64def5;--orbital-topbar:78px;color:#dbe6f3;background:#080f1a;font-family:Inter,"Segoe UI",Arial,sans-serif}
-.compendium-shell[data-layer="truth"]{--tu-accent:#b79aff}
+.compendium-shell{--tu-accent:var(--c-reality);--orbital-topbar:78px;color:#dbe6f3;background:#080f1a;font-family:var(--font-text)}
+.compendium-shell[data-layer="truth"]{--tu-accent:var(--c-truth)}
 .compendium-shell :is(button,a,summary,input,select):focus-visible{outline:2px solid var(--tu-accent);outline-offset:4px}
-.compendium-skip{position:fixed;left:16px;top:-100px;z-index:100;padding:14px 20px;border:2px solid #64def5;border-radius:5px;background:#101f30;color:#edf4ff}
+.compendium-skip{position:fixed;left:16px;top:-100px;z-index:100;padding:14px 20px;border:2px solid var(--c-reality);border-radius:5px;background:var(--c-surface);color:var(--c-text)}
 .compendium-skip:focus{top:12px}
 .compendium-topbar{min-height:var(--orbital-topbar);padding:10px clamp(16px,3vw,44px);gap:24px;border-color:#25384a;background:rgba(8,15,26,.98);box-shadow:none}
 .compendium-brand-lockup{flex:none;line-height:1;text-decoration:none}
 .compendium-top-nav{display:flex;align-items:center;gap:24px;margin-right:auto}
-.compendium-top-nav :is(a,button){display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0;border:0;background:none;color:#c5d4e6;text-decoration:none;font:500 13px/1.3 Inter,"Segoe UI",sans-serif;cursor:pointer}
-.compendium-top-nav button{color:#edf4ff}
-.compendium-top-nav :is(a,button):hover{color:#64def5}
+.compendium-top-nav :is(a,button){display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0;border:0;background:none;color:#c5d4e6;text-decoration:none;font:500 13px/1.3 "Inter Variable",Inter,"Segoe UI",sans-serif;cursor:pointer}
+.compendium-top-nav button{color:var(--c-text)}
+.compendium-top-nav :is(a,button):hover{color:var(--c-reality)}
 .compendium-top-actions{flex-wrap:wrap;justify-content:flex-end;gap:8px}
 .compendium-top-actions .compact-link{min-height:38px;align-items:center;padding:9px 12px;border:1px solid #2b4056;border-radius:5px;color:#b9cadd;background:#0d1725;font-size:12px;line-height:1.2;white-space:nowrap}
-.compendium-top-actions .compact-link:hover{border-color:#64def5;color:#edf4ff}
+.compendium-top-actions .compact-link:hover{border-color:var(--c-reality);color:var(--c-text)}
 kbd{margin-left:12px;color:#819bb5;font:10px/1.3 Consolas,monospace}
 .compendium-page{--compendium-gutter:clamp(24px,3vw,64px);display:grid;grid-template-columns:clamp(232px,13vw,260px) minmax(0,1fr);align-items:start;width:100%;margin:0;padding:0;gap:0}
 .compendium-content{min-width:0;padding:0 0 70px;scroll-margin-top:var(--orbital-topbar)}
@@ -4294,7 +4294,7 @@ kbd{margin-left:12px;color:#819bb5;font:10px/1.3 Consolas,monospace}
 .compendium-content>:is(.compendium-feedback,.compendium-search,.library-panel,.rules-onboarding,.compendium-workspace){margin:28px var(--compendium-gutter) 0}
 .compendium-search{padding:24px;margin-bottom:24px;border:1px solid #294056;border-radius:8px;background:#0d1725}
 .compendium-search label{color:#b8cadd;font-size:12px;letter-spacing:.025em}
-.compendium-search input{min-height:48px;border-color:#324d68;border-radius:5px;background:#080f1a;color:#edf4ff;font-size:16px}
+.compendium-search input{min-height:48px;border-color:#324d68;border-radius:5px;background:#080f1a;color:var(--c-text);font-size:16px}
 .compendium-search :is(select,button){min-height:40px}
 .category-chip{font-size:12px;padding:9px 13px;color:#b6c8dc;border-color:#2a4055;border-radius:5px}
 .category-chip.active{border-color:var(--tu-accent);color:var(--tu-accent);background:#162638}
@@ -4304,7 +4304,7 @@ kbd{margin-left:12px;color:#819bb5;font:10px/1.3 Consolas,monospace}
 .library-panel>summary span{margin-left:14px;color:#8ea7c2;font-size:11px}
 .library-panel[open]{padding:0 20px 20px}.library-panel[open]>summary{margin:0 -20px 20px;border-bottom:1px solid #293d51}
 .rules-onboarding> :not(summary){margin:20px}
-.library-heading h2{font:500 20px/1.4 Inter,"Segoe UI",sans-serif}
+.library-heading h2{font:500 20px/1.4 "Inter Variable",Inter,"Segoe UI",sans-serif}
 .compendium-workspace{display:block;min-width:0}
 .compendium-navigation{position:sticky;top:var(--orbital-topbar);height:calc(100dvh - var(--orbital-topbar));max-height:none;margin:0;padding:16px 8px 28px;border:0;border-right:1px solid #26394c;border-radius:0;background:#0a1420;box-shadow:none;scrollbar-color:#344c64 #0a1420}
 .navigation-disclosure>summary{display:none;padding:16px 18px;cursor:pointer;color:#d5e3f2;font-size:14px}
@@ -4319,9 +4319,9 @@ kbd{margin-left:12px;color:#819bb5;font:10px/1.3 Consolas,monospace}
 .navigation-category small{flex:none;margin-left:auto;color:#8ca7c4;font:10px/1.5 Consolas,monospace}
 .navigation-icon{flex:none;width:18px;height:18px;fill:none;stroke:#7896b1;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
 .navigation-category.active .navigation-icon{stroke:var(--tu-accent)}
-.navigation-layer-icon{position:relative;flex:none;width:14px;height:14px;margin:0 2px;border:1px solid #64def5;transform:rotate(45deg)}
-.navigation-category[data-layer="Vérité"] .navigation-layer-icon{border-color:#b79aff}
-.navigation-category[data-layer="Vérité"] .navigation-layer-icon:after{content:"";position:absolute;inset:3px;border:1px solid #b79aff}
+.navigation-layer-icon{position:relative;flex:none;width:14px;height:14px;margin:0 2px;border:1px solid var(--c-reality);transform:rotate(45deg)}
+.navigation-category[data-layer="Vérité"] .navigation-layer-icon{border-color:var(--c-truth)}
+.navigation-category[data-layer="Vérité"] .navigation-layer-icon:after{content:"";position:absolute;inset:3px;border:1px solid var(--c-truth)}
 .navigation-category[data-layer="Vérité"].active{border-color:#594774;background:linear-gradient(100deg,#271e3b,#111827);color:#dfcefa}
 .navigation-divider{grid-column:1/-1;height:1px;margin:10px 12px;background:#243447}
 .navigation-guide,.navigation-recent{margin:26px 20px 0}
@@ -4331,7 +4331,7 @@ kbd{margin-left:12px;color:#819bb5;font:10px/1.3 Consolas,monospace}
 .navigation-guide a:last-child{color:#c0a6ef}
 .navigation-recent a{display:block;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
 .navigation-recent h3{margin-bottom:8px}
-.navigation-guide a:hover,.navigation-recent a:hover{color:#edf4ff}
+.navigation-guide a:hover,.navigation-recent a:hover{color:var(--c-text)}
 .navigation-page{min-height:40px;color:#adbed3;font-size:12px;line-height:1.6}
 .navigation-group>summary{min-height:42px;color:#c6d6e7;font-size:12px;line-height:1.6}
 .navigation-subgroup>strong,.navigation-tree-kicker,.navigation-hint,.navigation-empty{color:#93abc5;font-size:11px;line-height:1.7}
@@ -4352,7 +4352,7 @@ kbd{margin-left:12px;color:#819bb5;font:10px/1.3 Consolas,monospace}
 .reader-tools button:disabled{opacity:.45;cursor:default}
 .wiki-breadcrumbs{color:#91adc9;font-size:11px;line-height:1.7}
 .wiki-title-line{gap:14px;margin:14px 0}
-.article-header h1{margin:0;font:500 clamp(28px,3.1vw,46px)/1.13 Inter,"Segoe UI",Arial,sans-serif;letter-spacing:-.035em;color:#edf4ff;overflow-wrap:anywhere}
+.article-header h1{margin:0;font:500 clamp(28px,3.1vw,46px)/1.13 "Inter Variable",Inter,"Segoe UI",Arial,sans-serif;letter-spacing:-.035em;color:var(--c-text);overflow-wrap:anywhere}
 .article-meta{color:#9eb6d0;font-size:12px;line-height:1.7}
 .article-tags button,.article-library-actions button{min-height:34px;font-size:11px;color:#b9cbe0;border-color:#34495f;border-radius:4px;background:#101f2f}
 .article-tags{gap:6px;margin-top:16px}
@@ -4364,7 +4364,7 @@ kbd{margin-left:12px;color:#819bb5;font:10px/1.3 Consolas,monospace}
 .reader-progress-bar span{color:#95aec9;font-size:11px;line-height:1.5}
 .reader-progress-bar button,.reader-contents-heading button{flex:none;min-height:40px;padding:9px 12px;border:1px solid #3e536e;border-radius:5px;background:#132237;color:#dceafb;font-size:12px;cursor:pointer}
 .article-section{margin-bottom:36px}
-.article-section :is(h2,h3){color:#edf4ff;font-family:Inter,"Segoe UI",Arial,sans-serif;font-weight:500;line-height:1.35;letter-spacing:-.018em}
+.article-section :is(h2,h3){color:var(--c-text);font-family:var(--font-text);font-weight:500;line-height:1.35;letter-spacing:-.018em}
 .article-section h2{font-size:clamp(22px,2.2vw,28px);margin:34px 0 18px}
 .article-section h3{font-size:21px;margin:28px 0 16px}
 .article-section :deep(p){max-width:78ch;font-size:var(--reader-font-size);line-height:1.95;color:#c2d0e1;overflow-wrap:break-word}
@@ -4379,21 +4379,22 @@ kbd{margin-left:12px;color:#819bb5;font:10px/1.3 Consolas,monospace}
 .wiki-toc{padding:18px 16px}.wiki-toc a{padding:8px 0;color:#a3b9d0;font-size:12px;line-height:1.5}
 .wiki-toc a.active{color:var(--tu-accent)}.wiki-toc .level-3{padding-left:12px;border-left:1px solid #354a62}
 .wiki-media{border-color:#30485f;border-radius:6px}.wiki-media img{width:100%;height:auto}
-.wiki-see-also h2,.wiki-nearby h2{font:500 22px/1.4 Inter,"Segoe UI",sans-serif}
+.wiki-see-also h2,.wiki-nearby h2{font:500 22px/1.4 "Inter Variable",Inter,"Segoe UI",sans-serif}
 .reader-contents-dialog{width:min(580px,calc(100% - 32px));max-height:80vh;margin:auto;padding:26px;border:1px solid #46607e;border-radius:9px;background:#0f1a2a;color:#dce8f7;box-shadow:0 24px 100px #0009}
 .reader-contents-dialog::backdrop{background:#030710bb;backdrop-filter:blur(5px)}
-.reader-contents-heading{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-bottom:20px}.reader-contents-heading h2{margin:0;font:500 23px/1.3 Inter,"Segoe UI",sans-serif}
+.reader-contents-heading{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-bottom:20px}.reader-contents-heading h2{margin:0;font:500 23px/1.3 "Inter Variable",Inter,"Segoe UI",sans-serif}
 .reader-contents-dialog ol{padding-left:24px;color:#7e99b8}.reader-contents-dialog li{padding:5px 0}.reader-contents-dialog li.level-3{margin-left:18px;font-size:14px}
 .reader-contents-dialog a{display:block;padding:8px;color:#c9d9eb;text-decoration:none;line-height:1.55}.reader-contents-dialog a[aria-current]{color:var(--tu-accent)}
 .reader-focus .compendium-page{grid-template-columns:minmax(0,1fr)}.reader-focus .compendium-workspace{width:calc(100% - 2 * var(--compendium-gutter));max-width:1000px;margin-inline:auto}.reader-focus :is(.compendium-navigation,.wiki-infobox,.library-panel){display:none}.reader-focus .wiki-article-grid{grid-template-columns:1fr}.reader-focus .article-panel{padding:clamp(24px,5vw,64px)}
 .surface-heading{position:relative;isolation:isolate;overflow:hidden;padding-bottom:28px;border-color:#30465b;gap:24px}
-.surface-heading h1{font:500 clamp(28px,3vw,40px)/1.2 Inter,"Segoe UI",sans-serif;color:#edf4ff;letter-spacing:-.03em}
+.surface-heading h1{font:500 clamp(28px,3vw,40px)/1.2 "Inter Variable",Inter,"Segoe UI",sans-serif;color:var(--c-text);letter-spacing:-.03em}
 .surface-heading p{font-size:14px;line-height:1.8;color:#a5bad0}.surface-count{color:var(--tu-accent)}
+.surface-heading[data-world="truth"] .eyebrow{color:var(--c-truth)}
 .category-orbital-art{position:absolute;z-index:-1;right:-40px;top:-50px;width:72%;height:300px;object-fit:cover;opacity:.2;mask-image:linear-gradient(90deg,transparent,#000)}
-.main-result-card{padding:22px;border-color:#30465d;border-radius:6px;background:#101e2f}.main-result-card:hover{border-color:var(--tu-accent);background:#15263a}.main-result-card>strong{font:500 20px/1.3 Inter,"Segoe UI",sans-serif;color:#e5effa}.main-result-card>p{color:#abc0d5;font-size:14px;line-height:1.8}.result-path{color:var(--tu-accent);font-size:11px}
+.main-result-card{padding:22px;border-color:#30465d;border-radius:6px;background:#101e2f}.main-result-card:hover{border-color:var(--tu-accent);background:#15263a}.main-result-card>strong{font:500 20px/1.3 "Inter Variable",Inter,"Segoe UI",sans-serif;color:#e5effa}.main-result-card>p{color:#abc0d5;font-size:14px;line-height:1.8}.result-path{color:var(--tu-accent);font-size:11px}
 .result-limit-note,.category-more{color:#91aac4;font-size:12px;line-height:1.7}
-.category-group-card{border-color:#2d445b;border-radius:6px;background:#101d2d}.category-card-heading{padding:20px;border-color:#2d445b;cursor:pointer;list-style:none}.category-card-heading::-webkit-details-marker{display:none}.category-card-heading:after{content:'⌄';margin-left:12px;color:#7edfd7}.category-group-card[open]>.category-card-heading:after{transform:rotate(180deg)}.category-card-heading h2{font:500 22px/1.3 Inter,"Segoe UI",sans-serif}.category-subgroup-list{padding:20px;gap:20px}.category-page-links a{min-height:46px;padding:12px;color:#bccde0;border-color:#2b4158;font-size:12px;line-height:1.6}.category-subgroup-title strong{color:#a7bdd5;font-size:11px}
-.article-disclosure>summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:10px;border-bottom:1px solid #2d4057}.article-disclosure>summary::-webkit-details-marker{display:none}.article-disclosure>summary:after{content:'⌄';margin-left:auto;color:#69d7d6}.article-disclosure:not([open])>summary:after{transform:rotate(-90deg)}.article-disclosure>summary :is(h2,h3,h4){margin:18px 0!important}.article-disclosure>summary:focus-visible,.category-card-heading:focus-visible{outline:2px solid #a3eaff;outline-offset:3px}
+.category-group-card{border-color:#2d445b;border-radius:6px;background:#101d2d}.category-card-heading{padding:20px;border-color:#2d445b;cursor:pointer;list-style:none}.category-card-heading::-webkit-details-marker{display:none}.category-card-heading:after{content:'⌄';margin-left:12px;color:#7edfd7}.category-group-card[open]>.category-card-heading:after{transform:rotate(180deg)}.category-card-heading h2{font:500 22px/1.3 "Inter Variable",Inter,"Segoe UI",sans-serif}.category-subgroup-list{padding:20px;gap:20px}.category-page-links a{min-height:46px;padding:12px;color:#bccde0;border-color:#2b4158;font-size:12px;line-height:1.6}.category-subgroup-title strong{color:#a7bdd5;font-size:11px}
+.article-disclosure>summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:10px;border-bottom:1px solid #2d4057}.article-disclosure>summary::-webkit-details-marker{display:none}.article-disclosure>summary:after{content:'⌄';margin-left:auto;color:#69d7d6}.article-disclosure:not([open])>summary:after{transform:rotate(-90deg)}.article-disclosure>summary :is(h2,h3,h4){margin:18px 0!important}.article-disclosure>summary:focus-visible,.category-card-heading:focus-visible{outline:2px solid var(--c-reality-soft);outline-offset:3px}
 @media(max-width:1250px){.compendium-top-nav{display:none}.compendium-page{grid-template-columns:224px minmax(0,1fr)}.wiki-article-grid{grid-template-columns:minmax(0,1fr) 190px;gap:22px}.compendium-top-actions kbd{display:none}}
 @media(max-width:1100px){.wiki-article-grid{grid-template-columns:1fr}.wiki-infobox{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.wiki-infobox>*{margin:0}.wiki-toc{grid-column:1/-1}}
 @media(max-width:900px){.compendium-shell{--orbital-topbar:80px}.compendium-topbar{gap:12px;flex-wrap:wrap}.compendium-top-actions .wiki-create-link{display:none}.compendium-page{--compendium-gutter:20px;grid-template-columns:minmax(0,1fr);width:100%;padding:0}.compendium-navigation{position:static;height:auto;max-height:none;padding:0;border-right:0;border-bottom:1px solid #26394c;overflow:visible}.compendium-content>:is(.compendium-feedback,.compendium-search,.library-panel,.rules-onboarding,.compendium-workspace){margin-top:20px}.navigation-disclosure>summary{display:list-item;margin-left:20px;padding-left:0}.navigation-heading{display:none}.navigation-categories{grid-template-columns:repeat(2,minmax(0,1fr))}.navigation-tree{max-height:55vh;overflow:auto}.article-panel{padding:24px}.reader-focus .article-panel{padding:24px}}

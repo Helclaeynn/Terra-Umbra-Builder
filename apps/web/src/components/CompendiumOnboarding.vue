@@ -147,8 +147,8 @@ const emit=defineEmits<{
 .newcomer-card,.category-entry{text-align:left;padding:1rem;display:flex;flex-direction:column;align-items:flex-start;min-height:145px;cursor:pointer}
 .newcomer-grid.compact .newcomer-card{min-height:125px}
 .newcomer-card strong,.category-entry strong{font:650 1.15rem/1.2 var(--tu-font);color:#d7e3e7}
-.newcomer-card p,.category-entry p,.nature-card p{color:#a1b5cc;line-height:1.55;margin:.45rem 0}
-.newcomer-card span{margin-top:auto;color:#6fcff1;font-size:.875rem;font-weight:700}
+.newcomer-card p,.category-entry p,.nature-card p{color:var(--c-text-soft);line-height:1.55;margin:.45rem 0}
+.newcomer-card span{margin-top:auto;color:var(--c-reality);font-size:.875rem;font-weight:700}
 .newcomer-card:hover,.category-entry:hover,.nature-actions button:hover{border-color:rgba(43,146,255,.55)}
 .nature-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.65rem}
 .nature-card{padding:.9rem 1rem;display:flex;align-items:center;justify-content:space-between;gap:1rem}
@@ -163,7 +163,7 @@ const emit=defineEmits<{
   border-color:#2b4259;
   background:linear-gradient(135deg,rgba(100,222,245,.07),rgba(43,146,255,.025));
 }
-.newcomer-card:hover,.category-entry:hover,.nature-actions button:hover{border-color:#64def5}
+.newcomer-card:hover,.category-entry:hover,.nature-actions button:hover{border-color:var(--c-reality)}
 .start-pill{border-color:rgba(166,124,230,.36);color:#cdb8ef}
 
 </style>

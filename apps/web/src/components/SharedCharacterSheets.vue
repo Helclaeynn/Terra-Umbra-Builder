@@ -26,5 +26,5 @@ onUnmounted(()=>{generation++;window.removeEventListener("focus",load);});
   </section>
 </template>
 <style scoped>
-.shared-character-sheets{padding:18px 22px;border:1px solid #36536b;border-top:0;border-radius:0 0 6px 6px;background:#101f30}.shared-character-sheets>p{margin:0;line-height:1.6}ul{padding:0;margin:0;list-style:none}li{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 0;border-bottom:1px solid #284255}small{display:block;color:#adc2d4;margin-top:4px}a{min-height:44px}@media(max-width:600px){li{align-items:start;flex-direction:column}}
+.shared-character-sheets{padding:18px 22px;border:1px solid var(--c-line-strong);border-top:0;border-radius:0 0 6px 6px;background:var(--c-surface)}.shared-character-sheets>p{margin:0;line-height:1.6}ul{padding:0;margin:0;list-style:none}li{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 0;border-bottom:1px solid #284255}small{display:block;color:#adc2d4;margin-top:4px}a{min-height:44px}@media(max-width:600px){li{align-items:start;flex-direction:column}}
 </style>

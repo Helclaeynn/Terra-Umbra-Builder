@@ -4,16 +4,16 @@
 .brand-signal{
   --usb-void:#080f17;
   --usb-void-2:#0b141d;
-  --usb-surface:#101b25;
+  --usb-surface:var(--c-surface);
   --usb-surface-2:#162531;
   --usb-surface-3:#1a2d39;
   --usb-line:#294452;
   --usb-line-bright:#466b79;
-  --usb-cyan:#58dcc5;
-  --usb-blue:#2b92ff;
-  --usb-violet:#a67ce6;
-  --usb-text:#eef6f8;
-  --usb-muted:#91a7b1;
+  --usb-cyan:var(--c-reality);
+  --usb-blue:var(--c-reality);
+  --usb-violet:var(--c-truth);
+  --usb-text:var(--c-text);
+  --usb-muted:var(--c-muted);
   --usb-soft:#b8c9cf;
   --usb-shadow:0 28px 74px rgba(0,0,0,.34);
   min-height:100vh;
@@ -165,7 +165,7 @@
 .brand-signal .api-pill{
   border-color:#2e4b59;
   border-radius:8px;
-  color:#adc0c8;
+  color:var(--c-text-soft);
   background:#0e1922;
 }
 
@@ -195,7 +195,7 @@
 
 .brand-signal .panel,
 .brand-signal .auth-card{
-  border-color:#263f4c;
+  border-color:var(--c-line);
   border-radius:12px;
   background:
     linear-gradient(145deg,rgba(19,31,42,.96),rgba(11,19,27,.94));
@@ -270,7 +270,7 @@
   margin:.08rem 0 .85rem;
   max-width:10ch;
   color:#f3f8fa;
-  font-family:Inter,ui-sans-serif,system-ui,sans-serif;
+  font-family:var(--font-text);
   font-size:clamp(3rem,6.3vw,5.9rem);
   font-weight:790;
   letter-spacing:-.055em;
@@ -290,7 +290,7 @@
 
 .brand-signal .dashboard-lead{
   max-width:58ch;
-  color:#a6bac2;
+  color:var(--c-text-soft);
   font-size:1rem;
   line-height:1.72;
 }
@@ -434,7 +434,7 @@
 .brand-signal .dashboard-portal h2{
   margin:.18rem 0 .5rem;
   color:#eff6f8;
-  font-family:Inter,ui-sans-serif,system-ui,sans-serif;
+  font-family:var(--font-text);
   font-size:1.65rem;
   font-weight:750;
   letter-spacing:-.025em;
@@ -454,7 +454,7 @@
 
 .brand-signal .portal-index{
   color:rgba(109,182,202,.24);
-  font-family:Inter,ui-sans-serif,system-ui,sans-serif;
+  font-family:var(--font-text);
   font-size:1.55rem;
   font-weight:800;
 }
@@ -489,7 +489,7 @@
 .brand-signal .section-heading h2,
 .brand-signal .panel h2{
   color:#eef5f7;
-  font-family:Inter,ui-sans-serif,system-ui,sans-serif;
+  font-family:var(--font-text);
   font-weight:740;
   letter-spacing:-.025em;
 }
@@ -592,7 +592,7 @@
 
 .brand-signal .auth-layout .intro h1{
   color:#f0f7f8;
-  font-family:Inter,ui-sans-serif,system-ui,sans-serif;
+  font-family:var(--font-text);
   font-weight:770;
   letter-spacing:-.045em;
 }
@@ -789,13 +789,13 @@
   color:#edf5f8;
 }
 .brand-signal .brand-statement span:nth-child(2){
-  color:#6fcff1;
+  color:var(--c-reality);
 }
 .brand-signal .brand-statement::after{
   width:86px !important;
   height:2px !important;
   margin-top:.9rem !important;
-  background:linear-gradient(90deg,#36dbe0,#2b92ff 54%,#a67ce6) !important;
+  background:linear-gradient(90deg,#36dbe0,var(--c-reality) 54%,var(--c-truth)) !important;
 }
 .brand-signal .dashboard-lead{
   max-width:59ch;
@@ -1018,7 +1018,7 @@
   opacity:.92;
   background:
     linear-gradient(90deg,#35dbe1,rgba(43,146,255,.72),transparent 30%) top left/52% 1px no-repeat,
-    linear-gradient(270deg,#a67ce6,rgba(84,99,222,.52),transparent 34%) bottom right/50% 1px no-repeat,
+    linear-gradient(270deg,var(--c-truth),rgba(84,99,222,.52),transparent 34%) bottom right/50% 1px no-repeat,
     linear-gradient(rgba(74,141,168,.032) 1px,transparent 1px),
     linear-gradient(90deg,rgba(74,141,168,.026) 1px,transparent 1px);
   background-size:52% 1px,50% 1px,38px 38px,38px 38px;
@@ -1142,7 +1142,7 @@
   background:linear-gradient(90deg,#f4f8fb 0 57%,#d9eef8 66%,#6bcdf2 78%,#aa81ea 100%);
   -webkit-background-clip:text;
   background-clip:text;
-  font-family:Inter,ui-sans-serif,system-ui,sans-serif;
+  font-family:var(--font-text);
   font-size:clamp(3.4rem,6.2vw,6.1rem);
   font-weight:720;
   line-height:.92;
@@ -1396,7 +1396,7 @@
 .brand-signal .admin-section .section-heading h2,
 .brand-signal .admin-section .audit-heading h2{
   color:var(--usb-text);
-  font-family:Inter,ui-sans-serif,system-ui,sans-serif;
+  font-family:var(--font-text);
   font-weight:720;
   letter-spacing:-.025em;
 }

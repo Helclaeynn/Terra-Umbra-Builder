@@ -33,7 +33,7 @@ const maps = computed(() => {
 
 <style scoped>
 .article-maps{margin:24px 0 32px;padding:20px;border:1px solid #385969;border-radius:8px;background:#102532;color:#ccdfe4;scroll-margin-top:140px}
-.article-maps h2{margin:0 0 10px;font-size:23px;color:#edf4ff}
+.article-maps h2{margin:0 0 10px;font-size:23px;color:var(--c-text)}
 .article-maps p{font-size:14px;line-height:1.6}
 .article-maps-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
 .article-maps-grid.single{grid-template-columns:minmax(0,1fr)}

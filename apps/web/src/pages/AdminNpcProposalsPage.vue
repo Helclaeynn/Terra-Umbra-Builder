@@ -138,25 +138,25 @@ onMounted(load);
 </template>
 
 <style scoped>
-.proposals-shell{min-height:100vh;background:#07111c;color:#edf4ff;font-family:Inter,"Segoe UI",sans-serif}
+.proposals-shell{min-height:100vh;background:#07111c;color:var(--c-text);font-family:var(--font-text)}
 .proposals-topbar{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px;padding:14px 20px;border-bottom:1px solid #22384c}
 .proposals-topbar nav{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
-.proposals-topbar a,.proposal a{color:#9eeaff}
+.proposals-topbar a,.proposal a{color:var(--c-reality-soft)}
 .proposals-page{max-width:1100px;margin:0 auto;padding:24px 16px 60px;display:grid;gap:16px}
 .eyebrow{margin:0;color:#77e3da;font-size:12px;letter-spacing:.08em}
 h1{margin:0;font-size:28px}
-.intro,.muted{color:#b3c5d9;line-height:1.6;margin:0}
+.intro,.muted{color:var(--c-text-soft);line-height:1.6;margin:0}
 .tabs{display:flex;flex-wrap:wrap;gap:8px}
-button,.primary{min-height:44px;padding:9px 14px;border:1px solid #405875;border-radius:6px;background:#13283b;color:#edf4ff;font:inherit;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center}
-.tabs .active,.primary{background:#a3eaff;color:#071725;border-color:#a3eaff}
+button,.primary{min-height:44px;padding:9px 14px;border:1px solid var(--c-line-strong);border-radius:6px;background:#13283b;color:var(--c-text);font:inherit;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center}
+.tabs .active,.primary{background:var(--c-reality-soft);color:var(--c-night);border-color:var(--c-reality-soft)}
 .danger{border-color:#e07a7a;color:#ffd6d6;background:#2a1418}
 button:disabled{opacity:.5;cursor:default}
 .notice{color:#9ff0c8}.error{color:#ffb4b4}
-.proposal{display:grid;gap:14px;padding:16px;border:1px solid #2b3b51;border-radius:8px;background:#0e1b2d}
+.proposal{display:grid;gap:14px;padding:16px;border:1px solid var(--c-line);border-radius:8px;background:#0e1b2d}
 .proposal-head{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;align-items:flex-start}
 .proposal h2{margin:0 0 4px;font-size:20px}
 .proposal-actions{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end}
 .proposal-actions label{display:grid;gap:6px;flex:1 1 280px;color:#c3d2e4;font-size:14px}
-.proposal-actions input{min-height:44px;padding:10px;border:1px solid #405875;border-radius:6px;background:#08131f;color:#edf4ff;font:inherit}
-:focus-visible{outline:2px solid #a3eaff;outline-offset:3px}
+.proposal-actions input{min-height:44px;padding:10px;border:1px solid var(--c-line-strong);border-radius:6px;background:var(--c-night);color:var(--c-text);font:inherit}
+:focus-visible{outline:2px solid var(--c-reality-soft);outline-offset:3px}
 </style>

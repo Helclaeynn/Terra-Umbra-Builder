@@ -37,7 +37,7 @@ function onKey(event: KeyboardEvent) {
 </template>
 
 <style scoped>
-.tag-chips { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; padding: 6px 8px; border: 1px solid #263f54; border-radius: 6px; background: #0b1724; }
+.tag-chips { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; padding: 6px 8px; border: 1px solid var(--c-line); border-radius: 6px; background: #0b1724; }
 .tag-chips-label { font-size: 12px; color: #8ea6bd; margin-right: 4px; min-width: 64px; }
 .chip { display: inline-flex; align-items: center; gap: 4px; padding: 2px 4px 2px 10px; border-radius: 999px; font-size: 13px; border: 1px solid; }
 .chip button { background: none; border: 0; color: inherit; cursor: pointer; font-size: 15px; line-height: 1; padding: 0 4px; min-height: 0; }

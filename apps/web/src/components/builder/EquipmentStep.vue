@@ -1054,12 +1054,12 @@ function benefitUpdate(value:Record<string,unknown>){emit('update:modelValue',va
   gap:24px;
   min-width:0;
   color:#e7eef8;
-  font:400 15px/1.6 Inter,"Segoe UI",sans-serif;
+  font:400 15px/1.6 "Inter Variable",Inter,"Segoe UI",sans-serif;
   container-type:inline-size;
 }
 .equipment-step h2,.equipment-step h3,.equipment-step h4{
   color:#e7eef8;
-  font-family:Inter,"Segoe UI",sans-serif;
+  font-family:var(--font-text);
   letter-spacing:-.02em;
 }
 .section-heading,.subsection-title{display:flex;align-items:flex-start;justify-content:space-between;gap:16px}
@@ -1072,7 +1072,7 @@ function benefitUpdate(value:Record<string,unknown>){emit('update:modelValue',va
   border:1px solid #3a5267;border-radius:7px;background:#091522;color:#e7eef8;font:inherit;
 }
 .equipment-step input::placeholder{color:#8da3b8;opacity:1}
-.equipment-step button{min-height:44px;padding:10px 15px;border-radius:7px;font:600 14px/1.35 Inter,"Segoe UI",sans-serif;white-space:normal}
+.equipment-step button{min-height:44px;padding:10px 15px;border-radius:7px;font:600 14px/1.35 "Inter Variable",Inter,"Segoe UI",sans-serif;white-space:normal}
 .equipment-step button.primary{border:1px solid #98e5f6;background:#9ce8fb;color:#06151e}
 .equipment-step button.secondary,.equipment-step button.ghost{border:1px solid #3b5268;background:#101e2d;color:#d5e6f4}
 .equipment-step button.danger{color:#ffc0bc}
@@ -1085,7 +1085,7 @@ function benefitUpdate(value:Record<string,unknown>){emit('update:modelValue',va
 .economy-grid>div{display:grid;align-content:start;gap:6px;padding:18px;border:1px solid var(--equipment-border);border-radius:8px;background:linear-gradient(135deg,#132638,#0d1927)}
 .economy-grid small{color:#b4c7d9;font-size:13px}
 .economy-grid .refund-note{color:#9fb3c8;font-size:12px;line-height:1.45}
-.economy-grid strong{color:#b1edfb;font:600 clamp(20px,2vw,26px)/1.2 Inter,"Segoe UI",sans-serif;font-variant-numeric:tabular-nums}
+.economy-grid strong{color:#b1edfb;font:600 clamp(20px,2vw,26px)/1.2 "Inter Variable",Inter,"Segoe UI",sans-serif;font-variant-numeric:tabular-nums}
 .economy-grid span{color:var(--equipment-muted);font-size:14px}
 .reality-panel{min-width:0;margin:0;padding:22px;border:1px solid var(--equipment-border);border-radius:9px;background:#0e1a28}
 .section-disclosure>.section-summary{cursor:pointer;list-style:none}.section-disclosure>.section-summary::-webkit-details-marker{display:none}.section-disclosure>.section-summary .subsection-title{margin:0}.section-disclosure>.section-summary::after{content:'⌄';float:right;color:#8dded9}.section-disclosure[open]>.section-summary::after{transform:rotate(180deg)}.section-disclosure[open]>.section-summary{margin-bottom:18px}
@@ -1094,8 +1094,8 @@ function benefitUpdate(value:Record<string,unknown>){emit('update:modelValue',va
 .charge-summary{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0}
 .charge-summary>span,.pillbar span,.statbar span{padding:5px 9px;border:1px solid #334c60;border-radius:5px;background:#0b1623;color:#bed0e0;font-size:13px}
 .owned-indicator{display:inline-flex;align-self:start;padding:6px 10px;border:1px solid #58bbae;border-radius:5px;background:#153b38;color:#d1fff6;font-size:13px;font-weight:700}.pillbar .owned-indicator{border-color:#58bbae;background:#153b38;color:#d1fff6;font-weight:700}
-.support-jump{padding:3px 5px;border:0;background:none;color:#a4edff;text-decoration:underline;cursor:pointer;font:inherit}
-.catalog-family-disclosure{border:1px solid #304b62;border-radius:7px}.catalog-family-disclosure>summary{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:48px;padding:10px 14px;color:#e8f2ff;font-weight:650;cursor:pointer;list-style:none;user-select:none}.catalog-family-disclosure>summary::-webkit-details-marker{display:none}.catalog-family-disclosure>summary:before{content:'›';color:#89dce8;font-size:21px}.catalog-family-disclosure[open]>summary:before{transform:rotate(90deg)}.catalog-family-disclosure>.catalog-grid{padding:12px}.catalog-family-disclosure>summary:focus-visible{outline:2px solid #a3eaff}
+.support-jump{padding:3px 5px;border:0;background:none;color:var(--c-reality-soft);text-decoration:underline;cursor:pointer;font:inherit}
+.catalog-family-disclosure{border:1px solid #304b62;border-radius:7px}.catalog-family-disclosure>summary{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:48px;padding:10px 14px;color:#e8f2ff;font-weight:650;cursor:pointer;list-style:none;user-select:none}.catalog-family-disclosure>summary::-webkit-details-marker{display:none}.catalog-family-disclosure>summary:before{content:'›';color:#89dce8;font-size:21px}.catalog-family-disclosure[open]>summary:before{transform:rotate(90deg)}.catalog-family-disclosure>.catalog-grid{padding:12px}.catalog-family-disclosure>summary:focus-visible{outline:2px solid var(--c-reality-soft)}
 .charge-summary strong{color:#e4eff9;font-weight:600}
 .lifestyle-tier-box{display:grid;gap:14px;margin:16px 0 20px;padding:16px;border:1px solid #2c4255;border-radius:8px;background:#0a1522}
 .lifestyle-tier-box p{margin:0;color:var(--equipment-muted);font-size:14px}
@@ -1138,7 +1138,7 @@ function benefitUpdate(value:Record<string,unknown>){emit('update:modelValue',va
 .catalog-summary{cursor:pointer;display:flex;align-items:center;gap:16px;min-height:78px;padding:20px 22px;list-style:none}
 .catalog-summary::-webkit-details-marker{display:none}
 .catalog-summary>span:first-child{display:grid;flex:1;gap:6px;min-width:0}
-.catalog-summary strong{font:600 18px/1.35 Inter,"Segoe UI",sans-serif;color:#e7eef8}
+.catalog-summary strong{font:600 18px/1.35 "Inter Variable",Inter,"Segoe UI",sans-serif;color:#e7eef8}
 .catalog-summary small{color:var(--equipment-muted);font-size:14px;line-height:1.5}
 .catalog-summary::after{content:"›";flex-shrink:0;color:#9be5f8;font-size:25px;line-height:1;transform:rotate(90deg);transition:transform .15s}
 .catalog-disclosure[open]>.catalog-summary::after{transform:rotate(-90deg)}
@@ -1146,10 +1146,10 @@ function benefitUpdate(value:Record<string,unknown>){emit('update:modelValue',va
 .catalog-category-stack{display:grid;gap:24px}
 .catalog-family{min-width:0;padding-top:22px;border-top:1px solid #30475b}
 .catalog-family:first-child{border-top:0;padding-top:4px}
-.catalog-family>h4{display:flex;align-items:center;gap:10px;margin:0 0 14px;color:#d5e8f6;font:600 14px/1.4 Inter,"Segoe UI",sans-serif;letter-spacing:.05em;text-transform:uppercase}
+.catalog-family>h4{display:flex;align-items:center;gap:10px;margin:0 0 14px;color:#d5e8f6;font:600 14px/1.4 "Inter Variable",Inter,"Segoe UI",sans-serif;letter-spacing:.05em;text-transform:uppercase}
 .family-count{display:inline-flex;align-items:center;justify-content:center;min-width:30px;min-height:24px;padding:2px 6px;border:1px solid #416276;border-radius:5px;color:#a1e5f5;font-size:12px}
-.catalog-card{display:flex;flex-direction:column;gap:14px;min-width:0;padding:18px;border:1px solid #344d63;border-radius:8px;background:#101f30;overflow-wrap:anywhere}
-.catalog-card-details{padding:10px 12px;border:1px solid #344d63;border-radius:6px}.catalog-card-details>summary{cursor:pointer;color:#a4edff;font-size:14px;font-weight:600}.catalog-card-details>p{margin:12px 0 0}.catalog-card-details:not([open]){margin-top:auto}
+.catalog-card{display:flex;flex-direction:column;gap:14px;min-width:0;padding:18px;border:1px solid #344d63;border-radius:8px;background:var(--c-surface);overflow-wrap:anywhere}
+.catalog-card-details{padding:10px 12px;border:1px solid #344d63;border-radius:6px}.catalog-card-details>summary{cursor:pointer;color:var(--c-reality-soft);font-size:14px;font-weight:600}.catalog-card-details>p{margin:12px 0 0}.catalog-card-details:not([open]){margin-top:auto}
 .catalog-head{display:flex;justify-content:space-between;gap:14px;align-items:flex-start}
 .catalog-head>div{display:grid;gap:6px;min-width:0}
 .catalog-head>button{flex-shrink:0}

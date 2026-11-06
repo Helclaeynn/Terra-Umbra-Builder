@@ -22,14 +22,14 @@ const failure = ref(false);
 </template>
 
 <style scoped>
-.hologram-comparison{padding:24px;margin:28px 0;border:1px solid #4c4265;border-radius:8px;background:#0d1523;color:#edf4ff}
-.comparison-kicker{font:11px/1.5 Consolas,monospace;letter-spacing:.14em;color:#b79aff}
-h2{margin:10px 0 20px;font:500 clamp(22px,2.4vw,30px)/1.3 Inter,"Segoe UI",sans-serif}
+.hologram-comparison{padding:24px;margin:28px 0;border:1px solid #4c4265;border-radius:8px;background:#0d1523;color:var(--c-text)}
+.comparison-kicker{font:11px/1.5 Consolas,monospace;letter-spacing:.14em;color:var(--c-truth)}
+h2{margin:10px 0 20px;font:500 clamp(22px,2.4vw,30px)/1.3 "Inter Variable",Inter,"Segoe UI",sans-serif}
 .comparison-controls{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:18px}
 button{min-height:44px;padding:11px 18px;border:1px solid #486078;border-radius:5px;background:transparent;color:#bad0e3;font-size:14px;cursor:pointer}
-button[aria-pressed="true"]{border-color:#64def5;background:#163349;color:#dff8ff;box-shadow:inset 0 -2px #64def5}
-button:nth-child(2)[aria-pressed="true"]{border-color:#b79aff;background:#30233f;color:#edddff;box-shadow:inset 0 -2px #b79aff}
-button:focus-visible{outline:2px solid #64def5;outline-offset:4px}
+button[aria-pressed="true"]{border-color:var(--c-reality);background:#163349;color:#dff8ff;box-shadow:inset 0 -2px var(--c-reality)}
+button:nth-child(2)[aria-pressed="true"]{border-color:var(--c-truth);background:#30233f;color:#edddff;box-shadow:inset 0 -2px var(--c-truth)}
+button:focus-visible{outline:2px solid var(--c-reality);outline-offset:4px}
 figure{margin:0}.comparison-stage{aspect-ratio:3/2;overflow:hidden;border-radius:5px;background:#080e18}
 img{display:block;width:100%;height:100%;object-fit:contain}img[hidden]{display:none!important}
 figcaption{min-height:3.6em;margin-top:14px;color:#b9cadd;font-size:14px;line-height:1.8}

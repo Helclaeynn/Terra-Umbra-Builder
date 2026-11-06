@@ -260,17 +260,17 @@ const preview=computed(()=>{
 .builder-wiki-ref{position:relative;display:inline-flex;max-width:100%}
 .builder-wiki-link{display:inline-flex;align-items:center;gap:.3rem;max-width:100%;color:inherit;text-decoration-line:underline;text-decoration-style:dotted;text-underline-offset:3px;text-decoration-color:rgba(88,220,197,.5)}
 .builder-wiki-link:hover,.builder-wiki-link:focus{color:#dcecf0;text-decoration-style:solid;outline:none}
-.wiki-mark{font-size:.68em;color:#6fcff1;opacity:.8}
-.wiki-info-button{display:none;width:1.15rem;height:1.15rem;margin-left:.15rem;padding:0;border:1px solid #36536b;border-radius:50%;background:transparent;color:#a5bbd3;font:700 .68rem/1 Inter,"Segoe UI",Arial,sans-serif}
-.builder-wiki-hover{position:fixed;z-index:1200;display:block;box-sizing:border-box;width:min(360px,calc(100vw - 24px));max-height:calc(100vh - 24px);overflow:auto;padding:18px 20px;border:1px solid #36536b;border-top:2px solid var(--tu-accent,#64def5);border-radius:8px;background:#101e2e;color:#dce8f5;box-shadow:0 16px 48px rgba(0,0,0,.45);pointer-events:none;text-align:left;font-family:Inter,"Segoe UI",Arial,sans-serif;overflow-wrap:anywhere}
+.wiki-mark{font-size:.68em;color:var(--c-reality);opacity:.8}
+.wiki-info-button{display:none;width:1.15rem;height:1.15rem;margin-left:.15rem;padding:0;border:1px solid var(--c-line-strong);border-radius:50%;background:transparent;color:#a5bbd3;font:700 .68rem/1 "Inter Variable",Inter,"Segoe UI",Arial,sans-serif}
+.builder-wiki-hover{position:fixed;z-index:1200;display:block;box-sizing:border-box;width:min(360px,calc(100vw - 24px));max-height:calc(100vh - 24px);overflow:auto;padding:18px 20px;border:1px solid var(--c-line-strong);border-top:2px solid var(--tu-accent,var(--c-reality));border-radius:8px;background:#101e2e;color:#dce8f5;box-shadow:0 16px 48px rgba(0,0,0,.45);pointer-events:none;text-align:left;font-family:var(--font-text);overflow-wrap:anywhere}
 .wiki-preview-media{display:block;width:100%;max-height:170px;object-fit:contain;margin:0 0 .65rem;border-radius:4px;background:rgba(0,0,0,.25)}
-.builder-wiki-hover small{display:block;margin-bottom:8px;color:var(--tu-accent,#64def5);font-size:10px;font-weight:600;line-height:1.5;text-transform:uppercase;letter-spacing:.14em}
-.builder-wiki-hover strong{display:block;color:#eef5ff;font:600 17px/1.35 Inter,"Segoe UI",Arial,sans-serif}
+.builder-wiki-hover small{display:block;margin-bottom:8px;color:var(--tu-accent,var(--c-reality));font-size:10px;font-weight:600;line-height:1.5;text-transform:uppercase;letter-spacing:.14em}
+.builder-wiki-hover strong{display:block;color:#eef5ff;font:600 17px/1.35 "Inter Variable",Inter,"Segoe UI",Arial,sans-serif}
 .builder-wiki-hover p{margin:9px 0;color:#c1d1e4;font-size:13px;line-height:1.65}
 .wiki-preview-badges{display:flex;flex-wrap:wrap;gap:.3rem;margin:.45rem 0 0}
-.wiki-preview-badges span{padding:.2rem .35rem;border:1px solid #36536b;border-radius:3px;color:#a5bbd3;font-size:11px}
-.wiki-preview-detail{padding:.45rem .55rem;border-left:2px solid var(--tu-accent,#64def5);background:#15283a;color:#c1d1e4!important}
-.builder-wiki-hover>span{color:var(--tu-accent,#64def5);font-size:12px;font-weight:500}
+.wiki-preview-badges span{padding:.2rem .35rem;border:1px solid var(--c-line-strong);border-radius:3px;color:#a5bbd3;font-size:11px}
+.wiki-preview-detail{padding:.45rem .55rem;border-left:2px solid var(--tu-accent,var(--c-reality));background:#15283a;color:#c1d1e4!important}
+.builder-wiki-hover>span{color:var(--tu-accent,var(--c-reality));font-size:12px;font-weight:500}
 .builder-wiki-hover.compact{width:min(320px,calc(100vw - 24px))}
 @media(max-width:720px){.wiki-info-button{display:inline-grid;place-items:center}.builder-wiki-hover{max-height:70vh;pointer-events:auto}}
 </style>

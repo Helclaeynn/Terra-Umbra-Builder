@@ -1,18 +1,18 @@
 /* Production identity shared by every route, loaded once before route styles. */
 :root {
   color-scheme: dark;
-  --tu-font: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --tu-font:var(--font-text);
   --tu-bg: #050a12;
   --tu-surface: #0d1826;
   --tu-surface-strong: #0a121e;
-  --tu-surface-soft: #101f30;
+  --tu-surface-soft: var(--c-surface);
   --tu-border: #2b4259;
   --tu-border-soft: #203247;
-  --tu-gold: #64def5;
+  --tu-gold: var(--c-reality);
   --tu-gold-strong: #399fea;
-  --tu-violet: #b79aff;
-  --tu-text: #edf4ff;
-  --tu-muted: #a1b5cc;
+  --tu-violet: var(--c-truth);
+  --tu-text: var(--c-text);
+  --tu-muted: var(--c-text-soft);
   --tu-success: #9ddac8;
   --tu-danger: #f0b3ba;
   --tu-shadow: 0 18px 50px #0003;
@@ -27,7 +27,7 @@ button, a { touch-action: manipulation; }
   outline: 2px solid var(--tu-gold);
   outline-offset: 4px;
 }
-::selection { color: #edf4ff; background: #345975; }
+::selection { color: var(--c-text); background: #345975; }
 .topbar { border-color: var(--tu-border-soft); background: #080f19f5; box-shadow: none; }
 .panel { border-color: var(--tu-border); border-radius: 8px; background: var(--tu-surface); }
 :is(.intro h1, .welcome h1, .section-heading h2, .panel h2) {
@@ -59,14 +59,14 @@ input:is([type="checkbox"], [type="radio"]) {
   cursor: pointer;
 }
 input:disabled, select:disabled, textarea:disabled { opacity: .65; cursor: not-allowed; }
-select:hover { border-color: #527a99; background-color: #101f30; }
+select:hover { border-color: #527a99; background-color: var(--c-surface); }
 select option, select optgroup { background: #0a121e; color: var(--tu-text); }
 :is(.primary, .secondary, .ghost) { min-height: 44px; border-radius: 6px; }
 .primary { color: #06121c; border-color: #9eeafd; background: #9eeafd; }
 .primary:not(:disabled):hover { background: #bef3ff; box-shadow: 0 6px 24px #64def51c; }
 .secondary, .ghost { border-color: var(--tu-border); color: #d3e0ef; background: #0b1725; }
-.secondary:not(:disabled):hover, .ghost:not(:disabled):hover { border-color: #64def5; background: #152638; color: #edf4ff; }
-.eyebrow { color: #64def5; }
+.secondary:not(:disabled):hover, .ghost:not(:disabled):hover { border-color: var(--c-reality); background: #152638; color: var(--c-text); }
+.eyebrow { color: var(--c-reality); }
 .role-badge { border-color: #395872; border-radius: 5px; color: #ccebf5; background: #102133; }
 .danger { color: #f0b3ba; border-color: #754553; }
 .builder-v2-shell .builder-brand-lockup { padding: 0; }

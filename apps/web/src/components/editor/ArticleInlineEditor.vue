@@ -530,16 +530,16 @@ onBeforeUnmount(() => window.removeEventListener("beforeunload", beforeUnload));
 <style scoped>
 .inline-editor { display: grid; gap: 14px; padding-bottom: 80px; }
 .ie-sticky { position: sticky; top: 0; z-index: 20; display: grid; gap: 6px; }
-.ie-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 10px 12px; background: #0a1520f2; border: 1px solid #263f54; border-radius: 8px; backdrop-filter: blur(6px); }
-.ie-mode { color: #64def5; }
+.ie-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 10px 12px; background: #0a1520f2; border: 1px solid var(--c-line); border-radius: 8px; backdrop-filter: blur(6px); }
+.ie-mode { color: var(--c-reality); }
 .ie-bar button { min-height: 34px; padding: 4px 12px; }
 .ie-state { font-size: 13px; color: #f0c674; }
 .ie-spacer { flex: 1; }
 .ie-feedback { margin: 0; padding: 8px 12px; border-radius: 6px; background: #12324a; color: #cfe3f5; }
 .ie-feedback.error { background: #3a1820; color: #ffc7d0; }
 .ie-loading { color: #8ea6bd; }
-.ie-title { font-size: 30px; font-weight: 700; background: transparent; border: 0; border-bottom: 1px dashed #314d63; color: #eef5fc; padding: 6px 2px; width: 100%; }
-.ie-title:focus { outline: none; border-bottom-color: #64def5; }
+.ie-title { font-size: 30px; font-weight: 700; background: transparent; border: 0; border-bottom: 1px dashed var(--c-line); color: #eef5fc; padding: 6px 2px; width: 100%; }
+.ie-title:focus { outline: none; border-bottom-color: var(--c-reality); }
 .ie-settings { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; }
 .ie-settings label, .ie-more label { display: grid; gap: 4px; font-size: 13px; color: #8ea6bd; }
 .ie-more { flex-basis: 100%; }
@@ -547,15 +547,15 @@ onBeforeUnmount(() => window.removeEventListener("beforeunload", beforeUnload));
 .ie-more[open] { display: grid; gap: 8px; padding: 8px 0; }
 .ie-full-link { font-size: 13px; color: #8fd3ff; }
 .ie-tags { display: grid; gap: 6px; }
-.ie-toolbar { display: flex; flex-wrap: wrap; gap: 4px; padding: 6px; background: #0d1b29f2; border: 1px solid #263f54; border-radius: 8px; }
-.ie-toolbar button { min-height: 32px; padding: 4px 10px; background: #13283a; color: #cfe3f5; border: 1px solid #263f54; border-radius: 5px; cursor: pointer; }
-.ie-toolbar button.on { background: #1f4a66; border-color: #64def5; }
-.ie-image-props, .ie-link { display: grid; gap: 8px; padding: 10px; border: 1px solid #263f54; border-radius: 8px; background: #0b1724; }
+.ie-toolbar { display: flex; flex-wrap: wrap; gap: 4px; padding: 6px; background: #0d1b29f2; border: 1px solid var(--c-line); border-radius: 8px; }
+.ie-toolbar button { min-height: 32px; padding: 4px 10px; background: #13283a; color: #cfe3f5; border: 1px solid var(--c-line); border-radius: 5px; cursor: pointer; }
+.ie-toolbar button.on { background: #1f4a66; border-color: var(--c-reality); }
+.ie-image-props, .ie-link { display: grid; gap: 8px; padding: 10px; border: 1px solid var(--c-line); border-radius: 8px; background: #0b1724; }
 .ie-image-props label, .ie-link label { display: grid; gap: 4px; font-size: 13px; color: #8ea6bd; }
 .ie-link ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; max-height: 200px; overflow: auto; }
-.ie-link li button { width: 100%; text-align: left; background: #13283a; color: #dce7f5; border: 1px solid #263f54; border-radius: 5px; padding: 6px 10px; cursor: pointer; }
+.ie-link li button { width: 100%; text-align: left; background: #13283a; color: #dce7f5; border: 1px solid var(--c-line); border-radius: 5px; padding: 6px 10px; cursor: pointer; }
 .ie-link small { color: #8ea6bd; margin-left: 6px; }
-.ie-history { padding: 10px; border: 1px solid #263f54; border-radius: 8px; background: #0b1724; }
+.ie-history { padding: 10px; border: 1px solid var(--c-line); border-radius: 8px; background: #0b1724; }
 .ie-history ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
 .ie-history li { display: flex; justify-content: space-between; gap: 8px; align-items: center; color: #cfe3f5; font-size: 14px; }
 .ie-section { border: 1px solid #1f3446; border-radius: 8px; padding: 8px; background: #0a1520; }
@@ -564,14 +564,14 @@ onBeforeUnmount(() => window.removeEventListener("beforeunload", beforeUnload));
 .ie-section-head { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
 .ie-section-head select, .ie-section-head button { width: auto; flex: 0 0 auto; min-height: 32px; padding: 4px 8px; }
 .ie-settings select { width: auto; min-width: 200px; }
-.ie-section-title { flex: 1 1 220px; background: transparent; border: 0; border-bottom: 1px dashed #263f54; color: #eef5fc; font-weight: 700; padding: 4px 2px; }
+.ie-section-title { flex: 1 1 220px; background: transparent; border: 0; border-bottom: 1px dashed var(--c-line); color: #eef5fc; font-weight: 700; padding: 4px 2px; }
 .ie-section-title.level-2 { font-size: 22px; }
 .ie-section-title.level-3 { font-size: 19px; }
 .ie-section-title.level-4 { font-size: 17px; }
-.ie-section-title:focus { outline: none; border-bottom-color: #64def5; }
-.ie-add { justify-self: center; background: transparent; border: 1px dashed #263f54; color: #8ea6bd; border-radius: 999px; padding: 2px 14px; font-size: 13px; cursor: pointer; opacity: 0.6; }
-.ie-add:hover, .ie-add:focus { opacity: 1; color: #64def5; border-color: #64def5; }
-.ie-builder { border: 1px solid #263f54; border-radius: 8px; padding: 12px; background: #0b1724; color: #cfe3f5; }
+.ie-section-title:focus { outline: none; border-bottom-color: var(--c-reality); }
+.ie-add { justify-self: center; background: transparent; border: 1px dashed var(--c-line); color: #8ea6bd; border-radius: 999px; padding: 2px 14px; font-size: 13px; cursor: pointer; opacity: 0.6; }
+.ie-add:hover, .ie-add:focus { opacity: 1; color: var(--c-reality); border-color: var(--c-reality); }
+.ie-builder { border: 1px solid var(--c-line); border-radius: 8px; padding: 12px; background: #0b1724; color: #cfe3f5; }
 .ie-builder dl { display: grid; grid-template-columns: max-content 1fr; gap: 2px 12px; font-size: 13px; }
 .ie-builder dt { color: #8ea6bd; }
 @media (max-width: 640px) {

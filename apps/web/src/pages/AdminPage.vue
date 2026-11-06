@@ -62,17 +62,17 @@ onMounted(async () => {
 </template>
 
 <style scoped>
-.admin-shell{min-height:100vh;background:#07111c;color:#edf4ff;font-family:Inter,"Segoe UI",sans-serif}
+.admin-shell{min-height:100vh;background:#07111c;color:var(--c-text);font-family:var(--font-text)}
 .admin-topbar{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px;padding:14px 20px;border-bottom:1px solid #22384c}
-.admin-topbar a{color:#9eeaff}
+.admin-topbar a{color:var(--c-reality-soft)}
 .admin-page{max-width:1000px;margin:0 auto;padding:24px 16px 60px;display:grid;gap:16px}
 .eyebrow{margin:0;color:#77e3da;font-size:12px;letter-spacing:.08em}
 h1{margin:0;font-size:28px}
 .error{color:#ffb4b4}
 .tools{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
-.tool{display:grid;gap:6px;padding:16px;border:1px solid #2b3b51;border-radius:8px;background:#0e1b2d;color:#edf4ff;text-decoration:none}
+.tool{display:grid;gap:6px;padding:16px;border:1px solid var(--c-line);border-radius:8px;background:#0e1b2d;color:var(--c-text);text-decoration:none}
 .tool:hover,.tool:focus-visible{border-color:#77e3da}
-.tool span{color:#b3c5d9;line-height:1.5;font-size:14px}
-.tool .badge{display:inline-block;margin-left:6px;padding:1px 8px;border-radius:999px;background:#77e3da;color:#071725;font-size:12px;font-weight:700}
-.tool:focus-visible{outline:2px solid #a3eaff;outline-offset:3px}
+.tool span{color:var(--c-text-soft);line-height:1.5;font-size:14px}
+.tool .badge{display:inline-block;margin-left:6px;padding:1px 8px;border-radius:999px;background:#77e3da;color:var(--c-night);font-size:12px;font-weight:700}
+.tool:focus-visible{outline:2px solid var(--c-reality-soft);outline-offset:3px}
 </style>
