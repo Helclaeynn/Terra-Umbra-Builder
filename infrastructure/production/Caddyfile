@@ -4,7 +4,20 @@
   }
 }
 
+(apercus) {
+  # Aperçus de lien (Discord, WhatsApp, Messenger…) : ces robots ne lancent pas
+  # l'application ; l'API leur sert le titre, le résumé et l'image de l'article
+  # public (compendium.ts, /api/compendium/share). Les visiteurs ne sont pas concernés.
+  @apercu {
+    path / /compendium /compendium/
+    query article=*
+    header_regexp User-Agent (?i)(discordbot|whatsapp|facebookexternalhit|facebot|meta-externalagent|twitterbot|slackbot|telegrambot|linkedinbot|skypeuripreview|embedly|pinterest|redditbot|mastodon|bluesky|iframely|signal)
+  }
+  rewrite @apercu /api/compendium/share?{query}
+}
+
 terra-umbra.fr {
+  import apercus
   header >Alt-Svc "clear"
   encode zstd gzip
   header {
@@ -30,6 +43,7 @@ www.terra-umbra.fr {
 # Site d'essai (infrastructure/recette), réservé à l'auteur.
 # Mot de passe : /opt/terra-umbra/secrets/recette-acces.txt sur le VPS.
 dev.terra-umbra.fr {
+  import apercus
   header >Alt-Svc "clear"
   encode zstd gzip
   header X-Robots-Tag "noindex, nofollow"

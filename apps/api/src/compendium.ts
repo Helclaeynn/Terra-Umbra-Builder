@@ -708,6 +708,45 @@ async function knowsTruth(userId: string): Promise<boolean> {
  * Ce qu'un lecteur voit : tout pour le MJ, la vue Vérité pour un joueur qui
  * connaît la Vérité (users.truth_access, réglable dans Directus), sinon le public.
  */
+const SHARE_IMAGE = "/brand/apercu-terra-umbra.jpg";
+const escapeHtml = (value: string) =>
+  value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+// Texte lisible d'un paragraphe : sans liens [[…|…]], gras ni balises.
+const plainText = (value: string) =>
+  value.replace(/\[\[([^\]|]+)\|([^\]]+)\]\]/g, "$2").replace(/\[\[([^\]]+)\]\]/g, "$1")
+    .replace(/<[^>]+>/g, "").replace(/[*_`#>]+/g, "").replace(/\s+/g, " ").trim();
+
+/** Page lue par les aperçus de lien : titre, résumé, image, puis renvoi vers l'article. */
+export function shareCard(article: Article | undefined, origin: string, requestedId: string): string {
+  const url = article ? `${origin}/compendium?article=${encodeURIComponent(article.id)}` : `${origin}/compendium${requestedId ? `?article=${encodeURIComponent(requestedId)}` : ""}`;
+  const title = article ? `${String(article.title ?? "Article")} · Terra Umbra` : "Terra Umbra · Compendium";
+  let description = "Terra Umbra California : un jeu de rôle en 2035, entre Réalité et Vérité.";
+  let image = "";
+  for (const section of Array.isArray(article?.sections) ? article!.sections : []) {
+    for (const block of Array.isArray(section?.blocks) ? section.blocks : []) {
+      if (!image && block?.type === "image" && typeof block.src === "string" && /^images\//.test(block.src)) image = `/api/compendium/media/${block.src}`;
+      if (description.startsWith("Terra Umbra California") && block?.type === "p" && typeof block.text === "string") {
+        const text = plainText(block.text);
+        if (text.length > 40) description = text.length > 220 ? `${text.slice(0, 217).replace(/\s+\S*$/, "")}…` : text;
+      }
+    }
+  }
+  const cover = typeof article?.image === "string" && /^images\//.test(article.image) ? `/api/compendium/media/${article.image}` : image;
+  const imageUrl = `${origin}${cover || SHARE_IMAGE}`;
+  const tags = [
+    ["og:type", "article"], ["og:site_name", "Terra Umbra"], ["og:locale", "fr_FR"],
+    ["og:title", title], ["og:description", description], ["og:url", url], ["og:image", imageUrl]
+  ].map(([property, content]) => `<meta property="${property}" content="${escapeHtml(content)}">`).join("\n");
+  return `<!doctype html><html lang="fr"><head><meta charset="utf-8"><title>${escapeHtml(title)}</title>
+<meta name="description" content="${escapeHtml(description)}">
+${tags}
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#58dcc5">
+<link rel="canonical" href="${escapeHtml(url)}">
+<meta http-equiv="refresh" content="0; url=${escapeHtml(url)}">
+</head><body><a href="${escapeHtml(url)}">${escapeHtml(title)}</a></body></html>`;
+}
+
 async function readerView(corpus: Corpus, user: { id: string } | null, includeMj: boolean) {
   if (includeMj) return { articles: corpus.articles, byId: corpus.byId };
   if (user && await knowsTruth(user.id)) return { articles: corpus.truthArticles, byId: corpus.truthById };
@@ -4563,6 +4602,20 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
   await registerNpcProposalRoutes(app, async (articleId) => (await getCorpus()).publicById.has(articleId));
   // Site d'essai : les articles s'éditent dans Directus. L'ancien éditeur écrirait
   // dans des tables que le compendium ne lit plus ; ses écritures sont refusées.
+  // Aperçu de lien (06/11) : Discord, WhatsApp, Messenger… lisent cette page à la
+  // place de l'application (Caddy la leur sert pour /compendium?article=…). Seul
+  // ce qu'un visiteur sans compte peut lire y figure : jamais la Vérité ni le MJ.
+  app.get<{ Querystring: { article?: string } }>("/api/compendium/share", async (request, reply) => {
+    const host = ["terra-umbra.fr", "dev.terra-umbra.fr"].includes(request.hostname) ? request.hostname : "terra-umbra.fr";
+    const origin = `https://${host}`;
+    const id = String(request.query.article ?? "").trim().slice(0, 240);
+    const corpus = await getCorpus();
+    const view = await readerView(corpus, null, false);
+    const article = id ? view.byId.get(publicArticleId(MERGED_PNJ_ALIAS_IDS[id] ?? id)) : undefined;
+    const card = shareCard(article, origin, id);
+    return reply.type("text/html; charset=utf-8").header("Cache-Control", "public, max-age=600").send(card);
+  });
+
   app.get("/api/compendium/meta", async () => {
     const corpus = await getCorpus();
     return {
