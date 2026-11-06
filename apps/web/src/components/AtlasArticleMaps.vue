@@ -14,7 +14,7 @@ const maps = computed(() => {
 <template>
   <section v-if="maps.length" class="article-maps" aria-label="Cartes du territoire">
     <h2>Cartes du territoire</h2>
-    <p>Cartes illustrées non interactives. Cliquez sur une image pour l’ouvrir en haute définition.</p>
+    <p>Cartes illustrées non interactives. Clique sur une image pour l’ouvrir en haute définition.</p>
     <div class="article-maps-grid" :class="{ single: maps.length === 1 }">
       <figure v-for="map in maps" :key="map.id">
         <a :href="map.image" target="_blank" rel="noopener" :aria-label="`Ouvrir la carte ${map.title} en haute définition`">
@@ -32,12 +32,12 @@ const maps = computed(() => {
 </template>
 
 <style scoped>
-.article-maps{margin:24px 0 32px;padding:20px;border:1px solid #385969;border-radius:8px;background:#102532;color:#ccdfe4;scroll-margin-top:140px}
+.article-maps{margin:24px 0 32px;padding:20px;border:1px solid var(--c-line-strong);border-radius:8px;background:var(--c-relief);color:var(--c-text-soft);scroll-margin-top:140px}
 .article-maps h2{margin:0 0 10px;font-size:23px;color:var(--c-text)}
 .article-maps p{font-size:14px;line-height:1.6}
 .article-maps-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
 .article-maps-grid.single{grid-template-columns:minmax(0,1fr)}
-.article-maps figure{margin:0;min-width:0;background:#0a1c28;border:1px solid #294453;border-radius:5px;overflow:hidden}
+.article-maps figure{margin:0;min-width:0;background:var(--c-surface);border:1px solid var(--c-line);border-radius:5px;overflow:hidden}
 .article-maps figure>a{display:block;padding:10px}
 .article-maps img{display:block;width:100%;height:auto;max-height:560px;object-fit:contain}
 .article-maps figcaption{display:grid;gap:8px;padding:14px;font-size:13px}

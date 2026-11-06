@@ -127,6 +127,7 @@ export async function registerCharacterRoutes(app: FastifyInstance) {
          ${request.query.summary === "1" ? "" : "data,"}
          version,
          favorite,
+         data->'truth'->>'nature' AS nature,
          created_at::text AS "createdAt",
          updated_at::text AS "updatedAt",
          campaign_id AS "campaignId",(SELECT name FROM campaigns WHERE id=characters.campaign_id) AS "campaignName"

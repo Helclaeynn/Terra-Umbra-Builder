@@ -21,5 +21,5 @@ function reset(){if(window.confirm('Un nouveau scénario commence : remettre à 
  </details>
 </template>
 <style scoped>
-.beneficiary-benefits{border:1px solid var(--border,#294655);border-radius:.6rem;padding:1rem;margin:1rem 0;min-width:0}.beneficiary-benefits label{display:grid;gap:.35rem;margin:.7rem 0}.beneficiary-benefits input{width:100%;min-width:0;box-sizing:border-box}.beneficiary-benefits button{min-height:44px;max-width:100%;white-space:normal;margin:.4rem 0}.beneficiary-benefits p{overflow-wrap:anywhere}summary{cursor:pointer;min-height:44px}
+.beneficiary-benefits{border:1px solid var(--border,var(--c-line));border-radius:.6rem;padding:1rem;margin:1rem 0;min-width:0}.beneficiary-benefits label{display:grid;gap:.35rem;margin:.7rem 0}.beneficiary-benefits input{width:100%;min-width:0;box-sizing:border-box}.beneficiary-benefits button{min-height:44px;max-width:100%;white-space:normal;margin:.4rem 0}.beneficiary-benefits p{overflow-wrap:anywhere}summary{cursor:pointer;min-height:44px}
 </style>

@@ -22,16 +22,16 @@ const failure = ref(false);
 </template>
 
 <style scoped>
-.hologram-comparison{padding:24px;margin:28px 0;border:1px solid #4c4265;border-radius:8px;background:#0d1523;color:var(--c-text)}
-.comparison-kicker{font:11px/1.5 Consolas,monospace;letter-spacing:.14em;color:var(--c-truth)}
+.hologram-comparison{padding:24px;margin:28px 0;border:1px solid #4c4265;border-radius:8px;background:var(--c-surface);color:var(--c-text)}
+.comparison-kicker{font:12px/1.5 Consolas,monospace;letter-spacing:.14em;color:var(--c-truth)}
 h2{margin:10px 0 20px;font:500 clamp(22px,2.4vw,30px)/1.3 "Inter Variable",Inter,"Segoe UI",sans-serif}
 .comparison-controls{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:18px}
-button{min-height:44px;padding:11px 18px;border:1px solid #486078;border-radius:5px;background:transparent;color:#bad0e3;font-size:14px;cursor:pointer}
-button[aria-pressed="true"]{border-color:var(--c-reality);background:#163349;color:#dff8ff;box-shadow:inset 0 -2px var(--c-reality)}
-button:nth-child(2)[aria-pressed="true"]{border-color:var(--c-truth);background:#30233f;color:#edddff;box-shadow:inset 0 -2px var(--c-truth)}
+button{min-height:44px;padding:11px 18px;border:1px solid var(--c-line-strong);border-radius:5px;background:transparent;color:var(--c-text-soft);font-size:14px;cursor:pointer}
+button[aria-pressed="true"]{border-color:var(--c-reality);background:var(--c-relief);color:var(--c-text);box-shadow:inset 0 -2px var(--c-reality)}
+button:nth-child(2)[aria-pressed="true"]{border-color:var(--c-truth);background:var(--c-relief);color:var(--c-truth-soft);box-shadow:inset 0 -2px var(--c-truth)}
 button:focus-visible{outline:2px solid var(--c-reality);outline-offset:4px}
-figure{margin:0}.comparison-stage{aspect-ratio:3/2;overflow:hidden;border-radius:5px;background:#080e18}
+figure{margin:0}.comparison-stage{aspect-ratio:3/2;overflow:hidden;border-radius:5px;background:var(--c-night)}
 img{display:block;width:100%;height:100%;object-fit:contain}img[hidden]{display:none!important}
-figcaption{min-height:3.6em;margin-top:14px;color:#b9cadd;font-size:14px;line-height:1.8}
+figcaption{min-height:3.6em;margin-top:14px;color:var(--c-text-soft);font-size:14px;line-height:1.8}
 @media(max-width:650px){.hologram-comparison{padding:16px}button{flex:1 1 auto;padding-left:12px;padding-right:12px}figcaption{min-height:5.4em}}
 </style>

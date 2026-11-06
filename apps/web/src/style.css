@@ -1,9 +1,9 @@
 :root {
   font-family: var(--font-text);
   color: var(--c-text);
-  background: #080f17;
+  background: var(--c-night);
   font-synthesis: none;
-  --tu-bg: #080f17;
+  --tu-bg: var(--c-night);
   --tu-surface: rgba(16,27,37, .84);
   --tu-surface-strong: var(--c-surface);
   --tu-surface-soft: rgba(255, 255, 255, .018);
@@ -81,7 +81,7 @@ body {
   background:
     radial-gradient(circle at 12% -8%, rgba(139, 98, 50, .2), transparent 34rem),
     radial-gradient(circle at 88% 18%, rgba(67, 83, 74, .08), transparent 28rem),
-    linear-gradient(180deg, #080f17 0%, #070d13 100%);
+    linear-gradient(180deg, var(--c-night) 0%, var(--c-night) 100%);
 }
 
 body::before {
@@ -258,7 +258,7 @@ form {
 label {
   display: grid;
   gap: .42rem;
-  color: #c4d5da;
+  color: var(--c-text-soft);
   font-size: .88rem;
 }
 
@@ -296,7 +296,7 @@ select:focus {
 
 .primary {
   background: var(--c-reality);
-  color: #080f17;
+  color: var(--c-night);
   font-weight: 700;
 }
 
@@ -308,13 +308,13 @@ select:focus {
 .secondary:not(:disabled):hover,
 .ghost:not(:disabled):hover {
   border-color: rgba(88,220,197, .48);
-  color: #dce8ec;
+  color: var(--c-text);
   background: rgba(43,146,255, .06);
 }
 
 .secondary {
   border-color: var(--c-line-strong);
-  color: #b8dfea;
+  color: var(--c-text-soft);
   background: transparent;
 }
 
@@ -368,7 +368,7 @@ select:focus {
 }
 
 .tabs button.active {
-  color: #b8dfea;
+  color: var(--c-text-soft);
   background: rgba(43,146,255, .1);
 }
 
@@ -390,7 +390,7 @@ select:focus {
 }
 
 .role-badge {
-  color: #b8dfea;
+  color: var(--c-text-soft);
   border-color: rgba(88,220,197, .28);
 }
 
@@ -432,7 +432,7 @@ select:focus {
 .dashboard-portal:hover { transform:translateY(-3px); border-color:rgba(88,220,197,.38); box-shadow:0 26px 68px rgba(0,0,0,.28); }
 .dashboard-portal h2 { margin:.12rem 0 .45rem; font:500 1.75rem/1.1 var(--tu-font); }
 .dashboard-portal p:not(.eyebrow) { max-width:45ch; margin:0; color:#7f98a3; line-height:1.55; }
-.dashboard-portal>strong { color:#b8dfea; font-size:.76rem; letter-spacing:.03em; }
+.dashboard-portal>strong { color:var(--c-text-soft); font-size:.76rem; letter-spacing:.03em; }
 .portal-index { position:absolute; top:1rem; right:1rem; color:rgba(88,220,197,.25); font:500 2rem/1 var(--tu-font); }
 .builder-portal { background:linear-gradient(145deg,rgba(18,51,57,.24),rgba(9,20,28,.84)); }
 .compendium-portal { background:linear-gradient(145deg,rgba(53,40,79,.18),rgba(9,20,28,.84)); }
@@ -658,7 +658,7 @@ td select {
 
 /* Approved V2 visual system — shared production surfaces */
 :root{
-  --tu-bg:#080f17;
+  --tu-bg:var(--c-night);
   --tu-surface:rgba(16,27,37,.88);
   --tu-surface-strong:var(--c-surface);
   --tu-surface-soft:rgba(88,220,197,.025);
@@ -676,7 +676,7 @@ body{
   background:
     radial-gradient(circle at 14% -8%,rgba(32,96,111,.24),transparent 34rem),
     radial-gradient(circle at 88% 14%,rgba(111,67,145,.12),transparent 28rem),
-    linear-gradient(180deg,#09121a 0%,#081017 52%,#070d13 100%);
+    linear-gradient(180deg,var(--c-night) 0%,var(--c-night) 52%,var(--c-night) 100%);
 }
 body::before{
   opacity:.32;
@@ -705,50 +705,50 @@ select{
   box-shadow:inset 0 1px 0 rgba(255,255,255,.018),0 1px 0 rgba(0,0,0,.22);
   transition:border-color .14s ease,background-color .14s ease,box-shadow .14s ease;
 }
-select:hover{border-color:rgba(88,220,197,.42);background-color:#0d1922}
+select:hover{border-color:rgba(88,220,197,.42);background-color:var(--c-surface)}
 select option,select optgroup{color:var(--c-text);background:var(--c-night)}
 select option{padding:.35rem .5rem}
 select optgroup{font-weight:700;color:#91cfe0}
 input:focus,select:focus,textarea:focus{border-color:var(--c-reality);box-shadow:0 0 0 2px rgba(43,146,255,.14)}
 .eyebrow{color:var(--c-reality)}
-.primary{border-color:rgba(88,220,197,.28);color:#061218;background:linear-gradient(90deg,var(--c-reality),var(--c-reality))}
-.primary:not(:disabled):hover{background:linear-gradient(90deg,#6be5d0,#5ed6ea);box-shadow:0 8px 26px rgba(54,191,214,.18)}
+.primary{border-color:rgba(88,220,197,.28);color:var(--c-night);background:linear-gradient(90deg,var(--c-reality),var(--c-reality))}
+.primary:not(:disabled):hover{background:linear-gradient(90deg,var(--c-reality),#5ed6ea);box-shadow:0 8px 26px rgba(54,191,214,.18)}
 .secondary{border-color:var(--c-line-strong);color:var(--c-text-soft)}
 .secondary:not(:disabled):hover,.ghost:not(:disabled):hover{border-color:rgba(88,220,197,.44);color:var(--c-text);background:rgba(88,220,197,.055)}
 .ghost{border-color:rgba(91,139,157,.25);color:var(--c-text-soft)}
 .link-button{color:var(--c-reality)}
-.role-badge{color:#d5e3e7;border-color:#365663;background:#13222b}
+.role-badge{color:#d5e3e7;border-color:var(--c-line-strong);background:var(--c-surface)}
 
 /* Palette de la table en jeu (02/11) : une couleur = un rôle. */
 :root {
   --ui-input: var(--c-night);
-  --ui-panel: #0d1b2b;
-  --ui-panel-2: #102334;
-  --ui-raised: #153144;
-  --ui-btn: #143247;
+  --ui-panel: var(--c-surface);
+  --ui-panel-2: var(--c-relief);
+  --ui-raised: var(--c-relief);
+  --ui-btn: var(--c-relief);
   --ui-line: var(--c-line-strong);
-  --ui-line-strong: #52758b;
-  --ui-ink: #e6eef8;
-  --ui-ink-soft: #b6cadb;
-  --ui-muted: #93aaa9;
+  --ui-line-strong: var(--c-line-strong);
+  --ui-ink: var(--c-text);
+  --ui-ink-soft: var(--c-text-soft);
+  --ui-muted: var(--c-muted);
   --ui-link: var(--c-reality-soft);
-  --ui-link-soft: #78bcd0;
-  --ui-accent: #81cbbb;
-  --ui-accent-soft: #a4ceb4;
+  --ui-link-soft: var(--c-reality-soft);
+  --ui-accent: var(--c-reality);
+  --ui-accent-soft: var(--c-reality-soft);
   --ui-reveal: #dec891;
-  --ui-accent-bg: #1b3540;
+  --ui-accent-bg: var(--c-relief);
   --ui-ally: #72b8a0;
-  --ui-success-ink: #a7e7c3;
+  --ui-success-ink: var(--c-reality-soft);
   --ui-success-bg: #20372f;
-  --ui-enemy: #d58b84;
+  --ui-enemy: var(--c-danger);
   --ui-danger-ink: #ffb4b4;
-  --ui-danger-bg: #302626;
-  --ui-warn: #d1a064;
+  --ui-danger-bg: var(--c-relief);
+  --ui-warn: var(--c-attention);
   --ui-warn-ink: #ffdd96;
   --ui-warn-bg: #4d3d16;
-  --ui-neutral: #a1a7b6;
+  --ui-neutral: var(--c-muted);
   --ui-accent-on: var(--c-night);
-  --ui-text-xs: .72rem;
+  --ui-text-xs: .75rem;
   --ui-text-sm: .82rem;
   --ui-text-md: .9rem;
   --ui-text-base: 1rem;

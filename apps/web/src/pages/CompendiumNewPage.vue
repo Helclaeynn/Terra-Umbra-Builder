@@ -85,10 +85,10 @@ function onClose() {
 .new-page-form { display: grid; gap: 16px; max-width: 560px; padding: 24px; border: 1px solid var(--c-line); border-radius: 8px; background: var(--c-night); }
 .new-page-form h1 { margin: 0; font-size: 26px; }
 .new-page-form p { margin: 0; color: var(--c-text-soft); line-height: 1.6; }
-.new-page-form label { display: grid; gap: 8px; color: #bbcee0; font-size: 14px; }
-.new-page-form :is(input, select) { min-height: 44px; padding: 10px 12px; border: 1px solid var(--c-line); border-radius: 6px; background: #07111e; color: var(--c-text); font-size: 15px; }
+.new-page-form label { display: grid; gap: 8px; color: var(--c-text-soft); font-size: 14px; }
+.new-page-form :is(input, select) { min-height: 44px; padding: 10px 12px; border: 1px solid var(--c-line); border-radius: 6px; background: var(--c-night); color: var(--c-text); font-size: 15px; }
 .new-page-error { color: #ffb6c1 !important; }
 .new-page-actions { display: flex; justify-content: flex-end; align-items: center; gap: 12px; }
-.new-page-actions .primary { padding: 10px 16px; border: 1px solid var(--c-reality-soft); border-radius: 6px; background: var(--c-reality-soft); color: #05131e; }
+.new-page-actions .primary { padding: 10px 16px; border: 1px solid var(--c-reality-soft); border-radius: 6px; background: var(--c-reality-soft); color: var(--c-night); }
 .new-page-actions .ghost { color: var(--c-text-soft); }
 </style>

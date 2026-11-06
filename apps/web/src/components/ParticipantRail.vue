@@ -123,7 +123,7 @@ const canSpend = (c: any) =>
   .initiative-rail li.pass-divider{flex:0 0 auto;align-self:center;border-top:0;border-left:1px solid var(--ui-link-soft);padding:6px}
   .hp-text,.rail-note,.rail-actions a{display:none}
 }
-.initiative-rail li.currentPass{animation:turn-pulse 1.6s ease-out 3}@keyframes turn-pulse{0%{box-shadow:0 0 0 0 #81cbbbaa}70%{box-shadow:0 0 0 10px #81cbbb00}100%{box-shadow:0 0 0 2px var(--ui-accent)}}
+.initiative-rail li.currentPass{animation:turn-pulse 1.6s ease-out 3}@keyframes turn-pulse{0%{box-shadow:0 0 0 0 var(--c-reality)aa}70%{box-shadow:0 0 0 10px var(--c-reality)00}100%{box-shadow:0 0 0 2px var(--ui-accent)}}
 .initiative-rail li.hit{animation:hit-flash .8s ease-out}@keyframes hit-flash{20%{box-shadow:0 0 0 2px var(--ui-enemy),0 0 18px #d58b8488}100%{box-shadow:none}}
 @media(prefers-reduced-motion:reduce){.initiative-rail li.currentPass,.initiative-rail li.hit{animation:none}.hp-bar>span{transition:none}}
 </style>

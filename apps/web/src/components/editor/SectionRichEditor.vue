@@ -116,22 +116,22 @@ onBeforeUnmount(() => editor.value?.destroy());
   padding: 10px 12px;
   border-radius: 6px;
   outline: none;
-  color: #c0d2e5;
+  color: var(--c-text-soft);
   line-height: 1.75;
 }
-.section-rich-editor :deep(.ProseMirror:focus) { box-shadow: inset 0 0 0 1px #3d6a8a; background: #0d1b29; }
+.section-rich-editor :deep(.ProseMirror:focus) { box-shadow: inset 0 0 0 1px #3d6a8a; background: var(--c-surface); }
 .section-rich-editor :deep(.ProseMirror p) { margin: 0 0 0.8em; }
 .section-rich-editor :deep(.ProseMirror p.is-editor-empty:first-child::before) {
   content: attr(data-placeholder); color: #5f7890; float: left; height: 0; pointer-events: none;
 }
-.section-rich-editor :deep(.rt-lore) { color: #dce7f5; font-style: italic; border-left: 3px solid #7c6aa8; padding-left: 12px; }
-.section-rich-editor :deep(.rt-callout) { border-left: 3px solid var(--c-reality); background: #102539; padding: 8px 12px; border-radius: 4px; }
+.section-rich-editor :deep(.rt-lore) { color: var(--c-text); font-style: italic; border-left: 3px solid #7c6aa8; padding-left: 12px; }
+.section-rich-editor :deep(.rt-callout) { border-left: 3px solid var(--c-reality); background: var(--c-relief); padding: 8px 12px; border-radius: 4px; }
 .section-rich-editor :deep(a) { color: #8fd3ff; text-decoration: underline; }
 .section-rich-editor :deep(img) { max-width: 100%; border-radius: 6px; display: block; margin: 8px 0; }
 .section-rich-editor :deep(img.ProseMirror-selectednode) { outline: 2px solid var(--c-reality); }
 .section-rich-editor :deep(table) { border-collapse: collapse; width: 100%; margin: 8px 0; font-size: 14px; }
 .section-rich-editor :deep(td), .section-rich-editor :deep(th) { border: 1px solid var(--c-line); padding: 4px 8px; vertical-align: top; min-width: 60px; }
 .section-rich-editor :deep(td p), .section-rich-editor :deep(th p) { margin: 0; }
-.section-rich-editor :deep(.selectedCell) { background: #17324a; }
+.section-rich-editor :deep(.selectedCell) { background: var(--c-relief); }
 .section-rich-editor :deep(ul) { padding-left: 1.4em; margin: 0 0 0.8em; }
 </style>

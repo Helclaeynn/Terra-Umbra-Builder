@@ -41,10 +41,10 @@ onUnmounted(() => clearInterval(timer));
 
 <style scoped>
 .attention{position:fixed;left:16px;bottom:16px;z-index:60;display:grid;gap:8px;justify-items:start;font-family:var(--font-text)}
-.attention-pill{min-height:44px;padding:8px 14px;border:1px solid #77e3da;border-radius:999px;background:#0e2a33;color:#d8fbf6;font:inherit;font-size:14px;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.35)}
-.attention-list{margin:0;padding:8px;list-style:none;border:1px solid var(--c-line-strong);border-radius:8px;background:#0b1725;box-shadow:0 6px 20px rgba(0,0,0,.45)}
+.attention-pill{min-height:44px;padding:8px 14px;border:1px solid var(--c-reality);border-radius:999px;background:var(--c-relief);color:var(--c-text);font:inherit;font-size:14px;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.35)}
+.attention-list{margin:0;padding:8px;list-style:none;border:1px solid var(--c-line-strong);border-radius:8px;background:var(--c-surface);box-shadow:0 6px 20px rgba(0,0,0,.45)}
 .attention-list a{display:block;padding:8px 10px;color:var(--c-reality-soft);text-decoration:none;border-radius:6px}
-.attention-list a:hover,.attention-list a:focus-visible{background:#13283b}
+.attention-list a:hover,.attention-list a:focus-visible{background:var(--c-relief)}
 .attention-pill:focus-visible{outline:2px solid var(--c-reality-soft);outline-offset:3px}
 @media print{.attention{display:none}}
 </style>

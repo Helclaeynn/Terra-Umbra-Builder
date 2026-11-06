@@ -122,19 +122,19 @@ function updateChoice(event:Event){
 
 <style scoped>
 .talent-selector{display:grid;gap:14px;margin:0 0 24px;max-width:none;color:var(--c-text);font-family:var(--font-text)}
-.talent-card-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:8px}.talent-choice-card{box-sizing:border-box;flex:0 1 calc((100% - 16px)/3);min-width:0;display:grid;align-content:start;gap:5px;min-height:76px;padding:12px 14px;text-align:left;border:1px solid var(--c-line-strong);border-radius:8px;background:var(--c-surface);color:var(--c-text);cursor:pointer;font:inherit}.talent-choice-card.chosen{border-color:#77e3da;background:#16343e}.talent-choice-card small{color:var(--c-text-soft);line-height:1.5}.talent-choice-card span{color:#77e3da;font-size:12px}.catalog-guidance{color:var(--c-text-soft);margin:0}
-.talent-art{display:block;width:100%;height:132px;object-fit:contain;object-position:center;background:#0b1726;border-radius:4px;margin-bottom:5px}.talent-choice-card:focus-visible{outline:2px solid #77e3da;outline-offset:2px}
-.talent-group h3{font-size:14px;color:#b9d7e4}@media(max-width:850px){.talent-choice-card{flex-basis:calc((100% - 8px)/2)}}@media(max-width:550px){.talent-choice-card{flex-basis:100%}}.talent-selector>label,.talent-choice label{display:grid;gap:8px;color:#c3d2e4;font-size:14px;line-height:1.5}
-.talent-group>summary{min-height:44px;padding:10px;cursor:pointer;color:#b8e8f2;font-weight:600;user-select:none}.talent-group[open]>.talent-card-grid{padding-top:8px}
+.talent-card-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:8px}.talent-choice-card{box-sizing:border-box;flex:0 1 calc((100% - 16px)/3);min-width:0;display:grid;align-content:start;gap:5px;min-height:76px;padding:12px 14px;text-align:left;border:1px solid var(--c-line-strong);border-radius:8px;background:var(--c-surface);color:var(--c-text);cursor:pointer;font:inherit}.talent-choice-card.chosen{border-color:var(--c-reality);background:var(--c-relief)}.talent-choice-card small{color:var(--c-text-soft);line-height:1.5}.talent-choice-card span{color:var(--c-reality);font-size:12px}.catalog-guidance{color:var(--c-text-soft);margin:0}
+.talent-art{display:block;width:100%;height:132px;object-fit:contain;object-position:center;background:var(--c-surface);border-radius:4px;margin-bottom:5px}.talent-choice-card:focus-visible{outline:2px solid var(--c-reality);outline-offset:2px}
+.talent-group h3{font-size:14px;color:var(--c-text-soft)}@media(max-width:850px){.talent-choice-card{flex-basis:calc((100% - 8px)/2)}}@media(max-width:550px){.talent-choice-card{flex-basis:100%}}.talent-selector>label,.talent-choice label{display:grid;gap:8px;color:var(--c-text-soft);font-size:14px;line-height:1.5}
+.talent-group>summary{min-height:44px;padding:10px;cursor:pointer;color:var(--c-reality-soft);font-weight:600;user-select:none}.talent-group[open]>.talent-card-grid{padding-top:8px}
 .talent-select-shell{min-width:0}
 .talent-select-shell select,.talent-choice :is(select,input){width:100%;min-width:0;min-height:44px;border-radius:6px;font:inherit}
 .talent-selector>label>select,.talent-selector>label>input{width:100%;min-height:44px;padding:10px;border:1px solid var(--c-line-strong);border-radius:6px;background:var(--c-night);color:var(--c-text);font:inherit}
-.talent-detail,.talent-choice{display:grid;gap:12px;padding:18px 20px;border:1px solid var(--c-line);border-radius:8px;background:#0e1b2d}
+.talent-detail,.talent-choice{display:grid;gap:12px;padding:18px 20px;border:1px solid var(--c-line);border-radius:8px;background:var(--c-surface)}
 .talent-detail strong{color:var(--c-text);font-size:16px;line-height:1.4}
 .talent-detail em{color:var(--c-text-soft);font-size:14px;line-height:1.65}
-.talent-detail p{margin:0;color:#c3d2e4;font-size:14px;line-height:1.65}
+.talent-detail p{margin:0;color:var(--c-text-soft);font-size:14px;line-height:1.65}
 .talent-detail b{color:var(--c-text)}
-.talent-choice{border-color:#36596b;background:#102738}
+.talent-choice{border-color:var(--c-line-strong);background:var(--c-relief)}
 .talent-choice small{color:var(--c-text-soft);font-size:13px;line-height:1.6}
 @media(max-width:620px){.talent-detail,.talent-choice{padding:16px}}
 </style>

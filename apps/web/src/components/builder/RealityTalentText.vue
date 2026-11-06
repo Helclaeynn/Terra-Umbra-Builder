@@ -16,5 +16,5 @@ const hasDetails=computed(()=>Boolean(props.lore||(props.effect&&props.effect!==
   </div>
 </template>
 <style scoped>
-.reality-talent-text{min-width:0;display:grid;gap:6px;font-size:14px;line-height:1.6;overflow-wrap:anywhere}.reality-talent-text p{margin:0;color:inherit}.talent-details>summary{min-height:44px;display:flex;align-items:center;cursor:pointer;color:#a5def0;gap:8px}.talent-details>summary::before{content:'＋'}.talent-details[open]>summary::before{content:'−'}.talent-details>summary:focus-visible{outline:2px solid currentColor;outline-offset:2px}.talent-details>p+p{margin-top:10px}.talent-ambience{font-style:italic}.talent-details{color:var(--c-text-soft)}
+.reality-talent-text{min-width:0;display:grid;gap:6px;font-size:14px;line-height:1.6;overflow-wrap:anywhere}.reality-talent-text p{margin:0;color:inherit}.talent-details>summary{min-height:44px;display:flex;align-items:center;cursor:pointer;color:var(--c-text-soft);gap:8px}.talent-details>summary::before{content:'＋'}.talent-details[open]>summary::before{content:'−'}.talent-details>summary:focus-visible{outline:2px solid currentColor;outline-offset:2px}.talent-details>p+p{margin-top:10px}.talent-ambience{font-style:italic}.talent-details{color:var(--c-text-soft)}
 </style>

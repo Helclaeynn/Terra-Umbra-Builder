@@ -105,7 +105,7 @@ const presentation = computed(() => props.blocks.map(block => ({
 </template>
 
 <style scoped>
-.npc-stat-profile{--npc-line:var(--tu-border,#2c4858);--npc-muted:var(--tu-muted,#9fb4c3);--npc-accent:var(--tu-accent,#8cd7de);display:grid;gap:24px;min-width:0;color:inherit}
+.npc-stat-profile{--npc-line:var(--tu-border,var(--c-line));--npc-muted:var(--tu-muted,var(--c-muted));--npc-accent:var(--tu-accent,#8cd7de);display:grid;gap:24px;min-width:0;color:inherit}
 .npc-profile-block{min-width:0}
 .npc-profile-paragraph{margin:0;line-height:1.8;overflow-wrap:anywhere}
 /* Intertitre de la section « Profils » : profil de Réalité, puis profil révélé. */
@@ -118,16 +118,16 @@ const presentation = computed(() => props.blocks.map(block => ({
 .npc-profile-attributes{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,105px),1fr));gap:10px}
 .npc-profile-attribute{padding:16px 12px 14px;border:1px solid var(--npc-line);border-radius:8px;background:linear-gradient(145deg,rgba(37,74,89,.28),rgba(9,19,28,.45));text-align:center;min-width:0}
 .npc-profile-attribute dt{font-size:13px;line-height:1.5;overflow-wrap:anywhere}
-.npc-profile-attribute dd{margin-top:8px;font-size:clamp(28px,4vw,40px);line-height:1.15;font-weight:600;color:#e5f5f5;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.npc-profile-attribute dd{margin-top:8px;font-size:clamp(28px,4vw,40px);line-height:1.15;font-weight:600;color:var(--c-text);font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
 .npc-profile-skills{display:grid;border:1px solid var(--npc-line);border-radius:8px;overflow:hidden}
 .npc-profile-skill-group{display:grid;grid-template-columns:minmax(0,1fr) minmax(62px,max-content);gap:16px;align-items:center;padding:13px 16px;background:rgba(13,28,39,.45)}
 .npc-profile-skill-group+.npc-profile-skill-group{border-top:1px solid var(--npc-line)}
 .npc-profile-skill-group dt{font-size:14px;line-height:1.7;overflow-wrap:anywhere}
-.npc-profile-skill-group dd{text-align:right;font-size:18px;line-height:1.45;color:#d8edef;font-weight:600;font-variant-numeric:tabular-nums}
+.npc-profile-skill-group dd{text-align:right;font-size:18px;line-height:1.45;color:var(--c-text);font-weight:600;font-variant-numeric:tabular-nums}
 .npc-profile-derived{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,225px),1fr));gap:10px}
 .npc-profile-derived-value{display:flex;flex-direction:column;gap:9px;min-width:0;padding:16px;border:1px solid var(--npc-line);border-radius:8px;background:rgba(12,26,37,.5)}
 .npc-profile-derived-value dt{font-size:13px;line-height:1.55;color:var(--npc-muted);overflow-wrap:anywhere}
-.npc-profile-result{font-size:20px;font-weight:600;line-height:1.5;color:#dff1f3;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.npc-profile-result{font-size:20px;font-weight:600;line-height:1.5;color:var(--c-text);font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
 .npc-profile-calculation{padding-top:9px;border-top:1px solid var(--npc-line);font-size:12px;line-height:1.65;color:var(--npc-muted);overflow-wrap:anywhere}
 .npc-profile-talents{display:grid;gap:12px}
 .npc-profile-talent{padding:18px;border:1px solid var(--npc-line);border-left:3px solid var(--npc-accent);border-radius:7px;background:rgba(13,28,39,.5);min-width:0}

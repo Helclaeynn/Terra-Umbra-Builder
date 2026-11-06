@@ -37,12 +37,12 @@ function onKey(event: KeyboardEvent) {
 </template>
 
 <style scoped>
-.tag-chips { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; padding: 6px 8px; border: 1px solid var(--c-line); border-radius: 6px; background: #0b1724; }
-.tag-chips-label { font-size: 12px; color: #8ea6bd; margin-right: 4px; min-width: 64px; }
+.tag-chips { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; padding: 6px 8px; border: 1px solid var(--c-line); border-radius: 6px; background: var(--c-surface); }
+.tag-chips-label { font-size: 12px; color: var(--c-muted); margin-right: 4px; min-width: 64px; }
 .chip { display: inline-flex; align-items: center; gap: 4px; padding: 2px 4px 2px 10px; border-radius: 999px; font-size: 13px; border: 1px solid; }
 .chip button { background: none; border: 0; color: inherit; cursor: pointer; font-size: 15px; line-height: 1; padding: 0 4px; min-height: 0; }
-.public .chip { color: #cfe3f5; border-color: #3d6a8a; background: #13283a; }
-.verite .chip { color: #b8f0d8; border-color: #2f6b5e; background: #12271f; }
-.mj .chip { color: #e2d4ff; border-color: #615078; background: #1d1a32; }
-.tag-chips input { flex: 1; min-width: 90px; background: transparent; border: 0; color: #dce7f5; padding: 4px; outline: none; }
+.public .chip { color: #cfe3f5; border-color: #3d6a8a; background: var(--c-relief); }
+.verite .chip { color: var(--c-reality-soft); border-color: var(--c-reality-deep); background: var(--c-relief); }
+.mj .chip { color: var(--c-truth-soft); border-color: #615078; background: var(--c-truth-bg); }
+.tag-chips input { flex: 1; min-width: 90px; background: transparent; border: 0; color: var(--c-text); padding: 4px; outline: none; }
 </style>

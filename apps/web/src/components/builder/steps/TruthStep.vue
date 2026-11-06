@@ -73,7 +73,7 @@ const {
     </div>
 
     <template v-else>
-      <section v-if="activeStep === 'truth'" class="truth-picker">
+      <section v-if="activeStep === 'truth'" class="truth-picker" :style="{ '--nature': `var(--nature-${currentTruthState.nature}, var(--c-truth))` }">
         <div class="truth-picker-grid">
           <label>
             <span>Nature</span>
@@ -398,3 +398,7 @@ const {
     </template>
   </article>
 </template>
+
+<style scoped>
+.truth-picker{border-left:3px solid var(--nature);padding-left:14px;transition:border-color .3s}
+</style>

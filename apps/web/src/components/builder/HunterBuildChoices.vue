@@ -22,5 +22,5 @@ function update(field:string,event:Event){emit('change',{hunterBuild:normalizeHu
  </div>
 </template>
 <style scoped>
-.hunter-definition{display:grid;gap:.75rem;min-width:0}.hunter-definition label{display:grid;gap:.4rem}.hunter-definition :is(input,textarea,select){box-sizing:border-box;width:100%;min-width:0;min-height:44px;padding:.6rem;font:inherit;color:inherit;background:var(--input-bg,#07131f);border:1px solid var(--border,var(--c-line-strong));border-radius:.4rem}.hunter-definition p{white-space:pre-line;line-height:1.6}
+.hunter-definition{display:grid;gap:.75rem;min-width:0}.hunter-definition label{display:grid;gap:.4rem}.hunter-definition :is(input,textarea,select){box-sizing:border-box;width:100%;min-width:0;min-height:44px;padding:.6rem;font:inherit;color:inherit;background:var(--input-bg,var(--c-night));border:1px solid var(--border,var(--c-line-strong));border-radius:.4rem}.hunter-definition p{white-space:pre-line;line-height:1.6}
 </style>
