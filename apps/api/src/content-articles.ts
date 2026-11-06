@@ -52,12 +52,42 @@ type Queryable = { query: typeof pool.query };
 
 // Les colonnes réglées dans Directus ou l'éditeur du site font foi : visibilité
 // de l'article et étiquettes par niveau (public, Vérité, MJ). Les sections gardent la leur.
+// Le corps écrit dans Directus (ou à la main) n'est pas contrôlé à l'écriture :
+// on écarte à la lecture ce que la page ne sait pas afficher, sans cacher l'article.
+const IMAGE_SRC = /^(?:images\/|assets\/|\/api\/compendium\/uploads\/)/;
+const isObject = (value: unknown): value is Record<string, any> =>
+  Boolean(value) && typeof value === "object" && !Array.isArray(value);
+
+function cleanBlock(block: unknown): Record<string, any> | null {
+  if (!isObject(block) || typeof block.type !== "string") return null;
+  if (block.type === "p" || block.type === "paragraph") {
+    return typeof block.text === "string" || typeof block.text === "number"
+      ? { ...block, type: "p", text: String(block.text) } : null;
+  }
+  if (block.type === "table") {
+    return Array.isArray(block.rows) && block.rows.every(Array.isArray) ? block : null;
+  }
+  if (block.type === "image") return typeof block.src === "string" && IMAGE_SRC.test(block.src) ? block : null;
+  return block;
+}
+
+export function cleanSections(value: unknown): Record<string, any>[] {
+  if (!Array.isArray(value)) return [];
+  return value.filter(isObject).map((section) => ({
+    ...section,
+    ...(section.title !== undefined && section.title !== null ? { title: String(section.title) } : {}),
+    blocks: Array.isArray(section.blocks)
+      ? section.blocks.map(cleanBlock).filter((block): block is Record<string, any> => block !== null)
+      : []
+  }));
+}
+
 function rowToArticle(row: ContentRow): Article {
-  const body = row.body && typeof row.body === "object" ? row.body : ({} as Article);
+  const body = isObject(row.body) ? (row.body as Article) : ({} as Article);
   const article: Article = {
     ...body,
-    category: body.category ?? row.fields?.category ?? "Divers",
-    sections: Array.isArray(body.sections) ? body.sections : [],
+    category: typeof body.category === "string" ? body.category : row.fields?.category ?? "Divers",
+    sections: cleanSections(body.sections),
     tags: Array.isArray(row.tags) ? row.tags : [],
     truthTags: Array.isArray(row.tags_verite) ? row.tags_verite : [],
     secretTags: Array.isArray(row.tags_mj) ? row.tags_mj : [],

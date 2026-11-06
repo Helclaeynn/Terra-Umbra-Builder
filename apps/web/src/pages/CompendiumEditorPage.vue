@@ -278,6 +278,7 @@ function humanError(cause: unknown): string {
       invalid_compendium_article: "Le contenu de l’article n’est pas valide.",
       compendium_draft_required: "Enregistre d’abord un brouillon avant de publier.",
       compendium_source_changed: "Le corpus source a changé. Recharge la page avant de republier.",
+      compendium_article_locked: `${String(cause.body.by ?? "Quelqu’un")} modifie cette page en ce moment : ton texte n’est pas enregistré. Copie-le, puis réessaie quand la page est libre.`,
       compendium_image_required: "Choisis une image à envoyer.",
       compendium_image_too_large: "L’image dépasse la limite de 15 Mo.",
       invalid_compendium_image: "Le fichier image n’est pas valide.",

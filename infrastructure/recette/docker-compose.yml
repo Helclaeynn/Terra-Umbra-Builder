@@ -69,8 +69,9 @@ services:
       DB_HOST: recette-db
       DB_PORT: "5432"
       DB_DATABASE: ${POSTGRES_DB}
-      DB_USER: ${POSTGRES_USER}
-      DB_PASSWORD: ${POSTGRES_PASSWORD}
+      # Son propre compte, limité au contenu (directus-db-role.sql).
+      DB_USER: directus_cms
+      DB_PASSWORD: ${DIRECTUS_DB_PASSWORD}
       ADMIN_EMAIL: ${DIRECTUS_ADMIN_EMAIL}
       ADMIN_PASSWORD: ${DIRECTUS_ADMIN_PASSWORD}
       STORAGE_LOCATIONS: local

@@ -450,7 +450,7 @@ function humanError(code:string){
   const labels:Record<string,string>={
     authentication_required:"Ta session a expiré. Reviens à l’accueil pour te reconnecter.",
     character_not_found:"Ce personnage n’existe plus ou ne t’appartient pas.",
-    character_version_conflict:"Cette fiche a été modifiée ailleurs. Recharge-la avant d’enregistrer de nouveau.",
+    character_version_conflict:"Cette fiche a été enregistrée ailleurs (autre onglet ou appareil). Recharge-la : tes modifications sont gardées et te seront proposées.",
     invalid_character_data:"Les données de cette fiche ne sont pas valides.",
     truth_voie_order:"Un talent de Vérité ne respecte pas l’ordre de sa voie (paliers ou portes). Regarde l’avertissement affiché sous le talent.",
     creation_budget_exceeded:"Cette fiche dépasse un budget de création (points, Edge, PTV ou Compte). Rien n’a été enregistré ; corrige l’étape signalée en rouge puis enregistre de nouveau.",
@@ -1135,6 +1135,7 @@ async function loadCharacter(){
 
     baseline.value=builderDraftFingerprint(draft.value);
     loading.value=false;
+    readLocalDraft();
 
     supplementalLoading.value=true;
     void Promise.all([
@@ -1205,18 +1206,69 @@ async function saveCharacter(){
     // Browser input events cannot interleave with this Vue microtask flush.
     if(!reconciled.preserved){await nextTick();baseline.value=builderDraftFingerprint(draft.value);}
     notice.value=`Fiche enregistrée · version ${result.character.version}.`+(reconciled.preserved?" Vos modifications plus récentes restent à enregistrer.":"");
+    saveConflict.value=false;
+    if(!reconciled.preserved)removeLocalDraft();
   }catch(cause){
     const err=cause as Error;
     error.value=humanError(err.message);
     const violations=cause instanceof ApiError&&Array.isArray(cause.body.violations)?cause.body.violations as Array<{detail?:string}>:[];
     if(err.message==="creation_budget_exceeded"&&violations.length)error.value+=` Détail : ${violations.map(v=>v.detail).filter(Boolean).join(" ; ")}.`;
     if(cause instanceof ApiError&&cause.status===409){
+      writeLocalDraft();
+      saveConflict.value=true;
       notice.value="Aucune donnée locale n’a été écrasée.";
     }
   }finally{
     saving.value=false;
   }
 }
+
+// Brouillon local (06/11) : la création en cours est copiée dans ce navigateur
+// tant qu'elle n'est pas enregistrée, pour survivre à un onglet fermé ou planté.
+const localDraft=ref<{savedAt:number;version:number;data:CharacterDataV2}|null>(null);
+const saveConflict=ref(false);
+const localDraftKey=()=>character.value?`tu-builder-brouillon:${character.value.id}`:null;
+function writeLocalDraft(){
+  const key=localDraftKey();
+  if(!key||!draft.value||!character.value||!dirty.value)return;
+  try{localStorage.setItem(key,JSON.stringify({savedAt:Date.now(),version:character.value.version,data:draft.value}));}
+  catch{/* navigateur plein ou privé : la fiche reste protégée par l'avertissement avant de quitter */}
+}
+function removeLocalDraft(){
+  const key=localDraftKey();
+  localDraft.value=null;
+  try{if(key)localStorage.removeItem(key);}catch{/* rien à nettoyer */}
+}
+function readLocalDraft(){
+  const key=localDraftKey();
+  localDraft.value=null;
+  if(!key||!draft.value)return;
+  try{
+    const stored=JSON.parse(localStorage.getItem(key)??"null");
+    if(!stored?.data)return;
+    if(builderDraftFingerprint(stored.data)===baseline.value){localStorage.removeItem(key);return;}
+    localDraft.value=stored;
+  }catch{/* copie illisible : ignorée */}
+}
+function discardLocalDraft(){
+  if(window.confirm("Effacer la création gardée dans ce navigateur ? Elle ne pourra pas être reprise."))removeLocalDraft();
+}
+function restoreLocalDraft(){
+  if(!localDraft.value||!draft.value)return;
+  draft.value=structuredClone(localDraft.value.data);
+  localDraft.value=null;
+  notice.value="Création reprise. Pense à l’enregistrer.";
+}
+async function reloadAfterConflict(){
+  writeLocalDraft();
+  saveConflict.value=false;
+  await loadCharacter();
+}
+let localDraftTimer:ReturnType<typeof setTimeout>|undefined;
+watch(draft,()=>{
+  clearTimeout(localDraftTimer);
+  localDraftTimer=setTimeout(writeLocalDraft,800);
+},{deep:true});
 
 function readImage(file:File){
   return new Promise<string>((resolve,reject)=>{
@@ -1636,7 +1688,7 @@ onBeforeUnmount(()=>{
   return {
     route, progressionMode, character, campaignRewardsLocked, draft, rules, lore, talentChoiceSpecs, skillTalentMap, disadvantages, disadvantageLore,
     edgeRules, truthRules, realityRules, disadvantageCategory, disadvantagePick, truthSearch, skillGroupOpen, loading, supplementalLoading, saving,
-    error, notice, baseline, activeStep, reviewedOptionalSteps, sheetReturnStep, knowledgeOpen, stepNavigationOpen, knowledgeTrigger, knowledgeDrawer,
+    error, notice, baseline, localDraft, saveConflict, restoreLocalDraft, discardLocalDraft, reloadAfterConflict, activeStep, reviewedOptionalSteps, sheetReturnStep, knowledgeOpen, stepNavigationOpen, knowledgeTrigger, knowledgeDrawer,
     portraitInput, displayPortrait, truthConsciousnessInput, sections, activeStepIndex, previousBuilderStep, nextBuilderStep, goToBuilderStep,
     toggleCharacterSheet, edgeOptionUi, dirty, identityDisplayName, selectedSphere, selectedStyle, styleOptions, originTalents, sphereTalents,
     expertiseTalents, commonTalents, stylePointsUsed, freeSkillPointsUsed, freeSkillBudget, skillFreePointsForAttribute, skillGroupIsOpen,

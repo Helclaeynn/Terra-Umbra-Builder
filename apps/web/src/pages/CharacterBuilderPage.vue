@@ -26,7 +26,7 @@ provide(builderKey,builder);
 const {
   route, progressionMode, character, campaignRewardsLocked, draft, rules, lore, talentChoiceSpecs, skillTalentMap, disadvantages, disadvantageLore,
   edgeRules, truthRules, realityRules, disadvantageCategory, disadvantagePick, truthSearch, skillGroupOpen, loading, supplementalLoading, saving,
-  error, notice, baseline, activeStep, reviewedOptionalSteps, sheetReturnStep, knowledgeOpen, stepNavigationOpen, knowledgeTrigger, knowledgeDrawer,
+  error, notice, baseline, localDraft, saveConflict, restoreLocalDraft, discardLocalDraft, reloadAfterConflict, activeStep, reviewedOptionalSteps, sheetReturnStep, knowledgeOpen, stepNavigationOpen, knowledgeTrigger, knowledgeDrawer,
   portraitInput, displayPortrait, truthConsciousnessInput, sections, activeStepIndex, previousBuilderStep, nextBuilderStep, goToBuilderStep,
   toggleCharacterSheet, edgeOptionUi, dirty, identityDisplayName, selectedSphere, selectedStyle, styleOptions, originTalents, sphereTalents,
   expertiseTalents, commonTalents, stylePointsUsed, freeSkillPointsUsed, freeSkillBudget, skillFreePointsForAttribute, skillGroupIsOpen,
@@ -242,8 +242,14 @@ const {
       </aside>
 
       <section class="builder-main">
+        <div v-if="localDraft" class="feedback local-draft" role="status">
+          <span>Une création non enregistrée du {{ new Date(localDraft.savedAt).toLocaleString('fr-FR', { dateStyle: 'short', timeStyle: 'short' }) }} est gardée dans ce navigateur.<template v-if="character && localDraft.version !== character.version"> La fiche a été enregistrée ailleurs depuis : la reprendre remplacera ces changements quand tu enregistreras.</template></span>
+          <button type="button" class="primary" @click="restoreLocalDraft">Reprendre</button>
+          <button type="button" class="ghost" @click="discardLocalDraft">Effacer</button>
+        </div>
         <div v-if="notice || error" class="feedback" :class="{ error: !!error }" :role="error ? 'alert' : 'status'">
           {{ error || notice }}
+          <button v-if="saveConflict" type="button" class="ghost" @click="reloadAfterConflict">Recharger la fiche</button>
         </div>
 
         <article v-if="activeStep === 'sheet' && characterSheet" class="panel builder-card sheet-view">
@@ -418,6 +424,8 @@ const {
 .builder-v2-shell .builder-compendium-return:hover:where(:not(:is(.aseryn-choices,.builder-wiki-ref,.character-gallery,.character-pdf-actions,.character-sheet,.threshold-note,.corruption-authorization,.corruption-panel,.equipment-step,.finish-step,.nature-start-guide,.progression-step,.talent-selector,.tu-orbital-brand,.guided-choice,.truth-equipment-panel,.truth-talent-text,.training-choice) *)){color:var(--c-text)}
 .builder-v2-shell .back-link:where(:not(:is(.aseryn-choices,.builder-wiki-ref,.character-gallery,.character-pdf-actions,.character-sheet,.threshold-note,.corruption-authorization,.corruption-panel,.equipment-step,.finish-step,.nature-start-guide,.progression-step,.talent-selector,.tu-orbital-brand,.guided-choice,.truth-equipment-panel,.truth-talent-text,.training-choice) *)){text-decoration:none;display:inline-flex;align-items:center}
 .builder-v2-shell .builder-loading:where(:not(:is(.aseryn-choices,.builder-wiki-ref,.character-gallery,.character-pdf-actions,.character-sheet,.threshold-note,.corruption-authorization,.corruption-panel,.equipment-step,.finish-step,.nature-start-guide,.progression-step,.talent-selector,.tu-orbital-brand,.guided-choice,.truth-equipment-panel,.truth-talent-text,.training-choice) *)){min-height:calc(100vh - 74px);display:grid;place-content:center;gap:1rem;color:var(--c-text-soft);text-align:center}
+.local-draft{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.local-draft span{flex:1 1 260px}
 .builder-v2-shell .error-state strong:where(:not(:is(.aseryn-choices,.builder-wiki-ref,.character-gallery,.character-pdf-actions,.character-sheet,.threshold-note,.corruption-authorization,.corruption-panel,.equipment-step,.finish-step,.nature-start-guide,.progression-step,.talent-selector,.tu-orbital-brand,.guided-choice,.truth-equipment-panel,.truth-talent-text,.training-choice) *)){color:#e2b0aa}
 .builder-v2-shell .builder-workspace:where(:not(:is(.aseryn-choices,.builder-wiki-ref,.character-gallery,.character-pdf-actions,.character-sheet,.threshold-note,.corruption-authorization,.corruption-panel,.equipment-step,.finish-step,.nature-start-guide,.progression-step,.talent-selector,.tu-orbital-brand,.guided-choice,.truth-equipment-panel,.truth-talent-text,.training-choice) *)){width:min(1640px,calc(100% - clamp(24px,4vw,80px)));margin:0 auto;padding:2rem 0 5rem;display:grid;grid-template-columns:264px minmax(0,1fr);gap:1.25rem;align-items:start}
 .builder-v2-shell .builder-sidebar:where(:not(:is(.aseryn-choices,.builder-wiki-ref,.character-gallery,.character-pdf-actions,.character-sheet,.threshold-note,.corruption-authorization,.corruption-panel,.equipment-step,.finish-step,.nature-start-guide,.progression-step,.talent-selector,.tu-orbital-brand,.guided-choice,.truth-equipment-panel,.truth-talent-text,.training-choice) *)){position:sticky;top:94px;max-height:calc(100vh - 112px);overflow:auto;scrollbar-width:thin}

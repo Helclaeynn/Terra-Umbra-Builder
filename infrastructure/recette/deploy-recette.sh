@@ -61,6 +61,12 @@ if ! grep -q '^DIRECTUS_KEY=' "$dir/.env"; then
   umask 022
 fi
 
+# Compte de Directus dans la base, limité au contenu (directus-db-role.sql).
+if ! grep -q '^DIRECTUS_DB_PASSWORD=' "$dir/.env"; then
+  printf 'DIRECTUS_DB_PASSWORD=%s
+' "$(head -c 48 /dev/urandom | base64 | tr -dc A-Za-z0-9 | head -c 32)" >> "$dir/.env"
+fi
+
 echo "== Construction des images"
 docker build --pull=false -f "$stage/apps/api/Dockerfile" \
   --label "org.opencontainers.image.revision=$sha" -t tuc-recette-api:latest "$stage" </dev/null
@@ -117,6 +123,8 @@ for file in "$stage"/infrastructure/content/*.sql; do
     psql -q < "$file"
   fi
 done
+
+psql -q -v pw="$DIRECTUS_DB_PASSWORD" -v db="$POSTGRES_DB" < "$stage/infrastructure/recette/directus-db-role.sql"
 
 # Extensions de Directus (éditeur du corps des articles) : Directus ne les lit
 # qu'au démarrage, on le redémarre seulement si elles ont changé.

@@ -57,10 +57,14 @@ const linkResults = ref<Array<{ id: string; title: string; category: string }>>(
 const linkBusy = ref(false);
 const historyOpen = ref(false);
 const revisions = ref<Revision[]>([]);
+// Verrou : une seule personne modifie la page à la fois (renouvelé chaque minute).
+const lockedBy = ref<{ by: string; since: string } | null>(null);
+let lockTimer: number | undefined;
 
 const ERRORS: Record<string, string> = {
   compendium_source_changed: "La page a été modifiée ailleurs depuis ce brouillon. Recharge-la avant de publier.",
   compendium_draft_required: "Rien à publier : enregistre d'abord le brouillon.",
+  compendium_article_locked: "Quelqu'un d'autre modifie cette page : ton texte n'est pas enregistré. Copie-le avant de fermer.",
   invalid_compendium_article: "La page contient une donnée refusée (titre vide ou trop long, tag trop long…).",
   invalid_compendium_article_title: "Donne un titre à la page.",
   editor_required: "Ton compte n'a pas le droit de modifier les pages.",
@@ -137,7 +141,7 @@ async function load() {
   loading.value = true;
   error.value = "";
   try {
-    const payload = await api<{ article: EditorArticle; draft: EditorArticle | null; draftUpdatedAt: string | null; conflict: boolean }>(
+    const payload = await api<{ article: EditorArticle; draft: EditorArticle | null; draftUpdatedAt: string | null; draftBy: string | null; conflict: boolean }>(
       `/api/compendium/editor/articles/${encodeURIComponent(props.articleId)}`
     );
     base.value = payload.article;
@@ -150,12 +154,44 @@ async function load() {
       if (!sections.value.length) addSection(0);
       baseline = JSON.stringify(current.value);
       notice.value = "Page créée en brouillon : écris le texte, puis publie-la.";
-    } else if (payload.draft) notice.value = "Un brouillon non publié a été repris.";
+    } else if (payload.draft) {
+      notice.value = `Un brouillon non publié${payload.draftBy ? ` de ${payload.draftBy}` : ""} a été repris.`;
+    }
+    await takeLock();
   } catch (cause) {
     error.value = humanError(cause);
   } finally {
     loading.value = false;
   }
+}
+
+async function takeLock(force = false): Promise<boolean> {
+  try {
+    await api(`/api/compendium/editor/articles/${encodeURIComponent(props.articleId)}/lock`, {
+      method: "POST", body: JSON.stringify({ force })
+    });
+    lockedBy.value = null;
+    return true;
+  } catch (cause) {
+    if (cause instanceof ApiError && cause.status === 423) {
+      lockedBy.value = { by: String(cause.body.by ?? "Quelqu'un"), since: String(cause.body.since ?? "") };
+    }
+    return false;
+  }
+}
+
+async function takeOver() {
+  if (!window.confirm(`Prendre la main ? ${lockedBy.value?.by ?? "L'autre personne"} ne pourra plus enregistrer ses modifications en cours.`)) return;
+  if (await takeLock(true)) {
+    // Sans modification de ton côté, on recharge pour repartir de son dernier brouillon.
+    if (!dirty.value) await load();
+    notice.value = "Tu as la main sur cette page.";
+  }
+}
+
+function lockSince(): string {
+  const date = lockedBy.value?.since ? new Date(lockedBy.value.since) : null;
+  return date && !Number.isNaN(date.getTime()) ? date.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" }) : "";
 }
 
 async function saveDraft(silent = false): Promise<boolean> {
@@ -173,6 +209,7 @@ async function saveDraft(silent = false): Promise<boolean> {
     if (!silent) notice.value = "Brouillon enregistré. Il n'est visible que des éditeurs jusqu'à la publication.";
     return true;
   } catch (cause) {
+    if (cause instanceof ApiError && cause.status === 423) void takeLock();
     error.value = humanError(cause);
     return false;
   } finally {
@@ -371,8 +408,20 @@ function mechanicsText(value: unknown): string {
 function beforeUnload(event: BeforeUnloadEvent) {
   if (dirty.value) event.preventDefault();
 }
-onMounted(() => { void load(); window.addEventListener("beforeunload", beforeUnload); });
-onBeforeUnmount(() => window.removeEventListener("beforeunload", beforeUnload));
+onMounted(() => {
+  void load();
+  window.addEventListener("beforeunload", beforeUnload);
+  lockTimer = window.setInterval(() => { if (!lockedBy.value) void takeLock(); }, 60_000);
+});
+onBeforeUnmount(() => {
+  window.removeEventListener("beforeunload", beforeUnload);
+  window.clearInterval(lockTimer);
+  if (!lockedBy.value) {
+    void fetch(`/api/compendium/editor/articles/${encodeURIComponent(props.articleId)}/lock`, {
+      method: "DELETE", credentials: "same-origin", keepalive: true
+    }).catch(() => undefined);
+  }
+});
 </script>
 
 <template>
@@ -384,9 +433,9 @@ onBeforeUnmount(() => window.removeEventListener("beforeunload", beforeUnload));
         <span v-else-if="hasDraft" class="ie-state">Brouillon non publié</span>
         <span class="ie-spacer"></span>
         <button type="button" class="ghost" :disabled="busy" @click="openHistory">Historique</button>
-        <button v-if="hasDraft" type="button" class="ghost" :disabled="busy" @click="discardDraft">Abandonner le brouillon</button>
-        <button type="button" class="secondary" :disabled="busy || loading" @click="saveDraft()">Enregistrer le brouillon</button>
-        <button type="button" class="primary" :disabled="busy || loading" @click="publish">Publier</button>
+        <button v-if="hasDraft" type="button" class="ghost" :disabled="busy || !!lockedBy" @click="discardDraft">Abandonner le brouillon</button>
+        <button type="button" class="secondary" :disabled="busy || loading || !!lockedBy" @click="saveDraft()">Enregistrer le brouillon</button>
+        <button type="button" class="primary" :disabled="busy || loading || !!lockedBy" @click="publish">Publier</button>
         <button type="button" class="ghost" :disabled="busy" @click="close">Fermer</button>
       </div>
       <template v-if="base && !loading">
@@ -427,6 +476,10 @@ onBeforeUnmount(() => window.removeEventListener("beforeunload", beforeUnload));
       </template>
     </div>
 
+    <p v-if="lockedBy" class="ie-feedback warn" role="alert">
+      {{ lockedBy.by }} modifie cette page{{ lockSince() ? ` depuis ${lockSince()}` : "" }}. Tu peux lire et préparer ton texte, mais pas l'enregistrer tant que la page est prise.
+      <button type="button" class="ghost compact" :disabled="busy" @click="takeOver">Prendre la main</button>
+    </p>
     <p v-if="error" class="ie-feedback error" role="alert">{{ error }}</p>
     <p v-else-if="notice" class="ie-feedback" role="status">{{ notice }}</p>
     <p v-if="conflict" class="ie-feedback error">La page a changé depuis ce brouillon : vérifie le texte avant de publier.</p>
@@ -537,6 +590,7 @@ onBeforeUnmount(() => window.removeEventListener("beforeunload", beforeUnload));
 .ie-spacer { flex: 1; }
 .ie-feedback { margin: 0; padding: 8px 12px; border-radius: 6px; background: #12324a; color: #cfe3f5; }
 .ie-feedback.error { background: #3a1820; color: #ffc7d0; }
+.ie-feedback.warn { background: #33280f; color: var(--c-attention); display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
 .ie-loading { color: #8ea6bd; }
 .ie-title { font-size: 30px; font-weight: 700; background: transparent; border: 0; border-bottom: 1px dashed var(--c-line); color: #eef5fc; padding: 6px 2px; width: 100%; }
 .ie-title:focus { outline: none; border-bottom-color: var(--c-reality); }

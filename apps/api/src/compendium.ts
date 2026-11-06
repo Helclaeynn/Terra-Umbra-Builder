@@ -676,6 +676,25 @@ async function requireEditor(request: any, reply: FastifyReply) {
   return user;
 }
 
+// Verrou d'édition (06/11) : une seule personne modifie une page à la fois.
+// Tenu par l'éditeur ouvert (renouvelé chaque minute), libéré à la fermeture.
+// shortcut: gardé en mémoire de l'API (un seul processus) ; perdu au redémarrage, sans effet sur les textes.
+const EDIT_LOCK_MS = 3 * 60_000;
+const editLocks = new Map<string, { userId: string; name: string; since: string; until: number }>();
+
+function otherEditLock(id: string, userId: string) {
+  const lock = editLocks.get(id);
+  if (!lock || lock.until < Date.now()) return null;
+  return lock.userId === userId ? null : { by: lock.name, since: lock.since };
+}
+
+async function refuseIfLocked(id: string, userId: string, reply: FastifyReply): Promise<boolean> {
+  const lock = otherEditLock(id, userId);
+  if (!lock) return false;
+  await reply.code(423).send({ error: "compendium_article_locked", ...lock });
+  return true;
+}
+
 function canReadMj(role: unknown): boolean {
   return role === "gm" || role === "editor" || role === "admin";
 }
@@ -4908,6 +4927,7 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
     if (!id || id.length > 240) return bad(reply, "invalid_compendium_article_id");
     const corpus = await getCorpus();
     if (!await editorBaseFor(id, corpus)) return reply.code(404).send({ error: "compendium_article_not_found" });
+    if (await refuseIfLocked(id, user.id, reply)) return;
     if (contentRulesEnabled()) {
       await archiveContentArticle(id, user.id);
       invalidateCompendiumCorpus();
@@ -5344,14 +5364,17 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
       draft: Article | null;
       draftUpdatedAt: string | null;
       publishedAt: string | null;
+      draftBy: string | null;
     }>(
       `SELECT
-         base_hash AS "baseHash",
-         draft,
-         draft_updated_at::text AS "draftUpdatedAt",
-         published_at::text AS "publishedAt"
-       FROM compendium_article_edits
-       WHERE article_id = $1`,
+         e.base_hash AS "baseHash",
+         e.draft,
+         e.draft_updated_at::text AS "draftUpdatedAt",
+         e.published_at::text AS "publishedAt",
+         u.display_name AS "draftBy"
+       FROM compendium_article_edits e
+       LEFT JOIN users u ON u.id = e.draft_by
+       WHERE e.article_id = $1`,
       [id]
     );
 
@@ -5364,10 +5387,34 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
       baseHash: base.hash,
       draft: row?.draft ?? null,
       draftUpdatedAt: row?.draftUpdatedAt ?? null,
+      draftBy: row?.draft ? row.draftBy : null,
+      lock: otherEditLock(id, user.id),
       publishedAt: row?.publishedAt ?? null,
       // Seul un brouillon en cours peut être en conflit avec la page publiée.
       conflict: Boolean(row?.draft && row.baseHash !== base.hash)
     };
+  });
+
+  app.post<{ Params: { id: string }; Body: { force?: boolean } }>(
+    "/api/compendium/editor/articles/:id/lock",
+    async (request, reply) => {
+      const user = await requireEditor(request, reply);
+      if (!user) return;
+      const id = APPROVED_PNJ_ALIASES[request.params.id.trim()] ?? request.params.id.trim();
+      if (!request.body?.force && await refuseIfLocked(id, user.id, reply)) return;
+      const mine = editLocks.get(id);
+      const since = mine?.userId === user.id && mine.until >= Date.now() ? mine.since : new Date().toISOString();
+      editLocks.set(id, { userId: user.id, name: user.displayName, since, until: Date.now() + EDIT_LOCK_MS });
+      return { locked: true, until: EDIT_LOCK_MS };
+    }
+  );
+
+  app.delete<{ Params: { id: string } }>("/api/compendium/editor/articles/:id/lock", async (request, reply) => {
+    const user = await requireEditor(request, reply);
+    if (!user) return;
+    const id = APPROVED_PNJ_ALIASES[request.params.id.trim()] ?? request.params.id.trim();
+    if (editLocks.get(id)?.userId === user.id) editLocks.delete(id);
+    return { locked: false };
   });
 
   // Historique des versions publiées (site d'essai : base de contenu).
@@ -5412,6 +5459,7 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
     if (!validEditableArticle(request.body?.article)) {
       return bad(reply, "invalid_compendium_article");
     }
+    if (await refuseIfLocked(id, user.id, reply)) return;
 
     const draft = editableArticle(current, request.body.article);
     await pool.query(
@@ -5442,6 +5490,7 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
     if (!(await editorBaseFor(id, corpus))) {
       return reply.code(404).send({ error: "compendium_article_not_found" });
     }
+    if (await refuseIfLocked(id, user.id, reply)) return;
     await pool.query(
       `UPDATE compendium_article_edits
        SET draft = NULL,
@@ -5465,6 +5514,7 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
     const corpus = await getCorpus();
     const base = await editorBaseFor(id, corpus);
     if (!base) return reply.code(404).send({ error: "compendium_article_not_found" });
+    if (await refuseIfLocked(id, user.id, reply)) return;
 
     const client = await pool.connect();
     try {

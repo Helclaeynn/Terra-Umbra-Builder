@@ -224,6 +224,8 @@ await must(call("PATCH", "/settings", {
   public_note: "Édition du compendium de Terra Umbra. Une modification passe « en relecture » ; le site n'affiche que ce qui est publié.",
   default_language: "fr-FR",
   default_appearance: "dark",
+  // Un compte se bloque après 10 mots de passe faux (essais en série sur /cms).
+  auth_login_attempts: 10,
   theme_dark_overrides: {
     background: NUIT, backgroundNormal: SURFACE, backgroundAccent: RELIEF, backgroundSubdued: NUIT,
     foreground: TEXTE, foregroundSubdued: DOUX, borderColor: TRAIT, borderColorSubdued: TRAIT,
