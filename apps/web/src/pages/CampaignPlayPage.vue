@@ -8,6 +8,7 @@ import TableJournal from "../components/TableJournal.vue";
 import GmDock from "../components/GmDock.vue";
 import { RouterLink, useRoute } from "vue-router";
 import { api, ApiError } from "../lib/api";
+import { confirmDialog } from "../lib/confirm-dialog";
 import { usePageTitle } from "../lib/page-title";
 import { prepareNpcPortrait } from "../lib/npc-portrait";
 import PortraitZoom from "../components/PortraitZoom.vue";
@@ -540,6 +541,18 @@ const rollId = ref(""),
   rollLabel = ref("");
 const pending = ref<any>(null);
 const connectionLost = ref(false);
+// Bandeau « Round 3 » quand le round avance (pas au premier affichage).
+const roundBanner = ref<number | null>(null);
+let roundBannerTimer: ReturnType<typeof setTimeout> | undefined;
+watch(
+  () => room.value?.combat?.active ? room.value.combat.round : null,
+  (round, previous) => {
+    if (typeof round !== "number" || typeof previous !== "number" || round <= previous) return;
+    roundBanner.value = round;
+    clearTimeout(roundBannerTimer);
+    roundBannerTimer = setTimeout(() => (roundBanner.value = null), 1800);
+  }
+);
 let alive = true,
   loading = false,
   reloadAfter = false,
@@ -584,8 +597,28 @@ watch(rollOption, (r, old) => {
     rollPa.value = r?.attack ? 1 : 0;
   }
 });
+// Journal complet : les pages plus anciennes que les 100 derniers évènements, chargées à la demande.
+const olderEvents = ref<any[]>([]),
+  olderCursor = ref<string | null | undefined>(undefined),
+  olderBusy = ref(false);
+async function loadOlderEvents() {
+  const cursor = olderCursor.value === undefined ? room.value?.nextBefore : olderCursor.value;
+  if (!cursor || olderBusy.value) return;
+  olderBusy.value = true;
+  try {
+    const r = await api<any>(endpoint + "?before=" + encodeURIComponent(cursor));
+    const known = new Set([...(room.value?.events ?? []), ...olderEvents.value].map((e: any) => e.id));
+    olderEvents.value = [...olderEvents.value, ...(r.events ?? []).filter((e: any) => !known.has(e.id))];
+    olderCursor.value = r.nextBefore ?? null;
+  } catch {
+    actionError.value = "Les évènements plus anciens n’ont pas pu être chargés. Réessaie.";
+  } finally {
+    olderBusy.value = false;
+  }
+}
+const hasOlderEvents = computed(() => Boolean(olderCursor.value === undefined ? room.value?.nextBefore : olderCursor.value));
 const feed = computed(() =>
-  (room.value?.events ?? []).filter(
+  [...(room.value?.events ?? []), ...olderEvents.value].filter(
     (e: any) =>
       !["timer", "ambience"].includes(e.kind) &&
       (filter.value === "all" ||
@@ -609,6 +642,8 @@ async function load() {
       feedInitialized = false;
       unreadEvents.value = 0;
       feedSession = session;
+      olderEvents.value = [];
+      olderCursor.value = undefined;
     }
     const received = (r.events ?? []).map((e: any) => e.id);
     if (feedInitialized && feedCollapsed.value)
@@ -657,8 +692,36 @@ async function act(action: string, extra: Record<string, unknown> = {}) {
       "Réessaie l’action non confirmée avant une autre modification.";
     return;
   }
+  // Actions lourdes pour toute la table : confirmées dans la fenêtre du site.
+  if (action === "combat-stop" && !(await confirmDialog("Le combat se termine pour toute la table.", { title: "Arrêter le combat ?", confirm: "Arrêter le combat", danger: true }))) return;
+  if (action === "combat-round" && turnNames.value.length && !(await confirmDialog(`C’est encore au tour de ${turnNames.value.join(", ")}.`, { title: "Passer au round suivant ?", confirm: "Round suivant" }))) return;
   pending.value = { requestId: crypto.randomUUID(), action, ...extra };
   await sendPending();
+}
+// Retrait de PV : « Annuler » pendant 10 s (rend les PV, ou passe par la Grâce si la cible est tombée).
+const undo = ref<{ label: string; action: string; extra: Record<string, unknown> } | null>(null);
+let undoTimer: ReturnType<typeof setTimeout> | undefined;
+function offerUndo(sent: Record<string, any>) {
+  const actor = roster.value.find((c: any) => c.id === sent.actorId) as any;
+  if (!actor || typeof sent.beforeHp !== "number") return;
+  const before = sent.beforeHp, after = Number(actor.hp);
+  if (!(after < before)) return;
+  const dead = after <= Number(actor.death);
+  if (dead && before < 1) return;
+  undo.value = {
+    label: `${before - after} PV retirés à ${actor.name}.`,
+    action: dead ? "grace" : "adjust",
+    extra: dead
+      ? { actorId: actor.id, hp: before, beforeHp: after, reason: "Annulation du retrait de PV" }
+      : { actorId: actor.id, delta: before - after, beforeHp: after }
+  };
+  clearTimeout(undoTimer);
+  undoTimer = setTimeout(() => { undo.value = null; }, 10_000);
+}
+async function undoLast() {
+  const last = undo.value;
+  undo.value = null;
+  if (last) await act(last.action, last.extra);
 }
 async function sendPending() {
   if (busy.value || !pending.value) return;
@@ -667,6 +730,7 @@ async function sendPending() {
   notice.value = "";
   try {
     const action = pending.value.action;
+    const sent = pending.value;
     await api(
       ["spend", "grace", "adjust"].includes(action)
         ? `/api/campaigns/${id}/combat`
@@ -684,6 +748,7 @@ async function sendPending() {
     notice.value = action === "message" ? "Révélation envoyée." : action === "withdraw" ? "Révélation retirée." : "Action enregistrée.";
     setTimeout(() => { if (alive) notice.value = ""; }, 4000);
     await load();
+    if (action === "adjust" && Number(sent.delta) < 0) offerUndo(sent);
   } catch (e) {
     if (alive) {
       actionError.value =
@@ -852,6 +917,9 @@ provideLiveTable({
   paSlots,
   inspectActor,
   feed,
+  hasOlderEvents,
+  olderBusy,
+  loadOlderEvents,
   filter,
   feedCollapsed,
   unreadEvents,
@@ -881,7 +949,7 @@ provideLiveTable({
 <template>
  <div class="live-page" :class="{'drawer-open':panelOpen}"><p class="sr-only" aria-live="polite">{{ announcement }}</p><header class="live-header"><div><p class="eyebrow">TERRA UMBRA · EN JEU</p><h1>{{ room?.campaignName??'Table de jeu' }}</h1></div><nav><button v-if="room&&ambience!=='off'" type="button" class="sound-toggle" :aria-pressed="soundOn" @click="toggleSound">{{ soundOn?'Son de la table : activé':'Activer le son de la table' }}</button><RouterLink :to="`/campaigns/${id}`">← Campagne</RouterLink><RouterLink to="/account">Mon espace</RouterLink></nav></header>
  <div v-if="room&&ownActor" class="phone-vitals" role="group" aria-label="Mon personnage"><strong>{{ ownActor.name }}</strong><span class="pv-mini"><span>{{ ownActor.hp }} / {{ ownActor.pvMax }} PV</span><span class="hp-mini" aria-hidden="true"><span :class="hpLevel(ownActor)" :style="{width:hpRatio(ownActor)*100+'%'}"></span></span></span><span v-if="room.combat?.active&&paSlots(ownActor)" class="pa-mini" role="img" :aria-label="`${ownActor.pa} PA restants`"><i v-for="n in paSlots(ownActor)" :key="n" :class="{spent:n>ownActor.pa}"></i></span><span v-if="room.combat?.active" class="round-mini">Round {{ room.combat.round }}</span></div>
- <p v-if="connectionLost&&room" class="live-offline" role="status">Connexion perdue : la table montre le dernier état connu et ta saisie est gardée. Nouvel essai en cours…</p><div v-if="error" role="alert"><p>{{ error }}</p><RouterLink :to="`/account?redirect=${encodeURIComponent(route.fullPath)}`">Se connecter</RouterLink><button @click="load">Réessayer</button></div>
+ <div v-if="roundBanner" :key="roundBanner" class="round-banner" aria-hidden="true"><span>Round {{ roundBanner }}</span></div><p v-if="connectionLost&&room" class="live-offline" role="status">Connexion perdue : la table montre le dernier état connu et ta saisie est gardée. Nouvel essai en cours…</p><div v-if="error" role="alert"><p>{{ error }}</p><RouterLink :to="`/account?redirect=${encodeURIComponent(route.fullPath)}`">Se connecter</RouterLink><button @click="load">Réessayer</button></div>
  <p v-else-if="!room" role="status">Ouverture de la table…</p>
  <div v-else class="live-layout">
   <ParticipantRail />
@@ -900,7 +968,7 @@ provideLiveTable({
    <button v-if="supportAttention" class="support-prompt response-prompt" @click="openPanel('character','truth')">{{supportAttention}} demande{{supportAttention>1?'s':''}} de soin ou de protection <span>Répondre →</span></button>
    <div v-if="rollRequest" class="response-prompt roll-request" role="status"><span>Le MJ te demande un jet : <strong>{{ rollRequest.payload.request }}</strong></span><span class="roll-request-actions"><button class="ui-primary" @click="answerRollRequest">Lancer ce jet</button><button class="ui-quiet" @click="dismissedRequest=rollRequest.id">Plus tard</button></span></div>
    <button v-if="combatAttention" class="response-prompt" @click="openPanel('response')">{{combatAttention}} réponse{{combatAttention>1?'s':''}} de combat à traiter <span>Choisir ma défense →</span></button>
-   <p v-if="actionError" role="alert">{{ actionError }} <button v-if="pending" :disabled="busy" @click="sendPending">Réessayer l’action</button></p><p v-if="notice" role="status">{{ notice }}</p>
+   <p v-if="actionError" role="alert">{{ actionError }} <button v-if="pending" :disabled="busy" @click="sendPending">Réessayer l’action</button></p><p v-if="notice" role="status">{{ notice }}</p><p v-if="undo" class="undo-bar" role="status">{{ undo.label }} <button type="button" class="ui-quiet" :disabled="busy" @click="undoLast">Annuler</button></p>
    <CampaignOccultConsent v-if="!room.canManage" :campaign-id="id" @refresh="load" />
 
 
@@ -962,4 +1030,9 @@ provideLiveTable({
 .phone-vitals{display:none}@media(max-width:850px){.phone-vitals{position:sticky;top:0;z-index:31;display:grid;grid-template-columns:auto minmax(0,1fr) auto auto;align-items:center;gap:10px;margin:0 -10px 10px;padding:8px 12px;background:var(--ui-panel);border-bottom:1px solid var(--ui-line-strong);box-shadow:0 6px 18px #0006}.phone-vitals>strong{font-size:var(--ui-text-sm);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:9rem}.pv-mini{display:flex;flex-direction:column;gap:3px;min-width:0;font-size:var(--ui-text-xs);color:var(--ui-ink-soft)}.hp-mini{display:block;height:5px;border-radius:3px;background:var(--ui-input);overflow:hidden}.hp-mini>span{display:block;height:100%;transition:width .5s ease-in-out}.hp-mini .ok{background:var(--ui-ally)}.hp-mini .low{background:var(--ui-warn)}.hp-mini .critical,.hp-mini .down{background:var(--ui-enemy)}.pa-mini{display:flex;gap:3px}.pa-mini i{width:9px;height:9px;border-radius:50%;background:var(--ui-link);border:1px solid var(--ui-link)}.pa-mini i.spent{background:transparent;border-color:var(--ui-line-strong)}.round-mini{font-size:var(--ui-text-xs);color:var(--ui-link)}.table-actionbar .actionbar-vitals{display:none}}@media(prefers-reduced-motion:reduce){.hp-mini>span{transition:none}}
 @media(max-width:850px){.stage-top{position:static;margin-bottom:auto;padding-bottom:16px}}
 .live-offline{position:sticky;top:0;z-index:30;margin:0 0 8px;padding:8px 12px;border-radius:6px;background:#33280f;color:var(--c-attention);border:1px solid color-mix(in srgb,var(--c-attention) 40%,transparent)}
+.undo-bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.undo-bar button{min-height:36px}
+.round-banner{position:fixed;inset:0;z-index:60;display:grid;place-items:center;pointer-events:none}
+.round-banner span{padding:14px 34px;border:1px solid var(--c-reality);border-radius:10px;background:color-mix(in srgb,var(--c-night) 88%,transparent);color:var(--c-text);font:700 clamp(28px,6vw,54px)/1 var(--font-title);letter-spacing:.06em;box-shadow:0 0 40px color-mix(in srgb,var(--c-reality) 35%,transparent);animation:round-banner 1.8s ease-out forwards}
+@keyframes round-banner{0%{opacity:0;transform:scale(.85)}15%{opacity:1;transform:scale(1.04)}25%{transform:none}75%{opacity:1}100%{opacity:0;transform:translateY(-12px)}}
+@media(prefers-reduced-motion:reduce){.round-banner span{animation:round-banner-calm 1.8s linear forwards}@keyframes round-banner-calm{0%,85%{opacity:1}100%{opacity:0}}}
 </style>

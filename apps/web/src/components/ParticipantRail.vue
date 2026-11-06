@@ -11,6 +11,9 @@ const effectLeft = (e: any, round: number) =>
       ? "scène"
       : "";
 const hit = ref<Record<string, boolean>>({});
+// Soins : éclair vert ; tout changement de PV visible : le chiffre flotte sur la ligne (« −7 », « +3 »).
+const healed = ref<Record<string, boolean>>({});
+const delta = ref<Record<string, { value: number; key: number }>>({});
 const lastHp = new Map<string, number>();
 const lastHealth = new Map<string, number>();
 const healthOrder = ["Indemne", "Légèrement blessé", "Blessé", "Gravement blessé", "Agonisant", "Mort"];
@@ -30,6 +33,15 @@ watch(
         hit.value = { ...hit.value, [cid]: true };
         setTimeout(() => (hit.value = { ...hit.value, [cid]: false }), 800);
       }
+      if (typeof hp === "number" && typeof before === "number" && hp !== before) {
+        const key = Date.now();
+        delta.value = { ...delta.value, [cid]: { value: hp - before, key } };
+        setTimeout(() => { if (delta.value[cid]?.key === key) { const next = { ...delta.value }; delete next[cid]; delta.value = next; } }, 1500);
+        if (hp > before) {
+          healed.value = { ...healed.value, [cid]: true };
+          setTimeout(() => (healed.value = { ...healed.value, [cid]: false }), 900);
+        }
+      }
       if (typeof hp === "number") lastHp.set(cid, hp);
     }
   },
@@ -47,8 +59,9 @@ const canSpend = (c: any) =>
 </script>
 <template>
 <aside class="initiative-rail" aria-label="Participants par initiative"><h2>Participants</h2><p>{{ room.combat?.active?`Round ${room.combat.round} · ordre par passe`:'Personnages présents à la table' }}</p>
-  <ol><template v-for="(c,index) in roster" :key="c.id"><li v-if="passHeading(index)" class="pass-divider" role="separator">{{ passHeading(index) }}</li>
-    <li :class="[{hit:hit[c.id],selected:c.id===selected,hiddenActor:c.visible===false,outOfTurns:c.participating===false,currentPass:isTurn(c)},`side-${c.side??'neutral'}`]" :title="sideLabel(c.side)">
+  <TransitionGroup tag="ol" name="rail"><template v-for="(c,index) in roster" :key="c.id"><li v-if="passHeading(index)" class="pass-divider" role="separator">{{ passHeading(index) }}</li>
+    <li :class="[{hit:hit[c.id],healed:healed[c.id],selected:c.id===selected,hiddenActor:c.visible===false,outOfTurns:c.participating===false,currentPass:isTurn(c)},`side-${c.side??'neutral'}`]" :title="sideLabel(c.side)">
+      <span v-if="delta[c.id]" :key="delta[c.id].key" class="hp-float" :class="delta[c.id].value > 0 ? 'heal' : 'dmg'" aria-hidden="true">{{ delta[c.id].value > 0 ? "+" : "−" }}{{ Math.abs(delta[c.id].value) }}</span>
       <div class="rail-face"><PortraitZoom v-if="c.portrait" :src="c.portrait" :name="c.name" /><span v-else class="rail-monogram" aria-hidden="true">{{ c.name?.[0] }}</span><span v-if="room.combat?.active&&c.initiative!=null" class="init-badge" :aria-label="`Initiative ${c.initiative}`">{{ c.initiative }}</span></div>
       <div class="rail-body">
         <span class="rail-name"><button v-if="room.canManage" type="button" class="card-pick" :aria-pressed="c.id===selected" :title="`Choisir ${c.name} comme cible`" @click="selected=c.id"><strong>{{ c.name }}</strong></button><strong v-else>{{ c.name }}</strong><span v-if="isTurn(c)" class="turn-tag">À jouer</span></span>
@@ -61,7 +74,7 @@ const canSpend = (c: any) =>
       </div>
       <div class="rail-actions"><button @click="inspectActor(c.id)">{{room.canManage||c.id===room.ownCharacterId?'Actions':'Voir'}}</button><a v-if="room.canManage||c.id===room.ownCharacterId" :href="c.kind==='character'?`/characters/${c.id}/play?campaign=${id}`:`/campaigns/${id}/play?actor=${c.id}`" target="_blank" rel="noopener" :aria-label="`Ouvrir ${c.name} dans un nouvel onglet`" title="Nouvel onglet">↗</a></div>
       <div v-if="canInit(c)||canSpend(c)" class="rail-extra"><button v-if="canInit(c)" :disabled="busy" @click="act('initiative',{combatantId:c.id,version:c.version})">◈ Initiative</button><button v-if="canSpend(c)" :disabled="busy" @click="act('spend',{actorId:c.id})">Action hors attaque · 1 PA</button></div>
-    </li></template></ol><p v-if="!roster.length">Aucun participant visible.</p>
+    </li></template></TransitionGroup><p v-if="!roster.length">Aucun participant visible.</p>
   </aside>
 </template>
 <style scoped>
@@ -106,7 +119,7 @@ const canSpend = (c: any) =>
 .effect-chips>span{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:0 6px;border-radius:999px;background:var(--ui-warn-bg);color:var(--ui-warn-ink);font-size:var(--ui-text-xs)}
 .rail-actions{display:flex;flex-direction:column;align-items:stretch;gap:2px}
 .live-page .rail-actions button{min-height:36px;padding:4px 8px;font-size:var(--ui-text-xs);white-space:nowrap}
-.rail-actions a{display:grid;place-items:center;min-height:24px;font-size:var(--ui-text-xs);text-decoration:none}
+.rail-actions a{display:grid;place-items:center;min-height:44px;min-width:44px;font-size:var(--ui-text-xs);text-decoration:none}
 .rail-extra{grid-column:1 / -1;display:flex;flex-wrap:wrap;gap:4px}
 .live-page .rail-extra button{flex:1;min-height:36px;padding:4px 8px;font-size:var(--ui-text-xs)}
 /* Règles génériques de la page (son style scopé ne descend pas jusqu'ici). */
@@ -125,5 +138,13 @@ const canSpend = (c: any) =>
 }
 .initiative-rail li.currentPass{animation:turn-pulse 1.6s ease-out 3}@keyframes turn-pulse{0%{box-shadow:0 0 0 0 var(--c-reality)aa}70%{box-shadow:0 0 0 10px var(--c-reality)00}100%{box-shadow:0 0 0 2px var(--ui-accent)}}
 .initiative-rail li.hit{animation:hit-flash .8s ease-out}@keyframes hit-flash{20%{box-shadow:0 0 0 2px var(--ui-enemy),0 0 18px #d58b8488}100%{box-shadow:none}}
-@media(prefers-reduced-motion:reduce){.initiative-rail li.currentPass,.initiative-rail li.hit{animation:none}.hp-bar>span{transition:none}}
+.initiative-rail li.healed{animation:heal-flash .9s ease-out}@keyframes heal-flash{20%{box-shadow:0 0 0 2px var(--c-reality),0 0 18px color-mix(in srgb,var(--c-reality) 55%,transparent)}100%{box-shadow:none}}
+.hp-float{position:absolute;right:12px;top:4px;z-index:3;font:700 18px/1 var(--font-title);pointer-events:none;animation:hp-float 1.5s ease-out forwards;text-shadow:0 1px 6px #000c}
+.hp-float.dmg{color:var(--c-danger)}.hp-float.heal{color:var(--c-reality)}
+@keyframes hp-float{0%{opacity:0;transform:translateY(6px) scale(.8)}15%{opacity:1;transform:translateY(0) scale(1.15)}70%{opacity:1}100%{opacity:0;transform:translateY(-18px)}}
+/* L'ordre d'initiative se réordonne en douceur. */
+.rail-move{transition:transform .4s ease}
+.rail-enter-active,.rail-leave-active{transition:opacity .25s ease}
+.rail-enter-from,.rail-leave-to{opacity:0}
+@media(prefers-reduced-motion:reduce){.initiative-rail li.currentPass,.initiative-rail li.hit,.initiative-rail li.healed{animation:none}.hp-bar>span{transition:none}.rail-move{transition:none}.hp-float{animation:none}}
 </style>
