@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import CompendiumItemLink from "./CompendiumItemLink.vue";
-import { useLiveUpdates } from "../lib/live-updates";
+import { TABLE_IGNORED_TOPICS, useLiveUpdates } from "../lib/live-updates";
 import LiveMechanicsPanel from "./LiveMechanicsPanel.vue";
 import { isExtendedPlayAction } from "../../../api/src/rules/extended-actions";
 import { explicitPower } from "../../../api/src/rules/live-power-registry";
@@ -679,7 +679,8 @@ onMounted(() => {
 useLiveUpdates(
   () => `/api/characters/${props.id}/events`,
   () => void load(),
-  5000
+  5000,
+  TABLE_IGNORED_TOPICS
 );
 onUnmounted(() => {
   alive = false;

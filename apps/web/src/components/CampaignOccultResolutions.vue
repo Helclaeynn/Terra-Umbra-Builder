@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref, watch } from "vue";
-import { useLiveUpdates } from "../lib/live-updates";
+import { TABLE_IGNORED_TOPICS, useLiveUpdates } from "../lib/live-updates";
 import { terraUmbraCreationRules } from "../../../api/src/rules/terra-umbra-creation";
 import { api, ApiError } from "../lib/api";
 const props = defineProps<{ campaignId: string; room: any }>(),
@@ -248,7 +248,8 @@ onMounted(() => {
 useLiveUpdates(
   () => `/api/campaigns/${props.campaignId}/events`,
   () => void load(),
-  5000
+  5000,
+  TABLE_IGNORED_TOPICS
 );
 onUnmounted(() => {
   alive = false;

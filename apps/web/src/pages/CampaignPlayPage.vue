@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, nextTick, onMounted, onUnmounted, ref, watch } from "vue";
-import { useLiveUpdates } from "../lib/live-updates";
+import { TABLE_IGNORED_TOPICS, useLiveUpdates } from "../lib/live-updates";
 import { provideLiveTable } from "../lib/live-table";
 import { playAmbience, type AmbienceSound } from "../lib/ambience";
 import ParticipantRail from "../components/ParticipantRail.vue";
@@ -880,7 +880,8 @@ onMounted(() => {
 useLiveUpdates(
   () => `/api/campaigns/${id}/events`,
   () => void load(),
-  3000
+  3000,
+  TABLE_IGNORED_TOPICS
 );
 onUnmounted(() => {
   alive = false;

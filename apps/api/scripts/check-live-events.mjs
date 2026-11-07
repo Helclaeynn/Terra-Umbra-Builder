@@ -12,6 +12,7 @@ const app=Fastify(),ids=[];
 await registerLiveEventRoutes(app);
 // Écriture factice sur la campagne (les vraies routes passent par le même crochet).
 app.post('/api/campaigns/:id/scene',async()=>({ok:true}));
+app.put('/api/campaigns/:id/sessions/:sid/preparation',async()=>({ok:true}));
 app.post('/api/campaigns/:id/refused',async(req,reply)=>reply.code(409).send({error:'conflict'}));
 await app.listen({port:0,host:'127.0.0.1'});
 const port=app.server.address().port;
@@ -35,7 +36,11 @@ try{
  const changes=table.events.filter(e=>e.event==='change');
  assert.equal(changes.length,1,'Une écriture refusée n’annonce rien');
  assert.deepEqual(Object.keys(JSON.parse(changes[0].data)).sort(),['at','topic']);assert.equal(JSON.parse(changes[0].data).topic,'scene');
+ // Carnet de préparation du MJ : sujet à part, que les écrans de la Table ignorent.
+ assert.equal((await app.inject({method:'PUT',url:`/api/campaigns/${cid}/sessions/${randomUUID()}/preparation`})).statusCode,200);
+ assert.ok(await until(()=>table.events.filter(e=>e.event==='change').length===2),'Préparation annoncée');
+ assert.equal(JSON.parse(table.events.filter(e=>e.event==='change')[1].data).topic,'session-preparation');
  table.close();master.close();
  assert.ok(await until(()=>liveSubscriberCount()===0),'Abonnements libérés à la fermeture');
- console.log('LIVE EVENTS OK — membre et MJ prévenus, intrus et anonyme refusés, écritures refusées muettes, aucune donnée privée, abonnements libérés');
+ console.log('LIVE EVENTS OK — membre et MJ prévenus, intrus et anonyme refusés, écritures refusées muettes, préparation du MJ à part, aucune donnée privée, abonnements libérés');
 }finally{await app.close();if(ids.length)await pool.query("DELETE FROM users WHERE id=ANY($1::uuid[]) AND email LIKE 'ci-live-%@example.invalid'",[ids]);await pool.end();}

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref, watch } from "vue";
-import { useLiveUpdates } from "../lib/live-updates";
+import { TABLE_IGNORED_TOPICS, useLiveUpdates } from "../lib/live-updates";
 import { api, ApiError } from "../lib/api";
 const props = defineProps<{ campaignId: string; room: any }>(),
   emit = defineEmits<{ changed: []; attention: [count: number] }>();
@@ -96,7 +96,8 @@ onMounted(() => {
 useLiveUpdates(
   () => `/api/campaigns/${props.campaignId}/events`,
   () => void load(),
-  3000
+  3000,
+  TABLE_IGNORED_TOPICS
 );
 onUnmounted(() => {
   alive = false;

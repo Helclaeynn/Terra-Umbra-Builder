@@ -104,7 +104,10 @@ export async function registerLiveEventRoutes(app: FastifyInstance) {
     const path = request.url.split("?")[0];
     const campaign = /^\/api\/campaigns\/([0-9a-f-]{36})(?:\/([a-z-]+))?/i.exec(path);
     if (campaign) {
-      publishLiveChange(`campaign:${campaign[1]}`, campaign[2] ?? "campaign");
+      // Notes privées du MJ : la Table ne se recharge pas pour elles (TABLE_IGNORED_TOPICS côté site).
+      const topic = /\/sessions\/[^/]+\/preparation$/.test(path) ? "session-preparation"
+        : /\/play\/scene-notes$/.test(path) ? "scene-notes" : campaign[2] ?? "campaign";
+      publishLiveChange(`campaign:${campaign[1]}`, topic);
       return;
     }
     const character = /^\/api\/characters\/([0-9a-f-]{36})(?:\/([a-z-]+))?/i.exec(path);

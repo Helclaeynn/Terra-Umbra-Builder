@@ -8,7 +8,10 @@
 // l'écran se relit en revenant au premier plan.
 import { onMounted, onUnmounted } from "vue";
 
-type Channel = { source: EventSource | null; open: boolean; listeners: Set<() => void>; states: Set<(open: boolean) => void> };
+type Listener = (topic: string) => void;
+type Channel = { source: EventSource | null; open: boolean; listeners: Set<Listener>; states: Set<(open: boolean) => void> };
+/** Annonces qui ne changent rien à la Table : carnet de préparation et notes de scène, privés du MJ. */
+export const TABLE_IGNORED_TOPICS = ["session-preparation", "scene-notes"] as const;
 const channels = new Map<string, Channel>();
 const SAFETY_POLL_MS = 60_000;
 
@@ -26,14 +29,18 @@ function channel(url: string): Channel {
       created.states.forEach((notify) => notify(open));
     };
     source.addEventListener("ready", () => setOpen(true));
-    source.addEventListener("change", () => created.listeners.forEach((listener) => listener()));
+    source.addEventListener("change", (event) => {
+      let topic = "";
+      try { topic = String(JSON.parse((event as MessageEvent).data)?.topic ?? ""); } catch { /* annonce sans sujet : tout recharger */ }
+      created.listeners.forEach((listener) => listener(topic));
+    });
     // Coupure : le navigateur se reconnecte seul ; refus (404, 401) : la connexion se ferme.
     source.addEventListener("error", () => setOpen(false));
   }
   return created;
 }
 
-function release(url: string, listener: () => void, state: (open: boolean) => void) {
+function release(url: string, listener: Listener, state: (open: boolean) => void) {
   const current = channels.get(url);
   if (!current) return;
   current.listeners.delete(listener);
@@ -48,14 +55,16 @@ function release(url: string, listener: () => void, state: (open: boolean) => vo
  * Recharge `refresh` à chaque changement annoncé sur `url`
  * (« /api/campaigns/<id>/events » ou « /api/characters/<id>/events »).
  * `fallbackMs` : ancien intervalle, utilisé seulement sans temps réel.
+ * `ignore` : sujets d'annonce qui ne concernent pas cet écran (voir TABLE_IGNORED_TOPICS).
  */
-export function useLiveUpdates(url: () => string | null | undefined, refresh: () => void, fallbackMs: number) {
+export function useLiveUpdates(url: () => string | null | undefined, refresh: () => void, fallbackMs: number, ignore: readonly string[] = []) {
   let timer: ReturnType<typeof setInterval> | undefined;
   let debounce: ReturnType<typeof setTimeout> | undefined;
   let subscribed: string | null = null;
   let open = false;
   const visible = () => typeof document === "undefined" || document.visibilityState === "visible";
-  const trigger = () => {
+  const trigger = (topic = "") => {
+    if (topic && ignore.includes(topic)) return;
     clearTimeout(debounce);
     debounce = setTimeout(() => { if (visible()) refresh(); }, 120);
   };
