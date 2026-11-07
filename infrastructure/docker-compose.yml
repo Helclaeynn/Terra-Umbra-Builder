@@ -38,6 +38,9 @@ services:
       SMTP_PASSWORD_FILE: /run/secrets/smtp_password
       MAIL_FROM: ${MAIL_FROM:-Terra Umbra <noreply@terra-umbra.fr>}
       COMPENDIUM_UPLOAD_DIR: /app/editor-media
+      # « db » : règles et articles lus dans les tables de contenu (réglé dans .env
+      # une fois le contenu du site d'essai recopié) ; vide : catalogues du code.
+      CONTENT_SOURCE: ${CONTENT_SOURCE:-}
     volumes:
       - /opt/terra-umbra/secrets/smtp_password:/run/secrets/smtp_password:ro
       - compendium-editor-media:/app/editor-media
@@ -61,6 +64,41 @@ services:
     networks:
       - frontend
 
+  # CMS du contenu, en fond (l'auteur écrit dans le site) : https://terra-umbra.fr/cms.
+  # Clés et compte administrateur dans .env (créés par production/deploy.sh).
+  directus:
+    image: directus/directus:11.5.1
+    restart: unless-stopped
+    mem_limit: 512m
+    environment:
+      KEY: ${DIRECTUS_KEY}
+      SECRET: ${DIRECTUS_SECRET}
+      PUBLIC_URL: https://terra-umbra.fr/cms
+      DB_CLIENT: pg
+      DB_HOST: db
+      DB_PORT: "5432"
+      DB_DATABASE: ${POSTGRES_DB}
+      # Son propre compte, limité au contenu (recette/directus-db-role.sql).
+      DB_USER: directus_cms
+      DB_PASSWORD: ${DIRECTUS_DB_PASSWORD}
+      ADMIN_EMAIL: ${DIRECTUS_ADMIN_EMAIL}
+      ADMIN_PASSWORD: ${DIRECTUS_ADMIN_PASSWORD}
+      STORAGE_LOCATIONS: local
+      STORAGE_LOCAL_ROOT: /directus/uploads
+      TELEMETRY: "false"
+      WEBSOCKETS_ENABLED: "false"
+      EMAIL_TRANSPORT: sendmail
+      EMAIL_SENDMAIL_PATH: /bin/false
+    volumes:
+      - directus-uploads:/directus/uploads
+      - ./recette/directus-extensions:/directus/extensions:ro
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - frontend
+      - backend
+
   caddy:
     image: caddy:2-alpine
     restart: unless-stopped
@@ -81,6 +119,7 @@ services:
 volumes:
   postgres-data:
   compendium-editor-media:
+  directus-uploads:
   caddy-data:
   caddy-config:
 

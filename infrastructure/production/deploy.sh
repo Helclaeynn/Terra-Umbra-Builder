@@ -159,4 +159,36 @@ docker image prune -f >/dev/null
 docker builder prune -af >/dev/null
 
 echo "EN LIGNE : $sha"
+
+echo "== Directus"
+# Clés et comptes créés une fois, hors de Git ; accès recopié dans les secrets du serveur.
+rand() { head -c 64 /dev/urandom | base64 | tr -dc A-Za-z0-9 | head -c "$1"; }
+if ! grep -q '^DIRECTUS_KEY=' .env; then
+  password=$(rand 24)
+  printf 'DIRECTUS_KEY=%s
+DIRECTUS_SECRET=%s
+DIRECTUS_ADMIN_EMAIL=auteur@terra-umbra.fr
+DIRECTUS_ADMIN_PASSWORD=%s
+DIRECTUS_DB_PASSWORD=%s
+'     "$(rand 32)" "$(rand 48)" "$password" "$(rand 32)" >> .env
+  ( umask 077
+    printf 'Directus (production) : https://terra-umbra.fr/cms
+Identifiant : auteur@terra-umbra.fr
+Mot de passe : %s
+' "$password"       > "$root/secrets/directus-production-acces.txt" )
+fi
+set -a
+. ./.env
+set +a
+psql -q -v pw="$DIRECTUS_DB_PASSWORD" -v db="$POSTGRES_DB" < "$root/infrastructure/recette/directus-db-role.sql"
+docker compose up -d --no-build directus </dev/null
+# Les extensions ne sont lues qu'au démarrage.
+docker compose restart directus </dev/null
+for _ in $(seq 1 60); do
+  docker compose exec -T api node -e     "fetch('http://directus:8055/server/health').then(r=>process.exit(r.ok?0:1),()=>process.exit(1))" </dev/null && break
+  sleep 3
+done
+psql -q < "$root/infrastructure/recette/directus-relations.sql"
+docker run --rm --network tuc-v2_backend   -e DIRECTUS_URL=http://directus:8055   -e DIRECTUS_ADMIN_EMAIL -e DIRECTUS_ADMIN_PASSWORD   -v "$root/infrastructure/recette/directus-setup.mjs:/setup.mjs:ro"   node:24-alpine node /setup.mjs </dev/null
+echo "Directus prêt : $site/cms"
 df -h / | awk 'NR==2{print "Disque : "$4" libres ("$5" utilisés)"}'

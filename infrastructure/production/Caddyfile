@@ -27,6 +27,11 @@ terra-umbra.fr {
     Referrer-Policy "strict-origin-when-cross-origin"
     Permissions-Policy "camera=(), microphone=(), geolocation=()"
   }
+  # Directus (contenu, en fond), avec sa propre connexion.
+  redir /cms /cms/ 308
+  handle_path /cms/* {
+    reverse_proxy directus:8055
+  }
   handle /api/* {
     reverse_proxy api:3000
   }
