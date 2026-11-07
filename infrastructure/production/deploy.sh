@@ -181,9 +181,11 @@ set -a
 . ./.env
 set +a
 psql -q -v pw="$DIRECTUS_DB_PASSWORD" -v db="$POSTGRES_DB" < "$root/infrastructure/recette/directus-db-role.sql"
+# Les extensions ne sont lues qu'au démarrage : redémarrage seulement s'il tournait déjà
+# (jamais pendant sa première installation, qui crée le compte administrateur).
+directus_running=$(docker compose ps -q --status running directus)
 docker compose up -d --no-build directus </dev/null
-# Les extensions ne sont lues qu'au démarrage.
-docker compose restart directus </dev/null
+if [ -n "$directus_running" ]; then docker compose restart directus </dev/null; fi
 for _ in $(seq 1 60); do
   docker compose exec -T api node -e     "fetch('http://directus:8055/server/health').then(r=>process.exit(r.ok?0:1),()=>process.exit(1))" </dev/null && break
   sleep 3
