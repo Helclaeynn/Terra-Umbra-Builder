@@ -794,9 +794,9 @@ to{opacity:1;transform:none}
 .builder-v2-shell [data-common-truth-talents] .truth-owned-card>button:where(:not(:is(.aseryn-choices,.builder-wiki-ref,.character-gallery,.character-pdf-actions,.character-sheet,.threshold-note,.corruption-authorization,.corruption-panel,.equipment-step,.finish-step,.nature-start-guide,.progression-step,.talent-selector,.tu-orbital-brand,.guided-choice,.truth-equipment-panel,.truth-talent-text,.training-choice) *)){grid-column:1;grid-row:auto}
 /* Téléphone : Précédent / Suivant restent sous le pouce, collés en bas de l'écran (lot Builder, 06/11). */
 @media(max-width:620px){
-  .builder-v2-shell nav.builder-step-controls{position:sticky;bottom:0;z-index:15;grid-template-columns:1fr 1.4fr;gap:8px;margin:1rem -12px 0;padding:8px 12px calc(8px + env(safe-area-inset-bottom));background:color-mix(in srgb,var(--c-night) 92%,transparent);backdrop-filter:blur(10px);border-top:1px solid var(--c-line)}
+  .builder-v2-shell nav.builder-step-controls{position:sticky;bottom:0;z-index:15;grid-template-columns:1fr 1.4fr;gap:8px;margin:1rem 0 0;padding:8px 0 calc(8px + env(safe-area-inset-bottom));background:color-mix(in srgb,var(--c-night) 92%,transparent);backdrop-filter:blur(10px);border-top:1px solid var(--c-line)}
   .builder-v2-shell nav.builder-step-controls>span{display:block}
-  .builder-v2-shell nav.builder-step-controls>button{min-height:48px;padding:.5rem .7rem;flex-direction:column;align-items:flex-start;justify-content:center;gap:2px}
+  .builder-v2-shell nav.builder-step-controls>button{min-width:0;min-height:48px;padding:.5rem .7rem;flex-direction:column;align-items:flex-start;justify-content:center;gap:2px}
   .builder-v2-shell nav.builder-step-controls small{overflow:hidden;max-width:100%;text-overflow:ellipsis;white-space:nowrap}
 }
 </style>

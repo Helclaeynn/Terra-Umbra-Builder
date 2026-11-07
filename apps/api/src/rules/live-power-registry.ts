@@ -68,15 +68,19 @@ export type RegisteredPowerRule = {
 };
 type RuleInput = Omit<RegisteredPowerRule, "name" | "nature">;
 const list: RegisteredPowerRule[] = [];
+const catalogEntry = (nature: string, id: string) =>
+  (truthRules.catalogs as Record<string, readonly any[]>)[nature]?.find((t) => t.id === id);
 const add = (nature: string, input: RuleInput) => {
-  const entry = (truthRules.catalogs as Record<string, readonly any[]>)[
-    nature
-  ]?.find((t) => t.id === input.id);
-  if (!entry) throw new Error("Unknown canonical power: " + input.id);
+  // Le site charge ce module avant de recevoir les règles de l'API (catalogues encore vides) :
+  // le contrôle n'a lieu qu'avec des catalogues, et le nom est lu au moment de l'usage.
+  const loaded = Object.values(truthRules.catalogs as Record<string, readonly unknown[]>).some((c) => c.length);
+  if (loaded && !catalogEntry(nature, input.id)) throw new Error("Unknown canonical power: " + input.id);
   list.push({
     ...input,
     nature,
-    name: entry.name,
+    get name() {
+      return String(catalogEntry(nature, input.id)?.name ?? input.id);
+    },
     allowedForms:
       input.id === "deplacement_agile"
         ? ["animal", "hybrid"]
