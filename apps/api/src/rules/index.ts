@@ -6,6 +6,9 @@ import { terraUmbraCreationRules } from "./terra-umbra-creation.js";
 import { terraUmbraCreationLore, terraUmbraTalentChoiceSpecs, terraUmbraRealitySkillTalentMap } from "./terra-umbra-creation-lore.js";
 import { terraUmbraDisadvantages, terraUmbraDisadvantageLore, terraUmbraEdgeRules } from "./terra-umbra-disadvantages-edge.js";
 import { terraUmbraTruthRules } from "./truth/rules.js";
+import { applyContentRules, loadRealityContent } from "./content-rules.js";
+import { loadCreationContent } from "./creation-content.js";
+import { loadTruthContent } from "./truth-content.js";
 import { getRealityRules } from "./reality.js";
 import {
   findActiveCompendiumArticleById,
@@ -193,7 +196,8 @@ async function enrichTruthRules(){
       })
     );
   }
-  return truth;
+  // Déjà appliqué au paquet chargé depuis la base (truth-content.ts).
+  return truth.contentSource==="db"?truth:applyContentRules(truth);
 }
 
 async function enrichRealityRules(){
@@ -229,13 +233,39 @@ function getEnrichedTruth(){
   truthPromise??=enrichTruthRules();
   return truthPromise;
 }
+/** Règles de Vérité à relire (tables de contenu modifiées, par exemple depuis Directus). */
+export function invalidateTruthRules(){
+  truthPromise=null;
+  void getEnrichedTruth();
+}
+/** Règles de création, Edge et Réalité, pour le contrôle des budgets d'une fiche. */
+export async function creationRulesForChecks(){
+  const [creation,reality]=await Promise.all([getEnrichedCreation(),getEnrichedReality()]);
+  return {rules:creation.rules,edgeRules:terraUmbraEdgeRules,reality};
+}
+/** Règles de Vérité enrichies, pour les contrôles du serveur (ordre des voies). */
+export function truthRulesForChecks():Promise<any>{
+  return getEnrichedTruth();
+}
 function getEnrichedReality(){
   realityPromise??=enrichRealityRules();
   return realityPromise;
 }
 
+/** Équipement de Réalité et règles de création à relire (tables de contenu modifiées). */
+export async function reloadContentRules(){
+  await Promise.all([loadRealityContent(),loadCreationContent(),loadTruthContent()]);
+  realityPromise=null;
+  creationPromise=null;
+  truthPromise=null;
+  void getEnrichedReality();
+  void getEnrichedCreation();
+  void getEnrichedTruth();
+}
+
 export async function preloadBuilderRules():Promise<void>{
   const started=performance.now();
+  await Promise.all([loadRealityContent(),loadCreationContent(),loadTruthContent()]);
   const [creation,truth,reality]=await Promise.all([
     getEnrichedCreation(),
     getEnrichedTruth(),

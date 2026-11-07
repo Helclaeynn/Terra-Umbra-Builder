@@ -2,12 +2,12 @@ import assert from "node:assert/strict";
 import pg from "pg";
 
 pg.Pool.prototype.query = async () => ({ rows: [], rowCount: 0 });
-const { getCompendiumQualityCorpus } = await import("../dist/compendium.js");
+const { getCompendiumQualityCorpus, publicArticleId } = await import("../dist/compendium.js");
 const corpus = await getCompendiumQualityCorpus();
 const active = corpus.articles.filter((article) => article.category === "Personnages");
 assert.equal(active.length, 917);
 const article = (id, publicView = false) =>
-  (publicView ? corpus.publicArticles : corpus.articles).find((item) => item.id === id);
+  (publicView ? corpus.publicArticles : corpus.articles).find((item) => item.id === (publicView ? publicArticleId(id) : id));
 const rows = (id) => article(id).sections[0].blocks[0].rows;
 for (const [id, field, expected] of [
   ["personnages-verite-humains-galactiques-alladava-kjoll", "Nationalité", "Sud-africaine"],
@@ -129,7 +129,10 @@ assert.ok(!article("personnages-verite-fantastiques-fredegonda", true));
 assert.equal(article("personnages-verite-fantastiques-fredegonda").sections.at(-1).blocks.length, 6);
 assert.equal(article("personnages-verite-fantastiques-thor", true)?.title, "Thor");
 assert.ok(!JSON.stringify(article("personnages-verite-fantastiques-thor", true)).includes("Thar’lal"));
-assert.ok(!article("personnages-verite-fantastiques-tharlal-rark", true));
+assert.ok(!corpus.publicArticles.some((item) => item.id === "personnages-verite-fantastiques-tharlal-rark"));
+// Adresse publique tirée du nom de Réalité, sans la nature du PNJ.
+assert.equal(publicArticleId("personnages-verite-fantastiques-tharlal-rark"), "pnj-thor");
+assert.ok(!corpus.publicArticles.some((item) => /^personnages-verite-/.test(item.id)));
 assert.ok(article("personnages-verite-fantastiques-theoderid", true).sections.some((section) =>
   section.blocks?.some((block) => block.text?.includes("Killdrillers"))));
 for (const id of ["pnj-fleaux-focus-ana-diana-de-la-caza-diana-de-la-caza", "pnj-fleaux-focus-arkady-karamov-4-arkady-karamov", "pnj-fleaux-focus-mila-shilove-094-mila-shilove"]) {

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { confirmDialog } from "../../lib/confirm-dialog";
 import NatureStartGuide from './NatureStartGuide.vue';
 import {vampireUnavailable,vampireNativeBlood} from "../../lib/vampire";
 import {khinaeUnavailable} from "../../lib/khinae";
@@ -68,10 +69,18 @@ import {
   truthAvailableTalents,
   truthNorm,
   truthPrerequisiteSatisfied,
+  truthVoieIssues,
   type TruthRulesPackage,
   type TruthState,
   type TruthTalent
 } from "../../lib/truth";
+import type { TruthTalentVoie } from "../../../../api/src/rules/truth/types";
+
+function voieLabel(voie:TruthTalentVoie){
+  const palier=voie.palier==="entree"?"entrée":voie.palier?`palier ${voie.palier}`:"";
+  const porte=voie.porte==="sommet"?"sommet":voie.porte?`porte ${voie.porte}`:"";
+  return ["Voie "+voie.title,palier,porte].filter(Boolean).join(" · ");
+}
 
 type RuleAttribute={id:string;name:string};
 type RuleSkill={id:string;name:string;attribute:string};
@@ -371,10 +380,10 @@ function buyRealityTalent(talent:RuleTalent){
   if(choiceDrafts.value[talent.id]!==undefined)next.realityTalentChoices[talent.id]=choiceDrafts.value[talent.id];
   emitProgression(next);
 }
-function removeRealityTalent(id:string){
+async function removeRealityTalent(id:string){
   const next=structuredClone(state.value);
   const affected=realityState.value.equipment.some(p=>p.talentGrant===id)||realityState.value.fixedChargeItems.some(c=>c.talentGrant===id);
-  if(affected&&!window.confirm('Retirer ce Talent et restituer ses prêts/prestations ? Vos achats personnels restent conservés.'))return;
+  if(affected&&!await confirmDialog('Retirer ce Talent et restituer ses prêts/prestations ? Vos achats personnels restent conservés.'))return;
   freezeCampaignCash(next,props.creationAccount);
   next.realityTalents=next.realityTalents.filter(item=>item!==id);
   const real=structuredClone(realityState.value);pruneBenefits(real,uniqueTalents(props.creationTalentIds,next.realityTalents),props.sphereId);
@@ -440,9 +449,9 @@ function removeTruthTalent(id:string){
   }
   emitProgression(next);
 }
-function initiateTruth(){
+async function initiateTruth(){
   if(props.truthState.consciousness!=="profane")return;
-  if(!window.confirm("Confirmer que le personnage a été initié à la Vérité en campagne ?"))return;
+  if(!await confirmDialog("Le personnage a-t-il bien été initié à la Vérité en campagne ?",{title:"Initiation à la Vérité",confirm:"Oui, il est initié"}))return;
   emit("update:truth",{...props.truthState,consciousness:"initie"});
 }
 
@@ -587,10 +596,10 @@ const salePreview=computed(()=>{
   const troc=combinedRealityIds.value.includes('maitre_du_troc');
   return {degree,reference,troc,total:saleWithTalents(reference,degree.sale,troc)};
 });
-function sellCampaignItem(){
+async function sellCampaignItem(){
   const row=saleRow.value;
   if(!row||!saleAllowed(row.purchase)||!salePreview.value.reference)return;
-  if(!window.confirm("Revendre "+row.item.name+" pour "+money(salePreview.value.total)+" ?"))return;
+  if(!await confirmDialog("Revendre "+row.item.name+" pour "+money(salePreview.value.total)+" ?"))return;
   const progress=structuredClone(state.value);
   const reality=structuredClone(realityState.value);
   const list=row.kind==="augmentation"?reality.augmentations:reality.equipment;
@@ -763,11 +772,13 @@ function sellCampaignItem(){
             <div class="progress-card-title">
               <strong>{{ talent.name }}</strong>
               <small>{{ talent.group }}</small>
+              <small v-if="talent.voie" class="talent-voie" data-talent-voie>{{ voieLabel(talent.voie) }}</small>
             </div>
             <span>{{ talent.cost }} PTV</span>
           </summary>
 
-          <p v-if="talent.prerequisiteName"><b>Prérequis :</b> {{ talent.prerequisiteName }}</p>
+          <p v-if="talent.prerequisiteName&&!talent.voie"><b>Prérequis :</b> {{ talent.prerequisiteName }}</p>
+          <p v-for="issue in truthVoieIssues(truthRules,combinedTruthState,talent)" :key="issue" class="rule-note" data-voie-issue>{{ issue }}</p>
           <TruthTalentText :effect="talent.effect" :details="talent.effectDetails" :lore="talent.runtimeLore" :activation="talent.activation" />
           <button class="primary compact" type="button" :disabled="!truthCanBuy(talent)" @click="buyTruthTalent(talent)">Apprendre · {{ talent.cost }} PTV</button>
           <button v-if="truthBuildChoiceLabel(combinedTruthState,talent.id)" type="button" :data-configure-talent="talent.id" @click="configuredTruthTalent=configuredTruthTalent===talent.id?'':talent.id">{{truthBuildChoiceLabel(combinedTruthState,talent.id)}}</button>
@@ -875,58 +886,58 @@ function sellCampaignItem(){
 .progression-step{display:grid;grid-template-columns:minmax(0,1fr);min-width:0;gap:1rem}
 .progression-step>*{min-width:0}
 .progress-card-title{display:grid;gap:.18rem;min-width:0}
-.progress-card-title :deep(.builder-wiki-ref){font-size:.875rem;color:#b1cbe3}
+.progress-card-title :deep(.builder-wiki-ref){font-size:.875rem;color:var(--c-text-soft)}
 .pool-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.65rem}
-.pool-grid>div{display:grid;gap:.25rem;padding:.8rem;border:1px solid #2b3b51}
-.pool-grid small,.pool-grid span{color:#a1b5cc;font-size:.875rem}
-.pool-grid strong{font-family:Inter,"Segoe UI",sans-serif;font-size:1.35rem}
-.pool-grid .good strong{color:#9eeafd}
-.progress-panel,.flash-panel{padding:1rem;border:1px solid #2b3b51;background:rgba(255,255,255,.012)}
+.pool-grid>div{display:grid;gap:.25rem;padding:.8rem;border:1px solid var(--c-line)}
+.pool-grid small,.pool-grid span{color:var(--c-text-soft);font-size:.875rem}
+.pool-grid strong{font-family:var(--font-text);font-size:1.35rem}
+.pool-grid .good strong{color:var(--c-reality-soft)}
+.progress-panel,.flash-panel{padding:1rem;border:1px solid var(--c-line);background:rgba(255,255,255,.012)}
 .progress-panel>summary,.trade-block>summary{cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:.8rem;list-style:none}
 .progress-panel>summary::-webkit-details-marker,.trade-block>summary::-webkit-details-marker{display:none}
-.progress-panel>summary::after,.trade-block>summary::after{content:"›";color:#64def5;font-size:1.05rem;transform:rotate(90deg);transition:transform .15s ease}
+.progress-panel>summary::after,.trade-block>summary::after{content:"›";color:var(--c-reality);font-size:1.05rem;transform:rotate(90deg);transition:transform .15s ease}
 .progress-panel[open]>summary::after,.trade-block[open]>summary::after{transform:rotate(-90deg)}
-.progress-panel>summary span,.trade-block>summary span{color:#a1b5cc;font-size:.875rem}
+.progress-panel>summary span,.trade-block>summary span{color:var(--c-text-soft);font-size:.875rem}
 .ledger-grid,.money-grid,.trade-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.7rem;margin-top:1rem}
 .session-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.6rem;margin-top:.8rem}
-.session-card{display:grid;gap:.35rem;padding:.75rem;border:1px solid #2b3b51;text-align:left;background:#0b1524;color:#c3d2e4}
-.session-card span{color:#64def5}
-.session-card small{color:#a1b5cc}
+.session-card{display:grid;gap:.35rem;padding:.75rem;border:1px solid var(--c-line);text-align:left;background:var(--c-surface);color:var(--c-text-soft)}
+.session-card span{color:var(--c-reality)}
+.session-card small{color:var(--c-text-soft)}
 .flash-panel{display:flex;justify-content:space-between;gap:1rem;align-items:center;border-color:rgba(183,152,84,.3)}
 .flash-panel>div:first-child{display:grid;gap:.25rem}
-.flash-panel span{color:#a1b5cc;font-size:.875rem;line-height:1.45}
+.flash-panel span{color:var(--c-text-soft);font-size:.875rem;line-height:1.45}
 .action-row{display:flex;gap:.45rem;flex-wrap:wrap;margin-top:.7rem}
 .progress-grid,.talent-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.65rem;margin-top:.8rem}
-.progress-grid article,.talent-grid article{display:flex;flex-direction:column;gap:.55rem;padding:.75rem;border:1px solid #2b3b51}
+.progress-grid article,.talent-grid article{display:flex;flex-direction:column;gap:.55rem;padding:.75rem;border:1px solid var(--c-line)}
 .talent-grid article.locked{opacity:.65}
 .card-head{display:flex;justify-content:space-between;gap:.7rem}
 .card-head>div{display:grid;gap:.15rem}
-.card-head span{color:#64def5;font-size:.875rem}
-.card-head small,.progress-grid article>small,.talent-grid article>small{color:#a1b5cc}
-.talent-grid article p,.talent-grid article em{margin:0;color:#a1b5cc;font-size:.875rem;line-height:1.5}
+.card-head span{color:var(--c-reality);font-size:.875rem}
+.card-head small,.progress-grid article>small,.talent-grid article>small{color:var(--c-text-soft)}
+.talent-grid article p,.talent-grid article em{margin:0;color:var(--c-text-soft);font-size:.875rem;line-height:1.5}
 .talent-grid article .primary{margin-top:auto}
 .skill-family{margin-top:1rem}
-.skill-family h3{margin:.5rem 0;font-family:Inter,"Segoe UI",sans-serif}
+.skill-family h3{margin:.5rem 0;font-family:var(--font-text)}
 .talent-group{padding-top:1rem;border-top:1px solid rgba(255,255,255,.06)}
 .owned-list{display:grid;gap:.5rem;margin-top:.8rem}
-.owned-row{display:flex;justify-content:space-between;gap:.7rem;align-items:center;padding:.65rem .75rem;border:1px solid #2b3b51}
+.owned-row{display:flex;justify-content:space-between;gap:.7rem;align-items:center;padding:.65rem .75rem;border:1px solid var(--c-line)}
 .owned-row>div{display:grid;gap:.15rem}
-.owned-row span{color:#a1b5cc;font-size:.875rem}
+.owned-row span{color:var(--c-text-soft);font-size:.875rem}
 .truth-search{display:grid;gap:.4rem;margin-top:.8rem}
 .initiation-row{display:flex;justify-content:space-between;gap:1rem;align-items:center;margin-top:.8rem;padding:.8rem;border:1px solid rgba(100,222,245,.2)}
 .initiation-row>div{display:grid;gap:.25rem}
-.initiation-row span{color:#a1b5cc;font-size:.875rem}
-.cash-badge{padding:.45rem .65rem;border:1px solid rgba(89,133,91,.3);color:#9eeafd;font-family:Inter,"Segoe UI",sans-serif}
+.initiation-row span{color:var(--c-text-soft);font-size:.875rem}
+.cash-badge{padding:.45rem .65rem;border:1px solid rgba(89,133,91,.3);color:var(--c-reality-soft);font-family:var(--font-text)}
 .money-grid{grid-template-columns:minmax(180px,2fr) minmax(140px,1fr) minmax(120px,1fr) auto;align-items:end}
 .trade-block{margin-top:.9rem;padding-top:.8rem;border-top:1px solid rgba(255,255,255,.07)}
 .trade-grid .wide{grid-column:1/-1}
-.trade-preview{display:flex;flex-wrap:wrap;gap:.45rem;align-items:center;margin-top:.8rem;padding:.8rem;border:1px solid #2b3b51}
-.trade-preview span{padding:.3rem .45rem;border:1px solid rgba(255,255,255,.07);color:#a1b5cc;font-size:.875rem}
-.trade-preview p{width:100%;margin:.25rem 0;color:#a1b5cc;font-size:.875rem}
+.trade-preview{display:flex;flex-wrap:wrap;gap:.45rem;align-items:center;margin-top:.8rem;padding:.8rem;border:1px solid var(--c-line)}
+.trade-preview span{padding:.3rem .45rem;border:1px solid rgba(255,255,255,.07);color:var(--c-text-soft);font-size:.875rem}
+.trade-preview p{width:100%;margin:.25rem 0;color:var(--c-text-soft);font-size:.875rem}
 .trade-preview small{width:100%;color:#f0bdc0}
-.positive{color:#9eeafd}
+.positive{color:var(--c-reality-soft)}
 .negative{color:#f0bdc0}
-.empty-line{margin-top:.8rem;color:#a1b5cc}
+.empty-line{margin-top:.8rem;color:var(--c-text-soft)}
 @media(max-width:1180px){.progress-grid,.talent-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 @media(max-width:900px){.pool-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -942,35 +953,35 @@ function sellCampaignItem(){
 
 :where(.section-heading,.subsection-title){display:flex;justify-content:space-between;align-items:flex-start;gap:18px}
 .subsection-title h3{margin:0;font-size:18px;line-height:1.4;letter-spacing:-.02em}
-.subsection-title p{margin:8px 0 0;color:#b3c5d9;font-size:14px;line-height:1.65;max-width:78ch}
-.builder-intro{margin:0;color:#b3c5d9;font-size:15px;line-height:1.7;max-width:85ch}
-.schema-badge{padding:6px 10px;border:1px solid #344a62;border-radius:6px;white-space:nowrap;color:#9eeafd;background:#14263a;font-size:12px}
-.schema-badge.bad{border-color:#794850;color:#f0bdc0;background:#241820}
-.rule-note{padding:16px;border:1px solid #344a62;border-radius:8px;color:#c3d6e8;background:#122337;font-size:14px;line-height:1.65}
-.rule-note.bad{border-color:#794850;color:#f0bdc0;background:#241820}
+.subsection-title p{margin:8px 0 0;color:var(--c-text-soft);font-size:14px;line-height:1.65;max-width:78ch}
+.builder-intro{margin:0;color:var(--c-text-soft);font-size:15px;line-height:1.7;max-width:85ch}
+.schema-badge{padding:6px 10px;border:1px solid var(--c-line);border-radius:6px;white-space:nowrap;color:var(--c-reality-soft);background:var(--c-relief);font-size:12px}
+.schema-badge.bad{border-color:#794850;color:#f0bdc0;background:var(--c-surface)}
+.rule-note{padding:16px;border:1px solid var(--c-line);border-radius:8px;color:var(--c-text-soft);background:var(--c-relief);font-size:14px;line-height:1.65}
+.rule-note.bad{border-color:#794850;color:#f0bdc0;background:var(--c-surface)}
 :is(input,select,textarea){min-width:0;min-height:44px;border-radius:6px;font:inherit}
 button{min-height:44px;border-radius:6px;font-size:14px}
 label{font-size:14px;line-height:1.5}
 @media(max-width:620px){.section-heading,.subsection-title{flex-wrap:wrap}.section-heading .schema-badge{align-self:flex-start}}
 
-.progression-step{gap:24px;color:#edf4ff;font-family:Inter,"Segoe UI",sans-serif}
+.progression-step{gap:24px;color:var(--c-text);font-family:var(--font-text)}
 .pool-grid{gap:12px}
-.pool-grid>div{padding:18px;gap:8px;background:#0e1b2d;border-radius:8px}
+.pool-grid>div{padding:18px;gap:8px;background:var(--c-surface);border-radius:8px}
 .pool-grid strong{font-size:30px;font-weight:650;line-height:1.2;font-variant-numeric:tabular-nums}
-.pool-grid .good{border-color:#36596b;background:#102738}
+.pool-grid .good{border-color:var(--c-line-strong);background:var(--c-relief)}
 .pool-grid small,.pool-grid span{font-size:13px;line-height:1.5}
-.progress-panel,.flash-panel{padding:22px;border-radius:8px;background:#0e1b2d}
+.progress-panel,.flash-panel{padding:22px;border-radius:8px;background:var(--c-surface)}
 .progress-panel>summary,.trade-block>summary{min-height:48px;flex-wrap:wrap;font-size:16px;line-height:1.5}
 .progress-panel>summary span,.trade-block>summary span{font-size:13px}
-.progress-panel[open]>summary{padding-bottom:14px;border-bottom:1px solid #2b3b51}
+.progress-panel[open]>summary{padding-bottom:14px;border-bottom:1px solid var(--c-line)}
 .ledger-grid,.money-grid,.trade-grid{gap:16px}
 .session-card{padding:18px;gap:8px;border-radius:8px}
-.session-card:hover{border-color:#64def5;background:#122337}
+.session-card:hover{border-color:var(--c-reality);background:var(--c-relief)}
 .session-card strong{font-size:15px;line-height:1.45}
 .session-card small{font-size:13px;line-height:1.5}
-.flash-panel{border-color:#665377;background:#201d33}
+.flash-panel{border-color:#665377;background:var(--c-relief)}
 .progress-grid,.talent-grid{gap:14px;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr))}
-.progress-grid article,.talent-grid article{min-width:0;padding:18px;gap:12px;border-radius:8px;background:#0b1524}
+.progress-grid article,.talent-grid article{min-width:0;padding:18px;gap:12px;border-radius:8px;background:var(--c-surface)}
 .card-head{gap:12px;flex-wrap:wrap}
 .card-head strong{font-size:15px;line-height:1.45}
 .card-head span{font-size:13px;white-space:nowrap}
@@ -980,45 +991,45 @@ label{font-size:14px;line-height:1.5}
 .progress-card-title :deep(.builder-wiki-ref){font-size:12px}
 .action-row{margin-top:auto;padding-top:8px;gap:8px}
 .action-row .primary{flex:1}
-.owned-row{padding:16px;border-radius:8px;background:#101d30}
+.owned-row{padding:16px;border-radius:8px;background:var(--c-surface)}
 .owned-row span{font-size:13px;line-height:1.5}
-.initiation-row{padding:18px;gap:16px;border-color:#51416a;border-radius:8px;background:#1a1b30}
+.initiation-row{padding:18px;gap:16px;border-color:#51416a;border-radius:8px;background:var(--c-surface)}
 .initiation-row span{font-size:14px;line-height:1.6}
-.cash-badge{white-space:nowrap;border-radius:6px;border-color:#36596b;font-size:16px;font-weight:650}
+.cash-badge{white-space:nowrap;border-radius:6px;border-color:var(--c-line-strong);font-size:16px;font-weight:650}
 .trade-preview{padding:18px;border-radius:8px;gap:10px}
 .trade-preview p{font-size:14px;line-height:1.6}
-.empty-line{padding:16px;border:1px dashed #344a62;border-radius:8px;font-size:14px;line-height:1.6}
+.empty-line{padding:16px;border:1px dashed var(--c-line);border-radius:8px;font-size:14px;line-height:1.6}
 @media(max-width:1100px){.money-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:620px){.progress-panel,.flash-panel{padding:16px}.money-grid{grid-template-columns:1fr}.card-head{flex-wrap:wrap}}
 
 /* Stable 3 + 2 attribute layout, including wide screens. */
 .progress-grid{display:flex;flex-wrap:wrap;justify-content:center}.progress-grid>article{box-sizing:border-box;flex:0 1 calc((100% - 28px)/3)}
-.talent-list{display:grid;gap:10px;margin-top:16px}.talent-list>article{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px 24px;padding:16px 18px;border:1px solid #344b63;border-radius:6px;background:#0c192a;min-width:0}
-.talent-list .card-head{grid-column:1;gap:16px}.talent-list .card-head>span{color:#a3ecfa;white-space:nowrap}.talent-list .progress-card-title{min-width:0}.talent-list .progress-card-title>strong{font-size:16px;color:#edf4ff}
-.talent-list article>p,.talent-list article>small,.talent-list .talent-lore{grid-column:1;margin:0;color:#c0d2e2;font-size:14px;line-height:1.6;overflow-wrap:anywhere}
+.talent-list{display:grid;gap:10px;margin-top:16px}.talent-list>article{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px 24px;padding:16px 18px;border:1px solid var(--c-line);border-radius:6px;background:var(--c-surface);min-width:0}
+.talent-list .card-head{grid-column:1;gap:16px}.talent-list .card-head>span{color:var(--c-reality-soft);white-space:nowrap}.talent-list .progress-card-title{min-width:0}.talent-list .progress-card-title>strong{font-size:16px;color:var(--c-text)}
+.talent-list article>p,.talent-list article>small,.talent-list .talent-lore{grid-column:1;margin:0;color:var(--c-text-soft);font-size:14px;line-height:1.6;overflow-wrap:anywhere}
 .talent-list article>.primary{grid-column:2;grid-row:1 / span 4;align-self:center;min-height:44px;white-space:nowrap;margin:0}.talent-list article.locked{border-style:dashed}.talent-list article.locked>.primary{opacity:.6}
-.talent-lore summary{cursor:pointer;min-height:44px;display:list-item;padding:10px 0;color:#a5def0}.talent-lore p{margin:4px 0 0;white-space:pre-line;color:#c0c6e1}.catalog-sort-hint{color:#a7bdcf;font-size:13px;line-height:1.5;margin:12px 0}
+.talent-lore summary{cursor:pointer;min-height:44px;display:list-item;padding:10px 0;color:var(--c-text-soft)}.talent-lore p{margin:4px 0 0;white-space:pre-line;color:var(--c-text-soft)}.catalog-sort-hint{color:#a7bdcf;font-size:13px;line-height:1.5;margin:12px 0}
 @media(max-width:760px){.progress-grid>article{flex-basis:calc((100% - 14px)/2)}}
 @media(max-width:600px){.progress-grid>article{flex-basis:100%}.talent-list>article{grid-template-columns:1fr;padding:16px}.talent-list article>.primary{grid-column:1;grid-row:auto;justify-self:stretch}.talent-list .card-head{flex-wrap:wrap}}
 
 .talent-list>article{display:block;padding:0}
 .talent-disclosure>summary{display:flex;align-items:center;justify-content:space-between;min-height:56px;padding:12px 16px;cursor:pointer;list-style:revert}
-.talent-disclosure>summary::after{content:'＋';color:#a3ecfa}
+.talent-disclosure>summary::after{content:'＋';color:var(--c-reality-soft)}
 .talent-disclosure[open]>summary::after{content:'−'}
 .talent-disclosure>p,.talent-disclosure>small,.talent-disclosure>.talent-lore{display:block;margin:12px 16px;line-height:1.6}
 .talent-disclosure>button{margin:0 16px 16px;min-height:44px}
 .talent-disclosure .progress-card-title{flex:1;display:grid;gap:4px}
-.reality-talent-family{margin-top:16px;border:1px solid #344b63;border-radius:8px;padding:0 14px 14px;background:#0c192a}
+.reality-talent-family{margin-top:16px;border:1px solid var(--c-line);border-radius:8px;padding:0 14px 14px;background:var(--c-surface)}
 .reality-family-summary{display:flex;align-items:center;gap:16px;min-height:64px;cursor:pointer;list-style:none;user-select:none}
 .reality-family-summary::-webkit-details-marker{display:none}
 .reality-family-summary>span:first-child{display:grid;gap:4px;flex:1;min-width:0}
-.reality-family-summary strong{color:#edf4ff;font-size:16px}
+.reality-family-summary strong{color:var(--c-text);font-size:16px}
 .reality-family-summary small{color:#a7bdcf;font-size:13px;line-height:1.45}
-.reality-talent-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;padding-top:12px;border-top:1px solid #344b63}
-.reality-talent-card{box-sizing:border-box;flex:0 1 calc((100% - 20px)/3);min-width:0;display:grid;align-content:start;gap:10px;padding:12px;border:1px solid #36536b;border-radius:8px;background:#101e30}
+.reality-talent-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;padding-top:12px;border-top:1px solid var(--c-line)}
+.reality-talent-card{box-sizing:border-box;flex:0 1 calc((100% - 20px)/3);min-width:0;display:grid;align-content:start;gap:10px;padding:12px;border:1px solid var(--c-line-strong);border-radius:8px;background:var(--c-surface)}
 .reality-talent-card :deep(.catalog-art){height:132px}
-.reality-talent-card>strong{color:#edf4ff;font-size:15px;line-height:1.4}
-.reality-talent-card>p{margin:0;color:#b3c5d9;font-size:13px;line-height:1.5}
+.reality-talent-card>strong{color:var(--c-text);font-size:15px;line-height:1.4}
+.reality-talent-card>p{margin:0;color:var(--c-text-soft);font-size:13px;line-height:1.5}
 .reality-talent-card>small{color:#f0bdc0;font-size:12px;line-height:1.45}
 .reality-talent-card>button{align-self:end;min-height:44px;margin-top:auto}
 .reality-talent-card.locked{border-style:dashed}

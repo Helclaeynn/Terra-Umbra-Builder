@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { confirmDialog } from "../../lib/confirm-dialog";
 import {computed,ref} from 'vue';
 import type {TruthState,TruthRulesPackage} from '../../lib/truth';
 import {normalizeExileBuild,exileNetworks,exileRuneIds,exileTalentIds as ids,exileInventory,exileUsableTalents,exileRuneIssues,exileRuneDuration,exileTechniqueCosts,type ExileBuild} from '../../lib/exile';
@@ -11,7 +12,7 @@ const title=(id:string)=>catalogue.value.find(t=>t.id===id)?.name??id;
 const uid=()=>globalThis.crypto?.randomUUID?.()??'exile-'+Date.now()+'-'+Math.random().toString(36).slice(2);
 function patch(p:Partial<ExileBuild>){emit('change',normalizeExileBuild({...config.value,...p}));}
 function row(kind:keyof ExileBuild,index:number,key:string,value:unknown){const values=config.value[kind] as unknown as Record<string,unknown>[];patch({[kind]:values.map((r,i)=>i===index?{...r,[key]:value}:r)});}
-function remove(kind:keyof ExileBuild,index:number){if(window.confirm('Retirer cette description ? Aucun talent, objet, compteur reçu ni PTV ne sera supprimé.'))patch({[kind]:config.value[kind].filter((_,i)=>i!==index)});}
+async function remove(kind:keyof ExileBuild,index:number){if(await confirmDialog('Retirer cette description ? Aucun talent, objet, compteur reçu ni PTV ne sera supprimé.'))patch({[kind]:config.value[kind].filter((_,i)=>i!==index)});}
 function add(kind:keyof ExileBuild){const limit={trainings:24,runes:20,techniques:24,works:40,projects:40,landmarks:3,supplies:3}[kind];if(config.value[kind].length>=limit)return;patch({[kind]:[...config.value[kind],{uid:uid()}]});}
 function rune(i:number,id:string,yes:boolean){const r=config.value.runes[i];if(yes&&r.runeIds.length>=2)return;row('runes',i,'runeIds',yes?[...r.runeIds,id]:r.runeIds.filter(v=>v!==id));}
 const maintain=ref<'none'|'instinct'|'natural'>('none'),fulgurant=ref(false);
@@ -103,5 +104,5 @@ const projectFields=[['name','Nom du dossier / prototype'],['effect','Effet ou o
  </section>
 </template>
 <style scoped>
-.exile-options{border:1px solid var(--border,#294655);border-radius:.6rem;padding:1rem;margin:1rem 0;min-width:0}.exile-options details{border-top:1px solid var(--border,#294655);padding:.6rem 0}.exile-options summary{cursor:pointer;min-height:44px;display:flex;align-items:center}.exile-options fieldset{border:1px solid var(--border,#294655);border-radius:.4rem;margin:.7rem 0;padding:.8rem;min-width:0}.exile-options label{display:grid;gap:.35rem;margin:.65rem 0}.exile-options input:not([type=checkbox]),.exile-options textarea,.exile-options select{width:100%;min-width:0;box-sizing:border-box}.exile-options .check{display:flex;align-items:center;gap:.7rem}.exile-options button{min-height:44px;max-width:100%;white-space:normal;margin:.35rem .4rem .35rem 0}.exile-options p,.exile-options small{overflow-wrap:anywhere}.exile-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.75rem}.exile-warning{border-left:3px solid currentColor;padding:.6rem}@media(max-width:600px){.exile-grid{grid-template-columns:1fr}.exile-options{padding:.65rem}}
+.exile-options{border:1px solid var(--border,var(--c-line));border-radius:.6rem;padding:1rem;margin:1rem 0;min-width:0}.exile-options details{border-top:1px solid var(--border,var(--c-line));padding:.6rem 0}.exile-options summary{cursor:pointer;min-height:44px;display:flex;align-items:center}.exile-options fieldset{border:1px solid var(--border,var(--c-line));border-radius:.4rem;margin:.7rem 0;padding:.8rem;min-width:0}.exile-options label{display:grid;gap:.35rem;margin:.65rem 0}.exile-options input:not([type=checkbox]),.exile-options textarea,.exile-options select{width:100%;min-width:0;box-sizing:border-box}.exile-options .check{display:flex;align-items:center;gap:.7rem}.exile-options button{min-height:44px;max-width:100%;white-space:normal;margin:.35rem .4rem .35rem 0}.exile-options p,.exile-options small{overflow-wrap:anywhere}.exile-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.75rem}.exile-warning{border-left:3px solid currentColor;padding:.6rem}@media(max-width:600px){.exile-grid{grid-template-columns:1fr}.exile-options{padding:.65rem}}
 </style>

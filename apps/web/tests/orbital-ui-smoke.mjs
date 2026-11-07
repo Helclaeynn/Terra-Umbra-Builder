@@ -108,6 +108,9 @@ try {
     });
     page.on("pageerror", error => errors.push(String(error)));
     await page.route("**/api/**", async route => {
+ // Flux temps réel et pastille indisponibles ici : rafraîchissement de secours, pas de pastille.
+ if(new URL(route.request().url()).pathname==='/api/attention')return route.fulfill({status:200,contentType:'application/json',body:'{"items":[],"total":0,"role":"player"}'});
+ if(/\/events$/.test(new URL(route.request().url()).pathname))return route.fulfill({status:404,contentType:'application/json',body:'{"error":"not_found"}'});
       const request = route.request();
       const path = new URL(request.url()).pathname;
       const method = request.method();

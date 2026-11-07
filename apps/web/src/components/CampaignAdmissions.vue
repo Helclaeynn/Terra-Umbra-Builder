@@ -1,34 +1,250 @@
 <script setup lang="ts">
-import {computed,onMounted,onUnmounted,ref,shallowRef,watch} from 'vue';
-import {RouterLink} from 'vue-router';
-import {api,ApiError} from '../lib/api';
-import type {CharacterDataV2} from '../types/character';
-import {buildCharacterSheet,type SheetCore} from '../lib/character-sheet-model';
-import {ensureTruthRulesPackage,type TruthRulesPackage,truthAvailableTalents,type TruthState} from '../lib/truth';
-import type {RealityRulesPackage} from '../lib/reality';
-type Admission={userId:string;displayName:string;version:number;status:string;characterId:string|null;name:string;characterVersion:number;data:CharacterDataV2;baseline:CharacterDataV2;sourceVersion:number;sourceName:string;sourceCampaign:string|null;messages:{kind:string;message:string;at:string;author:string|null}[]};
-const props=defineProps<{campaignId:string;canManage:boolean;refreshKey?:number}>();
-const emit=defineEmits<{(e:'updated'):void}>();
-const rows=ref<Admission[]>([]),rules=ref(''),notes=ref<Record<string,string>>({}),busy=ref(false),loading=ref(false),error=ref(''),notice=ref(''),core=shallowRef<SheetCore|null>(null),truth=shallowRef<TruthRulesPackage|null>(null),reality=shallowRef<RealityRulesPackage|null>(null);
-const labels:Record<string,string>={none:'Aucune fiche proposée',pending:'À valider',changes_requested:'Modifications demandées',rejected:'Refusée',approved:'Acceptée'};
-const actionable=computed(()=>rows.value.filter(r=>r.characterId&&r.status!=='approved').length);
-let seq=0;
-async function load(){const n=++seq;loading.value=true;error.value='';try{
- const r=await api<{admissions:Admission[];rules:string}>(`/api/campaigns/${props.campaignId}/admissions`);if(n!==seq)return;rows.value=r.admissions;rules.value=r.rules;
- if(r.admissions.some(r=>r.characterId)&&!core.value){const [c,t,e]=await Promise.all([api<SheetCore>('/api/rulesets/terra-umbra/creation'),api<TruthRulesPackage>('/api/rulesets/terra-umbra/truth'),api<RealityRulesPackage>('/api/rulesets/terra-umbra/reality')]);if(n!==seq)return;core.value=c;truth.value=ensureTruthRulesPackage(t);reality.value=e;}
- }catch(e){if(n!==seq)return;error.value='Impossible de charger les admissions et leurs bilans.';if(e instanceof ApiError&&[401,403,404].includes(e.status))rows.value=[];}finally{if(n===seq)loading.value=false;}}
-function summary(d:CharacterDataV2){if(!core.value||!truth.value||!reality.value)return null;try{const p0=d.progression||{};const ranks=[...Object.values((p0.skillRanks||{}) as Record<string,number>),...Object.values((p0.attributeRanks||{}) as Record<string,number>)];if(ranks.some(n=>!Number.isInteger(n)||n<0||n>100))return null;const known=new Set([...Object.values(truth.value.catalogs).flat().map(t=>t.id),...truthAvailableTalents(truth.value,d.truth as TruthState).map(t=>t.id),...truth.value.corruption.talents.map(t=>t.id)]);const chosen=[...(Array.isArray(d.truth.truthTalents)?d.truth.truthTalents:[]),...(Array.isArray(d.truth.corruptionTalents)?d.truth.corruptionTalents:[]),...(Array.isArray(p0.truthTalents)?p0.truthTalents:[]),...(Array.isArray(p0.corruptionTalents)?p0.corruptionTalents:[])];const unknown=chosen.some(id=>!known.has(String(id)));const s=buildCharacterSheet(d,core.value,truth.value,reality.value),p=d.progression||{},tx=Array.isArray(p.cashTransactions)?p.cashTransactions:[];return {unknown,origin:core.value.rules.origins[d.creation.origin]?.name||d.creation.origin||'Non choisie',sphere:s.sphere,nature:s.truthNature,xp:Number(p.xpEarned)||0,xpSpent:(Number(p.xpEarned)||0)-s.xpRemaining,ptv:Number(p.ptvEarned)||0,ptvSpent:truth.value.structure.ptvInitial+(Number(p.ptvEarned)||0)-s.ptvRemaining,cash:s.cash,income:tx.reduce((n:number,t:any)=>n+Math.max(0,Number(t.amount)||0),0),expenses:tx.reduce((n:number,t:any)=>n+Math.max(0,-Number(t.amount)||0),0),corruption:s.corruption,source:s.corruptionSource};}catch{return null;}}
-const summaries=computed(()=>Object.fromEntries(rows.value.filter(r=>r.characterId).map(r=>[r.userId,summary(r.data)])));
-async function review(r:Admission,status:string){
- if(busy.value)return;const message=notes.value[r.userId]||'';
- if(status!=='approved'&&!message.trim()){error.value='Précise ce que le joueur doit changer ou pourquoi sa fiche est refusée.';return;}
- if(!window.confirm(`${status==='approved'?'Accepter cette version et tous ses acquis actuels pour la campagne':status==='changes_requested'?'Demander une nouvelle proposition':'Refuser cette fiche'} : ${r.name} ?`))return;
- busy.value=true;error.value='';try{await api(`/api/campaigns/${props.campaignId}/admissions/${r.userId}`,{method:'PATCH',body:JSON.stringify({status,message,version:r.version,characterId:r.characterId,characterVersion:r.characterVersion})});notes.value[r.userId]='';notice.value='Décision enregistrée et visible par le joueur.';await load();emit('updated');}catch(e){error.value=e instanceof Error&&e.message==='admission_version_conflict'?'La proposition ou la fiche a changé. Actualise le bilan avant de décider. Ton commentaire est conservé.':'Impossible d’enregistrer cette décision.';}finally{busy.value=false;}
+import { computed, onMounted, onUnmounted, ref, shallowRef, watch } from "vue";
+import { RouterLink } from "vue-router";
+import { api, ApiError } from "../lib/api";
+import type { CharacterDataV2 } from "../types/character";
+import {
+  buildCharacterSheet,
+  type SheetCore
+} from "../lib/character-sheet-model";
+import {
+  ensureTruthRulesPackage,
+  type TruthRulesPackage,
+  truthAvailableTalents,
+  type TruthState
+} from "../lib/truth";
+import type { RealityRulesPackage } from "../lib/reality";
+type Admission = {
+  userId: string;
+  displayName: string;
+  version: number;
+  status: string;
+  characterId: string | null;
+  name: string;
+  characterVersion: number;
+  data: CharacterDataV2;
+  baseline: CharacterDataV2;
+  sourceVersion: number;
+  sourceName: string;
+  sourceCampaign: string | null;
+  messages: {
+    kind: string;
+    message: string;
+    at: string;
+    author: string | null;
+  }[];
+};
+const props = defineProps<{
+  campaignId: string;
+  canManage: boolean;
+  refreshKey?: number;
+}>();
+const emit = defineEmits<{ (e: "updated"): void }>();
+const rows = ref<Admission[]>([]),
+  rules = ref(""),
+  notes = ref<Record<string, string>>({}),
+  busy = ref(false),
+  loading = ref(false),
+  error = ref(""),
+  notice = ref(""),
+  core = shallowRef<SheetCore | null>(null),
+  truth = shallowRef<TruthRulesPackage | null>(null),
+  reality = shallowRef<RealityRulesPackage | null>(null);
+const labels: Record<string, string> = {
+  none: "Aucune fiche proposée",
+  pending: "À valider",
+  changes_requested: "Modifications demandées",
+  rejected: "Refusée",
+  approved: "Acceptée"
+};
+const actionable = computed(
+  () =>
+    rows.value.filter((r) => r.characterId && r.status !== "approved").length
+);
+let seq = 0;
+async function load() {
+  const n = ++seq;
+  loading.value = true;
+  error.value = "";
+  try {
+    const r = await api<{ admissions: Admission[]; rules: string }>(
+      `/api/campaigns/${props.campaignId}/admissions`
+    );
+    if (n !== seq) return;
+    rows.value = r.admissions;
+    rules.value = r.rules;
+    if (r.admissions.some((r) => r.characterId) && !core.value) {
+      const [c, t, e] = await Promise.all([
+        api<SheetCore>("/api/rulesets/terra-umbra/creation"),
+        api<TruthRulesPackage>("/api/rulesets/terra-umbra/truth"),
+        api<RealityRulesPackage>("/api/rulesets/terra-umbra/reality")
+      ]);
+      if (n !== seq) return;
+      core.value = c;
+      truth.value = ensureTruthRulesPackage(t);
+      reality.value = e;
+    }
+  } catch (e) {
+    if (n !== seq) return;
+    error.value = "Impossible de charger les admissions et leurs bilans.";
+    if (e instanceof ApiError && [401, 403, 404].includes(e.status))
+      rows.value = [];
+  } finally {
+    if (n === seq) loading.value = false;
+  }
 }
-async function resubmit(r:Admission){if(busy.value)return;busy.value=true;error.value='';try{await api(`/api/campaigns/${props.campaignId}/membership`,{method:'PUT',body:JSON.stringify({characterId:r.characterId,message:notes.value[r.userId]||''})});notes.value[r.userId]='';notice.value='Version actuelle soumise au MJ.';await load();emit('updated');}catch{error.value='Impossible de soumettre cette fiche.';}finally{busy.value=false;}}
-watch(()=>props.refreshKey,()=>void load());
-function focus(){if(document.visibilityState!=='hidden'&&!busy.value&&!loading.value&&!Object.values(notes.value).some(n=>n.trim()))void load();}
-onMounted(()=>{void load();window.addEventListener('focus',focus);});onUnmounted(()=>{seq++;window.removeEventListener('focus',focus);});
+function summary(d: CharacterDataV2) {
+  if (!core.value || !truth.value || !reality.value) return null;
+  try {
+    const p0 = d.progression || {};
+    const ranks = [
+      ...Object.values((p0.skillRanks || {}) as Record<string, number>),
+      ...Object.values((p0.attributeRanks || {}) as Record<string, number>)
+    ];
+    if (ranks.some((n) => !Number.isInteger(n) || n < 0 || n > 100))
+      return null;
+    const known = new Set([
+      ...Object.values(truth.value.catalogs)
+        .flat()
+        .map((t) => t.id),
+      ...truthAvailableTalents(truth.value, d.truth as TruthState).map(
+        (t) => t.id
+      ),
+      ...truth.value.corruption.talents.map((t) => t.id)
+    ]);
+    const chosen = [
+      ...(Array.isArray(d.truth.truthTalents) ? d.truth.truthTalents : []),
+      ...(Array.isArray(d.truth.corruptionTalents)
+        ? d.truth.corruptionTalents
+        : []),
+      ...(Array.isArray(p0.truthTalents) ? p0.truthTalents : []),
+      ...(Array.isArray(p0.corruptionTalents) ? p0.corruptionTalents : [])
+    ];
+    const unknown = chosen.some((id) => !known.has(String(id)));
+    const s = buildCharacterSheet(d, core.value, truth.value, reality.value),
+      p = d.progression || {},
+      tx = Array.isArray(p.cashTransactions) ? p.cashTransactions : [];
+    return {
+      unknown,
+      origin:
+        core.value.rules.origins[d.creation.origin]?.name ||
+        d.creation.origin ||
+        "Non choisie",
+      sphere: s.sphere,
+      nature: s.truthNature,
+      xp: Number(p.xpEarned) || 0,
+      xpSpent: (Number(p.xpEarned) || 0) - s.xpRemaining,
+      ptv: Number(p.ptvEarned) || 0,
+      ptvSpent:
+        truth.value.structure.ptvInitial +
+        (Number(p.ptvEarned) || 0) -
+        s.ptvRemaining,
+      cash: s.cash,
+      income: tx.reduce(
+        (n: number, t: any) => n + Math.max(0, Number(t.amount) || 0),
+        0
+      ),
+      expenses: tx.reduce(
+        (n: number, t: any) => n + Math.max(0, -Number(t.amount) || 0),
+        0
+      ),
+      corruption: s.corruption,
+      source: s.corruptionSource
+    };
+  } catch {
+    return null;
+  }
+}
+const summaries = computed(() =>
+  Object.fromEntries(
+    rows.value
+      .filter((r) => r.characterId)
+      .map((r) => [r.userId, summary(r.data)])
+  )
+);
+async function review(r: Admission, status: string) {
+  if (busy.value) return;
+  const message = notes.value[r.userId] || "";
+  if (status !== "approved" && !message.trim()) {
+    error.value =
+      "Précise ce que le joueur doit changer ou pourquoi sa fiche est refusée.";
+    return;
+  }
+  if (
+    !window.confirm(
+      `${status === "approved" ? "Accepter cette version et tous ses acquis actuels pour la campagne" : status === "changes_requested" ? "Demander une nouvelle proposition" : "Refuser cette fiche"} : ${r.name} ?`
+    )
+  )
+    return;
+  busy.value = true;
+  error.value = "";
+  try {
+    await api(`/api/campaigns/${props.campaignId}/admissions/${r.userId}`, {
+      method: "PATCH",
+      body: JSON.stringify({
+        status,
+        message,
+        version: r.version,
+        characterId: r.characterId,
+        characterVersion: r.characterVersion
+      })
+    });
+    notes.value[r.userId] = "";
+    notice.value = "Décision enregistrée et visible par le joueur.";
+    await load();
+    emit("updated");
+  } catch (e) {
+    error.value =
+      e instanceof Error && e.message === "admission_version_conflict"
+        ? "La proposition ou la fiche a changé. Actualise le bilan avant de décider. Ton commentaire est conservé."
+        : "Impossible d’enregistrer cette décision.";
+  } finally {
+    busy.value = false;
+  }
+}
+async function resubmit(r: Admission) {
+  if (busy.value) return;
+  busy.value = true;
+  error.value = "";
+  try {
+    await api(`/api/campaigns/${props.campaignId}/membership`, {
+      method: "PUT",
+      body: JSON.stringify({
+        characterId: r.characterId,
+        message: notes.value[r.userId] || ""
+      })
+    });
+    notes.value[r.userId] = "";
+    notice.value = "Version actuelle soumise au MJ.";
+    await load();
+    emit("updated");
+  } catch {
+    error.value = "Impossible de soumettre cette fiche.";
+  } finally {
+    busy.value = false;
+  }
+}
+watch(
+  () => props.refreshKey,
+  () => void load()
+);
+function focus() {
+  if (
+    document.visibilityState !== "hidden" &&
+    !busy.value &&
+    !loading.value &&
+    !Object.values(notes.value).some((n) => n.trim())
+  )
+    void load();
+}
+onMounted(() => {
+  void load();
+  window.addEventListener("focus", focus);
+});
+onUnmounted(() => {
+  seq++;
+  window.removeEventListener("focus", focus);
+});
 </script>
 <template>
  <section class="admissions" aria-label="Validation des personnages">
@@ -53,5 +269,5 @@ onMounted(()=>{void load();window.addEventListener('focus',focus);});onUnmounted
  </section>
 </template>
 <style scoped>
-.admissions{margin:24px 0;padding:22px;background:#0e1b2c;color:#eaf2ff;border:1px solid #405875;border-radius:10px;overflow-wrap:anywhere}.head,.actions{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}.actions{justify-content:flex-start;margin:14px 0}h2{font-size:20px;margin:0}p{color:#b5c8dc;line-height:1.6}.rules,.message p{white-space:pre-wrap}.rules{border-left:2px solid #a995d4;padding:14px;background:#151d30}.admission{margin-top:16px;border:1px solid #3c4a65;border-radius:6px}.admission>summary{padding:14px}.body{padding:0 16px 16px}summary{min-height:44px;align-content:center;cursor:pointer}.admission>summary small{display:block}small{color:#a3b7cc;line-height:1.6}.bilan{overflow-x:auto}table{border-collapse:collapse;width:100%;margin:14px 0;font-size:14px}caption{text-align:left;margin:8px 0;color:#b5c8dc}td,th{padding:10px;text-align:left;border:1px solid #334b60}label{display:grid;gap:8px;margin-top:16px}textarea{box-sizing:border-box;width:100%;padding:12px;background:#08131f;color:#edf4ff;border:1px solid #405875;border-radius:6px;font:inherit;resize:vertical}button,.actions a{box-sizing:border-box;min-height:44px;padding:10px 14px;border:1px solid #405875;background:#101e30;border-radius:6px;color:#a3eaff;font:inherit;text-decoration:none;cursor:pointer}button:disabled{opacity:.5}.message{border-top:1px solid #293d52;padding:12px 0}button:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid #a3eaff;outline-offset:3px}@media(max-width:600px){.admissions{padding:14px}.body{padding-inline:10px}.actions>*{flex:1}.head{align-items:stretch;flex-direction:column}td,th{padding:7px}}
+.admissions{margin:24px 0;padding:22px;background:var(--c-surface);color:var(--c-text);border:1px solid var(--c-line-strong);border-radius:10px;overflow-wrap:anywhere}.head,.actions{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}.actions{justify-content:flex-start;margin:14px 0}h2{font-size:20px;margin:0}p{color:var(--c-text-soft);line-height:1.6}.rules,.message p{white-space:pre-wrap}.rules{border-left:2px solid #a995d4;padding:14px;background:var(--c-surface)}.admission{margin-top:16px;border:1px solid var(--c-line-strong);border-radius:6px}.admission>summary{padding:14px}.body{padding:0 16px 16px}summary{min-height:44px;align-content:center;cursor:pointer}.admission>summary small{display:block}small{color:var(--c-text-soft);line-height:1.6}.bilan{overflow-x:auto}table{border-collapse:collapse;width:100%;margin:14px 0;font-size:14px}caption{text-align:left;margin:8px 0;color:var(--c-text-soft)}td,th{padding:10px;text-align:left;border:1px solid var(--c-line)}label{display:grid;gap:8px;margin-top:16px}textarea{box-sizing:border-box;width:100%;padding:12px;background:var(--c-night);color:var(--c-text);border:1px solid var(--c-line-strong);border-radius:6px;font:inherit;resize:vertical}button,.actions a{box-sizing:border-box;min-height:44px;padding:10px 14px;border:1px solid var(--c-line-strong);background:var(--c-surface);border-radius:6px;color:var(--c-reality-soft);font:inherit;text-decoration:none;cursor:pointer}button:disabled{opacity:.5}.message{border-top:1px solid var(--c-line);padding:12px 0}button:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid var(--c-reality-soft);outline-offset:3px}@media(max-width:600px){.admissions{padding:14px}.body{padding-inline:10px}.actions>*{flex:1}.head{align-items:stretch;flex-direction:column}td,th{padding:7px}}
 </style>

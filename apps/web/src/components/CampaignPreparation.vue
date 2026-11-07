@@ -1,57 +1,373 @@
 <script setup lang="ts">
-import {computed,onUnmounted,ref,watch} from 'vue';
-import CampaignNpcs from './CampaignNpcs.vue';
-import CampaignNpcPreview from './CampaignNpcPreview.vue';
-import CampaignBestiary from './CampaignBestiary.vue';
-import CampaignCreaturePreview from './CampaignCreaturePreview.vue';
-import type {NpcSummary} from '../../../api/src/campaign-npc-model';
-import type {BestiarySummary} from '../../../api/src/campaign-bestiary-model';
-import {api} from '../lib/api';
-import type {CampaignScene,SceneReference} from '../../../api/src/campaign-preparation';
-const props=defineProps<{modelValue:CampaignScene[];campaignId?:string;readonly?:boolean;play?:boolean;groupSize?:number;campaignReferences?:Article[]}>();
-const emit=defineEmits<{(e:'update:modelValue',v:CampaignScene[]):void;(e:'npc-dirty',value:boolean):void}>();
-type Article={npcId?:string;creatureId?:string;difficultyId?:string;id:string;title:string;category:string;snippet:string;tags?:string[];group?:string};
-const openedNpc=ref(''),openedCreature=ref(''),npcDirty=ref(false);
-function npcChanged(value:boolean){npcDirty.value=value;emit('npc-dirty',value);}
-function switchTab(key:string){if(npcDirty.value&&!window.confirm('Abandonner les PNJ non enregistrés ?'))return;tab.value=key;}
-function selectNpc(n:NpcSummary,id:string){select({id:'campaign-npc:'+n.id,npcId:n.id,title:n.name,category:'PNJ de campagne',snippet:n.role},id);}
-function selectCreature(c:BestiarySummary,id:string){select({id:'campaign-creature:'+c.id,creatureId:c.id,difficultyId:c.difficultyId,title:c.name,category:'Bestiaire de campagne',snippet:c.role},id);}
-const difficulties=[{id:'figurant',label:'Figurant'},{id:'standard',label:'Standard'},{id:'dangereux',label:'Dangereux'},{id:'majeur',label:'Majeur'},{id:'exceptionnel',label:'Exceptionnel'}];
-function creature(r:SceneReference){return Boolean(r.creatureId||r.category==='Bestiaire');}
-function encounter(scene:CampaignScene){const weights:Record<string,number>={figurant:1,standard:2,dangereux:4,majeur:7,exceptionnel:12};const known=scene.references.filter(r=>creature(r)&&r.difficultyId&&weights[r.difficultyId]);const unknown=scene.references.filter(r=>creature(r)&&!r.difficultyId).reduce((n,r)=>n+r.quantity,0);if(!known.length)return unknown?`${unknown} créature(s) à chiffrer pour estimer la rencontre`:'';const total=known.reduce((n,r)=>n+weights[r.difficultyId!]*r.quantity,0),size=Math.max(1,props.groupSize||4);const level=total<=size?'Légère':total<=size*2?'Soutenue':total<=size*3?'Périlleuse':'Extrême';return `${level} · ${known.reduce((n,r)=>n+r.quantity,0)} créature(s) chiffrée(s)${unknown?` · ${unknown} créature(s) encore à chiffrer`:''}${scene.references.some(r=>r.npcId)?' · PNJ non comptés':''}`;}
-const addedNotice=ref(''),expanded=ref<string[]>([]);
-const active=ref(''),query=ref(''),category=ref(''),results=ref<Article[]>([]),searching=ref(false),error=ref('');
-const total=ref(0),moreBusy=ref(false),library=ref<{favoriteItems:Article[];recentItems:Article[]}>({favoriteItems:[],recentItems:[]}),tab=ref('explore');
-const reused=computed<Article[]>(()=>[...new Map([...(props.campaignReferences||[]),...props.modelValue.flatMap(s=>s.references).map(r=>({id:r.articleId,title:r.title,category:r.category,snippet:r.notes,npcId:r.npcId,creatureId:r.creatureId,difficultyId:r.difficultyId}))].map(a=>[a.id,a])).values()]);
-const suggestions=computed(()=>{const list=tab.value==='dossier'?reused.value:tab.value==='favorites'?library.value.favoriteItems:library.value.recentItems;const q=query.value.toLocaleLowerCase('fr').trim();return list.filter(a=>(!category.value||a.category===category.value)&&(!q||`${a.title} ${a.snippet} ${(a.tags||[]).join(" ")}`.toLocaleLowerCase('fr').includes(q))).slice(0,30);});
-let librarySeq=0;
-let timer:ReturnType<typeof setTimeout>|undefined,generation=0;
-function change(fn:(s:CampaignScene[])=>void){const next:CampaignScene[]=JSON.parse(JSON.stringify(props.modelValue));fn(next);emit('update:modelValue',next);}
-function add(kind='Scène'){
- const templates:Record<string,string>={Enquête:'Objectif de la scène :\n\nIndices accessibles :\n\nPistes et complications :\n\nConséquences possibles :',Rencontre:'Intervenants et motivations :\n\nCe qu’ils savent :\n\nCe qu’ils veulent :\n\nIssues possibles :',Combat:'Enjeu et objectif :\n\nTerrain et obstacles :\n\nAdversaires et tactiques :\n\nConditions de fin :'};
- const id=crypto.randomUUID();expanded.value.push(id);
- change(s=>s.push({id,title:`${kind} ${s.length+1}`,notes:templates[kind]||'',done:false,references:[]}));
+import { computed, onUnmounted, ref, watch } from "vue";
+import CampaignNpcs from "./CampaignNpcs.vue";
+import CampaignNpcPreview from "./CampaignNpcPreview.vue";
+import CampaignBestiary from "./CampaignBestiary.vue";
+import CampaignCreaturePreview from "./CampaignCreaturePreview.vue";
+import type { NpcSummary } from "../../../api/src/campaign-npc-model";
+import type { BestiarySummary } from "../../../api/src/campaign-bestiary-model";
+import { api } from "../lib/api";
+import type {
+  CampaignScene,
+  SceneReference
+} from "../../../api/src/campaign-preparation";
+const props = defineProps<{
+  modelValue: CampaignScene[];
+  campaignId?: string;
+  readonly?: boolean;
+  play?: boolean;
+  groupSize?: number;
+  campaignReferences?: Article[];
+}>();
+const emit = defineEmits<{
+  (e: "update:modelValue", v: CampaignScene[]): void;
+  (e: "npc-dirty", value: boolean): void;
+}>();
+type Article = {
+  npcId?: string;
+  creatureId?: string;
+  difficultyId?: string;
+  id: string;
+  title: string;
+  category: string;
+  snippet: string;
+  tags?: string[];
+  group?: string;
+};
+const openedNpc = ref(""),
+  openedCreature = ref(""),
+  npcDirty = ref(false);
+function npcChanged(value: boolean) {
+  npcDirty.value = value;
+  emit("npc-dirty", value);
 }
-function duplicate(id:string){change(s=>{const index=s.findIndex(s=>s.id===id);const copy=structuredClone(s[index]);copy.id=crypto.randomUUID();copy.title=(copy.title+' · copie').slice(0,120);copy.done=false;s.splice(index+1,0,copy);});}
-function patch(id:string,value:Partial<CampaignScene>){change(s=>Object.assign(s.find(s=>s.id===id)!,value));}
-function move(index:number,delta:number){change(s=>{const [scene]=s.splice(index,1);s.splice(index+delta,0,scene);});}
-function remove(id:string){if(!window.confirm('Retirer cette scène et ses références de la préparation ?'))return;change(s=>s.splice(s.findIndex(s=>s.id===id),1));if(active.value===id)active.value='';}
-function patchRef(id:string,articleId:string,value:Partial<SceneReference>){change(s=>Object.assign(s.find(s=>s.id===id)!.references.find(r=>r.articleId===articleId)!,value));}
-function removeRef(id:string,articleId:string){change(s=>{const scene=s.find(s=>s.id===id)!;scene.references=scene.references.filter(r=>r.articleId!==articleId);});}
-function select(a:Article,sceneId:string){change(s=>{const scene=s.find(s=>s.id===sceneId);if(scene&&scene.references.length<30&&!scene.references.some(r=>r.articleId===a.id)){scene.references.push({articleId:a.id,title:a.title,category:a.category,quantity:1,notes:'',...(a.npcId?{npcId:a.npcId}:{}),...(a.creatureId?{creatureId:a.creatureId}:{}),...(a.creatureId&&a.difficultyId?{difficultyId:a.difficultyId}:{})});addedNotice.value=`${a.title} ajouté à « ${scene.title} ».`;}});}
-function filterTag(tag:string){tab.value='explore';query.value='tag:"'+tag.replaceAll('"','')+'"';}
-function scrolled(e:Event){const el=e.target as HTMLElement;if(el.scrollTop+el.clientHeight>=el.scrollHeight-100&&tab.value==='explore')void more();}
-function has(id:string){return props.modelValue.find(s=>s.id===active.value)?.references.some(r=>r.articleId===id);}
-async function search(id:string){if(npcDirty.value&&!window.confirm('Abandonner les PNJ non enregistrés ?'))return;active.value=active.value===id?'':id;query.value='';category.value='';addedNotice.value='';results.value=[];tab.value='explore';const n=++librarySeq;if(!active.value)return;try{const r=await api<{favoriteItems:Article[];recentItems:Article[]}>('/api/compendium/library');if(n===librarySeq)library.value=r;}catch{if(n===librarySeq)library.value={favoriteItems:[],recentItems:[]};}}
-async function more(){if(moreBusy.value||searching.value||results.value.length>=total.value)return;moreBusy.value=true;const n=generation;try{const r=await api<{items:Article[];total:number}>(`/api/compendium/search?q=${encodeURIComponent(query.value.trim())}&category=${encodeURIComponent(category.value)}&limit=15&offset=${results.value.length}`);if(n===generation){results.value.push(...r.items.filter(a=>!results.value.some(old=>old.id===a.id)));total.value=r.total;}}catch{if(n===generation)error.value='Impossible de charger les résultats suivants.';}finally{if(n===generation)moreBusy.value=false;}}
-
-watch([query,category,active,tab],()=>{
- const seq=++generation;clearTimeout(timer);results.value=[];searching.value=false;moreBusy.value=false;error.value='';total.value=0;
- if(props.readonly||!active.value||tab.value!=='explore')return;
- searching.value=true;timer=setTimeout(async()=>{try{const r=await api<{items:Article[];total:number}>(`/api/compendium/search?q=${encodeURIComponent(query.value.trim())}&category=${encodeURIComponent(category.value)}&limit=15`);if(seq===generation){results.value=r.items;total.value=r.total??r.items.length;}}catch{if(seq===generation)error.value='Recherche indisponible. Réessaie en modifiant ta recherche.';}finally{if(seq===generation)searching.value=false;}},250);
+function switchTab(key: string) {
+  if (npcDirty.value && !window.confirm("Abandonner les PNJ non enregistrés ?"))
+    return;
+  tab.value = key;
+}
+function selectNpc(n: NpcSummary, id: string) {
+  select(
+    {
+      id: "campaign-npc:" + n.id,
+      npcId: n.id,
+      title: n.name,
+      category: "PNJ de campagne",
+      snippet: n.role
+    },
+    id
+  );
+}
+function selectCreature(c: BestiarySummary, id: string) {
+  select(
+    {
+      id: "campaign-creature:" + c.id,
+      creatureId: c.id,
+      difficultyId: c.difficultyId,
+      title: c.name,
+      category: "Bestiaire de campagne",
+      snippet: c.role
+    },
+    id
+  );
+}
+const difficulties = [
+  { id: "figurant", label: "Figurant" },
+  { id: "standard", label: "Standard" },
+  { id: "dangereux", label: "Dangereux" },
+  { id: "majeur", label: "Majeur" },
+  { id: "exceptionnel", label: "Exceptionnel" }
+];
+function creature(r: SceneReference) {
+  return Boolean(r.creatureId || r.category === "Bestiaire");
+}
+function encounter(scene: CampaignScene) {
+  const weights: Record<string, number> = {
+    figurant: 1,
+    standard: 2,
+    dangereux: 4,
+    majeur: 7,
+    exceptionnel: 12
+  };
+  const known = scene.references.filter(
+    (r) => creature(r) && r.difficultyId && weights[r.difficultyId]
+  );
+  const unknown = scene.references
+    .filter((r) => creature(r) && !r.difficultyId)
+    .reduce((n, r) => n + r.quantity, 0);
+  if (!known.length)
+    return unknown
+      ? `${unknown} créature(s) à chiffrer pour estimer la rencontre`
+      : "";
+  const total = known.reduce(
+      (n, r) => n + weights[r.difficultyId!] * r.quantity,
+      0
+    ),
+    size = Math.max(1, props.groupSize || 4);
+  const level =
+    total <= size
+      ? "Légère"
+      : total <= size * 2
+        ? "Soutenue"
+        : total <= size * 3
+          ? "Périlleuse"
+          : "Extrême";
+  return `${level} · ${known.reduce((n, r) => n + r.quantity, 0)} créature(s) chiffrée(s)${unknown ? ` · ${unknown} créature(s) encore à chiffrer` : ""}${scene.references.some((r) => r.npcId) ? " · PNJ non comptés" : ""}`;
+}
+const addedNotice = ref(""),
+  expanded = ref<string[]>([]);
+const active = ref(""),
+  query = ref(""),
+  category = ref(""),
+  results = ref<Article[]>([]),
+  searching = ref(false),
+  error = ref("");
+const total = ref(0),
+  moreBusy = ref(false),
+  library = ref<{ favoriteItems: Article[]; recentItems: Article[] }>({
+    favoriteItems: [],
+    recentItems: []
+  }),
+  tab = ref("explore");
+const reused = computed<Article[]>(() => [
+  ...new Map(
+    [
+      ...(props.campaignReferences || []),
+      ...props.modelValue
+        .flatMap((s) => s.references)
+        .map((r) => ({
+          id: r.articleId,
+          title: r.title,
+          category: r.category,
+          snippet: r.notes,
+          npcId: r.npcId,
+          creatureId: r.creatureId,
+          difficultyId: r.difficultyId
+        }))
+    ].map((a) => [a.id, a])
+  ).values()
+]);
+const suggestions = computed(() => {
+  const list =
+    tab.value === "dossier"
+      ? reused.value
+      : tab.value === "favorites"
+        ? library.value.favoriteItems
+        : library.value.recentItems;
+  const q = query.value.toLocaleLowerCase("fr").trim();
+  return list
+    .filter(
+      (a) =>
+        (!category.value || a.category === category.value) &&
+        (!q ||
+          `${a.title} ${a.snippet} ${(a.tags || []).join(" ")}`
+            .toLocaleLowerCase("fr")
+            .includes(q))
+    )
+    .slice(0, 30);
 });
-onUnmounted(()=>{generation++;librarySeq++;clearTimeout(timer);});
-const value=(e:Event)=>(e.target as HTMLInputElement).value;
+let librarySeq = 0;
+let timer: ReturnType<typeof setTimeout> | undefined,
+  generation = 0;
+function change(fn: (s: CampaignScene[]) => void) {
+  const next: CampaignScene[] = JSON.parse(JSON.stringify(props.modelValue));
+  fn(next);
+  emit("update:modelValue", next);
+}
+function add(kind = "Scène") {
+  const templates: Record<string, string> = {
+    Enquête:
+      "Objectif de la scène :\n\nIndices accessibles :\n\nPistes et complications :\n\nConséquences possibles :",
+    Rencontre:
+      "Intervenants et motivations :\n\nCe qu’ils savent :\n\nCe qu’ils veulent :\n\nIssues possibles :",
+    Combat:
+      "Enjeu et objectif :\n\nTerrain et obstacles :\n\nAdversaires et tactiques :\n\nConditions de fin :"
+  };
+  const id = crypto.randomUUID();
+  expanded.value.push(id);
+  change((s) =>
+    s.push({
+      id,
+      title: `${kind} ${s.length + 1}`,
+      notes: templates[kind] || "",
+      done: false,
+      references: []
+    })
+  );
+}
+function duplicate(id: string) {
+  change((s) => {
+    const index = s.findIndex((s) => s.id === id);
+    const copy = structuredClone(s[index]);
+    copy.id = crypto.randomUUID();
+    copy.title = (copy.title + " · copie").slice(0, 120);
+    copy.done = false;
+    s.splice(index + 1, 0, copy);
+  });
+}
+function patch(id: string, value: Partial<CampaignScene>) {
+  change((s) => Object.assign(s.find((s) => s.id === id)!, value));
+}
+function move(index: number, delta: number) {
+  change((s) => {
+    const [scene] = s.splice(index, 1);
+    s.splice(index + delta, 0, scene);
+  });
+}
+function remove(id: string) {
+  if (
+    !window.confirm("Retirer cette scène et ses références de la préparation ?")
+  )
+    return;
+  change((s) =>
+    s.splice(
+      s.findIndex((s) => s.id === id),
+      1
+    )
+  );
+  if (active.value === id) active.value = "";
+}
+function patchRef(
+  id: string,
+  articleId: string,
+  value: Partial<SceneReference>
+) {
+  change((s) =>
+    Object.assign(
+      s
+        .find((s) => s.id === id)!
+        .references.find((r) => r.articleId === articleId)!,
+      value
+    )
+  );
+}
+function removeRef(id: string, articleId: string) {
+  change((s) => {
+    const scene = s.find((s) => s.id === id)!;
+    scene.references = scene.references.filter(
+      (r) => r.articleId !== articleId
+    );
+  });
+}
+function select(a: Article, sceneId: string) {
+  change((s) => {
+    const scene = s.find((s) => s.id === sceneId);
+    if (
+      scene &&
+      scene.references.length < 30 &&
+      !scene.references.some((r) => r.articleId === a.id)
+    ) {
+      scene.references.push({
+        articleId: a.id,
+        title: a.title,
+        category: a.category,
+        quantity: 1,
+        notes: "",
+        ...(a.npcId ? { npcId: a.npcId } : {}),
+        ...(a.creatureId ? { creatureId: a.creatureId } : {}),
+        ...(a.creatureId && a.difficultyId
+          ? { difficultyId: a.difficultyId }
+          : {})
+      });
+      addedNotice.value = `${a.title} ajouté à « ${scene.title} ».`;
+    }
+  });
+}
+function filterTag(tag: string) {
+  tab.value = "explore";
+  query.value = 'tag:"' + tag.replaceAll('"', "") + '"';
+}
+function scrolled(e: Event) {
+  const el = e.target as HTMLElement;
+  if (
+    el.scrollTop + el.clientHeight >= el.scrollHeight - 100 &&
+    tab.value === "explore"
+  )
+    void more();
+}
+function has(id: string) {
+  return props.modelValue
+    .find((s) => s.id === active.value)
+    ?.references.some((r) => r.articleId === id);
+}
+async function search(id: string) {
+  if (npcDirty.value && !window.confirm("Abandonner les PNJ non enregistrés ?"))
+    return;
+  active.value = active.value === id ? "" : id;
+  query.value = "";
+  category.value = "";
+  addedNotice.value = "";
+  results.value = [];
+  tab.value = "explore";
+  const n = ++librarySeq;
+  if (!active.value) return;
+  try {
+    const r = await api<{ favoriteItems: Article[]; recentItems: Article[] }>(
+      "/api/compendium/library"
+    );
+    if (n === librarySeq) library.value = r;
+  } catch {
+    if (n === librarySeq)
+      library.value = { favoriteItems: [], recentItems: [] };
+  }
+}
+async function more() {
+  if (moreBusy.value || searching.value || results.value.length >= total.value)
+    return;
+  moreBusy.value = true;
+  const n = generation;
+  try {
+    const r = await api<{ items: Article[]; total: number }>(
+      `/api/compendium/search?q=${encodeURIComponent(query.value.trim())}&category=${encodeURIComponent(category.value)}&limit=15&offset=${results.value.length}`
+    );
+    if (n === generation) {
+      results.value.push(
+        ...r.items.filter((a) => !results.value.some((old) => old.id === a.id))
+      );
+      total.value = r.total;
+    }
+  } catch {
+    if (n === generation)
+      error.value = "Impossible de charger les résultats suivants.";
+  } finally {
+    if (n === generation) moreBusy.value = false;
+  }
+}
+
+watch([query, category, active, tab], () => {
+  const seq = ++generation;
+  clearTimeout(timer);
+  results.value = [];
+  searching.value = false;
+  moreBusy.value = false;
+  error.value = "";
+  total.value = 0;
+  if (props.readonly || !active.value || tab.value !== "explore") return;
+  searching.value = true;
+  timer = setTimeout(async () => {
+    try {
+      const r = await api<{ items: Article[]; total: number }>(
+        `/api/compendium/search?q=${encodeURIComponent(query.value.trim())}&category=${encodeURIComponent(category.value)}&limit=15`
+      );
+      if (seq === generation) {
+        results.value = r.items;
+        total.value = r.total ?? r.items.length;
+      }
+    } catch {
+      if (seq === generation)
+        error.value =
+          "Recherche indisponible. Réessaie en modifiant ta recherche.";
+    } finally {
+      if (seq === generation) searching.value = false;
+    }
+  }, 250);
+});
+onUnmounted(() => {
+  generation++;
+  librarySeq++;
+  clearTimeout(timer);
+});
+const value = (e: Event) => (e.target as HTMLInputElement).value;
 </script>
 <template>
  <div class="preparation">
@@ -97,6 +413,6 @@ const value=(e:Event)=>(e.target as HTMLInputElement).value;
  </div>
 </template>
 <style scoped>
-.results-list{max-height:380px;overflow-y:auto;overscroll-behavior:contain;border:1px solid #405875;border-radius:6px;padding:0 10px}.tags{display:flex;flex-wrap:wrap;gap:5px}.tags button{font-size:12px;padding:4px 8px;min-height:30px}.result p{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.reference-options>summary,.templates>summary,.scene-options>summary{cursor:pointer;min-height:44px;align-content:center}.reference-options[open]{display:grid;gap:10px}.scene-roster{display:block;margin-top:8px;color:#a3eaff;overflow-wrap:anywhere}.selected-references{padding:12px;border:1px solid #477080;background:#102634}.selected-references ul{margin:8px 0;padding-left:20px}.preparation{min-width:0;color:#eaf2ff}.preparation p{line-height:1.6;color:#b5c8dc}.scene{border:1px solid #3c4a65;border-radius:6px;margin:12px 0}.scene>summary{cursor:pointer;padding:14px;min-height:44px;box-sizing:border-box;color:#d3c2f4}.scene-body{padding:14px;display:grid;gap:12px}.scene-body label,.picker label{display:grid;gap:7px;font-size:14px}.scene-body input:not([type=checkbox]),.scene-body textarea,.scene-body select{width:100%;min-width:0;box-sizing:border-box;background:#08131f;color:#edf4ff;border:1px solid #405875;border-radius:6px;padding:11px;font:inherit;min-height:44px}.scene-body textarea{resize:vertical}.scene-body .check{display:flex;align-items:center;gap:10px;min-height:44px}.check input{width:20px;height:20px;accent-color:#a3eaff}.reference{display:grid;gap:10px;border-left:2px solid #8773b6;padding:12px;background:#101e30}.reference label:has(input){max-width:140px}.reference a{color:#a3eaff;overflow-wrap:anywhere}.reference small{display:block;color:#a5b9cf;line-height:1.6}.prose{white-space:pre-wrap}.actions{display:flex;flex-wrap:wrap;gap:8px}.preparation button{min-height:44px;padding:10px 14px;background:#101e30;color:#eaf2ff;border:1px solid #405875;border-radius:6px;cursor:pointer;font:inherit}.preparation button[aria-pressed=true]{border-color:#a3eaff;background:#173547}.picker a{color:#a3eaff}.preparation button:disabled{opacity:.5;cursor:default}.picker{display:grid;gap:14px;padding:14px;border:1px solid #477080;border-radius:6px}.result{display:flex;align-items:center;gap:12px;justify-content:space-between;border-bottom:1px solid #293d52;padding:12px 0}.result>div{min-width:0}.result p{font-size:13px}.result small{display:block;color:#a3b7cc}button:focus-visible,summary:focus-visible,a:focus-visible{outline:2px solid #a3eaff;outline-offset:3px}@media(max-width:600px){.result{align-items:stretch;flex-direction:column}.scene-body,.picker{padding:10px}}
-.encounter-note{padding:12px;border:1px solid #487080;border-radius:6px;background:#122839}
+.results-list{max-height:380px;overflow-y:auto;overscroll-behavior:contain;border:1px solid var(--c-line-strong);border-radius:6px;padding:0 10px}.tags{display:flex;flex-wrap:wrap;gap:5px}.tags button{font-size:12px;padding:4px 8px;min-height:30px}.result p{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.reference-options>summary,.templates>summary,.scene-options>summary{cursor:pointer;min-height:44px;align-content:center}.reference-options[open]{display:grid;gap:10px}.scene-roster{display:block;margin-top:8px;color:var(--c-reality-soft);overflow-wrap:anywhere}.selected-references{padding:12px;border:1px solid #477080;background:var(--c-relief)}.selected-references ul{margin:8px 0;padding-left:20px}.preparation{min-width:0;color:var(--c-text)}.preparation p{line-height:1.6;color:var(--c-text-soft)}.scene{border:1px solid var(--c-line-strong);border-radius:6px;margin:12px 0}.scene>summary{cursor:pointer;padding:14px;min-height:44px;box-sizing:border-box;color:var(--c-truth-soft)}.scene-body{padding:14px;display:grid;gap:12px}.scene-body label,.picker label{display:grid;gap:7px;font-size:14px}.scene-body input:not([type=checkbox]),.scene-body textarea,.scene-body select{width:100%;min-width:0;box-sizing:border-box;background:var(--c-night);color:var(--c-text);border:1px solid var(--c-line-strong);border-radius:6px;padding:11px;font:inherit;min-height:44px}.scene-body textarea{resize:vertical}.scene-body .check{display:flex;align-items:center;gap:10px;min-height:44px}.check input{width:20px;height:20px;accent-color:var(--c-reality-soft)}.reference{display:grid;gap:10px;border-left:2px solid #8773b6;padding:12px;background:var(--c-surface)}.reference label:has(input){max-width:140px}.reference a{color:var(--c-reality-soft);overflow-wrap:anywhere}.reference small{display:block;color:#a5b9cf;line-height:1.6}.prose{white-space:pre-wrap}.actions{display:flex;flex-wrap:wrap;gap:8px}.preparation button{min-height:44px;padding:10px 14px;background:var(--c-surface);color:var(--c-text);border:1px solid var(--c-line-strong);border-radius:6px;cursor:pointer;font:inherit}.preparation button[aria-pressed=true]{border-color:var(--c-reality-soft);background:var(--c-relief)}.picker a{color:var(--c-reality-soft)}.preparation button:disabled{opacity:.5;cursor:default}.picker{display:grid;gap:14px;padding:14px;border:1px solid #477080;border-radius:6px}.result{display:flex;align-items:center;gap:12px;justify-content:space-between;border-bottom:1px solid var(--c-line);padding:12px 0}.result>div{min-width:0}.result p{font-size:13px}.result small{display:block;color:var(--c-text-soft)}button:focus-visible,summary:focus-visible,a:focus-visible{outline:2px solid var(--c-reality-soft);outline-offset:3px}@media(max-width:600px){.result{align-items:stretch;flex-direction:column}.scene-body,.picker{padding:10px}}
+.encounter-note{padding:12px;border:1px solid #487080;border-radius:6px;background:var(--c-relief)}
 </style>

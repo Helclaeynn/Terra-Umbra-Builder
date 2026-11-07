@@ -6,6 +6,8 @@ import {characterDerivedStats} from './rules/character-derived-stats.js';
 const prose=(value:string)=>value.replace(/\r\n?/g,'\n').split('\n').map(line=>/^\s*(?:={2,4}|\{\{|\{\||\|}|\||!|\*)/.test(line)?'\u200b'+line:line).join('\n');
 const cell=(value:string)=>prose(value).replace(/\n/g,' · ').replace(/\|\|/g,'|\u200b|').replace(/!!/g,'!\u200b!');
 const paragraph=(text:string):NpcArticleBlock=>({type:'p',text:prose(text)});
+// Intertitre de la section « Profils » (Réalité, puis profil révélé).
+const profileHeading=(text:string):NpcArticleBlock=>({type:'p',text,style:'profil-titre'});
 const table=(rows:string[][]):NpcArticleBlock=>({type:'table',rows:rows.map(row=>row.map(cell))});
 export function canonicalNpcDraft(n:NpcData):NpcArticleDraft{
  const c=NPC_CATALOG,tier=c.tiers.find(t=>t.id===n.tierId)!;
@@ -34,8 +36,8 @@ export function canonicalNpcDraft(n:NpcData):NpcArticleDraft{
  ];
  return {id:'',title:n.name.trim(),category:'Personnages',source:'Création originale',status:'canon_recent',tags:[...new Set(['réalité/PNJ',`réalité/${c.presets.find(p=>p.id===n.presetId)?.name||'PNJ'}`,...n.tags])],pnj:{real_name:civilName,sexe:sex,origine:c.nationalities.find(x=>x.id===n.nationality)?.name||n.nationality||'',statut:n.role,tags:n.tags,protect_truth_metadata:true,...(n.portrait?{portrait:n.portrait,portrait_alt:n.name.trim()}:{}),generator_profile:{tierId:n.tierId,presetId:n.presetId}},sections:[
   {id:'identite-apparente',title:'Identité apparente',level:2,blocks:[table([['Identité','Valeur'],['Nom',n.name],['Prénom',n.firstName||''],['Nom de famille',n.lastName||''],['Nationalité d’origine',c.nationalities.find(x=>x.id===n.nationality)?.name||n.nationality||''],['Rôle',n.role],['Sexe',sex]]),...(n.appearance?[paragraph(n.appearance)]:[]),...(n.personality?[paragraph(n.personality)]:[])]},
-  {id:'dossier-mj',title:'Dossier MJ',level:2,audience:'mj',blocks:privateFields.filter(([,value])=>value.trim()).map(([label,value])=>paragraph(`${label} : ${value}`))},
-  {id:'profil-statistique',title:'Profil statistique',level:2,audience:'mj',blocks:profile},
-  ...(truth?[{id:'profil-verite',title:'Profil de Vérité',level:2,audience:'mj',blocks:truthBlocks}]:[])
+  // Deux sections MJ : « Vérité » (qui est vraiment ce PNJ) et « Profils » (les chiffres).
+  {id:'dossier-mj',title:'Vérité',level:2,audience:'mj',blocks:privateFields.filter(([,value])=>value.trim()).map(([label,value])=>paragraph(`${label} : ${value}`))},
+  {id:'profil-statistique',title:'Profils',level:2,audience:'mj',blocks:[profileHeading('Profil de Réalité'),...profile,...(truth?[profileHeading('Profil révélé · Vérité'),...truthBlocks]:[])]}
  ]};
 }

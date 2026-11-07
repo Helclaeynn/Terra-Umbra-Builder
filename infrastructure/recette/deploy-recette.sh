@@ -24,7 +24,10 @@ refresh=${REFRESH_DATA:-0}
 exec 9>"$root/.recette.lock"
 flock -w 60 9 || { echo "Une mise à l'essai est déjà en cours" >&2; exit 1; }
 
+# Le cache de construction (commun aux deux sites) peut dépasser 15 Go après
+# un essai interrompu : on le vide d'abord si la place manque.
 free_gb=$(df --output=avail -BG / | tail -1 | tr -dc 0-9)
+if (( free_gb < 8 + 4 )); then docker builder prune -af >/dev/null; free_gb=$(df --output=avail -BG / | tail -1 | tr -dc 0-9); fi
 if (( free_gb < 8 )); then
   echo "Moins de 8 Go libres sur le serveur ($free_gb Go) : arrêt." >&2
   exit 1
@@ -45,6 +48,31 @@ if [ ! -f "$dir/.env" ]; then
     "$(head -c 32 /dev/urandom | base64 | tr -dc A-Za-z0-9)" > "$dir/.env"
   chmod 600 "$dir/.env"
 fi
+# Clés et compte administrateur de Directus, créés une fois, hors de Git.
+# L'accès est recopié dans les secrets du serveur pour l'auteur.
+if ! grep -q '^DIRECTUS_KEY=' "$dir/.env"; then
+  rand() { head -c 48 /dev/urandom | base64 | tr -dc A-Za-z0-9 | head -c "$1"; }
+  password=$(rand 24)
+  printf 'DIRECTUS_KEY=%s\nDIRECTUS_SECRET=%s\nDIRECTUS_ADMIN_EMAIL=auteur@terra-umbra.fr\nDIRECTUS_ADMIN_PASSWORD=%s\n' \
+    "$(rand 32)" "$(rand 48)" "$password" >> "$dir/.env"
+  umask 077
+  printf 'Directus (site d essai) : https://dev.terra-umbra.fr/cms\nIdentifiant : auteur@terra-umbra.fr\nMot de passe : %s\n' "$password" \
+    > "$root/secrets/directus-acces.txt"
+  umask 022
+fi
+
+# Compte de Directus dans la base, limité au contenu (directus-db-role.sql).
+if ! grep -q '^DIRECTUS_DB_PASSWORD=' "$dir/.env"; then
+  printf 'DIRECTUS_DB_PASSWORD=%s
+' "$(head -c 48 /dev/urandom | base64 | tr -dc A-Za-z0-9 | head -c 32)" >> "$dir/.env"
+fi
+
+# Dossiers PDF et cartes : hors de l'image du site, servis depuis static/
+# (seuls les fichiers changés sont réécrits).
+mkdir -p "$dir/static/pdf-dossiers" "$dir/static/map-assets"
+rsync -a --delete "$stage/apps/web/public/pdf/dossiers/" "$dir/static/pdf-dossiers/"
+rsync -a --delete "$stage/apps/web/public/map-assets/" "$dir/static/map-assets/"
+chmod -R a+rX "$dir/static"
 
 echo "== Construction des images"
 docker build --pull=false -f "$stage/apps/api/Dockerfile" \
@@ -89,20 +117,53 @@ for file in "$stage"/infrastructure/migrations/*.sql; do
   fi
 done
 
-# Contenu en base (étape 6) : rejoué à chaque mise à l'essai, idempotent.
-# Seulement en recette tant que l'auteur n'a pas validé l'import.
+# Contenu en base : chaque fichier infrastructure/content/*.sql couvre une
+# portée (vampire, objets, equipement…). Il n'est importé que si sa portée est
+# vide dans la base d'essai, ou quand on recopie les données. Jamais
+# par-dessus : le contenu se modifie sur le site (passe éditoriale), et un
+# import écraserait ces modifications.
 for file in "$stage"/infrastructure/content/*.sql; do
   [ -e "$file" ] || continue
-  echo "Contenu : $(basename "$file")"
-  psql -q < "$file"
+  scope=$(grep -om1 "WHERE scope = '[a-z_]*'" "$file" | cut -d"'" -f2)
+  if [ "$refresh" = 1 ] || [ "$(psql -Atc "SELECT count(*) FROM content_entry WHERE scope = '$scope'" </dev/null)" = 0 ]; then
+    echo "Contenu : $(basename "$file") (portée $scope)"
+    psql -q < "$file"
+  fi
 done
+
+psql -q -v pw="$DIRECTUS_DB_PASSWORD" -v db="$POSTGRES_DB" < "$stage/infrastructure/recette/directus-db-role.sql"
+
+# Extensions de Directus (éditeur du corps des articles) : Directus ne les lit
+# qu'au démarrage, on le redémarre seulement si elles ont changé.
+extensions_before=$(cd "$dir" && { find directus-extensions -type f -exec sha256sum {} + 2>/dev/null || true; } | sort | sha256sum)
+rm -rf "$dir/directus-extensions"
+cp -r "$stage/infrastructure/recette/directus-extensions" "$dir/directus-extensions"
+extensions_after=$(cd "$dir" && find directus-extensions -type f -exec sha256sum {} + | sort | sha256sum)
 
 echo "== Démarrage"
 compose up -d --force-recreate recette-api recette-web </dev/null
+compose up -d recette-directus </dev/null
+if [ "$extensions_before" != "$extensions_after" ]; then compose restart recette-directus </dev/null; fi
 for _ in $(seq 1 30); do
   if compose exec -T recette-api node -e \
       "fetch('http://127.0.0.1:3000/api/ready').then(r=>process.exit(r.ok?0:1),()=>process.exit(1))" </dev/null; then
+    echo "== Directus"
+    for _ in $(seq 1 60); do
+      compose exec -T recette-api node -e \
+        "fetch('http://recette-directus:8055/server/health').then(r=>process.exit(r.ok?0:1),()=>process.exit(1))" </dev/null && break
+      sleep 3
+    done
+    # Collections, liens et champs de Directus sur les tables de contenu.
+    psql -q < "$stage/infrastructure/recette/directus-relations.sql"
+    docker run --rm --network tuc-recette_recette \
+      -e DIRECTUS_URL=http://recette-directus:8055 \
+      -e DIRECTUS_ADMIN_EMAIL -e DIRECTUS_ADMIN_PASSWORD \
+      -v "$stage/infrastructure/recette/directus-setup.mjs:/setup.mjs:ro" \
+      node:24-alpine node /setup.mjs </dev/null
     docker image prune -f >/dev/null
+    # Le cache de construction grossit de 2 à 3 Go à chaque essai (17 Go le
+    # 01/11) et --max-used-space ne le réduit pas : on le vide.
+    docker builder prune -af >/dev/null
     printf '%s\n' "$sha" > "$dir/.recette-sha"
     echo "À L'ESSAI : $sha sur https://dev.terra-umbra.fr"
     exit 0

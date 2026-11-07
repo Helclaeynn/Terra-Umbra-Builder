@@ -79,10 +79,12 @@ const bundle = await build({
         { path: '/compendium', component: CompendiumPage },
         { path: '/account', component: Placeholder },
         { path: '/atlas', component: Placeholder },
+        { path: '/campaigns', component: Placeholder },
         { path: '/decouvrir', component: Placeholder },
         { path: '/decouvrir/:guide', component: Placeholder },
         { path: '/glossaire', component: Placeholder },
         { path: '/compendium/new', component: Placeholder },
+        { path: '/compendium/nouvelle', component: Placeholder },
         { path: '/compendium/edit/:id', component: Placeholder },
         { path: '/characters/:id/builder', component: Placeholder }
       ] });
@@ -452,7 +454,7 @@ for (const [id, title, count] of mapArticles) {
     await waitFor(() => reader.d.querySelector('.article-maps'), `${title}: static maps mounted`);
     check(`${title} : cartes classiques intégrées et accès Atlas dans les actions`, () => {
       assert.equal(reader.d.querySelectorAll('.article-maps figure').length, count);
-      assert.equal(reader.d.querySelector('.compendium-top-actions .atlas-access')?.getAttribute('href'), '/atlas');
+      assert.equal(reader.d.querySelector('.compendium-topbar .site-nav a[href="/atlas"]')?.getAttribute('href'), '/atlas');
       for (const image of reader.d.querySelectorAll('.article-maps img')) {
         assert.equal(image.getAttribute('loading'), 'lazy');
         assert(image.closest('a').href.includes('/map-assets/v1/'));

@@ -32,7 +32,7 @@ pool.query = async (sql, values) => {
 };
 
 const { default: Fastify } = await import(pathToFileURL(resolve(root, 'apps/api/node_modules/fastify/fastify.js')).href);
-const { registerCompendiumRoutes, getCompendiumQualityCorpus } = await import(pathToFileURL(resolve(root, 'apps/api/dist/compendium.js')).href);
+const { registerCompendiumRoutes, getCompendiumQualityCorpus, publicArticleId, mediaAlias } = await import(pathToFileURL(resolve(root, 'apps/api/dist/compendium.js')).href);
 const { registerQualityRoutes } = await import(pathToFileURL(resolve(root, 'apps/api/dist/quality.js')).href);
 const app = Fastify();
 try {
@@ -74,8 +74,8 @@ try {
     const switched = await app.inject({ method: 'PATCH', url, headers: auth, payload: { src, visibility: 'mj' } });
     assert.equal(switched.statusCode, 200, switched.body);
     assert.ok(switched.json().portraits.some(portrait => portrait.media === src && portrait.visibility === 'mj'));
-    const publicArticle = (await getCompendiumQualityCorpus()).publicArticles.find(item => item.id === id);
-    assert.ok(!JSON.stringify(publicArticle).includes(src), `${id} leaked through the public article`);
+    const publicArticle = (await getCompendiumQualityCorpus()).publicArticles.find(item => item.id === publicArticleId(id));
+    assert.ok(!JSON.stringify(publicArticle).includes(src) && !JSON.stringify(publicArticle).includes(mediaAlias(src)), `${id} leaked through the public article`);
     assert.equal((await getCompendiumQualityCorpus()).articles.find(item => item.id === untouched.id), untouched,
       'Switching one portrait must keep the rest of the loaded Compendium intact');
     assert.equal((await app.inject({ url: `/api/compendium/media/${src}` })).statusCode, 403, src);
@@ -88,7 +88,8 @@ try {
     assert.ok(removed.json().portraits.some(portrait => portrait.media === src && portrait.visibility === 'removed'));
     assert.ok(!JSON.stringify((await getCompendiumQualityCorpus()).articles.find(item => item.id === id)).includes(src),
       'Removed portrait must disappear even from the private PNJ');
-    assert.ok(!JSON.stringify((await getCompendiumQualityCorpus()).publicArticles.find(item => item.id === id)).includes(src),
+    const hiddenText = JSON.stringify((await getCompendiumQualityCorpus()).publicArticles.find(item => item.id === publicArticleId(id)));
+    assert.ok(![src, mediaAlias(src)].some((path) => hiddenText.includes(path)),
       'Removed portrait must not remain publicly visible');
     const addedBack = await app.inject({ method: 'PATCH', url, headers: auth, payload: { src, visibility: 'public' } });
     assert.equal(addedBack.statusCode, 200, addedBack.body);

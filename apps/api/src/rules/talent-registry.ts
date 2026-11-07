@@ -29,6 +29,8 @@ export function talentGroupId(natureId:string,groupLabel:string){
 }
 
 let cache:TalentRegistryRow[]|null=null;
+/** Catalogues de Vérité relus depuis la base (truth-content.ts). */
+export function invalidateTalentRegistry(){cache=null;}
 
 export function getTalentRegistry():TalentRegistryRow[]{
   if(cache)return cache;

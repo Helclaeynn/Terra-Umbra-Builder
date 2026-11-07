@@ -1,16 +1,143 @@
 <script setup lang="ts">
-import {onMounted,onUnmounted,ref,watch} from 'vue';
-import {api,ApiError} from '../lib/api';
-const props=defineProps<{campaignId:string}>(),emit=defineEmits<{refresh:[];attention:[count:number]}>();
-const impulse=ref<Record<string,boolean>>({}),edgeChoice=ref<Record<string,boolean>>({}),offers=ref<any[]>([]),results=ref<any[]>([]),loadingError=ref(''),error=ref(''),notice=ref(''),busy=ref(false),pending=ref<any>(null);
-let alive=true,loading=false,timer:ReturnType<typeof setInterval>|undefined;
-watch(offers,list=>{emit('attention',list.length);if(!pending.value)for(const offer of list)if((offer.edge??0)<1)edgeChoice.value[offer.sourceEventId+offer.actorId]=false;},{immediate:true});
-async function load(){if(!alive||loading||document.visibilityState==='hidden')return;loading=true;try{const result=await api<any>(`/api/campaigns/${props.campaignId}/occult-consents`);if(alive){offers.value=result.offers??[];results.value=result.results??[];loadingError.value='';}}catch{if(alive)loadingError.value='Les propositions privées ne sont pas à jour.';}finally{loading=false;}}
-onMounted(()=>{void load();timer=setInterval(()=>void load(),3000);});onUnmounted(()=>{alive=false;clearInterval(timer);});
-async function accept(offer:any,active=false){if(busy.value||pending.value)return;const key=offer.sourceEventId+offer.actorId,edge=edgeChoice.value[key]===true&&(offer.edge??0)>0;pending.value={requestId:crypto.randomUUID(),action:offer.type==='decree'?'resist-decree':offer.type==='defense'?'defend':'consent',sourceEventId:offer.sourceEventId,actorId:offer.actorId,version:offer.version,offerId:offer.offerId,...(offer.type==='defense'?{active,defenseKind:offer.defenseKind,contextConfirmed:true,pursuesImpulse:impulse.value[key]===true,...(active?{edge}:{})}:offer.type==='decree'?{effectId:offer.effectId,violationConfirmed:true,edge}:{})};await retry();}
-async function force(result:any){if(busy.value||pending.value)return;pending.value={requestId:crypto.randomUUID(),action:'force-defense',eventId:result.eventId,actorId:result.actorId,version:result.version};await retry();}
-function resultRollTotal(result:any){return result.modifier+(result.sum??result.dice.reduce((total:number,die:number)=>total+die,0));}
-async function retry(){if(busy.value||!pending.value)return;busy.value=true;error.value='';try{const sent=pending.value,result=await api<any>(`/api/campaigns/${props.campaignId}/occult-resolutions`,{method:'POST',body:JSON.stringify(sent)});delete edgeChoice.value[sent.sourceEventId+sent.actorId];pending.value=null;notice.value=typeof result.total==='number'?`${sent.action==='force-defense'?'Forcer le Destin':sent.action==='resist-decree'?'Résister au Décret':'Défense retenue'} · résultat ${result.total}${typeof result.success==='boolean'?(result.success?' · résistance réussie':' · résistance échouée'):''}`:'Choix transmis au MJ.';await load();emit('refresh');}catch(cause){error.value=cause instanceof ApiError?'Cette proposition a changé. Actualise avant de l’accepter.':'Accord non confirmé. Réessaie le même envoi.';if(cause instanceof ApiError&&cause.status<500){pending.value=null;await load();}}finally{busy.value=false;}}
+import { onMounted, onUnmounted, ref, watch } from "vue";
+import { TABLE_IGNORED_TOPICS, useLiveUpdates } from "../lib/live-updates";
+import { api, ApiError } from "../lib/api";
+const props = defineProps<{ campaignId: string }>(),
+  emit = defineEmits<{ refresh: []; attention: [count: number] }>();
+const impulse = ref<Record<string, boolean>>({}),
+  edgeChoice = ref<Record<string, boolean>>({}),
+  offers = ref<any[]>([]),
+  results = ref<any[]>([]),
+  loadingError = ref(""),
+  error = ref(""),
+  notice = ref(""),
+  busy = ref(false),
+  pending = ref<any>(null);
+let alive = true,
+  loading = false,
+  timer: ReturnType<typeof setInterval> | undefined;
+watch(
+  offers,
+  (list) => {
+    emit("attention", list.length);
+    if (!pending.value)
+      for (const offer of list)
+        if ((offer.edge ?? 0) < 1)
+          edgeChoice.value[offer.sourceEventId + offer.actorId] = false;
+  },
+  { immediate: true }
+);
+async function load() {
+  if (!alive || loading || document.visibilityState === "hidden") return;
+  loading = true;
+  try {
+    const result = await api<any>(
+      `/api/campaigns/${props.campaignId}/occult-consents`
+    );
+    if (alive) {
+      offers.value = result.offers ?? [];
+      results.value = result.results ?? [];
+      loadingError.value = "";
+    }
+  } catch {
+    if (alive)
+      loadingError.value = "Les propositions privées ne sont pas à jour.";
+  } finally {
+    loading = false;
+  }
+}
+onMounted(() => {
+  void load();
+});
+useLiveUpdates(
+  () => `/api/campaigns/${props.campaignId}/events`,
+  () => void load(),
+  3000,
+  TABLE_IGNORED_TOPICS
+);
+onUnmounted(() => {
+  alive = false;
+  clearInterval(timer);
+});
+async function accept(offer: any, active = false) {
+  if (busy.value || pending.value) return;
+  const key = offer.sourceEventId + offer.actorId,
+    edge = edgeChoice.value[key] === true && (offer.edge ?? 0) > 0;
+  pending.value = {
+    requestId: crypto.randomUUID(),
+    action:
+      offer.type === "decree"
+        ? "resist-decree"
+        : offer.type === "defense"
+          ? "defend"
+          : "consent",
+    sourceEventId: offer.sourceEventId,
+    actorId: offer.actorId,
+    version: offer.version,
+    offerId: offer.offerId,
+    ...(offer.type === "defense"
+      ? {
+          active,
+          defenseKind: offer.defenseKind,
+          contextConfirmed: true,
+          pursuesImpulse: impulse.value[key] === true,
+          ...(active ? { edge } : {})
+        }
+      : offer.type === "decree"
+        ? { effectId: offer.effectId, violationConfirmed: true, edge }
+        : {})
+  };
+  await retry();
+}
+async function force(result: any) {
+  if (busy.value || pending.value) return;
+  pending.value = {
+    requestId: crypto.randomUUID(),
+    action: "force-defense",
+    eventId: result.eventId,
+    actorId: result.actorId,
+    version: result.version
+  };
+  await retry();
+}
+function resultRollTotal(result: any) {
+  return (
+    result.modifier +
+    (result.sum ??
+      result.dice.reduce((total: number, die: number) => total + die, 0))
+  );
+}
+async function retry() {
+  if (busy.value || !pending.value) return;
+  busy.value = true;
+  error.value = "";
+  try {
+    const sent = pending.value,
+      result = await api<any>(
+        `/api/campaigns/${props.campaignId}/occult-resolutions`,
+        { method: "POST", body: JSON.stringify(sent) }
+      );
+    delete edgeChoice.value[sent.sourceEventId + sent.actorId];
+    pending.value = null;
+    notice.value =
+      typeof result.total === "number"
+        ? `${sent.action === "force-defense" ? "Forcer le Destin" : sent.action === "resist-decree" ? "Résister au Décret" : "Défense retenue"} · résultat ${result.total}${typeof result.success === "boolean" ? (result.success ? " · résistance réussie" : " · résistance échouée") : ""}`
+        : "Choix transmis au MJ.";
+    await load();
+    emit("refresh");
+  } catch (cause) {
+    error.value =
+      cause instanceof ApiError
+        ? "Cette proposition a changé. Actualise avant de l’accepter."
+        : "Accord non confirmé. Réessaie le même envoi.";
+    if (cause instanceof ApiError && cause.status < 500) {
+      pending.value = null;
+      await load();
+    }
+  } finally {
+    busy.value = false;
+  }
+}
 </script>
 <template>
 <section v-if="offers.length||results.length||loadingError||error||notice" class="occult-consent" aria-label="Effets alliés proposés">
@@ -20,5 +147,5 @@ async function retry(){if(busy.value||!pending.value)return;busy.value=true;erro
 </section>
 </template>
 <style scoped>
-.occult-consent{padding:10px 12px;margin:12px 0;border:1px solid #46636c;border-radius:8px;background:#102629;min-width:0}.occult-consent article{display:flex;align-items:center;justify-content:space-between;gap:12px;min-width:0}.occult-consent article+article{border-top:1px solid #46636c;padding-top:8px;margin-top:8px}.occult-consent .defense-actions{display:flex;flex-wrap:wrap;gap:6px}.occult-consent article div{min-width:0;overflow-wrap:anywhere}.occult-consent p{margin:5px 0;line-height:1.4}.occult-consent button{min-height:44px;padding:8px 12px;border:1px solid #64868a;border-radius:6px;background:#163c40;color:#e8f9fb;cursor:pointer;flex-shrink:0}.occult-consent button:disabled{opacity:.5;cursor:default}.occult-consent .dismiss{min-height:32px;padding:3px 8px;margin-left:8px;background:transparent}@media(max-width:500px){.occult-consent article{display:block}.occult-consent article button{margin-top:6px;max-width:100%}}
+.occult-consent{padding:10px 12px;margin:12px 0;border:1px solid var(--ui-line);border-radius:8px;background:var(--ui-panel-2);min-width:0}.occult-consent article{display:flex;align-items:center;justify-content:space-between;gap:12px;min-width:0}.occult-consent article+article{border-top:1px solid var(--ui-line);padding-top:8px;margin-top:8px}.occult-consent .defense-actions{display:flex;flex-wrap:wrap;gap:6px}.occult-consent article div{min-width:0;overflow-wrap:anywhere}.occult-consent p{margin:5px 0;line-height:1.4}.occult-consent button{min-height:44px;padding:8px 12px;border:1px solid var(--ui-line-strong);border-radius:6px;background:var(--ui-accent-bg);color:var(--ui-ink);cursor:pointer;flex-shrink:0}.occult-consent button:disabled{opacity:.5;cursor:default}.occult-consent .dismiss{min-height:32px;padding:3px 8px;margin-left:8px;background:transparent}@media(max-width:500px){.occult-consent article{display:block}.occult-consent article button{margin-top:6px;max-width:100%}}
 </style>

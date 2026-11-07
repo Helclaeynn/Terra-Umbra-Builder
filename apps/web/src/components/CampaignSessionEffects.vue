@@ -1,30 +1,174 @@
 <script setup lang="ts">
-import {computed,onUnmounted,ref,watch} from 'vue';
-import {api,ApiError} from '../lib/api';
-type Target={id:string;name:string;version:number;money:number;corruption:number;integrity:number;source:string;unavailable?:boolean};
-type Effect={id:string;characterName:string;money:number;corruptionDelta:number;corruptionSource:string;reason:string;before:{money:number;corruption:number;source:string};after:{money:number;corruption:number;source:string};appliedAt:string};
-const props=defineProps<{campaignId:string;sessionId:string;canManage:boolean;effects:Effect[]}>();
-const emit=defineEmits<{(e:'applied'):void}>();
-const open=ref(false),targets=ref<Target[]>([]),sources=ref<{id:string;name:string;corruption:string}[]>([]),selected=ref(''),money=ref(0),delta=ref(0),source=ref(''),reason=ref(''),busy=ref(false),loading=ref(false),error=ref(''),notice=ref('');
-const target=computed(()=>targets.value.find(t=>t.id===selected.value));
-const remaining=computed(()=>Math.max(0,(target.value?.integrity||0)-(target.value?.corruption||0)));
-const valid=computed(()=>target.value&&!target.value.unavailable&&Number.isSafeInteger(money.value)&&money.value>=0&&money.value<=1e9&&Number.isInteger(delta.value)&&delta.value>=0&&delta.value<=remaining.value&&money.value+delta.value>0&&(!delta.value||!!source.value));
-let seq=0,requestId=crypto.randomUUID();
-watch([selected,money,delta,source,reason],()=>{requestId=crypto.randomUUID();});
-watch(selected,()=>{source.value=target.value?.source||'';delta.value=0;});
-async function load(){const n=++seq;loading.value=true;error.value='';try{const r=await api<{characters:Target[];sources:typeof sources.value}>(`/api/campaigns/${props.campaignId}/effect-targets`);if(n!==seq)return;targets.value=r.characters;sources.value=r.sources;}catch{if(n===seq){targets.value=[];error.value='Impossible de charger les fiches actuelles.';}}finally{if(n===seq)loading.value=false;}}
-async function start(){open.value=!open.value;if(open.value)await load();}
-function sourceName(id:string){return sources.value.find(s=>s.id===id)?.name||({vhodhal:'Vhodhal',vaagor:'V’Aagor',sharith:'Ux’Sharith',vhadhi:'C’Thath Vhadhi',shaoggith:'Gajh’Shaoggith',thul:'Thul'} as Record<string,string>)[id]||id||'Aucune';}
-async function apply(){
- if(!valid.value||busy.value||!target.value)return;
- const t=target.value;
- if(!window.confirm(`Appliquer à ${t.name} : +${money.value} $ et +${delta.value} point(s) de corruption${delta.value?' · '+sourceName(source.value):''} ?\n\nMotif : ${reason.value.trim()||'Non précisé'}\nCes changements seront enregistrés sur la fiche et dans son historique.`))return;
- busy.value=true;error.value='';notice.value='';
- try{await api(`/api/campaigns/${props.campaignId}/sessions/${props.sessionId}/effects`,{method:'POST',body:JSON.stringify({requestId,characterId:t.id,version:t.version,money:money.value,corruptionDelta:delta.value,corruptionSource:delta.value?source.value:'',reason:reason.value})});money.value=0;delta.value=0;reason.value='';notice.value='Effet appliqué à la fiche et enregistré dans son historique.';emit('applied');await load();}
- catch(e){const msg=e instanceof Error?e.message:'';error.value=msg==='effect_version_conflict'?'La fiche a changé. Actualise les valeurs, puis vérifie à nouveau le récapitulatif.':msg==='corruption_limit'?'Le total dépasserait l’Intégrité du personnage. Actualise les valeurs.':msg==='reward_recipient_unavailable'?'Cette fiche n’est plus disponible dans le groupe.':msg==='effect_request_conflict'?'Cette demande a déjà été utilisée pour un autre effet. Ferme puis rouvre le panneau.':'L’attribution n’a pas pu être confirmée. Réessaie sans modifier les champs pour éviter un doublon.';if(e instanceof ApiError&&[401,403,404].includes(e.status)){targets.value=[];open.value=false;}}
- finally{busy.value=false;}
+import { computed, onUnmounted, ref, watch } from "vue";
+import { api, ApiError } from "../lib/api";
+type Target = {
+  id: string;
+  name: string;
+  version: number;
+  money: number;
+  corruption: number;
+  integrity: number;
+  source: string;
+  unavailable?: boolean;
+};
+type Effect = {
+  id: string;
+  characterName: string;
+  money: number;
+  corruptionDelta: number;
+  corruptionSource: string;
+  reason: string;
+  before: { money: number; corruption: number; source: string };
+  after: { money: number; corruption: number; source: string };
+  appliedAt: string;
+};
+const props = defineProps<{
+  campaignId: string;
+  sessionId: string;
+  canManage: boolean;
+  effects: Effect[];
+}>();
+const emit = defineEmits<{ (e: "applied"): void }>();
+const open = ref(false),
+  targets = ref<Target[]>([]),
+  sources = ref<{ id: string; name: string; corruption: string }[]>([]),
+  selected = ref(""),
+  money = ref(0),
+  delta = ref(0),
+  source = ref(""),
+  reason = ref(""),
+  busy = ref(false),
+  loading = ref(false),
+  error = ref(""),
+  notice = ref("");
+const target = computed(() =>
+  targets.value.find((t) => t.id === selected.value)
+);
+const remaining = computed(() =>
+  Math.max(0, (target.value?.integrity || 0) - (target.value?.corruption || 0))
+);
+const valid = computed(
+  () =>
+    target.value &&
+    !target.value.unavailable &&
+    Number.isSafeInteger(money.value) &&
+    money.value >= 0 &&
+    money.value <= 1e9 &&
+    Number.isInteger(delta.value) &&
+    delta.value >= 0 &&
+    delta.value <= remaining.value &&
+    money.value + delta.value > 0 &&
+    (!delta.value || !!source.value)
+);
+let seq = 0,
+  requestId = crypto.randomUUID();
+watch([selected, money, delta, source, reason], () => {
+  requestId = crypto.randomUUID();
+});
+watch(selected, () => {
+  source.value = target.value?.source || "";
+  delta.value = 0;
+});
+async function load() {
+  const n = ++seq;
+  loading.value = true;
+  error.value = "";
+  try {
+    const r = await api<{
+      characters: Target[];
+      sources: typeof sources.value;
+    }>(`/api/campaigns/${props.campaignId}/effect-targets`);
+    if (n !== seq) return;
+    targets.value = r.characters;
+    sources.value = r.sources;
+  } catch {
+    if (n === seq) {
+      targets.value = [];
+      error.value = "Impossible de charger les fiches actuelles.";
+    }
+  } finally {
+    if (n === seq) loading.value = false;
+  }
 }
-onUnmounted(()=>{seq++;});
+async function start() {
+  open.value = !open.value;
+  if (open.value) await load();
+}
+function sourceName(id: string) {
+  return (
+    sources.value.find((s) => s.id === id)?.name ||
+    (
+      {
+        vhodhal: "Vhodhal",
+        vaagor: "V’Aagor",
+        sharith: "Ux’Sharith",
+        vhadhi: "C’Thath Vhadhi",
+        shaoggith: "Gajh’Shaoggith",
+        thul: "Thul"
+      } as Record<string, string>
+    )[id] ||
+    id ||
+    "Aucune"
+  );
+}
+async function apply() {
+  if (!valid.value || busy.value || !target.value) return;
+  const t = target.value;
+  if (
+    !window.confirm(
+      `Appliquer à ${t.name} : +${money.value} $ et +${delta.value} point(s) de corruption${delta.value ? " · " + sourceName(source.value) : ""} ?\n\nMotif : ${reason.value.trim() || "Non précisé"}\nCes changements seront enregistrés sur la fiche et dans son historique.`
+    )
+  )
+    return;
+  busy.value = true;
+  error.value = "";
+  notice.value = "";
+  try {
+    await api(
+      `/api/campaigns/${props.campaignId}/sessions/${props.sessionId}/effects`,
+      {
+        method: "POST",
+        body: JSON.stringify({
+          requestId,
+          characterId: t.id,
+          version: t.version,
+          money: money.value,
+          corruptionDelta: delta.value,
+          corruptionSource: delta.value ? source.value : "",
+          reason: reason.value
+        })
+      }
+    );
+    money.value = 0;
+    delta.value = 0;
+    reason.value = "";
+    notice.value =
+      "Effet appliqué à la fiche et enregistré dans son historique.";
+    emit("applied");
+    await load();
+  } catch (e) {
+    const msg = e instanceof Error ? e.message : "";
+    error.value =
+      msg === "effect_version_conflict"
+        ? "La fiche a changé. Actualise les valeurs, puis vérifie à nouveau le récapitulatif."
+        : msg === "corruption_limit"
+          ? "Le total dépasserait l’Intégrité du personnage. Actualise les valeurs."
+          : msg === "reward_recipient_unavailable"
+            ? "Cette fiche n’est plus disponible dans le groupe."
+            : msg === "effect_request_conflict"
+              ? "Cette demande a déjà été utilisée pour un autre effet. Ferme puis rouvre le panneau."
+              : "L’attribution n’a pas pu être confirmée. Réessaie sans modifier les champs pour éviter un doublon.";
+    if (e instanceof ApiError && [401, 403, 404].includes(e.status)) {
+      targets.value = [];
+      open.value = false;
+    }
+  } finally {
+    busy.value = false;
+  }
+}
+onUnmounted(() => {
+  seq++;
+});
 </script>
 <template>
  <div class="effects">
@@ -48,5 +192,5 @@ onUnmounted(()=>{seq++;});
  </div>
 </template>
 <style scoped>
-.effects{margin-top:18px;min-width:0}.effect-form{display:grid;gap:14px;margin-top:16px;padding:18px;background:#091420;border:1px solid #486077;border-radius:8px}.effect-form fieldset{display:grid;gap:14px;min-width:0;border:1px solid #405875;border-radius:6px;padding:14px}.effect-form label{display:grid;gap:8px;font-size:14px}.effect-form input,.effect-form select,.effect-form textarea{width:100%;min-width:0;box-sizing:border-box;min-height:44px;padding:12px;color:#edf4ff;background:#08131f;border:1px solid #405875;border-radius:6px;font:inherit}.fields{display:grid;grid-template-columns:1fr 1fr;gap:14px}p{line-height:1.6;color:#b5c8dc}.preview{border-left:2px solid #b39bd8;padding:12px;background:#151d30}.preview p{margin:8px 0}.actions{display:flex;flex-wrap:wrap;gap:10px}button{min-height:44px;padding:10px 16px;border:1px solid #405875;border-radius:6px;background:#101e30;color:#eaf2ff;cursor:pointer;font:inherit}button[type=submit]{background:#a3eaff;color:#071725}button:disabled{opacity:.5;cursor:default}small{color:#a3b7cc;line-height:1.6}.effect-history{margin-top:16px}summary{cursor:pointer;min-height:44px;align-content:center}.event{padding:14px 0;border-top:1px solid #293d52}.event p{margin:6px 0;white-space:pre-wrap}button:focus-visible,summary:focus-visible{outline:2px solid #a3eaff;outline-offset:3px}@media(max-width:600px){.fields{grid-template-columns:1fr}.effect-form{padding:12px}.actions>button{flex:1}}
+.effects{margin-top:18px;min-width:0}.effect-form{display:grid;gap:14px;margin-top:16px;padding:18px;background:var(--c-night);border:1px solid var(--c-line-strong);border-radius:8px}.effect-form fieldset{display:grid;gap:14px;min-width:0;border:1px solid var(--c-line-strong);border-radius:6px;padding:14px}.effect-form label{display:grid;gap:8px;font-size:14px}.effect-form input,.effect-form select,.effect-form textarea{width:100%;min-width:0;box-sizing:border-box;min-height:44px;padding:12px;color:var(--c-text);background:var(--c-night);border:1px solid var(--c-line-strong);border-radius:6px;font:inherit}.fields{display:grid;grid-template-columns:1fr 1fr;gap:14px}p{line-height:1.6;color:var(--c-text-soft)}.preview{border-left:2px solid #b39bd8;padding:12px;background:var(--c-surface)}.preview p{margin:8px 0}.actions{display:flex;flex-wrap:wrap;gap:10px}button{min-height:44px;padding:10px 16px;border:1px solid var(--c-line-strong);border-radius:6px;background:var(--c-surface);color:var(--c-text);cursor:pointer;font:inherit}button[type=submit]{background:var(--c-reality-soft);color:var(--c-night)}button:disabled{opacity:.5;cursor:default}small{color:var(--c-text-soft);line-height:1.6}.effect-history{margin-top:16px}summary{cursor:pointer;min-height:44px;align-content:center}.event{padding:14px 0;border-top:1px solid var(--c-line)}.event p{margin:6px 0;white-space:pre-wrap}button:focus-visible,summary:focus-visible{outline:2px solid var(--c-reality-soft);outline-offset:3px}@media(max-width:600px){.fields{grid-template-columns:1fr}.effect-form{padding:12px}.actions>button{flex:1}}
 </style>

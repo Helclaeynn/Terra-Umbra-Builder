@@ -1,52 +1,243 @@
 <script setup lang="ts">
-import {computed,onMounted,onUnmounted,ref,watch} from 'vue';
-import {onBeforeRouteLeave} from 'vue-router';
-import {api,ApiError} from '../lib/api';
-import {validScenes,type CampaignScene} from '../../../api/src/campaign-preparation';
-import CampaignPreparation from './CampaignPreparation.vue';
-type Prep={id:string;title:string;preparation?:string;scenes?:CampaignScene[];version:number};
-const props=defineProps<{campaignId:string;session?:Prep;startPlaying?:boolean;groupSize?:number}>();
-const emit=defineEmits<{(e:'saved',v:Prep):void;(e:'close'):void;(e:'schedule',id:string):void}>();
-const npcDirty=ref(false);
-const currentId=ref(props.session?.id||''),version=ref(props.session?.version||1),playing=ref(!!props.startPlaying);
-const draft=ref({title:props.session?.title||'',preparation:props.session?.preparation||'',scenes:JSON.parse(JSON.stringify(props.session?.scenes||[])) as CampaignScene[]});
-const serialized=()=>JSON.stringify(draft.value),baseline=ref(serialized());
-const dirty=computed(()=>serialized()!==baseline.value),saving=ref(false),error=ref(''),blocked=ref(false),savedOnce=ref(!!props.session),selection=ref('');
-const references=ref<{id:string;title:string;category:string;snippet:string}[]>([]),previous=ref<Prep[]>([]),fromSession=ref(''),libraryError=ref('');
-const previousOptions=computed(()=>previous.value.filter(s=>s.id!==currentId.value&&s.scenes?.some(s=>!s.done)));
-const requestId=crypto.randomUUID();let creationSnapshot='',timer:ReturnType<typeof setTimeout>|undefined,live=true,inflight:Promise<boolean>|null=null;
-const endpoint=`/api/campaigns/${props.campaignId}/sessions`;
-function queue(){clearTimeout(timer);if(!blocked.value&&dirty.value)timer=setTimeout(()=>{void flush();},1000);}
-async function persist(){
- if(blocked.value)return false;
- if(!dirty.value)return true;
- if(!draft.value.title.trim()||!validScenes(draft.value.scenes)){error.value='Ajoute un titre à la séance et à chaque scène pour enregistrer.';return false;}
- saving.value=true;error.value='';
- // Keep the same creation payload on retry, even if the first response was lost.
- const snapshot=!currentId.value?(creationSnapshot||=serialized()):serialized();
- const sent=JSON.parse(snapshot);
- try{
-  const result=await api<{session:{id:string;version:number}}>(currentId.value?`${endpoint}/${currentId.value}/preparation`:endpoint,{method:currentId.value?'PATCH':'POST',body:JSON.stringify(currentId.value?{...sent,version:version.value}:{...sent,requestId,playedOn:null,status:'planned',report:'',published:false})});
-  if(!live)return false;
-  currentId.value=result.session.id;version.value=result.session.version;baseline.value=snapshot;savedOnce.value=true;
-  emit('saved',{...sent,...result.session});return true;
- }catch(e){
-  if(live){blocked.value=true;error.value=e instanceof ApiError&&e.status===409?'Cette séance a changé ailleurs. Tes notes restent ici : copie-les avant de rouvrir la dernière version.':e instanceof ApiError&&[401,403,404].includes(e.status)?'Cette préparation n’est plus accessible avec ton compte. Tes notes restent ici.':'Enregistrement interrompu. Tes notes restent ici ; réessaie avant de quitter.';}
-  return false;
- }finally{saving.value=false;if(live&&!blocked.value&&dirty.value)queue();}
+import { computed, onMounted, onUnmounted, ref, watch } from "vue";
+import { onBeforeRouteLeave } from "vue-router";
+import { api, ApiError } from "../lib/api";
+import {
+  validScenes,
+  type CampaignScene
+} from "../../../api/src/campaign-preparation";
+import CampaignPreparation from "./CampaignPreparation.vue";
+type Prep = {
+  id: string;
+  title: string;
+  preparation?: string;
+  scenes?: CampaignScene[];
+  version: number;
+};
+const props = defineProps<{
+  campaignId: string;
+  session?: Prep;
+  startPlaying?: boolean;
+  groupSize?: number;
+}>();
+const emit = defineEmits<{
+  (e: "saved", v: Prep): void;
+  (e: "close"): void;
+  (e: "schedule", id: string): void;
+}>();
+const npcDirty = ref(false);
+const currentId = ref(props.session?.id || ""),
+  version = ref(props.session?.version || 1),
+  playing = ref(!!props.startPlaying);
+const draft = ref({
+  title: props.session?.title || "",
+  preparation: props.session?.preparation || "",
+  scenes: JSON.parse(
+    JSON.stringify(props.session?.scenes || [])
+  ) as CampaignScene[]
+});
+const serialized = () => JSON.stringify(draft.value),
+  baseline = ref(serialized());
+const dirty = computed(() => serialized() !== baseline.value),
+  saving = ref(false),
+  error = ref(""),
+  blocked = ref(false),
+  savedOnce = ref(!!props.session),
+  selection = ref("");
+const references = ref<
+    { id: string; title: string; category: string; snippet: string }[]
+  >([]),
+  previous = ref<Prep[]>([]),
+  fromSession = ref(""),
+  libraryError = ref("");
+const previousOptions = computed(() =>
+  previous.value.filter(
+    (s) => s.id !== currentId.value && s.scenes?.some((s) => !s.done)
+  )
+);
+const requestId = crypto.randomUUID();
+let creationSnapshot = "",
+  timer: ReturnType<typeof setTimeout> | undefined,
+  live = true,
+  inflight: Promise<boolean> | null = null;
+const endpoint = `/api/campaigns/${props.campaignId}/sessions`;
+function queue() {
+  clearTimeout(timer);
+  if (!blocked.value && dirty.value)
+    timer = setTimeout(() => {
+      void flush();
+    }, 1000);
 }
-async function flush():Promise<boolean>{clearTimeout(timer);if(inflight){await inflight;if(blocked.value)return false;}if(!dirty.value)return true;inflight=persist();try{return await inflight;}finally{inflight=null;}}
-async function retry(){blocked.value=false;await flush();}
-async function finish(schedule=false){if(npcDirty.value&&!window.confirm('Abandonner les PNJ non enregistrés avant de quitter la préparation ?'))return;if(saving.value)await inflight;if(dirty.value&&!await flush())return;if(dirty.value&&!await flush())return;if(schedule&&currentId.value)emit('schedule',currentId.value);else emit('close');}
-function close(){if(blocked.value||(!draft.value.title.trim()&&dirty.value)){if(window.confirm('Fermer et abandonner les modifications non enregistrées ?'))emit('close');return;}void finish();}
-async function library(){libraryError.value='';try{const r=await api<{references:typeof references.value;previous:Prep[]}>(`/api/campaigns/${props.campaignId}/preparation-library`);if(live){references.value=r.references;previous.value=r.previous;}}catch{if(live)libraryError.value='Les références des séances précédentes sont indisponibles.';}}
-function carry(){const source=previous.value.find(s=>s.id===fromSession.value);if(!source)return;const pending=source.scenes?.filter(s=>!s.done)||[];if(draft.value.scenes.length+pending.length>30){libraryError.value='La préparation est limitée à 30 scènes. Retire une scène avant de reprendre ce lot.';return;}draft.value.scenes.push(...JSON.parse(JSON.stringify(pending)).map((s:CampaignScene)=>({...s,id:crypto.randomUUID()})));fromSession.value='';}
-function idea(){const text=selection.value.trim();if(!text||draft.value.scenes.length>=30)return;draft.value.scenes.push({id:crypto.randomUUID(),title:text.split('\n')[0].slice(0,120),notes:text.slice(0,6000),done:false,references:[]});selection.value='';}
-function beforeUnload(e:BeforeUnloadEvent){if(dirty.value||saving.value||npcDirty.value){e.preventDefault();e.returnValue='';}}
-watch(draft,queue,{deep:true});
-onBeforeRouteLeave(()=>!(dirty.value||saving.value)||window.confirm('La préparation n’est pas encore enregistrée. Quitter quand même ?'));
-onMounted(()=>{void library();window.addEventListener('beforeunload',beforeUnload);});
-onUnmounted(()=>{live=false;clearTimeout(timer);window.removeEventListener('beforeunload',beforeUnload);});
+async function persist() {
+  if (blocked.value) return false;
+  if (!dirty.value) return true;
+  if (!draft.value.title.trim() || !validScenes(draft.value.scenes)) {
+    error.value =
+      "Ajoute un titre à la séance et à chaque scène pour enregistrer.";
+    return false;
+  }
+  saving.value = true;
+  error.value = "";
+  // Keep the same creation payload on retry, even if the first response was lost.
+  const snapshot = !currentId.value
+    ? (creationSnapshot ||= serialized())
+    : serialized();
+  const sent = JSON.parse(snapshot);
+  try {
+    const result = await api<{ session: { id: string; version: number } }>(
+      currentId.value ? `${endpoint}/${currentId.value}/preparation` : endpoint,
+      {
+        method: currentId.value ? "PATCH" : "POST",
+        body: JSON.stringify(
+          currentId.value
+            ? { ...sent, version: version.value }
+            : {
+                ...sent,
+                requestId,
+                playedOn: null,
+                status: "planned",
+                report: "",
+                published: false
+              }
+        )
+      }
+    );
+    if (!live) return false;
+    currentId.value = result.session.id;
+    version.value = result.session.version;
+    baseline.value = snapshot;
+    savedOnce.value = true;
+    emit("saved", { ...sent, ...result.session });
+    return true;
+  } catch (e) {
+    if (live) {
+      blocked.value = true;
+      error.value =
+        e instanceof ApiError && e.status === 409
+          ? "Cette séance a changé ailleurs. Tes notes restent ici : copie-les avant de rouvrir la dernière version."
+          : e instanceof ApiError && [401, 403, 404].includes(e.status)
+            ? "Cette préparation n’est plus accessible avec ton compte. Tes notes restent ici."
+            : "Enregistrement interrompu. Tes notes restent ici ; réessaie avant de quitter.";
+    }
+    return false;
+  } finally {
+    saving.value = false;
+    if (live && !blocked.value && dirty.value) queue();
+  }
+}
+async function flush(): Promise<boolean> {
+  clearTimeout(timer);
+  if (inflight) {
+    await inflight;
+    if (blocked.value) return false;
+  }
+  if (!dirty.value) return true;
+  inflight = persist();
+  try {
+    return await inflight;
+  } finally {
+    inflight = null;
+  }
+}
+async function retry() {
+  blocked.value = false;
+  await flush();
+}
+async function finish(schedule = false) {
+  if (
+    npcDirty.value &&
+    !window.confirm(
+      "Abandonner les PNJ non enregistrés avant de quitter la préparation ?"
+    )
+  )
+    return;
+  if (saving.value) await inflight;
+  if (dirty.value && !(await flush())) return;
+  if (dirty.value && !(await flush())) return;
+  if (schedule && currentId.value) emit("schedule", currentId.value);
+  else emit("close");
+}
+function close() {
+  if (blocked.value || (!draft.value.title.trim() && dirty.value)) {
+    if (
+      window.confirm(
+        "Fermer et abandonner les modifications non enregistrées ?"
+      )
+    )
+      emit("close");
+    return;
+  }
+  void finish();
+}
+async function library() {
+  libraryError.value = "";
+  try {
+    const r = await api<{
+      references: typeof references.value;
+      previous: Prep[];
+    }>(`/api/campaigns/${props.campaignId}/preparation-library`);
+    if (live) {
+      references.value = r.references;
+      previous.value = r.previous;
+    }
+  } catch {
+    if (live)
+      libraryError.value =
+        "Les références des séances précédentes sont indisponibles.";
+  }
+}
+function carry() {
+  const source = previous.value.find((s) => s.id === fromSession.value);
+  if (!source) return;
+  const pending = source.scenes?.filter((s) => !s.done) || [];
+  if (draft.value.scenes.length + pending.length > 30) {
+    libraryError.value =
+      "La préparation est limitée à 30 scènes. Retire une scène avant de reprendre ce lot.";
+    return;
+  }
+  draft.value.scenes.push(
+    ...JSON.parse(JSON.stringify(pending)).map((s: CampaignScene) => ({
+      ...s,
+      id: crypto.randomUUID()
+    }))
+  );
+  fromSession.value = "";
+}
+function idea() {
+  const text = selection.value.trim();
+  if (!text || draft.value.scenes.length >= 30) return;
+  draft.value.scenes.push({
+    id: crypto.randomUUID(),
+    title: text.split("\n")[0].slice(0, 120),
+    notes: text.slice(0, 6000),
+    done: false,
+    references: []
+  });
+  selection.value = "";
+}
+function beforeUnload(e: BeforeUnloadEvent) {
+  if (dirty.value || saving.value || npcDirty.value) {
+    e.preventDefault();
+    e.returnValue = "";
+  }
+}
+watch(draft, queue, { deep: true });
+onBeforeRouteLeave(
+  () =>
+    !(dirty.value || saving.value) ||
+    window.confirm(
+      "La préparation n’est pas encore enregistrée. Quitter quand même ?"
+    )
+);
+onMounted(() => {
+  void library();
+  window.addEventListener("beforeunload", beforeUnload);
+});
+onUnmounted(() => {
+  live = false;
+  clearTimeout(timer);
+  window.removeEventListener("beforeunload", beforeUnload);
+});
 </script>
 <template>
  <section class="notebook" aria-label="Carnet de séance">
@@ -61,5 +252,5 @@ onUnmounted(()=>{live=false;clearTimeout(timer);window.removeEventListener('befo
  </section>
 </template>
 <style scoped>
-.notebook{display:grid;gap:14px;border:1px solid #486077;background:#091420;border-radius:8px;padding:20px;margin:20px 0;min-width:0}.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}.notebook h3{margin:0}.notebook label{display:grid;gap:8px}.notebook input,.notebook textarea,.notebook select{box-sizing:border-box;width:100%;min-width:0;padding:12px;background:#08131f;color:#edf4ff;border:1px solid #405875;border-radius:6px;font:inherit;min-height:44px}.notebook textarea{resize:vertical;line-height:1.7}.notebook button{min-height:44px;padding:10px 14px;background:#101e30;color:#eaf2ff;border:1px solid #405875;border-radius:6px;font:inherit;cursor:pointer}.notebook button:disabled{opacity:.5;cursor:default}.save-state,small{color:#a3b7cc;line-height:1.6}.save-state{margin:0}.prose{white-space:pre-wrap;line-height:1.7}.reuse summary{cursor:pointer;min-height:44px;align-content:center}.reuse[open]{display:grid;gap:12px}button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,summary:focus-visible{outline:2px solid #a3eaff;outline-offset:3px}@media(max-width:640px){.notebook{padding:12px}.toolbar>button{flex:1}}
+.notebook{display:grid;gap:14px;border:1px solid var(--c-line-strong);background:var(--c-night);border-radius:8px;padding:20px;margin:20px 0;min-width:0}.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}.notebook h3{margin:0}.notebook label{display:grid;gap:8px}.notebook input,.notebook textarea,.notebook select{box-sizing:border-box;width:100%;min-width:0;padding:12px;background:var(--c-night);color:var(--c-text);border:1px solid var(--c-line-strong);border-radius:6px;font:inherit;min-height:44px}.notebook textarea{resize:vertical;line-height:1.7}.notebook button{min-height:44px;padding:10px 14px;background:var(--c-surface);color:var(--c-text);border:1px solid var(--c-line-strong);border-radius:6px;font:inherit;cursor:pointer}.notebook button:disabled{opacity:.5;cursor:default}.save-state,small{color:var(--c-text-soft);line-height:1.6}.save-state{margin:0}.prose{white-space:pre-wrap;line-height:1.7}.reuse summary{cursor:pointer;min-height:44px;align-content:center}.reuse[open]{display:grid;gap:12px}button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,summary:focus-visible{outline:2px solid var(--c-reality-soft);outline-offset:3px}@media(max-width:640px){.notebook{padding:12px}.toolbar>button{flex:1}}
 </style>

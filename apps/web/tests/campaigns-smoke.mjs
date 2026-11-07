@@ -15,6 +15,9 @@ let session=null,effectConflict=false,admissionStatus='pending',admissionVersion
 const effectTarget={id:chid,name:'Alexandra',version:1,money:1000,corruption:0,integrity:4,source:''};
 const errors=[];const page=await browser.newPage();page.on('pageerror',e=>errors.push(e.message));page.on('dialog',d=>acceptDialogs?d.accept():d.dismiss());
 await page.route('**/api/**',async route=>{
+ // Flux temps réel et pastille indisponibles ici : rafraîchissement de secours, pas de pastille.
+ if(new URL(route.request().url()).pathname==='/api/attention')return route.fulfill({status:200,contentType:'application/json',body:'{"items":[],"total":0,"role":"player"}'});
+ if(/\/events$/.test(new URL(route.request().url()).pathname))return route.fulfill({status:404,contentType:'application/json',body:'{"error":"not_found"}'});
  const req=route.request(),url=new URL(req.url()),path=url.pathname,method=req.method();let body={},code=200;
  if(path==='/api/campaigns'&&method==='GET')body={campaigns:deleted?[]:[campaign()],canCreate:role==='gm',userId:role==='gm'?gid:pid};
  else if(path==='/api/campaigns'&&method==='POST'){assert.equal(req.postDataJSON().name,'Nouvelle table');body={campaign:{id:cid}};code=201;}
@@ -181,7 +184,8 @@ try{
  assert.equal(await page.getByText('BROUILLON DU PORT',{exact:true}).count(),0);
  assert.equal(await page.getByRole('button',{name:'Préparer une séance',exact:true}).count(),0);
  assert.equal(await page.getByRole('button',{name:'Supprimer la campagne',exact:true}).count(),0);
- assert.equal(await page.getByRole('link',{name:'← Retour à Mon espace',exact:true}).count(),2);
+ // Un seul retour, en bas : la barre de navigation du haut mène déjà à Mon espace.
+ assert.equal(await page.getByRole('link',{name:'← Retour à Mon espace',exact:true}).count(),1);
  role='gm';await page.goto(base+'/campaigns/'+cid);await page.getByText('La piste du port',{exact:true}).waitFor();
  await page.getByText('Gérer la campagne',{exact:true}).click();
  await page.getByRole('button',{name:'Préparer une séance',exact:true}).click();

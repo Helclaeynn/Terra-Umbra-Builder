@@ -1,84 +1,851 @@
 <script setup lang="ts">
-import {computed,nextTick,onMounted,onUnmounted,ref,watch} from 'vue';
-import {damageCalculation,weaponMechanics} from '../../../api/src/rules/combat-damage';
-import {api,ApiError} from '../lib/api';
-const props=defineProps<{campaignId:string;room:any;showComposer?:boolean}>(),emit=defineEmits<{changed:[];attention:[count:number]}>();
-const endpoint=`/api/campaigns/${props.campaignId}/combat`,pending=ref<any[]>([]),error=ref(''),busy=ref(false),request=ref<any>(null);
-const reactable=ref<any[]>([]),counterAttacks=ref<any[]>([]),reactionDrafts=ref<Record<string,any>>({}),counterDrafts=ref<Record<string,any>>({}),reactionNotice=ref('');
-const attackEdge=ref(false),attackPowerId=ref(''),attackContextConfirmed=ref(false),attackDamageVector=ref('');
-const attackDistance=ref<number|null>(null),areaDistance=ref<number|null>(null),additionalTargets=ref<string[]>([]),targetDistances=ref<Record<string,number>>({}),intensiveUse=ref(false),matterSpent=ref(2),pursuesImpulse=ref(false);
-const obstacleId=ref(''),obstacleKnown=ref(false),obstacleBlocks=ref(false),obstacleError=ref('');
-async function testObstacle(){if(busy.value||!props.room.canManage||!attacker.value?.frenzy?.active||!obstacleId.value||!obstacleKnown.value||!obstacleBlocks.value)return;busy.value=true;obstacleError.value='';try{await api(`/api/characters/${attackerId.value}/play`,{method:'POST',body:JSON.stringify({requestId:crypto.randomUUID(),version:attacker.value.version,action:'frenzy-obstacle',obstacleId:obstacleId.value,recognizedCloseConfirmed:true,impulseBlockedConfirmed:true})});await load();emit('changed');}catch(e){obstacleError.value=e instanceof ApiError&&e.status===409?'Le personnage a changé. Actualise et recommence.':'Ce test demande une Frénésie active et un proche qui fait réellement obstacle.';}finally{busy.value=false;}}
-watch(obstacleId,()=>{obstacleKnown.value=false;obstacleBlocks.value=false;});
-const arcOffers=ref<any[]>([]),arcDrafts=ref<Record<string,any>>({});
-const lightningReactions=ref<any[]>([]),allyLightningDrafts=ref<Record<string,any>>({});
-const lightningErrors:Record<string,string>={frenzy_impulse_pa_required:'Garde 1 PA pour poursuivre l’impulsion de Frénésie, ou confirme que cette action la poursuit.',foudre_fin_ruling_required:'Le MJ doit confirmer un fléau, les conditions de destruction et un impact réellement mortel.',physical_pa_reserved:'Ce dernier PA est réservé à une action physique par la Crête.',between_states_action_forbidden:'Entre deux états interdit cette attaque physique.',foudre_range_required:'Confirme une cible réellement à 20 m maximum.',foudre_defense_required:'Choisis et confirme la défense pertinente avec le MJ.',paratonnerre_unavailable:'Paratonnerre indisponible : vérifie la Révélation, les PA, le quota et la fenêtre de réaction.',paratonnerre_destination_required:'Indique et confirme un conducteur ou une zone valide proche.',electric_protection_ruling_required:'Le MJ doit confirmer la source et la valeur de cette protection électrique.',invalid_foudre_vector:'La Foudre utilise le vecteur Électricité.',edge_roll_resolved:'Ce résultat est déjà engagé ou résolu et ne peut plus être forcé.'};
-const attackPower=computed(()=>attacker.value?.powers?.find((p:any)=>p.id===attackPowerId.value));
-const damageVectors=[{id:'melee',label:'Mêlée'},{id:'balistique',label:'Balistique'},{id:'antichoc',label:'Antichoc'},{id:'feu',label:'Feu'},{id:'froid',label:'Froid'},{id:'electricite',label:'Électricité'},{id:'chimique',label:'Chimique'},{id:'occulte',label:'Occulte'},{id:'neuro',label:'Neuro'}];
-const attackRulingRequired=computed(()=>!!option.value?.requiresAdjudication);
-const attackConditions=computed(()=>[option.value?.condition,attackPower.value?.context,option.value?.requiresAdjudication?'Le MJ a arbitré le type de dégâts de cette arme.':null,option.value?.modeChangeCost?`Le régime ${option.value.mode} est autorisé pour cette arme ; son changement sera payé automatiquement.`:null].filter(Boolean));
-const frequency=(limit:string|null)=>limit?({round:'1/round',scene:'1/scène',day:'1/jour',scenario:'1/scénario'} as Record<string,string>)[limit]??limit:'';
-const effectText=(effect:any)=>`${effect.amount>=0?'+':''}${effect.amount} ${({damage:'DGT',piercing:'Perforant',skill:'au jet',reduction:'Réduction'} as Record<string,string>)[effect.kind]??effect.kind}`;
-const weapons=ref<any[]>([]),weaponId=ref('');
-const attackers=ref<any[]>([]),attackerId=ref(''),optionId=ref(''),attackTarget=ref(''),attackBonus=ref(0),attackDamageBonus=ref(0),attackSurprise=ref(false),category=ref(''),weaponSearch=ref('');
-watch(attackerId,()=>{obstacleId.value='';obstacleKnown.value=false;obstacleBlocks.value=false;});
-const attacker=computed(()=>attackers.value.find(a=>a.id===attackerId.value));
-const categories=computed(()=>[...new Set<string>((attacker.value?.options??[]).map((w:any)=>w.group??'Autres'))].sort((a,b)=>a.localeCompare(b,'fr')));
-const options=computed(()=>(attacker.value?.options??[]).filter((w:any)=>(!category.value||w.group===category.value)&&w.label.toLocaleLowerCase('fr').includes(weaponSearch.value.toLocaleLowerCase('fr'))));
-const option=computed(()=>attacker.value?.options.find((o:any)=>o.id===optionId.value));
-watch(attackerId,()=>{attackEdge.value=false;attackPowerId.value='';attackContextConfirmed.value=false;optionId.value='';category.value='';weaponSearch.value='';});
+import { computed, nextTick, onMounted, onUnmounted, ref, watch } from "vue";
+import { TABLE_IGNORED_TOPICS, useLiveUpdates } from "../lib/live-updates";
+import {
+  damageCalculation,
+  weaponMechanics
+} from "../../../api/src/rules/combat-damage";
+import { api, ApiError } from "../lib/api";
+const props = defineProps<{
+    campaignId: string;
+    room: any;
+    showComposer?: boolean;
+  }>(),
+  emit = defineEmits<{ changed: []; attention: [count: number] }>();
+const endpoint = `/api/campaigns/${props.campaignId}/combat`,
+  pending = ref<any[]>([]),
+  error = ref(""),
+  busy = ref(false),
+  request = ref<any>(null);
+const reactable = ref<any[]>([]),
+  counterAttacks = ref<any[]>([]),
+  reactionDrafts = ref<Record<string, any>>({}),
+  counterDrafts = ref<Record<string, any>>({}),
+  reactionNotice = ref("");
+const attackEdge = ref(false),
+  attackPowerId = ref(""),
+  attackContextConfirmed = ref(false),
+  attackDamageVector = ref("");
+const attackDistance = ref<number | null>(null),
+  areaDistance = ref<number | null>(null),
+  additionalTargets = ref<string[]>([]),
+  targetDistances = ref<Record<string, number>>({}),
+  intensiveUse = ref(false),
+  matterSpent = ref(2),
+  pursuesImpulse = ref(false);
+const obstacleId = ref(""),
+  obstacleKnown = ref(false),
+  obstacleBlocks = ref(false),
+  obstacleError = ref("");
+async function testObstacle() {
+  if (
+    busy.value ||
+    !props.room.canManage ||
+    !attacker.value?.frenzy?.active ||
+    !obstacleId.value ||
+    !obstacleKnown.value ||
+    !obstacleBlocks.value
+  )
+    return;
+  busy.value = true;
+  obstacleError.value = "";
+  try {
+    await api(`/api/characters/${attackerId.value}/play`, {
+      method: "POST",
+      body: JSON.stringify({
+        requestId: crypto.randomUUID(),
+        version: attacker.value.version,
+        action: "frenzy-obstacle",
+        obstacleId: obstacleId.value,
+        recognizedCloseConfirmed: true,
+        impulseBlockedConfirmed: true
+      })
+    });
+    await load();
+    emit("changed");
+  } catch (e) {
+    obstacleError.value =
+      e instanceof ApiError && e.status === 409
+        ? "Le personnage a changé. Actualise et recommence."
+        : "Ce test demande une Frénésie active et un proche qui fait réellement obstacle.";
+  } finally {
+    busy.value = false;
+  }
+}
+watch(obstacleId, () => {
+  obstacleKnown.value = false;
+  obstacleBlocks.value = false;
+});
+const arcOffers = ref<any[]>([]),
+  arcDrafts = ref<Record<string, any>>({});
+const lightningReactions = ref<any[]>([]),
+  allyLightningDrafts = ref<Record<string, any>>({});
+const lightningErrors: Record<string, string> = {
+  frenzy_impulse_pa_required:
+    "Garde 1 PA pour poursuivre l’impulsion de Frénésie, ou confirme que cette action la poursuit.",
+  foudre_fin_ruling_required:
+    "Le MJ doit confirmer un fléau, les conditions de destruction et un impact réellement mortel.",
+  physical_pa_reserved:
+    "Ce dernier PA est réservé à une action physique par la Crête.",
+  between_states_action_forbidden:
+    "Entre deux états interdit cette attaque physique.",
+  foudre_range_required: "Confirme une cible réellement à 20 m maximum.",
+  foudre_defense_required:
+    "Choisis et confirme la défense pertinente avec le MJ.",
+  paratonnerre_unavailable:
+    "Paratonnerre indisponible : vérifie la Révélation, les PA, le quota et la fenêtre de réaction.",
+  paratonnerre_destination_required:
+    "Indique et confirme un conducteur ou une zone valide proche.",
+  electric_protection_ruling_required:
+    "Le MJ doit confirmer la source et la valeur de cette protection électrique.",
+  invalid_foudre_vector: "La Foudre utilise le vecteur Électricité.",
+  edge_roll_resolved:
+    "Ce résultat est déjà engagé ou résolu et ne peut plus être forcé."
+};
+const attackPower = computed(() =>
+  attacker.value?.powers?.find((p: any) => p.id === attackPowerId.value)
+);
+const damageVectors = [
+  { id: "melee", label: "Mêlée" },
+  { id: "balistique", label: "Balistique" },
+  { id: "antichoc", label: "Antichoc" },
+  { id: "feu", label: "Feu" },
+  { id: "froid", label: "Froid" },
+  { id: "electricite", label: "Électricité" },
+  { id: "chimique", label: "Chimique" },
+  { id: "occulte", label: "Occulte" },
+  { id: "neuro", label: "Neuro" }
+];
+const attackRulingRequired = computed(
+  () => !!option.value?.requiresAdjudication
+);
+const attackConditions = computed(() =>
+  [
+    option.value?.condition,
+    attackPower.value?.context,
+    option.value?.requiresAdjudication
+      ? "Le MJ a arbitré le type de dégâts de cette arme."
+      : null,
+    option.value?.modeChangeCost
+      ? `Le régime ${option.value.mode} est autorisé pour cette arme ; son changement sera payé automatiquement.`
+      : null
+  ].filter(Boolean)
+);
+const frequency = (limit: string | null) =>
+  limit
+    ? ((
+        {
+          round: "1/round",
+          scene: "1/scène",
+          day: "1/jour",
+          scenario: "1/scénario"
+        } as Record<string, string>
+      )[limit] ?? limit)
+    : "";
+const effectText = (effect: any) =>
+  `${effect.amount >= 0 ? "+" : ""}${effect.amount} ${({ damage: "DGT", piercing: "Perforant", skill: "au jet", reduction: "Réduction" } as Record<string, string>)[effect.kind] ?? effect.kind}`;
+const weapons = ref<any[]>([]),
+  weaponId = ref("");
+const attackers = ref<any[]>([]),
+  attackerId = ref(""),
+  optionId = ref(""),
+  attackTarget = ref(""),
+  attackBonus = ref(0),
+  attackDamageBonus = ref(0),
+  attackSurprise = ref(false),
+  category = ref(""),
+  weaponSearch = ref("");
+watch(attackerId, () => {
+  obstacleId.value = "";
+  obstacleKnown.value = false;
+  obstacleBlocks.value = false;
+});
+const attacker = computed(() =>
+  attackers.value.find((a) => a.id === attackerId.value)
+);
+const categories = computed(() =>
+  [
+    ...new Set<string>(
+      (attacker.value?.options ?? []).map((w: any) => w.group ?? "Autres")
+    )
+  ].sort((a, b) => a.localeCompare(b, "fr"))
+);
+const options = computed(() =>
+  (attacker.value?.options ?? []).filter(
+    (w: any) =>
+      (!category.value || w.group === category.value) &&
+      w.label
+        .toLocaleLowerCase("fr")
+        .includes(weaponSearch.value.toLocaleLowerCase("fr"))
+  )
+);
+const option = computed(() =>
+  attacker.value?.options.find((o: any) => o.id === optionId.value)
+);
+watch(attackerId, () => {
+  attackEdge.value = false;
+  attackPowerId.value = "";
+  attackContextConfirmed.value = false;
+  optionId.value = "";
+  category.value = "";
+  weaponSearch.value = "";
+});
 
-watch([optionId,attackPowerId],()=>{attackContextConfirmed.value=false;});
-watch(()=>[attackerId.value,attackTarget.value,optionId.value].join('|'),()=>{pursuesImpulse.value=false;attackDistance.value=null;areaDistance.value=null;additionalTargets.value=[];targetDistances.value={};attackContextConfirmed.value=false;});
+watch([optionId, attackPowerId], () => {
+  attackContextConfirmed.value = false;
+});
+watch(
+  () => [attackerId.value, attackTarget.value, optionId.value].join("|"),
+  () => {
+    pursuesImpulse.value = false;
+    attackDistance.value = null;
+    areaDistance.value = null;
+    additionalTargets.value = [];
+    targetDistances.value = {};
+    attackContextConfirmed.value = false;
+  }
+);
 
-watch(()=>[optionId.value,option.value?.requiresAdjudication,option.value?.modeChangeCost,option.value?.mode].join('|'),()=>{attackContextConfirmed.value=false;attackDamageVector.value='';});
-const launchReady=computed(()=>!busy.value&&attacker.value?.ready!==false&&!!option.value&&option.value.remaining!==0&&!!attackTarget.value&&(option.value?.attackMode!=='foudre'||typeof attackDistance.value==='number'&&Number.isFinite(attackDistance.value)&&attackDistance.value>=0&&attackDistance.value<=(option.value?.areaRadius??20)&&(option.value?.areaRadius?typeof areaDistance.value==='number'&&areaDistance.value>=0&&areaDistance.value<=20:true)&&additionalTargets.value.every(id=>Number.isFinite(targetDistances.value[id])&&targetDistances.value[id]>=0&&targetDistances.value[id]<=(option.value?.areaRadius??20)))&&!attackPower.value?.used&&(!attackConditions.value.length||attackContextConfirmed.value)&&(!attackRulingRequired.value||props.room.canManage)&&(!option.value?.requiresAdjudication||damageVectors.some(v=>v.id===attackDamageVector.value)));
-function launchPayload(){return {attackerId:attackerId.value,optionId:optionId.value,targetId:attackTarget.value,bonus:attackBonus.value,bonusDamage:attackDamageBonus.value,surprise:attackSurprise.value,...(option.value?.attackMode==='foudre'?{distance:attackDistance.value,areaDistance:areaDistance.value,targetNatureConfirmed:attackContextConfirmed.value,targets:[{id:attackTarget.value,distance:attackDistance.value},...additionalTargets.value.filter(id=>id!==attackTarget.value).map(id=>({id,distance:targetDistances.value[id]}))].map(t=>({...t,kind:'creature',immaterial:!!option.value.requiresOccultTarget,exposed:!!option.value.requiresExposedComponent,perceived:!!option.value.requiresPerceivedTarget}))}:{}),intensiveUse:intensiveUse.value,matterSpent:matterSpent.value,pursuesImpulse:pursuesImpulse.value,...(attackEdge.value?{edge:true}:{}),...(attackPowerId.value?{powerId:attackPowerId.value}:{}),...(option.value?.requiresAdjudication?{damageType:attackDamageVector.value}:{}),contextConfirmed:attackContextConfirmed.value||pursuesImpulse.value};}
-function launchAttack(){if(launchReady.value)void send('launch',launchPayload());}
-
-const eventId=ref(''),targetId=ref(''),damage=ref<number|null>(null),bonusDamage=ref(0),penetration=ref(0),damageType=ref('melee'),attackMode=ref('melee'),surprise=ref(false);
-const drafts=ref<Record<string,any>>({});let alive=true,timer:ReturnType<typeof setInterval>;
-const rolls=computed(()=>props.room.events.filter((e:any)=>['roll','gm-roll'].includes(e.kind)&&e.payload.total!==undefined));
-const targets=computed(()=>[...props.room.characters,...props.room.combatants]);
-watch(weaponId,()=>{const w=weapons.value.find(w=>w.id===weaponId.value);if(w){damage.value=w.damage;penetration.value=Number(/Perforant\s+(\d+)/i.exec(w.properties)?.[1]??0);damageType.value=weaponMechanics(w).damageType;attackMode.value=weaponMechanics(w).attackMode;}});
-watch(eventId,()=>{const p=rolls.value.find((e:any)=>e.id===eventId.value)?.payload;damage.value=p?.damage??null;penetration.value=p?.penetration??0;damageType.value=p?.damageType??'melee';attackMode.value=p?.attackMode??(p?.damageType==='balistique'?'ranged':'melee');});
-async function load(){if(!alive||document.visibilityState==='hidden')return;try{const r=await api<any>(endpoint);if(!alive)return;pending.value=r.pending;arcOffers.value=r.arcOffers??[];for(const a of arcOffers.value)arcDrafts.value[a.id]??={targetId:'',distance:null,confirmed:false};lightningReactions.value=r.lightningReactions??[];for(const a of lightningReactions.value)allyLightningDrafts.value[a.id]??={actorId:'',distance:null,destination:'',ally:false,confirmed:false,safe:false,edge:false,pursuesImpulse:false};reactable.value=r.reactable??[];counterAttacks.value=r.counterAttacks??[];for(const a of reactable.value)reactionDrafts.value[a.id]??={key:'',distance:0,confirmed:false,ally:false,nearby:false,edge:false,pursuesImpulse:false};for(const a of counterAttacks.value)counterDrafts.value[a.attackId]??={optionId:'',confirmed:false};emit('attention',new Set([...pending.value,...reactable.value,...arcOffers.value,...lightningReactions.value,...counterAttacks.value].map((a:any)=>a.id??a.attackId)).size);weapons.value=r.weapons??[];attackers.value=r.attackers??[];if(!attackers.value.some(a=>a.id===attackerId.value)&&attackers.value.length)attackerId.value=attackers.value[0].id;for(const a of r.pending)drafts.value[a.id]??={protectionIds:[],material:['melee','balistique','antichoc'].includes(a.damageType),armor:a.target.armor,extraArmor:0,extraReduction:0,bonus:0,defenseOverride:0,edge:false,defensePowerId:'',defenseContextConfirmed:false,neuroProgramId:'',damagePowerId:'',damageContextConfirmed:false,auraSpend:0,sacrificePrograms:[],supernaturalConfirmed:false,foudreDefenseKind:'',foudreDefenseConfirmed:false,paratonnerreDestination:'',paratonnerreSafe:false,paratonnerreConfirmed:false,paratonnerreEdge:false,electricProtectionNote:'',electricProtectionConfirmed:false,magicalProtection:0,guardToken:false,ablativeHostId:'',ablativeMountedConfirmed:false,pursuesImpulse:false,finVeritable:false,fleauConfirmed:false,destructionConditionsConfirmed:false,finNote:'',erodeProtection:false,erosionLayerId:'',erosionAmount:0,erosionMaterial:true,erosionConfirmed:false};}catch{if(alive){error.value='Impossible de charger les attaques en attente.';emit('attention',Math.max(1,pending.value.length));}}}
-async function send(action:string,extra:any){if(busy.value)return;if(request.value){error.value='Réessaie l’action non confirmée.';return;}request.value={action,requestId:crypto.randomUUID(),...extra};await retry();}
-async function retry(){if(busy.value||!request.value)return;busy.value=true;error.value='';try{const response=await api<any>(endpoint,{method:'POST',body:JSON.stringify(request.value)});if(response.result)reactionNotice.value=response.result.label+(response.result.total!=null?` · ${response.result.modifier} + ${response.result.dice.join(' + ')} = ${response.result.total}${response.result.narrativeFailure?' · échec narratif':''}`:' · cible de l’attaque changée');if(response.result?.success!==undefined)reactionNotice.value+=response.result.success?' · décharge détournée':' · opposition échouée';request.value=null;attackEdge.value=false;await load();emit('changed');}catch(e){error.value=e instanceof ApiError&&lightningErrors[e.message]?lightningErrors[e.message]:e instanceof ApiError&&e.status===409?'Cette attaque a déjà changé ou a déjà été traitée.':e instanceof ApiError&&e.message==='insufficient_edge'?'Pas assez d’Edge pour cette dépense.':e instanceof ApiError&&e.message==='defense_power_unavailable'?'Cette défense spéciale est indisponible ou déjà utilisée. Actualise et choisis une autre défense.':e instanceof ApiError&&e.message==='active_defense_unavailable'?'Défense active indisponible : vérifie les PA, l’initiative, la surprise et les blessures.':e instanceof ApiError&&e.message==='attack_unavailable'?'Attaque indisponible : commence le combat, vérifie les PA et les blessures.':e instanceof ApiError&&e.message==='truth_weapon_ruling_required'?'Le MJ doit choisir le type de dégâts de cette arme et confirmer son arbitrage.':e instanceof ApiError&&e.message==='weapon_mode_ruling_required'?'Le MJ doit confirmer que le changement de mode et son coût en PA ont été résolus.':'Action non confirmée. Réessaie.';if(e instanceof ApiError&&e.status<500){request.value=null;await load();}}finally{busy.value=false;}}
-function reactionChoice(a:any){const d=reactionDrafts.value[a.id];return a.options.find((o:any)=>o.actorId+'|'+o.id===d?.key);}
-function reactionReady(a:any){const d=reactionDrafts.value[a.id],o=reactionChoice(a);return !busy.value&&!request.value&&!!o&&d.confirmed&&d.ally&&(o.range!==null||d.nearby)&&Number.isFinite(d.distance)&&d.distance>=0&&(o.range==='movement'?d.distance<o.movement:typeof o.range==='number'?d.distance<=o.range:true);}
-function react(a:any){if(!reactionReady(a))return;const d=reactionDrafts.value[a.id],o=reactionChoice(a);void send('react',{attackId:a.id,expectedTargetId:a.targetId,actorId:o.actorId,actorVersion:o.version,powerId:o.id,distance:d.distance,contextConfirmed:d.confirmed,allyConfirmed:d.ally,nearbyConfirmed:d.nearby,edge:d.edge,pursuesImpulse:d.pursuesImpulse});}
-function riposte(a:any){const d=counterDrafts.value[a.attackId];if(!d.optionId||!d.confirmed||busy.value)return;void send('launch',{attackerId:a.actorId,targetId:a.targetId,optionId:d.optionId,riposteAttackId:a.attackId,inReach:true,bonus:0,bonusDamage:0,surprise:false});}
-function allyParatonnerre(a:any){const d=allyLightningDrafts.value[a.id],actor=a.options.find((o:any)=>o.actorId===d.actorId);if(!actor)return;void send('paratonnerre',{attackId:a.id,actorId:actor.actorId,actorVersion:actor.version,distance:d.distance,allyConfirmed:d.ally,destination:d.destination,safeDestinationConfirmed:d.safe,contextConfirmed:d.confirmed,edge:d.edge,pursuesImpulse:d.pursuesImpulse});}
-function specialDefense(a:any){return a.target.specialDefenses?.find((p:any)=>p.id===drafts.value[a.id]?.defensePowerId);}
-function canChooseDefense(a:any){const d=drafts.value[a.id];return a.attackMode!=='foudre'||['physical','occult'].includes(d.foudreDefenseKind)&&d.foudreDefenseConfirmed;}
-function paratonnerre(a:any){const d=drafts.value[a.id];if(!a.target.paratonnerre?.available||!d.paratonnerreConfirmed||!d.paratonnerreSafe||!d.paratonnerreDestination.trim())return;void send('paratonnerre',{attackId:a.id,actorVersion:a.target.version,destination:d.paratonnerreDestination,contextConfirmed:d.paratonnerreConfirmed,safeDestinationConfirmed:d.paratonnerreSafe,edge:d.paratonnerreEdge,pursuesImpulse:d.pursuesImpulse});}
-function canDefend(a:any){if(!canChooseDefense(a))return false;const d=drafts.value[a.id],special=specialDefense(a);if(a.narrativeFailure)return false;if(special)return special.available&&(!special.context||d.defenseContextConfirmed);return a.target.canDefend&&(!a.surprise||a.target.canSurprised)&&(a.damageType!=='neuro'||!!d.neuroProgramId);}
-function damagePower(a:any){return a.target.damagePowers?.find((p:any)=>p.id===drafts.value[a.id]?.damagePowerId);}
-function powerReduction(a:any){const p=damagePower(a);if(!p||p.context&&!drafts.value[a.id].damageContextConfirmed)return 0;return (p.effects??[]).filter((e:any)=>e.kind==='reduction').reduce((n:number,e:any)=>n+Number(e.amount),0);}
-function defensePayload(a:any,active:boolean){const d=drafts.value[a.id];return {attackId:a.id,active,bonus:d.bonus,pursuesImpulse:d.pursuesImpulse,contextConfirmed:d.pursuesImpulse===true,...(a.attackMode==='foudre'?{defenseKind:d.foudreDefenseKind,contextConfirmed:d.foudreDefenseConfirmed}:{}),...(active&&d.defensePowerId?{defensePowerId:d.defensePowerId,contextConfirmed:d.defenseContextConfirmed}:{}),...(active&&d.neuroProgramId?{neuroProgramId:d.neuroProgramId}:{}),...(active&&d.edge?{edge:true}:{})};}
-function resolvePayload(a:any){const d=drafts.value[a.id];return {attackId:a.id,protectionIds:d.protectionIds,material:a.attackMode==='foudre'||a.damageType==='neuro'?false:d.material,armor:d.armor,extraArmor:d.extraArmor,extraReduction:d.extraReduction,defenseOverride:d.defenseOverride,guardToken:d.guardToken,pursuesImpulse:d.pursuesImpulse,contextConfirmed:d.pursuesImpulse===true,ablativeHostId:d.ablativeHostId,ablativeMountedConfirmed:d.ablativeMountedConfirmed,...(props.room.canManage?{finVeritable:d.finVeritable,fleauConfirmed:d.fleauConfirmed,destructionConditionsConfirmed:d.destructionConditionsConfirmed,finNote:d.finNote,magicalProtection:d.magicalProtection,erodeProtection:d.erodeProtection,erosionLayerId:d.erosionLayerId,erosionAmount:d.erosionAmount,erosionMaterial:d.erosionMaterial,erosionConfirmed:d.erosionConfirmed}:{}),...(a.attackMode==='foudre'&&props.room.canManage?{electricProtectionNote:d.electricProtectionNote,electricProtectionConfirmed:d.electricProtectionConfirmed}:{}),...(d.damagePowerId?{damagePowerId:d.damagePowerId,contextConfirmed:d.damageContextConfirmed}:{}),auraSpend:a.damageType==='occulte'?d.auraSpend:0,sacrificePrograms:a.damageType==='neuro'?d.sacrificePrograms:[],...(props.room.canManage?{supernaturalConfirmed:d.supernaturalConfirmed}:{})};}
-function canResolve(a:any){const d=drafts.value[a.id];if(d.finVeritable&&(!d.fleauConfirmed||!d.destructionConditionsConfirmed||!d.finNote.trim()||a.target.hp-preview(a).damage>a.target.death))return false;if(a.attackMode==='foudre'&&d.extraReduction>0&&(!props.room.canManage||!d.electricProtectionConfirmed||!d.electricProtectionNote.trim()))return false;const p=damagePower(a);return !(a.defense.narrativeFailure&&!props.room.canManage)&&(!p||!p.used&&(!p.context||drafts.value[a.id].damageContextConfirmed));}
-
-function preview(a:any):any{const d=drafts.value[a.id],items=(a.target.protections??[]).filter((p:any)=>d.protectionIds.includes(p.id)),defense=Math.max(a.defense?.narrativeFailure?d.defenseOverride:a.defense?.total??a.target.defense,a.reactionDefense??0),vector=a.occultTarget?'occulte':a.damageType;
- const armor=a.attackMode==='foudre'||a.damageType==='neuro'||!d.material?0:Number(d.armor)+Number(d.extraArmor)+Math.max(0,...items.map((p:any)=>p.armor))+Math.max(a.target.bodyArmor??0,...items.map((p:any)=>p.body));
- let reduction=Number(d.extraReduction)+(a.target.reductions?.[vector]??0)+Math.max(0,...items.map((p:any)=>p.reductions?.[vector]??0))+[...new Map(items.map((p:any)=>[p.itemId??p.id,p])).values()].reduce((n:number,p:any)=>n+(p.additive?.[vector]??0),0)+powerReduction(a)+(a.damageType==='neuro'?3*d.sacrificePrograms.length:0)+(a.damageType==='occulte'?Number(d.auraSpend)*(a.target.aura?.egidePerAura??0):0);
- if(a.attackMode==='foudre'){if(a.lightning?.ignoreMagicProtection)reduction=Math.max(0,reduction-Number(d.magicalProtection));if(a.lightning?.halfElectricProtection)reduction=Math.floor(reduction/2);}
- const supernatural=a.attackMode==='foudre'||a.damageType==='occulte'||props.room.canManage&&d.supernaturalConfirmed,hit=!a.narrativeFailure&&a.total>defense;
- const mounted=items.some((p:any)=>(p.itemId??p.sourceId??p.id)==='modules-d-armure-plaques-ablatives'&&(p.ablativeRemaining??0)>0)&&d.ablativeMountedConfirmed&&items.some((p:any)=>p.id===d.ablativeHostId&&((p.armor??0)>0||Object.values(p.reductions??{}).some((r:any)=>r>0)));if(mounted&&d.material&&a.attackMode!=='foudre'&&a.damageType!=='neuro')reduction+=1;
- if(a.target.guard&&hit&&supernatural)reduction+=6;if(items.some((p:any)=>p.sourceId==='verite-24-brigandine-de-garde')&&a.target.guardItems?.brigandine?.available&&hit&&supernatural)reduction+=3;if(d.guardToken&&hit&&supernatural)reduction+=2;
- const calc=damageCalculation({...a,bonusDamage:a.bonusDamage-(d.erodeProtection?2:0)},defense,armor,reduction);if(a.electricDiversion?.success){calc.hit=false;calc.damage=0;calc.alteration=false;}return calc;
+watch(
+  () =>
+    [
+      optionId.value,
+      option.value?.requiresAdjudication,
+      option.value?.modeChangeCost,
+      option.value?.mode
+    ].join("|"),
+  () => {
+    attackContextConfirmed.value = false;
+    attackDamageVector.value = "";
+  }
+);
+const launchReady = computed(
+  () =>
+    !busy.value &&
+    attacker.value?.ready !== false &&
+    !!option.value &&
+    option.value.remaining !== 0 &&
+    !!attackTarget.value &&
+    (option.value?.attackMode !== "foudre" ||
+      (typeof attackDistance.value === "number" &&
+        Number.isFinite(attackDistance.value) &&
+        attackDistance.value >= 0 &&
+        attackDistance.value <= (option.value?.areaRadius ?? 20) &&
+        (option.value?.areaRadius
+          ? typeof areaDistance.value === "number" &&
+            areaDistance.value >= 0 &&
+            areaDistance.value <= 20
+          : true) &&
+        additionalTargets.value.every(
+          (id) =>
+            Number.isFinite(targetDistances.value[id]) &&
+            targetDistances.value[id] >= 0 &&
+            targetDistances.value[id] <= (option.value?.areaRadius ?? 20)
+        ))) &&
+    !attackPower.value?.used &&
+    (!attackConditions.value.length || attackContextConfirmed.value) &&
+    (!attackRulingRequired.value || props.room.canManage) &&
+    (!option.value?.requiresAdjudication ||
+      damageVectors.some((v) => v.id === attackDamageVector.value))
+);
+function launchPayload() {
+  return {
+    attackerId: attackerId.value,
+    optionId: optionId.value,
+    targetId: attackTarget.value,
+    bonus: attackBonus.value,
+    bonusDamage: attackDamageBonus.value,
+    surprise: attackSurprise.value,
+    ...(option.value?.attackMode === "foudre"
+      ? {
+          distance: attackDistance.value,
+          areaDistance: areaDistance.value,
+          targetNatureConfirmed: attackContextConfirmed.value,
+          targets: [
+            { id: attackTarget.value, distance: attackDistance.value },
+            ...additionalTargets.value
+              .filter((id) => id !== attackTarget.value)
+              .map((id) => ({ id, distance: targetDistances.value[id] }))
+          ].map((t) => ({
+            ...t,
+            kind: "creature",
+            immaterial: !!option.value.requiresOccultTarget,
+            exposed: !!option.value.requiresExposedComponent,
+            perceived: !!option.value.requiresPerceivedTarget
+          }))
+        }
+      : {}),
+    intensiveUse: intensiveUse.value,
+    matterSpent: matterSpent.value,
+    pursuesImpulse: pursuesImpulse.value,
+    ...(attackEdge.value ? { edge: true } : {}),
+    ...(attackPowerId.value ? { powerId: attackPowerId.value } : {}),
+    ...(option.value?.requiresAdjudication
+      ? { damageType: attackDamageVector.value }
+      : {}),
+    contextConfirmed: attackContextConfirmed.value || pursuesImpulse.value
+  };
+}
+function launchAttack() {
+  if (launchReady.value) void send("launch", launchPayload());
 }
 
-async function prepareAttack(id:string,rollId=''){category.value='';weaponSearch.value='';attackerId.value=id;await nextTick();optionId.value=attacker.value?.options.some((o:any)=>o.id===rollId)?rollId:'';document.querySelector('.combat-resolution')?.scrollIntoView({behavior:'smooth',block:'start'});}
-defineExpose({prepareAttack});
-onMounted(()=>{void load();timer=setInterval(()=>void load(),3000);});onUnmounted(()=>{alive=false;clearInterval(timer);});
+const eventId = ref(""),
+  targetId = ref(""),
+  damage = ref<number | null>(null),
+  bonusDamage = ref(0),
+  penetration = ref(0),
+  damageType = ref("melee"),
+  attackMode = ref("melee"),
+  surprise = ref(false);
+const drafts = ref<Record<string, any>>({});
+let alive = true,
+  timer: ReturnType<typeof setInterval> | undefined;
+const rolls = computed(() =>
+  props.room.events.filter(
+    (e: any) =>
+      ["roll", "gm-roll"].includes(e.kind) && e.payload.total !== undefined
+  )
+);
+const targets = computed(() => [
+  ...props.room.characters,
+  ...props.room.combatants
+]);
+watch(weaponId, () => {
+  const w = weapons.value.find((w) => w.id === weaponId.value);
+  if (w) {
+    damage.value = w.damage;
+    penetration.value = Number(
+      /Perforant\s+(\d+)/i.exec(w.properties)?.[1] ?? 0
+    );
+    damageType.value = weaponMechanics(w).damageType;
+    attackMode.value = weaponMechanics(w).attackMode;
+  }
+});
+watch(eventId, () => {
+  const p = rolls.value.find((e: any) => e.id === eventId.value)?.payload;
+  damage.value = p?.damage ?? null;
+  penetration.value = p?.penetration ?? 0;
+  damageType.value = p?.damageType ?? "melee";
+  attackMode.value =
+    p?.attackMode ?? (p?.damageType === "balistique" ? "ranged" : "melee");
+});
+async function load() {
+  if (!alive || document.visibilityState === "hidden") return;
+  try {
+    const r = await api<any>(endpoint);
+    if (!alive) return;
+    pending.value = r.pending;
+    arcOffers.value = r.arcOffers ?? [];
+    for (const a of arcOffers.value)
+      arcDrafts.value[a.id] ??= {
+        targetId: "",
+        distance: null,
+        confirmed: false
+      };
+    lightningReactions.value = r.lightningReactions ?? [];
+    for (const a of lightningReactions.value)
+      allyLightningDrafts.value[a.id] ??= {
+        actorId: "",
+        distance: null,
+        destination: "",
+        ally: false,
+        confirmed: false,
+        safe: false,
+        edge: false,
+        pursuesImpulse: false
+      };
+    reactable.value = r.reactable ?? [];
+    counterAttacks.value = r.counterAttacks ?? [];
+    for (const a of reactable.value)
+      reactionDrafts.value[a.id] ??= {
+        key: "",
+        distance: 0,
+        confirmed: false,
+        ally: false,
+        nearby: false,
+        edge: false,
+        pursuesImpulse: false
+      };
+    for (const a of counterAttacks.value)
+      counterDrafts.value[a.attackId] ??= { optionId: "", confirmed: false };
+    emit(
+      "attention",
+      new Set(
+        [
+          ...pending.value,
+          ...reactable.value,
+          ...arcOffers.value,
+          ...lightningReactions.value,
+          ...counterAttacks.value
+        ].map((a: any) => a.id ?? a.attackId)
+      ).size
+    );
+    weapons.value = r.weapons ?? [];
+    attackers.value = r.attackers ?? [];
+    if (
+      !attackers.value.some((a) => a.id === attackerId.value) &&
+      attackers.value.length
+    )
+      attackerId.value = attackers.value[0].id;
+    for (const a of r.pending)
+      drafts.value[a.id] ??= {
+        protectionIds: [],
+        material: ["melee", "balistique", "antichoc"].includes(a.damageType),
+        armor: a.target.armor,
+        extraArmor: 0,
+        extraReduction: 0,
+        bonus: 0,
+        defenseOverride: 0,
+        edge: false,
+        defensePowerId: "",
+        defenseContextConfirmed: false,
+        neuroProgramId: "",
+        damagePowerId: "",
+        damageContextConfirmed: false,
+        auraSpend: 0,
+        sacrificePrograms: [],
+        supernaturalConfirmed: false,
+        foudreDefenseKind: "",
+        foudreDefenseConfirmed: false,
+        paratonnerreDestination: "",
+        paratonnerreSafe: false,
+        paratonnerreConfirmed: false,
+        paratonnerreEdge: false,
+        electricProtectionNote: "",
+        electricProtectionConfirmed: false,
+        magicalProtection: 0,
+        guardToken: false,
+        ablativeHostId: "",
+        ablativeMountedConfirmed: false,
+        pursuesImpulse: false,
+        finVeritable: false,
+        fleauConfirmed: false,
+        destructionConditionsConfirmed: false,
+        finNote: "",
+        erodeProtection: false,
+        erosionLayerId: "",
+        erosionAmount: 0,
+        erosionMaterial: true,
+        erosionConfirmed: false
+      };
+  } catch {
+    if (alive) {
+      error.value = "Impossible de charger les attaques en attente.";
+      emit("attention", Math.max(1, pending.value.length));
+    }
+  }
+}
+async function send(action: string, extra: any) {
+  if (busy.value) return;
+  if (request.value) {
+    error.value = "Réessaie l’action non confirmée.";
+    return;
+  }
+  request.value = { action, requestId: crypto.randomUUID(), ...extra };
+  await retry();
+}
+async function retry() {
+  if (busy.value || !request.value) return;
+  busy.value = true;
+  error.value = "";
+  try {
+    const response = await api<any>(endpoint, {
+      method: "POST",
+      body: JSON.stringify(request.value)
+    });
+    if (response.result)
+      reactionNotice.value =
+        response.result.label +
+        (response.result.total != null
+          ? ` · ${response.result.modifier} + ${response.result.dice.join(" + ")} = ${response.result.total}${response.result.narrativeFailure ? " · échec narratif" : ""}`
+          : " · cible de l’attaque changée");
+    if (response.result?.success !== undefined)
+      reactionNotice.value += response.result.success
+        ? " · décharge détournée"
+        : " · opposition échouée";
+    request.value = null;
+    attackEdge.value = false;
+    await load();
+    emit("changed");
+  } catch (e) {
+    error.value =
+      e instanceof ApiError && lightningErrors[e.message]
+        ? lightningErrors[e.message]
+        : e instanceof ApiError && e.status === 409
+          ? "Cette attaque a déjà changé ou a déjà été traitée."
+          : e instanceof ApiError && e.message === "insufficient_edge"
+            ? "Pas assez d’Edge pour cette dépense."
+            : e instanceof ApiError && e.message === "defense_power_unavailable"
+              ? "Cette défense spéciale est indisponible ou déjà utilisée. Actualise et choisis une autre défense."
+              : e instanceof ApiError &&
+                  e.message === "active_defense_unavailable"
+                ? "Défense active indisponible : vérifie les PA, l’initiative, la surprise et les blessures."
+                : e instanceof ApiError && e.message === "attack_unavailable"
+                  ? "Attaque indisponible : commence le combat, vérifie les PA et les blessures."
+                  : e instanceof ApiError &&
+                      e.message === "truth_weapon_ruling_required"
+                    ? "Le MJ doit choisir le type de dégâts de cette arme et confirmer son arbitrage."
+                    : e instanceof ApiError &&
+                        e.message === "weapon_mode_ruling_required"
+                      ? "Le MJ doit confirmer que le changement de mode et son coût en PA ont été résolus."
+                      : "Action non confirmée. Réessaie.";
+    if (e instanceof ApiError && e.status < 500) {
+      request.value = null;
+      await load();
+    }
+  } finally {
+    busy.value = false;
+  }
+}
+function reactionChoice(a: any) {
+  const d = reactionDrafts.value[a.id];
+  return a.options.find((o: any) => o.actorId + "|" + o.id === d?.key);
+}
+function reactionReady(a: any) {
+  const d = reactionDrafts.value[a.id],
+    o = reactionChoice(a);
+  return (
+    !busy.value &&
+    !request.value &&
+    !!o &&
+    d.confirmed &&
+    d.ally &&
+    (o.range !== null || d.nearby) &&
+    Number.isFinite(d.distance) &&
+    d.distance >= 0 &&
+    (o.range === "movement"
+      ? d.distance < o.movement
+      : typeof o.range === "number"
+        ? d.distance <= o.range
+        : true)
+  );
+}
+function react(a: any) {
+  if (!reactionReady(a)) return;
+  const d = reactionDrafts.value[a.id],
+    o = reactionChoice(a);
+  void send("react", {
+    attackId: a.id,
+    expectedTargetId: a.targetId,
+    actorId: o.actorId,
+    actorVersion: o.version,
+    powerId: o.id,
+    distance: d.distance,
+    contextConfirmed: d.confirmed,
+    allyConfirmed: d.ally,
+    nearbyConfirmed: d.nearby,
+    edge: d.edge,
+    pursuesImpulse: d.pursuesImpulse
+  });
+}
+function riposte(a: any) {
+  const d = counterDrafts.value[a.attackId];
+  if (!d.optionId || !d.confirmed || busy.value) return;
+  void send("launch", {
+    attackerId: a.actorId,
+    targetId: a.targetId,
+    optionId: d.optionId,
+    riposteAttackId: a.attackId,
+    inReach: true,
+    bonus: 0,
+    bonusDamage: 0,
+    surprise: false
+  });
+}
+function allyParatonnerre(a: any) {
+  const d = allyLightningDrafts.value[a.id],
+    actor = a.options.find((o: any) => o.actorId === d.actorId);
+  if (!actor) return;
+  void send("paratonnerre", {
+    attackId: a.id,
+    actorId: actor.actorId,
+    actorVersion: actor.version,
+    distance: d.distance,
+    allyConfirmed: d.ally,
+    destination: d.destination,
+    safeDestinationConfirmed: d.safe,
+    contextConfirmed: d.confirmed,
+    edge: d.edge,
+    pursuesImpulse: d.pursuesImpulse
+  });
+}
+function specialDefense(a: any) {
+  return a.target.specialDefenses?.find(
+    (p: any) => p.id === drafts.value[a.id]?.defensePowerId
+  );
+}
+function canChooseDefense(a: any) {
+  const d = drafts.value[a.id];
+  return (
+    a.attackMode !== "foudre" ||
+    (["physical", "occult"].includes(d.foudreDefenseKind) &&
+      d.foudreDefenseConfirmed)
+  );
+}
+function paratonnerre(a: any) {
+  const d = drafts.value[a.id];
+  if (
+    !a.target.paratonnerre?.available ||
+    !d.paratonnerreConfirmed ||
+    !d.paratonnerreSafe ||
+    !d.paratonnerreDestination.trim()
+  )
+    return;
+  void send("paratonnerre", {
+    attackId: a.id,
+    actorVersion: a.target.version,
+    destination: d.paratonnerreDestination,
+    contextConfirmed: d.paratonnerreConfirmed,
+    safeDestinationConfirmed: d.paratonnerreSafe,
+    edge: d.paratonnerreEdge,
+    pursuesImpulse: d.pursuesImpulse
+  });
+}
+function canDefend(a: any) {
+  if (!canChooseDefense(a)) return false;
+  const d = drafts.value[a.id],
+    special = specialDefense(a);
+  if (a.narrativeFailure) return false;
+  if (special)
+    return special.available && (!special.context || d.defenseContextConfirmed);
+  return (
+    a.target.canDefend &&
+    (!a.surprise || a.target.canSurprised) &&
+    (a.damageType !== "neuro" || !!d.neuroProgramId)
+  );
+}
+function damagePower(a: any) {
+  return a.target.damagePowers?.find(
+    (p: any) => p.id === drafts.value[a.id]?.damagePowerId
+  );
+}
+function powerReduction(a: any) {
+  const p = damagePower(a);
+  if (!p || (p.context && !drafts.value[a.id].damageContextConfirmed)) return 0;
+  return (p.effects ?? [])
+    .filter((e: any) => e.kind === "reduction")
+    .reduce((n: number, e: any) => n + Number(e.amount), 0);
+}
+function defensePayload(a: any, active: boolean) {
+  const d = drafts.value[a.id];
+  return {
+    attackId: a.id,
+    active,
+    bonus: d.bonus,
+    pursuesImpulse: d.pursuesImpulse,
+    contextConfirmed: d.pursuesImpulse === true,
+    ...(a.attackMode === "foudre"
+      ? {
+          defenseKind: d.foudreDefenseKind,
+          contextConfirmed: d.foudreDefenseConfirmed
+        }
+      : {}),
+    ...(active && d.defensePowerId
+      ? {
+          defensePowerId: d.defensePowerId,
+          contextConfirmed: d.defenseContextConfirmed
+        }
+      : {}),
+    ...(active && d.neuroProgramId ? { neuroProgramId: d.neuroProgramId } : {}),
+    ...(active && d.edge ? { edge: true } : {})
+  };
+}
+function resolvePayload(a: any) {
+  const d = drafts.value[a.id];
+  return {
+    attackId: a.id,
+    protectionIds: d.protectionIds,
+    material:
+      a.attackMode === "foudre" || a.damageType === "neuro"
+        ? false
+        : d.material,
+    armor: d.armor,
+    extraArmor: d.extraArmor,
+    extraReduction: d.extraReduction,
+    defenseOverride: d.defenseOverride,
+    guardToken: d.guardToken,
+    pursuesImpulse: d.pursuesImpulse,
+    contextConfirmed: d.pursuesImpulse === true,
+    ablativeHostId: d.ablativeHostId,
+    ablativeMountedConfirmed: d.ablativeMountedConfirmed,
+    ...(props.room.canManage
+      ? {
+          finVeritable: d.finVeritable,
+          fleauConfirmed: d.fleauConfirmed,
+          destructionConditionsConfirmed: d.destructionConditionsConfirmed,
+          finNote: d.finNote,
+          magicalProtection: d.magicalProtection,
+          erodeProtection: d.erodeProtection,
+          erosionLayerId: d.erosionLayerId,
+          erosionAmount: d.erosionAmount,
+          erosionMaterial: d.erosionMaterial,
+          erosionConfirmed: d.erosionConfirmed
+        }
+      : {}),
+    ...(a.attackMode === "foudre" && props.room.canManage
+      ? {
+          electricProtectionNote: d.electricProtectionNote,
+          electricProtectionConfirmed: d.electricProtectionConfirmed
+        }
+      : {}),
+    ...(d.damagePowerId
+      ? {
+          damagePowerId: d.damagePowerId,
+          contextConfirmed: d.damageContextConfirmed
+        }
+      : {}),
+    auraSpend: a.damageType === "occulte" ? d.auraSpend : 0,
+    sacrificePrograms: a.damageType === "neuro" ? d.sacrificePrograms : [],
+    ...(props.room.canManage
+      ? { supernaturalConfirmed: d.supernaturalConfirmed }
+      : {})
+  };
+}
+function canResolve(a: any) {
+  const d = drafts.value[a.id];
+  if (
+    d.finVeritable &&
+    (!d.fleauConfirmed ||
+      !d.destructionConditionsConfirmed ||
+      !d.finNote.trim() ||
+      a.target.hp - preview(a).damage > a.target.death)
+  )
+    return false;
+  if (
+    a.attackMode === "foudre" &&
+    d.extraReduction > 0 &&
+    (!props.room.canManage ||
+      !d.electricProtectionConfirmed ||
+      !d.electricProtectionNote.trim())
+  )
+    return false;
+  const p = damagePower(a);
+  return (
+    !(a.defense.narrativeFailure && !props.room.canManage) &&
+    (!p ||
+      (!p.used && (!p.context || drafts.value[a.id].damageContextConfirmed)))
+  );
+}
+
+function preview(a: any): any {
+  const d = drafts.value[a.id],
+    items = (a.target.protections ?? []).filter((p: any) =>
+      d.protectionIds.includes(p.id)
+    ),
+    defense = Math.max(
+      a.defense?.narrativeFailure
+        ? d.defenseOverride
+        : (a.defense?.total ?? a.target.defense),
+      a.reactionDefense ?? 0
+    ),
+    vector = a.occultTarget ? "occulte" : a.damageType;
+  const armor =
+    a.attackMode === "foudre" || a.damageType === "neuro" || !d.material
+      ? 0
+      : Number(d.armor) +
+        Number(d.extraArmor) +
+        Math.max(0, ...items.map((p: any) => p.armor)) +
+        Math.max(a.target.bodyArmor ?? 0, ...items.map((p: any) => p.body));
+  let reduction =
+    Number(d.extraReduction) +
+    (a.target.reductions?.[vector] ?? 0) +
+    Math.max(0, ...items.map((p: any) => p.reductions?.[vector] ?? 0)) +
+    [...new Map(items.map((p: any) => [p.itemId ?? p.id, p])).values()].reduce(
+      (n: number, p: any) => n + (p.additive?.[vector] ?? 0),
+      0
+    ) +
+    powerReduction(a) +
+    (a.damageType === "neuro" ? 3 * d.sacrificePrograms.length : 0) +
+    (a.damageType === "occulte"
+      ? Number(d.auraSpend) * (a.target.aura?.egidePerAura ?? 0)
+      : 0);
+  if (a.attackMode === "foudre") {
+    if (a.lightning?.ignoreMagicProtection)
+      reduction = Math.max(0, reduction - Number(d.magicalProtection));
+    if (a.lightning?.halfElectricProtection)
+      reduction = Math.floor(reduction / 2);
+  }
+  const supernatural =
+      a.attackMode === "foudre" ||
+      a.damageType === "occulte" ||
+      (props.room.canManage && d.supernaturalConfirmed),
+    hit = !a.narrativeFailure && a.total > defense;
+  const mounted =
+    items.some(
+      (p: any) =>
+        (p.itemId ?? p.sourceId ?? p.id) ===
+          "modules-d-armure-plaques-ablatives" && (p.ablativeRemaining ?? 0) > 0
+    ) &&
+    d.ablativeMountedConfirmed &&
+    items.some(
+      (p: any) =>
+        p.id === d.ablativeHostId &&
+        ((p.armor ?? 0) > 0 ||
+          Object.values(p.reductions ?? {}).some((r: any) => r > 0))
+    );
+  if (
+    mounted &&
+    d.material &&
+    a.attackMode !== "foudre" &&
+    a.damageType !== "neuro"
+  )
+    reduction += 1;
+  if (a.target.guard && hit && supernatural) reduction += 6;
+  if (
+    items.some((p: any) => p.sourceId === "verite-24-brigandine-de-garde") &&
+    a.target.guardItems?.brigandine?.available &&
+    hit &&
+    supernatural
+  )
+    reduction += 3;
+  if (d.guardToken && hit && supernatural) reduction += 2;
+  const calc = damageCalculation(
+    { ...a, bonusDamage: a.bonusDamage - (d.erodeProtection ? 2 : 0) },
+    defense,
+    armor,
+    reduction
+  );
+  if (a.electricDiversion?.success) {
+    calc.hit = false;
+    calc.damage = 0;
+    calc.alteration = false;
+  }
+  return calc;
+}
+
+async function prepareAttack(id: string, rollId = "") {
+  category.value = "";
+  weaponSearch.value = "";
+  attackerId.value = id;
+  await nextTick();
+  optionId.value = attacker.value?.options.some((o: any) => o.id === rollId)
+    ? rollId
+    : "";
+  document
+    .querySelector(".combat-resolution")
+    ?.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+defineExpose({ prepareAttack });
+onMounted(() => {
+  void load();
+});
+useLiveUpdates(
+  () => `/api/campaigns/${props.campaignId}/events`,
+  () => void load(),
+  3000,
+  TABLE_IGNORED_TOPICS
+);
+onUnmounted(() => {
+  alive = false;
+  clearInterval(timer);
+});
 </script>
 <template>
 <section class="combat-resolution" aria-label="Résolution des attaques">
  <h2 v-if="showComposer===undefined||room.canManage">Attaques & défenses</h2><details v-if="room.canManage&&attacker?.frenzy?.active&&attacker.frenzy.fearSuppressed&&!attacker.frenzy.lucid"><summary>Frénésie · un proche fait obstacle</summary><p>{{attacker.name}} · {{attacker.frenzy.impulse}}</p><p v-if="obstacleError" role="alert">{{obstacleError}}</p><label>Proche concerné<select v-model="obstacleId"><option value="">Choisir…</option><option v-for="t in targets.filter((t:any)=>t.id!==attackerId)" :key="t.id" :value="t.id">{{t.name}}</option></select></label><label class="check"><input v-model="obstacleKnown" type="checkbox" /> Le personnage reconnaît habituellement ce proche.</label><label class="check"><input v-model="obstacleBlocks" type="checkbox" /> Ce proche fait réellement obstacle à son impulsion.</label><button :disabled="busy||!obstacleId||!obstacleKnown||!obstacleBlocks" @click="testObstacle">Reconnaître ce proche · DD 15 · 0 PA</button></details><p v-if="error" role="alert">{{ error }} <button v-if="request" :disabled="busy" @click="retry">Réessayer cette action</button></p>
  <p v-if="attacker&&!attacker.options.length">Aucune attaque chiffrée disponible : complète le profil de cette créature avant de lancer une attaque.</p><form v-if="attackers.length" v-show="showComposer!==false" @submit.prevent="launchAttack"><h3 v-if="room.canManage">Lancer une attaque</h3><p v-if="attacker?.ready===false" role="status">{{attacker.initiativePending?'Lance d’abord ton initiative.':'Aucune attaque disponible : vérifie les PA, les blessures et la transformation en cours.'}}</p><div class="combat-fields" :class="{'player-attack-fields':!room.canManage}"><label v-if="room.canManage">Attaquant<select v-model="attackerId" aria-label="Attaquant" required><option v-for="a in attackers" :key="a.id" :value="a.id">{{a.name}}</option></select></label><template v-if="room.canManage"><label>Catégorie d’arme<select v-model="category" aria-label="Catégorie d’arme"><option value="">Toutes les catégories</option><option v-for="c in categories" :key="c" :value="c">{{c}}</option></select></label><label>Rechercher une arme<input v-model="weaponSearch" type="search" /></label></template><label>Arme / attaque<select v-model="optionId" aria-label="Arme / attaque" required><option value="">Choisir…</option><optgroup v-for="group in categories.filter(c=>options.some((o:any)=>(o.group??'Autres')===c))" :key="group" :label="group"><option v-for="w in options.filter((o:any)=>(o.group??'Autres')===group)" :key="w.id" :value="w.id" :disabled="w.remaining===0">{{w.label}} · {{w.damageMode==='margin'?'DGT = marge':'DGT '+w.damage}}<template v-if="w.capacity!=null"> · {{w.remaining}} / {{w.capacity}} charges{{w.remaining===0?' · vide':''}}</template></option></optgroup></select></label><label v-if="attacker?.powers?.length">Capacité pour l’attaque<select v-model="attackPowerId" aria-label="Capacité pour l’attaque"><option value="">Attaque ordinaire</option><option v-for="p in attacker.powers" :key="p.id" :value="p.id" :disabled="p.used">{{p.name}}<template v-if="p.limit"> · {{frequency(p.limit)}}</template>{{p.used?' · déjà utilisée':''}}</option></select></label><label>Cible de l’attaque<select v-model="attackTarget" aria-label="Cible de l’attaque" required><option value="">Choisir avant de lancer…</option><option v-for="t in targets.filter((t:any)=>t.id!==attackerId)" :key="t.id" :value="t.id">{{t.name}} · {{t.health}}</option></select></label><label v-if="option?.attackMode==='foudre'">Distance réelle de la cible (m)<input v-model.number="attackDistance" @input="attackContextConfirmed=false" aria-label="Distance de la cible de Foudre" type="number" min="0" :max="option?.areaRadius??20" step="0.1" required /></label><template v-if="room.canManage"><label>Bonus au jet<input v-model.number="attackBonus" type="number" min="-100" max="100" /></label><label>Bonus aux dégâts<input v-model.number="attackDamageBonus" type="number" min="-100" max="100" /></label><label class="check"><input v-model="attackSurprise" type="checkbox" /> Cible surprise</label></template><template v-else><details class="attack-filters"><summary>Filtrer mes armes</summary><div class="combat-fields"><label>Catégorie d’arme<select v-model="category" aria-label="Catégorie d’arme"><option value="">Toutes les catégories</option><option v-for="c in categories" :key="c" :value="c">{{c}}</option></select></label><label>Rechercher une arme<input v-model="weaponSearch" type="search" /></label></div></details><details class="attack-options"><summary>Bonus & situation</summary><div class="combat-fields"><label>Bonus au jet<input v-model.number="attackBonus" type="number" min="-100" max="100" /></label><label>Bonus aux dégâts<input v-model.number="attackDamageBonus" type="number" min="-100" max="100" /></label><label class="check"><input v-model="attackSurprise" type="checkbox" /> Cible surprise</label></div></details></template><label v-if="attacker?.edge!=null" class="check"><input v-model="attackEdge" type="checkbox" :disabled="busy||attacker.edge<1" /> Forcer le Destin · 1 Edge ({{attacker.edge}} disponibles)</label></div><p v-if="option?.capacity!=null" class="ammo-status" role="status">Chargeur : {{option.remaining}} / {{option.capacity}} charges. <span v-if="option.remaining===0">Recharge cette arme depuis ta fiche avant de tirer.</span><span v-else>Cette attaque de Tir simple consomme une charge.</span></p><div v-if="attackPower" class="power-rule"><strong>{{attackPower.name}}</strong><p>{{(attackPower.effects??[]).map(effectText).join(' · ')}}<template v-if="attackPower.cost"> · {{attackPower.cost}} PA supplémentaires</template></p></div><template v-if="option?.areaRadius||option?.maxTargets"><label v-if="option.areaRadius">Distance du centre de la zone (m)<input v-model.number="areaDistance" @input="attackContextConfirmed=false" aria-label="Distance du centre de Foudre" type="number" min="0" max="20" /></label><details><summary>Cibles supplémentaires{{option.maxTargets?' · '+option.maxTargets+' au total':''}}</summary><template v-for="t in targets.filter((t:any)=>t.id!==attackerId&&t.id!==attackTarget)" :key="t.id"><label class="check"><input v-model="additionalTargets" @change="attackContextConfirmed=false" type="checkbox" :value="t.id" :disabled="!additionalTargets.includes(t.id)&&option.maxTargets&&additionalTargets.length>=option.maxTargets-1" /> {{t.name}}</label><label v-if="additionalTargets.includes(t.id)">Distance {{option.areaRadius?'au centre':'du lanceur'}} (m)<input v-model.number="targetDistances[t.id]" @input="attackContextConfirmed=false" type="number" min="0" :max="option.areaRadius??20" required /></label></template></details></template><p v-if="option?.requiresOccultTarget||option?.requiresExposedComponent">Le MJ doit confirmer les cibles immatérielles, réellement perçues et les composantes exposées.</p><details v-if="option?.sourceId"><summary>Régime et réserve de cette arme</summary><p v-if="option.modeChangeCost">Un changement vers {{option.mode}} ajoute {{option.modeChangeCost}} PA ; un régime déjà actif ne paie pas de nouveau ce coût.</p><label v-if="option.sourceId==='verite-26-helios-pr-8'" class="check"><input v-model="intensiveUse" type="checkbox" /> Usage intensif · refroidissement jusqu’à la prochaine activation</label><label v-if="option.sourceId==='verite-26-custodian-ar-9'&&option.mode==='perforant'">Matière réellement consommée<input v-model.number="matterSpent" type="number" min="2" max="10000" /></label></details><label v-if="attacker?.frenzy?.impulseRequired" class="check"><input v-model="pursuesImpulse" type="checkbox" /> Cette attaque poursuit mon impulsion de Frénésie.</label>
- <div v-if="attackRulingRequired" class="weapon-ruling"><p>{{option.notes}}</p><p v-if="!room.canManage" role="status">Demande l’arbitrage du MJ avant cette attaque : {{option.requiresAdjudication?'le type de dégâts reste à préciser.':'le changement de mode et son coût en PA doivent être résolus.'}}</p><label v-if="room.canManage&&option.requiresAdjudication">MJ · type de dégâts retenu<select v-model="attackDamageVector" aria-label="Type de dégâts arbitré par le MJ" required><option value="">Choisir le type après arbitrage…</option><option v-for="vector in damageVectors" :key="vector.id" :value="vector.id">{{vector.label}}</option></select></label></div><label v-if="attackConditions.length&&(!attackRulingRequired||room.canManage)" class="check attack-context"><input v-model="attackContextConfirmed" type="checkbox" /> Je confirme les conditions : {{attackConditions.join(' · ')}}</label><p v-if="option"><template v-if="option.components?.attributeName">{{option.components.attributeName}} {{option.components.attribute}} + {{option.components.skillName}} {{option.components.rank}} + bonus de fiche {{option.components.bonus??0}}</template><template v-else>Score du profil {{option.modifier}}</template> + bonus {{attackBonus}} + {{attackEdge?'20 (Edge)':'d10'}} · {{option.damageMode==='margin'?'Dégâts = marge du jet':option.damage+' dégâts de base'}} · {{option.penetration}} perforant</p><button :disabled="!launchReady">Lancer l’attaque · {{(option?.actionCost??1)+(attackPower?.cost??0)}} PA<template v-if="option?.modeChangeCost"> + {{option.modeChangeCost}} PA si changement de régime</template></button><small>{{room.canManage?'Catalogue trié par catégorie et par nom.':'Tes armes possédées, attaques naturelles et capacités disponibles sont proposées.'}} La cible reçoit directement la demande de défense.</small></form>
+ <div v-if="attackRulingRequired" class="weapon-ruling"><p>{{option.notes}}</p><p v-if="!room.canManage" role="status">Demande l’arbitrage du MJ avant cette attaque : {{option.requiresAdjudication?'le type de dégâts reste à préciser.':'le changement de mode et son coût en PA doivent être résolus.'}}</p><label v-if="room.canManage&&option.requiresAdjudication">MJ · type de dégâts retenu<select v-model="attackDamageVector" aria-label="Type de dégâts arbitré par le MJ" required><option value="">Choisir le type après arbitrage…</option><option v-for="vector in damageVectors" :key="vector.id" :value="vector.id">{{vector.label}}</option></select></label></div><label v-if="attackConditions.length&&(!attackRulingRequired||room.canManage)" class="check attack-context"><input v-model="attackContextConfirmed" type="checkbox" /> Je confirme les conditions : {{attackConditions.join(' · ')}}</label><p v-if="option"><template v-if="option.components?.attributeName">{{option.components.attributeName}} {{option.components.attribute}} + {{option.components.skillName}} {{option.components.rank}} + bonus de fiche {{option.components.bonus??0}}</template><template v-else>Score du profil {{option.modifier}}</template> + bonus {{attackBonus}} + {{attackEdge?'20 (Edge)':'d10'}} · {{option.damageMode==='margin'?'Dégâts = marge du jet':option.damage+' dégâts de base'}} · {{option.penetration}} perforant</p><button class="ui-primary" :disabled="!launchReady">Lancer l’attaque · {{(option?.actionCost??1)+(attackPower?.cost??0)}} PA<template v-if="option?.modeChangeCost"> + {{option.modeChangeCost}} PA si changement de régime</template></button><small>{{room.canManage?'Catalogue trié par catégorie et par nom.':'Tes armes possédées, attaques naturelles et capacités disponibles sont proposées.'}} La cible reçoit directement la demande de défense.</small></form>
  <details v-if="room.canManage"><summary>Diriger un jet d’attaque vers une cible</summary><form @submit.prevent="send('attack',{eventId,targetId,damage,bonusDamage,penetration,damageType,attackMode,surprise})"><div class="combat-fields">
  <label>Jet d’attaque<select v-model="eventId" required><option value="">Choisir un jet du journal…</option><option v-for="e in rolls" :key="e.id" :value="e.id">{{ e.characterName??e.payload.characterName??'MJ' }} · {{ e.payload.label }} → {{ e.payload.total }}</option></select></label>
  <label>Cible<select v-model="targetId" required><option value="">Choisir…</option><option v-for="c in targets" :key="c.id" :value="c.id">{{ c.name }}</option></select></label>
@@ -119,7 +886,7 @@ onMounted(()=>{void load();timer=setInterval(()=>void load(),3000);});onUnmounte
 </section>
 </template>
 <style scoped>
-.combat-resolution{padding:16px;margin:0 0 24px;background:#0d1b2b;border:1px solid #355267;border-radius:8px;min-width:0}.combat-fields{display:flex;gap:12px;align-items:center;flex-wrap:wrap}.combat-fields label{flex:1;min-width:130px}.combat-resolution label{display:grid;gap:6px;margin:10px 0}.combat-resolution .check{display:flex;align-items:center}.combat-resolution input:not([type=checkbox]),.combat-resolution select{box-sizing:border-box;width:100%;min-width:0;padding:10px;background:#08131f;color:#e6eef8;border:1px solid #526c80;border-radius:5px;font:inherit}.combat-resolution button{padding:10px;min-height:44px;margin:5px;background:#143247;color:#d5f6ff;border:1px solid #52758b;border-radius:5px;cursor:pointer}.combat-resolution button:disabled{opacity:.5;cursor:default}.combat-resolution summary{padding:12px;cursor:pointer}.combat-resolution fieldset{min-width:0;border:1px solid #355267}.reaction-card{padding:12px;border:1px solid #87bfae;border-radius:6px;margin:12px 0}.pending-attack{padding:12px;border:1px solid #52758b;border-radius:6px;margin:12px 0}.combat-resolution small{display:block;color:#b7c9d6;line-height:1.5}.damage-preview{color:#b7efff}.power-rule,.attack-context,.damage-power,.weapon-ruling{padding:12px;border:1px solid #54798f;border-radius:5px;background:#132b3d}.weapon-ruling p,.power-rule p{margin:6px 0;line-height:1.5}@media(max-width:500px){.combat-resolution{padding:10px}.combat-fields{display:grid;grid-template-columns:minmax(0,1fr);align-items:start}.combat-fields label{min-width:0}.combat-resolution button{margin:5px 0}.pending-attack{padding:10px}}
+.combat-resolution{padding:16px;margin:0 0 24px;background:var(--ui-panel);border:1px solid var(--ui-line);border-radius:8px;min-width:0}.combat-fields{display:flex;gap:12px;align-items:center;flex-wrap:wrap}.combat-fields label{flex:1;min-width:130px}.combat-resolution label{display:grid;gap:6px;margin:10px 0}.combat-resolution .check{display:flex;align-items:center}.combat-resolution input:not([type=checkbox]),.combat-resolution select{box-sizing:border-box;width:100%;min-width:0;padding:10px;background:var(--ui-input);color:var(--ui-ink);border:1px solid var(--ui-line-strong);border-radius:5px;font:inherit}.combat-resolution button{padding:10px;min-height:44px;margin:5px;background:var(--ui-btn);color:var(--ui-ink);border:1px solid var(--ui-line-strong);border-radius:5px;cursor:pointer}.combat-resolution button:disabled{opacity:.5;cursor:default}.combat-resolution summary{padding:12px;cursor:pointer}.combat-resolution fieldset{min-width:0;border:1px solid var(--ui-line)}.reaction-card{padding:12px;border:1px solid var(--ui-accent);border-radius:6px;margin:12px 0}.pending-attack{padding:12px;border:1px solid var(--ui-line-strong);border-radius:6px;margin:12px 0}.combat-resolution small{display:block;color:var(--ui-ink-soft);line-height:1.5}.damage-preview{color:var(--ui-link)}.power-rule,.attack-context,.damage-power,.weapon-ruling{padding:12px;border:1px solid var(--ui-line-strong);border-radius:5px;background:var(--ui-raised)}.weapon-ruling p,.power-rule p{margin:6px 0;line-height:1.5}@media(max-width:500px){.combat-resolution{padding:10px}.combat-fields{display:grid;grid-template-columns:minmax(0,1fr);align-items:start}.combat-fields label{min-width:0}.combat-resolution button{margin:5px 0}.pending-attack{padding:10px}}
 </style>
 
-<style scoped>.player-attack-fields{grid-template-columns:repeat(2,minmax(0,1fr))}.attack-filters,.attack-options{grid-column:1 / -1;width:100%;margin:0}.attack-filters>summary,.attack-options>summary{font-size:.9rem}.player-attack-fields .check{grid-column:1 / -1}@media(max-width:500px){.player-attack-fields{grid-template-columns:minmax(0,1fr)}}</style>
+<style scoped>.player-attack-fields{grid-template-columns:repeat(2,minmax(0,1fr))}.attack-filters,.attack-options{grid-column:1 / -1;width:100%;margin:0}.attack-filters>summary,.attack-options>summary{font-size:var(--ui-text-md)}.player-attack-fields .check{grid-column:1 / -1}@media(max-width:500px){.player-attack-fields{grid-template-columns:minmax(0,1fr)}}</style>

@@ -41,7 +41,7 @@ assert.equal(d.querySelectorAll('.revelation-control select').length,1,'Revelati
 assert.ok(d.querySelector('.play-dock .health-shortcut'));
 assert.equal([...d.querySelectorAll('.skill-group')].filter(group=>group.open).length,1,'Only the first skill group is open initially.');
 assert.equal(d.querySelector('.roll-help').open,false,'Long rules are optional.');
-const athletics=()=>[...d.querySelectorAll('.skill-roll')].find(e=>e.querySelector('strong').textContent==='Athlétisme');
+const athletics=()=>[...d.querySelectorAll('.skill-roll')].find(e=>e.querySelector('strong').firstChild.textContent==='Athlétisme');
 assert.match(athletics().textContent,/4 \+ 6 = 10/);
 assert.equal(athletics().querySelector('.skill-modifiers').open,false);athletics().querySelector('.skill-modifiers summary').click();await wait();
 const spinal=[...athletics().querySelectorAll('label')].find(e=>e.textContent.includes('Main Gecko'));assert.ok(spinal);spinal.querySelector('input').click();await wait();assert.match(athletics().textContent,/4 \+ 6\s*\+ 2 = 12/);

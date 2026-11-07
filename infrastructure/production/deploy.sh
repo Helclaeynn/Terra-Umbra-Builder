@@ -29,7 +29,10 @@ dry_run=${DRY_RUN:-0}
 exec 9>"$root/.production-release.lock"
 flock -w 60 9 || { echo "Une autre mise en ligne est en cours" >&2; exit 1; }
 
+# Le cache de construction (commun aux deux sites) peut dépasser 15 Go après
+# un essai interrompu : on le vide d'abord si la place manque.
 free_gb=$(df --output=avail -BG / | tail -1 | tr -dc 0-9)
+if (( free_gb < 10 + 4 )); then docker builder prune -af >/dev/null; free_gb=$(df --output=avail -BG / | tail -1 | tr -dc 0-9); fi
 if (( free_gb < 10 )); then
   echo "Moins de 10 Go libres sur le serveur ($free_gb Go) : arrêt." >&2
   exit 1
@@ -95,6 +98,8 @@ echo "== Sources du serveur"
 for dir in apps character-builder compendium; do
   rsync -a --delete --exclude node_modules --exclude dist "$stage/src/$dir/" "$root/$dir/"
 done
+# Dossiers PDF et cartes servis depuis cette copie (volumes de docker-compose.yml).
+chmod -R a+rX "$root/apps/web/public/pdf/dossiers" "$root/apps/web/public/map-assets"
 rsync -a --delete --exclude .env --exclude Caddyfile --exclude backup/ \
   "$stage/src/infrastructure/" "$root/infrastructure/"
 caddy_changed=false
@@ -143,12 +148,47 @@ printf '%s\n' "$sha" > "$root/.production-sha"
 rm -f "$archive"
 # Garde les deux derniers dossiers de mise en ligne et une image de retour arrière.
 ls -dt "$root"/releases/deploy-* | tail -n +3 | xargs -r rm -rf
+# Les dossiers PDF et cartes y sont déjà dans $root/apps : inutile de les garder deux fois de plus.
+rm -rf "$stage/src/apps/web/public/pdf/dossiers" "$stage/src/apps/web/public/map-assets"
 docker images --format '{{.Repository}}:{{.Tag}}' |
   grep -E '^tuc-v2-(api|web):' |
   grep -vE ":(latest|rollback|$short)$" |
   xargs -r docker rmi >/dev/null 2>&1 || true
 docker image prune -f >/dev/null
-docker builder prune -f >/dev/null
+# Cache de construction commun avec le site d'essai : vidé (--max-used-space ne le réduit pas).
+docker builder prune -af >/dev/null
 
 echo "EN LIGNE : $sha"
+
+echo "== Directus"
+# Clés et comptes créés une fois, hors de Git ; accès recopié dans les secrets du serveur.
+rand() { head -c 64 /dev/urandom | base64 | tr -dc A-Za-z0-9 | head -c "$1"; }
+if ! grep -q '^DIRECTUS_KEY=' .env; then
+  password=$(rand 24)
+  printf 'DIRECTUS_KEY=%s
+DIRECTUS_SECRET=%s
+DIRECTUS_ADMIN_EMAIL=auteur@terra-umbra.fr
+DIRECTUS_ADMIN_PASSWORD=%s
+DIRECTUS_DB_PASSWORD=%s
+'     "$(rand 32)" "$(rand 48)" "$password" "$(rand 32)" >> .env
+  ( umask 077
+    printf 'Directus (production) : https://terra-umbra.fr/cms
+Identifiant : auteur@terra-umbra.fr
+Mot de passe : %s
+' "$password"       > "$root/secrets/directus-production-acces.txt" )
+fi
+set -a
+. ./.env
+set +a
+psql -q -v pw="$DIRECTUS_DB_PASSWORD" -v db="$POSTGRES_DB" < "$root/infrastructure/recette/directus-db-role.sql"
+docker compose up -d --no-build directus </dev/null
+# Les extensions ne sont lues qu'au démarrage.
+docker compose restart directus </dev/null
+for _ in $(seq 1 60); do
+  docker compose exec -T api node -e     "fetch('http://directus:8055/server/health').then(r=>process.exit(r.ok?0:1),()=>process.exit(1))" </dev/null && break
+  sleep 3
+done
+psql -q < "$root/infrastructure/recette/directus-relations.sql"
+docker run --rm --network tuc-v2_backend   -e DIRECTUS_URL=http://directus:8055   -e DIRECTUS_ADMIN_EMAIL -e DIRECTUS_ADMIN_PASSWORD   -v "$root/infrastructure/recette/directus-setup.mjs:/setup.mjs:ro"   node:24-alpine node /setup.mjs </dev/null
+echo "Directus prêt : $site/cms"
 df -h / | awk 'NR==2{print "Disque : "$4" libres ("$5" utilisés)"}'

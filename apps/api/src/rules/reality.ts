@@ -388,7 +388,40 @@ function buildRealityRules(){
   };
 }
 
+let fromContent:ReturnType<typeof buildRealityRules>|null=null;
+
+/**
+ * Site d'essai (CONTENT_SOURCE=db) : équipement, augmentations et économie lus
+ * dans les tables de contenu remplacent les catalogues du code ; null revient
+ * aux catalogues. Les objets gardent leur identifiant et leurs champs.
+ */
+type BuiltRealityRules=ReturnType<typeof buildRealityRules>;
+export function useRealityContent(content:{equipment:BuiltRealityRules["equipment"];augmentations:BuiltRealityRules["augmentations"];economy?:AnyRecord}|null){
+  if(!content){fromContent=null;return;}
+  cache??=buildRealityRules();
+  const {equipment,augmentations}=content;
+  const recurring=equipment.filter(item=>item.recurring==="monthly"||item.recurring==="annual");
+  fromContent={
+    ...cache,
+    source:{...cache.source,content:"db"} as typeof cache.source,
+    economy:(content.economy??cache.economy) as typeof cache.economy,
+    equipment,
+    augmentations,
+    recurring,
+    counts:{
+      equipment:equipment.length,
+      augmentations:augmentations.length,
+      recurring:recurring.length,
+      monthly:recurring.filter(item=>item.recurring==="monthly").length,
+      annual:recurring.filter(item=>item.recurring==="annual").length,
+      vehicles:equipment.filter(item=>item.vehicle).length,
+      neuroprograms:equipment.filter(item=>item.neuro).length
+    }
+  };
+}
+
 export function getRealityRules(){
+  if(fromContent)return fromContent;
   cache??=buildRealityRules();
   return cache;
 }

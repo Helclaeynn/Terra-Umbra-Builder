@@ -8,7 +8,7 @@ pg.Pool.prototype.query = async function (sql) {
   if (String(sql).includes('WHERE published IS NOT NULL')) return { rows: published, rowCount: published.length };
   return { rows: [], rowCount: 0 };
 };
-const { registerCompendiumRoutes, getCompendiumQualityCorpus, invalidateCompendiumCorpus } = await import('../dist/compendium.js');
+const { registerCompendiumRoutes, getCompendiumQualityCorpus, invalidateCompendiumCorpus, publicArticleId } = await import('../dist/compendium.js');
 const app = fastify();
 await registerCompendiumRoutes(app);
 const id = 'pnj-crawlers-docx-dragoslav-memic';
@@ -27,7 +27,7 @@ for (const url of ['/api/compendium/meta', '/api/compendium/wiki-index?compact=1
   const response = await app.inject({ method: 'GET', url });
   assert.equal(response.statusCode, 200, `${url}: ${response.body}`);
 }
-const publicArticle = edited.publicArticles.find(item => item.id === id);
+const publicArticle = edited.publicArticles.find(item => item.id === publicArticleId(id));
 assert.ok(publicArticle.sections.some(section => section.id === 'edited-biography'));
 assert.ok(publicArticle.sections.every(section => section.audience !== 'mj'));
 await app.close();

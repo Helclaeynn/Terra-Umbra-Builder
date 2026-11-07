@@ -389,10 +389,10 @@ function talentState(talent:CorruptionTalent){
 .corruption-panel,
 .corruption-authorization,
 .authorization {
-  --corruption-line: #2d3e53;
-  --corruption-text: #eaf2fa;
-  --corruption-muted: #a0b3c8;
-  --corruption-cyan: #66ded5;
+  --corruption-line: var(--c-line);
+  --corruption-text: var(--c-text);
+  --corruption-muted: var(--c-muted);
+  --corruption-cyan: var(--c-reality);
   --corruption-violet: #baa0ee;
   --corruption-amber: #eac8a3;
   color: var(--corruption-text);
@@ -426,13 +426,13 @@ function talentState(talent:CorruptionTalent){
   border: 1px solid var(--corruption-line);
   border-radius: 7px;
   color: var(--corruption-text);
-  background: #132130;
+  background: var(--c-surface);
   line-height: 1.4;
   white-space: normal;
 }
 .corruption-panel button:hover:not(:disabled) {
   border-color: #5c8d97;
-  background: #1a3040;
+  background: var(--c-relief);
 }
 .corruption-panel button:disabled {
   cursor: not-allowed;
@@ -447,10 +447,10 @@ function talentState(talent:CorruptionTalent){
 .corruption-panel :is(input, select) {
   min-width: 0;
   min-height: 44px;
-  border: 1px solid #40516a;
+  border: 1px solid var(--c-line-strong);
   border-radius: 7px;
   color: var(--corruption-text);
-  background-color: #0d1724;
+  background-color: var(--c-surface);
 }
 .corruption-panel select {
   width: 100%;
@@ -473,9 +473,9 @@ function talentState(talent:CorruptionTalent){
   flex-shrink: 0;
   max-width: 100%;
   padding: 5px 9px;
-  border: 1px solid #385066;
+  border: 1px solid var(--c-line-strong);
   border-radius: 6px;
-  color: #b9d4e2;
+  color: var(--c-text-soft);
   font-size: 12px;
   line-height: 1.4;
 }
@@ -487,9 +487,9 @@ function talentState(talent:CorruptionTalent){
   gap: 18px;
   margin-top: 20px;
   padding: 15px 18px;
-  border: 1px solid #2b454d;
+  border: 1px solid var(--c-line);
   border-radius: 10px;
-  background: #0d1c26;
+  background: var(--c-surface);
 }
 .authorization-copy {
   display: grid;
@@ -499,7 +499,7 @@ function talentState(talent:CorruptionTalent){
 }
 .authorization-copy :is(strong, h2, h3) {
   margin: 0;
-  color: #c7e0e1;
+  color: var(--c-text-soft);
   font-size: 14px;
   font-weight: 600;
   line-height: 1.5;
@@ -541,7 +541,7 @@ function talentState(talent:CorruptionTalent){
   height: 24px;
   border: 1px solid #567488;
   border-radius: 20px;
-  background: #192c3b;
+  background: var(--c-relief);
 }
 .authorization-switch input + span::after {
   content: "";
@@ -550,16 +550,16 @@ function talentState(talent:CorruptionTalent){
   height: 16px;
   margin: 3px;
   border-radius: 50%;
-  background: #9cafc1;
+  background: var(--c-muted);
   transition: transform .15s;
 }
 .authorization-switch input:checked + span {
   border-color: #66b7ad;
-  background: #245953;
+  background: var(--c-line-strong);
 }
 .authorization-switch input:checked + span::after {
   transform: translateX(17px);
-  background: #91e1d5;
+  background: var(--c-reality-soft);
 }
 .authorization-switch input:disabled {
   cursor: not-allowed;
@@ -573,7 +573,7 @@ function talentState(talent:CorruptionTalent){
 }
 .corruption-heading :is(h2, h3) {
   font:
-    650 clamp(26px, 4cqi, 34px)/1.2 Inter,
+    650 clamp(26px, 4cqi, 34px)/1.2 "Inter Variable",Inter,
     "Segoe UI",
     sans-serif;
   letter-spacing: -.02em;
@@ -599,8 +599,8 @@ function talentState(talent:CorruptionTalent){
   background:
     linear-gradient(
       125deg,
-      #142234,
-      #101925);
+      var(--c-relief),
+      var(--c-surface));
 }
 .corruption-source-card {
   background:
@@ -608,7 +608,7 @@ function talentState(talent:CorruptionTalent){
       ellipse at 90% 5%,
       #4c2f6344,
       transparent 75%),
-    #121b2a;
+    var(--c-surface);
 }
 .panel-top {
   display: flex;
@@ -618,7 +618,7 @@ function talentState(talent:CorruptionTalent){
   gap: 10px;
 }
 .panel-top :is(h3, h4) {
-  color: #cad8e8;
+  color: var(--c-text-soft);
   font-size: 14px;
   font-weight: 500;
 }
@@ -635,8 +635,8 @@ function talentState(talent:CorruptionTalent){
   min-width: 0;
 }
 .gauge-heading :is(h3, h4) {
-  color: #e7d9f7;
-  font: 400 26px/1.25 Inter, "Segoe UI", sans-serif;
+  color: var(--c-truth-soft);
+  font: 400 26px/1.25 "Inter Variable",Inter, "Segoe UI", sans-serif;
 }
 .gauge-heading .eyebrow {
   color: var(--corruption-muted);
@@ -652,9 +652,9 @@ function talentState(talent:CorruptionTalent){
   width: 44px;
   height: 44px;
   padding: 0;
-  border-color: #4b5c78;
+  border-color: var(--c-line-strong);
   color: #d0eaf4;
-  background: #192b41;
+  background: var(--c-relief);
   font-size: 24px;
   line-height: 1;
 }
@@ -678,9 +678,9 @@ function talentState(talent:CorruptionTalent){
 .corruption-segments .segment {
   min-width: 0;
   height: 15px;
-  border: 1px solid #3d465c;
+  border: 1px solid var(--c-line);
   border-radius: 3px;
-  background: #162236;
+  background: var(--c-relief);
 }
 .corruption-segments .segment.filled {
   border-color: #b6a0d4;
@@ -701,7 +701,7 @@ function talentState(talent:CorruptionTalent){
   align-content: start;
   gap: 3px;
   min-width: 0;
-  color: #9eafc4;
+  color: var(--c-muted);
   font-size: 12px;
 }
 .corruption-depths b {
@@ -714,7 +714,7 @@ function talentState(talent:CorruptionTalent){
   line-height: 1.45;
 }
 .corruption-depths span.current {
-  color: #e0c8fa;
+  color: var(--c-truth-soft);
 }
 .corruption-depths span:last-child {
   text-align: right;
@@ -722,13 +722,13 @@ function talentState(talent:CorruptionTalent){
 .threshold-note {
   margin-top: 18px;
   padding-top: 14px;
-  border-top: 1px solid #44435b;
+  border-top: 1px solid var(--c-line);
   color: #c6b5dc;
   font-size: 13px;
   line-height: 1.65;
 }
 .threshold-note strong {
-  color: #e6d8f5;
+  color: var(--c-truth-soft);
   font-weight: 500;
 }
 .threshold-note.bad,
@@ -763,8 +763,8 @@ function talentState(talent:CorruptionTalent){
   padding: 20px 0 17px;
 }
 .source-identity > :is(p, h3, h4) {
-  color: #e3d8ef;
-  font: 400 23px/1.3 Inter, "Segoe UI", sans-serif;
+  color: var(--c-truth-soft);
+  font: 400 23px/1.3 "Inter Variable",Inter, "Segoe UI", sans-serif;
 }
 .source-principle {
   display: grid;
@@ -776,12 +776,12 @@ function talentState(talent:CorruptionTalent){
   letter-spacing: .04em;
 }
 .source-principle strong {
-  color: #deccee;
+  color: var(--c-truth-soft);
   font-size: 14px;
   font-weight: 500;
 }
 .source-help {
-  border-top: 1px solid #423a55;
+  border-top: 1px solid var(--c-line);
   color: #b2b2cb;
   font-size: 12px;
 }
@@ -800,7 +800,7 @@ function talentState(talent:CorruptionTalent){
   margin: 18px 0 24px;
   border: 1px solid var(--corruption-line);
   border-radius: 10px;
-  background: #0f1927;
+  background: var(--c-surface);
 }
 .corruption-rules > summary {
   display: flex;
@@ -809,7 +809,7 @@ function talentState(talent:CorruptionTalent){
   gap: 14px;
   min-height: 44px;
   padding: 14px 18px;
-  color: #bdcbdf;
+  color: var(--c-text-soft);
   font-size: 13px;
   list-style: none;
 }
@@ -840,7 +840,7 @@ function talentState(talent:CorruptionTalent){
   font-size: 15px;
 }
 .rules-content strong {
-  color: #d5dfec;
+  color: var(--c-text-soft);
 }
 .rules-content p + p {
   margin-top: 9px;
@@ -905,13 +905,13 @@ function talentState(talent:CorruptionTalent){
   gap: 12px;
   min-height: 56px;
   padding: 11px 15px;
-  border: 1px solid #41676a;
+  border: 1px solid var(--c-reality-deep);
   border-radius: 8px;
-  color: #b7e6e3;
-  background: #142e34;
+  color: var(--c-reality-soft);
+  background: var(--c-relief);
 }
 .ptv-summary strong {
-  color: #97e8dd;
+  color: var(--c-reality-soft);
   font-size: 28px;
   font-weight: 500;
   font-variant-numeric: tabular-nums;
@@ -929,8 +929,8 @@ function talentState(talent:CorruptionTalent){
   color: var(--corruption-amber);
 }
 .catalog-heading :is(h3, h4) {
-  color: #e6edf7;
-  font: 400 28px/1.25 Inter, "Segoe UI", sans-serif;
+  color: var(--c-text);
+  font: 400 28px/1.25 "Inter Variable",Inter, "Segoe UI", sans-serif;
 }
 .catalog-heading .eyebrow {
   color: #8ad8d7;
@@ -944,9 +944,9 @@ function talentState(talent:CorruptionTalent){
 .catalog-heading .schema-badge {
   min-height: 44px;
   padding: 10px 14px;
-  border-color: #41676a;
-  color: #a1e2df;
-  background: #142e34;
+  border-color: var(--c-reality-deep);
+  color: var(--c-reality-soft);
+  background: var(--c-relief);
   font-size: 14px;
 }
 .catalog-layout {
@@ -976,14 +976,14 @@ function talentState(talent:CorruptionTalent){
   min-height: 46px;
   padding: 11px 13px;
   color: var(--corruption-text);
-  background: #111f30;
+  background: var(--c-surface);
 }
 .catalog-search input::placeholder {
-  color: #9bb0c9;
+  color: var(--c-muted);
 }
 .catalog-source select {
   min-height: 46px;
-  background-color: #111f30;
+  background-color: var(--c-surface);
 }
 .catalog-filters {
   display: flex;
@@ -1007,9 +1007,9 @@ function talentState(talent:CorruptionTalent){
   font-size: 12px;
 }
 .kind-filters button[aria-pressed=true] {
-  border-color: #3d6770;
-  color: #9ee6e3;
-  background: #193442;
+  border-color: var(--c-reality-deep);
+  color: var(--c-reality-soft);
+  background: var(--c-relief);
 }
 .available-filter {
   display: inline-flex;
@@ -1054,13 +1054,13 @@ function talentState(talent:CorruptionTalent){
   gap: 12px;
   min-width: 0;
   padding: 18px;
-  border: 1px solid #32465e;
+  border: 1px solid var(--c-line);
   border-radius: 10px;
   background:
     linear-gradient(
       135deg,
-      #142338,
-      #101a29);
+      var(--c-relief),
+      var(--c-surface));
   overflow-wrap: anywhere;
 }
 .corruption-talent-card.selected {
@@ -1068,8 +1068,8 @@ function talentState(talent:CorruptionTalent){
   background:
     linear-gradient(
       135deg,
-      #18333d,
-      #122534);
+      var(--c-relief),
+      var(--c-relief));
 }
 .corruption-talent-card.dormant {
   border-color: #89729e;
@@ -1081,8 +1081,8 @@ function talentState(talent:CorruptionTalent){
   min-width: 0;
 }
 .corruption-talent-head > div > strong {
-  color: #e1ebf6;
-  font: 400 21px/1.3 Inter, "Segoe UI", sans-serif;
+  color: var(--c-text);
+  font: 400 21px/1.3 "Inter Variable",Inter, "Segoe UI", sans-serif;
 }
 .corruption-talent-head > div > span {
   color: #c3adda;
@@ -1110,19 +1110,19 @@ function talentState(talent:CorruptionTalent){
   color: #7c92ad;
 }
 .talent-excerpt {
-  color: #b3c4d9;
+  color: var(--c-text-soft);
   font-size: 14px;
   line-height: 1.75;
 }
 .talent-detail {
-  color: #b2c3d9;
+  color: var(--c-text-soft);
   font-size: 13px;
 }
 .talent-detail summary {
   display: flex;
   align-items: center;
   min-height: 44px;
-  color: #b6d6e5;
+  color: var(--c-text-soft);
   font-size: 12px;
 }
 .talent-detail p {
@@ -1147,19 +1147,19 @@ function talentState(talent:CorruptionTalent){
   width: 100%;
   min-height: 44px;
   border-color: #4b7c86;
-  color: #b1eeea;
-  background: #173541;
+  color: var(--c-reality-soft);
+  background: var(--c-relief);
   font-size: 13px;
 }
 .corruption-panel .purchase-button:disabled {
-  border-color: #3c4c64;
+  border-color: var(--c-line-strong);
   color: #a8bad1;
-  background: #1a283c;
+  background: var(--c-relief);
   opacity: .8;
 }
 .corruption-panel .purchase-button.remove {
   border-color: #5d7c86;
-  color: #c6d8e5;
+  color: var(--c-text-soft);
   background: transparent;
 }
 .corruption-owned {
@@ -1168,7 +1168,7 @@ function talentState(talent:CorruptionTalent){
   min-width: 0;
   border: 1px solid var(--corruption-line);
   border-radius: 11px;
-  background: #0f1c2b;
+  background: var(--c-surface);
 }
 .owned-heading {
   padding: 19px 17px;
@@ -1179,8 +1179,8 @@ function talentState(talent:CorruptionTalent){
   align-items: center;
   justify-content: space-between;
   gap: 10px;
-  color: #e0e8f3;
-  font: 400 21px/1.35 Inter, "Segoe UI", sans-serif;
+  color: var(--c-text);
+  font: 400 21px/1.35 "Inter Variable",Inter, "Segoe UI", sans-serif;
 }
 .owned-heading .eyebrow {
   color: #9ac9d6;
@@ -1193,8 +1193,8 @@ function talentState(talent:CorruptionTalent){
   height: 26px;
   padding: 0 6px;
   border-radius: 5px;
-  color: #b5d6e5;
-  background: #203a4b;
+  color: var(--c-text-soft);
+  background: var(--c-line);
   font: 12px/1.2 system-ui, sans-serif;
 }
 .owned-heading h4:focus {
@@ -1210,7 +1210,7 @@ function talentState(talent:CorruptionTalent){
   line-height: 1.7;
 }
 .owned-empty strong {
-  color: #ccdae9;
+  color: var(--c-text-soft);
   font-size: 14px;
   font-weight: 500;
 }
@@ -1226,7 +1226,7 @@ function talentState(talent:CorruptionTalent){
   gap: 6px;
 }
 .owned-copy strong {
-  color: #e2ebf6;
+  color: var(--c-text);
   font-size: 14px;
   font-weight: 500;
   line-height: 1.5;
@@ -1237,7 +1237,7 @@ function talentState(talent:CorruptionTalent){
   line-height: 1.6;
 }
 .owned-copy small {
-  color: #a0dbcf;
+  color: var(--c-reality-soft);
   font-size: 12px;
   line-height: 1.6;
 }
@@ -1248,8 +1248,8 @@ function talentState(talent:CorruptionTalent){
   justify-self: start;
   min-height: 44px;
   padding: 8px 10px;
-  border-color: #486474;
-  color: #bdd0df;
+  border-color: var(--c-line-strong);
+  color: var(--c-text-soft);
   background: transparent;
   font-size: 12px;
 }
@@ -1265,14 +1265,14 @@ function talentState(talent:CorruptionTalent){
   gap: 12px;
   margin-top: 14px;
   padding: 26px 22px;
-  border: 1px dashed #476077;
+  border: 1px dashed var(--c-line-strong);
   border-radius: 10px;
   color: var(--corruption-muted);
   font-size: 14px;
 }
 .catalog-empty h4 {
-  color: #d9e7f2;
-  font: 400 23px/1.3 Inter, "Segoe UI", sans-serif;
+  color: var(--c-text);
+  font: 400 23px/1.3 "Inter Variable",Inter, "Segoe UI", sans-serif;
 }
 .sr-only {
   position: absolute;
@@ -1363,9 +1363,9 @@ function talentState(talent:CorruptionTalent){
 .corruption-grid{grid-template-columns:minmax(0,1fr);gap:8px}
 .corruption-talent-card{display:block;padding:0}
 .capacity-disclosure>summary{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:56px;padding:12px 16px;cursor:pointer}
-.capacity-disclosure>summary::after{content:'＋';color:#a3ecfa}
+.capacity-disclosure>summary::after{content:'＋';color:var(--c-reality-soft)}
 .capacity-disclosure[open]>summary::after{content:'−'}
 .capacity-disclosure>summary strong{font-size:15px;line-height:1.4}
-.capacity-disclosure>summary>span{font-size:12px;color:#b4c8d9}
+.capacity-disclosure>summary>span{font-size:12px;color:var(--c-text-soft)}
 .capacity-disclosure>.truth-talent-meta,.capacity-disclosure>.talent-detail,.capacity-disclosure>.talent-actions{margin:12px 16px}
 </style>

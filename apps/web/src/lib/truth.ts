@@ -310,12 +310,26 @@ function availableMageTalents(pkg:TruthRulesPackage,state:TruthState){
   });
 }
 
+// Every catalog, the character's own Nature first, each id once: seven ids are
+// shared by the Vampire and the Garou (Sangs vifs), and a character must get
+// its own Nature's version (text, voie), not the last catalog read.
+function natureFirstCatalogs(pkg:TruthRulesPackage,state:TruthState):TruthTalent[]{
+  const seen=new Set<string>();
+  const others=Object.entries(pkg.catalogs).filter(([nature])=>nature!==state.nature).map(([,rows])=>rows);
+  return [pkg.catalogs[state.nature]??[],...others].flat().filter(talent=>{
+    if(seen.has(talent.id))return false;
+    seen.add(talent.id);
+    return true;
+  });
+}
+
 /** Full price index: unavailable saved purchases must not turn into free PTV. */
 export function truthKnownTalents(pkg:TruthRulesPackage,state:TruthState):TruthTalent[]{
-  if(state.nature==="vampire")return [...Object.values(pkg.catalogs).flat(),...vampireAwakeningTalents(pkg,state,true)];
-  if(isKhinae(state))return [...Object.values(pkg.catalogs).flat(),...khinaeAwakeningTalents(pkg,state,true)];
-  if(state.nature==="daemon")return [...Object.values(pkg.catalogs).flat(),...daemonAdditionalTalents(pkg)];
-  if(state.nature!=="mage")return Object.values(pkg.catalogs).flat();
+  const catalogs=natureFirstCatalogs(pkg,state);
+  if(state.nature==="vampire")return [...catalogs,...vampireAwakeningTalents(pkg,state,true)];
+  if(isKhinae(state))return [...catalogs,...khinaeAwakeningTalents(pkg,state,true)];
+  if(state.nature==="daemon")return [...catalogs,...daemonAdditionalTalents(pkg)];
+  if(state.nature!=="mage")return catalogs;
   const rows=new Map(mageAllTalents(pkg,state).map(t=>[t.id,t]));
   for(const a of mageAffinities(pkg))for(const [prefix,cost,label] of [["awaken",1,"Éveiller"],["accord",3,"Accord adjacent"],["traversee",2,"Traversée de la Roue"]] as const){
     const id=`mage_${prefix}_${a.id}`;
@@ -341,8 +355,65 @@ export function truthAvailableTalents(pkg:TruthRulesPackage,state:TruthState){
   }
 
   const unique=new Map<string,TruthTalent>();
-  for(const talent of rows)unique.set(talent.id,state.nature==="aseryn"&&talent.elementEffects?{...talent,effect:aserynTalentEffect(talent,state)}:talent);
+  for(const talent of rows){
+    // Un ancien talent fondu dans un autre reste payé sur la fiche, mais ne s'achète plus.
+    if(talent.aliasOf&&!state.truthTalents.includes(talent.id))continue;
+    unique.set(talent.id,state.nature==="aseryn"&&talent.elementEffects?{...talent,effect:aserynTalentEffect(talent,state)}:talent);
+  }
   return [...unique.values()];
+}
+
+// Voies à paliers (règles lues dans les tables de contenu, décision 5) :
+// un palier s'achète après un talent du palier précédent de la même porte ;
+// la seconde porte s'ouvre quand la première a tous ses paliers ; le sommet
+// aussi. Ce qui est déjà sur la fiche n'est jamais remis en cause (décision 20).
+const VOIE_RANK:Record<string,number>={entree:0,I:1,II:2,III:3};
+
+function voiePeers(pkg:TruthRulesPackage,talent:TruthTalent){
+  const id=talent.voie?.id;
+  if(!id)return [];
+  const peers=new Map<string,TruthTalent>();
+  for(const list of Object.values(pkg.catalogs))for(const t of list)if(t.voie?.id===id&&!t.aliasOf)peers.set(t.id,t);
+  return [...peers.values()];
+}
+
+function voieOwned(pkg:TruthRulesPackage,state:TruthState){
+  const owned=new Set(state.truthTalents);
+  for(const list of Object.values(pkg.catalogs))for(const t of list)if(t.aliasOf&&owned.has(t.id))owned.add(t.aliasOf);
+  return owned;
+}
+
+function porteComplete(peers:TruthTalent[],porte:string|null,owned:Set<string>){
+  const inPorte=peers.filter(t=>(t.voie?.porte??null)===porte&&t.voie?.palier!=null&&t.voie.palier in VOIE_RANK);
+  const paliers=new Set(inPorte.map(t=>t.voie!.palier!));
+  return inPorte.length>0&&[...paliers].every(p=>inPorte.some(t=>t.voie!.palier===p&&owned.has(t.id)));
+}
+
+export function truthVoieIssues(pkg:TruthRulesPackage,state:TruthState,talent:TruthTalent):string[]{
+  const voie=talent.voie;
+  if(!voie?.palier||!(voie.palier in VOIE_RANK)||state.truthTalents.includes(talent.id))return [];
+  const peers=voiePeers(pkg,talent),owned=voieOwned(pkg,state);
+  const issues:string[]=[];
+  const portes=[...new Set(peers.map(t=>t.voie?.porte??null).filter(p=>p==="A"||p==="B"))] as string[];
+  if(voie.porte==="sommet"){
+    if(!portes.some(p=>porteComplete(peers,p,owned)))issues.push(`Le sommet de ${voie.title} s'ouvre quand une porte a tous ses paliers.`);
+    return issues;
+  }
+  if(voie.porte==="A"||voie.porte==="B"){
+    const other=portes.find(p=>p!==voie.porte);
+    if(other&&peers.some(t=>t.voie?.porte===other&&owned.has(t.id))&&!porteComplete(peers,other,owned)){
+      issues.push(`${voie.title} : la porte ${voie.porte} s'ouvre quand la porte ${other} a tous ses paliers.`);
+    }
+  }
+  const rank=VOIE_RANK[voie.palier];
+  const samePorte=peers.filter(t=>(t.voie?.porte??null)===(voie.porte??null));
+  for(const [palier,r] of Object.entries(VOIE_RANK)){
+    if(r>=rank||!samePorte.some(t=>t.voie?.palier===palier))continue;
+    if(!samePorte.some(t=>t.voie?.palier===palier&&owned.has(t.id))){
+      issues.push(`${voie.title} : il faut d'abord un talent du palier ${palier==="entree"?"d'entrée":palier}${voie.porte?` (porte ${voie.porte})`:""}.`);
+    }
+  }
+  return issues;
 }
 
 export function truthUnavailableHunters(pkg:TruthRulesPackage,state:TruthState){
@@ -544,6 +615,7 @@ export function truthPrerequisiteSatisfied(
   talent:TruthTalent,
   available=truthAvailableTalents(pkg,state)
 ){
+  if(truthVoieIssues(pkg,state,talent).length)return false;
   if((pkg.catalogs.humain??[]).some(t=>t.id===talent.id))return hunterTalentReady(pkg,state,talent,available);
   const vampireIssues=vampireAcquisitionIssues(pkg,state,talent);if(vampireIssues!==null)return vampireIssues.length===0;
   const khinaeIssues=khinaeAcquisitionIssues(pkg,state,talent);if(khinaeIssues!==null)return khinaeIssues.length===0;
@@ -591,6 +663,8 @@ export function truthPrerequisiteSatisfied(
 export function truthPrerequisiteIssues(pkg:TruthRulesPackage,state:TruthState,talent:TruthTalent):string[]{
   if(truthPrerequisiteSatisfied(pkg,state,talent))return [];
   if(state.consciousness==='profane')return ['L’initiation à la Vérité est nécessaire.'];
+  const voieIssues=truthVoieIssues(pkg,state,talent);
+  if(voieIssues.length)return voieIssues;
   if((pkg.catalogs.humain??[]).some(t=>t.id===talent.id)){
     const available=truthAvailableTalents(pkg,state),byId=new Map((pkg.catalogs.humain??[]).map(t=>[t.id,t]));
     const ready=(id:string)=>state.truthTalents.includes(id)&&!!byId.get(id)&&hunterTalentReady(pkg,state,byId.get(id)!,available);
@@ -709,6 +783,27 @@ export function truthCorruptionPrerequisiteSatisfied(
 export function truthSanitizeCorruptionTalents(pkg:TruthRulesPackage,state:TruthState){
   const known=new Set((pkg.corruption?.talents??[]).map(talent=>talent.id));
   return [...new Set((state.corruptionTalents??[]).filter(id=>known.has(id)))];
+}
+
+/** Palier et porte d'un talent de voie, pour les cartes : « Palier I · Porte A ». */
+export function truthVoieStep(voie:NonNullable<TruthTalent["voie"]>){
+  const palier=voie.palier==="entree"?"Entrée":voie.palier?`Palier ${voie.palier}`:"";
+  const porte=voie.porte==="sommet"?"Sommet":voie.porte?`Porte ${voie.porte}`:"";
+  return [palier,porte].filter(Boolean).join(" · ");
+}
+
+/** Création : un groupe par voie quand les règles en ont (sinon la famille), les
+ *  voies d'abord, puis les autres familles, et en dernier les éveils et autres
+ *  acquisitions de progression, qu'on ne peut pas prendre à la création. */
+export function truthCreationGroups(talents:TruthTalent[]){
+  const groups=new Map<string,{name:string;couche:string;voie:boolean;items:TruthTalent[]}>();
+  for(const talent of talents){
+    const name=talent.voie?.title?`Voie ${talent.voie.title}`:talent.group||"Talents";
+    if(!groups.has(name))groups.set(name,{name,couche:talent.voie?.couche??"",voie:Boolean(talent.voie?.title),items:[]});
+    groups.get(name)!.items.push(talent);
+  }
+  const rank=(group:{voie:boolean;items:TruthTalent[]})=>group.items.every(talent=>talent.access==="Progression")?2:group.voie?0:1;
+  return [...groups.values()].sort((a,b)=>rank(a)-rank(b)||a.name.localeCompare(b.name,"fr"));
 }
 
 export function truthGroups(talents:TruthTalent[]){

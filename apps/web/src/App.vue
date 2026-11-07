@@ -1,10 +1,10 @@
 <script setup lang="ts">
+import SiteNav from "./components/SiteNav.vue";
 import { computed, nextTick, onMounted, onUnmounted, ref, watch } from "vue";
 import { RouterLink, useRoute, useRouter } from "vue-router";
 import CharactersPanel from "./components/CharactersPanel.vue";
 import AccountCampaigns from "./components/AccountCampaigns.vue";
 import AccountLastReading from "./components/AccountLastReading.vue";
-import TerraUmbraBrand from "./components/TerraUmbraBrand.vue";
 
 import { api } from "./lib/api";
 import SharedCharacterSheets from "./components/SharedCharacterSheets.vue";
@@ -22,6 +22,7 @@ type User = {
   displayName: string;
   role: Role;
   active: boolean;
+  knowsTruth?: boolean;
   createdAt: string;
   lastLoginAt: string | null;
 };
@@ -483,7 +484,7 @@ async function deleteAccount(target: User) {
 
 async function updateAdminUser(
   target: User,
-  changes: { role?: Role; active?: boolean }
+  changes: { role?: Role; active?: boolean; knowsTruth?: boolean }
 ) {
   resetFeedback();
 
@@ -525,17 +526,9 @@ onUnmounted(() => {sessionGeneration++; window.removeEventListener("focus", refr
   <div class="app-shell account-shell">
     <a class="account-skip-link" href="#account-main">Aller à mon espace</a>
     <header class="topbar">
-      <RouterLink class="brand brand-lockup-link" to="/">
-        <TerraUmbraBrand />
-      </RouterLink>
+      <SiteNav />
 
       <div class="top-actions">
-        <a v-if="user" class="ghost compact top-product-link brand-nav-link" href="#characters">
-          Builder
-        </a>
-        <RouterLink class="ghost compact top-product-link brand-nav-link" to="/compendium">
-          Compendium
-        </RouterLink>
         <span v-if="health === 'hors ligne'" class="service-status" role="status">
           Service indisponible
         </span>
@@ -914,6 +907,12 @@ onUnmounted(() => {sessionGeneration++; window.removeEventListener("focus", refr
               <RouterLink class="ghost" to="/admin/quality">
                 Contrôle qualité
               </RouterLink>
+              <RouterLink class="ghost" to="/admin/pnj-proposes">
+                PNJ proposés
+              </RouterLink>
+              <RouterLink class="ghost" to="/admin">
+                Administration
+              </RouterLink>
               <button class="ghost" type="button" @click="loadAdmin">
                 Actualiser
               </button>
@@ -930,6 +929,7 @@ onUnmounted(() => {sessionGeneration++; window.removeEventListener("focus", refr
                   <th>Utilisateur</th>
                   <th>Rôle</th>
                   <th>État</th>
+                  <th title="Décoché : le joueur ne voit ni les pages, ni les sections, ni les tags « Vérité ».">Connaît la Vérité</th>
                   <th>Dernière connexion</th>
                   <th>Actions</th>
                 </tr>
@@ -961,6 +961,15 @@ onUnmounted(() => {sessionGeneration++; window.removeEventListener("focus", refr
                     <span class="state" :class="{ disabled: !account.active }">
                       {{ account.active ? "Actif" : "Désactivé" }}
                     </span>
+                  </td>
+                  <td>
+                    <input
+                      type="checkbox"
+                      :checked="account.knowsTruth !== false"
+                      :disabled="account.id === user.id"
+                      :aria-label="`${account.displayName} connaît la Vérité`"
+                      @change="updateAdminUser(account, { knowsTruth: ($event.target as HTMLInputElement).checked })"
+                    />
                   </td>
                   <td>{{ formatDate(account.lastLoginAt) }}</td>
                   <td class="actions-cell">
@@ -1018,18 +1027,18 @@ onUnmounted(() => {sessionGeneration++; window.removeEventListener("focus", refr
 </template>
 
 <style scoped>
-.admin-filter{display:grid;gap:6px;max-width:500px;color:#b8cadd;font-size:13px}.admin-filter input{box-sizing:border-box;width:100%;min-height:44px;padding:10px;border:1px solid #405875;border-radius:6px;background:#08131f;color:#edf4ff;font:inherit}.admin-filter input:focus-visible{outline:2px solid #a3eaff;outline-offset:3px}
-.dashboard-collapse{min-width:0;margin:16px 0}.dashboard-collapse>summary{cursor:pointer;min-height:44px;padding:10px 14px;list-style:none;border:1px solid #36536b;border-radius:6px;background:#101f2f;color:#eaf3ff;font:600 16px/1.5 Inter,"Segoe UI",sans-serif}.dashboard-collapse>summary::-webkit-details-marker{display:none}.dashboard-collapse>summary:after{content:'⌄';float:right;color:#64def5}.dashboard-collapse[open]>summary:after{transform:rotate(180deg)}.dashboard-collapse>summary:focus-visible{outline:2px solid #a3eaff;outline-offset:3px}.dashboard-collapse.panel>summary{margin-bottom:20px}
+.admin-filter{display:grid;gap:6px;max-width:500px;color:var(--c-text-soft);font-size:13px}.admin-filter input{box-sizing:border-box;width:100%;min-height:44px;padding:10px;border:1px solid var(--c-line-strong);border-radius:6px;background:var(--c-night);color:var(--c-text);font:inherit}.admin-filter input:focus-visible{outline:2px solid var(--c-reality-soft);outline-offset:3px}
+.dashboard-collapse{min-width:0;margin:16px 0}.dashboard-collapse>summary{cursor:pointer;min-height:44px;padding:10px 14px;list-style:none;border:1px solid var(--c-line-strong);border-radius:6px;background:var(--c-surface);color:var(--c-text);font:600 16px/1.5 "Inter Variable",Inter,"Segoe UI",sans-serif}.dashboard-collapse>summary::-webkit-details-marker{display:none}.dashboard-collapse>summary:after{content:'⌄';float:right;color:var(--c-reality)}.dashboard-collapse[open]>summary:after{transform:rotate(180deg)}.dashboard-collapse>summary:focus-visible{outline:2px solid var(--c-reality-soft);outline-offset:3px}.dashboard-collapse.panel>summary{margin-bottom:20px}
 .account-shell {
-  color: #e8f0ff;
-  background: #070e18;
-  font-family: Inter, "Segoe UI", sans-serif;
+  color: var(--c-text);
+  background: var(--c-night);
+  font-family:var(--font-text);
 }
 
 .account-shell .topbar {
   min-height: 78px;
   padding: 12px clamp(18px, 2.5vw, 40px);
-  border-color: #283e55;
+  border-color: var(--c-line);
   background: #080f19f5;
   box-shadow: none;
 }
@@ -1038,67 +1047,67 @@ onUnmounted(() => {sessionGeneration++; window.removeEventListener("focus", refr
 .account-shell .brand-lockup-link { min-width: 0; }
 .account-shell .page { width: min(1480px, calc(100% - 48px)); padding: 32px 0 72px; }
 .account-shell .page:focus { outline: none; }
-.account-skip-link { position: fixed; top: -100px; left: 16px; z-index: 100; padding: 12px 18px; color: #06111e; background: #a4edff; }
+.account-skip-link { position: fixed; top: -100px; left: 16px; z-index: 100; padding: 12px 18px; color: var(--c-night); background: var(--c-reality-soft); }
 .account-skip-link:focus { top: 12px; }
 .service-status { color: #ffc0a0; font-size: 13px; }
 
-.account-shell :is(h1, h2, h3) { color: #edf4ff; font-family: inherit; letter-spacing: -.035em; }
-.account-shell .eyebrow { color: #8edff5; font: 600 11px/1.5 "SFMono-Regular", Consolas, monospace; letter-spacing: .14em; }
-.account-shell .panel { border: 1px solid #293f55; border-radius: 8px; background: #0c1725; box-shadow: none; }
+.account-shell :is(h1, h2, h3) { color: var(--c-text); font-family: inherit; letter-spacing: -.035em; }
+.account-shell .eyebrow { color: #8edff5; font: 600 12px/1.5 "SFMono-Regular", Consolas, monospace; letter-spacing: .14em; }
+.account-shell .panel { border: 1px solid var(--c-line); border-radius: 8px; background: var(--c-surface); box-shadow: none; }
 .account-shell .section-heading h2 { font-size: clamp(22px, 2vw, 28px); font-weight: 650; }
-.account-shell .muted { color: #a4b8cf; }
-.account-shell label { min-width: 0; gap: 8px; color: #c8d8e9; font-size: 14px; }
-.account-shell label small { color: #a4b8cf; font-size: 13px; }
-.account-shell :is(input, select) { min-width: 0; min-height: 46px; border: 1px solid #35536e; border-radius: 6px; background: #09121e; color: #e8f0ff; }
+.account-shell .muted { color: var(--c-text-soft); }
+.account-shell label { min-width: 0; gap: 8px; color: var(--c-text-soft); font-size: 14px; }
+.account-shell label small { color: var(--c-text-soft); font-size: 13px; }
+.account-shell :is(input, select) { min-width: 0; min-height: 46px; border: 1px solid var(--c-line-strong); border-radius: 6px; background: var(--c-night); color: var(--c-text); }
 .account-shell :is(input, select):focus { border-color: #85e6ff; box-shadow: 0 0 0 3px #85e6ff1f; }
 .account-shell :is(.primary, .secondary, .ghost, .link-button) { min-height: 44px; border-radius: 6px; font-size: 14px; line-height: 1.4; }
 .account-shell :is(.primary, .secondary, .ghost) { display: inline-flex; align-items: center; justify-content: center; text-align: center; text-decoration: none; }
-.account-shell .primary { border-color: #a4edff; background: #a4edff; color: #071522; box-shadow: none; }
+.account-shell .primary { border-color: var(--c-reality-soft); background: var(--c-reality-soft); color: var(--c-surface); box-shadow: none; }
 .account-shell .primary:not(:disabled):hover { background: #c2f3ff; border-color: #c2f3ff; }
-.account-shell :is(.secondary, .ghost) { color: #cedef0; background: #0c1725; border-color: #35536e; }
-.account-shell :is(.secondary, .ghost):not(:disabled):hover { color: #fff; border-color: #80d4ee; background: #142739; }
-.account-shell .link-button { color: #9ae8fc; }
+.account-shell :is(.secondary, .ghost) { color: var(--c-text-soft); background: var(--c-surface); border-color: var(--c-line-strong); }
+.account-shell :is(.secondary, .ghost):not(:disabled):hover { color: #fff; border-color: #80d4ee; background: var(--c-relief); }
+.account-shell .link-button { color: var(--c-reality-soft); }
 .account-shell .danger { color: #ffafb9; border-color: #724453; }
 .account-shell :is(a, button, input, select):focus-visible { outline: 2px solid #85e6ff; outline-offset: 4px; }
 
 .auth-layout { min-height: min(720px, calc(100vh - 160px)); grid-template-columns: minmax(0, 1fr) minmax(320px, 440px); gap: clamp(32px, 7vw, 100px); max-width: 1200px; margin: auto; }
 .auth-layout .intro { min-width: 0; padding: 32px 0; }
 .auth-layout .intro h1 { max-width: 12ch; margin: 14px 0 24px; font-size: clamp(36px, 4.5vw, 62px); font-weight: 650; line-height: 1.06; }
-.auth-layout .intro p:not(.eyebrow) { max-width: 48ch; color: #b9cce0; font-size: 16px; line-height: 1.8; }
+.auth-layout .intro p:not(.eyebrow) { max-width: 48ch; color: var(--c-text-soft); font-size: 16px; line-height: 1.8; }
 .account-shell .auth-card { min-width: 0; padding: clamp(22px, 3vw, 36px); }
 .auth-card h2 { margin: 0 0 8px; font-size: 24px; font-weight: 650; }
-.auth-card .tabs { gap: 6px; margin: 0 0 26px; padding: 5px; border: 1px solid #293f55; border-radius: 8px; background: #07101b; }
-.auth-card .tabs button { min-height: 48px; padding: 10px; border: 1px solid transparent; border-radius: 5px; color: #b7cbe0; font-size: 14px; }
-.auth-card .tabs button.active { color: #a4edff; border-color: #355a74; background: #142638; }
-.auth-help { color: #b7cbe0; font-size: 15px; line-height: 1.7; }
+.auth-card .tabs { gap: 6px; margin: 0 0 26px; padding: 5px; border: 1px solid var(--c-line); border-radius: 8px; background: var(--c-night); }
+.auth-card .tabs button { min-height: 48px; padding: 10px; border: 1px solid transparent; border-radius: 5px; color: var(--c-text-soft); font-size: 14px; }
+.auth-card .tabs button.active { color: var(--c-reality-soft); border-color: var(--c-line-strong); background: var(--c-relief); }
+.auth-help { color: var(--c-text-soft); font-size: 15px; line-height: 1.7; }
 .auth-card form { gap: 20px; }
-.account-feedback { position: sticky; top: 90px; z-index: 11; margin-bottom: 20px; padding: 16px 20px; border-radius: 8px; border-color: #375f69; color: #c5f4e8; background: #112d32; box-shadow: 0 8px 28px #0005; }
+.account-feedback { position: sticky; top: 90px; z-index: 11; margin-bottom: 20px; padding: 16px 20px; border-radius: 8px; border-color: var(--c-line-strong); color: #c5f4e8; background: var(--c-relief); box-shadow: 0 8px 28px #0005; }
 .account-feedback.error { border-color: #845063; color: #ffd3da; background: #321c2b; }
 
-.account-hero { position: relative; min-height: 300px; display: flex; align-items: center; overflow: hidden; margin-bottom: 24px; padding: clamp(28px, 4vw, 56px); border: 1px solid #293f55; border-radius: 8px; background: #050c16; }
+.account-hero { position: relative; min-height: 300px; display: flex; align-items: center; overflow: hidden; margin-bottom: 24px; padding: clamp(28px, 4vw, 56px); border: 1px solid var(--c-line); border-radius: 8px; background: var(--c-night); }
 .account-horizon-art { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 44%; opacity: .75; mask-image: linear-gradient(90deg, transparent 10%, #000 85%); }
 .account-hero-copy { position: relative; z-index: 1; max-width: 710px; min-width: 0; }
 .account-hero h1 { margin: 14px 0 20px; font-size: clamp(38px, 4vw, 58px); line-height: 1.07; font-weight: 650; }
-.account-hero .dashboard-lead { max-width: 48ch; color: #c4d6e9; font-size: 16px; line-height: 1.7; }
+.account-hero .dashboard-lead { max-width: 48ch; color: var(--c-text-soft); font-size: 16px; line-height: 1.7; }
 .account-hero .dashboard-identity { margin-top: 26px; gap: 10px 14px; font-size: 14px; overflow-wrap: anywhere; }
 .account-hero .dashboard-identity .muted { flex-basis: 100%; }
-.account-shell .role-badge { border: 1px solid #3d6580; border-radius: 4px; color: #a4edff; background: #0e2136c9; font-size: 12px; }
+.account-shell .role-badge { border: 1px solid var(--c-line-strong); border-radius: 4px; color: var(--c-reality-soft); background: #0e2136c9; font-size: 12px; }
 
 .dashboard-portals { gap: 20px; margin-bottom: 28px; }
-.dashboard-portal { min-height: 185px; padding: 26px; border-color: #304a63; border-radius: 8px; background: linear-gradient(120deg, #102535, #0b1625); box-shadow: none; }
-.dashboard-portal.compendium-portal { border-color: #484264; background: linear-gradient(120deg, #211d33, #0b1625); }
+.dashboard-portal { min-height: 185px; padding: 26px; border-color: var(--c-line); border-radius: 8px; background: linear-gradient(120deg, var(--c-relief), var(--c-surface)); box-shadow: none; }
+.dashboard-portal.compendium-portal { border-color: #484264; background: linear-gradient(120deg, var(--c-relief), var(--c-surface)); }
 .dashboard-portal::after { border-color: #6da7c32a; }
 .dashboard-portal:hover { transform: translateY(-2px); border-color: #7bdcf5; box-shadow: none; }
-.dashboard-portal.compendium-portal:hover { border-color: #b79aff; }
+.dashboard-portal.compendium-portal:hover { border-color: var(--c-truth); }
 .dashboard-portal h2 { margin: 10px 0 12px; padding-right: 24px; font-size: 25px; font-weight: 600; line-height: 1.15; }
-.dashboard-portal p:not(.eyebrow) { color: #bacde1; font-size: 15px; line-height: 1.65; }
-.dashboard-portal > strong { color: #a4edff; font-size: 14px; }
+.dashboard-portal p:not(.eyebrow) { color: var(--c-text-soft); font-size: 15px; line-height: 1.65; }
+.dashboard-portal > strong { color: var(--c-reality-soft); font-size: 14px; }
 .dashboard-portal.compendium-portal > strong, .compendium-portal .eyebrow { color: #c4acff; }
 .portal-index { color: #7798b2; font: 12px/1.5 Consolas, monospace; }
 .account-grid { display: grid; gap: 28px; }
 .account-grid > * { min-width: 0; }
 .account-panel { padding: clamp(22px, 3vw, 36px); }
-.dashboard-collapse.panel{padding:0;border:0;background:transparent}.dashboard-collapse.panel>summary{margin-bottom:0}.dashboard-collapse.account-panel>.account-settings-grid,.dashboard-collapse.account-panel>.account-gm-settings{padding:clamp(20px,3vw,32px);border:1px solid #36536b;border-top:0;background:#101f30}.dashboard-collapse.account-panel>.account-gm-settings{margin:0;padding-top:20px}.dashboard-collapse.gm-access-panel>:not(summary){margin-left:clamp(20px,3vw,32px);margin-right:clamp(20px,3vw,32px)}.dashboard-collapse.gm-access-panel[open]{padding-bottom:20px;border:1px solid #36536b;border-top:0;background:#101f30}.dashboard-collapse.gm-access-panel[open]>summary{margin:-1px -1px 16px}
+.dashboard-collapse.panel{padding:0;border:0;background:transparent}.dashboard-collapse.panel>summary{margin-bottom:0}.dashboard-collapse.account-panel>.account-settings-grid,.dashboard-collapse.account-panel>.account-gm-settings{padding:clamp(20px,3vw,32px);border:1px solid var(--c-line-strong);border-top:0;background:var(--c-surface)}.dashboard-collapse.account-panel>.account-gm-settings{margin:0;padding-top:20px}.dashboard-collapse.gm-access-panel>:not(summary){margin-left:clamp(20px,3vw,32px);margin-right:clamp(20px,3vw,32px)}.dashboard-collapse.gm-access-panel[open]{padding-bottom:20px;border:1px solid var(--c-line-strong);border-top:0;background:var(--c-surface)}.dashboard-collapse.gm-access-panel[open]>summary{margin:-1px -1px 16px}
 .account-settings-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(28px, 5vw, 72px); }
 .account-settings-grid form { align-content: start; }
 .account-settings-grid h3 { margin: 0 0 2px; color: #d7e7f6; font-size: 17px; font-weight: 600; }
@@ -1108,20 +1117,20 @@ onUnmounted(() => {sessionGeneration++; window.removeEventListener("focus", refr
 .gm-access-panel { margin: 24px 0; padding: clamp(20px, 3vw, 32px); scroll-margin-top: 100px; }
 .gm-access-panel p { line-height: 1.65; }
 .gm-access-panel form { display: grid; gap: 12px; max-width: 760px; }
-.gm-access-panel textarea { width: 100%; box-sizing: border-box; resize: vertical; min-height: 88px; padding: 12px; color: #e6f0fb; background: #091522; border: 1px solid #36536a; border-radius: 6px; font: inherit; }
+.gm-access-panel textarea { width: 100%; box-sizing: border-box; resize: vertical; min-height: 88px; padding: 12px; color: var(--c-text); background: var(--c-surface); border: 1px solid var(--c-line-strong); border-radius: 6px; font: inherit; }
 .gm-access-panel button { min-height: 44px; }
 .gm-access-panel form button { justify-self: start; }
-.account-gm-settings { margin: 28px 0 0; padding: 24px 0 0; border-top: 1px solid #304458; }
+.account-gm-settings { margin: 28px 0 0; padding: 24px 0 0; border-top: 1px solid var(--c-line); }
 .account-gm-settings h3 { margin: 0; font-size: 19px; }
-.gm-state { padding: 16px 20px; border-left: 3px solid #80dded; background: #122638; }
+.gm-state { padding: 16px 20px; border-left: 3px solid #80dded; background: var(--c-relief); }
 .gm-state p { margin-bottom: 0; }
-.gm-notification { color: #a4edff; border: 1px solid #3d6580; border-radius: 5px; padding: 8px 12px; text-decoration: none; }
-.gm-request-card { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 20px 0; border-top: 1px solid #304458; }
+.gm-notification { color: var(--c-reality-soft); border: 1px solid var(--c-line-strong); border-radius: 5px; padding: 8px 12px; text-decoration: none; }
+.gm-request-card { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 20px 0; border-top: 1px solid var(--c-line); }
 .gm-request-card > div:first-child { min-width: 0; overflow-wrap: anywhere; }
 .gm-request-card h3 { margin: 0; }
 .gm-comment { white-space: pre-wrap; }
 .gm-request-actions { display: flex; flex-wrap: wrap; gap: 10px; flex-shrink: 0; }
-.gm-feedback { padding: 12px 16px; color: #a4edff; background: #122638; }
+.gm-feedback { padding: 12px 16px; color: var(--c-reality-soft); background: var(--c-relief); }
 .gm-feedback.error { color: #ffc1c1; border-left: 3px solid #ea9999; }
 @media (max-width: 650px) {
   .gm-request-card { align-items: stretch; flex-direction: column; gap: 12px; }
@@ -1132,21 +1141,21 @@ onUnmounted(() => {sessionGeneration++; window.removeEventListener("focus", refr
 .admin-table-help { margin: 0 0 16px; font-size: 14px; line-height: 1.7; }
 .table-wrap { max-width: 100%; overscroll-behavior-x: contain; }
 .table-wrap table { min-width: 850px; }
-.table-wrap th { color: #a1b9d3; font-size: 11px; border-color: #263d54; }
-.table-wrap td { color: #c8d8e9; font-size: 14px; border-color: #263d54; }
+.table-wrap th { color: #a1b9d3; font-size: 12px; border-color: var(--c-line); }
+.table-wrap td { color: var(--c-text-soft); font-size: 14px; border-color: var(--c-line); }
 .table-wrap td:first-child { max-width: 340px; overflow-wrap: anywhere; }
-.table-wrap td:first-child strong { color: #edf4ff; }
-.table-wrap td:first-child span { color: #a4b8cf; }
+.table-wrap td:first-child strong { color: var(--c-text); }
+.table-wrap td:first-child span { color: var(--c-text-soft); }
 .table-wrap select { min-width: 155px; }
 .table-wrap .actions-cell { display: table-cell; white-space: nowrap; }
 .table-wrap .actions-cell button + button { margin-left: 8px; }
-.account-shell .state { padding: 7px 10px; border-radius: 4px; color: #b1ecd8; border-color: #32675e; background: #12332c; }
+.account-shell .state { padding: 7px 10px; border-radius: 4px; color: var(--c-reality-soft); border-color: var(--c-reality-deep); background: #12332c; }
 .account-shell .state.disabled { color: #ffc1c9; border-color: #704151; background: #2b1927; }
 .audit-list { padding: 8px 22px; }
-.audit-list article { padding: 18px 0; color: #b9cce0; border-color: #263d54; font-size: 14px; line-height: 1.6; }
+.audit-list article { padding: 18px 0; color: var(--c-text-soft); border-color: var(--c-line); font-size: 14px; line-height: 1.6; }
 .audit-list article > div { min-width: 0; overflow-wrap: anywhere; }
-.audit-list strong { color: #edf4ff; }
-.audit-list small { color: #a4b8cf; font-size: 12px; }
+.audit-list strong { color: var(--c-text); }
+.audit-list small { color: var(--c-text-soft); font-size: 12px; }
 .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 
 @media (max-width: 850px) {
@@ -1157,7 +1166,7 @@ onUnmounted(() => {sessionGeneration++; window.removeEventListener("focus", refr
   .auth-layout .intro { padding: 14px 0; }
   .auth-layout .intro h1 { max-width: 18ch; font-size: 42px; }
   .account-settings-grid { grid-template-columns: 1fr; gap: 32px; }
-  .account-settings-grid form + form { padding-top: 28px; border-top: 1px solid #293f55; }
+  .account-settings-grid form + form { padding-top: 28px; border-top: 1px solid var(--c-line); }
 }
 
 @media (max-width: 600px) {

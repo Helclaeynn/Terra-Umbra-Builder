@@ -95,7 +95,7 @@ try{
   const sheetMs=Math.round(performance.now()-sheetStarted);
   if(await page.locator('.builder-sidebar,.progression-step').count())throw new Error("Standalone sheet mounts editing UI");
   if(await page.evaluate(()=>document.documentElement.scrollWidth>document.documentElement.clientWidth+1))throw new Error("Mobile sheet overflows");
-  const accountLink=page.getByRole('link',{name:'Mon espace',exact:true});
+  const accountLink=page.getByRole('link',{name:'Personnages',exact:true});
   await accountLink.click();
   const logout=page.getByRole('button',{name:'Déconnexion',exact:true});
   await logout.waitFor();

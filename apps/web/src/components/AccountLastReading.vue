@@ -58,11 +58,11 @@ onUnmounted(() => { version++; window.removeEventListener("focus", load); });
 </template>
 
 <style scoped>
-.account-last-reading{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:24px 28px;margin:0 0 28px;border:1px solid #36576d;border-radius:8px;background:linear-gradient(110deg,#142937,#101d30);color:#e7f1fc}
+.account-last-reading{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:24px 28px;margin:0 0 28px;border:1px solid var(--c-line-strong);border-radius:8px;background:linear-gradient(110deg,var(--c-relief),var(--c-surface));color:var(--c-text)}
 .account-last-reading>div{min-width:0;overflow-wrap:anywhere}
 .account-last-reading h2{margin:8px 0;font-size:21px;line-height:1.35;letter-spacing:-.02em}
-.account-last-reading p{margin:0;color:#b3c9da;font-size:14px;line-height:1.6}
-.account-last-reading .eyebrow{font-size:11px;letter-spacing:.14em}
+.account-last-reading p{margin:0;color:var(--c-text-soft);font-size:14px;line-height:1.6}
+.account-last-reading .eyebrow{font-size:12px;letter-spacing:.14em}
 .account-last-reading :is(a,button){flex-shrink:0;min-height:44px;display:inline-flex;align-items:center;justify-content:center;padding:10px 16px;box-sizing:border-box}
 @media(max-width:650px){.account-last-reading{align-items:stretch;flex-direction:column;padding:20px;gap:16px}.account-last-reading :is(a,button){white-space:normal}}
 </style>

@@ -1,21 +1,106 @@
 <script setup lang="ts">
-import {computed,ref} from 'vue';
-import {BESTIARY_STAT_KEYS,bestiaryIssues,weaponAttack,type BestiaryCatalog,type BestiaryData,type BestiaryStat,type BestiaryAttack} from '../../../api/src/campaign-bestiary-model';
-import {prepareNpcPortrait} from '../lib/npc-portrait';
-const props=defineProps<{data:BestiaryData;catalog:BestiaryCatalog;editable?:boolean}>();
-const emit=defineEmits<{(e:'update:data',v:BestiaryData):void;(e:'image-busy',v:boolean):void}>();
-const imageBusy=ref(false),imageError=ref('');
-const labels:Record<BestiaryStat,string>={movement:'Mouvement (m)',actions:'Actions (PA)',initiative:'Initiative',perception:'Perception',mastery:'Maîtrise',physicalDefense:'Défense physique',occultDefense:'Défense occulte',pv:'PV',armor:'Armure',attack:'Attaque de base'};
-const ranges=computed(()=>props.catalog.ranges[`${props.data.difficultyId}:${props.data.archetypeId}`]);
-const issues=computed(()=>bestiaryIssues(props.data));
-const value=(e:Event)=>(e.target as HTMLInputElement).value;
-function patch(v:Partial<BestiaryData>){emit('update:data',{...props.data,...v});}
-function stat(k:BestiaryStat,e:Event){patch({stats:{...props.data.stats,[k]:Number(value(e))}});}
-function attack(i:number,v:Partial<BestiaryAttack>){const attacks=props.data.attacks.map((a,n)=>n===i?{...a,...v}:a);patch({attacks});}
-function weapon(i:number,id:string){const w=props.catalog.weapons.find(w=>w.id===id);const score=props.data.attacks[i].score;attack(i,w?weaponAttack(w,score):{weaponId:''});if(w)patch({attacks:props.data.attacks.map((a,n)=>n===i?weaponAttack(w,score):a),equipment:w.name});}
-function group(i:number,group:string){const choices=props.catalog.weapons.filter(w=>w.group===group),w=choices[Math.floor(Math.random()*choices.length)];if(w)weapon(i,w.id);else attack(i,{name:'Coup naturel',damage:2,range:'Contact',properties:'',weaponId:''});}
-function list(k:'abilities'|'weaknesses'|'tags',e:Event){patch({[k]:value(e).split('\n').map(s=>s.trim()).filter(Boolean)});}
-async function setImage(event:Event){const input=event.target as HTMLInputElement,file=input.files?.[0];if(!file)return;imageBusy.value=true;imageError.value='';emit('image-busy',true);try{patch({image:await prepareNpcPortrait(file)});}catch(e){imageError.value=(e as Error).message;}finally{imageBusy.value=false;emit('image-busy',false);input.value='';}}
+import { computed, ref } from "vue";
+import {
+  BESTIARY_STAT_KEYS,
+  bestiaryIssues,
+  weaponAttack,
+  type BestiaryCatalog,
+  type BestiaryData,
+  type BestiaryStat,
+  type BestiaryAttack
+} from "../../../api/src/campaign-bestiary-model";
+import { prepareNpcPortrait } from "../lib/npc-portrait";
+const props = defineProps<{
+  data: BestiaryData;
+  catalog: BestiaryCatalog;
+  editable?: boolean;
+}>();
+const emit = defineEmits<{
+  (e: "update:data", v: BestiaryData): void;
+  (e: "image-busy", v: boolean): void;
+}>();
+const imageBusy = ref(false),
+  imageError = ref("");
+const labels: Record<BestiaryStat, string> = {
+  movement: "Mouvement (m)",
+  actions: "Actions (PA)",
+  initiative: "Initiative",
+  perception: "Perception",
+  mastery: "Maîtrise",
+  physicalDefense: "Défense physique",
+  occultDefense: "Défense occulte",
+  pv: "PV",
+  armor: "Armure",
+  attack: "Attaque de base"
+};
+const ranges = computed(
+  () =>
+    props.catalog.ranges[`${props.data.difficultyId}:${props.data.archetypeId}`]
+);
+const issues = computed(() => bestiaryIssues(props.data));
+const value = (e: Event) => (e.target as HTMLInputElement).value;
+function patch(v: Partial<BestiaryData>) {
+  emit("update:data", { ...props.data, ...v });
+}
+function stat(k: BestiaryStat, e: Event) {
+  patch({ stats: { ...props.data.stats, [k]: Number(value(e)) } });
+}
+function attack(i: number, v: Partial<BestiaryAttack>) {
+  const attacks = props.data.attacks.map((a, n) =>
+    n === i ? { ...a, ...v } : a
+  );
+  patch({ attacks });
+}
+function weapon(i: number, id: string) {
+  const w = props.catalog.weapons.find((w) => w.id === id);
+  const score = props.data.attacks[i].score;
+  attack(i, w ? weaponAttack(w, score) : { weaponId: "" });
+  if (w)
+    patch({
+      attacks: props.data.attacks.map((a, n) =>
+        n === i ? weaponAttack(w, score) : a
+      ),
+      equipment: w.name
+    });
+}
+function group(i: number, group: string) {
+  const choices = props.catalog.weapons.filter((w) => w.group === group),
+    w = choices[Math.floor(Math.random() * choices.length)];
+  if (w) weapon(i, w.id);
+  else
+    attack(i, {
+      name: "Coup naturel",
+      damage: 2,
+      range: "Contact",
+      properties: "",
+      weaponId: ""
+    });
+}
+function list(k: "abilities" | "weaknesses" | "tags", e: Event) {
+  patch({
+    [k]: value(e)
+      .split("\n")
+      .map((s) => s.trim())
+      .filter(Boolean)
+  });
+}
+async function setImage(event: Event) {
+  const input = event.target as HTMLInputElement,
+    file = input.files?.[0];
+  if (!file) return;
+  imageBusy.value = true;
+  imageError.value = "";
+  emit("image-busy", true);
+  try {
+    patch({ image: await prepareNpcPortrait(file) });
+  } catch (e) {
+    imageError.value = (e as Error).message;
+  } finally {
+    imageBusy.value = false;
+    emit("image-busy", false);
+    input.value = "";
+  }
+}
 </script>
 <template>
  <div class="creature-sheet">
@@ -27,6 +112,6 @@ async function setImage(event:Event){const input=event.target as HTMLInputElemen
  </div>
 </template>
 <style scoped>
-.creature-sheet{display:grid;gap:14px;min-width:0}.card{display:grid;gap:12px;padding:16px;background:#101e30;border:1px solid #405875;border-radius:7px}.card h4,.card p{margin:0}.card p{line-height:1.6}.card label{display:grid;gap:7px}.card input,.card select,.card textarea{box-sizing:border-box;width:100%;min-width:0;min-height:44px;padding:10px;background:#08131f;color:#edf4ff;border:1px solid #405875;border-radius:6px;font:inherit}.card textarea{resize:vertical}.card button{padding:10px;min-height:44px;background:#172c40;color:#eaf2ff;border:1px solid #405875;border-radius:6px;cursor:pointer}.grid,.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}.stats>div,.attack{padding:10px;border:1px solid #304c62;border-radius:6px}.stats strong,.stats small{display:block}.attack{display:grid;gap:10px}small{color:#a3b7cc}button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid #a3eaff;outline-offset:3px}
-.creature-illustration{display:grid;gap:8px;max-width:420px}.creature-illustration img{display:block;max-width:100%;max-height:360px;object-fit:contain;background:#08131f;border-radius:6px}
+.creature-sheet{display:grid;gap:14px;min-width:0}.card{display:grid;gap:12px;padding:16px;background:var(--c-surface);border:1px solid var(--c-line-strong);border-radius:7px}.card h4,.card p{margin:0}.card p{line-height:1.6}.card label{display:grid;gap:7px}.card input,.card select,.card textarea{box-sizing:border-box;width:100%;min-width:0;min-height:44px;padding:10px;background:var(--c-night);color:var(--c-text);border:1px solid var(--c-line-strong);border-radius:6px;font:inherit}.card textarea{resize:vertical}.card button{padding:10px;min-height:44px;background:var(--c-relief);color:var(--c-text);border:1px solid var(--c-line-strong);border-radius:6px;cursor:pointer}.grid,.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}.stats>div,.attack{padding:10px;border:1px solid var(--c-line);border-radius:6px}.stats strong,.stats small{display:block}.attack{display:grid;gap:10px}small{color:var(--c-text-soft)}button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--c-reality-soft);outline-offset:3px}
+.creature-illustration{display:grid;gap:8px;max-width:420px}.creature-illustration img{display:block;max-width:100%;max-height:360px;object-fit:contain;background:var(--c-night);border-radius:6px}
 </style>

@@ -1,4 +1,4 @@
-import {APPROVED_PNJ_ALIASES} from "../dist/compendium-pnj-approved-merges.js";
+import {APPROVED_PNJ_ALIASES,mergedSectionPrefix} from "../dist/compendium-pnj-approved-merges.js";
 import assert from 'node:assert/strict';
 import pg from 'pg';
 import {NPC_TRUTH_TIERS} from '../dist/npc-truth-tiers.js';
@@ -13,16 +13,23 @@ import {REVIEWED_TRUTH_BATCH_007_IDS} from '../dist/compendium-pnj-truth-batch-0
 import {STANDALONE_TRUTH_SECONDARY_IDS} from '../dist/compendium-pnj-truth-standalone.js';
 import {terraUmbraCreationRules} from '../dist/rules/terra-umbra-creation.js';
 pg.Pool.prototype.query = async () => ({rows:[],rowCount:0});
-const corpus=await(await import('../dist/compendium.js')).getCompendiumQualityCorpus();
+const {getCompendiumQualityCorpus,publicArticleId}=await import('../dist/compendium.js');
+const corpus=await getCompendiumQualityCorpus();
 const byId=new Map(corpus.articles.map(person=>[person.id,person]));
 const publicById=new Map(corpus.publicArticles.map(person=>[person.id,person]));
 for(const [alias,id] of Object.entries(APPROVED_PNJ_ALIASES)){
- const person=byId.get(id),prefix=`merged-${alias}-`;
+ const person=byId.get(id),prefix=mergedSectionPrefix(alias);
  if(!person)continue;
- const sourceSections=person.sections.filter(s=>s.id.startsWith(prefix)).map(s=>({...s,id:s.id.slice(prefix.length)}));
+ // Sections publiques reprises, et sections MJ rangées dans le dossier (blocs marqués mergedFrom).
+ const folded=new Map();
+ for(const block of person.sections.flatMap(s=>s.blocks??[]))if(String(block.mergedFrom??'').startsWith(prefix)){
+  if(!folded.has(block.mergedFrom))folded.set(block.mergedFrom,{id:block.mergedFrom.slice(prefix.length),title:String(block.text).replace(/^Fiche fusionnée · /,''),audience:'mj',blocks:[]});
+  else folded.get(block.mergedFrom).blocks.push(block);
+ }
+ const sourceSections=[...person.sections.filter(s=>s.id.startsWith(prefix)).map(s=>({...s,id:s.id.slice(prefix.length)})),...folded.values()];
  // Validate the preserved historical profile against its own historical rules.
  if(sourceSections.length)byId.set(alias,{...person,id:alias,sections:sourceSections});
- const publicPerson=publicById.get(id);
+ const publicPerson=publicById.get(publicArticleId(id));
  if(publicPerson)publicById.set(alias,{...publicPerson,id:alias,sections:publicPerson.sections.filter(s=>s.id.startsWith(prefix)).map(s=>({...s,id:s.id.slice(prefix.length)}))});
 }
 assert.deepEqual(NPC_TRUTH_TIERS.map(t=>t.minPtv),[0,6,13,25,41]);
@@ -51,10 +58,10 @@ const dina=byId.get('pnj-gouvernement-dina-page');
 const dinaTruth=dina?.sections?.find(section=>section.id==='profil-verite-pnj-gouvernement-dina-page');
 assert.equal(dinaTruth?.audience,'mj');
 assert.equal(dinaTruth?.blocks?.find(block=>block.type==='table'&&block.rows[0]?.[0]==='Attribut révélé')?.rows[1].slice(1).join('/'),'10/10/16/17/13');
-assert.ok(!publicById.get(dina.id)?.sections.some(section=>section.id===dinaTruth.id));
+assert.ok(!publicById.get(publicArticleId(dina.id))?.sections.some(section=>section.id===dinaTruth.id));
 for(const id of INDIVIDUALLY_REVIEWED_TRUTH_PNJ_IDS)assert.ok(byId.has(id),id);
 for(const id of [...REVIEWED_TRUTH_BATCH_001_IDS,...REVIEWED_TRUTH_BATCH_002_IDS,...REVIEWED_TRUTH_BATCH_003_IDS,...REVIEWED_TRUTH_BATCH_004_IDS,...REVIEWED_TRUTH_BATCH_005_IDS,...REVIEWED_TRUTH_BATCH_006_IDS,...REVIEWED_TRUTH_BATCH_007_IDS]){
-  const person=byId.get(id),publicPerson=publicById.get(id);
+  const person=byId.get(id),publicPerson=publicById.get(publicArticleId(id));
   const section=person.sections.find(section=>section.id==='profil-statistique');
   assert.equal(section.audience,'mj',id);
   assert.equal(person.sections.at(-1),section,id);
@@ -79,11 +86,11 @@ const tokalaTruth=byId.get('personnages-verite-especes-tokala')?.sections.find(s
 assert.ok(tokalaTruth?.blocks.some(block=>block.type==='table'&&block.rows[0]?.[0]==='Attribut révélé'&&block.rows[1]?.[1]==='19'));
 assert.ok(tokalaTruth?.blocks.some(block=>block.type==='table'&&block.rows[0]?.[0]==='Compétence de Vérité signature'&&block.rows[1]?.[0]==='Pugilat'));
 assert.ok(byId.get('personnages-verite-chasseurs-isabella-mironescu')?.sections.some(section=>section.id==='verite-indeterminee-isabella'&&section.audience==='mj'));
-assert.ok(!publicById.get('personnages-verite-especes-tokala')?.sections.some(section=>section.id==='profil-verite-tokala'));
-assert.ok(!publicById.get('personnages-verite-chasseurs-isabella-mironescu')?.sections.some(section=>section.id==='verite-indeterminee-isabella'));
+assert.ok(!publicById.get(publicArticleId('personnages-verite-especes-tokala'))?.sections.some(section=>section.id==='profil-verite-tokala'));
+assert.ok(!publicById.get(publicArticleId('personnages-verite-chasseurs-isabella-mironescu'))?.sections.some(section=>section.id==='verite-indeterminee-isabella'));
 assert.ok(quetzal.sections.some(section=>section.id==='profil-statistique'&&section.audience==='mj'&&section.title.includes('Vérité')));
 assert.equal(quetzal.sections.at(-1)?.id,'profil-statistique');
-assert.ok(!publicById.get(quetzal.id)?.sections.some(section=>section.id==='profil-verite-quetzalcoatl'));
+assert.ok(!publicById.get(publicArticleId(quetzal.id))?.sections.some(section=>section.id==='profil-verite-quetzalcoatl'));
 const truthOnlyProfiles=corpus.articles.filter(article=>article.category==='Personnages'
   &&article.sections?.find(section=>section.id==='profil-statistique')?.title?.startsWith('Profil statistique · Vérité'));
 assert.equal(truthOnlyProfiles.length,54);
@@ -111,12 +118,12 @@ const withoutCivilSkillTable=INDIVIDUALLY_REVIEWED_TRUTH_PNJ_IDS.filter(id=>{
 assert.deepEqual(withoutCivilSkillTable,[],'Truth profiles may inherit unlisted skills only when their Reality profile has actual ranks');
 for(const id of INDIVIDUALLY_REVIEWED_TRUTH_PNJ_IDS){
   const article=byId.get(id);
-  const ptv=article.sections.filter(section=>!section.id.startsWith('merged-')).flatMap(section=>section.blocks||[])
+  const ptv=article.sections.filter(section=>!section.id.startsWith('fusion-')).flatMap(section=>section.blocks||[]).filter(block=>!block.mergedFrom||APPROVED_PNJ_ALIASES[id])
     .filter(block=>block.type==='table'&&block.rows[0]?.[0]==='Talent de Vérité PNJ acheté');
   assert.equal(ptv.length,1,id);
   assert.ok([6,13,25,41,61].includes(Number(ptv[0].rows.at(-1)[1])),id);
   assert.equal(ptv[0].rows.slice(1,-1).reduce((sum,row)=>sum+Number(row[1]),0),Number(ptv[0].rows.at(-1)[1]),id);
-  assert.ok(!publicById.get(id)?.sections?.some(section=>section.blocks?.some(block=>block.type==='table'&&block.rows[0]?.[0]==='Talent de Vérité PNJ acheté')),id);
+  assert.ok(!publicById.get(publicArticleId(id))?.sections?.some(section=>section.blocks?.some(block=>block.type==='table'&&block.rows[0]?.[0]==='Talent de Vérité PNJ acheté')),id);
 }
 const karina=byId.get('personnages-verite-humains-galactiques-karina-kelack');
 assert.equal(karina.sections.find(section=>section.id==='profil-statistique').blocks.find(block=>block.type==='table'&&block.rows[0]?.[0]==='Attribut révélé').rows[1].slice(1).join('/'),'10/10/12/13/11');
@@ -127,7 +134,7 @@ assert.equal(karinaSkills.reduce((total,[,rank])=>total+Number(rank),0),170);
 assert.deepEqual(karinaBlocks.find(block=>block.type==='table'&&block.rows[0]?.[0]==='Valeur dérivée').rows[1],['PV maximum / Seuil de Mort','28 / −18']);
 assert.ok(!karinaBlocks.some(block=>block.type==='p'&&block.text.includes('ne sont pas encore chiffrées')));
 for(const id of ['personnages-verite-especes-neeba-ngubenani','pnj-142-dan-harrington']){
-  const person=byId.get(id),publicPerson=publicById.get(id);
+  const person=byId.get(id),publicPerson=publicById.get(publicArticleId(id));
   const stats=person?.sections.find(section=>section.id==='profil-statistique');
   assert.equal(stats?.audience,'mj',id);
   assert.ok(stats.blocks.length>=10,id);
@@ -135,7 +142,7 @@ for(const id of ['personnages-verite-especes-neeba-ngubenani','pnj-142-dan-harri
   assert.ok(!JSON.stringify(publicPerson).includes(id.includes('neeba')?'Oba Okunkun':'Dragoy Skotia'),id);
 }
 for(const id of ['personnages-verite-especes-elody-katherine-skotia','personnages-verite-especes-ming-xinya']){
-  const person=byId.get(id),publicPerson=publicById.get(id);
+  const person=byId.get(id),publicPerson=publicById.get(publicArticleId(id));
   const stats=person?.sections.find(section=>section.id==='profil-statistique');
   const stage=stats.blocks.find(block=>block.type==='table'&&block.rows[0]?.[0]==='État');
   const skillRows=stats.blocks.find(block=>block.type==='table'&&block.rows[0]?.[0]==='Compétence de Vérité révélée').rows.slice(1);
@@ -149,7 +156,7 @@ for(const id of ['pnj-fleaux-focus-olayinka-najja-8-olayinka-najja','personnages
   const stage=stats.blocks.find(block=>block.type==='table'&&block.rows[0]?.[0]==='État');
   const skills=stats.blocks.find(block=>block.type==='table'&&block.rows[0]?.[0]==='Compétence de Vérité révélée').rows.slice(1);
   assert.equal(stats.audience,'mj',id);
-  assert.ok(!publicById.get(id)?.sections.some(section=>section.id==='profil-statistique'),id);
+  assert.ok(!publicById.get(publicArticleId(id))?.sections.some(section=>section.id==='profil-statistique'),id);
   for(const row of stage.rows.slice(1))assert.equal(row.slice(4).reduce((sum,v)=>sum+Number(v),0),Number(row[2]),id);
   assert.equal(skills.reduce((sum,row)=>sum+Number(row[1]),0),170,id);
 }

@@ -3,7 +3,7 @@ process.env.DATABASE_URL ||= 'postgres://fixture:fixture@127.0.0.1:1/fixture';
 const {pool} = await import('../dist/db.js');
 // Read-only corpus fixture. Never connect to or alter user data.
 pool.query = async () => ({rows:[],rowCount:0});
-const {getCompendiumQualityCorpus} = await import('../dist/compendium.js');
+const {getCompendiumQualityCorpus, publicArticleId } = await import('../dist/compendium.js');
 const {applyBestiaryBalance,bestiaryProgressionTiers,BESTIARY_ENCOUNTER_GUIDE_ID} = await import('../dist/compendium-bestiary-balance.js');
 const corpus=await getCompendiumQualityCorpus();
 const {bestiaryBalanceData}=await import('../dist/compendium-bestiary-balance-data.js');
@@ -19,7 +19,7 @@ for(const a of entries){
  const rows=s.blocks.filter(b=>b.type==='table').flatMap(b=>b.rows);
  for(const row of rows)assert.ok(row.every(v=>typeof v==='string'&&v.length),'No missing recommendation cells '+a.id);
  const publicId=a.id==='bestiaire-v15-delanial-le-faux-septieme-fleau'?'bestiaire-v15-delanial-pere-de-l-ombre':a.id;
- const publicArticle=corpus.publicArticles.find(p=>p.id===publicId);
+ const publicArticle=corpus.publicArticles.find(p=>p.id===publicArticleId(publicId));
  if(a.audience==='mj'){assert.equal(publicArticle,undefined);continue;}
  assert.ok(publicArticle);assert.ok(publicArticle.sections.every(s=>s.audience!=='mj'));
  assert.doesNotMatch(JSON.stringify(publicArticle),/rencontres-recommandees|variante-balance|G5_35XP|MENACE INDIVIDUELLE/,'No player leak '+a.id);

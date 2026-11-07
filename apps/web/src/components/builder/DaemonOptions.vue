@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { confirmDialog } from "../../lib/confirm-dialog";
 import {computed} from 'vue';
 import type {TruthState,TruthRulesPackage} from '../../lib/truth';
 import {mageAffinities} from '../../lib/mage';
@@ -16,11 +17,11 @@ function patch(value:Partial<DaemonBuild>){emit('change',normalizeDaemonBuild({.
 function text(key:keyof DaemonBuild,e:Event){patch({[key]:(e.target as HTMLInputElement).value});}
 function property(id:string,e:Event){const checked=(e.target as HTMLInputElement).checked;patch({formProperties:checked?[...config.value.formProperties,id]:config.value.formProperties.filter(p=>p!==id)});}
 function rite(value:DaemonDefinition,index:number){patch({rites:config.value.rites.map((r,i)=>i===index?value:r)});}
-function removeRite(index:number){if(window.confirm('Retirer ce rite du répertoire ? Le talent et sa dépense restent conservés.'))patch({rites:config.value.rites.filter((_,i)=>i!==index)});}
+async function removeRite(index:number){if(await confirmDialog('Retirer ce rite du répertoire ? Le talent et sa dépense restent conservés.'))patch({rites:config.value.rites.filter((_,i)=>i!==index)});}
 function addRite(){if(config.value.rites.length<8)patch({rites:[...config.value.rites,normalizeDaemonDefinition({})]});}
 function addPathology(){if(config.value.pathologies.length<6){const blank=normalizeDaemonBuild({pathologies:[{kind:props.state.choices.divinity==='belzebuth'?'contagion':'disease'}]}).pathologies[0]!;patch({pathologies:[...config.value.pathologies,blank]});}}
 function disease(index:number,key:keyof DaemonPathology,e:Event){const value=(e.target as HTMLInputElement).value;patch({pathologies:config.value.pathologies.map((p,i)=>i===index?{...p,[key]:value}:p)});}
-function removeDisease(index:number){if(window.confirm('Retirer ce profil de pathologie ? Le talent et sa dépense restent conservés.'))patch({pathologies:config.value.pathologies.filter((_,i)=>i!==index)});}
+async function removeDisease(index:number){if(await confirmDialog('Retirer ce profil de pathologie ? Le talent et sa dépense restent conservés.'))patch({pathologies:config.value.pathologies.filter((_,i)=>i!==index)});}
 </script>
 <template><section v-if="state.nature==='daemon'" class="daemon-options" aria-label="Choix et manifestations du Daemon">
  <h3>Fonctions, Spectres et manifestations</h3>
@@ -66,5 +67,5 @@ function removeDisease(index:number){if(window.confirm('Retirer ce profil de pat
  </div></details>
 </section></template>
 <style scoped>
-.daemon-options{display:grid;gap:12px;min-width:0;margin:16px 0;color:#d4e1ef;line-height:1.6}.daemon-options h3,.daemon-options p{margin:0}.daemon-options details{min-width:0;border:1px solid #36536b;border-radius:8px;background:#0d1b2d}.daemon-options summary{padding:14px;min-height:44px;cursor:pointer;overflow-wrap:anywhere}.daemon-form{display:grid;gap:14px;padding:0 16px 16px;min-width:0}.daemon-form label{display:grid;gap:6px;min-width:0}.daemon-form :is(input,select,textarea){box-sizing:border-box;min-width:0;width:100%;min-height:44px;background:#08131f;color:#edf4ff;border:1px solid #36536b;border-radius:6px;padding:9px;font:inherit}.daemon-form textarea{resize:vertical}.daemon-form button{min-height:44px;padding:8px 12px;border:1px solid #557387;border-radius:6px;color:#d2f2fa;background:#142b3a;cursor:pointer;font:inherit}.daemon-form button:disabled{opacity:.5;cursor:default}.daemon-form fieldset{min-width:0;margin:0;padding:12px;border:1px solid #36536b;display:grid;gap:12px}.daemon-form .daemon-check{display:flex;align-items:center;gap:10px;min-height:44px}.daemon-check input{width:22px;min-height:22px;flex:none}.daemon-options :is(summary,button,input,select,textarea):focus-visible{outline:2px solid #a5eafa;outline-offset:2px}@media(max-width:650px){.daemon-form{padding:0 10px 12px}.daemon-form fieldset{padding:8px}}
+.daemon-options{display:grid;gap:12px;min-width:0;margin:16px 0;color:var(--c-truth-soft);line-height:1.6}.daemon-options h3,.daemon-options p{margin:0}.daemon-options details{min-width:0;border:1px solid var(--c-line-strong);border-radius:8px;background:var(--c-surface)}.daemon-options summary{padding:14px;min-height:44px;cursor:pointer;overflow-wrap:anywhere}.daemon-form{display:grid;gap:14px;padding:0 16px 16px;min-width:0}.daemon-form label{display:grid;gap:6px;min-width:0}.daemon-form :is(input,select,textarea){box-sizing:border-box;min-width:0;width:100%;min-height:44px;background:var(--c-night);color:var(--c-text);border:1px solid var(--c-line-strong);border-radius:6px;padding:9px;font:inherit}.daemon-form textarea{resize:vertical}.daemon-form button{min-height:44px;padding:8px 12px;border:1px solid #557387;border-radius:6px;color:var(--c-text);background:var(--c-relief);cursor:pointer;font:inherit}.daemon-form button:disabled{opacity:.5;cursor:default}.daemon-form fieldset{min-width:0;margin:0;padding:12px;border:1px solid var(--c-line-strong);display:grid;gap:12px}.daemon-form .daemon-check{display:flex;align-items:center;gap:10px;min-height:44px}.daemon-check input{width:22px;min-height:22px;flex:none}.daemon-options :is(summary,button,input,select,textarea):focus-visible{outline:2px solid var(--c-reality-soft);outline-offset:2px}@media(max-width:650px){.daemon-form{padding:0 10px 12px}.daemon-form fieldset{padding:8px}}
 </style>

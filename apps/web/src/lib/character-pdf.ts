@@ -150,7 +150,7 @@ export async function fillDossierPdf(pdfBytes:Uint8Array,fontBytes:Uint8Array,pr
   for(const [name,value] of Object.entries(values)){
     const field=fields.get(name);
     if(!field)throw new Error(`Le modèle ne contient pas le champ ${name}.`);
-    if(field instanceof PDFCheckBox){value===true?field.check():field.uncheck();continue;}
+    if(field instanceof PDFCheckBox){if(value===true)field.check();else field.uncheck();continue;}
     if(!(field instanceof PDFTextField)||typeof value!=='string')continue;
     const fitted=write(name,value);
     if(fitted.overflow)pending.push({fieldName:name,title:projection.labels[name]??metadata.get(name)?.label??name,text:fitted.remaining});

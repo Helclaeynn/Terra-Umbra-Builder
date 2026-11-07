@@ -1,115 +1,708 @@
 <script setup lang="ts">
-import {computed,ref,watch} from 'vue';
-import type {PlayState} from '../../../api/src/rules/play-state';
-import type {CharacterDataV2} from '../types/character';
-import {vampireStatus,vampireTalent} from '../../../api/src/rules/live-vampire';
-import {natureResourceProfile,natureResourceIds,mageSpellPlan,daemonSpectrumPlan} from '../../../api/src/rules/live-nature-resources';
-import {adrenalineOptions} from '../../../api/src/rules/live-reality';
-import {mageAmplitudes,mageMasteries} from '../../../api/src/rules/truth/mage-techniques';
-import {truthPowers,powerAllowed} from '../../../api/src/rules/play-truth';
-import {frenzyPowerIds} from '../../../api/src/rules/live-frenzy';
-import {registeredTruthPowers,explicitPower,type RegisteredPowerRule} from '../../../api/src/rules/live-power-registry';
+import { computed, ref, watch } from "vue";
+import type { PlayState } from "../../../api/src/rules/play-state";
+import type { CharacterDataV2 } from "../types/character";
+import {
+  vampireStatus,
+  vampireTalent
+} from "../../../api/src/rules/live-vampire";
+import {
+  natureResourceProfile,
+  natureResourceIds,
+  mageSpellPlan,
+  daemonSpectrumPlan
+} from "../../../api/src/rules/live-nature-resources";
+import { adrenalineOptions } from "../../../api/src/rules/live-reality";
+import {
+  mageAmplitudes,
+  mageMasteries
+} from "../../../api/src/rules/truth/mage-techniques";
+import { truthPowers, powerAllowed } from "../../../api/src/rules/play-truth";
+import { frenzyPowerIds } from "../../../api/src/rules/live-frenzy";
+import {
+  registeredTruthPowers,
+  explicitPower,
+  type RegisteredPowerRule
+} from "../../../api/src/rules/live-power-registry";
 
-const props=defineProps<{data:CharacterDataV2;state:PlayState;profile:any;canEdit:boolean;busy:boolean;inCombat:boolean;edge?:number;manager?:boolean;section?:'all'|'truth'|'equipment'|'effects'}>();
-const emit=defineEmits<{action:[action:string,payload:Record<string,unknown>]}>();
-const blocked=computed(()=>props.busy||!props.canEdit);
-const showTruth=computed(()=>!props.section||props.section==='all'||props.section==='truth');
-const showEquipment=computed(()=>!props.section||props.section==='all'||props.section==='equipment');
-const showEffects=computed(()=>!props.section||props.section==='all'||props.section==='effects');
-const live=computed(()=>props.state as any);
-const vampire=computed(()=>vampireStatus(props.data,props.state));
-const resources=computed(()=>natureResourceProfile(props.data,props.state,props.profile.skills?.find((s:any)=>s.id==='force_mentale')?.rank??0));
-const boosts=computed(()=>adrenalineOptions(props.data,props.state));
-const effects=computed<any[]>(()=>Array.isArray(live.value.effects)?live.value.effects:[]);
-const stasisHours=ref(1),stasisRegenerable=ref(false),openAuraBoost=ref(false),weakness=ref(''),anchorHours=ref(1);
-const anchorRestoreHours=ref(24),anchorBodyRepairable=ref(false),anchorPractitioner=ref(false);
-const vampCapabilities=computed(()=>({yang:vampireTalent(props.data,props.state,'souffle_du_yang'),union:vampireTalent(props.data,props.state,'union_du_hun_et_du_po'),anchor:vampireTalent(props.data,props.state,'sang_preserve')}));
-const registered=computed(()=>registeredTruthPowers(props.data,props.state)),registeredId=ref(''),contextConfirmed=ref(false),registeredSkill=ref('');
-const selectedRegistered=computed(()=>registered.value.find(p=>p.id===registeredId.value));
-const preparedPowers=computed<any[]>(()=>(live.value.registeredPowers??[]).filter((p:any)=>p.until===null||p.until>=props.state.round));
-const selectedPrepared=computed(()=>preparedPowers.value.some(p=>p.id===registeredId.value));
-const routeNames:Record<string,string>={activate:'Activer sur mon personnage',roll:'À sélectionner pour un jet',attack:'À sélectionner pour une attaque',defense:'À sélectionner pour une défense',damage:'À appliquer à la résolution des dégâts',heal:'À appliquer aux soins',passive:'Effet permanent ou automatique',external:'À résoudre avec le MJ'};
-function skillOptions(rule:RegisteredPowerRule){const effects=rule.effects.filter(e=>e.kind==='skill');return (props.profile.skills??[]).filter((s:any)=>effects.every(e=>!e.skills||e.skills.includes(s.id)));}
-const needsSkill=computed(()=>selectedRegistered.value?.effects.some(e=>e.kind==='skill'&&(!e.skills||e.skills.length>1))??false);
-watch(registered,rows=>{if(!rows.some(p=>p.id===registeredId.value))registeredId.value=rows[0]?.id??'';},{immediate:true});
-watch(()=>[selectedRegistered.value?.id,props.state.revelation,props.state.form].join('|'),()=>{const rule=selectedRegistered.value;contextConfirmed.value=false;registeredSkill.value=rule?skillOptions(rule)[0]?.id??'':'';},{immediate:true});
-function activateRegistered(){if(!selectedRegistered.value)return;act(selectedRegistered.value.route==='restricted'?'restricted-power-activate':'power-activate',{powerId:selectedRegistered.value.id,contextConfirmed:contextConfirmed.value,...(needsSkill.value?{skill:registeredSkill.value}:{})});}
-const durationNames=(duration:string|number)=>typeof duration==='number'?`Fin du round ${Math.max(props.state.round,props.state.round+duration-1)}`:duration==='test'?'Prochain test éligible':duration==='scene'?'Fin de scène':'Fin de scénario';
-const limitNames:Record<string,string>={round:'1/round',scene:'1/scène',day:'1/jour',scenario:'1/scénario'};
-function registeredEffect(e:any){const name=({skill:'aux tests concernés',damage:'aux dégâts',armor:'Armure',reduction:'Réduction',healing:'PV',pa:'PA',piercing:'Pénétration'} as Record<string,string>)[e.kind]??e.kind;return `${e.mode==='replace'?'Valeur ':e.amount>=0?'+':''}${e.amount} ${name}`;}
-const mageAffinity=ref(''),mageAmplitude=ref('mineure'),mageRange=ref('contact'),mageChannel=ref(0),mageInvest=ref(1);
-const mageIntent=ref('narrative'),mageOpposed=ref(false),mageUrgent=ref(false),mageDifficult=ref(false),mageForceAmplitude=ref(false),mageForceMastery=ref(false),mageNote=ref('');
-const spellEdge=ref(false);
-watch(mageIntent,intent=>{if(intent==='hostile')mageOpposed.value=true;});
-const powerInvest=ref(1),favorNote=ref(''),favorSkill=ref('athletisme'),bladeSacrifice=ref(1);
-const powerPreparation=computed(()=>resources.value.resources.powerPreparation);
-const offeringAvailable=computed(()=>angelus.value?.hasOffering??false);
-const bladeAvailable=computed(()=>angelus.value?.canBlade||angelus.value?.bladeHp>0);
-const reality=computed(()=>props.profile.reality);
-const neuroSelected=ref<string[]>([]),neuroSafeRestart=ref(false),manualAura=ref(0);
-const neuroAvailableCapacity=computed(()=>reality.value?.neuro?.availableCapacity??reality.value?.neuro?.capacity??0);
-const neuroBurnedSlots=computed(()=>Math.max(new Set<string>(live.value.neuroBurned??[]).size,(reality.value?.neuro?.capacity??0)-neuroAvailableCapacity.value));
-watch(()=>[...(live.value.neuroBurned??[])].sort().join('|'),()=>{neuroSafeRestart.value=false;});
-function rebootNeuro(){if(!props.inCombat&&neuroSafeRestart.value&&neuroBurnedSlots.value>0)act('reality-neuro-reboot',{safeRestart:true});}
-const chargedWeapons=computed<any[]>(()=>reality.value?.chargedWeapons??[]),ammoWeaponId=ref(''),ammoRemaining=ref(0),ammoReserve=ref<number|null>(null),ammoAvailable=ref(false);
-const weaponUid=(weapon:any)=>String(weapon.weaponId??weapon.inventoryUid??weapon.inventoryUID??weapon.uid??weapon.id);
-const chosenAmmoWeapon=computed(()=>chargedWeapons.value.find(w=>weaponUid(w)===ammoWeaponId.value));
-watch(chargedWeapons,rows=>{if(!rows.some(w=>weaponUid(w)===ammoWeaponId.value))ammoWeaponId.value=rows[0]?weaponUid(rows[0]):'';},{immediate:true});
-watch(()=>[ammoWeaponId.value,chosenAmmoWeapon.value?.remaining,chosenAmmoWeapon.value?.reserve].join('|'),()=>{ammoRemaining.value=chosenAmmoWeapon.value?.remaining??0;ammoReserve.value=chosenAmmoWeapon.value?.reserve??null;ammoAvailable.value=false;},{immediate:true});
-function declareMagazine(){act('reality-magazine',{weaponId:ammoWeaponId.value,remaining:ammoRemaining.value,...(ammoReserve.value!==null&&String(ammoReserve.value)!==''?{reserve:Number(ammoReserve.value)}:{})});}
+const props = defineProps<{
+  data: CharacterDataV2;
+  state: PlayState;
+  profile: any;
+  canEdit: boolean;
+  busy: boolean;
+  inCombat: boolean;
+  edge?: number;
+  manager?: boolean;
+  section?: "all" | "truth" | "equipment" | "effects";
+}>();
+const emit = defineEmits<{
+  action: [action: string, payload: Record<string, unknown>];
+}>();
+const blocked = computed(() => props.busy || !props.canEdit);
+const showTruth = computed(
+  () => !props.section || props.section === "all" || props.section === "truth"
+);
+const showEquipment = computed(
+  () =>
+    !props.section || props.section === "all" || props.section === "equipment"
+);
+const showEffects = computed(
+  () => !props.section || props.section === "all" || props.section === "effects"
+);
+const live = computed(() => props.state as any);
+const vampire = computed(() => vampireStatus(props.data, props.state));
+const resources = computed(() =>
+  natureResourceProfile(
+    props.data,
+    props.state,
+    props.profile.skills?.find((s: any) => s.id === "force_mentale")?.rank ?? 0
+  )
+);
+const boosts = computed(() => adrenalineOptions(props.data, props.state));
+const effects = computed<any[]>(() =>
+  Array.isArray(live.value.effects) ? live.value.effects : []
+);
+const stasisHours = ref(1),
+  stasisRegenerable = ref(false),
+  openAuraBoost = ref(false),
+  weakness = ref(""),
+  anchorHours = ref(1);
+const anchorRestoreHours = ref(24),
+  anchorBodyRepairable = ref(false),
+  anchorPractitioner = ref(false);
+const vampCapabilities = computed(() => ({
+  yang: vampireTalent(props.data, props.state, "souffle_du_yang"),
+  union: vampireTalent(props.data, props.state, "union_du_hun_et_du_po"),
+  anchor: vampireTalent(props.data, props.state, "sang_preserve")
+}));
+const registered = computed(() =>
+    registeredTruthPowers(props.data, props.state)
+  ),
+  registeredId = ref(""),
+  contextConfirmed = ref(false),
+  registeredSkill = ref("");
+const selectedRegistered = computed(() =>
+  registered.value.find((p) => p.id === registeredId.value)
+);
+const preparedPowers = computed<any[]>(() =>
+  (live.value.registeredPowers ?? []).filter(
+    (p: any) => p.until === null || p.until >= props.state.round
+  )
+);
+const selectedPrepared = computed(() =>
+  preparedPowers.value.some((p) => p.id === registeredId.value)
+);
+const routeNames: Record<string, string> = {
+  activate: "Activer sur mon personnage",
+  roll: "À sélectionner pour un jet",
+  attack: "À sélectionner pour une attaque",
+  defense: "À sélectionner pour une défense",
+  damage: "À appliquer à la résolution des dégâts",
+  heal: "À appliquer aux soins",
+  passive: "Effet permanent ou automatique",
+  external: "À résoudre avec le MJ"
+};
+function skillOptions(rule: RegisteredPowerRule) {
+  const effects = rule.effects.filter((e) => e.kind === "skill");
+  return (props.profile.skills ?? []).filter((s: any) =>
+    effects.every((e) => !e.skills || e.skills.includes(s.id))
+  );
+}
+const needsSkill = computed(
+  () =>
+    selectedRegistered.value?.effects.some(
+      (e) => e.kind === "skill" && (!e.skills || e.skills.length > 1)
+    ) ?? false
+);
+watch(
+  registered,
+  (rows) => {
+    if (!rows.some((p) => p.id === registeredId.value))
+      registeredId.value = rows[0]?.id ?? "";
+  },
+  { immediate: true }
+);
+watch(
+  () =>
+    [
+      selectedRegistered.value?.id,
+      props.state.revelation,
+      props.state.form
+    ].join("|"),
+  () => {
+    const rule = selectedRegistered.value;
+    contextConfirmed.value = false;
+    registeredSkill.value = rule ? (skillOptions(rule)[0]?.id ?? "") : "";
+  },
+  { immediate: true }
+);
+function activateRegistered() {
+  if (!selectedRegistered.value) return;
+  act(
+    selectedRegistered.value.route === "restricted"
+      ? "restricted-power-activate"
+      : "power-activate",
+    {
+      powerId: selectedRegistered.value.id,
+      contextConfirmed: contextConfirmed.value,
+      ...(needsSkill.value ? { skill: registeredSkill.value } : {})
+    }
+  );
+}
+const durationNames = (duration: string | number) =>
+  typeof duration === "number"
+    ? `Fin du round ${Math.max(props.state.round, props.state.round + duration - 1)}`
+    : duration === "test"
+      ? "Prochain test éligible"
+      : duration === "scene"
+        ? "Fin de scène"
+        : "Fin de scénario";
+const limitNames: Record<string, string> = {
+  round: "1/round",
+  scene: "1/scène",
+  day: "1/jour",
+  scenario: "1/scénario"
+};
+function registeredEffect(e: any) {
+  const name =
+    (
+      {
+        skill: "aux tests concernés",
+        damage: "aux dégâts",
+        armor: "Armure",
+        reduction: "Réduction",
+        healing: "PV",
+        pa: "PA",
+        piercing: "Pénétration"
+      } as Record<string, string>
+    )[e.kind] ?? e.kind;
+  return `${e.mode === "replace" ? "Valeur " : e.amount >= 0 ? "+" : ""}${e.amount} ${name}`;
+}
+const mageAffinity = ref(""),
+  mageAmplitude = ref("mineure"),
+  mageRange = ref("contact"),
+  mageChannel = ref(0),
+  mageInvest = ref(1);
+const mageIntent = ref("narrative"),
+  mageOpposed = ref(false),
+  mageUrgent = ref(false),
+  mageDifficult = ref(false),
+  mageForceAmplitude = ref(false),
+  mageForceMastery = ref(false),
+  mageNote = ref("");
+const spellEdge = ref(false);
+watch(mageIntent, (intent) => {
+  if (intent === "hostile") mageOpposed.value = true;
+});
+const powerInvest = ref(1),
+  favorNote = ref(""),
+  favorSkill = ref("athletisme"),
+  bladeSacrifice = ref(1);
+const powerPreparation = computed(
+  () => resources.value.resources.powerPreparation
+);
+const offeringAvailable = computed(() => angelus.value?.hasOffering ?? false);
+const bladeAvailable = computed(
+  () => angelus.value?.canBlade || angelus.value?.bladeHp > 0
+);
+const reality = computed(() => props.profile.reality);
+const neuroSelected = ref<string[]>([]),
+  neuroSafeRestart = ref(false),
+  manualAura = ref(0);
+const neuroAvailableCapacity = computed(
+  () =>
+    reality.value?.neuro?.availableCapacity ??
+    reality.value?.neuro?.capacity ??
+    0
+);
+const neuroBurnedSlots = computed(() =>
+  Math.max(
+    new Set<string>(live.value.neuroBurned ?? []).size,
+    (reality.value?.neuro?.capacity ?? 0) - neuroAvailableCapacity.value
+  )
+);
+watch(
+  () => [...(live.value.neuroBurned ?? [])].sort().join("|"),
+  () => {
+    neuroSafeRestart.value = false;
+  }
+);
+function rebootNeuro() {
+  if (!props.inCombat && neuroSafeRestart.value && neuroBurnedSlots.value > 0)
+    act("reality-neuro-reboot", { safeRestart: true });
+}
+const chargedWeapons = computed<any[]>(
+    () => reality.value?.chargedWeapons ?? []
+  ),
+  ammoWeaponId = ref(""),
+  ammoRemaining = ref(0),
+  ammoReserve = ref<number | null>(null),
+  ammoAvailable = ref(false);
+const weaponUid = (weapon: any) =>
+  String(
+    weapon.weaponId ??
+      weapon.inventoryUid ??
+      weapon.inventoryUID ??
+      weapon.uid ??
+      weapon.id
+  );
+const chosenAmmoWeapon = computed(() =>
+  chargedWeapons.value.find((w) => weaponUid(w) === ammoWeaponId.value)
+);
+watch(
+  chargedWeapons,
+  (rows) => {
+    if (!rows.some((w) => weaponUid(w) === ammoWeaponId.value))
+      ammoWeaponId.value = rows[0] ? weaponUid(rows[0]) : "";
+  },
+  { immediate: true }
+);
+watch(
+  () =>
+    [
+      ammoWeaponId.value,
+      chosenAmmoWeapon.value?.remaining,
+      chosenAmmoWeapon.value?.reserve
+    ].join("|"),
+  () => {
+    ammoRemaining.value = chosenAmmoWeapon.value?.remaining ?? 0;
+    ammoReserve.value = chosenAmmoWeapon.value?.reserve ?? null;
+    ammoAvailable.value = false;
+  },
+  { immediate: true }
+);
+function declareMagazine() {
+  act("reality-magazine", {
+    weaponId: ammoWeaponId.value,
+    remaining: ammoRemaining.value,
+    ...(ammoReserve.value !== null && String(ammoReserve.value) !== ""
+      ? { reserve: Number(ammoReserve.value) }
+      : {})
+  });
+}
 
-const programId=(program:any)=>String(program.uid??program.itemId);
-watch(()=>reality.value?.neuro?.loaded?.map(programId).join('|')??'',()=>{neuroSelected.value=(reality.value?.neuro?.loaded??[]).map(programId);},{immediate:true});
-const amplitudes=[['mineure','Mineure'],['significative','Significative'],['majeure','Majeure'],['cataclysmique','Cataclysmique']];
-const mage=computed<any>(()=>resources.value.nature==='mage'&&resources.value.enabled?(resources.value as any).mage:null);
-const angelus=computed<any>(()=>resources.value.nature==='angelus'&&resources.value.enabled?(resources.value as any).angelus:null);
-const daemon=computed<any>(()=>resources.value.nature==='daemon'&&resources.value.enabled?(resources.value as any).daemon:null);
-watch(()=>angelus.value?.aura,value=>{manualAura.value=value??0;},{immediate:true});
-const spellCaster=computed<any>(()=>mage.value||(daemon.value?.spectra?.length?{...resources.value.resources.mage,affinities:daemon.value.spectra,canCast:props.state.revelation==='r'&&!props.state.unconscious}:null));
-const canForceSpell=computed(()=>!!spellCaster.value?.preparation&&!spellCaster.value.preparation.automatic&&spellCaster.value.preparation.paid>=spellCaster.value.preparation.pa&&(props.edge??0)>0);
-watch(()=>JSON.stringify(spellCaster.value?.preparation??null),()=>{spellEdge.value=false;});
-watch(()=>props.edge,value=>{if(!value)spellEdge.value=false;});
-const naturePowers=computed<any[]>(()=>((resources.value as any).powers??[]).filter((p:any)=>!registered.value.some(r=>r.id===p.id)));
-const naturePowerId=ref('');
-const chosenNaturePower=computed(()=>naturePowers.value.find(p=>p.id===naturePowerId.value));
-watch(naturePowers,rows=>{if(!rows.some(p=>p.id===naturePowerId.value))naturePowerId.value=rows[0]?.id??'';},{immediate:true});
-const affinities=computed<any[]>(()=>(spellCaster.value?.affinities??[]));
-const chosenAffinity=computed<any>(()=>affinities.value.find(a=>a.id===mageAffinity.value));
-watch(affinities,rows=>{if(!rows.some(a=>a.id===mageAffinity.value))mageAffinity.value=rows.find(a=>a.owned)?.id??rows[0]?.id??'';},{immediate:true});
-function act(action:string,payload:Record<string,unknown>={}){if(!blocked.value)emit('action',action,{...(pursuesImpulse.value?{pursuesImpulse:true,contextConfirmed:true}:{}),...payload});}
-const spellDraft=computed(()=>({intent:mageIntent.value,affinity:mageAffinity.value,amplitude:mageAmplitude.value,range:mageRange.value,channel:mageChannel.value,opposed:mageOpposed.value,urgent:mageUrgent.value,contextDifficult:mageDifficult.value,forceAmplitude:!!mage.value&&mageForceAmplitude.value,forceMastery:!!mage.value&&mageForceMastery.value,note:mageNote.value.trim()}));
-const spellPreview=computed<{plan:ReturnType<typeof mageSpellPlan>|null;error:string}>(()=>{if(!spellCaster.value||!mageAffinity.value)return {plan:null,error:''};try{return {plan:(mage.value?mageSpellPlan:daemonSpectrumPlan)(props.data,props.state,spellDraft.value),error:''};}catch(cause){const code=cause instanceof Error?cause.message:'';return {plan:null,error:({spectrum_unavailable:'Ce Spectre exige l’état Révélé et une Affinité possédée.',spectrum_cannot_force:'Les Spectres ne permettent pas de forcer la Maîtrise ou l’Amplitude.',mageius_unavailable:'Mageius indisponible dans cet état.',spell_amplitude_unavailable:'Cette Amplitude dépasse la maîtrise disponible.',force_requires_owned_affinity:'Il faut posséder cette Affinité pour forcer sa Maîtrise ou son Amplitude.',invalid_superior_will:'Forcer exige le palier immédiatement supérieur à votre maîtrise.',mandatory_channel_missing:'Une canalisation supplémentaire est requise pour cette difficulté.',invalid_spell:'Vérifie la portée, l’Amplitude et la canalisation.'} as Record<string,string>)[code]??'Ce sort demande une vérification de ses conditions.'};}});
-function spellAction(action:string,payload:Record<string,unknown>={}){act(`nature-${mage.value?'mage':'daemon-spectrum'}-${action}`,payload);}
-function releaseSpell(){spellAction('release',spellEdge.value&&canForceSpell.value?{edge:true}:{});}
-function beginSpell(){if(spellPreview.value.plan)spellAction('begin',{spell:spellDraft.value,invest:mageInvest.value});}
-const itemResources=computed(()=>props.profile.itemResources);
-const ablativeItemId=ref(''),replacementAvailable=ref(false),truthReserveId=ref(''),truthReserveRemaining=ref(0),safeExitConfirmed=ref(false);
-const chosenAblative=computed(()=>itemResources.value?.ablative?.find((item:any)=>item.id===ablativeItemId.value));
-const chosenTruthReserve=computed(()=>itemResources.value?.weaponReserves?.find((item:any)=>item.id===truthReserveId.value));
-const hasItemResources=computed(()=>itemResources.value?.ablative?.length||itemResources.value?.weaponReserves?.length||itemResources.value?.guards?.brigandine?.owned||itemResources.value?.guards?.token?.owned);
-watch(()=>itemResources.value?.ablative,rows=>{if(!rows?.some((item:any)=>item.id===ablativeItemId.value))ablativeItemId.value=rows?.[0]?.id??'';},{immediate:true});
-watch(()=>[ablativeItemId.value,chosenAblative.value?.remaining].join('|'),()=>{replacementAvailable.value=false;});
-watch(()=>itemResources.value?.weaponReserves,rows=>{if(!rows?.some((item:any)=>item.id===truthReserveId.value))truthReserveId.value=rows?.[0]?.id??'';},{immediate:true});
-watch(()=>[truthReserveId.value,chosenTruthReserve.value?.remaining].join('|'),()=>{truthReserveRemaining.value=chosenTruthReserve.value?.remaining??0;},{immediate:true});
-watch(()=>[props.state.activation,(props.state.registeredPowers??[]).map(power=>power.id+':'+power.until).join('|')].join('|'),()=>{safeExitConfirmed.value=false;});
-const frenzy=computed(()=>props.profile.frenzy),frenzyPowerId=ref(''),frenzyCause=ref(''),frenzyImpulse=ref(''),frenzyContext=ref(false),frenzyCauseGone=ref(false),frenzyExitContext=ref(false),pursuesImpulse=ref(false);
-const frenzyCapabilities=computed(()=>truthPowers(props.data).filter(power=>frenzyPowerIds.has(power.id)));
-watch(frenzyCapabilities,rows=>{if(!rows.some(power=>power.id===frenzyPowerId.value))frenzyPowerId.value=rows[0]?.id??'';},{immediate:true});
-watch(()=>[frenzyPowerId.value,frenzyCause.value,frenzyImpulse.value],()=>{frenzyContext.value=false;});
-watch(()=>[props.state.round,props.state.activation,frenzy.value?.active,frenzy.value?.impulseRequired,frenzy.value?.impulse].join('|'),()=>{pursuesImpulse.value=false;frenzyExitContext.value=false;});
-const chosenFrenzy=computed(()=>frenzyCapabilities.value.find(power=>power.id===frenzyPowerId.value));
-const imposedOrigin=ref('supernatural'),imposedSource=ref(''),imposedCause=ref(''),imposedImpulse=ref(''),imposedContext=ref(false),augmenticTrigger=ref(false),fearSource=ref(''),fearCause=ref(''),fearLevel=ref(1),fearContext=ref(false);
-watch(()=>[imposedOrigin.value,imposedSource.value,imposedCause.value,imposedImpulse.value],()=>{imposedContext.value=false;augmenticTrigger.value=false;});
-watch(()=>[fearSource.value,fearCause.value,fearLevel.value],()=>{fearContext.value=false;});
-function enterFrenzy(){if(chosenFrenzy.value)act('frenzy-enter',{powerId:chosenFrenzy.value.id,cause:frenzyCause.value.trim(),impulse:frenzyImpulse.value.trim(),contextConfirmed:frenzyContext.value});}
-function imposedFrenzy(action:string){act(action,{origin:imposedOrigin.value,sourceId:imposedSource.value.trim(),cause:imposedCause.value.trim(),impulse:imposedImpulse.value.trim(),contextConfirmed:imposedContext.value,...(action==='frenzy-augmentic-resist'?{triggerConfirmed:augmenticTrigger.value}:{})});}
-const periodNames:Record<string,string>={'round-start':'début de round','round-end':'fin de round','activation-start':'début de l’activation','activation-end':'fin de l’activation'};
-const scopeNames:Record<string,string>={physical:'tests physiques',mental:'tests mentaux',social:'tests sociaux',intellectual:'tests intellectuels',visual:'tests visuels',skill:'compétence', 'defense-physical':'défense physique','defense-neuro':'défense neuro','defense-occult':'défense occulte',armor:'armure',damage:'dégâts',reduction:'réduction de dégâts','pa-physical':'actions physiques',regeneration:'régénération',condition:'état'};
-function expiry(e:any){if(e.expires?.unit==='round')return `Fin du round ${e.expires.at}`;if(e.expires?.unit==='activation')return `Fin de l’activation ${e.expires.at}`;if(e.expires?.unit==='scene')return 'Fin de scène';return 'Jusqu’à son retrait';}
-function effectValue(e:any){if(e.kind==='condition')return e.scope==='pa-physical'?`${e.amount} PA physique(s) au maximum`:e.scope==='regeneration'?'Régénération bloquée':e.note||'Condition suivie';if(e.kind==='damage')return `${e.amount} dégâts${e.armorMode==='ignore'?' sans armure':''}`;if(e.kind==='healing')return `+${e.amount} PV`;return `${e.amount>=0?'+':''}${e.amount} · ${e.scope==='skill'?(props.profile.skills?.find((s:any)=>s.id===e.skill)?.name??'compétence'):scopeNames[e.scope]??'effet'}`;}
-const summary=computed(()=>[showTruth.value&&mage.value?`Tension ${mage.value.tension}`:'',showTruth.value&&angelus.value?`Aura ${angelus.value.aura} / ${angelus.value.maximum}`:'',showTruth.value&&vampire.value.stasis?'En stase':'',showEffects.value&&effects.value.length?`${effects.value.length} effet${effects.value.length>1?'s':''}`:''].filter(Boolean).join(' · '));
-const title=computed(()=>props.section==='truth'?'Ma Vérité en jeu':props.section==='equipment'?'Équipement actif & consommables':props.section==='effects'?'Effets & capacités préparées':'Ressources & effets en jeu');
-const visible=computed(()=>showTruth.value&&(mage.value||angelus.value||daemon.value||vampire.value.available||vampire.value.stasis||vampire.value.anchor||registered.value.length||naturePowers.value.length||powerPreparation.value||frenzyCapabilities.value.length)||showEquipment.value&&(boosts.value.length||reality.value?.entries?.length||reality.value?.neuro?.owned?.length||neuroBurnedSlots.value||chargedWeapons.value.length||hasItemResources.value)||showEffects.value&&(effects.value.length||preparedPowers.value.length||frenzy.value?.active||frenzy.value?.fear||frenzy.value?.survivalFury||props.profile.lightningWounds?.blockedRegeneration||props.profile.lightningWounds?.finalDestruction||props.manager));
+const programId = (program: any) => String(program.uid ?? program.itemId);
+watch(
+  () => reality.value?.neuro?.loaded?.map(programId).join("|") ?? "",
+  () => {
+    neuroSelected.value = (reality.value?.neuro?.loaded ?? []).map(programId);
+  },
+  { immediate: true }
+);
+const amplitudes = [
+  ["mineure", "Mineure"],
+  ["significative", "Significative"],
+  ["majeure", "Majeure"],
+  ["cataclysmique", "Cataclysmique"]
+];
+const mage = computed<any>(() =>
+  resources.value.nature === "mage" && resources.value.enabled
+    ? (resources.value as any).mage
+    : null
+);
+const angelus = computed<any>(() =>
+  resources.value.nature === "angelus" && resources.value.enabled
+    ? (resources.value as any).angelus
+    : null
+);
+const daemon = computed<any>(() =>
+  resources.value.nature === "daemon" && resources.value.enabled
+    ? (resources.value as any).daemon
+    : null
+);
+watch(
+  () => angelus.value?.aura,
+  (value) => {
+    manualAura.value = value ?? 0;
+  },
+  { immediate: true }
+);
+const spellCaster = computed<any>(
+  () =>
+    mage.value ||
+    (daemon.value?.spectra?.length
+      ? {
+          ...resources.value.resources.mage,
+          affinities: daemon.value.spectra,
+          canCast: props.state.revelation === "r" && !props.state.unconscious
+        }
+      : null)
+);
+const canForceSpell = computed(
+  () =>
+    !!spellCaster.value?.preparation &&
+    !spellCaster.value.preparation.automatic &&
+    spellCaster.value.preparation.paid >= spellCaster.value.preparation.pa &&
+    (props.edge ?? 0) > 0
+);
+watch(
+  () => JSON.stringify(spellCaster.value?.preparation ?? null),
+  () => {
+    spellEdge.value = false;
+  }
+);
+watch(
+  () => props.edge,
+  (value) => {
+    if (!value) spellEdge.value = false;
+  }
+);
+const naturePowers = computed<any[]>(() =>
+  ((resources.value as any).powers ?? []).filter(
+    (p: any) => !registered.value.some((r) => r.id === p.id)
+  )
+);
+const naturePowerId = ref("");
+const chosenNaturePower = computed(() =>
+  naturePowers.value.find((p) => p.id === naturePowerId.value)
+);
+watch(
+  naturePowers,
+  (rows) => {
+    if (!rows.some((p) => p.id === naturePowerId.value))
+      naturePowerId.value = rows[0]?.id ?? "";
+  },
+  { immediate: true }
+);
+const affinities = computed<any[]>(() => spellCaster.value?.affinities ?? []);
+const chosenAffinity = computed<any>(() =>
+  affinities.value.find((a) => a.id === mageAffinity.value)
+);
+watch(
+  affinities,
+  (rows) => {
+    if (!rows.some((a) => a.id === mageAffinity.value))
+      mageAffinity.value = rows.find((a) => a.owned)?.id ?? rows[0]?.id ?? "";
+  },
+  { immediate: true }
+);
+function act(action: string, payload: Record<string, unknown> = {}) {
+  if (!blocked.value)
+    emit("action", action, {
+      ...(pursuesImpulse.value
+        ? { pursuesImpulse: true, contextConfirmed: true }
+        : {}),
+      ...payload
+    });
+}
+const spellDraft = computed(() => ({
+  intent: mageIntent.value,
+  affinity: mageAffinity.value,
+  amplitude: mageAmplitude.value,
+  range: mageRange.value,
+  channel: mageChannel.value,
+  opposed: mageOpposed.value,
+  urgent: mageUrgent.value,
+  contextDifficult: mageDifficult.value,
+  forceAmplitude: !!mage.value && mageForceAmplitude.value,
+  forceMastery: !!mage.value && mageForceMastery.value,
+  note: mageNote.value.trim()
+}));
+const spellPreview = computed<{
+  plan: ReturnType<typeof mageSpellPlan> | null;
+  error: string;
+}>(() => {
+  if (!spellCaster.value || !mageAffinity.value)
+    return { plan: null, error: "" };
+  try {
+    return {
+      plan: (mage.value ? mageSpellPlan : daemonSpectrumPlan)(
+        props.data,
+        props.state,
+        spellDraft.value
+      ),
+      error: ""
+    };
+  } catch (cause) {
+    const code = cause instanceof Error ? cause.message : "";
+    return {
+      plan: null,
+      error:
+        (
+          {
+            spectrum_unavailable:
+              "Ce Spectre exige l’état Révélé et une Affinité possédée.",
+            spectrum_cannot_force:
+              "Les Spectres ne permettent pas de forcer la Maîtrise ou l’Amplitude.",
+            mageius_unavailable: "Mageius indisponible dans cet état.",
+            spell_amplitude_unavailable:
+              "Cette Amplitude dépasse la maîtrise disponible.",
+            force_requires_owned_affinity:
+              "Il faut posséder cette Affinité pour forcer sa Maîtrise ou son Amplitude.",
+            invalid_superior_will:
+              "Forcer exige le palier immédiatement supérieur à votre maîtrise.",
+            mandatory_channel_missing:
+              "Une canalisation supplémentaire est requise pour cette difficulté.",
+            invalid_spell: "Vérifie la portée, l’Amplitude et la canalisation."
+          } as Record<string, string>
+        )[code] ?? "Ce sort demande une vérification de ses conditions."
+    };
+  }
+});
+function spellAction(action: string, payload: Record<string, unknown> = {}) {
+  act(`nature-${mage.value ? "mage" : "daemon-spectrum"}-${action}`, payload);
+}
+function releaseSpell() {
+  spellAction(
+    "release",
+    spellEdge.value && canForceSpell.value ? { edge: true } : {}
+  );
+}
+function beginSpell() {
+  if (spellPreview.value.plan)
+    spellAction("begin", { spell: spellDraft.value, invest: mageInvest.value });
+}
+const itemResources = computed(() => props.profile.itemResources);
+const ablativeItemId = ref(""),
+  replacementAvailable = ref(false),
+  truthReserveId = ref(""),
+  truthReserveRemaining = ref(0),
+  safeExitConfirmed = ref(false);
+const chosenAblative = computed(() =>
+  itemResources.value?.ablative?.find(
+    (item: any) => item.id === ablativeItemId.value
+  )
+);
+const chosenTruthReserve = computed(() =>
+  itemResources.value?.weaponReserves?.find(
+    (item: any) => item.id === truthReserveId.value
+  )
+);
+const hasItemResources = computed(
+  () =>
+    itemResources.value?.ablative?.length ||
+    itemResources.value?.weaponReserves?.length ||
+    itemResources.value?.guards?.brigandine?.owned ||
+    itemResources.value?.guards?.token?.owned
+);
+watch(
+  () => itemResources.value?.ablative,
+  (rows) => {
+    if (!rows?.some((item: any) => item.id === ablativeItemId.value))
+      ablativeItemId.value = rows?.[0]?.id ?? "";
+  },
+  { immediate: true }
+);
+watch(
+  () => [ablativeItemId.value, chosenAblative.value?.remaining].join("|"),
+  () => {
+    replacementAvailable.value = false;
+  }
+);
+watch(
+  () => itemResources.value?.weaponReserves,
+  (rows) => {
+    if (!rows?.some((item: any) => item.id === truthReserveId.value))
+      truthReserveId.value = rows?.[0]?.id ?? "";
+  },
+  { immediate: true }
+);
+watch(
+  () => [truthReserveId.value, chosenTruthReserve.value?.remaining].join("|"),
+  () => {
+    truthReserveRemaining.value = chosenTruthReserve.value?.remaining ?? 0;
+  },
+  { immediate: true }
+);
+watch(
+  () =>
+    [
+      props.state.activation,
+      (props.state.registeredPowers ?? [])
+        .map((power) => power.id + ":" + power.until)
+        .join("|")
+    ].join("|"),
+  () => {
+    safeExitConfirmed.value = false;
+  }
+);
+const frenzy = computed(() => props.profile.frenzy),
+  frenzyPowerId = ref(""),
+  frenzyCause = ref(""),
+  frenzyImpulse = ref(""),
+  frenzyContext = ref(false),
+  frenzyCauseGone = ref(false),
+  frenzyExitContext = ref(false),
+  pursuesImpulse = ref(false);
+const frenzyCapabilities = computed(() =>
+  truthPowers(props.data).filter((power) => frenzyPowerIds.has(power.id))
+);
+watch(
+  frenzyCapabilities,
+  (rows) => {
+    if (!rows.some((power) => power.id === frenzyPowerId.value))
+      frenzyPowerId.value = rows[0]?.id ?? "";
+  },
+  { immediate: true }
+);
+watch(
+  () => [frenzyPowerId.value, frenzyCause.value, frenzyImpulse.value],
+  () => {
+    frenzyContext.value = false;
+  }
+);
+watch(
+  () =>
+    [
+      props.state.round,
+      props.state.activation,
+      frenzy.value?.active,
+      frenzy.value?.impulseRequired,
+      frenzy.value?.impulse
+    ].join("|"),
+  () => {
+    pursuesImpulse.value = false;
+    frenzyExitContext.value = false;
+  }
+);
+const chosenFrenzy = computed(() =>
+  frenzyCapabilities.value.find((power) => power.id === frenzyPowerId.value)
+);
+const imposedOrigin = ref("supernatural"),
+  imposedSource = ref(""),
+  imposedCause = ref(""),
+  imposedImpulse = ref(""),
+  imposedContext = ref(false),
+  augmenticTrigger = ref(false),
+  fearSource = ref(""),
+  fearCause = ref(""),
+  fearLevel = ref(1),
+  fearContext = ref(false);
+watch(
+  () => [
+    imposedOrigin.value,
+    imposedSource.value,
+    imposedCause.value,
+    imposedImpulse.value
+  ],
+  () => {
+    imposedContext.value = false;
+    augmenticTrigger.value = false;
+  }
+);
+watch(
+  () => [fearSource.value, fearCause.value, fearLevel.value],
+  () => {
+    fearContext.value = false;
+  }
+);
+function enterFrenzy() {
+  if (chosenFrenzy.value)
+    act("frenzy-enter", {
+      powerId: chosenFrenzy.value.id,
+      cause: frenzyCause.value.trim(),
+      impulse: frenzyImpulse.value.trim(),
+      contextConfirmed: frenzyContext.value
+    });
+}
+function imposedFrenzy(action: string) {
+  act(action, {
+    origin: imposedOrigin.value,
+    sourceId: imposedSource.value.trim(),
+    cause: imposedCause.value.trim(),
+    impulse: imposedImpulse.value.trim(),
+    contextConfirmed: imposedContext.value,
+    ...(action === "frenzy-augmentic-resist"
+      ? { triggerConfirmed: augmenticTrigger.value }
+      : {})
+  });
+}
+const periodNames: Record<string, string> = {
+  "round-start": "début de round",
+  "round-end": "fin de round",
+  "activation-start": "début de l’activation",
+  "activation-end": "fin de l’activation"
+};
+const scopeNames: Record<string, string> = {
+  physical: "tests physiques",
+  mental: "tests mentaux",
+  social: "tests sociaux",
+  intellectual: "tests intellectuels",
+  visual: "tests visuels",
+  skill: "compétence",
+  "defense-physical": "défense physique",
+  "defense-neuro": "défense neuro",
+  "defense-occult": "défense occulte",
+  armor: "armure",
+  damage: "dégâts",
+  reduction: "réduction de dégâts",
+  "pa-physical": "actions physiques",
+  regeneration: "régénération",
+  condition: "état"
+};
+function expiry(e: any) {
+  if (e.expires?.unit === "round") return `Fin du round ${e.expires.at}`;
+  if (e.expires?.unit === "activation")
+    return `Fin de l’activation ${e.expires.at}`;
+  if (e.expires?.unit === "scene") return "Fin de scène";
+  return "Jusqu’à son retrait";
+}
+function effectValue(e: any) {
+  if (e.kind === "condition")
+    return e.scope === "pa-physical"
+      ? `${e.amount} PA physique(s) au maximum`
+      : e.scope === "regeneration"
+        ? "Régénération bloquée"
+        : e.note || "Condition suivie";
+  if (e.kind === "damage")
+    return `${e.amount} dégâts${e.armorMode === "ignore" ? " sans armure" : ""}`;
+  if (e.kind === "healing") return `+${e.amount} PV`;
+  return `${e.amount >= 0 ? "+" : ""}${e.amount} · ${e.scope === "skill" ? (props.profile.skills?.find((s: any) => s.id === e.skill)?.name ?? "compétence") : (scopeNames[e.scope] ?? "effet")}`;
+}
+const summary = computed(() =>
+  [
+    showTruth.value && mage.value ? `Tension ${mage.value.tension}` : "",
+    showTruth.value && angelus.value
+      ? `Aura ${angelus.value.aura} / ${angelus.value.maximum}`
+      : "",
+    showTruth.value && vampire.value.stasis ? "En stase" : "",
+    showEffects.value && effects.value.length
+      ? `${effects.value.length} effet${effects.value.length > 1 ? "s" : ""}`
+      : ""
+  ]
+    .filter(Boolean)
+    .join(" · ")
+);
+const title = computed(() =>
+  props.section === "truth"
+    ? "Ma Vérité en jeu"
+    : props.section === "equipment"
+      ? "Équipement actif & consommables"
+      : props.section === "effects"
+        ? "Effets & capacités préparées"
+        : "Ressources & effets en jeu"
+);
+const visible = computed(
+  () =>
+    (showTruth.value &&
+      (mage.value ||
+        angelus.value ||
+        daemon.value ||
+        vampire.value.available ||
+        vampire.value.stasis ||
+        vampire.value.anchor ||
+        registered.value.length ||
+        naturePowers.value.length ||
+        powerPreparation.value ||
+        frenzyCapabilities.value.length)) ||
+    (showEquipment.value &&
+      (boosts.value.length ||
+        reality.value?.entries?.length ||
+        reality.value?.neuro?.owned?.length ||
+        neuroBurnedSlots.value ||
+        chargedWeapons.value.length ||
+        hasItemResources.value)) ||
+    (showEffects.value &&
+      (effects.value.length ||
+        preparedPowers.value.length ||
+        frenzy.value?.active ||
+        frenzy.value?.fear ||
+        frenzy.value?.survivalFury ||
+        props.profile.lightningWounds?.blockedRegeneration ||
+        props.profile.lightningWounds?.finalDestruction ||
+        props.manager))
+);
 </script>
 <template>
 <details v-if="visible" class="live-mechanics" open>
@@ -197,5 +790,5 @@ const visible=computed(()=>showTruth.value&&(mage.value||angelus.value||daemon.v
 </details>
 </template>
 <style scoped>
-.live-mechanics{border:1px solid #57798f;border-radius:8px;background:#0b1927;min-width:0;overflow-wrap:anywhere}.live-mechanics>summary{cursor:pointer;padding:14px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;color:#d7f4ff;background:#142d40}.live-mechanics>summary span{color:#acc8d9;font-size:.9rem}.mechanics-content{padding:14px;display:grid;gap:16px}.read-only{padding:10px;border:1px solid #496077;color:#bed1df}.resource-grid,.effects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,18rem),1fr));gap:14px}.resource-card{display:flex;flex-direction:column;gap:10px}.resource-card p,.ability-row p,.effect-card p{margin:0;line-height:1.55}.resource-totals{display:flex;gap:10px;flex-wrap:wrap;align-items:baseline}.resource-totals strong{font-size:1.2rem;color:#d2f1fd}.resource-totals span{color:#b5cbd9}.live-mechanics fieldset{margin:0;border:1px solid #39566d;border-radius:6px;padding:14px;min-width:0}.live-mechanics legend{font-weight:700;padding:0 8px;color:#d1ecf8}.live-mechanics form{display:grid;gap:12px}.input-grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(100%,10rem),1fr))}.live-mechanics label{display:grid;gap:6px;min-width:0}.live-mechanics .check,.check-grid label{display:flex;gap:8px;align-items:flex-start}.check-grid{display:grid;gap:8px}.live-mechanics input:not([type=checkbox]),.live-mechanics select,.live-mechanics textarea{width:100%;min-width:0;box-sizing:border-box;padding:10px;color:inherit;background:#061421;border:1px solid #536e83;border-radius:4px;font:inherit}.live-mechanics textarea{resize:vertical}.live-mechanics input[type=checkbox]{margin-top:4px;flex-shrink:0}.live-mechanics button{min-height:44px;padding:10px 12px;border:1px solid #77b1c9;color:#d0f4ff;background:#153a50;border-radius:5px;text-align:left;cursor:pointer;font:inherit}.live-mechanics button:disabled{opacity:.5;cursor:default}.live-mechanics button.secondary{border-color:#526d82;background:#102435;color:#bdd7e7}.button-row{display:flex;gap:10px;flex-wrap:wrap}.button-row button{flex:1;min-width:min(100%,10rem)}.spell-preview{display:grid;gap:6px;border:1px solid #6995ad;border-radius:4px;padding:10px;background:#173246}.canonical-rule{white-space:pre-line;color:#bdd0df;line-height:1.6}.preparation-status{display:grid;gap:6px;background:#153249;padding:12px;border-radius:5px}.ability-row{display:grid;gap:8px;padding:12px 0;border-top:1px solid #2f4e66}.ability-row h4,.effect-card h4{margin:0;color:#d3f1ff}.magazine-controls{display:grid;gap:12px}.magazine-controls p{margin:0;line-height:1.6}.manager-resource-settings{display:grid;gap:10px;border-color:#bb9163!important;background:#231f23}.manager-resource-settings p{margin:0;line-height:1.6}.reality-metrics{display:grid;gap:12px}.neuro-loading{display:grid;gap:10px}.nature-capabilities,.registered-capabilities,.weakness-actions{display:grid;gap:12px}.registered-capabilities h4,.registered-capabilities p{margin:0;line-height:1.6}.registered-capabilities ul{margin:0;padding-left:22px}.nature-capabilities>label{max-width:18rem}.lightning-wound-note{padding:12px;border:1px solid #c69364;color:#ffe0c0;background:#302626;border-radius:6px;line-height:1.6}.item-consumables,.behavior-manager{border:1px solid #39566d;border-radius:6px;display:block;min-width:0}.item-consumables>summary,.behavior-manager>summary{min-height:44px;padding:12px;cursor:pointer;color:#d4eefa;background:#142d40}.item-consumables>fieldset,.behavior-manager>fieldset{margin:12px!important}.item-consumables>p{padding:0 12px}.frenzy-entry,.frenzy-status,.imposed-frenzy,.fear-control,.item-protections,.truth-reserves{display:grid;gap:12px}.frenzy-entry p,.frenzy-status p{margin:0}.live-mechanics details>summary{min-height:44px;box-sizing:border-box;cursor:pointer;padding:10px}.live-mechanics details:focus-within{outline-color:#bcefff}.availability-note{color:#ffd8a9}.effects-section h3{margin:0 0 10px}.effects-section>p{color:#bfd0dc;line-height:1.6}.effect-card{display:grid;gap:10px;align-content:start;background:#122738;border:1px solid #4d6c83;border-radius:6px;padding:14px}.effect-card>strong{color:#d7f2fd}.effect-card button{align-self:end}.live-mechanics fieldset:disabled{opacity:.85}@media(max-width:500px){.mechanics-content{padding:10px}.live-mechanics fieldset{padding:10px}.button-row{display:grid}.button-row button{min-width:0}.live-mechanics>summary{padding:12px}.live-mechanics>summary span{flex-basis:100%}}
+.live-mechanics{border:1px solid #57798f;border-radius:8px;background:var(--c-surface);min-width:0;overflow-wrap:anywhere}.live-mechanics>summary{cursor:pointer;padding:14px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;color:var(--c-text);background:var(--c-relief)}.live-mechanics>summary span{color:var(--c-text-soft);font-size:.9rem}.mechanics-content{padding:14px;display:grid;gap:16px}.read-only{padding:10px;border:1px solid var(--c-line-strong);color:var(--c-text-soft)}.resource-grid,.effects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,18rem),1fr));gap:14px}.resource-card{display:flex;flex-direction:column;gap:10px}.resource-card p,.ability-row p,.effect-card p{margin:0;line-height:1.55}.resource-totals{display:flex;gap:10px;flex-wrap:wrap;align-items:baseline}.resource-totals strong{font-size:1.2rem;color:var(--c-text)}.resource-totals span{color:var(--c-text-soft)}.live-mechanics fieldset{margin:0;border:1px solid var(--c-line-strong);border-radius:6px;padding:14px;min-width:0}.live-mechanics legend{font-weight:700;padding:0 8px;color:var(--c-text)}.live-mechanics form{display:grid;gap:12px}.input-grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(100%,10rem),1fr))}.live-mechanics label{display:grid;gap:6px;min-width:0}.live-mechanics .check,.check-grid label{display:flex;gap:8px;align-items:flex-start}.check-grid{display:grid;gap:8px}.live-mechanics input:not([type=checkbox]),.live-mechanics select,.live-mechanics textarea{width:100%;min-width:0;box-sizing:border-box;padding:10px;color:inherit;background:var(--c-night);border:1px solid #536e83;border-radius:4px;font:inherit}.live-mechanics textarea{resize:vertical}.live-mechanics input[type=checkbox]{margin-top:4px;flex-shrink:0}.live-mechanics button{min-height:44px;padding:10px 12px;border:1px solid var(--c-muted);color:var(--c-text);background:var(--c-line);border-radius:5px;text-align:left;cursor:pointer;font:inherit}.live-mechanics button:disabled{opacity:.5;cursor:default}.live-mechanics button.secondary{border-color:#526d82;background:var(--c-relief);color:var(--c-text-soft)}.button-row{display:flex;gap:10px;flex-wrap:wrap}.button-row button{flex:1;min-width:min(100%,10rem)}.spell-preview{display:grid;gap:6px;border:1px solid #6995ad;border-radius:4px;padding:10px;background:var(--c-relief)}.canonical-rule{white-space:pre-line;color:var(--c-text-soft);line-height:1.6}.preparation-status{display:grid;gap:6px;background:var(--c-relief);padding:12px;border-radius:5px}.ability-row{display:grid;gap:8px;padding:12px 0;border-top:1px solid var(--c-line-strong)}.ability-row h4,.effect-card h4{margin:0;color:var(--c-text)}.magazine-controls{display:grid;gap:12px}.magazine-controls p{margin:0;line-height:1.6}.manager-resource-settings{display:grid;gap:10px;border-color:#bb9163!important;background:var(--c-surface)}.manager-resource-settings p{margin:0;line-height:1.6}.reality-metrics{display:grid;gap:12px}.neuro-loading{display:grid;gap:10px}.nature-capabilities,.registered-capabilities,.weakness-actions{display:grid;gap:12px}.registered-capabilities h4,.registered-capabilities p{margin:0;line-height:1.6}.registered-capabilities ul{margin:0;padding-left:22px}.nature-capabilities>label{max-width:18rem}.lightning-wound-note{padding:12px;border:1px solid #c69364;color:#ffe0c0;background:var(--c-relief);border-radius:6px;line-height:1.6}.item-consumables,.behavior-manager{border:1px solid var(--c-line-strong);border-radius:6px;display:block;min-width:0}.item-consumables>summary,.behavior-manager>summary{min-height:44px;padding:12px;cursor:pointer;color:var(--c-text);background:var(--c-relief)}.item-consumables>fieldset,.behavior-manager>fieldset{margin:12px!important}.item-consumables>p{padding:0 12px}.frenzy-entry,.frenzy-status,.imposed-frenzy,.fear-control,.item-protections,.truth-reserves{display:grid;gap:12px}.frenzy-entry p,.frenzy-status p{margin:0}.live-mechanics details>summary{min-height:44px;box-sizing:border-box;cursor:pointer;padding:10px}.live-mechanics details:focus-within{outline-color:#bcefff}.availability-note{color:#ffd8a9}.effects-section h3{margin:0 0 10px}.effects-section>p{color:var(--c-text-soft);line-height:1.6}.effect-card{display:grid;gap:10px;align-content:start;background:var(--c-relief);border:1px solid #4d6c83;border-radius:6px;padding:14px}.effect-card>strong{color:var(--c-text)}.effect-card button{align-self:end}.live-mechanics fieldset:disabled{opacity:.85}@media(max-width:500px){.mechanics-content{padding:10px}.live-mechanics fieldset{padding:10px}.button-row{display:grid}.button-row button{min-width:0}.live-mechanics>summary{padding:12px}.live-mechanics>summary span{flex-basis:100%}}
 </style>

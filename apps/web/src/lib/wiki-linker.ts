@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment -- moteur repris tel quel de la V1, non typé
 // @ts-nocheck
 // Port V2 du moteur d'interlink canonique de la V1.
 const TOKEN_RE=/[\p{L}\p{N}]+(?:[’'][\p{L}\p{N}]+)*/gu;

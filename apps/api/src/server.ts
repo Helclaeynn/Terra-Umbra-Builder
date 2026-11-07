@@ -24,14 +24,18 @@ import {
 } from "./auth.js";
 import { databaseStatus, pool } from "./db.js";
 import { registerCharacterRoutes } from "./characters.js";
-import { preloadCompendium, registerCompendiumRoutes } from "./compendium.js";
+import { registerLiveEventRoutes } from "./live-events.js";
+import { registerAttentionRoutes } from "./attention.js";
+import { invalidateCompendiumCorpus, preloadCompendium, registerCompendiumRoutes } from "./compendium.js";
+import { startContentWatch } from "./content-articles.js";
+import { loadNpcFlavorContent } from "./npc-flavor-content.js";
 import { registerQualityRoutes } from "./quality.js";
 import { registerArbitrageRoutes } from "./arbitrage.js";
 import {
   approvePendingGmRequest,
   registerGmAccessRoutes
 } from "./gm-access.js";
-import { preloadBuilderRules, registerRulesRoutes } from "./rules/index.js";
+import { invalidateTruthRules, preloadBuilderRules, registerRulesRoutes, reloadContentRules } from "./rules/index.js";
 import { passwordResetMailAvailable, sendPasswordResetEmail } from "./mail.js";
 
 const app = Fastify({
@@ -716,6 +720,7 @@ app.get("/api/admin/users", async (request, reply) => {
        display_name AS "displayName",
        role,
        is_active AS active,
+       truth_access AS "knowsTruth",
        created_at::text AS "createdAt",
        last_login_at::text AS "lastLoginAt"
      FROM users
@@ -727,7 +732,7 @@ app.get("/api/admin/users", async (request, reply) => {
 
 app.patch<{
   Params: { id: string };
-  Body: { role?: Role; active?: boolean };
+  Body: { role?: Role; active?: boolean; knowsTruth?: boolean };
 }>("/api/admin/users/:id", async (request, reply) => {
   const admin = await requireAdmin(request, reply);
   if (!admin) return;
@@ -747,12 +752,18 @@ app.patch<{
 
   const requestedRole = request.body?.role;
   const requestedActive = request.body?.active;
+  // Joueurs d'une campagne profane : ne voient pas le contenu « Vérité ».
+  const requestedTruth = request.body?.knowsTruth;
 
   if (requestedRole !== undefined && !ROLES.includes(requestedRole)) {
     return inputError(reply, "invalid_role");
   }
 
-  if (requestedRole === undefined && requestedActive === undefined) {
+  if (requestedTruth !== undefined && typeof requestedTruth !== "boolean") {
+    return inputError(reply, "invalid_truth_access");
+  }
+
+  if (requestedRole === undefined && requestedActive === undefined && requestedTruth === undefined) {
     return inputError(reply, "no_changes");
   }
 
@@ -771,8 +782,9 @@ app.patch<{
       display_name: string;
       role: Role;
       is_active: boolean;
+      truth_access: boolean;
     }>(
-      `SELECT id, email, display_name, role, is_active
+      `SELECT id, email, display_name, role, is_active, truth_access
        FROM users
        WHERE id = $1
        FOR UPDATE`,
@@ -787,6 +799,7 @@ app.patch<{
 
     const nextRole = requestedRole ?? target.role;
     const nextActive = requestedActive ?? target.is_active;
+    const nextTruth = requestedTruth ?? target.truth_access;
 
     if (
       target.role === "admin" &&
@@ -812,7 +825,8 @@ app.patch<{
       email: target.email,
       displayName: target.display_name,
       role: target.role,
-      active: target.is_active
+      active: target.is_active,
+      knowsTruth: target.truth_access
     };
 
     const updated = await client.query<{
@@ -821,11 +835,12 @@ app.patch<{
       displayName: string;
       role: Role;
       active: boolean;
+      knowsTruth: boolean;
       createdAt: string;
       lastLoginAt: string | null;
     }>(
       `UPDATE users
-       SET role = $1, is_active = $2, updated_at = now()
+       SET role = $1, is_active = $2, truth_access = $4, updated_at = now()
        WHERE id = $3
        RETURNING
          id,
@@ -833,9 +848,10 @@ app.patch<{
          display_name AS "displayName",
          role,
          is_active AS active,
+         truth_access AS "knowsTruth",
          created_at::text AS "createdAt",
          last_login_at::text AS "lastLoginAt"`,
-      [nextRole, nextActive, targetId]
+      [nextRole, nextActive, targetId, nextTruth]
     );
 
     if (nextRole !== "player") {
@@ -853,7 +869,7 @@ app.patch<{
           admin.id,
           targetId,
           JSON.stringify(beforeState),
-          JSON.stringify({ role: nextRole, active: nextActive })
+          JSON.stringify({ role: nextRole, active: nextActive, knowsTruth: nextTruth })
         ]
       );
     }
@@ -1000,6 +1016,8 @@ app.get("/api/admin/audit", async (request, reply) => {
   return { events: result.rows };
 });
 
+await registerLiveEventRoutes(app);
+await registerAttentionRoutes(app);
 await registerCharacterRoutes(app);
 await registerRulesRoutes(app);
 await registerCompendiumRoutes(app);
@@ -1012,7 +1030,16 @@ await registerGmAccessRoutes(app);
 await preloadCompendium();
 // Same strategy as the Compendium: build the static Builder catalogs once
 // during startup so no visitor becomes the cold-cache guinea pig.
-await preloadBuilderRules();
+await Promise.all([preloadBuilderRules(), loadNpcFlavorContent()]);
+// Site d'essai : une modification des tables de contenu (Directus) reconstruit
+// le compendium et les règles sans redémarrer.
+startContentWatch(() => {
+  app.log.info("Tables de contenu modifiées : compendium et règles relus.");
+  invalidateCompendiumCorpus();
+  invalidateTruthRules();
+  void reloadContentRules().catch((error) => app.log.error(error));
+  void loadNpcFlavorContent().catch((error) => app.log.error(error));
+});
 
 const port = Number(process.env.PORT ?? 3000);
 

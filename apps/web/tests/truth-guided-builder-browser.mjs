@@ -254,6 +254,9 @@ page.on("console",message=>{
 page.on("requestfailed",request=>failedRequests.push(request.method()+" "+request.url()+" · "+String(request.failure()?.errorText||"")));
 
 await page.route("**/api/**",async route=>{
+ // Flux temps réel et pastille indisponibles ici : rafraîchissement de secours, pas de pastille.
+ if(new URL(route.request().url()).pathname==='/api/attention')return route.fulfill({status:200,contentType:'application/json',body:'{"items":[],"total":0,"role":"player"}'});
+ if(/\/events$/.test(new URL(route.request().url()).pathname))return route.fulfill({status:404,contentType:'application/json',body:'{"error":"not_found"}'});
   const request=route.request();
   const url=new URL(request.url());
   const method=request.method();
@@ -397,7 +400,7 @@ try{
    if(nature.id!=='humain'&&await page.locator('.truth-choice-field').filter({hasText:/Voie.*Chasse|tradition de Chasse/}).count())throw new Error(nature.id+': external hunting choice during creation');
    if(nature.id==='extral')await page.getByText(/Formation AIDH au combat en équipe/).waitFor();
    if(await page.locator('.builder-main').evaluate(el=>el.scrollWidth>el.clientWidth+2)){console.error(await page.locator('.builder-main').evaluate(el=>{const boundary=el.getBoundingClientRect().right;return [...el.querySelectorAll('*')].filter(n=>n.getBoundingClientRect().right>boundary+2).slice(0,20).map(n=>({tag:n.tagName,cls:n.className,width:n.getBoundingClientRect().width,text:(n.textContent??'').slice(0,100)}));}));throw new Error(nature.id+': overflow '+width);}
-   if(width===1440){await page.locator('.truth-picker-grid select').nth(1).selectOption('profane');await page.getByRole('button',{name:/Enregistrer/}).first().click();await page.waitForTimeout(150);if(!savedPayload?.data.truth.choices.beneficiaryBenefits.refectionReceived||!savedPayload.data.truth.choices.extralBuild.repairUsed)throw new Error(nature.id+': hidden legacy data lost');await page.locator('.truth-picker-grid select').nth(1).selectOption('initie');}
+   if(width===1440){await page.locator('.truth-picker-grid select').nth(0).selectOption('profane');await page.getByRole('button',{name:/Enregistrer/}).first().click();await page.waitForTimeout(150);if(!savedPayload?.data.truth.choices.beneficiaryBenefits.refectionReceived||!savedPayload.data.truth.choices.extralBuild.repairUsed)throw new Error(nature.id+': hidden legacy data lost');await page.locator('.truth-picker-grid select').nth(0).selectOption('initie');}
    if(await page.locator('.builder-mobile-steps').isVisible())await page.locator('.builder-mobile-steps').click();
    await page.locator('.builder-nav').getByRole('button',{name:/Talents & équipement de Vérité/}).click();
    if(await page.locator('.truth-picker').count())throw new Error('Structural choices leaked onto talent page');

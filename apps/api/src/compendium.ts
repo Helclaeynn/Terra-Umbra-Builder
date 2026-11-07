@@ -10,6 +10,7 @@ import { applyReviewedCatalogueBatch04, REVIEWED_CATALOGUE_BATCH_04_TAGS } from 
 import { applyReviewedCatalogueBatch05, REVIEWED_CATALOGUE_BATCH_05_TAGS } from "./compendium-reviewed-catalogue-batch-05.js";
 import { applyReviewedCatalogueBatch06, REVIEWED_CATALOGUE_BATCH_06_TAGS } from "./compendium-reviewed-catalogue-batch-06.js";
 import {registerCanonicalNpcGenerator} from './canonical-npc-generator.js';
+import {registerNpcProposalRoutes} from './npc-proposals.js';
 import { addPortraitRefreshArticles, applyRefreshedPortrait, portraitRefreshNavigation, type PortraitRefresh } from "./compendium-portrait-refresh.js";
 import { createHash, randomBytes } from "node:crypto";
 import { mkdir, readFile, readdir, writeFile } from "node:fs/promises";
@@ -18,6 +19,12 @@ import { gunzipSync } from "node:zlib";
 import type { FastifyInstance, FastifyReply } from "fastify";
 import { currentUser, requireUser } from "./auth.js";
 import { pool } from "./db.js";
+import {
+  archiveContentArticle, contentArticle, contentArticleExists, contentArticleRevision, contentArticleRevisions,
+  createContentArticle, publishContentArticle,
+  contentCorpusArticles, saveContentNavigationTitles, syncArticlesWithContent
+} from "./content-articles.js";
+import { contentRulesEnabled } from "./rules/content-rules.js";
 import {
   COMPENDIUM_GUIDE_ARTICLES,
   COMPENDIUM_GUIDE_NAVIGATION,
@@ -396,8 +403,11 @@ type Corpus = {
   manifest: Manifest;
   articles: Article[];
   publicArticles: Article[];
+  /** Vue des joueurs qui connaissent la Vérité : public + niveau Vérité, sans le MJ. */
+  truthArticles: Article[];
   byId: Map<string, Article>;
   publicById: Map<string, Article>;
+  truthById: Map<string, Article>;
   wikiIndexCompact: Array<Record<string, unknown>>;
   editorBaseById: Map<string, { hash: string; article: Article }>;
   retiredIds: Set<string>;
@@ -421,7 +431,7 @@ const PUBLIC_PNJ_TAGS = new Set([
 // Opaque public slugs for protected civilian identities. The source IDs stay
 // stable for editorial overrides and existing references; public indexes use
 // these slugs, while article lookups continue to accept older links.
-const PROTECTED_ARTICLE_PUBLIC_IDS: Record<string, string> = {
+const STATIC_PUBLIC_IDS: Record<string, string> = {
   "bestiaire-v15-delanial-le-faux-septieme-fleau": "bestiaire-v15-delanial-pere-de-l-ombre",
   "pnj-loges-mages-mike-michabou-28": "pnj-loges-mages-mike-28",
   "personnages-verite-fantastiques-tharlal-rark": "personnages-verite-fantastiques-thor",
@@ -433,9 +443,77 @@ const PROTECTED_ARTICLE_PUBLIC_IDS: Record<string, string> = {
   "pnj-fleaux-dagon": "pnj-fleaux-aberration-z-19",
   "pnj-fleaux-telipinu": "pnj-fleaux-aberration-z-75"
 };
-const PROTECTED_ARTICLE_SOURCE_IDS = Object.fromEntries(
-  Object.entries(PROTECTED_ARTICLE_PUBLIC_IDS).map(([source, publicId]) => [publicId, source])
-);
+// L'identifiant de nombreuses fiches de PNJ trahit leur nature
+// (personnages-verite-vampires-…, pnj-temples-daemoniaques-…). Pour les
+// joueurs, ces fiches prennent une adresse tirée de leur nom de Réalité
+// (pnj-anna-hita), calculée à chaque construction du corpus ; les liens des
+// textes sont réécrits, et les anciennes adresses restent acceptées.
+const REVEALING_PNJ_ID = /^(personnages-verite-|personnages-points-rencontre-|pnj-(truth|loges-mages|temples-daemoniaques|aseryns|grands-exiles|fleaux|portraits-chasseurs)-)/;
+const PROTECTED_ARTICLE_PUBLIC_IDS: Record<string, string> = { ...STATIC_PUBLIC_IDS };
+const PROTECTED_ARTICLE_SOURCE_IDS: Record<string, string> = {};
+
+function refreshPublicArticleIds(articles: Article[]) {
+  for (const key of Object.keys(PROTECTED_ARTICLE_PUBLIC_IDS)) delete PROTECTED_ARTICLE_PUBLIC_IDS[key];
+  for (const key of Object.keys(PROTECTED_ARTICLE_SOURCE_IDS)) delete PROTECTED_ARTICLE_SOURCE_IDS[key];
+  const taken = new Set(articles.map((article) => article.id));
+  for (const article of [...articles].sort((a, b) => a.id.localeCompare(b.id))) {
+    let publicId = STATIC_PUBLIC_IDS[article.id];
+    if (article.category === "Personnages" && REVEALING_PNJ_ID.test(article.id)) {
+      const base = `pnj-${norm(article.title ?? "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "personnage"}`;
+      publicId = base;
+      for (let n = 2; taken.has(publicId); n++) publicId = `${base}-${n}`;
+      taken.add(publicId);
+    }
+    if (publicId) PROTECTED_ARTICLE_PUBLIC_IDS[article.id] = publicId;
+  }
+  // Anciennes adresses publiques (liste fixe) gardées comme alias.
+  for (const [source, publicId] of Object.entries(STATIC_PUBLIC_IDS)) PROTECTED_ARTICLE_SOURCE_IDS[publicId] = source;
+  for (const [source, publicId] of Object.entries(PROTECTED_ARTICLE_PUBLIC_IDS)) PROTECTED_ARTICLE_SOURCE_IDS[publicId] = source;
+}
+
+/** Adresse d'une fiche pour un joueur, depuis son identifiant ou une ancienne adresse. */
+export function publicArticleId(id: string): string {
+  const source = PROTECTED_ARTICLE_SOURCE_IDS[id] ?? id;
+  return PROTECTED_ARTICLE_PUBLIC_IDS[source] ?? source;
+}
+
+// Les fichiers d'image portent souvent l'identifiant interne de la fiche
+// (images/portraits/lot-2/mj/personnages-verite-angelus-….webp). Pour les
+// joueurs, ces chemins deviennent un alias neutre, retraduit par les routes
+// media et uploads (mêmes contrôles d'accès que le vrai fichier).
+const REVEALING_MEDIA_PART = /(personnages-verite-|personnages-points-rencontre-|pnj-(truth|loges-mages|temples-daemoniaques|aseryns|grands-exiles|fleaux|portraits-chasseurs)-)/;
+const MEDIA_ALIASES = new Map<string, string>();
+
+export function mediaAlias(path: string): string {
+  if (!REVEALING_MEDIA_PART.test(path)) return path;
+  const extension = path.match(/\.[a-z0-9]+$/i)?.[0] ?? "";
+  const hash = createHash("sha256").update(path).digest("hex").slice(0, 20);
+  const upload = path.startsWith("/api/compendium/uploads/");
+  const key = upload ? `a-${hash}${extension}` : `images/a/${hash}${extension}`;
+  MEDIA_ALIASES.set(key, upload ? path.slice("/api/compendium/uploads/".length) : path);
+  return upload ? `/api/compendium/uploads/${key}` : key;
+}
+
+/** Vrai chemin d'une image, depuis son alias public. */
+export function mediaSourcePath(path: string): string {
+  return MEDIA_ALIASES.get(path) ?? path;
+}
+
+/** Remplace, dans une copie de lecteur, les identifiants internes par les adresses publiques. */
+function withPublicArticleIds<T>(value: T): T {
+  if (typeof value === "string") {
+    const replaced = PROTECTED_ARTICLE_PUBLIC_IDS[value] ??
+      value.replace(/(article=)([a-z0-9-]+)/g, (match, prefix, id) =>
+        PROTECTED_ARTICLE_PUBLIC_IDS[id] ? prefix + PROTECTED_ARTICLE_PUBLIC_IDS[id] : match)
+        .replace(/(?:\/api\/compendium\/uploads\/|images\/)[A-Za-z0-9._\/-]+/g, mediaAlias);
+    return replaced as T;
+  }
+  if (Array.isArray(value)) return value.map(withPublicArticleIds) as T;
+  if (value && typeof value === "object") {
+    return Object.fromEntries(Object.entries(value).map(([key, item]) => [key, withPublicArticleIds(item)])) as T;
+  }
+  return value;
+}
 const RELIGION_ARCHIVE_ID_REMAP: Record<string, string> = {
   "pnj-059-bhima-shiravadakar": "pnj-religions-bhima-shiravadakar",
   "pnj-062-ciara-mcfarlane": "pnj-religions-ciara-mcfarlane"
@@ -541,16 +619,8 @@ export async function refreshCompendiumPortraits(articleId: string): Promise<voi
   corpus.byId.set(articleId, article);
   const sourceIndex = corpus.articles.findIndex((entry) => entry.id === articleId);
   if (sourceIndex !== -1) corpus.articles[sourceIndex] = article;
-  const publicArticle = isMjOnlyArticle(article) ? null : articleForAudience(article, false);
-  if (publicArticle) publicArticle.__searchText = norm(flattenText(publicArticle));
-  const previousPublic = corpus.publicById.get(PROTECTED_ARTICLE_PUBLIC_IDS[articleId] ?? articleId);
-  if (previousPublic) corpus.publicById.delete(previousPublic.id);
-  if (publicArticle) corpus.publicById.set(publicArticle.id, publicArticle);
-  const publicIndex = corpus.publicArticles.findIndex((entry) => entry.id === (previousPublic?.id ?? publicArticle?.id));
-  if (publicIndex !== -1) {
-    if (publicArticle) corpus.publicArticles[publicIndex] = publicArticle;
-    else corpus.publicArticles.splice(publicIndex, 1);
-  } else if (publicArticle) corpus.publicArticles.push(publicArticle);
+  replaceInView(corpus.publicArticles, corpus.publicById, articleId, audienceCopy(article, false));
+  replaceInView(corpus.truthArticles, corpus.truthById, articleId, audienceCopy(article, true));
 }
 
 type PortraitOverride = { articleId: string; src: string; visibility: "mj" | "public" | "removed"; uploaded: boolean };
@@ -606,11 +676,107 @@ async function requireEditor(request: any, reply: FastifyReply) {
   return user;
 }
 
+// Verrou d'édition (06/11) : une seule personne modifie une page à la fois.
+// Tenu par l'éditeur ouvert (renouvelé chaque minute), libéré à la fermeture.
+// shortcut: gardé en mémoire de l'API (un seul processus) ; perdu au redémarrage, sans effet sur les textes.
+const EDIT_LOCK_MS = 3 * 60_000;
+const editLocks = new Map<string, { userId: string; name: string; since: string; until: number }>();
+
+function otherEditLock(id: string, userId: string) {
+  const lock = editLocks.get(id);
+  if (!lock || lock.until < Date.now()) return null;
+  return lock.userId === userId ? null : { by: lock.name, since: lock.since };
+}
+
+async function refuseIfLocked(id: string, userId: string, reply: FastifyReply): Promise<boolean> {
+  const lock = otherEditLock(id, userId);
+  if (!lock) return false;
+  await reply.code(423).send({ error: "compendium_article_locked", ...lock });
+  return true;
+}
+
 function canReadMj(role: unknown): boolean {
   return role === "gm" || role === "editor" || role === "admin";
 }
 
+async function knowsTruth(userId: string): Promise<boolean> {
+  const { rows } = await pool.query<{ truth_access: boolean }>("SELECT truth_access FROM users WHERE id = $1", [userId]);
+  return rows[0]?.truth_access === true;
+}
+
+/**
+ * Ce qu'un lecteur voit : tout pour le MJ, la vue Vérité pour un joueur qui
+ * connaît la Vérité (users.truth_access, réglable dans Directus), sinon le public.
+ */
+const SHARE_IMAGE = "/brand/apercu-terra-umbra.jpg";
+const escapeHtml = (value: string) =>
+  value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+// Texte lisible d'un paragraphe : sans liens [[…|…]], gras ni balises.
+const plainText = (value: string) =>
+  value.replace(/\[\[([^\]|]+)\|([^\]]+)\]\]/g, "$2").replace(/\[\[([^\]]+)\]\]/g, "$1")
+    .replace(/<[^>]+>/g, "").replace(/[*_`#>]+/g, "").replace(/\s+/g, " ").trim();
+
+/** Page lue par les aperçus de lien : titre, résumé, image, puis renvoi vers l'article. */
+export function shareCard(article: Article | undefined, origin: string, requestedId: string): string {
+  const url = article ? `${origin}/compendium?article=${encodeURIComponent(article.id)}` : `${origin}/compendium${requestedId ? `?article=${encodeURIComponent(requestedId)}` : ""}`;
+  const title = article ? `${String(article.title ?? "Article")} · Terra Umbra` : "Terra Umbra · Compendium";
+  let description = "Terra Umbra California : un jeu de rôle en 2035, entre Réalité et Vérité.";
+  let image = "";
+  for (const section of Array.isArray(article?.sections) ? article!.sections : []) {
+    for (const block of Array.isArray(section?.blocks) ? section.blocks : []) {
+      if (!image && block?.type === "image" && typeof block.src === "string" && /^images\//.test(block.src)) image = `/api/compendium/media/${block.src}`;
+      if (description.startsWith("Terra Umbra California") && block?.type === "p" && typeof block.text === "string") {
+        const text = plainText(block.text);
+        if (text.length > 40) description = text.length > 220 ? `${text.slice(0, 217).replace(/\s+\S*$/, "")}…` : text;
+      }
+    }
+  }
+  const cover = typeof article?.image === "string" && /^images\//.test(article.image) ? `/api/compendium/media/${article.image}` : image;
+  const imageUrl = `${origin}${cover || SHARE_IMAGE}`;
+  const tags = [
+    ["og:type", "article"], ["og:site_name", "Terra Umbra"], ["og:locale", "fr_FR"],
+    ["og:title", title], ["og:description", description], ["og:url", url], ["og:image", imageUrl]
+  ].map(([property, content]) => `<meta property="${property}" content="${escapeHtml(content)}">`).join("\n");
+  return `<!doctype html><html lang="fr"><head><meta charset="utf-8"><title>${escapeHtml(title)}</title>
+<meta name="description" content="${escapeHtml(description)}">
+${tags}
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#58dcc5">
+<link rel="canonical" href="${escapeHtml(url)}">
+<meta http-equiv="refresh" content="0; url=${escapeHtml(url)}">
+</head><body><a href="${escapeHtml(url)}">${escapeHtml(title)}</a></body></html>`;
+}
+
+async function readerView(corpus: Corpus, user: { id: string } | null, includeMj: boolean) {
+  if (includeMj) return { articles: corpus.articles, byId: corpus.byId };
+  if (user && await knowsTruth(user.id)) return { articles: corpus.truthArticles, byId: corpus.truthById };
+  return { articles: corpus.publicArticles, byId: corpus.publicById };
+}
+
 function isMjOnlyArticle(article: Article): boolean { return article?.audience === "mj"; }
+// Niveau intermédiaire : réservé aux joueurs qui connaissent la Vérité
+// (users.truth_access), invisible au public et aux joueurs d'une campagne profane.
+function isTruthOnlyArticle(article: Article): boolean { return article?.audience === "verite"; }
+
+/** Copie d'un article pour un lecteur non MJ, avec ou sans accès à la Vérité. */
+function audienceCopy(article: Article, truth: boolean): Article | null {
+  if (isMjOnlyArticle(article) || (!truth && isTruthOnlyArticle(article))) return null;
+  const copy = articleForAudience(article, false, truth);
+  copy.__searchText = norm(flattenText(copy));
+  return copy;
+}
+
+/** Remplace (ou retire) un article dans une vue de lecteur, liste et index. */
+function replaceInView(list: Article[], byId: Map<string, Article>, articleId: string, next: Article | null) {
+  const previous = byId.get(publicArticleId(articleId));
+  if (previous) byId.delete(previous.id);
+  if (next) byId.set(next.id, next);
+  const index = list.findIndex((entry) => entry.id === (previous?.id ?? next?.id));
+  if (index !== -1) {
+    if (next) list[index] = next;
+    else list.splice(index, 1);
+  } else if (next) list.push(next);
+}
 function hasProtectedPnjIdentity(article: Article): boolean {
   if (article.category !== "Personnages" || !article.pnj || typeof article.pnj !== "object") return false;
   const pnj = article.pnj as JsonObject;
@@ -620,8 +786,18 @@ function hasProtectedPnjIdentity(article: Article): boolean {
   return Boolean(realName && truthName && realName !== truthName);
 }
 
-function articleForAudience(article: Article, includeMj: boolean): Article {
+const TRUTH_PNJ_GROUPS = new Set(["Personnages de Vérité", "Figures de Vérité", "Corruption & menaces", "Chasseurs"]);
+function hasTruthPnjNavigation(article: Article): boolean {
+  if (article.category !== "Personnages") return false;
+  const navigation = article.navigation as JsonObject | undefined;
+  return TRUTH_PNJ_GROUPS.has(String(navigation?.group ?? ""));
+}
+
+function articleForAudience(article: Article, includeMj: boolean, includeTruth = includeMj): Article {
   const result = deepClone(article);
+  // Étiquettes de niveau Vérité : ajoutées aux étiquettes visibles pour qui y a accès.
+  const truthTags: string[] = Array.isArray(result.truthTags) ? result.truthTags : [];
+  delete result.truthTags;
   if (!includeMj) {
     const isPrivatePortrait = (media: unknown) =>
       (media as JsonObject | null)?.portraitVisibility === "mj" ||
@@ -640,8 +816,14 @@ function articleForAudience(article: Article, includeMj: boolean): Article {
       else delete result.illustration;
     }
     if (Array.isArray(result.gallery)) result.gallery = result.gallery.filter((media) => !isPrivatePortrait(media));
-    const protectedIdentity = hasProtectedPnjIdentity(article);
-    if (Array.isArray(result.sections)) result.sections = result.sections.filter((section) => section?.audience !== "mj");
+    // La rubrique d'un PNJ rangé par sa nature de Vérité (« Personnages de
+    // Vérité · Pelages roux ») trahirait son secret : même traitement qu'une
+    // identité protégée.
+    const protectedIdentity = hasProtectedPnjIdentity(article) || hasTruthPnjNavigation(article);
+    if (Array.isArray(result.sections)) {
+      result.sections = result.sections.filter((section) =>
+        section?.audience !== "mj" && (includeTruth || section?.audience !== "verite"));
+    }
     if (result.pnj && typeof result.pnj === "object") {
       const pnj = result.pnj as JsonObject;
       const portrait = pnj.portrait && !isPrivatePortrait(pnj.portrait) ? pnj.portrait : String(publicPortrait?.src ?? "");
@@ -674,7 +856,8 @@ function articleForAudience(article: Article, includeMj: boolean): Article {
     }
   }
   else delete result.__searchText;
-  if (!includeMj && PROTECTED_ARTICLE_PUBLIC_IDS[article.id]) result.id = PROTECTED_ARTICLE_PUBLIC_IDS[article.id];
+  if (includeTruth && truthTags.length) result.tags = [...new Set([...(result.tags ?? []), ...truthTags])];
+  if (!includeMj) return withPublicArticleIds(result);
   return result;
 }
 
@@ -870,7 +1053,10 @@ function isPlaceholderMedia(media: unknown): boolean {
 function editableArticle(base: Article, input: unknown): Article {
   const source = input && typeof input === "object" ? (input as JsonObject) : {};
   const result = deepClone(base);
-  const simpleFields = ["title", "category", "source", "status", "tags", "sections", "pnj", "image", "illustration"];
+  const simpleFields = [
+    "title", "category", "source", "status", "tags", "truthTags", "secretTags", "audience",
+    "sections", "pnj", "image", "illustration"
+  ];
 
   for (const field of simpleFields) {
     if (!Object.prototype.hasOwnProperty.call(source, field)) continue;
@@ -904,6 +1090,11 @@ async function editorBaseFor(
   id: string,
   corpus: Corpus
 ): Promise<{ hash: string; article: Article } | null> {
+  // Site d'essai : la base de contenu est la référence de l'éditeur.
+  if (contentRulesEnabled()) {
+    const article = await contentArticle(id);
+    return article ? { hash: articleHash(article), article } : null;
+  }
   if (corpus.retiredIds.has(id)) return null;
   const existing = corpus.editorBaseById.get(id);
   if (existing) return existing;
@@ -932,14 +1123,19 @@ function validEditableArticle(value: unknown): value is Article {
   const title = String(article.title ?? "").trim();
   if (String(article.category ?? "").trim() === LEGACY_CATEGORY) return false;
   if (!title || title.length > 240) return false;
-  if (article.tags !== undefined) {
-    if (!Array.isArray(article.tags) || article.tags.length > 100) return false;
-    if (article.tags.some((tag: unknown) => typeof tag !== "string" || tag.length > 120)) return false;
+  for (const field of ["tags", "truthTags", "secretTags"]) {
+    const tags = article[field];
+    if (tags === undefined) continue;
+    if (!Array.isArray(tags) || tags.length > 100) return false;
+    if (tags.some((tag: unknown) => typeof tag !== "string" || tag.length > 120)) return false;
   }
+  // "" = public : l'éditeur l'envoie pour retirer une visibilité réservée.
+  if (article.audience !== undefined && !["", "mj", "verite"].includes(String(article.audience))) return false;
   if (article.sections !== undefined) {
     if (!Array.isArray(article.sections) || article.sections.length > 160) return false;
     for (const section of article.sections) {
       if (!section || typeof section !== "object") return false;
+      if (section.audience !== undefined && !["mj", "verite"].includes(String(section.audience))) return false;
       if (!Array.isArray(section.blocks) || section.blocks.length > 300) return false;
       for (const block of section.blocks) {
         if (!block || typeof block !== "object") return false;
@@ -2058,6 +2254,31 @@ async function loadCorpus(): Promise<Corpus> {
   const overridePayload = await readJson<JsonObject>("manual-overrides.json");
 
   if (!Array.isArray(manifest.datasets)) throw new Error("Manifest Compendium V3 invalide");
+
+  // Site d'essai (CONTENT_SOURCE=db) : une fois les articles et les titres de
+  // navigation en base, le compendium n'est plus composé depuis le code.
+  const stored = await contentCorpusArticles();
+  if (stored) {
+    // Décisions sur les portraits (MJ, public, retiré) : elles alimentent aussi
+    // portraitVisibilityBySrc, qui cache les portraits MJ aux joueurs.
+    const portraitRows = await portraitOverrides();
+    const overrideByArticle = new Map<string, PortraitOverride[]>();
+    for (const row of portraitRows) overrideByArticle.set(row.articleId, [...(overrideByArticle.get(row.articleId) ?? []), row]);
+    for (const [articleId, rows] of overrideByArticle) {
+      const article = stored.byId.get(articleId);
+      if (article) applyPortraitOverrides(article, rows);
+    }
+    console.log(`Compendium lu dans les tables de contenu : ${stored.byId.size} articles publiés, sans composition.`);
+    return deriveCorpus({
+      manifest,
+      byId: stored.byId,
+      navigation: new Map(Object.entries(stored.titles).map(([id, displayTitle]) => [id, { id, displayTitle }])),
+      retiredIds: new Set(),
+      editorBaseById: new Map(),
+      overrideSummary: { applied: 0, conflicts: 0, missing: 0 },
+      databaseEditSummary: { applied: 0, conflicts: 0 }
+    });
+  }
 
   const byId = new Map<string, Article>();
   const extraterrestrialPnjResolvedIds = new Map<string, string>();
@@ -3313,7 +3534,7 @@ async function loadCorpus(): Promise<Corpus> {
   const bestiaryArt = await readFile(resolve(COMPENDIUM_MEDIA_DIR, "source/bestiary-art-direction-v2.json"), "utf8")
     .then((content) => JSON.parse(content) as { items?: Array<{ id: string; src: string; alt: string; caption: string }> })
     .then((data) => new Map((data.items ?? []).filter((item) =>
-      /^bestiaire-[a-z0-9-]+$/.test(item.id) && item.src === `images/manual/${PROTECTED_ARTICLE_PUBLIC_IDS[item.id] ?? item.id}.webp`
+      /^bestiaire-[a-z0-9-]+$/.test(item.id) && item.src === `images/manual/${STATIC_PUBLIC_IDS[item.id] ?? item.id}.webp`
     ).map((item) => [item.id, item])))
     .catch(() => new Map<string, { id: string; src: string; alt: string; caption: string }>());
   const portraitManifest = await readFile(resolve(COMPENDIUM_MEDIA_DIR, "images/portraits/manifest.json"), "utf8")
@@ -4047,9 +4268,37 @@ async function loadCorpus(): Promise<Corpus> {
   }
   applyApprovedPnjMerges(byId);
   for(const alias of Object.keys(APPROVED_PNJ_ALIASES))navigation.delete(alias);
+  // Site d'essai (CONTENT_SOURCE=db) : les articles de la base font foi.
+  const content = await syncArticlesWithContent(byId, isMjOnlyArticle);
+  if (content) {
+    for (const id of navigation.keys()) if (!byId.has(id)) navigation.delete(id);
+    console.log(`Compendium lu dans les tables de contenu : ${content.loaded} articles publiés${content.seeded ? ` (${content.seeded} versés au premier démarrage)` : ""}.`);
+    const titles: Record<string, string> = {};
+    for (const [id, entry] of navigation) if (entry.displayTitle) titles[id] = entry.displayTitle;
+    await saveContentNavigationTitles(titles);
+  }
+  return deriveCorpus({
+    manifest, byId, navigation, retiredIds, editorBaseById, overrideSummary,
+    databaseEditSummary: { applied: databaseEditApplied, conflicts: databaseEditConflicts }
+  });
+}
+
+/** Vues de lecture, index et décomptes, à partir des articles retenus. */
+function deriveCorpus({ manifest, byId, navigation, retiredIds, editorBaseById, overrideSummary, databaseEditSummary }: {
+  manifest: Manifest;
+  byId: Map<string, Article>;
+  navigation: Map<string, NavigationEntry>;
+  retiredIds: Set<string>;
+  editorBaseById: Map<string, { hash: string; article: Article }>;
+  overrideSummary: Corpus["overrideSummary"];
+  databaseEditSummary: Corpus["databaseEditSummary"];
+}): Corpus {
   const articles = [...byId.values()].sort(compareArticles);
-  const publicArticles = articles.filter((article) => !isMjOnlyArticle(article)).map((article) => { const publicArticle=articleForAudience(article,false); publicArticle.__searchText=norm(flattenText(publicArticle)); return publicArticle; });
+  refreshPublicArticleIds(articles);
+  const publicArticles = articles.map((article) => audienceCopy(article, false)).filter((article): article is Article => article !== null);
   const publicById = new Map(publicArticles.map((article) => [article.id, article]));
+  const truthArticles = articles.map((article) => audienceCopy(article, true)).filter((article): article is Article => article !== null);
+  const truthById = new Map(truthArticles.map((article) => [article.id, article]));
   const wikiIndexCompact = articles
     .filter((article) => article.category !== LEGACY_CATEGORY)
     .map((article) => {
@@ -4089,8 +4338,10 @@ async function loadCorpus(): Promise<Corpus> {
     manifest,
     articles,
     publicArticles,
+    truthArticles,
     byId,
     publicById,
+    truthById,
     wikiIndexCompact,
     editorBaseById,
     retiredIds,
@@ -4098,10 +4349,7 @@ async function loadCorpus(): Promise<Corpus> {
     categories,
     manufacturers,
     overrideSummary,
-    databaseEditSummary: {
-      applied: databaseEditApplied,
-      conflicts: databaseEditConflicts
-    }
+    databaseEditSummary
   };
 }
 
@@ -4126,16 +4374,21 @@ function addPublishedCustomArticle(corpus: Corpus, base: Article, draft: Article
   article.category = displayCategory(article);
   article.manufacturer = manufacturerFor(article);
   article.__searchText = norm(flattenText(article));
-  const publicArticle = isMjOnlyArticle(article) ? null : articleForAudience(article, false);
-  if (publicArticle) publicArticle.__searchText = norm(flattenText(publicArticle));
+  const publicArticle = audienceCopy(article, false);
+  const truthArticle = audienceCopy(article, true);
 
   const articles = [...corpus.articles, article].sort(compareArticles);
   const publicArticles = publicArticle
     ? [...corpus.publicArticles, publicArticle].sort(compareArticles)
     : corpus.publicArticles;
+  const truthArticles = truthArticle
+    ? [...corpus.truthArticles, truthArticle].sort(compareArticles)
+    : corpus.truthArticles;
   const byId = new Map(corpus.byId).set(article.id, article);
   const publicById = new Map(corpus.publicById);
   if (publicArticle) publicById.set(publicArticle.id, publicArticle);
+  const truthById = new Map(corpus.truthById);
+  if (truthArticle) truthById.set(truthArticle.id, truthArticle);
   const categories = corpus.categories.map((entry) => ({ ...entry }));
   const category = categories.find((entry) => entry.name === article.category);
   if (category) category.count += 1;
@@ -4145,7 +4398,7 @@ function addPublishedCustomArticle(corpus: Corpus, base: Article, draft: Article
     dataset: article.dataset ?? "", group: "", subgroup: "", manufacturer: article.manufacturer ?? ""
   }];
   corpusPromise = Promise.resolve({
-    ...corpus, articles, publicArticles, byId, publicById, categories,
+    ...corpus, articles, publicArticles, truthArticles, byId, publicById, truthById, categories,
     wikiIndexCompact,
     editorBaseById: new Map(corpus.editorBaseById).set(article.id, {
       hash: articleHash(base), article: deepClone(base)
@@ -4288,13 +4541,14 @@ async function loadUserLibrary(userId: string, corpus: Corpus, includeMj: boolea
     )
   ]);
 
-  // Même vue que la lecture d'une page : une page MJ mise en favori (ou dans
-  // l'historique) par quelqu'un qui n'y a pas accès n'apparaît pas.
+  // Même vue que la lecture d'une page : une page MJ ou Vérité mise en favori
+  // (ou dans l'historique) par quelqu'un qui n'y a pas accès n'apparaît pas.
+  const view = await readerView(corpus, { id: userId }, includeMj);
   const visibleItem = (id: string) => {
     const canonicalId = MERGED_PNJ_ALIAS_IDS[id] ?? id;
     const article = includeMj
       ? corpus.byId.get(canonicalId)
-      : corpus.publicById.get(PROTECTED_ARTICLE_PUBLIC_IDS[canonicalId] ?? canonicalId);
+      : view.byId.get(publicArticleId(canonicalId));
     if (!article || article.category === LEGACY_CATEGORY) return null;
     return searchItem(includeMj ? articleForAudience(article, true) : article, "");
   };
@@ -4344,6 +4598,24 @@ async function ownedCollection(collectionId: string, userId: string): Promise<bo
 
 export async function registerCompendiumRoutes(app: FastifyInstance) {
   await registerCanonicalNpcGenerator(app);
+  // PNJ proposés par les joueurs : « publié » = la page validée est au Compendium public.
+  await registerNpcProposalRoutes(app, async (articleId) => (await getCorpus()).publicById.has(articleId));
+  // Site d'essai : les articles s'éditent dans Directus. L'ancien éditeur écrirait
+  // dans des tables que le compendium ne lit plus ; ses écritures sont refusées.
+  // Aperçu de lien (06/11) : Discord, WhatsApp, Messenger… lisent cette page à la
+  // place de l'application (Caddy la leur sert pour /compendium?article=…). Seul
+  // ce qu'un visiteur sans compte peut lire y figure : jamais la Vérité ni le MJ.
+  app.get<{ Querystring: { article?: string } }>("/api/compendium/share", async (request, reply) => {
+    const host = ["terra-umbra.fr", "dev.terra-umbra.fr"].includes(request.hostname) ? request.hostname : "terra-umbra.fr";
+    const origin = `https://${host}`;
+    const id = String(request.query.article ?? "").trim().slice(0, 240);
+    const corpus = await getCorpus();
+    const view = await readerView(corpus, null, false);
+    const article = id ? view.byId.get(publicArticleId(MERGED_PNJ_ALIAS_IDS[id] ?? id)) : undefined;
+    const card = shareCard(article, origin, id);
+    return reply.type("text/html; charset=utf-8").header("Cache-Control", "public, max-age=600").send(card);
+  });
+
   app.get("/api/compendium/meta", async () => {
     const corpus = await getCorpus();
     return {
@@ -4366,10 +4638,11 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
     const corpus = await getCorpus();
     const user = await currentUser(request);
     const includeMj = canReadMj(user?.role);
+    const view = await readerView(corpus, user, includeMj);
     if (request.query.compact === "1") {
       if (includeMj) return { entries: corpus.wikiIndexCompact };
       return {
-        entries: [...corpus.publicById.values()]
+        entries: [...view.byId.values()]
           .filter((article) => article.category !== LEGACY_CATEGORY)
           .map((article) => {
             const navigation = article.navigation as JsonObject | undefined;
@@ -4385,7 +4658,7 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
           })
       };
     }
-    const articles = (includeMj ? corpus.articles : corpus.publicArticles)
+    const articles = view.articles
       .filter((article) => article.category !== LEGACY_CATEGORY);
     return {
       entries: articles.map((article) => {
@@ -4416,9 +4689,10 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
     const user = await currentUser(request);
     const includeMj = canReadMj(user?.role);
     const canonicalId = MERGED_PNJ_ALIAS_IDS[id] ?? id;
+    const view = await readerView(corpus, user, includeMj);
     const resolved = includeMj
       ? corpus.byId.get(PROTECTED_ARTICLE_SOURCE_IDS[canonicalId] ?? canonicalId)
-      : corpus.publicById.get(PROTECTED_ARTICLE_PUBLIC_IDS[canonicalId] ?? canonicalId);
+      : view.byId.get(publicArticleId(canonicalId));
     const article = resolved ? approvedAliasArticle(resolved,id) : undefined;
     if (!article) return reply.code(404).send({ error: "compendium_article_not_found" });
 
@@ -4473,7 +4747,7 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
     const offset = Math.max(0, Number.parseInt(request.query.offset ?? "0", 10) || 0);
     const tokens = normalizedQuery.split(" ").filter(Boolean);
 
-    let rows = includeMj ? corpus.articles : corpus.publicArticles;
+    let rows = (await readerView(corpus, user, includeMj)).articles;
     if (category) rows = rows.filter((article) => article.category === category);
     if (group) rows = rows.filter((article) => {
       const nav=article.navigation as JsonObject|undefined;
@@ -4552,7 +4826,8 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
     const rows = corpus.publicArticles
       .filter((article) => article.category === "Personnages")
       .map((article) => {
-        const source = corpus.byId.get(MERGED_PNJ_ALIAS_IDS[article.id] ?? article.id);
+        const sourceId = PROTECTED_ARTICLE_SOURCE_IDS[article.id] ?? article.id;
+        const source = corpus.byId.get(MERGED_PNJ_ALIAS_IDS[sourceId] ?? sourceId);
         const tierId = String(
           source?.__npcTier ?? source?.pnj?.generator_profile?.tierId ?? article.__npcTier ?? ""
         );
@@ -4705,6 +4980,12 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
     if (!id || id.length > 240) return bad(reply, "invalid_compendium_article_id");
     const corpus = await getCorpus();
     if (!await editorBaseFor(id, corpus)) return reply.code(404).send({ error: "compendium_article_not_found" });
+    if (await refuseIfLocked(id, user.id, reply)) return;
+    if (contentRulesEnabled()) {
+      await archiveContentArticle(id, user.id);
+      invalidateCompendiumCorpus();
+      return { articleId: id, deleted: true };
+    }
     await pool.query(
       `INSERT INTO compendium_deleted_articles (article_id, deleted_by) VALUES ($1, $2)
        ON CONFLICT (article_id) DO NOTHING`, [id, user.id]
@@ -4898,8 +5179,9 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
   app.get<{
     Params: { "*": string };
   }>("/api/compendium/media/*", async (request, reply) => {
-    const relative = safeMediaRelativePath(String(request.params["*"] ?? ""));
-    if (!relative) return bad(reply, "invalid_compendium_media_path");
+    const requested = safeMediaRelativePath(String(request.params["*"] ?? ""));
+    if (!requested) return bad(reply, "invalid_compendium_media_path");
+    const relative = MEDIA_ALIASES.get(requested) ?? requested;
     const isPortraitManifest = relative === "images/portraits/manifest.json";
     const isMjPortrait = /^images\/portraits\/lot-[^/]+\/mj\//.test(relative);
     // Editorial and imported portraits can live outside the portrait lots.
@@ -4926,7 +5208,7 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
               items: Array.isArray(lot?.items)
                 ? lot.items.filter((item: JsonObject) =>
                     (overrides.find((row) => row.src === item?.src)?.visibility ?? item?.visibility) === "public"
-                  ).map((item: JsonObject) => ({ ...item, visibility: "public" }))
+                  ).map((item: JsonObject) => withPublicArticleIds({ ...item, visibility: "public" }))
                 : []
             }
           ])
@@ -4948,8 +5230,9 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
   app.get<{
     Params: { "*": string };
   }>("/api/compendium/uploads/*", async (request, reply) => {
-    const filename = safeUploadFilename(String(request.params["*"] ?? ""));
-    if (!filename) return bad(reply, "invalid_compendium_upload_path");
+    const requested = safeUploadFilename(String(request.params["*"] ?? ""));
+    if (!requested) return bad(reply, "invalid_compendium_upload_path");
+    const filename = MEDIA_ALIASES.get(requested) ?? requested;
 
     const uploadRows = (await portraitOverrides()).filter((row) => row.src === `/api/compendium/uploads/${filename}`);
     if (uploadRows.length && uploadRows.every((row) => row.visibility === "removed")) {
@@ -5056,7 +5339,8 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
     let suffix = 2;
     while (
       corpus.byId.has(id) ||
-      (await pool.query("SELECT 1 FROM compendium_custom_articles WHERE article_id = $1", [id])).rowCount
+      (await pool.query("SELECT 1 FROM compendium_custom_articles WHERE article_id = $1", [id])).rowCount ||
+      (contentRulesEnabled() && await contentArticleExists(id))
     ) {
       id = `wiki-${slug}-${suffix}`;
       suffix += 1;
@@ -5073,6 +5357,18 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
       tags,
       sections: []
     };
+    if (contentRulesEnabled()) {
+      // Site d'essai : la page naît en brouillon dans la base de contenu.
+      await createContentArticle(base, user.id);
+      const created = (await contentArticle(id))!;
+      await pool.query(
+        `INSERT INTO compendium_article_edits
+           (article_id, base_hash, draft, draft_by, draft_updated_at, updated_at)
+         VALUES ($1, $2, $3::jsonb, $4, now(), now())`,
+        [id, articleHash(created), JSON.stringify(created), user.id]
+      );
+      return reply.code(201).send({ articleId: id, article: created });
+    }
     const baseHash = articleHash(base);
 
     const client = await pool.connect();
@@ -5121,14 +5417,17 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
       draft: Article | null;
       draftUpdatedAt: string | null;
       publishedAt: string | null;
+      draftBy: string | null;
     }>(
       `SELECT
-         base_hash AS "baseHash",
-         draft,
-         draft_updated_at::text AS "draftUpdatedAt",
-         published_at::text AS "publishedAt"
-       FROM compendium_article_edits
-       WHERE article_id = $1`,
+         e.base_hash AS "baseHash",
+         e.draft,
+         e.draft_updated_at::text AS "draftUpdatedAt",
+         e.published_at::text AS "publishedAt",
+         u.display_name AS "draftBy"
+       FROM compendium_article_edits e
+       LEFT JOIN users u ON u.id = e.draft_by
+       WHERE e.article_id = $1`,
       [id]
     );
 
@@ -5141,10 +5440,58 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
       baseHash: base.hash,
       draft: row?.draft ?? null,
       draftUpdatedAt: row?.draftUpdatedAt ?? null,
+      draftBy: row?.draft ? row.draftBy : null,
+      lock: otherEditLock(id, user.id),
       publishedAt: row?.publishedAt ?? null,
-      conflict: Boolean(row && row.baseHash !== base.hash)
+      // Seul un brouillon en cours peut être en conflit avec la page publiée.
+      conflict: Boolean(row?.draft && row.baseHash !== base.hash)
     };
   });
+
+  app.post<{ Params: { id: string }; Body: { force?: boolean } }>(
+    "/api/compendium/editor/articles/:id/lock",
+    async (request, reply) => {
+      const user = await requireEditor(request, reply);
+      if (!user) return;
+      const id = APPROVED_PNJ_ALIASES[request.params.id.trim()] ?? request.params.id.trim();
+      if (!request.body?.force && await refuseIfLocked(id, user.id, reply)) return;
+      const mine = editLocks.get(id);
+      const since = mine?.userId === user.id && mine.until >= Date.now() ? mine.since : new Date().toISOString();
+      editLocks.set(id, { userId: user.id, name: user.displayName, since, until: Date.now() + EDIT_LOCK_MS });
+      return { locked: true, until: EDIT_LOCK_MS };
+    }
+  );
+
+  app.delete<{ Params: { id: string } }>("/api/compendium/editor/articles/:id/lock", async (request, reply) => {
+    const user = await requireEditor(request, reply);
+    if (!user) return;
+    const id = APPROVED_PNJ_ALIASES[request.params.id.trim()] ?? request.params.id.trim();
+    if (editLocks.get(id)?.userId === user.id) editLocks.delete(id);
+    return { locked: false };
+  });
+
+  // Historique des versions publiées (site d'essai : base de contenu).
+  app.get<{ Params: { id: string } }>("/api/compendium/editor/articles/:id/revisions", async (request, reply) => {
+    const user = await requireEditor(request, reply);
+    if (!user) return;
+    if (!contentRulesEnabled()) return { revisions: [] };
+    return { revisions: await contentArticleRevisions(request.params.id.trim()) };
+  });
+
+  app.get<{ Params: { id: string; version: string } }>(
+    "/api/compendium/editor/articles/:id/revisions/:version",
+    async (request, reply) => {
+      const user = await requireEditor(request, reply);
+      if (!user) return;
+      const version = Number(request.params.version);
+      if (!contentRulesEnabled() || !Number.isInteger(version) || version < 1) {
+        return reply.code(404).send({ error: "compendium_revision_not_found" });
+      }
+      const article = await contentArticleRevision(request.params.id.trim(), version);
+      if (!article) return reply.code(404).send({ error: "compendium_revision_not_found" });
+      return { article };
+    }
+  );
 
   app.put<{
     Params: { id: string };
@@ -5165,6 +5512,7 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
     if (!validEditableArticle(request.body?.article)) {
       return bad(reply, "invalid_compendium_article");
     }
+    if (await refuseIfLocked(id, user.id, reply)) return;
 
     const draft = editableArticle(current, request.body.article);
     await pool.query(
@@ -5195,6 +5543,7 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
     if (!(await editorBaseFor(id, corpus))) {
       return reply.code(404).send({ error: "compendium_article_not_found" });
     }
+    if (await refuseIfLocked(id, user.id, reply)) return;
     await pool.query(
       `UPDATE compendium_article_edits
        SET draft = NULL,
@@ -5218,6 +5567,7 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
     const corpus = await getCorpus();
     const base = await editorBaseFor(id, corpus);
     if (!base) return reply.code(404).send({ error: "compendium_article_not_found" });
+    if (await refuseIfLocked(id, user.id, reply)) return;
 
     const client = await pool.connect();
     try {
@@ -5246,6 +5596,25 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
         return bad(reply, "invalid_compendium_article");
       }
 
+      if (contentRulesEnabled()) {
+        // Site d'essai : la publication écrit dans la base de contenu (avec une
+        // révision) ; le brouillon de l'éditeur est vidé.
+        // Le brouillon est déjà l'article complet : le repasser sur la base
+        // ferait revenir une visibilité retirée (« Public » n'est pas un champ).
+        await publishContentArticle(client, { ...row.draft, id }, user.id);
+        await client.query(
+          `UPDATE compendium_article_edits
+           SET draft = NULL, draft_by = NULL, draft_updated_at = NULL, updated_at = now()
+           WHERE article_id = $1`,
+          [id]
+        );
+        await client.query("COMMIT");
+        invalidateCompendiumCorpus();
+        const result = deepClone(row.draft);
+        delete result.__searchText;
+        result.__wikiPublishedEdit = true;
+        return { article: result, published: true };
+      }
       await client.query(
         `INSERT INTO compendium_article_edit_revisions
            (article_id, base_hash, document, published_by)
@@ -5304,9 +5673,10 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
     const user = await currentUser(request);
     const includeMj = canReadMj(user?.role);
     const canonicalId = MERGED_PNJ_ALIAS_IDS[id] ?? id;
+    const view = await readerView(corpus, user, includeMj);
     const resolved = includeMj
       ? corpus.byId.get(PROTECTED_ARTICLE_SOURCE_IDS[canonicalId] ?? canonicalId)
-      : corpus.publicById.get(PROTECTED_ARTICLE_PUBLIC_IDS[canonicalId] ?? canonicalId);
+      : view.byId.get(publicArticleId(canonicalId));
     const article = resolved ? approvedAliasArticle(resolved,id) : undefined;
     if (!article) {
       return reply.code(404).send({ error: "compendium_article_not_found" });

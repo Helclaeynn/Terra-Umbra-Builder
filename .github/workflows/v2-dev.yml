@@ -81,6 +81,16 @@ jobs:
         working-directory: apps/api
         run: node scripts/check-api-container-assets.mjs
 
+      - name: Check creation budgets enforced by the server
+        working-directory: apps/api
+        run: node scripts/check-creation-budget.mjs
+
+      - name: Check live power registry
+        working-directory: apps/api
+        run: |
+          node scripts/check-live-power-registry.mjs
+          node scripts/check-truth-play-bonuses.mjs
+
       - name: Check published PNJ biography corpus reload
         working-directory: apps/api
         env:
@@ -165,6 +175,10 @@ jobs:
           node scripts/check-npc-generator.mjs
           node scripts/check-campaign-bestiary.mjs
           node scripts/check-campaign-npcs.mjs
+          node scripts/check-npc-proposals.mjs
+          node scripts/check-live-events.mjs
+          node scripts/check-attention.mjs
+          node scripts/check-live-private.mjs
           node scripts/check-campaign-bestiary-db.mjs
 
       - name: Check password hashing and account migration
@@ -239,6 +253,7 @@ jobs:
         working-directory: apps/web
         run: |
           npm ci
+          npm run lint
           npm run build
 
       - name: Check V2 UI behavior

@@ -1,48 +1,221 @@
 <script setup lang="ts">
-import {computed,ref,onUnmounted} from 'vue';
-import {NPC_SEXES,npcBudgetIssues,npcTruthIssues,npcTalentEligible,type NpcData,type NpcSex,type NpcCatalog,type NpcTruth} from '../../../api/src/campaign-npc-model';
-import {characterDerivedStats} from '../lib/character-sheet';
-import {prepareNpcPortrait} from '../lib/npc-portrait';
-const props=defineProps<{data:NpcData;catalog:NpcCatalog;editable?:boolean}>();
-const emit=defineEmits<{(e:'update:data',value:NpcData):void;(e:'image-busy',value:boolean):void}>();
-const imageBusy=ref(false),imageError=ref('');let imageSeq=0;
-const tier=computed(()=>props.catalog.tiers.find(t=>t.id===props.data.tierId));
-const ranges=computed(()=>props.catalog.ranges[`${props.data.tierId}:${props.data.presetId}`]);
-const truthRanges=computed(()=>props.data.truth?props.catalog.truthRanges[`${props.data.truth.powerId}:${props.data.truth.archetypeId}`]:null);
-const totals=computed(()=>({attributes:Object.values(props.data.attributes).reduce((a,b)=>a+b,0),skills:Object.values(props.data.skills).reduce((a,b)=>a+b,0)}));
-const issues=computed(()=>npcBudgetIssues(props.data));
-const truthIssues=computed(()=>props.data.truth?npcTruthIssues(props.data.truth,props.catalog):[]);
-const derived=computed(()=>characterDerivedStats(id=>props.data.attributes[id]||0,id=>props.data.skills[id]||0,[]));
-const truthDerived=computed(()=>props.data.truth?characterDerivedStats(id=>props.data.truth!.attributes[id]||0,id=>props.data.truth!.skills[id]||0,[]):null);
-const descriptionFields=[{key:'appearance',label:'Apparence',max:1000},{key:'personality',label:'Caractère et façon de parler',max:1000},{key:'motivation',label:'Motivation',max:1000},{key:'secret',label:'Secret ou accroche MJ',max:3000},{key:'truthNotes',label:'Vérité et pouvoirs particuliers · notes MJ',max:3000},{key:'notes',label:'Notes de campagne',max:6000}] as const;
-const equipmentPick=ref(''),truthTalentPick=ref('');
-const selectedEquipment=computed(()=>(props.data.equipmentIds??[]).map(id=>props.catalog.equipment.find(item=>item.id===id)).filter((item):item is NonNullable<typeof item>=>!!item));
-const equipmentGroups=computed(()=>{
- const groups=new Map<string,typeof props.catalog.equipment>();
- for(const item of props.catalog.equipment){const rows=groups.get(item.category)??[];rows.push(item);groups.set(item.category,rows);}
- return [...groups.entries()].map(([category,items])=>({category,items}));
+import { computed, ref, onUnmounted } from "vue";
+import {
+  NPC_SEXES,
+  npcBudgetIssues,
+  npcTruthIssues,
+  npcTalentEligible,
+  type NpcData,
+  type NpcSex,
+  type NpcCatalog,
+  type NpcTruth
+} from "../../../api/src/campaign-npc-model";
+import { characterDerivedStats } from "../lib/character-sheet";
+import { prepareNpcPortrait } from "../lib/npc-portrait";
+const props = defineProps<{
+  data: NpcData;
+  catalog: NpcCatalog;
+  editable?: boolean;
+}>();
+const emit = defineEmits<{
+  (e: "update:data", value: NpcData): void;
+  (e: "image-busy", value: boolean): void;
+}>();
+const imageBusy = ref(false),
+  imageError = ref("");
+let imageSeq = 0;
+const tier = computed(() =>
+  props.catalog.tiers.find((t) => t.id === props.data.tierId)
+);
+const ranges = computed(
+  () => props.catalog.ranges[`${props.data.tierId}:${props.data.presetId}`]
+);
+const truthRanges = computed(() =>
+  props.data.truth
+    ? props.catalog.truthRanges[
+        `${props.data.truth.powerId}:${props.data.truth.archetypeId}`
+      ]
+    : null
+);
+const totals = computed(() => ({
+  attributes: Object.values(props.data.attributes).reduce((a, b) => a + b, 0),
+  skills: Object.values(props.data.skills).reduce((a, b) => a + b, 0)
+}));
+const issues = computed(() => npcBudgetIssues(props.data));
+const truthIssues = computed(() =>
+  props.data.truth ? npcTruthIssues(props.data.truth, props.catalog) : []
+);
+const derived = computed(() =>
+  characterDerivedStats(
+    (id) => props.data.attributes[id] || 0,
+    (id) => props.data.skills[id] || 0,
+    []
+  )
+);
+const truthDerived = computed(() =>
+  props.data.truth
+    ? characterDerivedStats(
+        (id) => props.data.truth!.attributes[id] || 0,
+        (id) => props.data.truth!.skills[id] || 0,
+        []
+      )
+    : null
+);
+const descriptionFields = [
+  { key: "appearance", label: "Apparence", max: 1000 },
+  { key: "personality", label: "Caractère et façon de parler", max: 1000 },
+  { key: "motivation", label: "Motivation", max: 1000 },
+  { key: "secret", label: "Secret ou accroche MJ", max: 3000 },
+  {
+    key: "truthNotes",
+    label: "Vérité et pouvoirs particuliers · notes MJ",
+    max: 3000
+  },
+  { key: "notes", label: "Notes de campagne", max: 6000 }
+] as const;
+const equipmentPick = ref(""),
+  truthTalentPick = ref("");
+const selectedEquipment = computed(() =>
+  (props.data.equipmentIds ?? [])
+    .map((id) => props.catalog.equipment.find((item) => item.id === id))
+    .filter((item): item is NonNullable<typeof item> => !!item)
+);
+const equipmentGroups = computed(() => {
+  const groups = new Map<string, typeof props.catalog.equipment>();
+  for (const item of props.catalog.equipment) {
+    const rows = groups.get(item.category) ?? [];
+    rows.push(item);
+    groups.set(item.category, rows);
+  }
+  return [...groups.entries()].map(([category, items]) => ({
+    category,
+    items
+  }));
 });
-function patch(value:Partial<NpcData>){emit('update:data',{...props.data,...value});}
-const value=(e:Event)=>(e.target as HTMLInputElement).value;
-function stat(group:'attributes'|'skills',id:string,e:Event){patch({[group]:{...props.data[group],[id]:Number(value(e))}});}
-function identity(key:'firstName'|'lastName',text:string){const first=(key==='firstName'?text:props.data.firstName||'').trim(),last=(key==='lastName'?text:props.data.lastName||'').trim();const previous=[props.data.firstName,props.data.lastName].filter(Boolean).join(' ').trim();const next=[first,last].filter(Boolean).join(' ');patch({[key]:text,...(!props.data.name.trim()||props.data.name.trim()===previous?{name:next||props.data.name}:{})});}
-function truthPatch(value:Partial<NpcTruth>){if(props.data.truth)patch({truth:{...props.data.truth,...value}});}
-function truthStat(group:'attributes'|'skills',id:string,e:Event){if(props.data.truth)truthPatch({[group]:{...props.data.truth[group],[id]:Number(value(e))}});}
-function truthTalent(name:string,on:boolean){if(!props.data.truth)return;const ids=on?[...props.data.truth.talentIds,name]:props.data.truth.talentIds.filter(id=>id!==name);const cost=ids.reduce((sum,id)=>sum+(props.catalog.truthTalents.find(t=>t.name===id)?.cost||0),0);truthPatch({talentIds:ids,ptv:Math.max(props.data.truth.ptv,cost)});}
-function addTruth(){patch({truth:{natureId:'autre',powerId:'recent',archetypeId:'custom',state:'revele',attributes:{...props.data.attributes},skills:{...props.data.skills},talentIds:[],ptv:0,specialtySkill:'',secondSpecialtySkill:'',notes:'',abilities:''}});}
-function talent(id:string,on:boolean){patch({talentIds:on?[...props.data.talentIds,id]:props.data.talentIds.filter(t=>t!==id)});}
-function addEquipment(){
- const id=equipmentPick.value;if(!id||props.data.equipmentIds?.includes(id))return;
- const ids=[...(props.data.equipmentIds??[]),id],armor=Math.max(0,...ids.map(value=>props.catalog.equipment.find(item=>item.id===value)?.armor??0));
- patch({equipmentIds:ids,armor});equipmentPick.value='';
+function patch(value: Partial<NpcData>) {
+  emit("update:data", { ...props.data, ...value });
 }
-function removeEquipment(id:string){
- const ids=(props.data.equipmentIds??[]).filter(value=>value!==id),armor=Math.max(0,...ids.map(value=>props.catalog.equipment.find(item=>item.id===value)?.armor??0));
- patch({equipmentIds:ids,armor});
+const value = (e: Event) => (e.target as HTMLInputElement).value;
+function stat(group: "attributes" | "skills", id: string, e: Event) {
+  patch({ [group]: { ...props.data[group], [id]: Number(value(e)) } });
 }
-function addTruthTalent(){if(!truthTalentPick.value)return;truthTalent(truthTalentPick.value,true);truthTalentPick.value='';}
-async function image(event:Event){const input=event.target as HTMLInputElement,file=input.files?.[0];if(!file)return;const n=++imageSeq;imageBusy.value=true;emit('image-busy',true);imageError.value='';try{const portrait=await prepareNpcPortrait(file);if(n===imageSeq)patch({portrait});}catch(e){if(n===imageSeq)imageError.value=(e as Error).message;}finally{if(n===imageSeq){imageBusy.value=false;emit('image-busy',false);}input.value='';}}
-onUnmounted(()=>{imageSeq++;});
+function identity(key: "firstName" | "lastName", text: string) {
+  const first = (
+      key === "firstName" ? text : props.data.firstName || ""
+    ).trim(),
+    last = (key === "lastName" ? text : props.data.lastName || "").trim();
+  const previous = [props.data.firstName, props.data.lastName]
+    .filter(Boolean)
+    .join(" ")
+    .trim();
+  const next = [first, last].filter(Boolean).join(" ");
+  patch({
+    [key]: text,
+    ...(!props.data.name.trim() || props.data.name.trim() === previous
+      ? { name: next || props.data.name }
+      : {})
+  });
+}
+function truthPatch(value: Partial<NpcTruth>) {
+  if (props.data.truth) patch({ truth: { ...props.data.truth, ...value } });
+}
+function truthStat(group: "attributes" | "skills", id: string, e: Event) {
+  if (props.data.truth)
+    truthPatch({
+      [group]: { ...props.data.truth[group], [id]: Number(value(e)) }
+    });
+}
+function truthTalent(name: string, on: boolean) {
+  if (!props.data.truth) return;
+  const ids = on
+    ? [...props.data.truth.talentIds, name]
+    : props.data.truth.talentIds.filter((id) => id !== name);
+  const cost = ids.reduce(
+    (sum, id) =>
+      sum + (props.catalog.truthTalents.find((t) => t.name === id)?.cost || 0),
+    0
+  );
+  truthPatch({ talentIds: ids, ptv: Math.max(props.data.truth.ptv, cost) });
+}
+function addTruth() {
+  patch({
+    truth: {
+      natureId: "autre",
+      powerId: "recent",
+      archetypeId: "custom",
+      state: "revele",
+      attributes: { ...props.data.attributes },
+      skills: { ...props.data.skills },
+      talentIds: [],
+      ptv: 0,
+      specialtySkill: "",
+      secondSpecialtySkill: "",
+      notes: "",
+      abilities: ""
+    }
+  });
+}
+function talent(id: string, on: boolean) {
+  patch({
+    talentIds: on
+      ? [...props.data.talentIds, id]
+      : props.data.talentIds.filter((t) => t !== id)
+  });
+}
+function addEquipment() {
+  const id = equipmentPick.value;
+  if (!id || props.data.equipmentIds?.includes(id)) return;
+  const ids = [...(props.data.equipmentIds ?? []), id],
+    armor = Math.max(
+      0,
+      ...ids.map(
+        (value) =>
+          props.catalog.equipment.find((item) => item.id === value)?.armor ?? 0
+      )
+    );
+  patch({ equipmentIds: ids, armor });
+  equipmentPick.value = "";
+}
+function removeEquipment(id: string) {
+  const ids = (props.data.equipmentIds ?? []).filter((value) => value !== id),
+    armor = Math.max(
+      0,
+      ...ids.map(
+        (value) =>
+          props.catalog.equipment.find((item) => item.id === value)?.armor ?? 0
+      )
+    );
+  patch({ equipmentIds: ids, armor });
+}
+function addTruthTalent() {
+  if (!truthTalentPick.value) return;
+  truthTalent(truthTalentPick.value, true);
+  truthTalentPick.value = "";
+}
+async function image(event: Event) {
+  const input = event.target as HTMLInputElement,
+    file = input.files?.[0];
+  if (!file) return;
+  const n = ++imageSeq;
+  imageBusy.value = true;
+  emit("image-busy", true);
+  imageError.value = "";
+  try {
+    const portrait = await prepareNpcPortrait(file);
+    if (n === imageSeq) patch({ portrait });
+  } catch (e) {
+    if (n === imageSeq) imageError.value = (e as Error).message;
+  } finally {
+    if (n === imageSeq) {
+      imageBusy.value = false;
+      emit("image-busy", false);
+    }
+    input.value = "";
+  }
+}
+onUnmounted(() => {
+  imageSeq++;
+});
 </script>
 <template>
  <div class="npc-sheet">
@@ -78,7 +251,7 @@ onUnmounted(()=>{imageSeq++;});
  </div>
 </template>
 <style scoped>
-.npc-sheet{display:grid;gap:16px;min-width:0;overflow-wrap:anywhere}.identity{display:grid;grid-template-columns:minmax(140px,220px) 1fr;gap:20px}.portrait{display:grid;gap:10px;align-content:start}.portrait>img{width:100%;max-height:280px;object-fit:contain;background:#080f19;border-radius:6px}.portrait>span{padding:25px;text-align:center;border:1px dashed #405875;color:#a3b7cc}.identity-fields,.story{display:grid;gap:12px}.npc-sheet label{display:grid;gap:7px}.npc-sheet input:not([type=checkbox]),textarea,select{min-width:0;box-sizing:border-box;width:100%;padding:10px;min-height:44px;background:#08131f;color:#edf4ff;border:1px solid #405875;border-radius:6px;font:inherit}textarea{resize:vertical}.stats,.derived{display:grid;grid-template-columns:repeat(auto-fit,minmax(125px,1fr));gap:10px}.stats>div,.derived>div{padding:10px;background:#132536;border:1px solid #304c62;border-radius:6px}.stats strong,.stats span{display:block}.derived{margin:0}.derived dt,small{color:#a3b7cc;line-height:1.6}.derived dd{margin:6px 0 0}.prose{white-space:pre-wrap}h4{margin:8px 0}.npc-sheet p{line-height:1.65}.check{display:flex!important;gap:8px;align-items:center;min-height:44px}.check input{width:20px;height:20px}.talent{padding:10px 0;border-bottom:1px solid #304c62}.talent small{display:block}summary{cursor:pointer;min-height:44px;align-content:center}button{padding:10px;min-height:44px;background:#101e30;color:#eaf2ff;border:1px solid #405875;border-radius:6px;font:inherit;cursor:pointer}input:focus-visible,textarea:focus-visible,select:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid #a3eaff;outline-offset:3px}@media(max-width:600px){.identity{grid-template-columns:1fr}.portrait{max-width:220px}.stats,.derived{grid-template-columns:repeat(2,minmax(0,1fr))}}
-.identity-parts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.identity,.story,.mechanics,.equipment-worn{padding:16px;border:1px solid #405875;border-radius:7px;background:#101e30}.equipment-worn,.selected-items{display:grid;gap:12px}.selected-items article,.truth-talent-heading,.picker-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px}.selected-items article{padding:10px;border:1px solid #304c62;border-radius:6px}.selected-items article>span{display:grid;gap:4px}.picker-row>label{flex:1;min-width:220px}.truth-profile{display:grid;gap:12px;padding:16px;border:1px solid #8973af;border-radius:7px;background:#17162b}.truth-profile>p{margin:0;color:#c4b6de}.truth-profile ul{color:#ffbdad}@media(max-width:600px){.identity-parts{grid-template-columns:1fr}}
+.npc-sheet{display:grid;gap:16px;min-width:0;overflow-wrap:anywhere}.identity{display:grid;grid-template-columns:minmax(140px,220px) 1fr;gap:20px}.portrait{display:grid;gap:10px;align-content:start}.portrait>img{width:100%;max-height:280px;object-fit:contain;background:var(--c-night);border-radius:6px}.portrait>span{padding:25px;text-align:center;border:1px dashed var(--c-line-strong);color:var(--c-text-soft)}.identity-fields,.story{display:grid;gap:12px}.npc-sheet label{display:grid;gap:7px}.npc-sheet input:not([type=checkbox]),textarea,select{min-width:0;box-sizing:border-box;width:100%;padding:10px;min-height:44px;background:var(--c-night);color:var(--c-text);border:1px solid var(--c-line-strong);border-radius:6px;font:inherit}textarea{resize:vertical}.stats,.derived{display:grid;grid-template-columns:repeat(auto-fit,minmax(125px,1fr));gap:10px}.stats>div,.derived>div{padding:10px;background:var(--c-relief);border:1px solid var(--c-line);border-radius:6px}.stats strong,.stats span{display:block}.derived{margin:0}.derived dt,small{color:var(--c-text-soft);line-height:1.6}.derived dd{margin:6px 0 0}.prose{white-space:pre-wrap}h4{margin:8px 0}.npc-sheet p{line-height:1.65}.check{display:flex!important;gap:8px;align-items:center;min-height:44px}.check input{width:20px;height:20px}.talent{padding:10px 0;border-bottom:1px solid var(--c-line)}.talent small{display:block}summary{cursor:pointer;min-height:44px;align-content:center}button{padding:10px;min-height:44px;background:var(--c-surface);color:var(--c-text);border:1px solid var(--c-line-strong);border-radius:6px;font:inherit;cursor:pointer}input:focus-visible,textarea:focus-visible,select:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var(--c-reality-soft);outline-offset:3px}@media(max-width:600px){.identity{grid-template-columns:1fr}.portrait{max-width:220px}.stats,.derived{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.identity-parts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.identity,.story,.mechanics,.equipment-worn{padding:16px;border:1px solid var(--c-line-strong);border-radius:7px;background:var(--c-surface)}.equipment-worn,.selected-items{display:grid;gap:12px}.selected-items article,.truth-talent-heading,.picker-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px}.selected-items article{padding:10px;border:1px solid var(--c-line);border-radius:6px}.selected-items article>span{display:grid;gap:4px}.picker-row>label{flex:1;min-width:220px}.truth-profile{display:grid;gap:12px;padding:16px;border:1px solid #8973af;border-radius:7px;background:var(--c-truth-bg)}.truth-profile>p{margin:0;color:#c4b6de}.truth-profile ul{color:#ffbdad}@media(max-width:600px){.identity-parts{grid-template-columns:1fr}}
 .truth-heading{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px}
 </style>

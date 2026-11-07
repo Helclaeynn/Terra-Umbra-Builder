@@ -36,6 +36,9 @@ services:
       SMTP_HOST: ""
       SMTP_USER: ""
       COMPENDIUM_UPLOAD_DIR: /app/editor-media
+      # Étape 7 : règles de Vérité lues dans les tables de contenu (voies à
+      # paliers). La production garde les catalogues tant que ce n'est pas validé.
+      CONTENT_SOURCE: db
     volumes:
       - recette-editor-media:/app/editor-media
     depends_on:
@@ -48,12 +51,55 @@ services:
   recette-web:
     image: tuc-recette-web:latest
     restart: unless-stopped
+    # Dossiers PDF et cartes rangés à part (.dockerignore), copiés par deploy-recette.sh.
+    volumes:
+      - ./static/pdf-dossiers:/usr/share/nginx/html/pdf/dossiers:ro
+      - ./static/map-assets:/usr/share/nginx/html/map-assets:ro
     networks:
+      - caddy
+
+  # CMS du contenu éditorial (audit technique, recommandation A), sur la même
+  # base que le site d'essai. Servi par Caddy sur dev.terra-umbra.fr/cms.
+  # Clés et compte administrateur dans .env (créés par deploy-recette.sh).
+  recette-directus:
+    image: directus/directus:11.5.1
+    restart: unless-stopped
+    mem_limit: 512m
+    environment:
+      KEY: ${DIRECTUS_KEY}
+      SECRET: ${DIRECTUS_SECRET}
+      PUBLIC_URL: https://dev.terra-umbra.fr/cms
+      DB_CLIENT: pg
+      DB_HOST: recette-db
+      DB_PORT: "5432"
+      DB_DATABASE: ${POSTGRES_DB}
+      # Son propre compte, limité au contenu (directus-db-role.sql).
+      DB_USER: directus_cms
+      DB_PASSWORD: ${DIRECTUS_DB_PASSWORD}
+      ADMIN_EMAIL: ${DIRECTUS_ADMIN_EMAIL}
+      ADMIN_PASSWORD: ${DIRECTUS_ADMIN_PASSWORD}
+      STORAGE_LOCATIONS: local
+      STORAGE_LOCAL_ROOT: /directus/uploads
+      TELEMETRY: "false"
+      WEBSOCKETS_ENABLED: "false"
+      # Pas d'envoi d'e-mails depuis le site d'essai.
+      EMAIL_TRANSPORT: sendmail
+      EMAIL_SENDMAIL_PATH: /bin/false
+    volumes:
+      - recette-directus-uploads:/directus/uploads
+      # Éditeur du corps des articles (infrastructure/recette/directus-extensions).
+      - ./directus-extensions:/directus/extensions:ro
+    depends_on:
+      recette-db:
+        condition: service_healthy
+    networks:
+      - recette
       - caddy
 
 volumes:
   recette-postgres:
   recette-editor-media:
+  recette-directus-uploads:
 
 networks:
   recette:

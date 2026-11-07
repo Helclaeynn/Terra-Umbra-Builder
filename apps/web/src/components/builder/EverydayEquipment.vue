@@ -19,5 +19,5 @@ const items = computed(() => everydayEquipmentIds(props.data, props.campaign !==
   </section>
 </template>
 <style scoped>
-.everyday-equipment{padding:16px;border:1px solid #30485d;border-radius:8px;margin-block:16px;background:#0d1a2b;color:#d7e7f3}.everyday-equipment h3{margin:0}.everyday-equipment p{font-size:13px;color:#b3c9d9}.everyday-equipment ul{list-style:none;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}.everyday-equipment li{display:grid;gap:4px}.everyday-equipment span{font-size:12px;color:#9ab9cc}.everyday-note{margin-bottom:0}
+.everyday-equipment{padding:16px;border:1px solid var(--c-line);border-radius:8px;margin-block:16px;background:var(--c-surface);color:#d7e7f3}.everyday-equipment h3{margin:0}.everyday-equipment p{font-size:13px;color:var(--c-text-soft)}.everyday-equipment ul{list-style:none;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}.everyday-equipment li{display:grid;gap:4px}.everyday-equipment span{font-size:12px;color:#9ab9cc}.everyday-note{margin-bottom:0}
 </style>

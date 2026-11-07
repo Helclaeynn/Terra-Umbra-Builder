@@ -1,26 +1,214 @@
 <script setup lang="ts">
-import {computed,ref,watch} from 'vue';
-import {api,ApiError} from '../lib/api';
-const props=defineProps<{campaignId:string;room:any}>(),emit=defineEmits<{changed:[]}>();
-const endpoint=`/api/campaigns/${props.campaignId}/lightning-effects`,open=ref(false),snapshot=ref<any>(null),sourceId=ref(''),powerId=ref(''),confirmed=ref(false),edge=ref(false),busy=ref(false),error=ref(''),notice=ref(''),pending=ref<any>(null);
-const picks=ref([{actorId:'',effectId:'',distance:20,threshold:18,originalTotal:null as number|null,note:'',interruptible:false,metaphysical:false,perceived:false}]);
-const source=computed(()=>snapshot.value?.sources.find((s:any)=>s.id===sourceId.value)),power=computed(()=>source.value?.powers.find((p:any)=>p.id===powerId.value));
-const eclipse=computed(()=>power.value?.name==='Éclipse noire');
-const target=(id:string)=>snapshot.value?.targets.find((t:any)=>t.id===id);
-const selected=(pick:any)=>target(pick.actorId)?.effects.find((e:any)=>e.id===pick.effectId);
-const effects=(pick:any)=>(target(pick.actorId)?.effects??[]).filter((e:any)=>power.value?.name!=='Éroder l’affliction'||e.numericMalus);
-const ready=computed(()=>!!power.value&&!busy.value&&!pending.value&&confirmed.value&&picks.value.length>0&&picks.value.every(p=>selected(p)&&p.note.trim()&&p.distance>=0&&p.distance<=20&&(!eclipse.value||selected(p)?.temporary&&p.metaphysical&&p.perceived)));
-watch([sourceId,powerId],()=>{confirmed.value=false;edge.value=false;picks.value=picks.value.slice(0,1);});
-watch(picks,()=>{confirmed.value=false;},{deep:true});
-async function load(){try{snapshot.value=await api<any>(endpoint);if(!source.value)sourceId.value=snapshot.value.sources[0]?.id??'';}catch{error.value='Impossible de charger les effets actifs.';}}
-watch(open,v=>{if(v)void load();});
-const messages:Record<string,string>={lightning_version_conflict:'Une fiche a changé. Actualise puis confirme à nouveau.',foudre_effect_closed:'L’effet ou le jet a expiré.',foudre_source_unavailable:'Le lanceur doit être Révélé, conscient et disposer des PA nécessaires.',foudre_effect_unavailable:'Talent indisponible : vérifie les prérequis, la Révélation et le quota.',foudre_effect_source_roll_required:'Réduire en poussière exige le même jet payé et réussi contre cet effet.',foudre_affliction_not_numeric:'Cet effet n’est pas un malus chiffré atténuable.',foudre_effect_already_weakened:'Cet effet est déjà atténué pour la scène.',foudre_effect_ruling_required:'Confirme un effet magique réellement interruptible selon la règle.',insufficient_edge:'Pas assez d’Edge.',edge_roll_resolved:'Ce jet a déjà été engagé ou forcé.'};
-async function send(body:any){if(busy.value||pending.value)return;pending.value={requestId:crypto.randomUUID(),...body};await retry();}
-async function retry(){if(busy.value||!pending.value)return;busy.value=true;error.value='';try{const r=await api<any>(endpoint,{method:'POST',body:JSON.stringify(pending.value)});pending.value=null;const p=r.result;notice.value=p?`${p.characterName} · ${p.label} : ${p.modifier} + ${p.dice.join(' + ')} = ${p.total}${p.narrativeFailure?' · échec narratif':''}. ${p.outcomes.map((o:any)=>`${o.targetName} : ${o.result==='destroy'?'effet détruit':o.result==='suspend-scene'?'suspendu pour la scène':o.result==='weaken-scene'?'malus atténué de 3 pour la scène':'effet inchangé'}`).join(' ; ')}`:'Action déjà enregistrée.';confirmed.value=false;edge.value=false;await load();emit('changed');}catch(e){error.value=e instanceof ApiError?messages[e.message]??'Action refusée. Vérifie les conditions puis actualise.':'Envoi non confirmé. Réessaie le même envoi.';if(e instanceof ApiError&&e.status<500){pending.value=null;await load();}}finally{busy.value=false;}}
-function launch(){if(!ready.value)return;void send({action:'resolve',sourceId:sourceId.value,sourceVersion:source.value.version,powerId:powerId.value,edge:edge.value,contextConfirmed:true,targets:picks.value.map(p=>({actorId:p.actorId,effectId:p.effectId,version:target(p.actorId).version,distance:p.distance,ruling:{magical:true,note:p.note,threshold:p.threshold,...(typeof p.originalTotal==='number'&&Number.isFinite(p.originalTotal)?{originalTotal:p.originalTotal}:{}),interruptible:p.interruptible,metaphysical:p.metaphysical,perceived:p.perceived}}))});}
-function extra(action:string,e:any){const s=snapshot.value.sources.find((s:any)=>s.id===e.payload.sourceId);if(!s)return;void send({action,sourceRollId:e.id,sourceVersion:s.version,targetVersions:Object.fromEntries(e.payload.input.targets.map((t:any)=>[t.actorId,t.actorId===s.id?s.version:target(t.actorId)?.version]))});}
-function canDust(e:any){return snapshot.value.sources.some((s:any)=>s.id===e.payload.sourceId&&s.dust)&&!e.payload.narrativeFailure&&e.payload.outcomes.some((o:any)=>o.success&&target(o.actorId)?.effects.some((f:any)=>f.id===o.effectId));}
-function canForce(e:any){return !e.payload.edgeBefore&&!e.payload.edgeForced&&e.payload.outcomes.every((o:any)=>!o.success)&&snapshot.value.sources.some((s:any)=>s.id===e.payload.sourceId&&s.edge>0)&&e.payload.input.targets.every((t:any)=>target(t.actorId)?.effects.some((f:any)=>f.id===t.effectId));}
+import { computed, ref, watch } from "vue";
+import { api, ApiError } from "../lib/api";
+const props = defineProps<{ campaignId: string; room: any }>(),
+  emit = defineEmits<{ changed: [] }>();
+const endpoint = `/api/campaigns/${props.campaignId}/lightning-effects`,
+  open = ref(false),
+  snapshot = ref<any>(null),
+  sourceId = ref(""),
+  powerId = ref(""),
+  confirmed = ref(false),
+  edge = ref(false),
+  busy = ref(false),
+  error = ref(""),
+  notice = ref(""),
+  pending = ref<any>(null);
+const picks = ref([
+  {
+    actorId: "",
+    effectId: "",
+    distance: 20,
+    threshold: 18,
+    originalTotal: null as number | null,
+    note: "",
+    interruptible: false,
+    metaphysical: false,
+    perceived: false
+  }
+]);
+const source = computed(() =>
+    snapshot.value?.sources.find((s: any) => s.id === sourceId.value)
+  ),
+  power = computed(() =>
+    source.value?.powers.find((p: any) => p.id === powerId.value)
+  );
+const eclipse = computed(() => power.value?.name === "Éclipse noire");
+const target = (id: string) =>
+  snapshot.value?.targets.find((t: any) => t.id === id);
+const selected = (pick: any) =>
+  target(pick.actorId)?.effects.find((e: any) => e.id === pick.effectId);
+const effects = (pick: any) =>
+  (target(pick.actorId)?.effects ?? []).filter(
+    (e: any) => power.value?.name !== "Éroder l’affliction" || e.numericMalus
+  );
+const ready = computed(
+  () =>
+    !!power.value &&
+    !busy.value &&
+    !pending.value &&
+    confirmed.value &&
+    picks.value.length > 0 &&
+    picks.value.every(
+      (p) =>
+        selected(p) &&
+        p.note.trim() &&
+        p.distance >= 0 &&
+        p.distance <= 20 &&
+        (!eclipse.value ||
+          (selected(p)?.temporary && p.metaphysical && p.perceived))
+    )
+);
+watch([sourceId, powerId], () => {
+  confirmed.value = false;
+  edge.value = false;
+  picks.value = picks.value.slice(0, 1);
+});
+watch(
+  picks,
+  () => {
+    confirmed.value = false;
+  },
+  { deep: true }
+);
+async function load() {
+  try {
+    snapshot.value = await api<any>(endpoint);
+    if (!source.value) sourceId.value = snapshot.value.sources[0]?.id ?? "";
+  } catch {
+    error.value = "Impossible de charger les effets actifs.";
+  }
+}
+watch(open, (v) => {
+  if (v) void load();
+});
+const messages: Record<string, string> = {
+  lightning_version_conflict:
+    "Une fiche a changé. Actualise puis confirme à nouveau.",
+  foudre_effect_closed: "L’effet ou le jet a expiré.",
+  foudre_source_unavailable:
+    "Le lanceur doit être Révélé, conscient et disposer des PA nécessaires.",
+  foudre_effect_unavailable:
+    "Talent indisponible : vérifie les prérequis, la Révélation et le quota.",
+  foudre_effect_source_roll_required:
+    "Réduire en poussière exige le même jet payé et réussi contre cet effet.",
+  foudre_affliction_not_numeric:
+    "Cet effet n’est pas un malus chiffré atténuable.",
+  foudre_effect_already_weakened: "Cet effet est déjà atténué pour la scène.",
+  foudre_effect_ruling_required:
+    "Confirme un effet magique réellement interruptible selon la règle.",
+  insufficient_edge: "Pas assez d’Edge.",
+  edge_roll_resolved: "Ce jet a déjà été engagé ou forcé."
+};
+async function send(body: any) {
+  if (busy.value || pending.value) return;
+  pending.value = { requestId: crypto.randomUUID(), ...body };
+  await retry();
+}
+async function retry() {
+  if (busy.value || !pending.value) return;
+  busy.value = true;
+  error.value = "";
+  try {
+    const r = await api<any>(endpoint, {
+      method: "POST",
+      body: JSON.stringify(pending.value)
+    });
+    pending.value = null;
+    const p = r.result;
+    notice.value = p
+      ? `${p.characterName} · ${p.label} : ${p.modifier} + ${p.dice.join(" + ")} = ${p.total}${p.narrativeFailure ? " · échec narratif" : ""}. ${p.outcomes.map((o: any) => `${o.targetName} : ${o.result === "destroy" ? "effet détruit" : o.result === "suspend-scene" ? "suspendu pour la scène" : o.result === "weaken-scene" ? "malus atténué de 3 pour la scène" : "effet inchangé"}`).join(" ; ")}`
+      : "Action déjà enregistrée.";
+    confirmed.value = false;
+    edge.value = false;
+    await load();
+    emit("changed");
+  } catch (e) {
+    error.value =
+      e instanceof ApiError
+        ? (messages[e.message] ??
+          "Action refusée. Vérifie les conditions puis actualise.")
+        : "Envoi non confirmé. Réessaie le même envoi.";
+    if (e instanceof ApiError && e.status < 500) {
+      pending.value = null;
+      await load();
+    }
+  } finally {
+    busy.value = false;
+  }
+}
+function launch() {
+  if (!ready.value) return;
+  void send({
+    action: "resolve",
+    sourceId: sourceId.value,
+    sourceVersion: source.value.version,
+    powerId: powerId.value,
+    edge: edge.value,
+    contextConfirmed: true,
+    targets: picks.value.map((p) => ({
+      actorId: p.actorId,
+      effectId: p.effectId,
+      version: target(p.actorId).version,
+      distance: p.distance,
+      ruling: {
+        magical: true,
+        note: p.note,
+        threshold: p.threshold,
+        ...(typeof p.originalTotal === "number" &&
+        Number.isFinite(p.originalTotal)
+          ? { originalTotal: p.originalTotal }
+          : {}),
+        interruptible: p.interruptible,
+        metaphysical: p.metaphysical,
+        perceived: p.perceived
+      }
+    }))
+  });
+}
+function extra(action: string, e: any) {
+  const s = snapshot.value.sources.find(
+    (s: any) => s.id === e.payload.sourceId
+  );
+  if (!s) return;
+  void send({
+    action,
+    sourceRollId: e.id,
+    sourceVersion: s.version,
+    targetVersions: Object.fromEntries(
+      e.payload.input.targets.map((t: any) => [
+        t.actorId,
+        t.actorId === s.id ? s.version : target(t.actorId)?.version
+      ])
+    )
+  });
+}
+function canDust(e: any) {
+  return (
+    snapshot.value.sources.some(
+      (s: any) => s.id === e.payload.sourceId && s.dust
+    ) &&
+    !e.payload.narrativeFailure &&
+    e.payload.outcomes.some(
+      (o: any) =>
+        o.success &&
+        target(o.actorId)?.effects.some((f: any) => f.id === o.effectId)
+    )
+  );
+}
+function canForce(e: any) {
+  return (
+    !e.payload.edgeBefore &&
+    !e.payload.edgeForced &&
+    e.payload.outcomes.every((o: any) => !o.success) &&
+    snapshot.value.sources.some(
+      (s: any) => s.id === e.payload.sourceId && s.edge > 0
+    ) &&
+    e.payload.input.targets.every((t: any) =>
+      target(t.actorId)?.effects.some((f: any) => f.id === t.effectId)
+    )
+  );
+}
 </script>
 <template>
 <details v-if="room.canManage" class="lightning-effects" :open="open" @toggle="open=($event.target as HTMLDetailsElement).open">
@@ -46,5 +234,5 @@ function canForce(e:any){return !e.payload.edgeBefore&&!e.payload.edgeForced&&e.
 </details>
 </template>
 <style scoped>
-.lightning-effects{min-width:0;border:1px solid #355267;border-radius:8px;padding:12px;margin:12px 0;background:#0d1b2b}.lightning-effects summary{cursor:pointer;padding:10px}.lightning-effects fieldset{min-width:0;border:0;padding:0}.fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.lightning-effects label{display:grid;gap:6px;margin:10px 0}.lightning-effects .check{display:flex;gap:8px;align-items:start}.lightning-effects input:not([type=checkbox]),.lightning-effects select{box-sizing:border-box;width:100%;min-width:0;padding:10px;background:#08131f;color:#e6eef8;border:1px solid #526c80;border-radius:5px}.lightning-effects button{min-height:44px;margin:6px 6px 6px 0;padding:10px;background:#143247;color:#d5f6ff;border:1px solid #52758b;border-radius:5px}.lightning-effects button:disabled{opacity:.5}.effect-pick{padding:8px 0;border-top:1px solid #355267}.lightning-effects p{line-height:1.5;overflow-wrap:anywhere}@media(max-width:500px){.fields{grid-template-columns:minmax(0,1fr)}}
+.lightning-effects{min-width:0;border:1px solid var(--ui-line);border-radius:8px;padding:12px;margin:12px 0;background:var(--ui-panel)}.lightning-effects summary{cursor:pointer;padding:10px}.lightning-effects fieldset{min-width:0;border:0;padding:0}.fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.lightning-effects label{display:grid;gap:6px;margin:10px 0}.lightning-effects .check{display:flex;gap:8px;align-items:start}.lightning-effects input:not([type=checkbox]),.lightning-effects select{box-sizing:border-box;width:100%;min-width:0;padding:10px;background:var(--ui-input);color:var(--ui-ink);border:1px solid var(--ui-line-strong);border-radius:5px}.lightning-effects button{min-height:44px;margin:6px 6px 6px 0;padding:10px;background:var(--ui-btn);color:var(--ui-ink);border:1px solid var(--ui-line-strong);border-radius:5px}.lightning-effects button:disabled{opacity:.5}.effect-pick{padding:8px 0;border-top:1px solid var(--ui-line)}.lightning-effects p{line-height:1.5;overflow-wrap:anywhere}@media(max-width:500px){.fields{grid-template-columns:minmax(0,1fr)}}
 </style>

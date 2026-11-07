@@ -8,6 +8,10 @@ import { pool } from "./db.js";
 import { registerCharacterJournalRoutes } from "./character-journal.js";
 import { registerCharacterSheetRoutes } from "./character-sheets.js";
 import { requireUser } from "./auth.js";
+import { contentRulesEnabled } from "./rules/content-rules.js";
+import { creationRulesForChecks, truthRulesForChecks } from "./rules/index.js";
+import { creationBudgetViolations, newBudgetViolations, truthBudgetViolations } from "./rules/creation-check.js";
+import { voieOrderViolations } from "./rules/voie-order.js";
 import {
   blankCharacterData,
   importV1CharacterData,
@@ -86,6 +90,25 @@ async function insertCharacter(
   }
 }
 
+/** Budgets de création dépassés par cet enregistrement (pas ceux d'avant). */
+async function budgetViolations(before: unknown, after: Record<string, unknown>) {
+  const [{ rules, edgeRules, reality }, truth] = await Promise.all([creationRulesForChecks(), truthRulesForChecks()]);
+  const check = (data: unknown) => {
+    const record = (data ?? {}) as Record<string, unknown>;
+    return [...creationBudgetViolations(record, rules as any, edgeRules as any, reality as any), ...truthBudgetViolations(record, truth)];
+  };
+  return newBudgetViolations(before ? check(before) : [], check(after));
+}
+
+/** Talents de Vérité ajoutés hors de l'ordre de leur voie (site d'essai : règles en base). */
+async function voieViolations(before: unknown, after: Record<string, unknown>) {
+  if (!contentRulesEnabled()) return [];
+  const truthOf = (data: unknown) => ((data as any)?.truth ?? {}) as { nature?: string; truthTalents?: string[] };
+  const next = truthOf(after);
+  const rules = await truthRulesForChecks();
+  return voieOrderViolations(rules.catalogs ?? {}, String(next.nature ?? "humain"), truthOf(before).truthTalents ?? [], next.truthTalents ?? []);
+}
+
 export async function registerCharacterRoutes(app: FastifyInstance) {
   await registerCampaignRoutes(app);
   await registerCharacterHistoryRoutes(app);
@@ -104,6 +127,7 @@ export async function registerCharacterRoutes(app: FastifyInstance) {
          ${request.query.summary === "1" ? "" : "data,"}
          version,
          favorite,
+         data->'truth'->>'nature' AS nature,
          created_at::text AS "createdAt",
          updated_at::text AS "updatedAt",
          campaign_id AS "campaignId",(SELECT name FROM campaigns WHERE id=characters.campaign_id) AS "campaignName"
@@ -150,6 +174,10 @@ export async function registerCharacterRoutes(app: FastifyInstance) {
       requestedData && Object.keys(requestedData).length > 0
         ? normalizeCharacterData(requestedData, name)
         : blankCharacterData(name);
+    const createViolations = await voieViolations(null, data);
+    if (createViolations.length) return reply.code(400).send({ error: "truth_voie_order", violations: createViolations });
+    const createBudget = await budgetViolations(null, data);
+    if (createBudget.length) return reply.code(400).send({ error: "creation_budget_exceeded", violations: createBudget });
 
     try {
       const character = await insertCharacter(user.id, name, data, "created");
@@ -286,6 +314,16 @@ export async function registerCharacterRoutes(app: FastifyInstance) {
         requestedData !== undefined
           ? normalizeCharacterData(requestedData, nextName)
           : normalizeCharacterData(current.data, nextName);
+      const violations = await voieViolations(current.data, nextData);
+      if (violations.length) {
+        await client.query("ROLLBACK");
+        return reply.code(400).send({ error: "truth_voie_order", violations });
+      }
+      const budget = await budgetViolations(current.data, nextData);
+      if (budget.length) {
+        await client.query("ROLLBACK");
+        return reply.code(400).send({ error: "creation_budget_exceeded", violations: budget });
+      }
       if(current.campaignId){
         const field=campaignRewardViolation(current.data,nextData);
         if(field){

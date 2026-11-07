@@ -1,5 +1,8 @@
 import { createApp, h } from "vue";
+import AttentionPill from "./components/AttentionPill.vue";
+import ConfirmDialog from "./components/ConfirmDialog.vue";
 import { createRouter, createWebHistory, RouterView } from "vue-router";
+import "./tokens.css";
 import "./style.css";
 import { pageTitle } from "./lib/page-title";
 import "./orbital-ui.css";
@@ -36,9 +39,12 @@ const router=createRouter({
     { path:"/characters/:id/builder", component:()=>import("./pages/CharacterBuilderPage.vue") },
     { path:"/characters/:id/progression", component:()=>import("./pages/CharacterBuilderPage.vue") },
     { path:"/compendium", component:()=>import("./pages/CompendiumPage.vue") },
+    { path:"/compendium/nouvelle", component:()=>import("./pages/CompendiumNewPage.vue") },
     { path:"/compendium/new", component:()=>import("./pages/CompendiumEditorPage.vue") },
     { path:"/compendium/edit/:id", component:()=>import("./pages/CompendiumEditorPage.vue") },
     { path:"/admin/quality", component:()=>import("./pages/AdminQualityPage.vue") },
+    { path:"/admin/pnj-proposes", component:()=>import("./pages/AdminNpcProposalsPage.vue") },
+    { path:"/admin", component:()=>import("./pages/AdminPage.vue") },
     { path:"/admin/arbitrage", component:()=>import("./pages/CompendiumArbitragePage.vue") },
     { path:"/:pathMatch(.*)*", redirect:"/" }
   ]
@@ -53,7 +59,7 @@ router.beforeEach((to)=>{
 });
 
 router.afterEach((to)=>{
-  const titles:Record<string,string>={'/':'Compendium','/compendium':'Compendium','/account':'Mon espace','/campaigns':'Campagnes','/atlas':'Atlas','/glossaire':'Glossaire','/decouvrir':'Découvrir','/compendium/new':'Nouvelle page','/admin/quality':'Recette','/admin/arbitrage':'Arbitrage'};
+  const titles:Record<string,string>={'/':'Compendium','/compendium':'Compendium','/account':'Mon espace','/campaigns':'Campagnes','/atlas':'Atlas','/glossaire':'Glossaire','/decouvrir':'Découvrir','/compendium/new':'Nouvelle page','/compendium/nouvelle':'Nouvelle page','/admin/quality':'Recette','/admin/arbitrage':'Arbitrage'};
   const section=to.path.endsWith('/builder')?'Création':to.path.endsWith('/progression')?'Progression':to.path.endsWith('/sheet')?'Fiche personnage':to.path.endsWith('/journal')?'Journal':to.path.endsWith('/history')?'Historique':to.path.startsWith('/campaigns/')?'Campagne':to.path.startsWith('/compendium/edit/')?'Édition':to.path.startsWith('/decouvrir/')?'Guide':'Compendium';
   document.title=pageTitle(titles[to.path]??section);
   window.requestAnimationFrame(()=>{
@@ -62,7 +68,7 @@ router.afterEach((to)=>{
 });
 
 createApp({
-  render:()=>h(RouterView,null,{
+  render:()=>[h(RouterView,null,{
     default:({Component,route}:any)=>h(Component,{key:route.path === '/' || route.path === '/compendium' ? '/compendium' : route.path})
-  })
+  }),h(AttentionPill),h(ConfirmDialog)]
 }).use(router).mount("#app");

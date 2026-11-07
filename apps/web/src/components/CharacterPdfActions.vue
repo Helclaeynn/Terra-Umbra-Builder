@@ -68,8 +68,8 @@ async function run(printing:boolean){
 .character-pdf-actions{display:grid;gap:.5rem;margin:.8rem 0;min-width:0}
 .pdf-buttons{display:flex;flex-wrap:wrap;gap:.65rem}
 .pdf-buttons button{min-height:44px;white-space:normal}
-.character-pdf-actions p{margin:0;font-size:.9rem;line-height:1.5;color:#c7d7e6}
+.character-pdf-actions p{margin:0;font-size:.9rem;line-height:1.5;color:var(--c-text-soft)}
 .character-pdf-actions [role=alert]{color:#ffbdab}
-.character-pdf-actions a{color:#a4e8f2}
+.character-pdf-actions a{color:var(--c-reality-soft)}
 @media print{.character-pdf-actions{display:none}}
 </style>

@@ -39,7 +39,11 @@ console.log('CAMPAIGN REWARD UI OK — campaign copy hides XP/PTV and money gran
 const temp=new URL('./.campaign-reward-lock-run.mjs',import.meta.url);
 await writeFile(temp,source.replace(end,extra+'\n'+end));
 try{await import(temp.href);}finally{await unlink(temp);}
-const builder=await readFile(new URL('../src/pages/CharacterBuilderPage.vue',import.meta.url),'utf8');
+// Le Builder est réparti entre la page, sa logique (lib/character-builder.ts) et ses étapes.
+const {readdir}=await import('node:fs/promises');
+const stepsDir=new URL('../src/components/builder/steps/',import.meta.url);
+const builder=[await readFile(new URL('../src/pages/CharacterBuilderPage.vue',import.meta.url),'utf8'),await readFile(new URL('../src/lib/character-builder.ts',import.meta.url),'utf8'),
+  ...await Promise.all((await readdir(stepsDir)).map(f=>readFile(new URL(f,stepsDir),'utf8')))].join(String.fromCharCode(10));
 assert.match(builder,/campaignRewardsLocked=computed\(\(\)=>Boolean\(character.value\?\.campaignId\)\)/,'Scope comes only from server character.campaignId');
 assert.match(builder,/<ProgressionStep :rewards-locked="campaignRewardsLocked"/);
 assert.match(builder,/<CorruptionPanel\b[^>]*:rewards-locked="campaignRewardsLocked"/);

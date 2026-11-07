@@ -32,22 +32,25 @@ pool.query = async (sql, values) => {
   throw Error('Unexpected DB query: ' + statement);
 };
 const { default: Fastify } = await import(pathToFileURL(resolve(root, 'apps/api/node_modules/fastify/fastify.js')).href);
-const { registerCompendiumRoutes, getCompendiumQualityCorpus } = await import(pathToFileURL(resolve(root, 'apps/api/dist/compendium.js')).href);
+const { registerCompendiumRoutes, getCompendiumQualityCorpus, publicArticleId, mediaAlias } = await import(pathToFileURL(resolve(root, 'apps/api/dist/compendium.js')).href);
 const app = Fastify();
 try {
   await registerCompendiumRoutes(app);
   const corpus = await getCompendiumQualityCorpus();
   const publicById = new Map(corpus.publicArticles.map(article => [article.id, article]));
   const publicImages = article => [article?.image?.src, article?.illustration?.src, ...(article?.gallery ?? []).map(media => media.src)].filter(Boolean);
-  assert.ok(publicImages(publicById.get(hidden.id)).includes(hidden.src), 'Promoted portrait must appear publicly');
-  assert.ok(!publicImages(publicById.get(hidden.id)).includes('/api/compendium/uploads/private.jpg'));
-  assert.ok(!publicImages(publicById.get(visible.id)).includes(visible.src), 'Private override must disappear publicly');
-  assert.notEqual(publicById.get(visible.id)?.pnj?.portrait, visible.src, 'PNJ portrait metadata must not leak');
+  assert.ok(publicImages(publicById.get(publicArticleId(hidden.id))).includes(mediaAlias(hidden.src)), 'Promoted portrait must appear publicly');
+  assert.ok(!publicImages(publicById.get(publicArticleId(hidden.id))).includes('/api/compendium/uploads/private.jpg'));
+  assert.ok(!publicImages(publicById.get(publicArticleId(visible.id))).some((src) => src === visible.src || src === mediaAlias(visible.src)), 'Private override must disappear publicly');
+  assert.notEqual(publicById.get(publicArticleId(visible.id))?.pnj?.portrait, mediaAlias(visible.src), 'PNJ portrait metadata must not leak');
   assert.equal((await app.inject({ method: 'GET', url: `/api/compendium/media/${hidden.src}` })).statusCode, 200);
   assert.equal((await app.inject({ method: 'GET', url: `/api/compendium/media/${visible.src}` })).statusCode, 403);
   assert.equal((await app.inject({ method: 'GET', url: '/api/compendium/uploads/private.jpg' })).statusCode, 403);
   const response = await app.inject({ method: 'GET', url: '/api/compendium/media/images/portraits/manifest.json' });
-  assert.ok(!Object.values(response.json()).flatMap(lot => lot.items ?? []).some(item => item.src === visible.src));
-  assert.ok(Object.values(response.json()).flatMap(lot => lot.items ?? []).some(item => item.src === hidden.src));
+  assert.ok(!Object.values(response.json()).flatMap(lot => lot.items ?? []).some(item => item.src === visible.src || item.src === mediaAlias(visible.src)));
+  assert.ok(Object.values(response.json()).flatMap(lot => lot.items ?? []).some(item => item.src === mediaAlias(hidden.src)));
+  // Un alias neutre suit les mêmes droits que le vrai fichier.
+  assert.equal((await app.inject({ method: 'GET', url: `/api/compendium/media/${mediaAlias(hidden.src)}` })).statusCode, 200);
+  assert.equal((await app.inject({ method: 'GET', url: `/api/compendium/media/${mediaAlias(visible.src)}` })).statusCode, 403);
   console.log('Portrait visibility overrides: corpus, files, and public manifest verified.');
 } finally { await app.close(); await pool.end(); await rm(uploadDir, { recursive: true, force: true }); }

@@ -1,0 +1,62 @@
+/* Charte unifiée (06/11) : la seule source des couleurs et des polices.
+   Réalité = cyan, Vérité = violet, une couleur par Nature. Les anciennes
+   variables (--tu-*, --ui-*) et les teintes les plus courantes y renvoient. */
+@import "@fontsource-variable/inter";
+@import "@fontsource-variable/space-grotesk";
+@import "@fontsource-variable/jetbrains-mono";
+
+:root {
+  --c-night: #080f17;
+  --c-surface: #0f1b26;
+  --c-relief: #172838;
+  --c-line: #2a4250;
+  --c-line-strong: #3b5a6b;
+
+  --c-text: #eef6f8;
+  --c-text-soft: #c3d2d9;
+  --c-muted: #91a7b1;
+
+  --c-reality: #58dcc5;
+  --c-reality-soft: #9fe9dc;
+  --c-reality-deep: #2c6c66;
+  --c-truth: #a98bff;
+  --c-truth-soft: #ddd3ff;
+  --c-truth-bg: #17122b;
+  --c-attention: #e8b65c;
+  --c-danger: #e07b74;
+
+  --nature-humain: #c9d3da;
+  --nature-vampire: #ec8088;
+  --nature-garou: #e8a85c;
+  --nature-khinae: #e09ccd;
+  --nature-mage: #b4a6ff;
+  --nature-daemon: #ff9466;
+  --nature-angelus: #f1dc8a;
+  --nature-aseryn: #76d8ec;
+  --nature-exile: #9fc4ae;
+  --nature-extral: #8fb0ff;
+
+  --font-text: "Inter Variable", Inter, ui-sans-serif, system-ui, "Segoe UI", sans-serif;
+  --font-title: "Space Grotesk Variable", "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-label: "JetBrains Mono Variable", ui-monospace, "Cascadia Mono", Consolas, monospace;
+}
+
+/* Grands titres et petites étiquettes « VÉRITÉ // NATURES ». */
+h1, h2 { font-family: var(--font-title); letter-spacing: -.01em; }
+.eyebrow { font-family: var(--font-label); letter-spacing: .14em; }
+
+/* Passage de Réalité à Vérité : l'image se recompose par bandes, comme un signal capté. */
+.tu-decode { animation: tu-decode .6s steps(1, end) both; }
+@keyframes tu-decode {
+  0% { clip-path: inset(0 0 100% 0); }
+  15% { clip-path: inset(10% 0 70% 0); transform: translateX(-6px); }
+  30% { clip-path: inset(40% 0 35% 0); transform: translateX(5px); }
+  45% { clip-path: inset(0 0 55% 0); transform: translateX(-3px); }
+  60% { clip-path: inset(20% 0 0 0); transform: translateX(2px); }
+  75% { clip-path: inset(0); transform: none; filter: saturate(1.8) brightness(1.2); }
+  100% { clip-path: inset(0); transform: none; filter: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tu-decode { animation: tu-fade .15s linear both; }
+}
+@keyframes tu-fade { from { opacity: 0; } to { opacity: 1; } }

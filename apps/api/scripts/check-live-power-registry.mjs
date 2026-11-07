@@ -65,6 +65,14 @@ assert(usableRegisteredPower(agile,{...r,form:'animal'},'deplacement_agile'));
 const repair=make('extral',['extral-cycle-de-reparation'],{species:'homo_superior'});
 assert(!usableRegisteredPower(repair,{revelation:'v',swarmFunctional:false},'extral-cycle-de-reparation'));
 assert(usableRegisteredPower(repair,{revelation:'v',swarmFunctional:true},'extral-cycle-de-reparation'));
+// Attaques naturelles à valeur fixe (03/11) : la valeur remplace les dégâts, jamais un bonus.
+for(const id of ['toucher_glacial','griffe_d_entrave','khinae_blood_griffe_d_entrave']){
+ const p=explicitPower(id);assert.equal(p?.route,'attack',id);
+ assert.deepEqual(p.effects.map(e=>[e.kind,e.mode,e.amount,e.skills?.join()]),[['damage','replace',3,'pugilat']],id);
+}
+assert.equal(explicitPower('griffe_d_entrave').limit,'round');assert.equal(explicitPower('toucher_glacial').limit,null);
+const jaw=explicitPower('boudas_hommes_hyenes_talents_de_lignee_machoire_broyeuse_1_ptv_machoire_broyeuse');
+assert.deepEqual(jaw.allowedForms,['animal','hybrid']);assert.deepEqual(jaw.effects.map(e=>[e.kind,e.amount]),[['piercing',1]]);
 console.log(`LIVE POWER REGISTRY OK — ${livePowerRegistry.length} explicit definitions, access, prerequisites, real training, stable IDs, fixed effects, contextual and skill constraints`);
 
 if(process.argv.includes('--audit')){

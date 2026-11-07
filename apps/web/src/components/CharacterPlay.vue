@@ -1,110 +1,691 @@
 <script setup lang="ts">
-import CompendiumItemLink from './CompendiumItemLink.vue';
-import LiveMechanicsPanel from './LiveMechanicsPanel.vue';
-import {isExtendedPlayAction} from '../../../api/src/rules/extended-actions';
-import {explicitPower} from '../../../api/src/rules/live-power-registry';
-import AngelusDetailCards from './builder/AngelusDetailCards.vue';
-import DaemonDetailCards from './builder/DaemonDetailCards.vue';
-import MageTechniqueCards from './builder/MageTechniqueCards.vue';
-import {hourlyRecovery,naniteStatus} from '../../../api/src/rules/live-mechanics';
-import {natureResourceProfile} from '../../../api/src/rules/live-nature-resources';
-import {vampireStatus} from '../../../api/src/rules/live-vampire';
-import {frenzyDedicatedIds} from '../../../api/src/rules/live-frenzy';
-import {computed,onMounted,onUnmounted,ref,watch} from 'vue';
-import {playPortrait} from '../../../api/src/character-appearances';
-import {truthPowers,powerAllowed,formAvailable} from '../../../api/src/rules/play-truth';
-import {api,ApiError} from '../lib/api';
-import {blankPlayState,playProfile,type PlayState} from '../../../api/src/rules/play-state';
-import type {CharacterDataV2} from '../types/character';
-import type {CharacterSheet} from '../lib/character-sheet';
-const emit=defineEmits<{ready:[];changed:[];navigate:[tab:string]}>();
-const props=defineProps<{id:string;data:CharacterDataV2;sheet:CharacterSheet;canEdit:boolean;combatMode?:boolean;focusTab?:string;compact?:boolean}>();
-const state=ref<PlayState>(blankPlayState()),version=ref(0),loaded=ref(false),busy=ref(false),error=ref(''),notice=ref(''),dirty=ref(false);
-const tab=ref('jets'),skillQuery=ref(''),edge=ref(0),useEdge=ref(false),escapeEvent=ref<string|null>(null);
-const tabs=[['jets','Jets'],['states','États & PV'],['truth','Pouvoirs'],['equipment','Équipement']];
-const extraTabs=[['rest','Repos'],['rules','Mes règles'],['history','Historique']];
-const moreOpen=ref(false),expandedGroups=ref(['vigueur']),equipmentQuery=ref('');
-function selectTab(key:string){tab.value=key;moreOpen.value=false;emit('navigate',key);}
-watch(()=>props.focusTab,key=>{if(key)selectTab(key);},{immediate:true});
-function rememberGroup(event:Event,id:string){if(skillQuery.value)return;const open=(event.target as HTMLDetailsElement).open;expandedGroups.value=open?[...new Set([...expandedGroups.value,id])]:expandedGroups.value.filter(key=>key!==id);}
-const clean=(s:string)=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase('fr');
-const campaignId=ref<string|null>(null),combat=ref<any>(null);
-const inCombat=computed(()=>props.combatMode??(campaignId.value?!!combat.value?.active:state.value.initiative!==null));
-const events=ref<any[]>([]),lastRoll=ref<any>(null),amount=ref(1),days=ref(3),prolonged=ref(false);
-const bonusLabel=ref(''),bonusSkill=ref('athletisme'),bonusAmount=ref(1),bonusTruth=ref(false);
-const canManageMechanics=ref(false),serverReality=ref<any>(null),serverProfile=ref<any>(null),requiresCalm=ref(false);
-const profile=computed(()=>({...playProfile(props.data,state.value),reality:serverReality.value,itemResources:serverProfile.value?.itemResources,actionRestrictions:serverProfile.value?.actionRestrictions,frenzy:serverProfile.value?.frenzy,lightningWounds:serverProfile.value?.lightningWounds}));
-function actionAllowed(action:string){return props.canEdit||canManageMechanics.value&&isExtendedPlayAction(action);}
-const portrait=computed(()=>playPortrait(props.data,state.value));
-const resources=computed(()=>natureResourceProfile(props.data,state.value,profile.value.skills.find(s=>s.id==='force_mentale')?.rank??0));
-const resourceLinks=computed(()=>{
-  const r=resources.value,rows:Array<{label:string;tab:string;urgent?:boolean}>=[];
-  if(r.enabled&&r.nature==='mage')rows.push({label:`Tension ${r.mage.tension}${r.mage.dormant?' · en sommeil':''}`,tab:'truth'});
-  if(r.enabled&&r.nature==='angelus')rows.push({label:`Aura ${r.angelus.aura} / ${r.angelus.maximum}`,tab:'truth'});
-  if(r.resources.mage.preparation)rows.push({label:'Sort en préparation',tab:'truth',urgent:true});
-  if(r.resources.mage.pendingBacklash!==null)rows.push({label:'Contrecoup à résoudre',tab:'truth',urgent:true});
-  if(r.resources.powerPreparation)rows.push({label:'Pouvoir en préparation',tab:'truth',urgent:true});
-  if(r.resources.daemon.pendingFavor)rows.push({label:'Faveur prête',tab:'truth'});
-  if(state.value.muePending)rows.push({label:`Mue en cours · round ${state.value.muePending}`,tab:'truth',urgent:true});
-  if(vampireStatus(props.data,state.value).stasis)rows.push({label:'En stase',tab:'truth',urgent:true});
-  const effects=(state.value.effects??[]).length+(state.value.registeredPowers??[]).filter(power=>power.until===null||power.until>=state.value.round).length;
-  if(effects)rows.push({label:`${effects} effet${effects>1?'s':''} en cours`,tab:'states'});
-  if(state.value.powers?.length)rows.push({label:`${state.value.powers.length} capacité${state.value.powers.length>1?'s':''} active${state.value.powers.length>1?'s':''}`,tab:'truth'});
-  if(profile.value.lightningWounds?.finalDestruction)rows.push({label:'Destruction définitive',tab:'states',urgent:true});
-  else if(profile.value.lightningWounds?.blockedRegeneration)rows.push({label:`Régénération limitée · ${profile.value.lightningWounds.blockedRegeneration} PV`,tab:'states',urgent:true});
-  if(profile.value.actionRestrictions?.betweenStates)rows.push({label:'Semi-immatériel',tab:'states',urgent:true});
-  if(profile.value.frenzy?.active)rows.push({label:'Frénésie · '+profile.value.frenzy.impulse,tab:'states',urgent:true});
-  if(profile.value.frenzy?.survivalFury)rows.push({label:'Furie de survie prête',tab:'states'});
-  if(profile.value.frenzy?.fear?.level&&!profile.value.frenzy?.fearSuppressed)rows.push({label:'Peur · '+(profile.value.frenzy.fear.level===2?'Paniqué':'Tendu'),tab:'states',urgent:true});
-  if(profile.value.itemResources?.ablative?.some((item:any)=>item.remaining<item.capacity))rows.push({label:'Protection ablative entamée',tab:'equipment'});
-  if(state.value.neuroBurned?.length)rows.push({label:'Neuro à redémarrer',tab:'equipment',urgent:true});
+import CompendiumItemLink from "./CompendiumItemLink.vue";
+import { TABLE_IGNORED_TOPICS, useLiveUpdates } from "../lib/live-updates";
+import LiveMechanicsPanel from "./LiveMechanicsPanel.vue";
+import { isExtendedPlayAction } from "../../../api/src/rules/extended-actions";
+import { explicitPower } from "../../../api/src/rules/live-power-registry";
+import AngelusDetailCards from "./builder/AngelusDetailCards.vue";
+import DaemonDetailCards from "./builder/DaemonDetailCards.vue";
+import MageTechniqueCards from "./builder/MageTechniqueCards.vue";
+import {
+  hourlyRecovery,
+  naniteStatus
+} from "../../../api/src/rules/live-mechanics";
+import { natureResourceProfile } from "../../../api/src/rules/live-nature-resources";
+import { vampireStatus } from "../../../api/src/rules/live-vampire";
+import { frenzyDedicatedIds } from "../../../api/src/rules/live-frenzy";
+import { computed, onMounted, onUnmounted, ref, watch } from "vue";
+import { playPortrait } from "../../../api/src/character-appearances";
+import {
+  truthPowers,
+  powerAllowed,
+  formAvailable
+} from "../../../api/src/rules/play-truth";
+import { api, ApiError } from "../lib/api";
+import {
+  blankPlayState,
+  playProfile,
+  type PlayState
+} from "../../../api/src/rules/play-state";
+import type { CharacterDataV2 } from "../types/character";
+import type { CharacterSheet } from "../lib/character-sheet";
+const emit = defineEmits<{ ready: []; changed: []; navigate: [tab: string] }>();
+const props = defineProps<{
+  id: string;
+  data: CharacterDataV2;
+  sheet: CharacterSheet;
+  canEdit: boolean;
+  combatMode?: boolean;
+  focusTab?: string;
+  compact?: boolean;
+}>();
+const state = ref<PlayState>(blankPlayState()),
+  version = ref(0),
+  loaded = ref(false),
+  busy = ref(false),
+  error = ref(""),
+  notice = ref(""),
+  dirty = ref(false);
+const tab = ref("jets"),
+  skillQuery = ref(""),
+  edge = ref(0),
+  useEdge = ref(false),
+  escapeEvent = ref<string | null>(null);
+const tabs = [
+  ["jets", "Jets"],
+  ["states", "États & PV"],
+  ["truth", "Pouvoirs"],
+  ["equipment", "Équipement"]
+];
+const extraTabs = [
+  ["rest", "Repos"],
+  ["rules", "Mes règles"],
+  ["history", "Historique"]
+];
+const moreOpen = ref(false),
+  expandedGroups = ref(["vigueur"]),
+  equipmentQuery = ref("");
+function selectTab(key: string) {
+  tab.value = key;
+  moreOpen.value = false;
+  emit("navigate", key);
+}
+watch(
+  () => props.focusTab,
+  (key) => {
+    if (key) selectTab(key);
+  },
+  { immediate: true }
+);
+function rememberGroup(event: Event, id: string) {
+  if (skillQuery.value) return;
+  const open = (event.target as HTMLDetailsElement).open;
+  expandedGroups.value = open
+    ? [...new Set([...expandedGroups.value, id])]
+    : expandedGroups.value.filter((key) => key !== id);
+}
+const clean = (s: string) =>
+  s
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLocaleLowerCase("fr");
+const campaignId = ref<string | null>(null),
+  combat = ref<any>(null);
+const inCombat = computed(
+  () =>
+    props.combatMode ??
+    (campaignId.value
+      ? !!combat.value?.active
+      : state.value.initiative !== null)
+);
+const events = ref<any[]>([]),
+  lastRoll = ref<any>(null),
+  amount = ref(1),
+  days = ref(3),
+  prolonged = ref(false);
+const bonusLabel = ref(""),
+  bonusSkill = ref("athletisme"),
+  bonusAmount = ref(1),
+  bonusTruth = ref(false);
+const canManageMechanics = ref(false),
+  serverReality = ref<any>(null),
+  serverProfile = ref<any>(null),
+  requiresCalm = ref(false);
+const profile = computed(() => ({
+  ...playProfile(props.data, state.value),
+  reality: serverReality.value,
+  itemResources: serverProfile.value?.itemResources,
+  actionRestrictions: serverProfile.value?.actionRestrictions,
+  frenzy: serverProfile.value?.frenzy,
+  lightningWounds: serverProfile.value?.lightningWounds
+}));
+function actionAllowed(action: string) {
+  return (
+    props.canEdit || (canManageMechanics.value && isExtendedPlayAction(action))
+  );
+}
+const portrait = computed(() => playPortrait(props.data, state.value));
+const resources = computed(() =>
+  natureResourceProfile(
+    props.data,
+    state.value,
+    profile.value.skills.find((s) => s.id === "force_mentale")?.rank ?? 0
+  )
+);
+const resourceLinks = computed(() => {
+  const r = resources.value,
+    rows: Array<{ label: string; tab: string; urgent?: boolean }> = [];
+  if (r.enabled && r.nature === "mage")
+    rows.push({
+      label: `Tension ${r.mage.tension}${r.mage.dormant ? " · en sommeil" : ""}`,
+      tab: "truth"
+    });
+  if (r.enabled && r.nature === "angelus")
+    rows.push({
+      label: `Aura ${r.angelus.aura} / ${r.angelus.maximum}`,
+      tab: "truth"
+    });
+  if (r.resources.mage.preparation)
+    rows.push({ label: "Sort en préparation", tab: "truth", urgent: true });
+  if (r.resources.mage.pendingBacklash !== null)
+    rows.push({ label: "Contrecoup à résoudre", tab: "truth", urgent: true });
+  if (r.resources.powerPreparation)
+    rows.push({ label: "Pouvoir en préparation", tab: "truth", urgent: true });
+  if (r.resources.daemon.pendingFavor)
+    rows.push({ label: "Faveur prête", tab: "truth" });
+  if (state.value.muePending)
+    rows.push({
+      label: `Mue en cours · round ${state.value.muePending}`,
+      tab: "truth",
+      urgent: true
+    });
+  if (vampireStatus(props.data, state.value).stasis)
+    rows.push({ label: "En stase", tab: "truth", urgent: true });
+  const effects =
+    (state.value.effects ?? []).length +
+    (state.value.registeredPowers ?? []).filter(
+      (power) => power.until === null || power.until >= state.value.round
+    ).length;
+  if (effects)
+    rows.push({
+      label: `${effects} effet${effects > 1 ? "s" : ""} en cours`,
+      tab: "states"
+    });
+  if (state.value.powers?.length)
+    rows.push({
+      label: `${state.value.powers.length} capacité${state.value.powers.length > 1 ? "s" : ""} active${state.value.powers.length > 1 ? "s" : ""}`,
+      tab: "truth"
+    });
+  if (profile.value.lightningWounds?.finalDestruction)
+    rows.push({ label: "Destruction définitive", tab: "states", urgent: true });
+  else if (profile.value.lightningWounds?.blockedRegeneration)
+    rows.push({
+      label: `Régénération limitée · ${profile.value.lightningWounds.blockedRegeneration} PV`,
+      tab: "states",
+      urgent: true
+    });
+  if (profile.value.actionRestrictions?.betweenStates)
+    rows.push({ label: "Semi-immatériel", tab: "states", urgent: true });
+  if (profile.value.frenzy?.active)
+    rows.push({
+      label: "Frénésie · " + profile.value.frenzy.impulse,
+      tab: "states",
+      urgent: true
+    });
+  if (profile.value.frenzy?.survivalFury)
+    rows.push({ label: "Furie de survie prête", tab: "states" });
+  if (
+    profile.value.frenzy?.fear?.level &&
+    !profile.value.frenzy?.fearSuppressed
+  )
+    rows.push({
+      label:
+        "Peur · " +
+        (profile.value.frenzy.fear.level === 2 ? "Paniqué" : "Tendu"),
+      tab: "states",
+      urgent: true
+    });
+  if (
+    profile.value.itemResources?.ablative?.some(
+      (item: any) => item.remaining < item.capacity
+    )
+  )
+    rows.push({ label: "Protection ablative entamée", tab: "equipment" });
+  if (state.value.neuroBurned?.length)
+    rows.push({ label: "Neuro à redémarrer", tab: "equipment", urgent: true });
   return rows;
 });
-const inventory=computed(()=>props.sheet.inventory.filter(item=>!equipmentQuery.value||clean(`${item.name} ${item.group??''}`).includes(clean(equipmentQuery.value))));
-const powerList=computed(()=>truthPowers(props.data)),powerId=ref(''),powerCost=ref(0),powerDuration=ref(0),powerSkill=ref(''),powerAmount=ref(0),powerNote=ref('');
-const chosenPower=computed(()=>powerList.value.find(p=>p.id===powerId.value));
-const chosenRegistered=computed(()=>{const power=explicitPower(powerId.value);return power?.nature===props.data.truth.nature?power:null;});
-const genericPowerAvailable=computed(()=>chosenPower.value?.execution==='assisted'&&!chosenRegistered.value&&!frenzyDedicatedIds.has(powerId.value));
-function powerRouteHelp(){const route=chosenPower.value?.execution;if(frenzyDedicatedIds.has(powerId.value))return 'Utilise les commandes de Frénésie ci-dessus ; les effets de Rage lucide et de Furie de survie suivent automatiquement leurs conditions.';return chosenRegistered.value?'Utilise les capacités préparées ci-dessous pour leurs coûts, quotas et effets.':({defense:'Cette capacité se choisit directement dans la défense contre une attaque ; coût, bonus et usage sont gérés au lancer.',heal:'Utilise le Cycle de réparation dans la rubrique États & PV.',passive:'La Réserve nanitique intervient automatiquement au premier soin réel éligible du scénario.',vampire:'Utilise les commandes Stase & Sang ci-dessous ou la capacité liée à ton attaque.',nature:'Utilise les ressources et commandes de nature ci-dessous ; leurs coûts et leurs préparations sont suivis.'} as Record<string,string>)[route??'']??'Consulte la commande dédiée à cette capacité.';}
-const recoveryHours=ref(1),regenerable=ref(false);
-const hourlyRate=computed(()=>hourlyRecovery(props.data,state.value)),nanites=computed(()=>naniteStatus(props.data,state.value));
-const form=ref('hybrid'),exhaustion=ref('');
-const isShifter=computed(()=>['garou','khinae'].includes(String(props.data.truth.nature)));
-const stressNames=['Neutre (Normal)','Tendu','Paniqué'];
-const groups=computed(()=>profile.value.attributes.map(a=>({...a,skills:profile.value.skills.filter(s=>s.attribute===a.id&&(!skillQuery.value||clean(s.name).includes(clean(skillQuery.value))))})).filter(g=>g.skills.length));
-const endpoint=computed(()=>`/api/characters/${props.id}/play`);
-let timer:ReturnType<typeof setInterval>|undefined,alive=true;
-let pending:{requestId:string;version:number;action:string;[key:string]:unknown}|null=null;
-const mechanicsMessages:Record<string,string>={ablative_requires_manager:'En combat, seul le MJ peut confirmer le remplacement de cette protection.',ablative_replacement_required:'Confirme que le remplacement ou la recharge a réellement été effectué.',ablative_already_full:'Cette protection est déjà complète.',truth_reserve_requires_manager:'En combat, seul le MJ peut corriger cette réserve.',invalid_truth_reserve:'Indique une quantité réelle de réserve, entière et positive ou nulle.',physical_pa_reserved:'Le PA restant est réservé aux actions physiques admissibles.',between_states_action_forbidden:'Entre deux états interdit les attaques physiques et les manipulations lourdes.',crest_round_start_required:'La Crête s’active au début du round, avant toute action payée.',between_states_activation_start_required:'Quitte Entre deux états au début de ton activation.',between_states_safe_exit_required:'Confirme que le retour matériel est possible.',frenzy_context_required:'Précise la cause et l’impulsion, puis confirme les conditions réelles.',frenzy_actor_unavailable:'Cette commande demande un personnage conscient, vivant et participant au combat.',frenzy_already_active:'La Frénésie est déjà active.',frenzy_impulse_pa_required:'Garde au moins 1 PA pour poursuivre l’impulsion de Frénésie.',augmentic_trigger_requires_manager:'Le MJ doit confirmer le déclenchement augmentique.',augmentic_crisis_unavailable:'Les seuils réels ne permettent pas ce test de crise augmentique.',fear_requires_manager:'La Peur est déclarée par le MJ.',fear_context_required:'Précise la source et la cause réelles de la Peur.',neuro_restart_outside_combat:'Termine le combat avant le redémarrage Neuro.',neuro_safe_restart_required:'Confirme le redémarrage sûr, après la fin du combat Neuro.',mageius_unavailable:'Le Mageius est indisponible : vérifie la Révélation, le sommeil et le contrecoup.',nature_settings_mj_only:'Ces conditions sont fixées par le MJ.',invalid_investment:'Les PA investis dépassent le coût ou les PA disponibles.',spell_not_ready:'La préparation du sort demande encore des PA.',power_not_ready:'La préparation de cette capacité demande encore des PA.',preparation_already_active:'Une préparation est déjà en cours. Termine-la ou abandonne-la.',preparation_interrupted:'Cette préparation a été interrompue. Prépare à nouveau la capacité.',aureole_disconnected:'Le lien divin est indisponible ; le MJ peut préciser cette condition.',aura_full:'La réserve d’Aura est déjà pleine.',insufficient_aura:'Pas assez d’Aura disponible.',divine_favor_unavailable:'La Faveur est indisponible : vérifie la Révélation, le lieu de résonance et les usages.',favor_context_required:'Précise une action relevant réellement de ta Facette.',vampire_revelation_required:'Le Vampire doit être Révélé pour utiliser cette commande.',stasis_required:'La récupération exige la Stase.',cannot_leave_stasis:'Récupère des PV positifs avant de quitter la Stase.',regenerable_hours_required:'Déclare le temps écoulé et confirme que les blessures sont régénérables.',power_context_required:'Confirme les conditions réelles de cette capacité.',power_already_active:'Cette capacité est déjà préparée ou active.',power_skill_unavailable:'Cette compétence ne correspond pas à la capacité.',combat_required:'Cette commande exige un combat et une initiative déjà lancée.',cannot_act:'Le personnage est incapable d’agir dans son état actuel.',initiative_required:'Lance l’initiative avant cette action de combat.',not_enough_pa:'Pas assez de PA disponibles.',out_of_combat:'Ce personnage est hors des tours de combat.',adrenaline_unavailable:'L’adrénaline est indisponible : vérifie l’implant actif, le quota et le combat.',effect_requires_manager:'Le retrait de cet effet demande un arbitrage du MJ.',invalid_neuro_load:'Vérifie les programmes possédés, l’interface et la capacité Neuro.',nature_spell_unavailable:'Cette nature ne peut pas préparer ce type de sort.',nature_action_unavailable:'Cette action de nature est indisponible : vérifie la Révélation, la conscience et les ressources.',cannot_react:'Le personnage ne peut pas réagir dans son état actuel.',actor_unavailable:'Le personnage ne peut pas agir : vérifie ses blessures, sa conscience et sa place dans le combat.',non_owner_action:'Cette commande est réservée au joueur qui contrôle le personnage.',spell_not_prepared:'Prépare un sort avant de le modifier ou de le lancer.',spectrum_not_prepared:'Prépare un Spectre avant de le modifier ou de le lancer.',power_not_prepared:'Aucune capacité de nature ne se trouve en préparation.',mage_rest_unavailable:'Le repos du Mage exige un round entier sans Mageius et aucune préparation en cours.',backlash_not_pending:'Aucun Revers du Mageius ne reste à résoudre.',nature_roll_required:'Le jet de cette capacité doit être résolu par la table. Actualise et réessaie la commande.',nature_power_unavailable:'Cette capacité est indisponible : vérifie son acquisition, sa Révélation et ses prérequis.',invalid_spell:'Vérifie la portée, l’Amplitude et la canalisation du sort.',spell_amplitude_unavailable:'Cette Amplitude dépasse la maîtrise disponible.',force_requires_owned_affinity:'Il faut posséder cette Affinité pour forcer sa Maîtrise ou son Amplitude.',invalid_superior_will:'Forcer exige le palier immédiatement supérieur à ta maîtrise.',mandatory_channel_missing:'Ajoute la canalisation requise pour cette difficulté.',spectrum_unavailable:'Ce Spectre exige l’état Révélé et une Affinité possédée.',spectrum_cannot_force:'Les Spectres ne permettent pas de forcer la Maîtrise ou l’Amplitude.',invalid_nature_settings:'Vérifie les conditions de nature déclarées par le MJ.',invalid_aura:'La réserve d’Aura doit rester entre zéro et son maximum.',aura_fill_outside_combat:'Prépare la réserve d’Aura hors combat.',invalid_aura_spend:'Choisis une quantité d’Aura disponible conforme à cette protection.',egide_not_applicable:'L’Égide protège contre les dégâts occultes uniquement.',offering_unavailable:'L’Offrande exige des PV disponibles et une réserve d’Aura incomplète.',blade_already_active:'La Lame céleste est déjà incarnée.',blade_unavailable:'La Lame céleste exige la Révélation, de l’Aura et les PV à réserver.',blade_not_active:'Aucune Lame céleste n’est actuellement incarnée.',favor_skill_required:'Choisis la compétence bénéficiaire de la Faveur.',no_anchor:'Aucun ancrage sanguin ne reste disponible.',no_death_anchor:'La restauration exige un ancrage et un Vampire ayant atteint son seuil de mort.',ritual_conditions_required:'Déclare le temps du rituel ; pour la restauration, au moins 24 heures, un corps réparable et un praticien sont requis.',anchor_exists:'Un ancrage sanguin est déjà préparé.',predation_required:'Cette capacité exige une Prédation réellement résolue pendant cette scène.',invalid_weakness:'Précise la faiblesse concernée par cette capacité.',already_applied:'Cet état est déjà appliqué.',neuro_program_unavailable:'Ce programme Neuro est indisponible ou ne fait pas partie des programmes possédés.',neuro_unavailable:'Le Neurodive exige une interface compatible et un accès disponible.',neuro_capacity_exceeded:'Le nombre de programmes dépasse la capacité de chargement.',neuro_load_unchanged:'Ces programmes sont déjà chargés.',magazine_requires_manager:'Le joueur déclare son chargeur hors combat ; pendant le combat, seul le MJ peut le corriger.',weapon_charge_unavailable:'Cette arme possédée ne dispose pas de chargeur suivi.',invalid_ammo_count:'Vérifie le nombre de charges et la réserve de munitions.',ammunition_confirmation_required:'Confirme que des munitions compatibles sont disponibles pour la recharge.',insufficient_ammunition:'Pas assez de munitions disponibles pour cette action.',magazine_full:'Le chargeur est déjà plein.'};
-function message(cause:unknown){const code=cause instanceof Error?cause.message:'';if(mechanicsMessages[code])return mechanicsMessages[code];return cause instanceof ApiError&&cause.status===409?'L’état a changé dans un autre onglet. Actualise avant de réessayer.':({finish_combat_first:'Termine le combat avant de changer de scène ou de scénario.',use_dedicated_action:'Utilise la commande de défense ou de soin dédiée à cette capacité.',hourly_recovery_unavailable:'Récupération horaire indisponible : hors combat, vivant, en humain révélé ou animal.',nanite_cycle_unavailable:'Cycle indisponible : vérifie ton talent, tes blessures, ta conscience et ton essaim.',invalid_hourly_recovery:'Indique le nombre d’heures et confirme les blessures régénérables.',no_wounds:'Aucune blessure à soigner.',insufficient_edge:'Tu n’as plus d’Edge disponible.',edge_already_used:'Un Edge a déjà été utilisé pour ce jet ou cette conséquence.',edge_roll_resolved:'La fenêtre de ce jet est fermée : une action, une opposition ou une résolution a déjà suivi.',edge_roll_unavailable:'Ce résultat ne permet pas de forcer un jet de dé.',invalid_edge:'La demande d’Edge est invalide.',edge_consequence_unavailable:'Aucune conséquence mortelle actuelle ne correspond à cette demande.',initiative_already_rolled:'Ton initiative est déjà fixée pour ce combat.',participant_out:'Le MJ a sorti ce personnage des tours.',campaign_combat_mj_only:'Le MJ contrôle le début, la fin et les rounds du combat depuis la page En jeu de la campagne.',form_unavailable:'Cette forme est indisponible (Sang, blessures ou Mue en cours).',mue_exhaustion_required:'Résous le test d’épuisement puis indique son résultat.',mue_blocked:'Mue bloquée jusqu’à la prochaine scène.',insufficient_pa:'Pas assez de PA.',power_already_used:'Cette capacité a déjà été utilisée sur cette période.',power_unavailable:'Capacité indisponible dans cet état ou déjà active.',combat_not_started:'Commence un combat en lançant l’initiative.',rest_requires_positive_hp:'À 0 PV ou moins, stabilise puis soigne avant le repos.',character_dead:'Le seuil de mort est atteint : les soins ordinaires ne suffisent plus.',cannot_stabilize:'La stabilisation concerne uniquement un personnage agonisant vivant.'} as Record<string,string>)[cause instanceof Error?cause.message:'']??'Action non confirmée. Réessaie la même action pour vérifier son enregistrement.';}
-async function load(){
-  if(busy.value||dirty.value||!alive)return;
-  try{const r=await api<{state:PlayState;version:number;events:any[];combat?:any;campaignId?:string;edge?:number;escapeEvent?:string|null;profile?:any;canManageMechanics?:boolean}>(endpoint.value);if(!alive||busy.value||dirty.value)return;const first=!loaded.value;canManageMechanics.value=r.canManageMechanics===true;serverProfile.value=r.profile??null;serverReality.value=r.profile?.reality??null;campaignId.value=r.campaignId??null;combat.value=r.combat??null;edge.value=r.edge??0;escapeEvent.value=r.escapeEvent??null;state.value=r.state;version.value=r.version;events.value=r.events;lastRoll.value=r.events.find((e:any)=>e.payload.dice)??null;loaded.value=true;error.value='';if(first)emit('ready');}catch(cause){if(alive){canManageMechanics.value=false;error.value=message(cause);}}
+const inventory = computed(() =>
+  props.sheet.inventory.filter(
+    (item) =>
+      !equipmentQuery.value ||
+      clean(`${item.name} ${item.group ?? ""}`).includes(
+        clean(equipmentQuery.value)
+      )
+  )
+);
+const powerList = computed(() => truthPowers(props.data)),
+  powerId = ref(""),
+  powerCost = ref(0),
+  powerDuration = ref(0),
+  powerSkill = ref(""),
+  powerAmount = ref(0),
+  powerNote = ref("");
+const chosenPower = computed(() =>
+  powerList.value.find((p) => p.id === powerId.value)
+);
+const chosenRegistered = computed(() => {
+  const power = explicitPower(powerId.value);
+  return power?.nature === props.data.truth.nature ? power : null;
+});
+const genericPowerAvailable = computed(
+  () =>
+    chosenPower.value?.execution === "assisted" &&
+    !chosenRegistered.value &&
+    !frenzyDedicatedIds.has(powerId.value)
+);
+function powerRouteHelp() {
+  const route = chosenPower.value?.execution;
+  if (frenzyDedicatedIds.has(powerId.value))
+    return "Utilise les commandes de Frénésie ci-dessus ; les effets de Rage lucide et de Furie de survie suivent automatiquement leurs conditions.";
+  return chosenRegistered.value
+    ? "Utilise les capacités préparées ci-dessous pour leurs coûts, quotas et effets."
+    : ((
+        {
+          defense:
+            "Cette capacité se choisit directement dans la défense contre une attaque ; coût, bonus et usage sont gérés au lancer.",
+          heal: "Utilise le Cycle de réparation dans la rubrique États & PV.",
+          passive:
+            "La Réserve nanitique intervient automatiquement au premier soin réel éligible du scénario.",
+          vampire:
+            "Utilise les commandes Stase & Sang ci-dessous ou la capacité liée à ton attaque.",
+          nature:
+            "Utilise les ressources et commandes de nature ci-dessous ; leurs coûts et leurs préparations sont suivis."
+        } as Record<string, string>
+      )[route ?? ""] ?? "Consulte la commande dédiée à cette capacité.");
 }
-async function perform(action:string,extra:Record<string,unknown>={}){
-  if(busy.value||!loaded.value||!actionAllowed(action))return;
-  if(dirty.value&&action!=='save'&&props.canEdit){await save();if(dirty.value||error.value)return;}
-  if(pending&&pending.action!==action){error.value='Réessaie l’action non confirmée avant d’en effectuer une autre.';return;}
-  pending??={requestId:crypto.randomUUID(),version:version.value,action,...extra};
-  busy.value=true;error.value='';notice.value='';
-  try{
-    const r=await api<any>(endpoint.value,{method:'POST',body:JSON.stringify(pending)});
-    pending=null;
-    if(!alive)return;
-    dirty.value=false;if(action==='roll')useEdge.value=false;
-    if(r.state){state.value=r.state;serverProfile.value=r.profile??serverProfile.value;serverReality.value=r.profile?.reality??serverReality.value;version.value=r.version;events.value=[r.event,...events.value].slice(0,30);if(r.event.payload.dice)lastRoll.value=r.event;notice.value=r.event.payload.recovered!==undefined?`${r.event.payload.recovered} PV récupérés.`:'Enregistré.';}
-    busy.value=false;emit('changed');await load();
-  }catch(cause){if(alive){error.value=message(cause);if(cause instanceof ApiError&&cause.status<500){pending=null;if(cause.status===409){dirty.value=false;busy.value=false;await load();}}}}
-  finally{busy.value=false;}
+const recoveryHours = ref(1),
+  regenerable = ref(false);
+const hourlyRate = computed(() => hourlyRecovery(props.data, state.value)),
+  nanites = computed(() => naniteStatus(props.data, state.value));
+const form = ref("hybrid"),
+  exhaustion = ref("");
+const isShifter = computed(() =>
+  ["garou", "khinae"].includes(String(props.data.truth.nature))
+);
+const stressNames = ["Neutre (Normal)", "Tendu", "Paniqué"];
+const groups = computed(() =>
+  profile.value.attributes
+    .map((a) => ({
+      ...a,
+      skills: profile.value.skills.filter(
+        (s) =>
+          s.attribute === a.id &&
+          (!skillQuery.value || clean(s.name).includes(clean(skillQuery.value)))
+      )
+    }))
+    .filter((g) => g.skills.length)
+);
+// Jets favoris : propres à ce navigateur et à ce personnage (8 au plus).
+const favKey = computed(() => `tuc-favoris-${props.id}`),
+  favorites = ref<string[]>([]);
+watch(
+  favKey,
+  (key) => {
+    try {
+      const saved = JSON.parse(localStorage.getItem(key) ?? "[]");
+      favorites.value = Array.isArray(saved) ? saved.filter((f) => typeof f === "string") : [];
+    } catch {
+      favorites.value = [];
+    }
+  },
+  { immediate: true }
+);
+function toggleFavorite(skillId: string) {
+  favorites.value = favorites.value.includes(skillId)
+    ? favorites.value.filter((f) => f !== skillId)
+    : [...favorites.value, skillId].slice(-8);
+  try {
+    localStorage.setItem(favKey.value, JSON.stringify(favorites.value));
+  } catch {
+    /* stockage indisponible : les favoris restent pour cette visite */
+  }
 }
-function save(){return perform('save',{state:JSON.parse(JSON.stringify(state.value))});}
-function addBonus(){if(!bonusLabel.value.trim())return;state.value.bonuses.push({id:crypto.randomUUID(),label:bonusLabel.value.trim(),skill:bonusSkill.value,amount:bonusAmount.value,truth:bonusTruth.value,enabled:true});bonusLabel.value='';dirty.value=true;}
-function toggleAutomatic(id:string,enabled:boolean){state.value.disabled=enabled?state.value.disabled.filter(x=>x!==id):[...state.value.disabled,id];dirty.value=true;}
-function toggleContext(id:string,enabled:boolean){state.value.contexts=enabled?[...state.value.contexts,id]:state.value.contexts.filter(x=>x!==id);dirty.value=true;}
-const sourceOptions=computed(()=>[...props.sheet.realityTalents.map(s=>({name:s.name,truth:false})),...props.sheet.inventory.map(s=>({name:s.name,truth:s.group?.startsWith('Objet de Vérité')??false})),...props.sheet.truthTalents.map(s=>({name:s.name,truth:true}))]);
-function sourceChanged(){bonusTruth.value=sourceOptions.value.find(s=>s.name===bonusLabel.value)?.truth??false;}
-onMounted(()=>{void load();timer=setInterval(()=>{if(document.visibilityState==='visible')void load();},5000);});
-onUnmounted(()=>{alive=false;clearInterval(timer);});
+const favoriteSkills = computed(() =>
+  favorites.value
+    .map((f) => profile.value.skills.find((s) => s.id === f))
+    .filter((s): s is NonNullable<typeof s> => !!s)
+);
+const endpoint = computed(() => `/api/characters/${props.id}/play`);
+let timer: ReturnType<typeof setInterval> | undefined,
+  alive = true;
+let pending: {
+  requestId: string;
+  version: number;
+  action: string;
+  [key: string]: unknown;
+} | null = null;
+const mechanicsMessages: Record<string, string> = {
+  ablative_requires_manager:
+    "En combat, seul le MJ peut confirmer le remplacement de cette protection.",
+  ablative_replacement_required:
+    "Confirme que le remplacement ou la recharge a réellement été effectué.",
+  ablative_already_full: "Cette protection est déjà complète.",
+  truth_reserve_requires_manager:
+    "En combat, seul le MJ peut corriger cette réserve.",
+  invalid_truth_reserve:
+    "Indique une quantité réelle de réserve, entière et positive ou nulle.",
+  physical_pa_reserved:
+    "Le PA restant est réservé aux actions physiques admissibles.",
+  between_states_action_forbidden:
+    "Entre deux états interdit les attaques physiques et les manipulations lourdes.",
+  crest_round_start_required:
+    "La Crête s’active au début du round, avant toute action payée.",
+  between_states_activation_start_required:
+    "Quitte Entre deux états au début de ton activation.",
+  between_states_safe_exit_required:
+    "Confirme que le retour matériel est possible.",
+  frenzy_context_required:
+    "Précise la cause et l’impulsion, puis confirme les conditions réelles.",
+  frenzy_actor_unavailable:
+    "Cette commande demande un personnage conscient, vivant et participant au combat.",
+  frenzy_already_active: "La Frénésie est déjà active.",
+  frenzy_impulse_pa_required:
+    "Garde au moins 1 PA pour poursuivre l’impulsion de Frénésie.",
+  augmentic_trigger_requires_manager:
+    "Le MJ doit confirmer le déclenchement augmentique.",
+  augmentic_crisis_unavailable:
+    "Les seuils réels ne permettent pas ce test de crise augmentique.",
+  fear_requires_manager: "La Peur est déclarée par le MJ.",
+  fear_context_required: "Précise la source et la cause réelles de la Peur.",
+  neuro_restart_outside_combat: "Termine le combat avant le redémarrage Neuro.",
+  neuro_safe_restart_required:
+    "Confirme le redémarrage sûr, après la fin du combat Neuro.",
+  mageius_unavailable:
+    "Le Mageius est indisponible : vérifie la Révélation, le sommeil et le contrecoup.",
+  nature_settings_mj_only: "Ces conditions sont fixées par le MJ.",
+  invalid_investment:
+    "Les PA investis dépassent le coût ou les PA disponibles.",
+  spell_not_ready: "La préparation du sort demande encore des PA.",
+  power_not_ready: "La préparation de cette capacité demande encore des PA.",
+  preparation_already_active:
+    "Une préparation est déjà en cours. Termine-la ou abandonne-la.",
+  preparation_interrupted:
+    "Cette préparation a été interrompue. Prépare à nouveau la capacité.",
+  aureole_disconnected:
+    "Le lien divin est indisponible ; le MJ peut préciser cette condition.",
+  aura_full: "La réserve d’Aura est déjà pleine.",
+  insufficient_aura: "Pas assez d’Aura disponible.",
+  divine_favor_unavailable:
+    "La Faveur est indisponible : vérifie la Révélation, le lieu de résonance et les usages.",
+  favor_context_required:
+    "Précise une action relevant réellement de ta Facette.",
+  vampire_revelation_required:
+    "Le Vampire doit être Révélé pour utiliser cette commande.",
+  stasis_required: "La récupération exige la Stase.",
+  cannot_leave_stasis: "Récupère des PV positifs avant de quitter la Stase.",
+  regenerable_hours_required:
+    "Déclare le temps écoulé et confirme que les blessures sont régénérables.",
+  power_context_required: "Confirme les conditions réelles de cette capacité.",
+  power_already_active: "Cette capacité est déjà préparée ou active.",
+  power_skill_unavailable: "Cette compétence ne correspond pas à la capacité.",
+  combat_required:
+    "Cette commande exige un combat et une initiative déjà lancée.",
+  cannot_act: "Le personnage est incapable d’agir dans son état actuel.",
+  initiative_required: "Lance l’initiative avant cette action de combat.",
+  not_enough_pa: "Pas assez de PA disponibles.",
+  out_of_combat: "Ce personnage est hors des tours de combat.",
+  adrenaline_unavailable:
+    "L’adrénaline est indisponible : vérifie l’implant actif, le quota et le combat.",
+  effect_requires_manager:
+    "Le retrait de cet effet demande un arbitrage du MJ.",
+  invalid_neuro_load:
+    "Vérifie les programmes possédés, l’interface et la capacité Neuro.",
+  nature_spell_unavailable:
+    "Cette nature ne peut pas préparer ce type de sort.",
+  nature_action_unavailable:
+    "Cette action de nature est indisponible : vérifie la Révélation, la conscience et les ressources.",
+  cannot_react: "Le personnage ne peut pas réagir dans son état actuel.",
+  actor_unavailable:
+    "Le personnage ne peut pas agir : vérifie ses blessures, sa conscience et sa place dans le combat.",
+  non_owner_action:
+    "Cette commande est réservée au joueur qui contrôle le personnage.",
+  spell_not_prepared: "Prépare un sort avant de le modifier ou de le lancer.",
+  spectrum_not_prepared:
+    "Prépare un Spectre avant de le modifier ou de le lancer.",
+  power_not_prepared: "Aucune capacité de nature ne se trouve en préparation.",
+  mage_rest_unavailable:
+    "Le repos du Mage exige un round entier sans Mageius et aucune préparation en cours.",
+  backlash_not_pending: "Aucun Revers du Mageius ne reste à résoudre.",
+  nature_roll_required:
+    "Le jet de cette capacité doit être résolu par la table. Actualise et réessaie la commande.",
+  nature_power_unavailable:
+    "Cette capacité est indisponible : vérifie son acquisition, sa Révélation et ses prérequis.",
+  invalid_spell: "Vérifie la portée, l’Amplitude et la canalisation du sort.",
+  spell_amplitude_unavailable:
+    "Cette Amplitude dépasse la maîtrise disponible.",
+  force_requires_owned_affinity:
+    "Il faut posséder cette Affinité pour forcer sa Maîtrise ou son Amplitude.",
+  invalid_superior_will:
+    "Forcer exige le palier immédiatement supérieur à ta maîtrise.",
+  mandatory_channel_missing:
+    "Ajoute la canalisation requise pour cette difficulté.",
+  spectrum_unavailable:
+    "Ce Spectre exige l’état Révélé et une Affinité possédée.",
+  spectrum_cannot_force:
+    "Les Spectres ne permettent pas de forcer la Maîtrise ou l’Amplitude.",
+  invalid_nature_settings:
+    "Vérifie les conditions de nature déclarées par le MJ.",
+  invalid_aura: "La réserve d’Aura doit rester entre zéro et son maximum.",
+  aura_fill_outside_combat: "Prépare la réserve d’Aura hors combat.",
+  invalid_aura_spend:
+    "Choisis une quantité d’Aura disponible conforme à cette protection.",
+  egide_not_applicable:
+    "L’Égide protège contre les dégâts occultes uniquement.",
+  offering_unavailable:
+    "L’Offrande exige des PV disponibles et une réserve d’Aura incomplète.",
+  blade_already_active: "La Lame céleste est déjà incarnée.",
+  blade_unavailable:
+    "La Lame céleste exige la Révélation, de l’Aura et les PV à réserver.",
+  blade_not_active: "Aucune Lame céleste n’est actuellement incarnée.",
+  favor_skill_required: "Choisis la compétence bénéficiaire de la Faveur.",
+  no_anchor: "Aucun ancrage sanguin ne reste disponible.",
+  no_death_anchor:
+    "La restauration exige un ancrage et un Vampire ayant atteint son seuil de mort.",
+  ritual_conditions_required:
+    "Déclare le temps du rituel ; pour la restauration, au moins 24 heures, un corps réparable et un praticien sont requis.",
+  anchor_exists: "Un ancrage sanguin est déjà préparé.",
+  predation_required:
+    "Cette capacité exige une Prédation réellement résolue pendant cette scène.",
+  invalid_weakness: "Précise la faiblesse concernée par cette capacité.",
+  already_applied: "Cet état est déjà appliqué.",
+  neuro_program_unavailable:
+    "Ce programme Neuro est indisponible ou ne fait pas partie des programmes possédés.",
+  neuro_unavailable:
+    "Le Neurodive exige une interface compatible et un accès disponible.",
+  neuro_capacity_exceeded:
+    "Le nombre de programmes dépasse la capacité de chargement.",
+  neuro_load_unchanged: "Ces programmes sont déjà chargés.",
+  magazine_requires_manager:
+    "Le joueur déclare son chargeur hors combat ; pendant le combat, seul le MJ peut le corriger.",
+  weapon_charge_unavailable:
+    "Cette arme possédée ne dispose pas de chargeur suivi.",
+  invalid_ammo_count:
+    "Vérifie le nombre de charges et la réserve de munitions.",
+  ammunition_confirmation_required:
+    "Confirme que des munitions compatibles sont disponibles pour la recharge.",
+  insufficient_ammunition:
+    "Pas assez de munitions disponibles pour cette action.",
+  magazine_full: "Le chargeur est déjà plein."
+};
+function message(cause: unknown) {
+  const code = cause instanceof Error ? cause.message : "";
+  if (mechanicsMessages[code]) return mechanicsMessages[code];
+  return cause instanceof ApiError && cause.status === 409
+    ? "L’état a changé dans un autre onglet. Actualise avant de réessayer."
+    : ((
+        {
+          finish_combat_first:
+            "Termine le combat avant de changer de scène ou de scénario.",
+          use_dedicated_action:
+            "Utilise la commande de défense ou de soin dédiée à cette capacité.",
+          hourly_recovery_unavailable:
+            "Récupération horaire indisponible : hors combat, vivant, en humain révélé ou animal.",
+          nanite_cycle_unavailable:
+            "Cycle indisponible : vérifie ton talent, tes blessures, ta conscience et ton essaim.",
+          invalid_hourly_recovery:
+            "Indique le nombre d’heures et confirme les blessures régénérables.",
+          no_wounds: "Aucune blessure à soigner.",
+          insufficient_edge: "Tu n’as plus d’Edge disponible.",
+          edge_already_used:
+            "Un Edge a déjà été utilisé pour ce jet ou cette conséquence.",
+          edge_roll_resolved:
+            "La fenêtre de ce jet est fermée : une action, une opposition ou une résolution a déjà suivi.",
+          edge_roll_unavailable:
+            "Ce résultat ne permet pas de forcer un jet de dé.",
+          invalid_edge: "La demande d’Edge est invalide.",
+          edge_consequence_unavailable:
+            "Aucune conséquence mortelle actuelle ne correspond à cette demande.",
+          initiative_already_rolled:
+            "Ton initiative est déjà fixée pour ce combat.",
+          participant_out: "Le MJ a sorti ce personnage des tours.",
+          campaign_combat_mj_only:
+            "Le MJ contrôle le début, la fin et les rounds du combat depuis la page En jeu de la campagne.",
+          form_unavailable:
+            "Cette forme est indisponible (Sang, blessures ou Mue en cours).",
+          mue_exhaustion_required:
+            "Résous le test d’épuisement puis indique son résultat.",
+          mue_blocked: "Mue bloquée jusqu’à la prochaine scène.",
+          insufficient_pa: "Pas assez de PA.",
+          power_already_used:
+            "Cette capacité a déjà été utilisée sur cette période.",
+          power_unavailable:
+            "Capacité indisponible dans cet état ou déjà active.",
+          combat_not_started: "Commence un combat en lançant l’initiative.",
+          rest_requires_positive_hp:
+            "À 0 PV ou moins, stabilise puis soigne avant le repos.",
+          character_dead:
+            "Le seuil de mort est atteint : les soins ordinaires ne suffisent plus.",
+          cannot_stabilize:
+            "La stabilisation concerne uniquement un personnage agonisant vivant."
+        } as Record<string, string>
+      )[cause instanceof Error ? cause.message : ""] ??
+        "Action non confirmée. Réessaie la même action pour vérifier son enregistrement.");
+}
+async function load() {
+  if (busy.value || dirty.value || !alive) return;
+  try {
+    const r = await api<{
+      state: PlayState;
+      version: number;
+      events: any[];
+      combat?: any;
+      campaignId?: string;
+      edge?: number;
+      escapeEvent?: string | null;
+      profile?: any;
+      canManageMechanics?: boolean;
+    }>(endpoint.value);
+    if (!alive || busy.value || dirty.value) return;
+    const first = !loaded.value;
+    canManageMechanics.value = r.canManageMechanics === true;
+    serverProfile.value = r.profile ?? null;
+    serverReality.value = r.profile?.reality ?? null;
+    campaignId.value = r.campaignId ?? null;
+    combat.value = r.combat ?? null;
+    edge.value = r.edge ?? 0;
+    escapeEvent.value = r.escapeEvent ?? null;
+    state.value = r.state;
+    version.value = r.version;
+    events.value = r.events;
+    lastRoll.value = r.events.find((e: any) => e.payload.dice) ?? null;
+    loaded.value = true;
+    error.value = "";
+    if (first) emit("ready");
+  } catch (cause) {
+    if (alive) {
+      canManageMechanics.value = false;
+      error.value = message(cause);
+    }
+  }
+}
+async function perform(action: string, extra: Record<string, unknown> = {}) {
+  if (busy.value || !loaded.value || !actionAllowed(action)) return;
+  if (dirty.value && action !== "save" && props.canEdit) {
+    await save();
+    if (dirty.value || error.value) return;
+  }
+  if (pending && pending.action !== action) {
+    error.value =
+      "Réessaie l’action non confirmée avant d’en effectuer une autre.";
+    return;
+  }
+  pending ??= {
+    requestId: crypto.randomUUID(),
+    version: version.value,
+    action,
+    ...extra
+  };
+  busy.value = true;
+  error.value = "";
+  notice.value = "";
+  try {
+    const r = await api<any>(endpoint.value, {
+      method: "POST",
+      body: JSON.stringify(pending)
+    });
+    pending = null;
+    if (!alive) return;
+    dirty.value = false;
+    if (action === "roll") useEdge.value = false;
+    if (r.state) {
+      state.value = r.state;
+      serverProfile.value = r.profile ?? serverProfile.value;
+      serverReality.value = r.profile?.reality ?? serverReality.value;
+      version.value = r.version;
+      events.value = [r.event, ...events.value].slice(0, 30);
+      if (r.event.payload.dice) lastRoll.value = r.event;
+      notice.value =
+        r.event.payload.recovered !== undefined
+          ? `${r.event.payload.recovered} PV récupérés.`
+          : r.event.payload.dice
+            ? ""
+            : "Enregistré.";
+    }
+    busy.value = false;
+    emit("changed");
+    await load();
+  } catch (cause) {
+    if (alive) {
+      error.value = message(cause);
+      if (cause instanceof ApiError && cause.status < 500) {
+        pending = null;
+        if (cause.status === 409) {
+          dirty.value = false;
+          busy.value = false;
+          await load();
+        }
+      }
+    }
+  } finally {
+    busy.value = false;
+  }
+}
+function save() {
+  return perform("save", { state: JSON.parse(JSON.stringify(state.value)) });
+}
+function addBonus() {
+  if (!bonusLabel.value.trim()) return;
+  state.value.bonuses.push({
+    id: crypto.randomUUID(),
+    label: bonusLabel.value.trim(),
+    skill: bonusSkill.value,
+    amount: bonusAmount.value,
+    truth: bonusTruth.value,
+    enabled: true
+  });
+  bonusLabel.value = "";
+  dirty.value = true;
+}
+function toggleAutomatic(id: string, enabled: boolean) {
+  state.value.disabled = enabled
+    ? state.value.disabled.filter((x) => x !== id)
+    : [...state.value.disabled, id];
+  dirty.value = true;
+}
+function toggleContext(id: string, enabled: boolean) {
+  state.value.contexts = enabled
+    ? [...state.value.contexts, id]
+    : state.value.contexts.filter((x) => x !== id);
+  dirty.value = true;
+}
+const sourceOptions = computed(() => [
+  ...props.sheet.realityTalents.map((s) => ({ name: s.name, truth: false })),
+  ...props.sheet.inventory.map((s) => ({
+    name: s.name,
+    truth: s.group?.startsWith("Objet de Vérité") ?? false
+  })),
+  ...props.sheet.truthTalents.map((s) => ({ name: s.name, truth: true }))
+]);
+function sourceChanged() {
+  bonusTruth.value =
+    sourceOptions.value.find((s) => s.name === bonusLabel.value)?.truth ??
+    false;
+}
+onMounted(() => {
+  void load();
+});
+// Temps réel : la fiche suit ses propres changements et ceux de sa campagne.
+useLiveUpdates(
+  () => `/api/characters/${props.id}/events`,
+  () => void load(),
+  5000,
+  TABLE_IGNORED_TOPICS
+);
+onUnmounted(() => {
+  alive = false;
+  clearInterval(timer);
+});
 </script>
 <template>
 <section class="play-panel" :class="{'compact-play':compact}" aria-label="Personnage en jeu">
@@ -156,9 +737,10 @@ onUnmounted(()=>{alive=false;clearInterval(timer);});
 
 
     <div v-show="tab==='jets'" class="skill-tools"><label>Retrouver une compétence<input v-model="skillQuery" type="search" placeholder="Athlétisme, Tir, Perception…" /></label><label class="check"><input v-model="useEdge" type="checkbox" :disabled="busy||!canEdit||edge<1" /> Forcer le prochain jet · 1 Edge</label><label v-if="profile.frenzy?.concentrationPenalty" class="check"><input v-model="requiresCalm" type="checkbox" :disabled="busy||!canEdit" /> Ce test exige du calme ou de la concentration · {{profile.frenzy.concentrationPenalty}}</label></div>
+    <div v-if="tab==='jets'&&favoriteSkills.length" class="skill-favorites" role="group" aria-label="Jets favoris"><span>Favoris</span><button v-for="s in favoriteSkills" :key="s.id" type="button" :disabled="busy||!canEdit" :aria-label="`Lancer le d10 pour ${s.name} (favori)`" @click="perform('roll',{skill:s.id,...(useEdge?{edge:true}:{}),...(requiresCalm?{requiresCalm:true}:{})})">◈ {{ s.name }} · {{ s.total }}</button></div>
 
     <p v-if="tab==='jets'&&!groups.length">Aucune compétence ne correspond à « {{skillQuery}} ». <button @click="skillQuery=''">Effacer la recherche</button></p>
-    <details v-show="tab==='jets'" v-for="group in groups" :key="group.id" class="skill-group" :open="!!skillQuery||expandedGroups.includes(group.id)" @toggle="rememberGroup($event,group.id)"><summary>{{ group.name }} · {{ group.value }}</summary><article v-for="skill in group.skills" :key="skill.id" class="skill-roll"><div class="skill-line"><strong>{{ skill.name }}</strong><span>{{ skill.attributeValue }} + {{ skill.rank }}<template v-if="skill.bonus"> {{ skill.bonus>=0?'+':'−' }} {{ Math.abs(skill.bonus) }}</template> = <b>{{ skill.total }}</b></span><button :disabled="busy||!canEdit" :aria-label="`Lancer le d10 pour ${skill.name}`" @click="perform('roll',{skill:skill.id,...(useEdge?{edge:true}:{}),...(requiresCalm?{requiresCalm:true}:{})})">◈ d10</button></div><details v-if="skill.automatic.length||skill.contexts.length||skill.prepared.length||state.bonuses.some(b=>b.skill===skill.id)" class="skill-modifiers"><summary>Modificateurs<span v-if="skill.bonus"> · {{skill.bonus>0?'+':''}}{{skill.bonus}} appliqué</span></summary><small>{{ group.name }} + rang de compétence + bonus actifs</small>
+    <details v-show="tab==='jets'" v-for="group in groups" :key="group.id" class="skill-group" :open="!!skillQuery||expandedGroups.includes(group.id)" @toggle="rememberGroup($event,group.id)"><summary>{{ group.name }} · {{ group.value }}</summary><article v-for="skill in group.skills" :key="skill.id" class="skill-roll"><div class="skill-line"><strong>{{ skill.name }}<button type="button" class="pin" :aria-pressed="favorites.includes(skill.id)" :aria-label="favorites.includes(skill.id)?`Retirer ${skill.name} des favoris`:`Épingler ${skill.name} aux favoris`" :title="favorites.includes(skill.id)?'Retirer des favoris':'Épingler aux favoris'" @click="toggleFavorite(skill.id)">{{ favorites.includes(skill.id)?'★':'☆' }}</button></strong><span>{{ skill.attributeValue }} + {{ skill.rank }}<template v-if="skill.bonus"> {{ skill.bonus>=0?'+':'−' }} {{ Math.abs(skill.bonus) }}</template> = <b>{{ skill.total }}</b></span><button :disabled="busy||!canEdit" :aria-label="`Lancer le d10 pour ${skill.name}`" @click="perform('roll',{skill:skill.id,...(useEdge?{edge:true}:{}),...(requiresCalm?{requiresCalm:true}:{})})">◈ d10</button></div><details v-if="skill.automatic.length||skill.contexts.length||skill.prepared.length||state.bonuses.some(b=>b.skill===skill.id)" class="skill-modifiers"><summary>Modificateurs<span v-if="skill.bonus"> · {{skill.bonus>0?'+':''}}{{skill.bonus}} appliqué</span></summary><small>{{ group.name }} + rang de compétence + bonus actifs</small>
       <label v-for="bonus in skill.automatic" :key="bonus.id" class="check"><input type="checkbox" :checked="bonus.enabled" :disabled="busy||!canEdit" @change="toggleAutomatic(bonus.id,($event.target as HTMLInputElement).checked)" />{{ bonus.label }} +{{ bonus.amount }}</label>
       <label v-for="bonus in skill.contexts" :key="bonus.id" class="check"><input type="checkbox" :checked="bonus.enabled" :disabled="busy||!canEdit" @change="toggleContext(bonus.id,($event.target as HTMLInputElement).checked)" />{{ bonus.label }} +{{ bonus.bonus }} (meilleur bonus de Talent applicable)</label>
       <label v-for="bonus in skill.prepared" :key="bonus.id" class="check"><input type="checkbox" :checked="bonus.enabled" :disabled="busy||!canEdit" @change="toggleContext(bonus.id,($event.target as HTMLInputElement).checked)" />{{ bonus.label }} +{{ bonus.bonus }}<em v-if="bonus.truth&&state.revelation!=='r'"> — Vérité inactive</em></label>
@@ -171,24 +753,24 @@ onUnmounted(()=>{alive=false;clearInterval(timer);});
 </section>
 </template>
 <style scoped>
-.play-panel{display:grid;gap:16px;padding:20px;background:#0d1b2b;border:1px solid #355267;border-radius:10px;margin:20px 0;color:#e6eef8;overflow-wrap:anywhere;min-width:0}
+.play-panel{display:grid;gap:16px;padding:20px;background:var(--ui-panel);border:1px solid var(--ui-line);border-radius:10px;margin:20px 0;color:var(--ui-ink);overflow-wrap:anywhere;min-width:0}
 .play-panel header{display:flex;gap:14px;align-items:center;flex-wrap:wrap}.play-panel header .ghost{margin-left:auto}.play-panel h2{margin:4px 0}
-.play-panel fieldset{border:1px solid #355267;border-radius:8px;padding:16px;min-width:0}
+.play-panel fieldset{border:1px solid var(--ui-line);border-radius:8px;padding:16px;min-width:0}
 .play-fields{display:flex;gap:12px;align-items:end;flex-wrap:wrap}.play-fields label{display:grid;gap:6px;flex:1;min-width:min(100%,120px)}
 .play-panel .check{display:flex;gap:8px;align-items:center;margin:10px 0}.play-panel .check input{flex-shrink:0}
-.play-panel input:not([type=checkbox]),.play-panel select{box-sizing:border-box;width:100%;min-width:0;padding:10px;background:#071320;color:inherit;border:1px solid #526c80;border-radius:4px;font:inherit}
-.play-panel button,.play-panel a{box-sizing:border-box;min-height:44px;padding:10px 14px;border:1px solid #52758b;background:#102b3e;color:#c3f4ff;border-radius:5px;cursor:pointer;font:inherit}
-.play-panel button:disabled{opacity:.5;cursor:default}.play-panel button:focus-visible,.play-panel a:focus-visible,.play-panel summary:focus-visible{outline:2px solid #bcefff;outline-offset:3px}
-.play-panel summary{box-sizing:border-box;min-height:44px;padding:12px;cursor:pointer;background:#142839}.play-panel details{min-width:0}
-.play-dock{position:sticky;top:var(--play-dock-offset,8px);z-index:4;display:grid;gap:8px;border:1px solid #78bcd0;border-radius:8px;background:#0c2032;box-shadow:0 5px 18px #0006;padding:10px}
-.play-vitals{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) auto;align-items:center;gap:12px}.play-vitals .health-shortcut{display:grid;gap:3px;justify-items:start;text-align:left;padding:8px;border-color:transparent;background:transparent;min-width:0}.play-vitals strong{font-size:1.05rem}.health-shortcut span{color:#bcd1e1;font-size:.85rem}.revelation-control{display:grid;gap:4px;font-size:.85rem;min-width:0}.combat-vitals{display:grid;gap:5px;min-width:0}.combat-vitals small{font-size:.8rem;font-weight:400}
-.roll-result{border-top:1px solid #496b83;min-width:0}.roll-result summary{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:8px;background:transparent;min-height:44px}.roll-detail-label{margin-left:auto;font-size:.8rem;color:#abcddd}.roll-breakdown{display:flex;flex-wrap:wrap;gap:12px;align-items:center;padding:8px}.die{display:grid;place-items:center;width:40px;height:40px;background:#bcefff;color:#092130;font-weight:bold;font-size:20px;clip-path:polygon(50% 0,100% 30%,85% 85%,50% 100%,15% 85%,0 30%);animation:roll .45s both}.failure{color:#ffb4b4}
-.resource-links{display:flex;flex-wrap:wrap;gap:8px}.resource-links button{padding:8px 10px;font-size:.85rem}.resource-links .urgent-resource{border-color:#c69364;color:#ffe0c0;background:#302626}
-.play-tabs{display:flex;flex-wrap:wrap;gap:8px;align-items:start}.play-tabs button[aria-pressed=true]{background:#bcefff;color:#092130}.play-more{position:relative;margin-left:auto}.play-more>summary{border:1px solid #52758b;border-radius:5px;color:#c3f4ff;background:#102b3e;padding:10px 14px}.play-more>div{position:absolute;right:0;z-index:6;display:grid;gap:6px;padding:8px;min-width:180px;max-width:calc(100vw - 50px);border:1px solid #52758b;border-radius:5px;background:#0d1b2b;box-shadow:0 6px 20px #0007}.play-more button{text-align:left}
-.skill-tools{display:grid;gap:10px}.skill-tools label,.equipment-search{display:grid;gap:8px}.skill-group>summary{font-weight:700;border-radius:5px}.skill-roll{padding:12px;border-bottom:1px solid #355267}.skill-line{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:10px;align-items:center}.skill-line>span{font-size:.9rem;white-space:nowrap}.skill-line button{padding:8px 10px}.skill-modifiers{margin-top:6px}.skill-modifiers>summary{padding:8px 10px;font-size:.85rem;color:#bed7e8;background:transparent}.skill-roll small{display:block;color:#acc1d0}.custom-bonus{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}.state-settings{margin:12px 0}.roll-help,.power-reference{border:1px solid #355267;border-radius:6px}.roll-help p{padding:0 12px}.rule-card{border-bottom:1px solid #355267;margin-top:8px}.rule-card summary{display:flex;gap:12px;justify-content:space-between;align-items:center}.rule-card small{color:#b3cbdc;font-size:.8rem}.rule-card p{padding:0 12px}.rule-card p,.rule-text{white-space:pre-line;line-height:1.6}.event{display:flex;flex-wrap:wrap;gap:10px;padding:12px;border-bottom:1px solid #355267}.event small{color:#acc1d0}
-.manager-play-notice{padding:12px;border:1px solid #ad8d62;border-radius:6px;background:#292324;line-height:1.5}.initiative-call{padding:16px;border:2px solid #b7efff;border-radius:8px;display:flex;flex-wrap:wrap;gap:12px;align-items:center}.escape-edge{border:1px solid #ffb4b4;padding:12px}
+.play-panel input:not([type=checkbox]),.play-panel select{box-sizing:border-box;width:100%;min-width:0;padding:10px;background:var(--ui-input);color:inherit;border:1px solid var(--ui-line-strong);border-radius:4px;font:inherit}
+.play-panel button,.play-panel a{box-sizing:border-box;min-height:44px;padding:10px 14px;border:1px solid var(--ui-line-strong);background:var(--ui-raised);color:var(--ui-link);border-radius:5px;cursor:pointer;font:inherit}
+.play-panel button:disabled{opacity:.5;cursor:default}.play-panel button:focus-visible,.play-panel a:focus-visible,.play-panel summary:focus-visible{outline:2px solid var(--ui-link);outline-offset:3px}
+.play-panel summary{box-sizing:border-box;min-height:44px;padding:12px;cursor:pointer;background:var(--ui-panel-2)}.play-panel details{min-width:0}
+.play-dock{position:sticky;top:var(--play-dock-offset,8px);z-index:4;display:grid;gap:8px;border:1px solid var(--ui-link-soft);border-radius:8px;background:var(--ui-panel-2);box-shadow:0 5px 18px #0006;padding:10px}
+.play-vitals{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) auto;align-items:center;gap:12px}.play-vitals .health-shortcut{display:grid;gap:3px;justify-items:start;text-align:left;padding:8px;border-color:transparent;background:transparent;min-width:0}.play-vitals strong{font-size:var(--ui-text-base)}.health-shortcut span{color:var(--ui-ink-soft);font-size:var(--ui-text-sm)}.revelation-control{display:grid;gap:4px;font-size:var(--ui-text-sm);min-width:0}.combat-vitals{display:grid;gap:5px;min-width:0}.combat-vitals small{font-size:var(--ui-text-sm);font-weight:400}
+.roll-result{border-top:1px solid var(--ui-line-strong);min-width:0}.roll-result summary{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:8px;background:transparent;min-height:44px}.roll-detail-label{margin-left:auto;font-size:var(--ui-text-sm);color:var(--ui-ink-soft)}.roll-breakdown{display:flex;flex-wrap:wrap;gap:12px;align-items:center;padding:8px}.die{display:grid;place-items:center;width:40px;height:40px;background:var(--ui-link);color:var(--ui-panel-2);font-weight:bold;font-size:20px;clip-path:polygon(50% 0,100% 30%,85% 85%,50% 100%,15% 85%,0 30%);animation:roll .45s both}.failure{color:var(--ui-danger-ink)}
+.resource-links{display:flex;flex-wrap:wrap;gap:8px}.resource-links button{padding:8px 10px;font-size:var(--ui-text-sm)}.resource-links .urgent-resource{border-color:var(--ui-warn);color:#ffe0c0;background:var(--ui-danger-bg)}
+.play-tabs{display:flex;flex-wrap:wrap;gap:8px;align-items:start}.play-tabs button[aria-pressed=true]{background:var(--ui-link);color:var(--ui-panel-2)}.play-more{position:relative;margin-left:auto}.play-more>summary{border:1px solid var(--ui-line-strong);border-radius:5px;color:var(--ui-link);background:var(--ui-raised);padding:10px 14px}.play-more>div{position:absolute;right:0;z-index:6;display:grid;gap:6px;padding:8px;min-width:180px;max-width:calc(100vw - 50px);border:1px solid var(--ui-line-strong);border-radius:5px;background:var(--ui-panel);box-shadow:0 6px 20px #0007}.play-more button{text-align:left}
+.skill-favorites{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:10px 0}.skill-favorites>span{font-size:var(--ui-text-xs);color:var(--ui-muted)}.skill-favorites button{min-height:40px;padding:6px 12px;border-radius:999px;border:1px solid var(--ui-accent);background:var(--ui-accent-bg);color:var(--ui-ink);font-size:var(--ui-text-sm)}.skill-line .pin{min-height:32px;min-width:32px;margin-left:6px;padding:0 6px;background:none;border:0;color:var(--ui-warn);font-size:1rem;vertical-align:middle;cursor:pointer}.skill-line .pin[aria-pressed=false]{color:var(--ui-muted)}.skill-tools{display:grid;gap:10px}.skill-tools label,.equipment-search{display:grid;gap:8px}.skill-group>summary{font-weight:700;border-radius:5px}.skill-roll{padding:12px;border-bottom:1px solid var(--ui-line)}.skill-line{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:10px;align-items:center}.skill-line>span{font-size:var(--ui-text-md);white-space:nowrap}.skill-line button{padding:8px 10px}.skill-modifiers{margin-top:6px}.skill-modifiers>summary{padding:8px 10px;font-size:var(--ui-text-sm);color:var(--ui-ink-soft);background:transparent}.skill-roll small{display:block;color:var(--ui-ink-soft)}.custom-bonus{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}.state-settings{margin:12px 0}.roll-help,.power-reference{border:1px solid var(--ui-line);border-radius:6px}.roll-help p{padding:0 12px}.rule-card{border-bottom:1px solid var(--ui-line);margin-top:8px}.rule-card summary{display:flex;gap:12px;justify-content:space-between;align-items:center}.rule-card small{color:var(--ui-ink-soft);font-size:var(--ui-text-sm)}.rule-card p{padding:0 12px}.rule-card p,.rule-text{white-space:pre-line;line-height:1.6}.event{display:flex;flex-wrap:wrap;gap:10px;padding:12px;border-bottom:1px solid var(--ui-line)}.event small{color:var(--ui-ink-soft)}
+.manager-play-notice{padding:12px;border:1px solid #ad8d62;border-radius:6px;background:var(--ui-danger-bg);line-height:1.5}.initiative-call{padding:16px;border:2px solid var(--ui-link);border-radius:8px;display:flex;flex-wrap:wrap;gap:12px;align-items:center}.escape-edge{border:1px solid var(--ui-danger-ink);padding:12px}
 @keyframes roll{from{transform:rotate(-180deg) scale(.5);opacity:0}to{transform:none;opacity:1}}@media(prefers-reduced-motion:reduce){.die{animation:none}}
-@media(max-width:600px){.play-panel{padding:12px;gap:12px}.play-panel fieldset{padding:10px}.play-dock{padding:8px;top:var(--play-dock-offset,4px)}.play-vitals{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px}.combat-vitals{grid-column:1/-1;display:flex;justify-content:space-between;gap:10px}.play-vitals strong{font-size:.95rem}.play-vitals .health-shortcut{padding:4px}.play-tabs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.play-more{grid-column:1/-1;justify-self:end}.play-panel header .ghost{font-size:.85rem}.rule-card summary{flex-wrap:wrap;gap:6px}}
+@media(max-width:600px){.play-panel{padding:12px;gap:12px}.play-panel fieldset{padding:10px}.play-dock{padding:8px;top:var(--play-dock-offset,4px)}.play-vitals{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px}.combat-vitals{grid-column:1/-1;display:flex;justify-content:space-between;gap:10px}.play-vitals strong{font-size:var(--ui-text-md)}.play-vitals .health-shortcut{padding:4px}.play-tabs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.play-more{grid-column:1/-1;justify-self:end}.play-panel header .ghost{font-size:var(--ui-text-sm)}.rule-card summary{flex-wrap:wrap;gap:6px}}
 @media(max-width:400px){.skill-line{grid-template-columns:minmax(0,1fr) auto;gap:6px}.skill-line>strong{grid-column:1}.skill-line>span{grid-column:1}.skill-line>button{grid-column:2;grid-row:1/3}.roll-detail-label{width:100%;margin:0}.roll-breakdown{gap:8px}.play-panel header img{width:48px!important;height:64px!important}}
 </style>
 
